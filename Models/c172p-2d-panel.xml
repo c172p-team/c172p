@@ -16,6 +16,60 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
 
  <instruments>
 
+<!-- labels -->
+  <instrument include="/labels/labelbcn.xml">
+   <name>labelbcn</name>
+   <x>495</x>
+   <y>-253</y>
+   <w>28</w>
+   <h>26</h>
+  </instrument>
+
+<!-- labels -->
+  <instrument include="/labels/labelnav.xml">
+   <name>labelnav</name>
+   <x>458</x>
+   <y>-252</y>
+   <w>28</w>
+   <h>26</h>
+  </instrument>
+
+<!-- labels -->
+  <instrument include="/labels/labelpto.xml">
+   <name>labelpto</name>
+   <x>422</x>
+   <y>-253</y>
+   <w>28</w>
+   <h>26</h>
+  </instrument>
+
+<!-- labels -->
+  <instrument include="/labels/labelsto.xml">
+   <name>labelsto</name>
+   <x>525</x>
+   <y>-253</y>
+   <w>28</w>
+   <h>26</h>
+  </instrument>
+
+<!-- labels -->
+  <instrument include="/labels/labeltax.xml">
+   <name>labeltax</name>
+   <x>495</x>
+   <y>-187</y>
+   <w>28</w>
+   <h>26</h>
+  </instrument>
+
+<!-- labels -->
+  <instrument include="/labels/labellng.xml">
+   <name>labellng</name>
+   <x>525</x>
+   <y>-187</y>
+   <w>28</w>
+   <h>26</h>
+  </instrument>
+
 <!-- engine gauge cluster -->  
   <instrument include="../../Instruments/clock.xml">
    <name>Chronometer</name>
@@ -62,7 +116,7 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
 <!-- engine controls cluster -->  
  
   <instrument include="../../Instruments/rpm.xml">
-   <name>RPM Gauge</name>
+   <name>RPM Gauge</name>c172p-2d-panel.xml
    <x>542</x>
    <y>-31</y>
    <w>120</w>
@@ -229,9 +283,9 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
    <x>712</x>
    <y>0</y>
    <w>1424</w>
-   <h>488</h>
+   <h>1488</h>
    <w-base>1424</w-base>
-   <h-base>488</h-base>
+   <h-base>1488</h-base>
 
    <layers>
     <layer>
@@ -286,12 +340,14 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
     </layer>
    </layers>
 
-   <actions>
+<!-- toggle switches -->
+   
+<actions>
     <action>
      <name>toggle nav lights</name>
      <button>0</button>
-     <x>-270</x>
-     <y>-250</y>
+     <x>-267</x>
+     <y>-246</y>
      <w>20</w>
      <h>50</h>
      <binding>
@@ -300,13 +356,118 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
      </binding>
     </action>
    
+    <action>
+     <name>toggle beacon light </name>
+     <button>0</button>
+     <x>-233</x>
+     <y>-246</y>
+     <w>20</w>
+     <h>50</h>
+     <binding>
+      <command>property-toggle</command>
+      <property>/controls/lights/beacon</property>
+     </binding>
+    </action>
+
+    <action>
+     <name>toggle pitot heat</name>
+     <button>0</button>
+     <x>-307</x>
+     <y>-246</y>
+     <w>20</w>
+     <h>50</h>
+     <binding>
+      <command>property-toggle</command>
+      <property>/controls/anti-ice/pitot-heat</property>
+     </binding>
+    </action>
+
+
+   <action>
+     <name>toggle strobe light</name>
+     <button>0</button>
+     <x>-198</x>
+     <y>-246</y>
+     <w>20</w>
+     <h>50</h>
+     <binding>
+      <command>property-toggle</command>
+      <property>/controls/lights/strobes</property>
+     </binding>
+    </action>
+
+   <action>
+     <name>toggle taxi light</name>
+     <button>0</button>
+     <x>-230</x>
+     <y>-180</y>
+     <w>20</w>
+     <h>50</h>
+     <binding>
+      <command>property-toggle</command>
+      <property>/controls/lights/taxi</property>
+     </binding>
+    </action>
+
+   <action>
+     <name>toggle landing light</name>
+     <button>0</button>
+     <x>-198</x>
+     <y>-180</y>
+     <w>20</w>
+     <h>50</h>
+     <binding>
+      <command>property-toggle</command>
+      <property>/controls/lights/landing</property>
+     </binding>
+    </action>
+
+<!-- elevator-trim -->
+
+ 
+  <action>
+   <name>small increase</name>
+   <button>0</button>
+   <x>-90</x>
+   <y>-470</y>
+   <w>60</w>
+   <h>110</h>
+   <binding>
+    <command>property-adjust</command>
+    <property>/controls/flight/elevator-trim</property>
+    <step>0.03</step>
+    <min>0</min>
+    <max>1.0</max>
+    <wrap>false</wrap>
+   </binding>
+  </action>  
+
+  <action>
+   <name>small decrease</name>
+   <button>0</button>
+   <x>-90</x>
+   <y>-580</y>
+   <w>60</w>
+   <h>110</h>
+   <binding>
+    <command>property-adjust</command>
+    <property>/controls/flight/elevator-trim</property>
+    <step>-0.03</step>
+    <min>0</min>
+    <max>1.0</max>
+    <wrap>false</wrap>
+   </binding>
+  </action>
+
+  
+
 <!-- flap extend/retract -->
    <action>
    <name>Flap Retract</name>
    <button>0</button>
-   <x>240</x>
+   <x>230</x>
    <y>-245</y>
-   <w>20</w>
+   <w>30</w>
    <h>80</h>
    <binding>
     <command>property-adjust</command>
@@ -323,7 +484,7 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
    <button>0</button>
    <x>260</x>
    <y>-245</y>
-   <w>20</w>
+   <w>30</w>
    <h>80</h>
    <binding>
     <command>property-adjust</command>
@@ -340,10 +501,10 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
 <action>
    <desc>carb-heat</desc>
    <button>0</button>
-   <x>-150</x>
-   <y>-200</y>
-   <w>40</w>
-   <h>40</h>
+   <x>-145</x>
+   <y>-240</y>
+   <w>55</w>
+   <h>95</h>
    <binding>
     <command>property-toggle</command>
     <property>/controls/anti-ice/engine/carb-heat</property>
@@ -358,10 +519,10 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
 <action>
    <name>big decrease</name>
    <button>0</button>
-   <x>-50</x>
-   <y>-200</y>
-   <w>40</w>
-   <h>76</h>
+   <x>-45</x>
+   <y>-215</y>
+   <w>45</w>
+   <h>90</h>
    <binding>
     <command>property-adjust</command>
     <property>/controls/engines/engine/throttle</property>
@@ -373,12 +534,12 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
   </action>
 
   <action>
-   <name>small increase</name>
+   <name>big increase</name>
    <button>0</button>
-   <x>-10</x>
-   <y>-200</y>
-   <w>40</w>
-   <h>76</h>
+   <x>0</x>
+   <y>-215</y>
+   <w>45</w>
+   <h>90</h>
    <binding>
     <command>property-adjust</command>
     <property>/controls/engines/engine/throttle</property>
@@ -389,15 +550,62 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
    </binding>
   </action> 
 
+<action>
+   <name>big decrease</name>
+   <button>0</button>
+   <x>-30</x>
+   <y>-315</y>
+   <w>45</w>
+   <h>100</h>
+   <binding>
+    <command>property-adjust</command>
+    <property>/controls/engines/engine/throttle</property>
+    <step>-0.07</step>
+    <min>0</min>
+    <max>1.0</max>
+    <wrap>false</wrap>
+   </binding>
+  </action>
+
+  <action>
+   <name>big increase</name>
+   <button>0</button>
+   <x>15</x>
+   <y>-315</y>
+   <w>50</w>
+   <h>100</h>
+   <binding>
+    <command>property-adjust</command>
+    <property>/controls/engines/engine/throttle</property>
+    <step>0.07</step>
+    <min>0</min>
+    <max>1.0</max>
+    <wrap>false</wrap>
+   </binding>
+  </action> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!-- mixture control -->
 
 <action>
    <name>small decrease</name>
    <button>0</button>
    <x>80</x>
-   <y>-200</y>
-   <w>40</w>
-   <h>76</h>
+   <y>-215</y>
+   <w>45</w>
+   <h>90</h>
    <binding>
     <command>property-adjust</command>
     <property>/controls/engines/engine/mixture</property>
@@ -411,10 +619,10 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
   <action>
    <name>small increase</name>
    <button>0</button>
-   <x>120</x>
-   <y>-200</y>
-   <w>40</w>
-   <h>76</h>
+   <x>125</x>
+   <y>-215</y>
+   <w>45</w>
+   <h>90</h>
    <binding>
     <command>property-adjust</command>
     <property>/controls/engines/engine/mixture</property>
@@ -425,10 +633,46 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
    </binding>
   </action> 
 
- </actions>
+ 
+<action>
+   <name>small decrease</name>
+   <button>0</button>
+   <x>110</x>
+   <y>-315</y>
+   <w>50</w>
+   <h>100</h>
+   <binding>
+    <command>property-adjust</command>
+    <property>/controls/engines/engine/mixture</property>
+    <step>-0.03</step>
+    <min>0</min>
+    <max>1.0</max>
+    <wrap>false</wrap>
+   </binding>c172p-2d-panel.xml
+  </action>
+
+  <action>
+   <name>small increase</name>
+   <button>0</button>
+   <x>160</x>
+   <y>-315</y>
+   <w>50</w>
+   <h>100</h>
+   <binding>
+    <command>property-adjust</command>
+    <property>/controls/engines/engine/mixture</property>
+    <step>0.03</step>
+    <min>0</min>
+    <max>1.0</max>
+    <wrap>false</wrap>
+   </binding>
+  </action> 
+
+</actions>
 
 </instrument>
-</instruments>
+
+ </instruments>
 
 </PropertyList>
 

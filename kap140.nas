@@ -562,7 +562,7 @@ nav_arm_from_hdg = func
   # Activate the nav-hold controller and check the needle deviation.
   ##
   setprop(Locks, "nav-hold", "nav");
-  deviation = getprop("/radios/nav/heading-needle-deflection");
+  deviation = getprop("/instrumentation/nav/heading-needle-deflection");
   ##
   # If the deflection is more than 3 degrees wait 5 seconds and check again.
   ##
@@ -613,7 +613,7 @@ nav_arm_from_rol = func
   setprop(Annunciators, "rol", "on");
   setprop(Locks, "roll-axis", "trn");
   setprop(Settings, "target-turn-rate", 0.0);
-  deviation = getprop("/radios/nav/heading-needle-deflection");
+  deviation = getprop("/instrumentation/nav/heading-needle-deflection");
   ##
   # If the deflection is more than 3 degrees wait 5 seconds and check again.
   ##
@@ -712,7 +712,7 @@ apr_arm_from_hdg = func
   # Activate the apr-hold controller and check the needle deviation.
   ##
   setprop(Locks, "apr-hold", "apr");
-  deviation = getprop("/radios/nav/heading-needle-deflection");
+  deviation = getprop("/instrumentation/nav/heading-needle-deflection");
   ##
   # If the deflection is more than 3 degrees wait 5 seconds and check again.
   ##
@@ -767,7 +767,7 @@ apr_arm_from_rol = func
   setprop(Annunciators, "rol", "on");
   setprop(Locks, "roll-axis", "trn");
   setprop(Settings, "target-turn-rate", 0.0);
-  deviation = getprop("/radios/nav/heading-needle-deflection");
+  deviation = getprop("/instrumentation/nav/heading-needle-deflection");
   ##
   # If the deflection is more than 3 degrees wait 5 seconds and check again.
   ##
@@ -816,7 +816,7 @@ gs_arm = func {
 
   setprop(Annunciators, "gs-arm", "on");
 
-  deviation = getprop("/radios/nav/gs-needle-deflection");
+  deviation = getprop("/instrumentation/nav/gs-needle-deflection");
   ##
   # If the deflection is more than 1 degrees wait 5 seconds and check again.
   ##
@@ -910,7 +910,7 @@ rev_arm_from_hdg = func
   # Activate the rev-hold controller and check the needle deviation.
   ##
   setprop(Locks, "rev-hold", "rev");
-  deviation = getprop("/radios/nav/heading-needle-deflection");
+  deviation = getprop("/instrumentation/nav/heading-needle-deflection");
   ##
   # If the deflection is more than 3 degrees wait 5 seconds and check again.
   ##
@@ -963,7 +963,7 @@ rev_arm_from_rol = func
   setprop(Annunciators, "rol", "on");
   setprop(Locks, "roll-axis", "trn");
   setprop(Settings, "target-turn-rate", 0.0);
-  deviation = getprop("/radios/nav/heading-needle-deflection");
+  deviation = getprop("/instrumentation/nav/heading-needle-deflection");
   ##
   # If the deflection is more than 3 degrees wait 5 seconds and check again.
   ##

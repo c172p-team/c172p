@@ -132,8 +132,8 @@
                           <!-- unfiltered derivative error -->
       <Ti>15.0</Ti>       <!-- integrator time -->
       <Td>0.0</Td>    <!-- derivator time -->
-      <u_min>-0.9</u_min> <!-- minimum output clamp -->
-      <u_max>0.9</u_max>  <!-- maximum output clamp -->
+      <u_min>-1.0</u_min> <!-- minimum output clamp -->
+      <u_max>1.0</u_max>  <!-- maximum output clamp -->
     </config>
   </pid-controller>
 
@@ -153,7 +153,7 @@
       <prop>/autopilot/KAP140/settings/target-turn-rate</prop>
     </reference>
     <output>
-      <prop>/controls/flight/aileron-trim</prop>
+      <prop>/controls/flight/aileron</prop>
     </output>
     <config>
       <Kp>0.15</Kp>        <!-- proportional gain -->
@@ -232,6 +232,15 @@
     </config>
    </pid-controller>
 
+   <filter>
+    <name>pressure-rate-filter</name>
+    <debug>false</debug>
+    <type>double-exponential</type>
+    <input>/autopilot/internal/pressure-rate</input>
+    <output>/autopilot/internal/filtered-pressure-rate</output>
+    <filter-time>0.1</filter-time>
+   </filter>
+
   <!-- Vertical Speed (VS) Mode --> 
   <pid-controller>
     <name>Vertical Speed (VS) Mode</name>
@@ -241,13 +250,13 @@
       <value>vs</value>
     </enable>
     <input>
-      <prop>/autopilot/internal/pressure-rate</prop>
+      <prop>/autopilot/internal/filtered-pressure-rate</prop>
     </input>
     <reference>
       <prop>/autopilot/KAP140/settings/target-pressure-rate</prop>
     </reference>
     <output>
-      <prop>/controls/flight/elevator-trim</prop>
+      <prop>/controls/flight/elevator</prop>
     </output>
     <config>
       <Kp>5.0</Kp>      <!-- proportional gain -->

@@ -16,6 +16,7 @@ flash_timer = -1.0;
 # baro setting unit: 0=inHg, 1=hPa
 baro_setting_unit = 0;
 baro_setting = 29.92;
+baro_setting_hpa = 1.013;
 baro_setting_adjusting = 0;
 baro_button_down = 0;
 baro_timer_running = 0;
@@ -148,7 +149,8 @@ ap_init = func {
   setprop(Locks, "roll-mode", "off");
   setprop(Locks, "pitch-axis", "off");
   setprop(Locks, "pitch-mode", "off");
-  setprop(Locks, "arm-mode", "off");
+  setprop(Locks, "roll-arm", "off");
+  setprop(Locks, "pitch-arm", "off");
   
   setprop(Settings, "target-alt-pressure", 0.0);
   setprop(Settings, "target-intercept-angle", 0.0);
@@ -167,6 +169,7 @@ ap_init = func {
   setprop(Annunciators, "vs-number", "off");
   setprop(Annunciators, "fpm", "off");
   setprop(Annunciators, "alt", "off");
+  setprop(Annunciators, "alt-arm", "off");
   setprop(Annunciators, "alt-number", "off");
   setprop(Annunciators, "apr", "off");
   setprop(Annunciators, "gs", "off");
@@ -202,16 +205,16 @@ ap_button = func {
     setprop(Locks, "roll-mode", "rol");
     setprop(Locks, "pitch-axis", "vs");
     setprop(Locks, "pitch-mode", "vs");
-    setprop(Locks, "arm-mode", "off");
+    setprop(Locks, "roll-arm", "off");
+    setprop(Locks, "pitch-arm", "off");
 
     setprop(Annunciators, "rol", "on");
     setprop(Annunciators, "vs", "on");
-    #setprop(Annunciators, "fpm", "on");
     setprop(Annunciators, "vs-number", "on");
 
     setprop(Settings, "target-turn-rate", 0.0);
-    #setprop(Settings, "target-pressure-rate", getprop(Internal,
-    #"pressure-rate"));
+
+    pt_check();
 
     pressure_rate = getprop(Internal, "pressure-rate");
     #print(pressure_rate);
@@ -228,8 +231,6 @@ ap_button = func {
     #print(fpm);
 
     setprop(Settings, "target-pressure-rate", -fpm / 58000);
-
-    pt_check();
 
     if (alt_button_timer_running == 0)
     {
@@ -257,7 +258,8 @@ ap_button = func {
     setprop(Locks, "roll-mode", "off");
     setprop(Locks, "pitch-axis", "off");
     setprop(Locks, "pitch-mode", "off");
-    setprop(Locks, "arm-mode", "off");
+    setprop(Locks, "roll-arm", "off");
+    setprop(Locks, "pitch-arm", "off");
 
     setprop(Settings, "target-alt-pressure", 0.0);
     setprop(Settings, "target-intercept-angle", 0.0);
@@ -275,6 +277,7 @@ ap_button = func {
     setprop(Annunciators, "vs", "off");
     setprop(Annunciators, "vs-number", "off");
     setprop(Annunciators, "alt", "off");
+    setprop(Annunciators, "alt-arm", "off");
     setprop(Annunciators, "alt-number", "off");
     setprop(Annunciators, "apr", "off");
     setprop(Annunciators, "gs", "off");
@@ -310,7 +313,8 @@ hdg_button = func {
     setprop(Locks, "roll-mode", "hdg");
     setprop(Locks, "pitch-axis", "vs");
     setprop(Locks, "pitch-mode", "vs");
-    setprop(Locks, "arm-mode", "off");
+    setprop(Locks, "roll-arm", "off");
+    setprop(Locks, "pitch-arm", "off");
 
     setprop(Annunciators, "hdg", "on");
     setprop(Annunciators, "alt", "off");
@@ -319,11 +323,10 @@ hdg_button = func {
     setprop(Annunciators, "nav", "off");
     setprop(Annunciators, "vs", "on");
     setprop(Annunciators, "vs-number", "on");
-    #setprop(Annunciators, "fpm", "on");
 
     setprop(Settings, "target-intercept-angle", 0.0);
-    #setprop(Settings, "target-pressure-rate", getprop(Internal,
-    #"pressure-rate"));
+
+    pt_check();
 
     pressure_rate = getprop(Internal, "pressure-rate");
     fpm = -pressure_rate * 58000;
@@ -340,8 +343,6 @@ hdg_button = func {
 
     setprop(Settings, "target-pressure-rate", -fpm / 58000);
 
-    pt_check();
-
     if (alt_button_timer_running == 0)
     {
       settimer(alt_button_timer, 3.0);
@@ -355,10 +356,6 @@ hdg_button = func {
   ##
   elsif (getprop(Locks, "roll-mode") == "rol")
   {
-    #flash_timer = -1.0;
-    #flasher("hdg", 0.5, 0, "on");
-
-    #setprop(Locks, "alt-hold", "off");
     setprop(Locks, "apr-hold", "off");
     setprop(Locks, "rev-hold", "off");
     setprop(Locks, "gs-hold", "off");
@@ -366,9 +363,7 @@ hdg_button = func {
     setprop(Locks, "nav-hold", "off");
     setprop(Locks, "roll-axis", "trn");
     setprop(Locks, "roll-mode", "hdg");
-    setprop(Locks, "arm-mode", "off");
-    #setprop(Locks, "pitch-axis", "off");
-    #setprop(Locks, "pitch-mode", "off");
+    setprop(Locks, "roll-arm", "off");
 
     setprop(Annunciators, "apr", "off");
     setprop(Annunciators, "gs", "off");
@@ -383,15 +378,11 @@ hdg_button = func {
   # Switch to HDG mode, but don't change pitch mode.
   ##
   elsif ( (getprop(Locks, "roll-mode") == "nav" or
-	 getprop(Locks, "arm-mode") == "nav-arm" or
+	 getprop(Locks, "roll-arm") == "nav-arm" or
          getprop(Locks, "roll-mode") == "rev" or
-         getprop(Locks, "arm-mode") == "rev-arm") and
+         getprop(Locks, "roll-arm") == "rev-arm") and
          flash_timer < -0.5)
   {
-    #flash_timer = -1.0;
-    #flasher("hdg", 0.5, 0, "on");
-
-    #setprop(Locks, "alt-hold", "off");
     setprop(Locks, "apr-hold", "off");
     setprop(Locks, "rev-hold", "off");
     setprop(Locks, "gs-hold", "off");
@@ -399,9 +390,7 @@ hdg_button = func {
     setprop(Locks, "nav-hold", "off");
     setprop(Locks, "roll-axis", "trn");
     setprop(Locks, "roll-mode", "hdg");
-    setprop(Locks, "arm-mode", "off");
-    #setprop(Locks, "pitch-axis", "off");
-    #setprop(Locks, "pitch-mode", "off");
+    setprop(Locks, "roll-arm", "off");
 
     setprop(Annunciators, "apr", "off");
     setprop(Annunciators, "gs", "off");
@@ -419,7 +408,6 @@ hdg_button = func {
   ##
   elsif (getprop(Locks, "roll-mode") == "hdg")
   {
-    #setprop(Locks, "alt-hold", "off");
     setprop(Locks, "apr-hold", "off");
     setprop(Locks, "gs-hold", "off");
     setprop(Locks, "hdg-hold", "off");
@@ -427,8 +415,6 @@ hdg_button = func {
     setprop(Locks, "nav-hold", "off");
     setprop(Locks, "roll-axis", "trn");
     setprop(Locks, "roll-mode", "rol");
-    #setprop(Locks, "pitch-axis", "off");
-    #setprop(Locks, "pitch-mode", "off");
 
     setprop(Annunciators, "apr", "off");
     setprop(Annunciators, "gs", "off");
@@ -443,14 +429,11 @@ hdg_button = func {
   # TODO: Should we switch to VS or ALT mode? (currently VS)
   ##
   elsif ( (getprop(Locks, "roll-mode") == "apr" or
-         getprop(Locks, "arm-mode") == "apr-arm" or
+         getprop(Locks, "roll-arm") == "apr-arm" or
          getprop(Locks, "pitch-mode") == "gs" or
-         getprop(Locks, "arm-mode") == "gs-arm") and
+         getprop(Locks, "pitch-arm") == "gs-arm") and
          flash_timer < -0.5)
   {
-    #flash_timer = -1.0;
-    #flasher("hdg", 0.5, 0, "on");
-
     setprop(Locks, "alt-hold", "off");
     setprop(Locks, "apr-hold", "off");
     setprop(Locks, "gs-hold", "off");
@@ -460,9 +443,11 @@ hdg_button = func {
     setprop(Locks, "roll-mode", "hdg");
     setprop(Locks, "pitch-axis", "vs");
     setprop(Locks, "pitch-mode", "vs");
-    setprop(Locks, "arm-mode", "off");
+    setprop(Locks, "roll-arm", "off");
+    setprop(Locks, "pitch-arm", "off");
 
     setprop(Annunciators, "alt", "off");
+    setprop(Annunciators, "alt-arm", "off");
     setprop(Annunciators, "hdg", "on");
     setprop(Annunciators, "nav", "off");
     setprop(Annunciators, "apr", "off");
@@ -471,11 +456,32 @@ hdg_button = func {
     setprop(Annunciators, "gs-arm", "off");
     setprop(Annunciators, "vs", "on");
     setprop(Annunciators, "vs-number", "on");
-    #setprop(Annunciators, "fpm", "on");
 
     setprop(Settings, "target-intercept-angle", 0.0);
-    setprop(Settings, "target-pressure-rate", getprop(Internal,
-    "pressure-rate"));
+
+    pressure_rate = getprop(Internal, "pressure-rate");
+    #print(pressure_rate);
+    fpm = -pressure_rate * 58000;
+    #print(fpm);
+    if (fpm > 0.0)
+    {
+      fpm = int(fpm/100 + 0.5) * 100;
+    }
+    else
+    {
+      fpm = int(fpm/100 - 0.5) * 100;
+    }
+    #print(fpm);
+
+    setprop(Settings, "target-pressure-rate", -fpm / 58000);
+
+    if (alt_button_timer_running == 0)
+    {
+      settimer(alt_button_timer, 3.0);
+      alt_button_timer_running = 1;
+      alt_button_timer_ignore = 0;
+      setprop(Annunciators, "alt-number", "off");
+    }
   }
 }
 
@@ -496,7 +502,7 @@ nav_button = func {
     setprop(Locks, "hdg-hold", "hdg");
     setprop(Locks, "nav-hold", "off");
     setprop(Locks, "roll-axis", "trn");
-    setprop(Locks, "arm-mode", "nav-arm");
+    setprop(Locks, "roll-arm", "nav-arm");
     setprop(Locks, "roll-mode", "nav");
 
     setprop(Annunciators, "nav-arm", "on");
@@ -516,7 +522,7 @@ nav_button = func {
     setprop(Locks, "hdg-hold", "off");
     setprop(Locks, "nav-hold", "off");
     setprop(Locks, "roll-axis", "trn");
-    setprop(Locks, "arm-mode", "nav-arm");
+    setprop(Locks, "roll-arm", "nav-arm");
     setprop(Locks, "roll-mode", "nav");
 
     setprop(Annunciators, "nav-arm", "on");
@@ -536,7 +542,7 @@ nav_arm_from_hdg = func
   # Abort the NAV-ARM mode if something has changed the arm mode to something
   # else than NAV-ARM.
   ##
-  if (getprop(Locks, "arm-mode") != "nav-arm")
+  if (getprop(Locks, "roll-arm") != "nav-arm")
   {
     setprop(Annunciators, "nav-arm", "off");
     return;
@@ -573,7 +579,7 @@ nav_arm_from_hdg = func
   elsif (abs(deviation) < 3.1)
   {
     #print("capture");
-    setprop(Locks, "arm-mode", "off");
+    setprop(Locks, "roll-arm", "off");
     setprop(Annunciators, "nav-arm", "off");
     setprop(Annunciators, "nav", "on");
   }
@@ -585,7 +591,7 @@ nav_arm_from_rol = func
   # Abort the NAV-ARM mode if something has changed the arm mode to something
   # else than NAV-ARM.
   ##
-  if (getprop(Locks, "arm-mode") != "nav-arm")
+  if (getprop(Locks, "roll-arm") != "nav-arm")
   {
     setprop(Annunciators, "nav-arm", "off");
     return;
@@ -635,7 +641,7 @@ nav_arm_from_rol = func
     setprop(Locks, "nav-hold", "nav");
     setprop(Locks, "roll-axis", "trn");
     setprop(Locks, "roll-mode", "nav");
-    setprop(Locks, "arm-mode", "off");
+    setprop(Locks, "roll-arm", "off");
   }
 }
 
@@ -648,16 +654,13 @@ apr_button = func {
   {
     flasher("hdg", 0.5, 8, "off");
 
-    #setprop(Locks, "alt-hold", "off");
     setprop(Locks, "apr-hold", "apr");
     setprop(Locks, "gs-hold", "off");
     setprop(Locks, "rev-hold", "off");
     setprop(Locks, "hdg-hold", "hdg");
     setprop(Locks, "nav-hold", "off");
     setprop(Locks, "roll-axis", "trn");
-    setprop(Locks, "arm-mode", "apr-arm");
-    #setprop(Locks, "pitch-axis", "vs");
-    #setprop(Locks, "pitch-mode", "gs");
+    setprop(Locks, "roll-arm", "apr-arm");
     setprop(Locks, "roll-mode", "apr");
 
     setprop(Annunciators, "apr-arm", "on");
@@ -668,16 +671,13 @@ apr_button = func {
   {
     flasher("hdg", 0.5, 8, "off");
 
-    #setprop(Locks, "alt-hold", "off");
     setprop(Locks, "apr-hold", "off");
     setprop(Locks, "gs-hold", "off");
     setprop(Locks, "rev-hold", "off");
     setprop(Locks, "hdg-hold", "off");
     setprop(Locks, "nav-hold", "off");
     setprop(Locks, "roll-axis", "trn");
-    setprop(Locks, "arm-mode", "apr-arm");
-    #setprop(Locks, "pitch-axis", "vs");
-    #setprop(Locks, "pitch-mode", "vs");
+    setprop(Locks, "roll-arm", "apr-arm");
     setprop(Locks, "roll-mode", "apr");
 
     setprop(Annunciators, "apr-arm", "on");
@@ -692,7 +692,7 @@ apr_arm_from_hdg = func
   # Abort the APR-ARM mode if something has changed the arm mode to something
   # else than APR-ARM.
   ##
-  if (getprop(Locks, "arm-mode") != "apr-arm")
+  if (getprop(Locks, "roll-arm") != "apr-arm")
   {
     setprop(Annunciators, "apr-arm", "off");
     return;
@@ -732,7 +732,7 @@ apr_arm_from_hdg = func
     #print("capture");
     setprop(Annunciators, "apr-arm", "off");
     setprop(Annunciators, "apr", "on");
-    setprop(Locks, "arm-mode", "gs-arm");
+    setprop(Locks, "pitch-arm", "gs-arm");
 
     gs_arm();
   }
@@ -744,7 +744,7 @@ apr_arm_from_rol = func
   # Abort the APR-ARM mode if something has changed the roll mode to something
   # else than APR-ARM.
   ##
-  if (getprop(Locks, "arm-mode") != "apr-arm")
+  if (getprop(Locks, "roll-arm") != "apr-arm")
   {
     setprop(Annunciators, "apr-arm", "off");
     return;
@@ -796,7 +796,7 @@ apr_arm_from_rol = func
     setprop(Locks, "nav-hold", "off");
     setprop(Locks, "roll-axis", "trn");
     setprop(Locks, "roll-mode", "apr");
-    setprop(Locks, "arm-mode", "gs-arm");
+    setprop(Locks, "roll-arm", "gs-arm");
 
     gs_arm();
   }
@@ -808,7 +808,7 @@ gs_arm = func {
   # Abort the GS-ARM mode if something has changed the arm mode to something
   # else than GS-ARM.
   ##
-  if (getprop(Locks, "arm-mode") != "gs-arm")
+  if (getprop(Locks, "pitch-arm") != "gs-arm")
   {
     setprop(Annunciators, "gs-arm", "off");
     return;
@@ -836,18 +836,13 @@ gs_arm = func {
     setprop(Annunciators, "alt", "off");
     setprop(Annunciators, "vs", "off");
     setprop(Annunciators, "vs-number", "off");
-    #setprop(Annunciators, "fpm", "off");
     setprop(Annunciators, "gs-arm", "off");
     setprop(Annunciators, "gs", "on");
 
     setprop(Locks, "alt-hold", "off");
     setprop(Locks, "gs-hold", "gs");
     setprop(Locks, "pitch-mode", "gs");
-    setprop(Locks, "arm-mode", "off");
-    #setprop(Locks, "hdg-hold", "hdg");
-    #setprop(Locks, "nav-hold", "off");
-    #setprop(Locks, "roll-axis", "trn");
-    #setprop(Locks, "roll-mode", "apr");
+    setprop(Locks, "pitch-arm", "off");
   }
 
 }
@@ -862,16 +857,13 @@ rev_button = func {
   {
     flasher("hdg", 0.5, 8, "off");
 
-    #setprop(Locks, "alt-hold", "off");
     setprop(Locks, "apr-hold", "off");
     setprop(Locks, "gs-hold", "off");
     setprop(Locks, "rev-hold", "off");
     setprop(Locks, "hdg-hold", "hdg");
     setprop(Locks, "nav-hold", "off");
     setprop(Locks, "roll-axis", "trn");
-    setprop(Locks, "arm-mode", "rev-arm");
-    #setprop(Locks, "pitch-axis", "vs");
-    #setprop(Locks, "pitch-mode", "gs");
+    setprop(Locks, "roll-arm", "rev-arm");
 
     rev_arm_from_hdg();
   }
@@ -879,16 +871,13 @@ rev_button = func {
   {
     flasher("hdg", 0.5, 8, "off");
 
-    #setprop(Locks, "alt-hold", "off");
     setprop(Locks, "apr-hold", "off");
     setprop(Locks, "gs-hold", "off");
     setprop(Locks, "rev-hold", "off");
     setprop(Locks, "hdg-hold", "off");
     setprop(Locks, "nav-hold", "off");
     setprop(Locks, "roll-axis", "trn");
-    setprop(Locks, "arm-mode", "rev-arm");
-    #setprop(Locks, "pitch-axis", "vs");
-    #setprop(Locks, "pitch-mode", "vs");
+    setprop(Locks, "roll-arm", "rev-arm");
 
     rev_arm_from_rol();
   }
@@ -901,7 +890,7 @@ rev_arm_from_hdg = func
   # Abort the REV-ARM mode if something has changed the arm mode to something
   # else than REV-ARM.
   ##
-  if (getprop(Locks, "arm-mode") != "rev-arm")
+  if (getprop(Locks, "roll-arm") != "rev-arm")
   {
     setprop(Annunciators, "rev-arm", "off");
     return;
@@ -940,7 +929,7 @@ rev_arm_from_hdg = func
     #print("capture");
     setprop(Annunciators, "rev-arm", "off");
     setprop(Annunciators, "rev", "on");
-    setprop(Locks, "arm-mode", "off");
+    setprop(Locks, "roll-arm", "off");
   }
 }
 
@@ -951,7 +940,7 @@ rev_arm_from_rol = func
   # Abort the REV-ARM mode if something has changed the arm mode to something
   # else than REV-ARM.
   ##
-  if (getprop(Locks, "arm-mode") != "rev-arm")
+  if (getprop(Locks, "roll-arm") != "rev-arm")
   {
     setprop(Annunciators, "rev-arm", "off");
     return;
@@ -1002,7 +991,7 @@ rev_arm_from_rol = func
     setprop(Locks, "nav-hold", "off");
     setprop(Locks, "roll-axis", "trn");
     setprop(Locks, "roll-mode", "rev");
-    setprop(Locks, "arm-mode", "off");
+    setprop(Locks, "roll-arm", "off");
   }
 }
 
@@ -1065,23 +1054,13 @@ alt_button = func {
   elsif (getprop(Locks, "pitch-mode") == "vs")
   {
     setprop(Locks, "alt-hold", "alt");
-    #setprop(Locks, "apr-hold", "off");
-    #setprop(Locks, "gs-hold", "off");
-    #setprop(Locks, "hdg-hold", "hdg");
-    #setprop(Locks, "nav-hold", "nav");
-    #setprop(Locks, "roll-axis", "trn");
-    #setprop(Locks, "roll-mode", "nav");
     setprop(Locks, "pitch-axis", "vs");
     setprop(Locks, "pitch-mode", "alt");
 
     setprop(Annunciators, "alt", "on");
     setprop(Annunciators, "vs", "off");
     setprop(Annunciators, "vs-number", "off");
-    #setprop(Annunciators, "fpm", "off");
     setprop(Annunciators, "alt-number", "on");
-
-    #setprop(Settings, "target-alt-pressure",
-    #getprop("/systems/static/pressure-inhg"));
 
     alt_pressure = getprop("/systems/static/pressure-inhg");
     alt_ft = (baro_setting - alt_pressure) / 0.00103;
@@ -1096,7 +1075,6 @@ alt_button = func {
     #print(alt_ft);
 
     alt_pressure = baro_setting - alt_ft * 0.00103;
-    setprop(Settings, "target-alt-ft", alt_ft);
     setprop(Settings, "target-alt-pressure", alt_pressure);
 
   }
@@ -1131,8 +1109,6 @@ dn_button = func {
     {
       Target_Pressure = getprop(Settings, "target-alt-pressure");
       setprop(Settings, "target-alt-pressure", Target_Pressure + 0.0206);
-      setprop(Settings, "target-alt-ft",
-              getprop(Settings, "target-alt-ft") - 20);
     }
   }
 }
@@ -1165,14 +1141,27 @@ up_button = func {
     {
       Target_Pressure = getprop(Settings, "target-alt-pressure");
       setprop(Settings, "target-alt-pressure", Target_Pressure - 0.0206);
-      setprop(Settings, "target-alt-ft",
-              getprop(Settings, "target-alt-ft") + 20);
     }
   }
 }
 
 arm_button = func {
   #print("arm button");
+  
+  pitch_arm = getprop(Locks, "pitch-arm");
+
+  if (pitch_arm == "off")
+  {
+    setprop(Locks, "pitch-arm", "alt-arm");
+
+    setprop(Annunciators, "alt-arm", "on");
+  }
+  elsif (pitch_arm == "alt-arm")
+  {
+    setprop(Locks, "pitch-arm", "off");
+
+    setprop(Annunciators, "alt-arm", "off");
+  }
 }
 
 
@@ -1239,11 +1228,48 @@ baro_button_release = func {
 }
 
 
+pow = func {
+  #print(arg[0],arg[1]);
+  return math.exp(arg[1]*math.ln(arg[0]));
+}
+
+
+pressureToHeight = func {
+  p0 = arg[1];    # [Pa]
+  p = arg[0];     # [Pa]
+  t0 = 288.15;    # [K]
+  LR = -0.0065;    # [K/m]
+  g = -9.80665;    # [m/s²]
+  Rd = 287.05307; # [J/kg K]
+  
+  z = -(t0/LR) * (1.0-pow((p/p0),((Rd*LR)/g)));
+  return z;
+}
+
+
+heightToPressure = func {
+  p0 = arg[1];    # [Pa]
+  z = arg[0];     # [m]
+  t0 = 288.15;    # [K]
+  LR = -0.0065;    # [K/m]
+  g = -9.80665;    # [m/s²]
+  Rd = 287.05307; # [J/kg K]
+  
+  p = p0 * pow(((t0+LR*z)/t0),(g/(Rd*LR)));
+  return p;
+}
+
+
 alt_alert = func {
   #print("alt alert");
   
   alt_pressure = getprop("/systems/static/pressure-inhg");
-  alt_ft = (baro_setting - alt_pressure) / 0.00103;
+  alt_m = pressureToHeight(alt_pressure*3386.389, 
+                           baro_setting*3386.389);
+  #print(alt_m);
+
+  alt_ft = alt_m / 0.3048006;
+  #print(alt_ft);
   alt_difference = abs(alt_preselect - alt_ft);
   #print(alt_difference);
 
@@ -1264,6 +1290,26 @@ alt_alert = func {
       {
         #print("alt_capture()");
         alt_captured = 1;
+
+        if (getprop(Locks, "pitch-arm") == "alt-arm")
+        {
+          setprop(Locks, "alt-hold", "alt");
+          setprop(Locks, "pitch-axis", "vs");
+          setprop(Locks, "pitch-mode", "alt");
+          setprop(Locks, "pitch-arm", "off");
+
+          setprop(Annunciators, "alt", "on");
+          setprop(Annunciators, "alt-arm", "off");
+          setprop(Annunciators, "vs", "off");
+          setprop(Annunciators, "vs-number", "off");
+          setprop(Annunciators, "alt-number", "on");
+
+          #alt_pressure = baro_setting - alt_preselect * 0.00103;
+          alt_pressure = heightToPressure(alt_preselect*0.3048006,
+                                          baro_setting*3386.389)/3386.389;
+          setprop(Settings, "target-alt-pressure", alt_pressure);
+        }
+
         flasher("alt-alert", 1.0, 0, "off");
       }
     }
@@ -1290,6 +1336,7 @@ knob_s_up = func {
     if (baro_setting_unit == 0)
     {
       baro_setting = baro_setting + 0.01;
+      baro_setting_hpa = baro_setting * 0.03386389;
 
       setprop(Settings, "baro-setting-inhg", baro_setting);
     }
@@ -1305,6 +1352,7 @@ knob_s_up = func {
   elsif (baro_timer_running == 0 and
          alt_button_timer_running == 0)
   {
+    alt_captured = 0;
     alt_preselect = alt_preselect + 20;
     setprop(Settings, "target-alt-ft", alt_preselect);
 
@@ -1316,6 +1364,11 @@ knob_s_up = func {
       {
         alt_alert_on = 1;
       }
+    }
+    elsif (getprop(Locks, "pitch-arm") == "off")
+    {
+      setprop(Locks, "pitch-arm", "alt-arm");
+      setprop(Annunciators, "alt-arm", "on");
     }
   }
 }
@@ -1330,6 +1383,7 @@ knob_l_up = func {
     if (baro_setting_unit == 0)
     {
       baro_setting = baro_setting + 1.0;
+      baro_setting_hpa = baro_setting * 0.03386389;
 
       setprop(Settings, "baro-setting-inhg", baro_setting);
     }
@@ -1345,6 +1399,7 @@ knob_l_up = func {
   elsif (baro_timer_running == 0 and
          alt_button_timer_running == 0)
   {
+    alt_captured = 0;
     alt_preselect = alt_preselect + 100;
     setprop(Settings, "target-alt-ft", alt_preselect);
   
@@ -1356,6 +1411,11 @@ knob_l_up = func {
       {
         alt_alert_on = 1;
       }
+    }
+    elsif (getprop(Locks, "pitch-arm") == "off")
+    {
+      setprop(Locks, "pitch-arm", "alt-arm");
+      setprop(Annunciators, "alt-arm", "on");
     }
   }
 }
@@ -1370,6 +1430,7 @@ knob_s_dn = func {
     if (baro_setting_unit == 0)
     {
       baro_setting = baro_setting - 0.01;
+      baro_setting_hpa = baro_setting * 0.03386389;
 
       setprop(Settings, "baro-setting-inhg", baro_setting);
     }
@@ -1385,6 +1446,7 @@ knob_s_dn = func {
   elsif (baro_timer_running == 0 and
          alt_button_timer_running == 0)
   {
+    alt_captured = 0;
     alt_preselect = alt_preselect - 20;
     setprop(Settings, "target-alt-ft", alt_preselect);
  
@@ -1396,6 +1458,11 @@ knob_s_dn = func {
       {
         alt_alert_on = 1;
       }
+    }
+    elsif (getprop(Locks, "pitch-arm") == "off")
+    {
+      setprop(Locks, "pitch-arm", "alt-arm");
+      setprop(Annunciators, "alt-arm", "on");
     }
   }
 }
@@ -1410,6 +1477,7 @@ knob_l_dn = func {
     if (baro_setting_unit == 0)
     {
       baro_setting = baro_setting - 1.0;
+      baro_setting_hpa = baro_setting * 0.03386389;
 
       setprop(Settings, "baro-setting-inhg", baro_setting);
     }
@@ -1425,6 +1493,7 @@ knob_l_dn = func {
   elsif (baro_timer_running == 0 and
          alt_button_timer_running == 0)
   {
+    alt_captured = 0;
     alt_preselect = alt_preselect - 100;
     setprop(Settings, "target-alt-ft", alt_preselect);
 
@@ -1437,10 +1506,15 @@ knob_l_dn = func {
         alt_alert_on = 1;
       }
     }
+    elsif (getprop(Locks, "pitch-arm") == "off")
+    {
+      setprop(Locks, "pitch-arm", "alt-arm");
+      setprop(Annunciators, "alt-arm", "on");
+    }
   }
 }
 
 
 ap_init();
 
-#alt_alert();
+alt_alert();

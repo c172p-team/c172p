@@ -71,8 +71,8 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
 
   <instrument include="../../Instruments/single-magneto-switch.xml">
    <name>Magneto switch panel</name>
-   <x>50</x>
-   <y>-225</y>
+   <x>120</x>
+   <y>-180</y>
   </instrument>
 
 <!-- end engine controls cluster -->
@@ -203,7 +203,7 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
   <instrument include="../../Instruments/dme.xml">
    <name>DME</name>
    <x>880</x>
-   <y>27</y>
+   <y>16</y>
   </instrument>
 
 <!--
@@ -290,8 +290,8 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
     <action>
      <name>toggle nav lights</name>
      <button>0</button>
-     <x>-300</x>
-     <y>-100</y>
+     <x>-270</x>
+     <y>-250</y>
      <w>20</w>
      <h>50</h>
      <binding>
@@ -299,13 +299,136 @@ Legacy 2D instruments and actions for the 3D C172P cockpit.
       <property>/controls/lights/navigation</property>
      </binding>
     </action>
-   </actions>
+   
+<!-- flap extend/retract -->
+   <action>
+   <name>Flap Retract</name>
+   <button>0</button>
+   <x>240</x>
+   <y>-245</y>
+   <w>20</w>
+   <h>80</h>
+   <binding>
+    <command>property-adjust</command>
+    <property>/controls/flight/flaps</property>
+<step>-0.34</step>
+    <min>0</min>
+    <max>1.0</max>
+    <wrap>false</wrap>
+   </binding>
+    </action>
 
-  </instrument>
+<action>
+   <name>Flap Extend</name>
+   <button>0</button>
+   <x>260</x>
+   <y>-245</y>
+   <w>20</w>
+   <h>80</h>
+   <binding>
+    <command>property-adjust</command>
+    <property>/controls/flight/flaps</property>
+    <step>0.34</step>
+    <min>0</min>
+    <max>1.0</max>
+    <wrap>false</wrap>
+   </binding>
+  </action>
+
+<!-- carb heat control -->
+
+<action>
+   <desc>carb-heat</desc>
+   <button>0</button>
+   <x>-150</x>
+   <y>-200</y>
+   <w>40</w>
+   <h>40</h>
+   <binding>
+    <command>property-toggle</command>
+    <property>/controls/anti-ice/engine/carb-heat</property>
+   </binding>
+  </action>
 
 
- </instruments>
 
+
+<!-- throttle control -->
+
+<action>
+   <name>big decrease</name>
+   <button>0</button>
+   <x>-50</x>
+   <y>-200</y>
+   <w>40</w>
+   <h>76</h>
+   <binding>
+    <command>property-adjust</command>
+    <property>/controls/engines/engine/throttle</property>
+    <step>-0.07</step>
+    <min>0</min>
+    <max>1.0</max>
+    <wrap>false</wrap>
+   </binding>
+  </action>
+
+  <action>
+   <name>small increase</name>
+   <button>0</button>
+   <x>-10</x>
+   <y>-200</y>
+   <w>40</w>
+   <h>76</h>
+   <binding>
+    <command>property-adjust</command>
+    <property>/controls/engines/engine/throttle</property>
+    <step>0.07</step>
+    <min>0</min>
+    <max>1.0</max>
+    <wrap>false</wrap>
+   </binding>
+  </action> 
+
+<!-- mixture control -->
+
+<action>
+   <name>small decrease</name>
+   <button>0</button>
+   <x>80</x>
+   <y>-200</y>
+   <w>40</w>
+   <h>76</h>
+   <binding>
+    <command>property-adjust</command>
+    <property>/controls/engines/engine/mixture</property>
+    <step>-0.03</step>
+    <min>0</min>
+    <max>1.0</max>
+    <wrap>false</wrap>
+   </binding>c172p-2d-panel.xml
+  </action>
+
+  <action>
+   <name>small increase</name>
+   <button>0</button>
+   <x>120</x>
+   <y>-200</y>
+   <w>40</w>
+   <h>76</h>
+   <binding>
+    <command>property-adjust</command>
+    <property>/controls/engines/engine/mixture</property>
+    <step>0.03</step>
+    <min>0</min>
+    <max>1.0</max>
+    <wrap>false</wrap>
+   </binding>
+  </action> 
+
+ </actions>
+
+</instrument>
+</instruments>
 
 </PropertyList>
 

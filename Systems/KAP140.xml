@@ -32,12 +32,12 @@
       <prop>/autopilot/KAP140/settings/target-intercept-angle</prop>
     </output>
     <config>
-      <Kp>7.0</Kp>        <!-- proportional gain -->
+      <Kp>2.0</Kp>        <!-- proportional gain -->
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
                           <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>       <!-- integrator time -->
+      <Ti>15.0</Ti>       <!-- integrator time -->
       <Td>0.0</Td>    <!-- derivator time -->
       <u_min>-45.0</u_min> <!-- minimum output clamp -->
       <u_max>45.0</u_max>  <!-- maximum output clamp -->
@@ -47,7 +47,7 @@
   <!-- Approach hold (APR) Mode-->
   <pid-controller>
     <name>Approach hold (APR) Mode</name>
-    <debug>true</debug>
+    <debug>false</debug>
     <enable>
       <prop>/autopilot/KAP140/locks/apr-hold</prop>
       <value>apr</value>
@@ -62,12 +62,43 @@
       <prop>/autopilot/KAP140/settings/target-intercept-angle</prop>
     </output>
     <config>
-      <Kp>7.0</Kp>        <!-- proportional gain -->
+      <Kp>2.0</Kp>        <!-- proportional gain -->
       <beta>1.0</beta>    <!-- input value weighing factor -->
       <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
       <gamma>0.0</gamma>  <!-- input value weighing factor for -->
                           <!-- unfiltered derivative error -->
-      <Ti>10.0</Ti>       <!-- integrator time -->
+      <Ti>15.0</Ti>       <!-- integrator time -->
+      <Td>0.001</Td>    <!-- derivator time -->
+      <u_min>-45.0</u_min> <!-- minimum output clamp -->
+      <u_max>45.0</u_max>  <!-- maximum output clamp -->
+    </config>
+  </pid-controller>
+
+  <!-- Backcourse hold (REV) Mode-->
+  <pid-controller>
+    <name>Backcourse hold (REV) Mode</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/KAP140/locks/rev-hold</prop>
+      <value>rev</value>
+    </enable>
+    <input>
+      <prop>/radios/nav/heading-needle-deflection</prop>
+      <scale>-1.0</scale>
+    </input>
+    <reference>
+      <value>0.0</value>
+    </reference>
+    <output>
+      <prop>/autopilot/KAP140/settings/target-intercept-angle</prop>
+    </output>
+    <config>
+      <Kp>2.0</Kp>        <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>15.0</Ti>       <!-- integrator time -->
       <Td>0.0</Td>    <!-- derivator time -->
       <u_min>-45.0</u_min> <!-- minimum output clamp -->
       <u_max>45.0</u_max>  <!-- maximum output clamp -->
@@ -84,7 +115,8 @@
       <value>hdg</value>
     </enable>
     <input>
-      <prop>/autopilot/internal/heading-bug-error-deg</prop>
+      <prop>/autopilot/internal/heading-bug-error-deg</prop> -->
+<!--      <prop>/instrumentation/gps/true-bug-error-deg</prop> -->
     </input>
     <reference>
       <prop>/autopilot/KAP140/settings/target-intercept-angle</prop>
@@ -173,7 +205,7 @@
    <!-- Glideslope Hold (GS) Mode --> 
   <pid-controller>
     <name>Glideslope Hold (GS) Mode</name>
-    <debug>true</debug>
+    <debug>false</debug>
     <enable>
       <prop>/autopilot/KAP140/locks/gs-hold</prop>
       <value>gs</value>

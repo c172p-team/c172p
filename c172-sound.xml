@@ -1,0 +1,239 @@
+<?xml version="1.0"?>
+ 
+<PropertyList>
+
+ <fx>
+ 
+  <crank>
+   <name>engstart</name>
+   <path>Sounds/engstart.wav</path>
+   <property>/engines/engine/cranking</property>
+   <volume>
+    <offset>0.4</offset>
+   </volume>
+  </crank>
+
+  <crank>
+   <name>crank</name>
+   <mode>looped</mode>
+   <path>Sounds/cranking.wav</path>
+   <condition>
+    <property>/engines/engine/cranking</property>
+    <not>
+     <property>/engines/engine/running</property>
+    </not>
+   </condition>
+   <volume>
+    <offset>0.5</offset>
+   </volume>
+  </crank>
+
+  <crank>
+   <name>cough</name>
+   <path>Sounds/coughing.wav</path>
+   <property>/engines/engine/running</property>
+   <volume>
+    <offset>0.3</offset>
+   </volume>
+  </crank>
+
+  <engine>
+   <name>engine</name>
+   <mode>looped</mode>
+   <path>Sounds/wasp.wav</path>
+   <property>/engines/engine/running</property>
+   <volume>
+    <property>/engines/engine/mp-osi</property>
+    <factor>0.00375</factor>
+    <min>0.15</min>
+    <max>0.5</max>
+   </volume>
+   <volume>
+    <property>/orientation/alpha-deg</property>
+    <type>log</type>
+    <min>1.0</min>
+    <max>1.5</max>
+   </volume>
+   <volume>
+    <property>/sim/current-view/internal</property>
+    <offset>1.0</offset>
+    <factor>-0.7</factor>
+   </volume>
+   <pitch>
+    <property>/engines/engine/rpm</property>
+    <factor>0.0004</factor>
+    <min>0.5</min>
+    <max>2.0</max>
+    <offset>0.15</offset>
+   </pitch>
+  </engine>
+
+  <propeller>
+   <name>propeller</name>
+   <mode>looped</mode>
+   <path>Sounds/turboprop1.wav</path>
+   <property>/engines/engine/running</property>
+   <volume>
+    <property>/orientation/alpha-deg</property>
+    <type>log</type>
+    <min>0.2</min>
+    <max>1.0</max>
+   </volume>
+   <volume>
+    <property>/sim/current-view/internal</property>
+    <factor>0.5</factor>
+   </volume>
+   <pitch>
+    <property>/engines/engine/mp-osi</property>
+    <factor>0.0036</factor>
+    <min>0.5</min>
+    <max>2.0</max>
+    <offset>0.9</offset>
+   </pitch>
+  </propeller>
+
+  <rumble>
+   <name>rumble</name>
+   <mode>looped</mode>
+   <path>Sounds/rumble.wav</path>
+   <condition>
+    <or>
+     <property>/gear/gear[0]/wow</property>
+     <property>/gear/gear[1]/wow</property>
+     <property>/gear/gear[2]/wow</property>
+    </or>
+    <!-- <property>/sim/current-view/internal</property> -->
+   </condition>
+   <volume>
+    <property>/velocities/airspeed-kt</property>
+    <type>log</type>
+    <factor>0.25</factor>
+   </volume>
+  </rumble>
+
+<!-- the c172 doesn't have a retractable landing gear
+  <gear>
+   <name>gear</name>
+   <mode>in-transit</mode>
+   <path>Sounds/gear.wav</path>
+   <property>/gear/gear[0]/position-norm</property>
+  </gear>
+
+  <gear>
+   <name>gear-lock</name>
+   <path>Sounds/gear-lck.wav</path>
+   <condition>
+    <greater-than>
+     <property>/gear/gear[0]/position-norm</property>
+     <value>0.9</value>
+    </greater-than>
+   </condition>
+  </gear>
+-->
+
+  <squeal>
+   <name>squeal</name>
+   <path>Sounds/squeal.wav</path>
+   <condition>
+    <or>
+     <property>/gear/gear[0]/wow</property>
+     <property>/gear/gear[1]/wow</property>
+     <property>/gear/gear[2]/wow</property>
+    </or>
+   </condition>
+   <volume>
+    <property>/velocities/speed-down-fps</property>
+    <factor>0.5</factor>
+    <max>1.0</max>
+   </volume>
+   <volume>
+    <property>/velocities/airspeed-kt</property>
+    <factor>0.01</factor>
+    <max>1.0</max>
+   </volume>
+   <volume>
+    <internal>dt_stop</internal>
+    <factor>0.05</factor>
+    <max>1.0</max>
+   </volume>
+   <pitch>
+    <property>/velocities/airspeed-kt</property>
+    <factor>0.0025</factor>
+    <offset>1.2</offset>
+   </pitch>
+  </squeal>
+ 
+  <flap>
+   <name>flaps</name>
+   <mode>in-transit</mode>
+   <path>Sounds/flaps.wav</path>
+   <property>/surface-positions/flap-pos-norm</property>
+   <volume>
+    <factor>0.8</factor>
+   </volume>
+   <reference-dist>10.0</reference-dist>
+   <max-dist>20.0</max-dist>
+  </flap>
+
+  <wind>
+   <name>wind</name>
+   <mode>looped</mode>
+   <path>Sounds/wind.wav</path>
+   <property>/velocities/airspeed-kt</property>
+   <volume>
+    <property>/position/altitude-ft</property>
+    <factor>-0.000015</factor>
+    <offset>1.0</offset>
+    <min>0.1</min>
+    <max>1.0</max>
+   </volume>
+   <volume>
+     <property>/velocities/airspeed-kt</property>
+     <factor>0.0015</factor>
+     <min>0.03</min>
+     <max>0.25</max>
+   </volume>
+   <pitch>
+    <property>/velocities/airspeed-kt</property>
+    <factor>0.0035</factor>
+    <offset>1.25</offset>
+   </pitch>
+  </wind>
+ 
+  <stall>
+   <name>stall</name>
+   <mode>looped</mode>
+   <path>Sounds/stall.wav</path>
+   <condition>
+    <and>
+     <property>/sim/alarms/stall-warning</property>
+     <greater-than>
+       <property>/velocities/airspeed-kt</property>
+       <value>10</value>
+     </greater-than>
+     <not>
+       <property>/gear/gear[0]/wow</property>
+       <property>/gear/gear[1]/wow</property>
+       <property>/gear/gear[2]/wow</property>
+     </not>
+    </and>
+    <!-- <property>/sim/current-view/internal</property> -->
+   </condition>
+   <volume>
+    <property>/sim/alarms/stall-warning</property>
+    <max>1.0</max>
+   </volume>
+   <reference-dist>10.0</reference-dist>
+   <max-dist>20.0</max-dist>
+  </stall>
+ 
+<!-- no binding yet?
+  <click>
+   <name>click</name>
+   <path>Sounds/click.wav</path>
+  </click>
+-->
+
+</fx>
+ 
+</PropertyList>

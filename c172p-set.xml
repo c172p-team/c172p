@@ -1,0 +1,116 @@
+<?xml version="1.0"?>
+<!--
+************************************************************************
+JSBSim Cessna 172P with 3D cockpit.
+
+Started October 23 2001 by John Check, fgpanels@rockfish.net
+************************************************************************
+-->
+
+<PropertyList>
+
+ <sim>
+
+  <description>Cessna 172P Skyhawk (1981 model)</description>
+  <author>David Megginson</author>
+  <status>production</status>
+
+  <flight-model archive="y">jsb</flight-model>
+  <aero archive="y">c172p</aero>
+
+  <model>
+   <path archive="y">Aircraft/c172p/Models/c172p.xml</path>
+  </model>
+
+  <!-- hide the 2D panel -->
+ 
+  <panel>
+   <visibility archive="y">false</visibility>
+  </panel>
+
+  <!-- position the pilot viewpoint and angle -->
+ 
+  <view>
+   <internal archive="y">true</internal>
+   <config>
+     <x-offset-m archive="y">-0.21</x-offset-m>
+     <y-offset-m archive="y">0.30</y-offset-m>
+     <z-offset-m archive="y">0.36</z-offset-m>
+     <pitch-offset-deg>-12</pitch-offset-deg>
+   </config>
+  </view>
+
+  <systems>
+    <autopilot>
+      <path>Aircraft/c172p/Systems/KAP140.xml</path>
+    </autopilot>
+    <electrical>
+      <path>Aircraft/c172p/c172-electrical.xml</path>
+    </electrical>
+  </systems>
+
+  <sound>
+   <path archive="y">Aircraft/c172p/c172-sound.xml</path>
+  </sound>
+
+ </sim>
+  
+ <!-- trim for level cruise -->
+
+ <controls>
+  <flight>
+   <aileron-trim>0.027</aileron-trim>
+   <rudder-trim>0.0</rudder-trim>
+  </flight>
+  <engines>
+   <engine n="0">
+    <magnetos>3</magnetos>
+   </engine>
+  </engines>
+ </controls>
+
+ <autopilot>
+   <config>
+     <min-climb-speed-kt type="float">70.0</min-climb-speed-kt>
+     <best-climb-speed-kt type="float">75.0</best-climb-speed-kt>
+     <target-climb-rate-fpm type="float">500.0</target-climb-rate-fpm>
+     <target-descent-rate-fpm type="float">1000.0</target-descent-rate-fpm>
+     <elevator-adj-factor type="float">4000.0</elevator-adj-factor>
+     <integral-contribution type="float">0.01</integral-contribution>
+     <zero-pitch-throttle type="float">0.45</zero-pitch-throttle>
+     <zero-pitch-trim-full-throttle type="float">0.14</zero-pitch-trim-full-throttle>
+   </config>
+ </autopilot>
+
+ <consumables>
+  <fuel>
+   <tank n="0">
+    <level-gal_us>20</level-gal_us>
+   </tank>
+   <tank n="1">
+    <level-gal_us>20</level-gal_us>
+   </tank>
+  </fuel>
+ </consumables>
+
+ <instrumentation>
+  <attitude-indicator>
+   <config>
+    <tumble-flag archive="y" type="bool">true</tumble-flag>
+   </config>
+  </attitude-indicator>
+ </instrumentation>
+  
+ <engines>
+  <engine>
+   <rpm type="double">700</rpm>
+  </engine>
+ </engines>
+ 
+ <nasal>
+  <kap140>
+   <file>Aircraft/c172p/kap140.nas</file>
+  </kap140>
+ </nasal>
+  
+</PropertyList>

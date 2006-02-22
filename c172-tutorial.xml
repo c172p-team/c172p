@@ -1,0 +1,800 @@
+<PropertyList>
+  <tutorial>
+    <name>Take-off</name>
+    <description>
+This tutorial starts from Half-Moon Bay (KHAF), a small airport on the coast near San Francisco, in clear, still, weather.
+
+Take-off and climb out at 600fpm (about 70 kts), continuing on the runway heading. Level off at 1000ft to complete the tutorial.
+    </description>
+    <audio-dir>Aircraft/c172p/tutorial</audio-dir>
+    <timeofday>morning</timeofday>
+    <presets>
+      <airport-id>KHAF</airport-id>
+      <on-ground>1</on-ground>
+      <runway>12</runway>
+      <altitude-ft>-9999</altitude-ft>
+      <latitude-deg>-9999</latitude-deg>
+      <longitude-deg>-9999</longitude-deg>
+      <heading-deg>0</heading-deg>
+      <airspeed-kt>0</airspeed-kt>
+      <glideslope-deg>0</glideslope-deg>
+      <offset-azimuth>0</offset-azimuth>
+      <offset-distance>0</offset-distance>
+    </presets>
+    <init>
+      <set>
+        <prop>/controls/gear/brake-parking</prop>
+        <val>1</val>
+      </set>
+      <set>
+        <prop>/controls/flight/flaps</prop>
+        <val>0.0</val>
+      </set>
+      <set>
+        <prop>/controls/engines/engine/magnetos</prop>
+        <val>3</val>
+      </set>
+      <set>
+        <prop>/controls/engines/engine/throttle</prop>
+        <val>0.5</val>
+      </set>
+      <set>
+        <prop>/engines/engine/running</prop>
+        <val>true</val>
+      </set>
+      <set>
+        <prop>/instrumentation/adf/frequencies/selected-khz</prop>
+        <val>340</val>
+      </set>
+      <set>
+        <prop>/environment/weather-scenario</prop>
+        <val>Fair weather</val>
+      </set>
+      <set>
+        <prop>/controls/flight/elevator-trim</prop>
+        <val>0.17</val>
+      </set>
+    </init>
+    <step>
+      <instruction>Release the parking brakes, smoothly apply full power and start your take-off.</instruction>
+      <error>
+        <check>
+          <prop>/controls/engines/engine/throttle</prop>
+          <lt>0.95</lt>
+          <msg>Apply full throttle for take-off.</msg>
+        </check>
+        <check>
+          <prop>/controls/gear/brake-parking</prop>
+          <eq>1</eq>
+          <msg>Release the parking brake using Shift B</msg>
+        </check>
+      </error>
+      <exit>
+        <check>
+          <prop>/velocities/airspeed-kt</prop>
+          <gt>5.0</gt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Stay on the center-line of the runway using the rudder.</instruction>
+      <exit>
+        <check>
+          <prop>/velocities/airspeed-kt</prop>
+          <gt>45.0</gt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Rotate at 65 knots and climb straight out on heading 120 at 600 feet per minute.</instruction>
+      <exit>
+         <check>
+          <prop>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
+          <gt>300</gt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Continue your climb on heading 120 at 600 feet per minute to 1000 feet.</instruction>
+      <error>
+        <check>
+          <prop>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
+          <lt>400</lt>
+          <msg>Your climb angle is too shallow - raise the nose slightly to increase your climb rate.</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
+          <gt>900</gt>
+          <msg>Your climb angle is too great - lower the nose slightly to decrease your climb rate.</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <lt>110</lt>
+          <msg>You are heading too far left, Turn right slightly to heading 120.</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <gt>130</gt>
+          <msg>You are heading too far right, Turn left slightly to heading 120.</msg>
+        </check>
+        <check>
+          <prop>/velocities/airspeed-kt</prop>
+          <lt>69.0</lt>
+          <msg>You are in danger of being "behind the power curve". Drop the nose to speed up to 70 knots.</msg>
+        </check>
+      </error>
+      <exit>
+       <check>
+         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
+         <gt>1000</gt>
+       </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Level off at between 1000 and 1100 feet.</instruction>
+      <error>
+        <check>
+          <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
+          <lt>1000</lt>
+          <msg>You are too low</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
+          <gt>1100</gt>
+          <msg>You are too high</msg>
+        </check>
+      </error>
+      <exit>
+       <check>
+         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
+         <gt>1000</gt>
+       </check>
+       <check>
+         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
+         <lt>1100</lt>
+       </check>
+        <check>
+          <prop>instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
+          <lt>150</lt>
+        </check>
+        <check>
+          <prop>instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
+          <gt>-150</gt>
+        </check>
+      </exit>
+    </step>
+    <endtext>Congratulations, you've successfully taken off. Now try landing!</endtext>
+  </tutorial>
+  <tutorial>
+    <name>Straight-in Landing</name>
+    <description>Landings are not optional...
+
+Land the aircraft from an altitude of 1000ft on runway 30 at KHAF on a calm morning.
+
+Unlike normal flight, when landing you use power alone to control descent rate. The runway should stay in the same position throughout the descent - about a third of the distance above the glare-shield.
+
+KHAF has a VASI to the left of runway 30, a series of lights designed to help you judge your approach. Simply put, the VASI will display red lights if you are descending too fast (indicating that you need to increase power), and white lights if you are too high (indicating that you need to decrease power). If you are descending at the right angle, you will see 3 red lights and 3 white.
+
+You start the tutorial cruising at around 1000ft and 90kts. To begin your descent, you will need to reduce power and drop one notch flaps. You are aiming to approach at 80kts and 300fpm. As you get closer, you will need to reduce power further and drop more flaps, aiming to touch down "on the numbers" at 65kts.
+    </description>
+    <timeofday>afternoon</timeofday>
+    <presets>
+      <airport-id>KHAF</airport-id>
+      <on-ground>0</on-ground>
+      <runway>30</runway>
+      <altitude-ft>1000</altitude-ft>
+      <latitude-deg>-9999</latitude-deg>
+      <longitude-deg>-9999</longitude-deg>
+      <heading-deg>300.0</heading-deg>
+      <airspeed-kt>90.0</airspeed-kt>
+      <glideslope-deg>0</glideslope-deg>
+      <offset-azimuth>0</offset-azimuth>
+      <offset-distance>3</offset-distance>
+      <ndb-id>0</ndb-id>
+      <vor-id>0</vor-id>
+      <fix>0</fix>
+    </presets>
+    <init>
+      <set>
+        <prop>/controls/flight/flaps</prop>
+        <val>0.0</val>
+      </set>
+      <set>
+        <prop>/controls/engines/engine/magnetos</prop>
+        <val>3</val>
+      </set>
+      <set>
+        <prop>/controls/engines/engine/throttle</prop>
+        <val>0.5</val>
+      </set>
+      <set>
+        <prop>/engines/engine/running</prop>
+        <val>true</val>
+      </set>
+      <set>
+        <prop>/instrumentation/adf/frequencies/selected-khz</prop>
+        <val>340</val>
+      </set>
+      <set>
+        <prop>/environment/weather-scenario</prop>
+        <val>Fair weather</val>
+      </set>
+    </init>
+    <step>
+      <instruction>Reduce throttle to 50%. Apply one degree of flaps.
+Start your descent, staying lined up with the runway a hands-width above the glare-shield.
+You are aiming to descend at around 500 feet per minute and 80 knots.
+      </instruction>
+      <error>
+        <check>
+          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
+          <gt>80.0</gt>
+          <msg>You are going too fast. Reduce power and pitch up to reduce your airspeed to 80 knots.</msg>
+        </check>
+        <check>
+          <prop>/controls/engines/engine/throttle</prop>
+          <gt>0.5</gt>
+          <msg>Reduce throttle to 50%</msg>
+        </check>
+      </error>
+      <exit>
+        <check>
+          <prop>/position/latitude-deg</prop>
+          <gt>37.48</gt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Let down the second step of flaps and use the VASI to check your descent rate.
+White - too high. Red - too low, Red and white - just right.
+Use throttle to control your descent rate rather than attitude.
+     </instruction>
+      <exit>
+        <check>
+          <prop>/position/latitude-deg</prop>
+          <gt>37.495</gt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Let down your final set of flaps and continue to follow the VASI glideslope. Stay lined up with the middle of the runway.</instruction>
+      <exit>
+        <check>
+          <prop>/position/latitude-deg</prop>
+          <gt>37.506</gt>
+        </check>
+      </exit>
+    </step>
+
+    <step>
+      <instruction>Reduce power to idle. When you are about 10 feet above the ground, smoothly bring the nose up so it is level with the horizon.</instruction>
+      <exit>
+        <check>
+          <prop>/position/altitude-agl-ft</prop>
+          <lt>7.0</lt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Keep tracking straight down the runway and let the aircraft land on the main gear.
+    </instruction>
+      <exit>
+        <check>
+          <prop>/velocities/airspeed-kt</prop>
+          <lt>45.0</lt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Lower the nose wheel, continue to track down the runway and gently brake to a stop.</instruction>
+      <exit>
+        <check>
+          <prop>/velocities/airspeed-kt</prop>
+          <lt>5.0</lt>
+        </check>
+      </exit>
+    </step>
+    <endtext>Congratulations on a successful landing.</endtext>
+  </tutorial>
+
+  <tutorial>
+  <name>Flying the Pattern</name>
+    <description>
+Take-off from KHAF, fly a left-hand traffic pattern and land.
+
+The traffic pattern is used as a method to stop aircraft crashing into each other when near an airport.
+
+The pattern is a rectangular flight path with the runway forming one of the long sides.
+
+It consists of the following sections:
+- Upwind.    Once we've taken off, we flying straight ahead on the runway heading to 500ft.
+- Crosswind. Once at 500ft, we turn left 90 degrees and continue climbing until we get to 1000ft.
+- Downwind.  When we reach 1000ft, we turn left again so we are parallel to the runway, reduce power and fly at 100kts. When we are "abeam the numbers" (opposite the number on the runway we intend to land on), we reduce power to 50%, drop one notch of flat and descend 100ft at 90kts.
+- Base       We now make another left-hand turn, add another notch of flaps, and let speed continue to dissipate.
+- Final      At the correct moment (based on visual queues),we make a final left turn to line up with the runway. We drop our final lot of flaps, descend and land.
+
+As before, we'll be flying at KHAF, on runway 12, on a clear day.
+
+Runway 12 does not have a VASI. Instead you will need to judge whether you are too low or too high by the view of the runway. If the runway is going away from you, you will land short. If the runway is coming towards you, you will over-shoot. Remember, you should aim to have the runway about a third of the way above the glare-shield, and adjust your rate of descent using power.
+    </description>
+    <audio-dir>Aircraft/c172p/tutorial</audio-dir>
+    <timeofday>morning</timeofday>
+    <presets>
+      <airport-id>KHAF</airport-id>
+      <on-ground>1</on-ground>
+      <runway>12</runway>
+      <altitude-ft>-9999</altitude-ft>
+      <latitude-deg>-9999</latitude-deg>
+      <longitude-deg>-9999</longitude-deg>
+      <heading-deg>0</heading-deg>
+      <airspeed-kt>0</airspeed-kt>
+      <glideslope-deg>0</glideslope-deg>
+      <offset-azimuth>0</offset-azimuth>
+      <offset-distance>0</offset-distance>
+    </presets>
+    <init>
+      <set>
+        <prop>/controls/flight/flaps</prop>
+        <val>0.0</val>
+      </set>
+      <set>
+        <prop>/controls/gear/brake-parking</prop>
+        <val>1</val>
+      </set>
+      <set>
+        <prop>/controls/engines/engine/magnetos</prop>
+        <val>3</val>
+      </set>
+      <set>
+        <prop>/controls/engines/engine/throttle</prop>
+        <val>0.5</val>
+      </set>
+      <set>
+        <prop>/engines/engine/running</prop>
+        <val>true</val>
+      </set>
+      <set>
+        <prop>/instrumentation/adf/frequencies/selected-khz</prop>
+        <val>340</val>
+      </set>
+      <set>
+        <prop>/environment/weather-scenario</prop>
+        <val>Fair weather</val>
+      </set>
+      <set>
+        <prop>/controls/flight/elevator-trim</prop>
+        <val>0.17</val>
+      </set>
+    </init>
+    <step>
+      <instruction>Release the parking brakes, smoothly apply full power and start your take-off.</instruction>
+      <error>
+        <check>
+          <prop>/controls/engines/engine/throttle</prop>
+          <lt>0.95</lt>
+          <msg>Apply full throttle for take-off</msg>
+        </check>
+        <check>
+          <prop>/controls/gear/brake-parking</prop>
+          <eq>1</eq>
+          <msg>Release the parking brake using Shift B</msg>
+        </check>
+      </error>
+      <exit>
+        <check>
+          <prop>/velocities/airspeed-kt</prop>
+          <gt>5.0</gt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Stay on the center-line of the runway using the rudder.</instruction>
+      <exit>
+        <check>
+          <prop>/velocities/airspeed-kt</prop>
+          <gt>45.0</gt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Take-off at 65 knots and climb straight out on heading 120 at 600 feet per minute (about 70 knots).</instruction>
+      <exit>
+         <check>
+          <prop>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
+          <gt>300</gt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Continue your climb on heading 120 at 600 feet per minute to 500 feet.</instruction>
+      <error>
+        <check>
+          <prop>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
+          <lt>400</lt>
+          <msg>Your climb angle is too shallow - raise the nose slightly to increase your climb rate.</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
+          <gt>900</gt>
+          <msg>Your climb angle is too great - lower the nose slightly to decrease your climb rate.</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <lt>110</lt>
+          <msg>You are heading too far left, Turn right slightly to heading 120.</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <gt>130</gt>
+          <msg>You are heading too far right, Turn left slightly to heading 120.</msg>
+        </check>
+        <check>
+          <prop>/velocities/airspeed-kt</prop>
+          <lt>69</lt>
+          <msg>You are in danger of being "behind the power curve". Drop the nose to speed up to 70 knots.</msg>
+        </check>
+      </error>
+      <exit>
+       <check>
+         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
+         <gt>500</gt>
+       </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Make a left turn to crosswind (heading 030) and continue climbing to 1000 feet.</instruction>
+      <error>
+      </error>
+      <exit>
+       <check>
+         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
+         <gt>900</gt>
+       </check>
+       <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <gt>020</gt>
+        </check>
+       <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <lt>040</lt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Level off at 1000 feet and make another left turn to downwind (heading 300).</instruction>
+      <error>
+      </error>
+      <exit>
+       <check>
+         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
+         <gt>950</gt>
+       </check>
+       <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <gt>290</gt>
+       </check>
+       <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <lt>310</lt>
+       </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Reduce power to 60%, and trim for level flight. Continue flying parallel to the runway.</instruction>
+      <error>
+        <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <lt>290</lt>
+          <msg>You are heading too far left, Turn right slightly to heading 300.</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <gt>310</gt>
+          <msg>You are heading too far right, Turn left slightly to heading 300.</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
+          <gt>1100</gt>
+           <msg>You are too high. Pattern altitude is 1000 feet.</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
+          <lt>900</lt>
+           <msg>You are too low. Pattern altitude is 1000 feet.</msg>
+        </check>
+      </error>
+      <exit>
+       <check>
+          <prop>/position/latitude-deg</prop>
+          <gt>37.528</gt>
+       </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>You are now opposite the end of the runway. Reduce power to 50%, set flaps to 10.</instruction>
+      <exit>
+       <check>
+        <prop>/controls/flight/flaps</prop>
+        <gt>0.3</gt>
+       </check>
+       <check>
+        <prop>/controls/engines/engine/throttle</prop>
+        <lt>0.55</lt>
+       </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Let the aircraft descend and slow. Continue flying a heading of 300.</instruction>
+      <error>
+        <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <lt>290</lt>
+          <msg>You are heading too far left, Turn right slightly to heading 300.</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <gt>310</gt>
+          <msg>You are heading too far right, Turn left slightly to heading 300.</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
+          <gt>1100</gt>
+           <msg>You are too high. You should be descending to around 850 feet.</msg>
+        </check>
+      </error>
+      <exit>
+       <check>
+         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
+         <lt>900</lt>
+       </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Turn left to base (heading 210), and set flaps to 20. Continue to descend at around 500 feet per minute.</instruction>
+      <exit>
+        <check>
+          <prop>/position/longitude-deg</prop>
+          <lt>-122.520</lt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Turn onto final (heading 120), and line up with the runway.</instruction>
+      <exit>
+        <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <lt>140</lt>
+        </check>
+        <check>
+          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
+          <gt>100</gt>
+        </check>
+        <check>
+          <prop>/position/latitude-deg</prop>
+          <lt>37.545</lt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Set flaps to 30. Control your descent rate using the throttle.</instruction>
+      <exit>
+        <check>
+          <prop>/position/latitude-deg</prop>
+          <lt>37.525</lt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Reduce power to idle. When you are about 10 feet above the ground, smoothly bring the nose up so it is just above the horizon.</instruction>
+      <exit>
+        <check>
+          <prop>/position/altitude-agl-ft</prop>
+          <lt>10.0</lt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Keep tracking straight down the runway using the rudder and let the aircraft land on the main gear.
+</instruction>
+      <exit>
+        <check>
+          <prop>/velocities/airspeed-kt</prop>
+          <lt>45.0</lt>
+        </check>
+      </exit>
+    </step>
+    <step>
+      <instruction>Lower the nose wheel, continue to track down the runway and gently brake to a stop.</instruction>
+      <exit>
+        <check>
+          <prop>/velocities/airspeed-kt</prop>
+          <lt>5.0</lt>
+        </check>
+      </exit>
+    </step>
+    <endtext>Congratulations on successfully following the pattern.
+If you want to practice more landings, you can take off again immediately.
+Don't forget to lift your flaps though! This is known as a Touch and Go.
+</endtext>
+  </tutorial>
+
+  <tutorial>
+    <name>Engine Failure</name>
+    <description>Engine failure is very rare in flight simulators, but a real risk in real life.
+
+
+The tutorial starts with you cruising at 3500ft over the hills of San Francisco. A total engine failure will occur, with no possibility of restart - black smoke, chunks of metal pushed out of the cowling.
+
+Glide the aircraft to the nearest airport and make a successful emergency landing. You must manage your altitude and fly a normal pattern from "abeam the numbers". Don't deploy flaps until you have the runway "made".
+
+The Cessna 172 glides at a ratio of 10:1 at a best glide speed of 90kts IAS. The glide ratio assumes no flaps and a "windmilling" propeller. If you fly any faster or slower, or have flaps deployed, the glide rate will be worse.
+
+Both KSFO (San Francisco International) and KHAF (Half Moon Bay) are within glide distance. In real life, you would opt for the larger of the two airports, but for an extra challenge, try to land at KHAF.
+    </description>
+    <timeofday>evening</timeofday>
+    <presets>
+      <airport-id>KHAF</airport-id>
+      <on-ground>0</on-ground>
+      <runway>30</runway>
+      <altitude-ft>3500</altitude-ft>
+      <latitude-deg>37.5</latitude-deg>
+      <longitude-deg>-122.4</longitude-deg>
+      <heading-deg>010.0</heading-deg>
+      <airspeed-kt>105.0</airspeed-kt>
+      <glideslope-deg>0</glideslope-deg>
+      <offset-azimuth>0</offset-azimuth>
+      <offset-distance>0</offset-distance>
+      <ndb-id>0</ndb-id>
+      <vor-id>0</vor-id>
+      <fix>0</fix>
+    </presets>
+    <init>
+      <set>
+        <prop>/controls/flight/flaps</prop>
+        <val>0.0</val>
+      </set>
+      <set>
+        <prop>/controls/engines/engine/magnetos</prop>
+        <val>3</val>
+      </set>
+      <set>
+        <prop>/controls/engines/engine/throttle</prop>
+        <val>0.5</val>
+      </set>
+      <set>
+        <prop>/engines/engine/running</prop>
+        <val>true</val>
+      </set>
+      <set>
+        <prop>/instrumentation/adf/frequencies/selected-khz</prop>
+        <val>340</val>
+      </set>
+      <set>
+        <prop>/environment/weather-scenario</prop>
+        <val>Fair weather</val>
+      </set>
+    </init>
+    <step>
+      <instruction>We're happily cruising along, enjoying an evenings flight.</instruction>
+    </step>
+    <step>
+      <instruction>Engine failure! Engine failure! Trim for a best glide speed of 90 knots.</instruction>
+      <set>
+        <prop>/controls/engines/engine/faults/left-magneto-serviceable</prop>
+        <val>false</val>
+      </set>
+      <set>
+        <prop>/controls/engines/engine/faults/right-magneto-serviceable</prop>
+        <val>false</val>
+      </set>
+      <set>
+        <prop>/controls/engines/engine/faults/spark-plugs-serviceable</prop>
+        <val>false</val>
+      </set>
+      <set>
+        <prop>/controls/engines/engine/magnetos</prop>
+        <val>0</val>
+      </set>
+    </step>
+    <step>
+      <instruction>Now look around and choose an airport, or emergency landing site. Stay at 90 knots.</instruction>
+      <set>
+        <prop>/engines/engine/running</prop>
+        <val>false</val>
+      </set>
+      <error>
+        <check>
+          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
+          <lt>88</lt>
+           <msg>You are too slow. You need to fly at 90 knots IAS for maximum glide.</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
+          <gt>92</gt>
+           <msg>You are too fast. You need to fly at 90 knots IAS for maximum glide.</msg>
+        </check>
+        <check>
+          <prop>/controls/engines/engine/magnetos</prop>
+          <gt>0</gt>
+           <msg>Engine failure is currently simulated by switching off the magnetos. Please switch them off again to continue the tutorial.</msg>
+        </check>
+      </error>
+    </step>
+    <step>
+      <instruction>Start maneuvering towards your chosen emergency landing spot, keeping your speed at 90 knots IAS.</instruction>
+      <set>
+        <prop>/engines/engine/running</prop>
+        <val>false</val>
+      </set>
+      <error>
+        <check>
+          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
+          <lt>88</lt>
+           <msg>You are too slow. You need to fly at 90 knots IAS for maximum glide.</msg>
+        </check>
+        <check>
+          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
+          <gt>92</gt>
+           <msg>You are too fast. You need to fly at 90 knots IAS for maximum glide.</msg>
+        </check>
+        <check>
+          <prop>/controls/engines/engine/magnetos</prop>
+          <gt>0</gt>
+           <msg>Engine failure is currently simulated by switching off the magnetos. Please switch them off again to continue the tutorial.</msg>
+        </check>
+      </error>
+    </step>
+    <step>
+      <instruction>At this point we would radio an emergency/mayday. Remember - Aviate, Navigate, Communicate - in that order.</instruction>
+      <set>
+        <prop>/engines/engine/running</prop>
+        <val>false</val>
+      </set>
+      <error>
+        <check>
+          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
+          <lt>88</lt>
+           <msg>You are too slow. You need to fly at 90 knots IAS for maximum glide.</msg>
+
+        </check>
+        <check>
+          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
+          <gt>92</gt>
+           <msg>You are too fast. You need to fly at 90 knots IAS for maximum glide.</msg>
+        </check>
+        <check>
+          <prop>/controls/engines/engine/magnetos</prop>
+          <gt>0</gt>
+           <msg>Engine failure is currently simulated by switching off the magnetos. Please switch them off again to continue the tutorial.</msg>
+        </check>
+      </error>
+    </step>
+    <step>
+      <instruction>Continue flying towards your emergency landing spot. If we had the spare capacity, we might attempt to restart the engine at this point.</instruction>
+      <error>
+        <check>
+          <prop>/controls/engines/engine/magnetos</prop>
+          <gt>0</gt>
+           <msg>Engine failure is currently simulated by switching off the magnetos. Please switch them off again to continue the tutorial.</msg>
+        </check>
+      </error>
+    </step>
+    <step>
+      <instruction>Stay a 90 knots for maximum glide. Only use flaps once the runway is "made".</instruction>
+      <error>
+        <check>
+          <prop>/controls/engines/engine/magnetos</prop>
+          <gt>0</gt>
+           <msg>Engine failure is currently simulated by switching off the magnetos. Please switch them off again to continue the tutorial.</msg>
+        </check>
+      </error>
+      <exit>
+        <check>
+          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
+          <lt>10</lt>
+        </check>
+      </exit>
+    </step>
+    <endtext>Assuming the aircraft is upright and you landed on a runway, you walked away from a total engine failure - well done!</endtext>
+  </tutorial>
+</PropertyList>

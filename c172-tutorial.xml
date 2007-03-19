@@ -21,150 +21,204 @@ Take-off and climb out at 600fpm (about 70 kts), continuing on the runway headin
       <offset-azimuth>0</offset-azimuth>
       <offset-distance>0</offset-distance>
     </presets>
+
     <init>
       <set>
-        <prop>/controls/gear/brake-parking</prop>
-        <val>1</val>
+        <property>/controls/gear/brake-parking</property>
+        <value>1</value>
       </set>
       <set>
-        <prop>/controls/flight/flaps</prop>
-        <val>0.0</val>
+        <property>/controls/flight/flaps</property>
+        <value>0.0</value>
       </set>
       <set>
-        <prop>/controls/engines/engine/magnetos</prop>
-        <val>3</val>
+        <property>/controls/engines/engine/magnetos</property>
+        <value>3</value>
       </set>
       <set>
-        <prop>/controls/engines/engine/throttle</prop>
-        <val>0.5</val>
+        <property>/controls/engines/engine/throttle</property>
+        <value>0.5</value>
       </set>
       <set>
-        <prop>/engines/engine/running</prop>
-        <val>true</val>
+        <property>/engines/engine/running</property>
+        <value>true</value>
       </set>
       <set>
-        <prop>/instrumentation/adf/frequencies/selected-khz</prop>
-        <val>340</val>
+        <property>/instrumentation/adf/frequencies/selected-khz</property>
+        <value>340</value>
       </set>
       <set>
-        <prop>/environment/weather-scenario</prop>
-        <val>Fair weather</val>
+        <property>/environment/weather-scenario</property>
+        <value>Fair weather</value>
       </set>
       <set>
-        <prop>/controls/flight/elevator-trim</prop>
-        <val>0.17</val>
+        <property>/controls/flight/elevator-trim</property>
+        <value>0.17</value>
       </set>
     </init>
+
     <step>
       <instruction>Release the parking brakes, smoothly apply full power and start your take-off.</instruction>
       <error>
-        <check>
-          <prop>/controls/engines/engine/throttle</prop>
-          <lt>0.95</lt>
-          <msg>Apply full throttle for take-off.</msg>
-        </check>
-        <check>
-          <prop>/controls/gear/brake-parking</prop>
-          <eq>1</eq>
-          <msg>Release the parking brake using Shift B</msg>
-        </check>
+        <message>Apply full throttle for take-off.</message>
+        <condition>
+          <less-than>
+            <property>/controls/engines/engine/throttle</property>
+            <value>0.95</value>
+          </less-than>
+        </condition>
+      </error>
+      <error>
+        <message>Release the parking brake using Shift B</message>
+        <condition>
+          <equals>
+            <property>/controls/gear/brake-parking</property>
+            <value>1</value>
+          </equals>
+        </condition>
       </error>
       <exit>
-        <check>
-          <prop>/velocities/airspeed-kt</prop>
-          <gt>5.0</gt>
-        </check>
+        <condition>
+          <greater-than>
+            <property>/velocities/airspeed-kt</property>
+            <value>5.0</value>
+          </greater-than>
+        </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Stay on the center-line of the runway using the rudder.</instruction>
       <exit>
-        <check>
-          <prop>/velocities/airspeed-kt</prop>
-          <gt>45.0</gt>
-        </check>
+        <condition>
+          <greater-than>
+            <property>/velocities/airspeed-kt</property>
+            <value>45.0</value>
+          </greater-than>
+        </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Rotate at 65 knots and climb straight out on heading 120 at 600 feet per minute.</instruction>
       <exit>
-         <check>
-          <prop>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
-          <gt>300</gt>
-        </check>
+         <condition>
+          <greater-than>
+            <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+            <value>300</value>
+          </greater-than>
+        </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Continue your climb on heading 120 at 600 feet per minute to 1000 feet.</instruction>
       <error>
-        <check>
-          <prop>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
-          <lt>400</lt>
-          <msg>Your climb angle is too shallow - raise the nose slightly to increase your climb rate.</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
-          <gt>900</gt>
-          <msg>Your climb angle is too great - lower the nose slightly to decrease your climb rate.</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <lt>110</lt>
-          <msg>You are heading too far left, Turn right slightly to heading 120.</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <gt>130</gt>
-          <msg>You are heading too far right, Turn left slightly to heading 120.</msg>
-        </check>
-        <check>
-          <prop>/velocities/airspeed-kt</prop>
-          <lt>69.0</lt>
-          <msg>You are in danger of being "behind the power curve". Drop the nose to speed up to 70 knots.</msg>
-        </check>
+        <message>Your climb angle is too shallow - raise the nose slightly to increase your climb rate.</message>
+        <condition>
+          <less-than>
+            <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+            <value>400</value>
+          </less-than>
+        </condition>
+      </error>
+      <error>
+        <message>Your climb angle is too great - lower the nose slightly to decrease your climb rate.</message>
+        <condition>
+          <greater-than>
+            <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+            <value>900</value>
+          </greater-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are heading too far left, Turn right slightly to heading 120.</message>
+        <condition>
+          <less-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>110</value>
+          </less-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are heading too far right, Turn left slightly to heading 120.</message>
+        <condition>
+          <greater-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>130</value>
+          </greater-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are in danger of being "behind the power curve". Drop the nose to speed up to 70 knots.</message>
+        <condition>
+          <less-than>
+            <property>/velocities/airspeed-kt</property>
+            <value>69.0</value>
+          </less-than>
+        </condition>
       </error>
       <exit>
-       <check>
-         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
-         <gt>1000</gt>
-       </check>
+       <condition>
+         <greater-than>
+           <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+           <value>1000</value>
+         </greater-than>
+       </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Level off at between 1000 and 1100 feet.</instruction>
       <error>
-        <check>
-          <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
-          <lt>1000</lt>
-          <msg>You are too low</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
-          <gt>1100</gt>
-          <msg>You are too high</msg>
-        </check>
+        <message>You are too low</message>
+        <condition>
+          <less-than>
+            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+            <value>1000</value>
+          </less-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are too high</message>
+        <condition>
+          <greater-than>
+            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+            <value>1100</value>
+          </greater-than>
+        </condition>
       </error>
       <exit>
-       <check>
-         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
-         <gt>1000</gt>
-       </check>
-       <check>
-         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
-         <lt>1100</lt>
-       </check>
-        <check>
-          <prop>instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
-          <lt>150</lt>
-        </check>
-        <check>
-          <prop>instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
-          <gt>-150</gt>
-        </check>
+        <condition>
+          <and>
+            <greater-than>
+              <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+              <value>1000</value>
+            </greater-than>
+            <less-than>
+              <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+              <value>1100</value>
+            </less-than>
+            <less-than>
+              <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+              <value>150</value>
+            </less-than>
+            <greater-than>
+              <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+              <value>-150</value>
+            </greater-than>
+          </and>
+        </condition>
       </exit>
     </step>
-    <endtext>Congratulations, you've successfully taken off. Now try landing!</endtext>
+
+    <end>
+      <message>Congratulations, you've successfully taken off. Now try landing!</message>
+    </end>
   </tutorial>
+
+
+
   <tutorial>
     <name>Straight-in Landing</name>
     <description>Landings are not optional...
@@ -194,112 +248,140 @@ You start the tutorial cruising at around 1000ft and 90kts. To begin your descen
       <vor-id>0</vor-id>
       <fix>0</fix>
     </presets>
+
     <init>
       <set>
-        <prop>/controls/flight/flaps</prop>
-        <val>0.0</val>
+        <property>/controls/flight/flaps</property>
+        <value>0.0</value>
       </set>
       <set>
-        <prop>/controls/engines/engine/magnetos</prop>
-        <val>3</val>
+        <property>/controls/engines/engine/magnetos</property>
+        <value>3</value>
       </set>
       <set>
-        <prop>/controls/engines/engine/throttle</prop>
-        <val>0.5</val>
+        <property>/controls/engines/engine/throttle</property>
+        <value>0.5</value>
       </set>
       <set>
-        <prop>/engines/engine/running</prop>
-        <val>true</val>
+        <property>/engines/engine/running</property>
+        <value>true</value>
       </set>
       <set>
-        <prop>/instrumentation/adf/frequencies/selected-khz</prop>
-        <val>340</val>
+        <property>/instrumentation/adf/frequencies/selected-khz</property>
+        <value>340</value>
       </set>
       <set>
-        <prop>/environment/weather-scenario</prop>
-        <val>Fair weather</val>
+        <property>/environment/weather-scenario</property>
+        <value>Fair weather</value>
       </set>
     </init>
+
     <step>
       <instruction>Reduce throttle to 50%. Apply one degree of flaps.
-Start your descent, staying lined up with the runway a hands-width above the glare-shield.
-You are aiming to descend at around 500 feet per minute and 80 knots.
+                   Start your descent, staying lined up with the runway a hands-width above the glare-shield.
+                   You are aiming to descend at around 500 feet per minute and 80 knots.
       </instruction>
       <error>
-        <check>
-          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
-          <gt>80.0</gt>
-          <msg>You are going too fast. Reduce power and pitch up to reduce your airspeed to 80 knots.</msg>
-        </check>
-        <check>
-          <prop>/controls/engines/engine/throttle</prop>
-          <gt>0.5</gt>
-          <msg>Reduce throttle to 50%</msg>
-        </check>
+        <message>You are going too fast. Reduce power and pitch up to reduce your airspeed to 80 knots.</message>
+        <condition>
+          <greater-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>80.0</value>
+          </greater-than>
+        </condition>
+      </error>
+      <error>
+        <message>Reduce throttle to 50%</message>
+        <condition>
+          <greater-than>
+            <property>/controls/engines/engine/throttle</property>
+            <value>0.5</value>
+          </greater-than>
+        </condition>
       </error>
       <exit>
-        <check>
-          <prop>/position/latitude-deg</prop>
-          <gt>37.48</gt>
-        </check>
-      </exit>
-    </step>
-    <step>
-      <instruction>Let down the second step of flaps and use the VASI to check your descent rate.
-White - too high. Red - too low, Red and white - just right.
-Use throttle to control your descent rate rather than attitude.
-     </instruction>
-      <exit>
-        <check>
-          <prop>/position/latitude-deg</prop>
-          <gt>37.495</gt>
-        </check>
-      </exit>
-    </step>
-    <step>
-      <instruction>Let down your final set of flaps and continue to follow the VASI glideslope. 
-Stay lined up with the middle of the runway.
-      </instruction>
-      <exit>
-        <check>
-          <prop>/position/latitude-deg</prop>
-          <gt>37.506</gt>
-        </check>
+        <condition>
+          <greater-than>
+            <property>/position/latitude-deg</property>
+            <value>37.48</value>
+          </greater-than>
+        </condition>
       </exit>
     </step>
 
     <step>
-      <instruction>Reduce power to idle. When you are about 10 feet above the ground, 
-      smoothly bring the nose up so it is level with the horizon.
+      <instruction>Let down the second step of flaps and use the VASI to check your descent rate.
+                   White - too high. Red - too low, Red and white - just right.
+                   Use throttle to control your descent rate rather than attitude.
+     </instruction>
+      <exit>
+        <condition>
+          <greater-than>
+            <property>/position/latitude-deg</property>
+            <value>37.495</value>
+          </greater-than>
+        </condition>
+      </exit>
+    </step>
+
+    <step>
+      <instruction>Let down your final set of flaps and continue to follow the VASI glideslope.
+                   Stay lined up with the middle of the runway.
       </instruction>
       <exit>
-        <check>
-          <prop>/position/altitude-agl-ft</prop>
-          <lt>7.0</lt>
-        </check>
+        <condition>
+          <greater-than>
+            <property>/position/latitude-deg</property>
+            <value>37.506</value>
+          </greater-than>
+        </condition>
       </exit>
     </step>
+
     <step>
-      <instruction>Keep tracking straight down the runway and let the aircraft land on the main gear.
-    </instruction>
+      <instruction>Reduce power to idle. When you are about 10 feet above the ground,
+                   smoothly bring the nose up so it is level with the horizon.
+      </instruction>
       <exit>
-        <check>
-          <prop>/velocities/airspeed-kt</prop>
-          <lt>45.0</lt>
-        </check>
+        <condition>
+          <less-than>
+            <property>/position/altitude-agl-ft</property>
+            <value>7.0</value>
+          </less-than>
+        </condition>
       </exit>
     </step>
+
+    <step>
+      <instruction>Keep tracking straight down the runway and let the aircraft land on the main gear.</instruction>
+      <exit>
+        <condition>
+          <less-than>
+            <property>/velocities/airspeed-kt</property>
+            <value>45.0</value>
+          </less-than>
+        </condition>
+      </exit>
+    </step>
+
     <step>
       <instruction>Lower the nose wheel, continue to track down the runway and gently brake to a stop.</instruction>
       <exit>
-        <check>
-          <prop>/velocities/airspeed-kt</prop>
-          <lt>5.0</lt>
-        </check>
+        <condition>
+          <less-than>
+            <property>/velocities/airspeed-kt</property>
+            <value>5.0</value>
+          </less-than>
+        </condition>
       </exit>
     </step>
-    <endtext>Congratulations on a successful landing.</endtext>
+
+    <end>
+      <message>Congratulations on a successful landing.</message>
+    </end>
   </tutorial>
+
+
 
   <tutorial>
   <name>Flying the Pattern</name>
@@ -336,293 +418,395 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
       <offset-azimuth>0</offset-azimuth>
       <offset-distance>0</offset-distance>
     </presets>
+
     <init>
       <set>
-        <prop>/controls/flight/flaps</prop>
-        <val>0.0</val>
+        <property>/controls/flight/flaps</property>
+        <value>0.0</value>
       </set>
       <set>
-        <prop>/controls/gear/brake-parking</prop>
-        <val>1</val>
+        <property>/controls/gear/brake-parking</property>
+        <value>1</value>
       </set>
       <set>
-        <prop>/controls/engines/engine/magnetos</prop>
-        <val>3</val>
+        <property>/controls/engines/engine/magnetos</property>
+        <value>3</value>
       </set>
       <set>
-        <prop>/controls/engines/engine/throttle</prop>
-        <val>0.5</val>
+        <property>/controls/engines/engine/throttle</property>
+        <value>0.5</value>
       </set>
       <set>
-        <prop>/engines/engine/running</prop>
-        <val>true</val>
+        <property>/engines/engine/running</property>
+        <value>true</value>
       </set>
       <set>
-        <prop>/instrumentation/adf/frequencies/selected-khz</prop>
-        <val>340</val>
+        <property>/instrumentation/adf/frequencies/selected-khz</property>
+        <value>340</value>
       </set>
       <set>
-        <prop>/environment/weather-scenario</prop>
-        <val>Fair weather</val>
+        <property>/environment/weather-scenario</property>
+        <value>Fair weather</value>
       </set>
       <set>
-        <prop>/controls/flight/elevator-trim</prop>
-        <val>0.17</val>
+        <property>/controls/flight/elevator-trim</property>
+        <value>0.17</value>
       </set>
     </init>
+
     <step>
       <instruction>Release the parking brakes, smoothly apply full power and start your take-off.</instruction>
       <error>
-        <check>
-          <prop>/controls/engines/engine/throttle</prop>
-          <lt>0.95</lt>
-          <msg>Apply full throttle for take-off</msg>
-        </check>
-        <check>
-          <prop>/controls/gear/brake-parking</prop>
-          <eq>1</eq>
-          <msg>Release the parking brake using Shift B</msg>
-        </check>
+        <message>Apply full throttle for take-off</message>
+        <condition>
+          <less-than>
+            <property>/controls/engines/engine/throttle</property>
+            <value>0.95</value>
+          </less-than>
+        </condition>
+      </error>
+      <error>
+        <message>Release the parking brake using Shift B</message>
+        <condition>
+          <equals>
+            <property>/controls/gear/brake-parking</property>
+            <value>1</value>
+          </equals>
+        </condition>
       </error>
       <exit>
-        <check>
-          <prop>/velocities/airspeed-kt</prop>
-          <gt>5.0</gt>
-        </check>
+        <condition>
+          <greater-than>
+            <property>/velocities/airspeed-kt</property>
+            <value>5.0</value>
+          </greater-than>
+        </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Stay on the center-line of the runway using the rudder.</instruction>
       <exit>
-        <check>
-          <prop>/velocities/airspeed-kt</prop>
-          <gt>45.0</gt>
-        </check>
+        <condition>
+          <greater-than>
+            <property>/velocities/airspeed-kt</property>
+            <value>45.0</value>
+          </greater-than>
+        </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Take-off at 65 knots and climb straight out on heading 120 at 600 feet per minute (about 70 knots).</instruction>
       <exit>
-         <check>
-          <prop>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
-          <gt>300</gt>
-        </check>
+         <condition>
+          <greater-than>
+            <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+            <value>300</value>
+          </greater-than>
+        </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Continue your climb on heading 120 at 600 feet per minute to 500 feet.</instruction>
       <error>
-        <check>
-          <prop>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
-          <lt>400</lt>
-          <msg>Your climb angle is too shallow - raise the nose slightly to increase your climb rate.</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</prop>
-          <gt>900</gt>
-          <msg>Your climb angle is too great - lower the nose slightly to decrease your climb rate.</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <lt>110</lt>
-          <msg>You are heading too far left, Turn right slightly to heading 120.</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <gt>130</gt>
-          <msg>You are heading too far right, Turn left slightly to heading 120.</msg>
-        </check>
-        <check>
-          <prop>/velocities/airspeed-kt</prop>
-          <lt>69</lt>
-          <msg>You are in danger of being "behind the power curve". Drop the nose to speed up to 70 knots.</msg>
-        </check>
+        <message>Your climb angle is too shallow - raise the nose slightly to increase your climb rate.</message>
+        <condition>
+          <less-than>
+            <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+            <value>400</value>
+          </less-than>
+        </condition>
+      </error>
+      <error>
+        <message>Your climb angle is too great - lower the nose slightly to decrease your climb rate.</message>
+        <condition>
+          <greater-than>
+            <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+            <value>900</value>
+          </greater-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are heading too far left, Turn right slightly to heading 120.</message>
+        <condition>
+          <less-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>110</value>
+          </less-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are heading too far right, Turn left slightly to heading 120.</message>
+        <condition>
+          <greater-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>130</value>
+          </greater-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are in danger of being "behind the power curve". Drop the nose to speed up to 70 knots.</message>
+        <condition>
+          <less-than>
+            <property>/velocities/airspeed-kt</property>
+            <value>69</value>
+          </less-than>
+        </condition>
       </error>
       <exit>
-       <check>
-         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
-         <gt>500</gt>
-       </check>
+       <condition>
+         <greater-than>
+           <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+           <value>500</value>
+         </greater-than>
+       </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Make a left turn to crosswind (heading 030) and continue climbing to 1000 feet.</instruction>
-      <error>
-      </error>
       <exit>
-       <check>
-         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
-         <gt>900</gt>
-       </check>
-       <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <gt>020</gt>
-        </check>
-       <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <lt>040</lt>
-        </check>
+        <condition>
+          <and>
+            <greater-than>
+              <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+              <value>900</value>
+            </greater-than>
+            <greater-than>
+              <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+              <value>020</value>
+            </greater-than>
+            <less-than>
+              <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+              <value>040</value>
+            </less-than>
+          </and>
+        </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Level off at 1000 feet and make another left turn to downwind (heading 300).</instruction>
-      <error>
-      </error>
       <exit>
-       <check>
-         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
-         <gt>950</gt>
-       </check>
-       <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <gt>290</gt>
-       </check>
-       <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <lt>310</lt>
-       </check>
+        <condition>
+          <and>
+            <greater-than>
+              <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+              <value>950</value>
+            </greater-than>
+            <greater-than>
+              <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+              <value>290</value>
+            </greater-than>
+            <less-than>
+              <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+              <value>310</value>
+            </less-than>
+          </and>
+        </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Reduce power to 60%, and trim for level flight. Continue flying parallel to the runway.</instruction>
       <error>
-        <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <lt>290</lt>
-          <msg>You are heading too far left, Turn right slightly to heading 300.</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <gt>310</gt>
-          <msg>You are heading too far right, Turn left slightly to heading 300.</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
-          <gt>1100</gt>
-           <msg>You are too high. Pattern altitude is 1000 feet.</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
-          <lt>900</lt>
-           <msg>You are too low. Pattern altitude is 1000 feet.</msg>
-        </check>
+        <message>You are heading too far left, Turn right slightly to heading 300.</message>
+        <condition>
+          <less-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>290</value>
+          </less-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are heading too far right, Turn left slightly to heading 300.</message>
+        <condition>
+          <greater-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>310</value>
+          </greater-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are too high. Pattern altitude is 1000 feet.</message>
+        <condition>
+          <greater-than>
+            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+            <value>1100</value>
+          </greater-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are too low. Pattern altitude is 1000 feet.</message>
+        <condition>
+          <less-than>
+            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+            <value>900</value>
+          </less-than>
+        </condition>
       </error>
       <exit>
-       <check>
-          <prop>/position/latitude-deg</prop>
-          <gt>37.528</gt>
-       </check>
+        <condition>
+          <greater-than>
+            <property>/position/latitude-deg</property>
+            <value>37.528</value>
+          </greater-than>
+        </condition>
       </exit>
     </step>
+
     <step>
       <instruction>You are now opposite the end of the runway. Reduce power to 50%, set flaps to 10.</instruction>
       <exit>
-       <check>
-        <prop>/controls/flight/flaps</prop>
-        <gt>0.3</gt>
-       </check>
-       <check>
-        <prop>/controls/engines/engine/throttle</prop>
-        <lt>0.55</lt>
-       </check>
+        <condition>
+          <and>
+            <greater-than>
+              <property>/controls/flight/flaps</property>
+              <value>0.3</value>
+            </greater-than>
+            <less-than>
+              <property>/controls/engines/engine/throttle</property>
+              <value>0.55</value>
+            </less-than>
+          </and>
+        </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Let the aircraft descend and slow. Continue flying a heading of 300.</instruction>
       <error>
-        <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <lt>290</lt>
-          <msg>You are heading too far left, Turn right slightly to heading 300.</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <gt>310</gt>
-          <msg>You are heading too far right, Turn left slightly to heading 300.</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
-          <gt>1100</gt>
-           <msg>You are too high. You should be descending to around 850 feet.</msg>
-        </check>
+        <message>You are heading too far left, Turn right slightly to heading 300.</message>
+        <condition>
+          <less-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>290</value>
+          </less-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are heading too far right, Turn left slightly to heading 300.</message>
+        <condition>
+          <greater-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>310</value>
+          </greater-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are too high. You should be descending to around 850 feet.</message>
+        <condition>
+          <greater-than>
+            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+            <value>1100</value>
+          </greater-than>
+        </condition>
       </error>
       <exit>
-       <check>
-         <prop>/instrumentation/altimeter/indicated-altitude-ft</prop>
-         <lt>900</lt>
-       </check>
+       <condition>
+         <less-than>
+           <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+           <value>900</value>
+         </less-than>
+       </condition>
       </exit>
     </step>
+
     <step>
-      <instruction>Turn left to base (heading 210), and set flaps to 20. 
-      Continue to descend at around 500 feet per minute.</instruction>
+      <instruction>Turn left to base (heading 210), and set flaps to 20.
+                   Continue to descend at around 500 feet per minute.</instruction>
       <exit>
-        <check>
-          <prop>/position/longitude-deg</prop>
-          <lt>-122.520</lt>
-        </check>
+        <condition>
+          <less-than>
+            <property>/position/longitude-deg</property>
+            <value>-122.520</value>
+          </less-than>
+        </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Turn onto final (heading 120), and line up with the runway.</instruction>
       <exit>
-        <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <lt>140</lt>
-        </check>
-        <check>
-          <prop>/instrumentation/heading-indicator/indicated-heading-deg</prop>
-          <gt>100</gt>
-        </check>
-        <check>
-          <prop>/position/latitude-deg</prop>
-          <lt>37.545</lt>
-        </check>
+        <condition>
+          <and>
+            <less-than>
+              <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+              <value>140</value>
+            </less-than>
+            <greater-than>
+              <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+              <value>100</value>
+            </greater-than>
+            <less-than>
+              <property>/position/latitude-deg</property>
+              <value>37.545</value>
+            </less-than>
+          </and>
+        </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Set flaps to 30. Control your descent rate using the throttle.</instruction>
       <exit>
-        <check>
-          <prop>/position/latitude-deg</prop>
-          <lt>37.525</lt>
-        </check>
+        <condition>
+          <less-than>
+            <property>/position/latitude-deg</property>
+            <value>37.525</value>
+          </less-than>
+        </condition>
       </exit>
     </step>
+
     <step>
-      <instruction>Reduce power to idle. When you are about 10 feet above the ground, 
-      smoothly bring the nose up so it is just above the horizon.</instruction>
+      <instruction>Reduce power to idle. When you are about 10 feet above the ground,
+                   smoothly bring the nose up so it is just above the horizon.</instruction>
       <exit>
-        <check>
-          <prop>/position/altitude-agl-ft</prop>
-          <lt>10.0</lt>
-        </check>
+        <condition>
+          <less-than>
+            <property>/position/altitude-agl-ft</property>
+            <value>10.0</value>
+          </less-than>
+        </condition>
       </exit>
     </step>
+
     <step>
-      <instruction>Keep tracking straight down the runway using the rudder and let the aircraft land on the main gear.
-</instruction>
+      <instruction>Keep tracking straight down the runway using the rudder
+                   and let the aircraft land on the main gear.</instruction>
       <exit>
-        <check>
-          <prop>/velocities/airspeed-kt</prop>
-          <lt>45.0</lt>
-        </check>
+        <condition>
+          <less-than>
+            <property>/velocities/airspeed-kt</property>
+            <value>45.0</value>
+          </less-than>
+        </condition>
       </exit>
     </step>
+
     <step>
       <instruction>Lower the nose wheel, continue to track down the runway and gently brake to a stop.</instruction>
       <exit>
-        <check>
-          <prop>/velocities/airspeed-kt</prop>
-          <lt>5.0</lt>
-        </check>
+        <condition>
+          <less-than>
+            <property>/velocities/airspeed-kt</property>
+            <value>5.0</value>
+          </less-than>
+        </condition>
       </exit>
     </step>
-    <endtext>Congratulations on successfully following the pattern.
-If you want to practice more landings, you can take off again immediately.
-Don't forget to lift your flaps though! This is known as a Touch and Go.
-</endtext>
+
+    <end>
+      <message>Congratulations on successfully following the pattern.
+               If you want to practice more landings, you can take off again immediately.
+               Don't forget to lift your flaps though! This is known as a Touch and Go.
+      </message>
+    </end>
   </tutorial>
+
 
   <tutorial>
     <name>Engine Failure</name>
@@ -654,162 +838,206 @@ Both KSFO (San Francisco International) and KHAF (Half Moon Bay) are within glid
       <vor-id>0</vor-id>
       <fix>0</fix>
     </presets>
+
     <init>
       <set>
-        <prop>/controls/flight/flaps</prop>
-        <val>0.0</val>
+        <property>/controls/flight/flaps</property>
+        <value>0.0</value>
       </set>
       <set>
-        <prop>/controls/engines/engine/magnetos</prop>
-        <val>3</val>
+        <property>/controls/engines/engine/magnetos</property>
+        <value>3</value>
       </set>
       <set>
-        <prop>/controls/engines/engine/throttle</prop>
-        <val>0.5</val>
+        <property>/controls/engines/engine/throttle</property>
+        <value>0.5</value>
       </set>
       <set>
-        <prop>/engines/engine/running</prop>
-        <val>true</val>
+        <property>/engines/engine/running</property>
+        <value>true</value>
       </set>
       <set>
-        <prop>/instrumentation/adf/frequencies/selected-khz</prop>
-        <val>340</val>
+        <property>/instrumentation/adf/frequencies/selected-khz</property>
+        <value>340</value>
       </set>
       <set>
-        <prop>/environment/weather-scenario</prop>
-        <val>Fair weather</val>
+        <property>/environment/weather-scenario</property>
+        <value>Fair weather</value>
       </set>
     </init>
+
     <step>
       <instruction>We're happily cruising along, enjoying an evenings flight.</instruction>
     </step>
+
     <step>
       <instruction>Engine failure! Engine failure! Trim for a best glide speed of 90 knots.</instruction>
       <set>
-        <prop>/controls/engines/engine/faults/left-magneto-serviceable</prop>
-        <val>false</val>
+        <property>/controls/engines/engine/faults/left-magneto-serviceable</property>
+        <value>false</value>
       </set>
       <set>
-        <prop>/controls/engines/engine/faults/right-magneto-serviceable</prop>
-        <val>false</val>
+        <property>/controls/engines/engine/faults/right-magneto-serviceable</property>
+        <value>false</value>
       </set>
       <set>
-        <prop>/controls/engines/engine/faults/spark-plugs-serviceable</prop>
-        <val>false</val>
+        <property>/controls/engines/engine/faults/spark-plugs-serviceable</property>
+        <value>false</value>
       </set>
       <set>
-        <prop>/controls/engines/engine/magnetos</prop>
-        <val>0</val>
+        <property>/controls/engines/engine/magnetos</property>
+        <value>0</value>
       </set>
     </step>
+
     <step>
       <instruction>Now look around and choose an airport, or emergency landing site. Stay at 90 knots.</instruction>
       <set>
-        <prop>/engines/engine/running</prop>
-        <val>false</val>
+        <property>/engines/engine/running</property>
+        <value>false</value>
       </set>
       <error>
-        <check>
-          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
-          <lt>88</lt>
-           <msg>You are too slow. You need to fly at 90 knots IAS for maximum glide.</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
-          <gt>92</gt>
-           <msg>You are too fast. You need to fly at 90 knots IAS for maximum glide.</msg>
-        </check>
-        <check>
-          <prop>/controls/engines/engine/magnetos</prop>
-          <gt>0</gt>
-           <msg>Engine failure is currently simulated by switching off the magnetos. 
-           Please switch them off again to continue the tutorial.</msg>
-        </check>
+        <message>You are too slow. You need to fly at 90 knots IAS for maximum glide.</message>
+        <condition>
+          <less-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>88</value>
+          </less-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are too fast. You need to fly at 90 knots IAS for maximum glide.</message>
+        <condition>
+          <greater-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>92</value>
+          </greater-than>
+        </condition>
+      </error>
+      <error>
+        <message>Engine failure is currently simulated by switching off the magnetos.
+                 Please switch them off again to continue the tutorial.</message>
+        <condition>
+          <property>/controls/engines/engine/magnetos</property>
+          <greater-than><value>0</value></greater-than>
+        </condition>
       </error>
     </step>
-    <step>
-      <instruction>Start maneuvering towards your chosen emergency landing spot, 
-      keeping your speed at 90 knots IAS.</instruction>
-      <set>
-        <prop>/engines/engine/running</prop>
-        <val>false</val>
-      </set>
-      <error>
-        <check>
-          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
-          <lt>88</lt>
-           <msg>You are too slow. You need to fly at 90 knots IAS for maximum glide.</msg>
-        </check>
-        <check>
-          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
-          <gt>92</gt>
-           <msg>You are too fast. You need to fly at 90 knots IAS for maximum glide.</msg>
-        </check>
-        <check>
-          <prop>/controls/engines/engine/magnetos</prop>
-          <gt>0</gt>
-           <msg>Engine failure is currently simulated by switching off the magnetos. 
-           Please switch them off again to continue the tutorial.</msg>
-        </check>
-      </error>
-    </step>
-    <step>
-      <instruction>At this point we would radio an emergency/mayday. 
-      Remember - Aviate, Navigate, Communicate - in that order.</instruction>
-      <set>
-        <prop>/engines/engine/running</prop>
-        <val>false</val>
-      </set>
-      <error>
-        <check>
-          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
-          <lt>88</lt>
-           <msg>You are too slow. You need to fly at 90 knots IAS for maximum glide.</msg>
 
-        </check>
-        <check>
-          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
-          <gt>92</gt>
-           <msg>You are too fast. You need to fly at 90 knots IAS for maximum glide.</msg>
-        </check>
-        <check>
-          <prop>/controls/engines/engine/magnetos</prop>
-          <gt>0</gt>
-           <msg>Engine failure is currently simulated by switching off the magnetos. 
-           Please switch them off again to continue the tutorial.</msg>
-        </check>
-      </error>
-    </step>
     <step>
-      <instruction>Continue flying towards your emergency landing spot. 
-      If we had the spare capacity, we might attempt to restart the engine at this point.</instruction>
+      <instruction>Start maneuvering towards your chosen emergency landing spot,
+                   keeping your speed at 90 knots IAS.</instruction>
+      <set>
+        <property>/engines/engine/running</property>
+        <value>false</value>
+      </set>
       <error>
-        <check>
-          <prop>/controls/engines/engine/magnetos</prop>
-          <gt>0</gt>
-           <msg>Engine failure is currently simulated by switching off the magnetos. 
-           Please switch them off again to continue the tutorial.</msg>
-        </check>
+        <message>You are too slow. You need to fly at 90 knots IAS for maximum glide.</message>
+        <condition>
+          <less-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>88</value>
+          </less-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are too fast. You need to fly at 90 knots IAS for maximum glide.</message>
+        <condition>
+          <greater-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>92</value>
+          </greater-than>
+        </condition>
+      </error>
+      <error>
+        <message>Engine failure is currently simulated by switching off the magnetos.
+                 Please switch them off again to continue the tutorial.</message>
+        <condition>
+          <greater-than>
+            <property>/controls/engines/engine/magnetos</property>
+            <value>0</value>
+          </greater-than>
+        </condition>
       </error>
     </step>
+
+    <step>
+      <instruction>At this point we would radio an emergency/mayday.
+                   Remember - Aviate, Navigate, Communicate - in that order.</instruction>
+      <set>
+        <property>/engines/engine/running</property>
+        <value>false</value>
+      </set>
+      <error>
+        <message>You are too slow. You need to fly at 90 knots IAS for maximum glide.</message>
+        <condition>
+          <less-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>88</value>
+          </less-than>
+        </condition>
+      </error>
+      <error>
+        <message>You are too fast. You need to fly at 90 knots IAS for maximum glide.</message>
+        <condition>
+          <greater-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>92</value>
+          </greater-than>
+        </condition>
+      </error>
+      <error>
+        <message>Engine failure is currently simulated by switching off the magnetos.
+                 Please switch them off again to continue the tutorial.</message>
+        <condition>
+          <greater-than>
+            <property>/controls/engines/engine/magnetos</property>
+            <value>0</value>
+          </greater-than>
+        </condition>
+      </error>
+    </step>
+
+    <step>
+      <instruction>Continue flying towards your emergency landing spot.
+                   If we had the spare capacity, we might attempt to restart the engine at this point.</instruction>
+      <error>
+        <message>Engine failure is currently simulated by switching off the magnetos.
+                 Please switch them off again to continue the tutorial.</message>
+        <condition>
+          <greater-than>
+            <property>/controls/engines/engine/magnetos</property>
+            <value>0</value>
+          </greater-than>
+        </condition>
+      </error>
+    </step>
+
     <step>
       <instruction>Stay a 90 knots for maximum glide. Only use flaps once the runway is "made".</instruction>
       <error>
-        <check>
-          <prop>/controls/engines/engine/magnetos</prop>
-          <gt>0</gt>
-           <msg>Engine failure is currently simulated by switching off the magnetos. 
-           Please switch them off again to continue the tutorial.</msg>
-        </check>
+        <message>Engine failure is currently simulated by switching off the magnetos.
+                 Please switch them off again to continue the tutorial.</message>
+        <condition>
+          <greater-than>
+            <property>/controls/engines/engine/magnetos</property>
+            <value>0</value>
+          </greater-than>
+        </condition>
       </error>
       <exit>
-        <check>
-          <prop>/instrumentation/airspeed-indicator/indicated-speed-kt</prop>
-          <lt>10</lt>
-        </check>
+        <condition>
+          <less-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>10</value>
+          </less-than>
+        </condition>
       </exit>
     </step>
-    <endtext>Assuming the aircraft is upright and you landed on a runway, 
-    you walked away from a total engine failure - well done!</endtext>
+
+    <end>
+      <message>Assuming the aircraft is upright and you landed on a runway,
+               you walked away from a total engine failure - well done!</message>
+    </end>
   </tutorial>
 </PropertyList>

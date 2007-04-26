@@ -73,7 +73,7 @@ Started October 23 2001 by John Check, fgpanels@rockfish.net
   <tutorials include="c172-tutorial.xml"/>
 
  </sim>
-  
+
  <!-- trim for level cruise -->
 
  <controls>
@@ -89,16 +89,11 @@ Started October 23 2001 by John Check, fgpanels@rockfish.net
  </controls>
 
  <autopilot>
-   <config>
-     <min-climb-speed-kt type="float">70.0</min-climb-speed-kt>
-     <best-climb-speed-kt type="float">75.0</best-climb-speed-kt>
-     <target-climb-rate-fpm type="float">500.0</target-climb-rate-fpm>
-     <target-descent-rate-fpm type="float">1000.0</target-descent-rate-fpm>
-     <elevator-adj-factor type="float">4000.0</elevator-adj-factor>
-     <integral-contribution type="float">0.01</integral-contribution>
-     <zero-pitch-throttle type="float">0.45</zero-pitch-throttle>
-     <zero-pitch-trim-full-throttle type="float">0.14</zero-pitch-trim-full-throttle>
-   </config>
+  <KAP140>
+   <settings>
+    <auto-pitch-trim type="bool">true</auto-pitch-trim>
+   </settings>
+  </KAP140>
  </autopilot>
 
  <consumables>
@@ -122,20 +117,29 @@ Started October 23 2001 by John Check, fgpanels@rockfish.net
    <serviceable type="bool">true</serviceable>
   </encoder>
  </instrumentation>
-  
+
  <engines>
   <engine>
    <rpm type="double">700</rpm>
   </engine>
  </engines>
- 
+
  <nasal>
   <electrical>
    <file>Aircraft/c172/c172-electrical.nas</file>
   </electrical>
   <kap140>
    <file>Aircraft/Generic/kap140.nas</file>
+   <!-- We can set some variables that might be
+        aircraft specific. We must do it after the file
+        to override the ones that are in the .nas file.-->
+   <script><![CDATA[
+                    headingNeedleDeflection = "/instrumentation/nav/heading-needle-deflection";
+                    gsNeedleDeflection = "/instrumentation/nav/gs-needle-deflection";
+                    staticPressure = "systems/static/pressure-inhg";
+    ]]>
+   </script>
   </kap140>
  </nasal>
-  
+
 </PropertyList>

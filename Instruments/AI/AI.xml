@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ <path>AI.ac</path>
+
+ <animation>
+  <type>material</type>
+  <object-name>Aircraft</object-name>
+  <object-name>CagedIndicator</object-name>
+  <object-name>Pitch</object-name>
+  <object-name>Roll</object-name>
+  <object-name>RollReference</object-name>
+  <emission>
+   <red>1.0</red>
+   <green>0.2</green>
+   <blue>0.0</blue>
+   <factor-prop>/controls/lighting/instruments-norm</factor-prop>
+  </emission>
+ </animation>
+
+ <animation>
+  <name>Pitch</name>
+  <type>translate</type>
+  <object-name>Pitch</object-name>
+  <property>/instrumentation/attitude-indicator/indicated-pitch-deg</property>
+  <factor>-0.0007</factor>
+  <min-m>-0.01575</min-m>
+  <max-m>0.01575</max-m>
+  <axis>
+   <x>0.0</x>
+   <y>0.0</y>
+   <z>1.0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>Roll</object-name>
+    <property>/instrumentation/attitude-indicator/indicated-roll-deg</property>
+  <factor>-1</factor>
+  <axis>
+   <x>-1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>Pitch</object-name>
+    <property>/instrumentation/attitude-indicator/indicated-roll-deg</property>
+  <factor>-0.5</factor>
+  <axis>
+   <x>-1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>pick</type>
+  <visible>false</visible>
+  <object-name>AdjustCCW</object-name>
+  <action>
+   <button>0</button>
+   <repeatable>true</repeatable>
+   <binding>
+    <command>property-adjust</command>
+    <property>/instrumentation/attitude-indicator/horizon-offset-deg</property>
+    <step type="double">-0.5</step>
+   </binding>          
+  </action>
+ </animation>
+
+ <animation>
+  <type>pick</type>
+  <visible>false</visible>
+  <object-name>AdjustCW</object-name>
+  <action>
+   <button>0</button>
+   <repeatable>true</repeatable>
+   <binding>
+    <command>property-adjust</command>
+    <property>/instrumentation/attitude-indicator/horizon-offset-deg</property>
+    <step type="double">0.5</step>
+   </binding>          
+  </action>
+ </animation>
+
+ <animation>
+  <type>pick</type>
+  <visible>true</visible>
+  <object-name>CageKnob</object-name>
+  <action>
+   <button>0</button>
+   <repeatable>false</repeatable>
+   <binding>
+    <command>property-toggle</command>
+    <property>/instrumentation/attitude-indicator/caged</property>
+    <value type="bool">true</value>
+   </binding>          
+  </action>
+ </animation>
+
+ <animation>
+  <type>select</type>
+  <object-name>CagedIndicator</object-name>
+  <condition>
+   <property>/instrumentation/attitude-indicator/caged</property>
+  </condition>
+ </animation>
+
+ <animation>
+  <type>translate</type>
+  <object-name>CageKnob</object-name>
+  <property>/instrumentation/attitude-indicator/caged</property>
+  <factor>0.005</factor>
+  <axis>
+   <x>1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+</PropertyList>
+
+

@@ -4,46 +4,237 @@
 
  <path>c172p.ac</path>
 
- <!-- Temporarily use the 2D panel hack, until I have time to make
-      3D instruments -->
+ <nasal>
+        <load>
+            var livery_update = aircraft.livery_update.new(
+	    "Aircraft/c172p/Models/Lveries", 10,
+	    func { print("c172p livery update") });
+        </load>
 
- <panel>
-  <!-- <name>PanelInstruments</name> -->
-  <path>Aircraft/c172p/Models/c172p-2d-panel.xml</path>
-  <bottom-left>
-   <x-m>-0.37</x-m>
-   <y-m>-0.50</y-m>
-   <z-m>-0.10</z-m>
-  </bottom-left>
-  <bottom-right>
-   <x-m>-0.37</x-m>
-   <y-m> 0.50</y-m>
-   <z-m>-0.10</z-m>
-  </bottom-right>
-  <top-left>
-   <x-m>-0.37</x-m>
-   <y-m>-0.50</y-m>
-   <z-m> 0.25</z-m>
-  </top-left>
- </panel>
+        <unload>
+            livery_update.stop();
+        </unload>
+    </nasal>
+<!-- Immatriculatoin -->
+  <model>
+    <path>Aircraft/c172p/Models/Immat/immat.xml</path>
+    <offsets>
+      <x-m> 0.0 </x-m>
+      <y-m> 0.0 </y-m>
+      <z-m> 0.0 </z-m>
+      <roll-deg>    0.0 </roll-deg>
+      <pitch-deg>   0.0 </pitch-deg>
+      <heading-deg> 0.0 </heading-deg>
+    </offsets>
+  </model>
 
- <model>
+<animation>
+		<type>shader</type>
+		<shader>chrome</shader>
+		<texture>glass_shader.png</texture>
+
+		<object-name>glas</object-name>
+		
+		<object-name>leftwindow</object-name>
+		<object-name>rightwindow</object-name>
+</animation>
+
+
+ <!--instrumentation-->
+<model>
   <name>MagCompass</name>
   <path>Aircraft/Instruments-3d/mag-compass.xml</path>
   <offsets>
    <x-m>-0.35</x-m>
    <y-m>0.00</y-m>
-   <z-m>0.16</z-m>
+   <z-m>0.18</z-m>
   </offsets>
- </model>
+</model>
 
- <!-- LOD for the model as a whole -->
+<model>
+  <name>AI</name>
+  <path>Aircraft/c172p/Instruments/AI/AI.xml</path>
+  <offsets>
+   <x-m>-0.369</x-m>
+   <y-m>-0.222</y-m>
+   <z-m>0.069</z-m>
+  </offsets>
+</model>
 
- <animation>
-  <type>range</type>
-  <min-m>0</min-m>
-  <max-m>10000</max-m>
- </animation>
+<model>
+  <name>Altimeter</name>
+  <path>Aircraft/c172p/Instruments/Altimeter/Altimeter.xml</path>
+  <offsets>
+   <x-m>-0.369</x-m>
+   <y-m>-0.133</y-m>
+   <z-m>0.069</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>BatteryGauge</name>
+  <path>Aircraft/c172p/Instruments/BatteryGauge/BatteryGauge.xml</path>
+  <offsets>
+   <x-m>-0.367</x-m>
+   <y-m>-0.410</y-m>
+   <z-m>-0.171</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>Kap140</name>
+  <path>Aircraft/c172p/Instruments/kap140/KAP140TwoAxisAlt.xml</path>
+  <offsets>
+   <x-m>-0.367</x-m>
+   <y-m>0.116</y-m>
+   <z-m>-0.092</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>asi</name>
+  <path>Aircraft/c172p/Instruments/asi/asi.xml</path>
+  <offsets>
+   <x-m>-0.368</x-m>
+   <y-m>-0.311</y-m>
+   <z-m>0.068</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>Turn</name>
+  <path>Aircraft/c172p/Instruments/Turn/Turn.xml</path>
+  <offsets>
+   <x-m>-0.368</x-m>
+   <y-m>-0.311</y-m>
+   <z-m>-0.037</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>VSI</name>
+  <path>Aircraft/c172p/Instruments/VSI/VSI.xml</path>
+  <offsets>
+   <x-m>-0.368</x-m>
+   <y-m>-0.131</y-m>
+   <z-m>-0.036</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>RPM</name>
+  <path>Aircraft/c172p/Instruments/RPM/RPM.xml</path>
+  <offsets>
+   <x-m>-0.368</x-m>
+   <y-m>-0.311</y-m>
+   <z-m>-0.152</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>hi</name>
+  <path>Aircraft/c172p/Instruments/hi/hi.xml</path>
+  <offsets>
+   <x-m>-0.368</x-m>
+   <y-m>-0.222</y-m>
+   <z-m>-0.036</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>vor</name>
+  <path>Aircraft/c172p/Instruments/vor/vor.xml</path>
+  <offsets>
+   <x-m>-0.368</x-m>
+   <y-m>-0.041</y-m>
+   <z-m>0.069</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>vor2</name>
+  <path>Aircraft/c172p/Instruments/vor/vor2.xml</path>
+  <offsets>
+   <x-m>-0.368</x-m>
+   <y-m>-0.041</y-m>
+   <z-m>-0.036</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>adf</name>
+  <path>Aircraft/c172p/Instruments/kr87-adf/ki227-00.xml</path>
+  <offsets>
+   <x-m>-0.368</x-m>
+   <y-m>-0.041</y-m>
+   <z-m>-0.144</z-m>
+  </offsets>
+</model>
+
+  
+<model>
+  <name>RadioStack</name>
+  <path>Aircraft/c172p/Instruments/radio_stack/radio-stack.xml</path>
+  <offsets>
+   <x-m>-0.364</x-m>
+   <y-m>0.113</y-m>
+   <z-m>-0.036</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>clock</name>
+  <path>Aircraft/c172p/Instruments/clock/clock.xml</path>
+  <offsets>
+   <x-m>-0.369</x-m>
+   <y-m>-0.389</y-m>
+   <z-m>0.049</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>vac</name>
+  <path>Aircraft/c172p/Instruments/vac/vac.xml</path>
+  <offsets>
+   <x-m>-0.369</x-m>
+   <y-m>-0.432</y-m>
+   <z-m>0.024</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>fuel</name>
+  <path>Aircraft/c172p/Instruments/c172FuelOilAmps/c172fuel.xml</path>
+  <offsets>
+   <x-m>-0.369</x-m>
+   <y-m>-0.405</y-m>
+   <z-m>-0.013</z-m>
+  </offsets>
+</model>
+
+  <model>
+  <name>oil</name>
+  <path>Aircraft/c172p/Instruments/c172FuelOilAmps/c172oil.xml</path>
+  <offsets>
+   <x-m>-0.369</x-m>
+   <y-m>-0.405</y-m>
+   <z-m>-0.060</z-m>
+  </offsets>
+</model>
+
+<model>
+  <name>mag_sw</name>
+  <path>Aircraft/c172p/Instruments/magneto-switch/mags.xml</path>
+  <offsets>
+   <x-m>-0.369</x-m>
+   <y-m>-0.414</y-m>
+   <z-m>-0.250</z-m>
+  </offsets>
+</model>
+
+
+
+
 
 <!-- Controls -->
 
@@ -127,8 +318,8 @@
   <factor>-45</factor>
   <center>
    <x-m>-0.23</x-m>
-   <y-m>-0.245</y-m>
-   <z-m>-0.13</z-m>
+   <y-m>-0.219</y-m>
+   <z-m>-0.130</z-m>
   </center>
   <axis>
    <x>1.0</x>
@@ -500,7 +691,7 @@
 
  <animation>
   <type>rotate</type>
-  <object-name>LeftAileron</object-name>
+  <object-name>leftaileron</object-name>
   <property>surface-positions/left-aileron-pos-norm</property>
   <interpolation>
    <entry>
@@ -516,21 +707,19 @@
     <dep>20</dep>
    </entry>
   </interpolation>
-  <center>
-   <x-m>1.1</x-m>
-   <y-m>-1.96</y-m>
-   <z-m>0.35</z-m>
-  </center>
   <axis>
-   <x>0.49</x>
-   <y>2.65</y>
-   <z>-0.03</z>
+			<x1-m>0.862</x1-m>
+			<y1-m>-5.464</y1-m>
+			<z1-m>0.459</z1-m>
+			<x2-m>1.158</x2-m>
+			<y2-m>-2.616</y2-m>
+			<z2-m>0.337</z2-m>
   </axis>
  </animation>
 
  <animation>
   <type>rotate</type>
-  <object-name>RightAileron</object-name>
+  <object-name>rightaileron</object-name>
   <property>surface-positions/right-aileron-pos-norm</property>
   <interpolation>
    <entry>
@@ -546,69 +735,79 @@
     <dep>-15</dep>
    </entry>
   </interpolation>
-  <center>
-   <x-m>1.1</x-m>
-   <y-m>1.96</y-m>
-   <z-m>0.35</z-m>
-  </center>
   <axis>
-   <x>-0.49</x>
-   <y>2.65</y>
-   <z>0.03</z>
+			<x1-m>1.158</x1-m>
+			<y1-m>2.616</y1-m>
+			<z1-m>0.337</z1-m>
+			<x2-m>0.862</x2-m>
+			<y2-m>5.464</y2-m>
+			<z2-m>0.459</z2-m>
   </axis>
  </animation>
 
  <animation>
   <type>translate</type>
-  <object-name>LeftFlap</object-name>
-  <object-name>RightFlap</object-name>
+  <object-name>flaps</object-name>
   <property>surface-positions/flap-pos-norm</property>
-  <factor>0.15</factor>
+  <factor>0.07</factor>
   <axis>
    <x>1.0</x>
    <y>0.0</y>
-   <z>0.2</z>
+   <z>0.0</z>
   </axis>
  </animation>
 
+ 
+
  <animation>
   <type>rotate</type>
-  <object-name>LeftFlap</object-name>
+  <object-name>flaps</object-name>
   <property>surface-positions/flap-pos-norm</property>
   <factor>30</factor>
   <center>
-   <x-m>0.76</x-m>
+   <x-m>1.152</x-m>
    <y-m>-0.53</y-m>
    <z-m>0.32</z-m>
   </center>
   <axis>
    <x>0.0</x>
    <y>1.0</y>
-   <z>-0.1</z>
+   <z>0.0</z>
   </axis>
  </animation>
 
  <animation>
   <type>rotate</type>
-  <object-name>RightFlap</object-name>
-  <property>surface-positions/flap-pos-norm</property>
-  <factor>30</factor>
-  <center>
-   <x-m>0.76</x-m>
-   <y-m>-0.53</y-m>
-   <z-m>0.32</z-m>
-  </center>
+  <object-name>elevatorleft</object-name>
+    <property>surface-positions/elevator-pos-norm</property>
+  <interpolation>
+   <entry>
+    <ind>-1.0</ind>
+    <dep>-28</dep>
+   </entry>
+   <entry>
+    <ind>0</ind>
+    <dep>0</dep>
+   </entry>
+   <entry>
+    <ind>1.0</ind>
+    <dep>23</dep>
+   </entry>
+  </interpolation>
   <axis>
-   <x>0.0</x>
-   <y>1.0</y>
-   <z>0.1</z>
+			<x1-m>5.088</x1-m>
+			<y1-m>-0.813</y1-m>
+			<z1-m>-0.457</z1-m>
+			<x2-m>5.108</x2-m>
+			<y2-m>-0.059</y2-m>
+			<z2-m>-0.513</z2-m>
   </axis>
+   
  </animation>
 
  <animation>
   <type>rotate</type>
-  <object-name>Elevators</object-name>
-  <object-name>ElevatorTrimTab</object-name>
+  <object-name>elevatorright</object-name>
   <property>surface-positions/elevator-pos-norm</property>
   <interpolation>
    <entry>
@@ -624,19 +823,19 @@
     <dep>23</dep>
    </entry>
   </interpolation>
-  <center>
-   <x-m>4.84</x-m>
-   <y-m>0.0</y-m>
-   <z-m>-0.17</z-m>
-  </center>
   <axis>
-   <x>0.0</x>
-   <y>1.0</y>
-   <z>0.0</z>
+			<x1-m>5.108</x1-m>
+			<y1-m>0.059</y1-m>
+			<z1-m>-0.513</z1-m>
+			<x2-m>5.088</x2-m>
+			<y2-m>0.813</y2-m>
+			<z2-m>-0.457</z2-m>
+			
   </axis>
+  
  </animation>
 
- <animation>
+ <!--<animation>
   <type>rotate</type>
   <object-name>ElevatorTrimTab</object-name>
   <property>controls/flight/elevator-trim</property>
@@ -651,25 +850,229 @@
    <y>-0.82</y>
    <z>0.0</z>
   </axis>
- </animation>
+ </animation>-->
 
  <animation>
   <type>rotate</type>
-  <object-name>Rudder</object-name>
+  <object-name>rudder</object-name>
   <object-name>RearNavLightOn</object-name>
   <object-name>RearNavLightOff</object-name>
   <property>surface-positions/rudder-pos-norm</property>
   <factor>17.5</factor>
-  <center>
-   <x-m>4.84</x-m>
-   <y-m>0.0</y-m>
-   <z-m>-.16</z-m>
+   <axis>
+			<x1-m>4.918</x1-m>
+			<y1-m>0</y1-m>
+			<z1-m>-0.310</z1-m>
+			<x2-m>5.805</x2-m>
+			<y2-m>-0.013</y2-m>
+			<z2-m>1.007</z2-m>
+			
+		</axis>
+ </animation>
+ 
+ <animation>
+    <type>translate</type>
+    <object-name>fairing1</object-name>
+  <object-name>NoseWheel</object-name>
+  <object-name>NoseWheelStrut</object-name>
+  <object-name>Oleo</object-name>
+  <object-name>Axle.001</object-name>
+    <property>gear/gear[0]/compression-norm</property>
+    <factor>0.30</factor>
+    <axis>
+      <x>0.1</x>
+      <y>0</y>
+      <z>0.9</z>
+    </axis>
+  </animation>
+ 
+ <animation>
+  <type>rotate</type>
+  <object-name>fairing1</object-name>
+  <object-name>NoseWheel</object-name>
+  <object-name>NoseWheelStrut</object-name>
+  <object-name>Oleo</object-name>
+  <object-name>Axle.001</object-name>
+  <property>surface-positions/rudder-pos-norm</property>
+  <factor>17.5</factor>
+   <axis>
+			<x1-m>-0.975</x1-m>
+			<y1-m>0</y1-m>
+			<z1-m>-0.6781</z1-m>
+			<x2-m>-1.123</x2-m>
+			<y2-m>0.0</y2-m>
+			<z2-m>-1.172</z2-m>
+			
+		</axis>
+ </animation>
+ 
+ <animation>
+  <type>rotate</type>
+  <object-name>fairing2</object-name>
+  <object-name>RightWheelStrut</object-name>
+  <object-name>RightWheel</object-name>
+   <property>gear/gear[2]/compression-norm</property>
+  <factor>1.9</factor>
+   <center>
+   <x-m>0.711</x-m>
+   <y-m>0.474</y-m>
+   <z-m>-0.708</z-m>
   </center>
   <axis>
-   <x>0.25</x>
+   <x>1.0</x>
    <y>0.0</y>
-   <z>1.0</z>
+   <z>0.0</z>
   </axis>
  </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>fairing1</object-name>
+  <object-name>LeftWheelStrut</object-name>
+  <object-name>LeftWheel</object-name>
+   <property>gear/gear[1]/compression-norm</property>
+  <factor>-1.9</factor>
+   <center>
+   <x-m>0.711</x-m>
+   <y-m>-0.474</y-m>
+   <z-m>-0.708</z-m>
+  </center>
+  <axis>
+   <x>1.0</x>
+   <y>0.0</y>
+   <z>0.0</z>
+  </axis>
+ </animation>
+ 
+ <animation>
+		<type>select</type>
+		<object-name>fairing1</object-name>
+		<condition>
+			<property>sim/model/c172p/fairing1</property>
+		</condition>
+	</animation>
+	
+<animation>
+		<type>select</type>
+		<object-name>fairing2</object-name>
+		<condition>
+			<property>sim/model/c172p/fairing2</property>
+		</condition>
+	</animation>
+	
+<animation>
+		<type>select</type>
+		<object-name>fairing3</object-name>
+		<condition>
+			<property>sim/model/c172p/fairing3</property>
+		</condition>
+	</animation>
+ 
+ <animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>fuselage</object-name>
+		<property-base>sim/model/livery/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>fuselage2.png</texture>
+	</animation>
+	
+ <animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>leftdoor</object-name>
+		<property-base>sim/model/livery/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>fuselage2.png</texture>
+	</animation>
+	
+<animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>rightdoor</object-name>
+		<property-base>sim/model/livery/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>fuselage2.png</texture>
+	</animation>
+	
+<animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>baggagedoor</object-name>
+		<property-base>sim/model/livery/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>fuselage2.png</texture>
+	</animation>
+	
+<animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>wing</object-name>
+		<property-base>sim/model/liverywing/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>wing.png</texture>
+	</animation>
+	
+<animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>flaps</object-name>
+		<property-base>sim/model/liverywing/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>wing.png</texture>
+	</animation>
+
+<animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>rightaileron</object-name>
+		<property-base>sim/model/liverywing/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>wing.png</texture>
+	</animation>
+	
+<animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>leftaileron</object-name>
+		<property-base>sim/model/liverywing/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>wing.png</texture>
+	</animation>
+<animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>vstab</object-name>
+		<property-base>sim/model/liverytail/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>tail.png</texture>
+	</animation>
+	
+<animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>hstab</object-name>
+		<property-base>sim/model/liverytail/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>tai.png</texture>
+	</animation>
+	
+<animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>elevators</object-name>
+		<property-base>sim/model/liverytail/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>tail.png</texture>
+	</animation>
+	
+<animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>rudder</object-name>
+		<property-base>sim/model/liverytail/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>tail.png</texture>
+	</animation>
 
 </PropertyList>

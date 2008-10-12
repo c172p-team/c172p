@@ -6,9 +6,9 @@ sbc2 = aircraft.light.new( "/sim/model/lights/sbc2", [0.2, 0.3], "/sim/model/lig
 sbc2.interval = 0;
 sbc2.switch( 1 );
 
-setlistener( "/sim/model/lights/sbc2/state", func {
+setlistener( "/sim/model/lights/sbc2/state", func(n) {
   bsbc1 = sbc1.stateN.getValue();
-  bsbc2 = cmdarg().getBoolValue();
+  bsbc2 = n.getBoolValue();
   b = 0;
   if( bsbc1 and bsbc2 and getprop( "/controls/lighting/beacon") ) {
     b = 1;

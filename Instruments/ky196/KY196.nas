@@ -14,10 +14,10 @@ setlistener("/sim/signals/fdm-initialized", func {
     print("KY-196 Comm System ... OK");
     });
 
-setlistener("/instrumentation/ky-196/volume-adjust", func {
+setlistener("/instrumentation/ky-196/volume-adjust", func(n) {
     if(FDM_ON == 0){return;}
-    var setting = cmdarg().getValue();
-    cmdarg().setDoubleValue(0);
+    var setting = n.getValue();
+    n.setDoubleValue(0);
     comm_num = KY196.getNode("comm-num").getValue();
     var commNode = props.globals.getNode("instrumentation/comm[" ~ comm_num ~"]");
     var vol = commNode.getNode("volume").getValue() + setting;

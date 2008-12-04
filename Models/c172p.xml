@@ -127,7 +127,7 @@
   <offsets>
    <x-m>-0.368</x-m>
    <y-m>-0.311</y-m>
-   <z-m>-0.152</z-m>
+   <z-m>-0.142</z-m>
   </offsets>
 </model>
 
@@ -161,26 +161,51 @@
   </offsets>
 </model>
 
+
 <model>
   <name>adf</name>
-  <path>Aircraft/c172p/Instruments/kr87-adf/ki227-00.xml</path>
+   <path>Aircraft/c172p/Instruments/kr87-adf/ki227_228.xml</path>
   <offsets>
    <x-m>-0.368</x-m>
    <y-m>-0.041</y-m>
-   <z-m>-0.144</z-m>
+   <z-m>-0.141</z-m>
   </offsets>
 </model>
 
   
 <model>
-  <name>RadioStack</name>
-  <path>Aircraft/c172p/Instruments/radio_stack/radio-stack.xml</path>
+  <name>kx165</name>
+  <path>Aircraft/c172p/Instruments/kx165/kx165-1.xml</path>
   <offsets>
    <x-m>-0.364</x-m>
    <y-m>0.113</y-m>
    <z-m>-0.036</z-m>
   </offsets>
 </model>
+
+<model>
+  <name>kx165</name>
+  <path>Aircraft/c172p/Instruments/kx165/kx165-2.xml</path>
+  <offsets>
+   <x-m>-0.364</x-m>
+   <y-m>0.113</y-m>
+   <z-m>0.017</z-m>
+  </offsets>
+</model>
+
+
+
+<model>
+  <name>kr87</name>
+   <path>Aircraft/c172p/Instruments/kr87-adf/kr87.xml</path>
+  <offsets>
+   <x-m>-0.364</x-m>
+   <y-m>0.113</y-m>
+   <z-m>0.061</z-m>
+  </offsets>
+</model>
+
+ 
 
 <model>
   <name>clock</name>
@@ -297,6 +322,317 @@
   <min-m>0</min-m>
   <max-m>10.0</max-m>
  </animation> -->
+
+<!--pick animation for the doors-->
+<animation>
+      <type>pick</type>
+      <object-name>doorhandleext_right</object-name>
+      <visible>true</visible>
+      <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+          <command>nasal</command>
+         <script>c172p.rightDoor.toggle();</script>
+        </binding>
+      </action>
+</animation>
+
+<animation>
+      <type>pick</type>
+      <object-name>doorhandleext_left</object-name>
+      <visible>true</visible>
+      <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+          <command>nasal</command>
+      <script>c172p.leftDoor.toggle();</script>
+        </binding>
+      </action>
+</animation>
+
+<animation>
+      <type>pick</type>
+      <object-name>baggagedoorhandle</object-name>
+      <visible>true</visible>
+      <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+          <command>nasal</command>
+        <script>c172p.baggageDoor.toggle();</script>
+        </binding>
+      </action>
+</animation>
+
+<animation>
+      <type>pick</type>
+      <object-name>doorhandleint_right</object-name>
+      <visible>true</visible>
+      <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+          <command>nasal</command>
+        <script>c172p.rightDoor.toggle();</script>
+        </binding>
+      </action>
+</animation>
+
+<animation>
+      <type>pick</type>
+      <object-name>doorhandle_intle</object-name>
+      <visible>true</visible>
+      <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+          <command>nasal</command>
+        <script>c172p.leftDoor.toggle();</script>
+        </binding>
+      </action>
+</animation>
+<!--door animation-->
+
+
+<animation>
+		<type>rotate</type>
+		<object-name>rightdoor</object-name>
+		<object-name>rightwindow</object-name>
+		<object-name>doorhandleext_right</object-name>
+		<object-name>doorint_right</object-name>
+		<object-name>doorhandleint_right</object-name>
+		<object-name>windlocket</object-name>
+		
+		<property>/sim/model/door-positions/rightDoor/position-norm</property>
+		<interpolation>
+		<entry>
+      <ind>0.0</ind>
+      <dep>0.0</dep>
+    </entry>
+    <entry>
+      <ind>0.5</ind>
+      <dep>0</dep>
+    </entry>
+    <entry>
+      <ind>1</ind>
+      <dep>70.0</dep>
+    </entry>
+</interpolation>
+
+		<axis>
+			<x1-m>-0.117</x1-m>
+			<y1-m>0.530</y1-m>
+			<z1-m>-0.376</z1-m>
+			<x2-m>-0.054</x2-m>
+			<y2-m>0.535</y2-m>
+			<z2-m>-0.117</z2-m>
+		</axis>
+	</animation>
+	
+<animation>
+		<type>rotate</type>
+		<object-name>doorhandleint_right</object-name>
+		<property>/sim/model/door-positions/rightDoor/position-norm</property>
+		<interpolation>
+    <entry>
+      <ind>0.0</ind>
+      <dep>0.0</dep>
+    </entry>
+    <entry>
+      <ind>0.5</ind>
+      <dep>70.0</dep>
+    </entry>
+    <entry>
+      <ind>1</ind>
+      <dep>70.0</dep>
+    </entry>
+</interpolation>
+  <center>
+   <x-m>0.166</x-m>
+   <y-m>0.482</y-m>
+   <z-m>-0.263</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+	</animation>
+	
+
+	
+<animation>
+		<type>rotate</type>
+		<object-name>leftdoor</object-name>
+		<object-name>leftwindow</object-name>
+		<object-name>doorhandleext_left</object-name>
+		<object-name>doorint_left</object-name>
+		<object-name>doorhandle_intle</object-name>
+		<object-name>windlocket.002</object-name>
+		
+		<property>/sim/model/door-positions/leftDoor/position-norm</property>
+		<interpolation>
+		<entry>
+      <ind>0.0</ind>
+      <dep>0.0</dep>
+    </entry>
+    <entry>
+      <ind>0.5</ind>
+      <dep>0</dep>
+    </entry>
+    <entry>
+      <ind>1</ind>
+      <dep>-70.0</dep>
+    </entry>
+</interpolation>
+		<axis>
+			<x1-m>-0.117</x1-m>
+			<y1-m>-0.530</y1-m>
+			<z1-m>-0.376</z1-m>
+			<x2-m>-0.054</x2-m>
+			<y2-m>-0.535</y2-m>
+			<z2-m>-0.117</z2-m>
+		</axis>
+	</animation>
+<animation>
+		<type>rotate</type>
+		<object-name>doorhandle_intle</object-name>
+		<property>/sim/model/door-positions/leftDoor/position-norm</property>
+<interpolation>
+    <entry>
+      <ind>0.0</ind>
+      <dep>0.0</dep>
+    </entry>
+    <entry>
+      <ind>0.5</ind>
+      <dep>70.0</dep>
+    </entry>
+    <entry>
+      <ind>1</ind>
+      <dep>70.0</dep>
+    </entry>
+</interpolation>
+  <center>
+   <x-m>0.166</x-m>
+   <y-m>-0.482</y-m>
+   <z-m>-0.263</z-m>
+  </center>
+  <axis>
+   <x>0.0</x>
+   <y>1.0</y>
+   <z>0.0</z>
+  </axis>
+	</animation>
+	
+	
+<animation>
+		<type>rotate</type>
+		<object-name>baggagedoor</object-name>
+		<object-name>baggagedoor.002</object-name>
+		<object-name>baggagedoorhandle</object-name>
+		
+		
+		<property>/sim/model/door-positions/baggageDoor/position-norm</property>
+		<factor>-90</factor>
+
+		<axis>
+			<x1-m>1.373</x1-m>
+			<y1-m>-0.445</y1-m>
+			<z1-m>-0.656</z1-m>
+			<x2-m>1.424</x2-m>
+			<y2-m>-0.445</y2-m>
+			<z2-m>-0.204</z2-m>
+		</axis>
+	</animation>
+
+
+<!--pick animation for switches-->
+ <animation>
+      <type>pick</type>
+      <object-name>LandingLightSwitch</object-name>
+      <visible>true</visible>
+      <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+          <command>property-toggle</command>
+          <property>controls/lighting/landing-lights</property>
+        </binding>
+      </action>
+</animation>
+
+<animation>
+      <type>pick</type>
+      <object-name>TaxiLightSwitch</object-name>
+      <visible>true</visible>
+      <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+          <command>property-toggle</command>
+          <property>controls/lighting/taxi-light</property>
+        </binding>
+      </action>
+</animation>
+
+<animation>
+      <type>pick</type>
+      <object-name>StrobeSwitch</object-name>
+      <visible>true</visible>
+      <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+          <command>property-toggle</command>
+          <property>controls/lighting/strobe</property>
+        </binding>
+      </action>
+</animation>
+
+<animation>
+      <type>pick</type>
+      <object-name>BeaconSwitch</object-name>
+      <visible>true</visible>
+      <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+          <command>property-toggle</command>
+          <property>controls/lighting/beacon</property>
+        </binding>
+      </action>
+</animation>
+
+<animation>
+      <type>pick</type>
+      <object-name>NavLightSwitch</object-name>
+      <visible>true</visible>
+      <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+          <command>property-toggle</command>
+          <property>controls/lighting/nav-lights</property>
+        </binding>
+      </action>
+</animation>
+
+<animation>
+      <type>pick</type>
+      <object-name>PitotHeatSwitch</object-name>
+      <visible>true</visible>
+      <action>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+          <command>property-toggle</command>
+         <property>controls/anti-ice/pitot-heat</property>
+        </binding>
+      </action>
+</animation>
+
 
  <animation>
   <type>translate</type>
@@ -580,43 +916,27 @@
 
  <animation>
   <type>select</type>
-  <object-name>LeftNavLightOn</object-name>
-  <object-name>RightNavLightOn</object-name>
-  <object-name>RearNavLightOn</object-name>
+  <object-name>navlight_left</object-name>
+  <object-name>navlight_right</object-name>
+  <object-name>navlight_back</object-name>
   <condition>
    <property>controls/lighting/nav-lights</property>
   </condition>
  </animation>
 
- <animation>
-  <type>select</type>
-  <object-name>LeftNavLightOff</object-name>
-  <object-name>RightNavLightOff</object-name>
-  <object-name>RearNavLightOff</object-name>
-  <condition>
-   <not>
-    <property>controls/lighting/nav-lights</property>
-   </not>
-  </condition>
- </animation>
 
- <animation>
-  <name>BeaconFlasher</name>
-  <type>timed</type>
-  <object-name>BeaconOff</object-name>
-  <object-name>BeaconOn</object-name>
-  <duration-sec>1.0</duration-sec>
- </animation>
+
+ 
 
  <animation>
   <type>select</type>
-  <object-name>BeaconFlasher</object-name>
+  <object-name>BeaconOffX</object-name>
   <condition>
    <property>controls/lighting/beacon</property>
   </condition>
  </animation>
 
- <!-- Experimental Taxi and Landing Lights -->
+ 
  
   
  <animation>
@@ -670,24 +990,7 @@
   </axis>
  </animation>
 
- <animation>
-  <type>rotate</type>
-  <object-name>NoseWheel</object-name>
-  <object-name>NoseWheelStrut</object-name>
-  <object-name>Axle</object-name>
-  <property>surface-positions/rudder-pos-norm</property>
-  <factor>-30.0</factor>
-  <center>
-   <x-m>-0.9</x-m>
-   <y-m>0</y-m>
-   <z-m>-0.59</z-m>
-  </center>
-  <axis>
-   <x>0.25</x>
-   <y>0.00</y>
-   <z>1.0</z>
-  </axis>
- </animation>
+ 
 
  <animation>
   <type>rotate</type>
@@ -855,7 +1158,7 @@
  <animation>
   <type>rotate</type>
   <object-name>rudder</object-name>
-  <object-name>RearNavLightOn</object-name>
+  <object-name>navlight_back</object-name>
   <object-name>RearNavLightOff</object-name>
   <property>surface-positions/rudder-pos-norm</property>
   <factor>17.5</factor>
@@ -894,7 +1197,7 @@
   <object-name>Oleo</object-name>
   <object-name>Axle.001</object-name>
   <property>surface-positions/rudder-pos-norm</property>
-  <factor>17.5</factor>
+  <factor>30</factor>
    <axis>
 			<x1-m>-0.975</x1-m>
 			<y1-m>0</y1-m>
@@ -944,6 +1247,213 @@
   </axis>
  </animation>
  
+ <!--Lights-->
+ <!--landinglight-->
+ <animation>
+		<type>select</type>
+		<object-name>landinglight</object-name>
+		<object-name>landinglight2</object-name>
+		<condition>
+  <property>controls/lighting/landing-lights</property>
+ </condition>
+	</animation>
+	
+	
+<animation>
+		<type>noshadow</type>
+		<object-name>landinglight</object-name>
+	</animation>
+
+	<animation>
+		<type>flash</type>
+		<object-name>landinglight</object-name>
+		<center>
+			<x-m>-0.117</x-m>
+			<y-m>-2.872</y-m>
+			<z-m>0.528</z-m>
+		</center>
+		<axis>
+			<x>-1</x>
+			<y>0</y>
+			<z>0</z>
+		</axis>
+		<power>0.5</power>
+		<factor>1</factor>
+		<offset>0</offset>
+		<two-sides type="bool">false</two-sides>
+		<min>0.01</min>
+		<max>1</max>
+	</animation>
+ <!--strobe-->
+ <animation>
+		<type>select</type>
+		<object-name>strobe1</object-name>
+		<object-name>strobe2</object-name>
+		<condition>
+			<property>/sim/model/c172p/lighting/strobes/state</property>
+		</condition>
+	</animation>
+ 
+ <animation>
+		<type>range</type>
+		<min-m>0</min-m>
+		<max-m>25000</max-m>
+	</animation>
+
+	<Plane.014Xparams>
+		<light-near>0.8</light-near>
+		<light-med>3.2</light-med>
+		<light-far>160</light-far>
+	</Plane.014Xparams>
+
+	<animation>
+		<name>Plane.014XGroup</name>
+		<object-name>strobe1</object-name>
+		<object-name>strobe2</object-name>
+	</animation>
+
+	
+	<animation>
+		<type>alpha-test</type>
+		<object-name>Plane.014XGroup</object-name>
+		<alpha-factor>0.001</alpha-factor>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<object-name>strobe1</object-name>
+		<offset-m>5.760493</offset-m>
+		<axis>
+			<x>0.253912</x>
+			<y>-5.727128</y>
+			<z>0.564638</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<object-name>strobe2</object-name>
+		<offset-m>5.742337</offset-m>
+		<axis>
+			<x>0.253912</x>
+			<y>5.708865</y>
+			<z>0.564638</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>billboard</type>
+		<object-name>strobe1</object-name>
+		<spherical type="bool">true</spherical>
+	</animation>
+
+	<animation>
+		<type>billboard</type>
+		<object-name>strobe2</object-name>
+		<spherical type="bool">true</spherical>
+	</animation>
+
+	<animation>
+		<type>dist-scale</type>
+		<object-name>strobe1</object-name>
+		<interpolation>
+			<entry>
+				<ind>0</ind>
+				<dep alias="../../../../Plane.014Xparams/light-near"/>
+			</entry>
+			<entry>
+				<ind>500</ind>
+				<dep alias="../../../../Plane.014Xparams/light-med"/>
+			</entry>
+			<entry>
+				<ind>16000</ind>
+				<dep alias="../../../../Plane.014Xparams/light-far"/>
+			</entry>
+		</interpolation>
+	</animation>
+
+	<animation>
+		<type>dist-scale</type>
+		<object-name>strobe2</object-name>
+		<interpolation>
+			<entry>
+				<ind>0</ind>
+				<dep alias="../../../../Plane.014Xparams/light-near"/>
+			</entry>
+			<entry>
+				<ind>500</ind>
+				<dep alias="../../../../Plane.014Xparams/light-med"/>
+			</entry>
+			<entry>
+				<ind>16000</ind>
+				<dep alias="../../../../Plane.014Xparams/light-far"/>
+			</entry>
+		</interpolation>
+	</animation>
+<animation>
+		<type>select</type>
+		<object-name>BeaconOffX</object-name>
+		<condition>
+			<property>/sim/model/c172p/lighting/beacon-top/state</property>
+		</condition>
+	</animation>	
+<animation>
+		<type>range</type>
+		<min-m>0</min-m>
+		<max-m>25000</max-m>
+	</animation>
+
+	<BeaconOffXparams>
+		<light-near>0.4</light-near>
+		<light-med>0.8</light-med>
+		<light-far>10</light-far>
+	</BeaconOffXparams>
+
+	
+	<animation>
+		<type>alpha-test</type>
+		<object-name>BeaconOffX</object-name>
+		<alpha-factor>0.001</alpha-factor>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<object-name>BeaconOffX</object-name>
+		<offset-m>5.588312</offset-m>
+		<axis>
+			<x>5.466914</x>
+			<y>0</y>
+			<z>1.15848</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>billboard</type>
+		<object-name>BeaconOffX</object-name>
+		<spherical type="bool">true</spherical>
+	</animation>
+
+	<animation>
+		<type>dist-scale</type>
+		<object-name>BeaconOffX</object-name>
+		<interpolation>
+			<entry>
+				<ind>0</ind>
+				<dep alias="../../../../BeaconOffXparams/light-near"/>
+			</entry>
+			<entry>
+				<ind>500</ind>
+				<dep alias="../../../../BeaconOffXparams/light-med"/>
+			</entry>
+			<entry>
+				<ind>16000</ind>
+				<dep alias="../../../../BeaconOffXparams/light-far"/>
+			</entry>
+		</interpolation>
+	</animation>
+
+
+ 
  <animation>
 		<type>select</type>
 		<object-name>fairing1</object-name>
@@ -968,10 +1478,59 @@
 		</condition>
 	</animation>
  
+<animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>RightWheelStrut</object-name>
+		<object-name>LeftWheelStrut</object-name>
+		<property-base>sim/model/livery/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>fuselage.n301dp.png</texture>
+	</animation>
+ 
+ <animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>fairing1</object-name>
+		<property-base>sim/model/livery/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>fuselage.n301dp.png</texture>
+	</animation>
+ 
+ <animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>fairing2</object-name>
+		<property-base>sim/model/livery/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>fuselage.n301dp.png</texture>
+	</animation>
+ 
+ <animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>fairing3</object-name>
+		<property-base>sim/model/livery/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>fuselage.n301dp.png</texture>
+	</animation>
+ 
  <animation>
 		<type>material</type>
 		<!--global type="bool">true</global-->
 		<object-name>fuselage</object-name>
+		<property-base>sim/model/livery/</property-base>
+		<texture-prop>texture</texture-prop>
+		<texture>fuselage.n301dp.png</texture>
+	</animation>
+	
+<animation>
+		<type>material</type>
+		<!--global type="bool">true</global-->
+		<object-name>charniere1</object-name>
+		<object-name>charniere2</object-name>
+		<object-name>charniere3</object-name>
+		<object-name>charniere4</object-name>
 		<property-base>sim/model/livery/</property-base>
 		<texture-prop>texture</texture-prop>
 		<texture>fuselage.n301dp.png</texture>
@@ -1057,10 +1616,12 @@
 		<texture>tai.png</texture>
 	</animation>
 	
+
+	
 <animation>
 		<type>material</type>
 		<!--global type="bool">true</global-->
-		<object-name>elevators</object-name>
+		<object-name>rudder</object-name>
 		<property-base>sim/model/liverytail/</property-base>
 		<texture-prop>texture</texture-prop>
 		<texture>tail.png</texture>
@@ -1069,7 +1630,8 @@
 <animation>
 		<type>material</type>
 		<!--global type="bool">true</global-->
-		<object-name>rudder</object-name>
+		<object-name>elevatorleft</object-name>
+		<object-name>elevatorright</object-name>
 		<property-base>sim/model/liverytail/</property-base>
 		<texture-prop>texture</texture-prop>
 		<texture>tail.png</texture>

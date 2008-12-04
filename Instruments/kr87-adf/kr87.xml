@@ -1,309 +1,339 @@
-<?xml version="1.0"?>
-<!--
-KR-87
-Bendix/King ADF Reciever
-Syd Adams
--->
+<?xml version="1.0" ?>
 <PropertyList>
+    <params>
+        <right-display>/instrumentation/adf[0]/right-display</right-display>
+    </params>
 
     <path>kr87.ac</path>
     
+     <panel>
+        <path>Aircraft/c172p/Instruments/kr87-adf/kr87Panel.xml</path>
+        <bottom-left>
+            <x-m>0.027</x-m>
+            <y-m>-0.079</y-m>
+            <z-m>-0.015</z-m>
+        </bottom-left>
+        <bottom-right>
+            <x-m>0.027</x-m>
+            <y-m>0.079</y-m>
+            <z-m>-0.015</z-m>
+        </bottom-right>
+        <top-left>
+            <x-m>0.027</x-m>
+            <y-m>-0.079</y-m>
+            <z-m>0.015</z-m>
+        </top-left>
+    </panel>
   
     <animation>
+        <type>select</type>
+        <object-name>kr87.indicators</object-name>
+        <condition>
+            <property>/instrumentation/adf[0]/serviceable</property>
+            <property>/instrumentation/adf[0]/power-btn</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>noshadow</type>
+        <object-name>kr87</object-name>
+    </animation>
+
+    <animation>
         <type>material</type>
-        <object-name>KR87.adf</object-name>
-        <object-name>KR87.bfo</object-name>
-        <object-name>KR87.frq</object-name>
-        <object-name>KR87.flt</object-name>
-        <object-name>KR87.set</object-name>
-        <object-name>KR87.volume</object-name>
+        <object-name>kr87.knobs.ADF</object-name>
+        <object-name>kr87.knobs.BFO</object-name>
+        <object-name>kr87.knobs.FRQ</object-name>
+        <object-name>kr87.knobs.FLT</object-name>
+        <object-name>kr87.knobs.SET</object-name>
         <emission>
-            <red>0.028</red>
-            <green>0.014</green>
-            <blue>0.007</blue>
-            <factor-prop>systems/electrical/outputs/instrument-lights</factor-prop>
+            <red-prop>/sim/model/instrument-lighting/emission/red</red-prop>
+            <green-prop>/sim/model/instrument-lighting/emission/green</green-prop>
+            <blue-prop>/sim/model/instrument-lighting/emission/blue</blue-prop>
+            <factor-prop>/controls/lighting/instruments-norm</factor-prop>
         </emission>
     </animation>
 
     <animation>
-        <name>in-use-leds</name>
-        <object-name>freq.001</object-name>
-        <object-name>freq.002</object-name>
-        <object-name>freq.003</object-name>
-        <object-name>freq.004</object-name>
-    </animation>
-
-    <animation>
-        <name>standby-leds</name>
-        <object-name>stby.001</object-name>
-        <object-name>stby.002</object-name>
-        <object-name>stby.003</object-name>
-        <object-name>stby.004</object-name>
-    </animation>
-
-    <animation>
         <type>select</type>
-        <object-name>in-use-leds</object-name>
-        <object-name>standby-leds</object-name>
+        <object-name>kr87.indicators.ANT</object-name>
         <condition>
-            <and>
-                <property>instrumentation/kr-87/inputs/power-btn</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/adf</property>
-                    <value>1</value>
-                </greater-than>
-            </and>
+            <not>
+                <property>/instrumentation/adf[0]/adf-btn</property>
+            </not>
         </condition>
     </animation>
 
     <animation>
         <type>select</type>
-        <object-name>freq.001</object-name>
+        <object-name>kr87.indicators.ADF</object-name>
         <condition>
-            <and>
-                <property>instrumentation/kr-87/inputs/power-btn</property>
-                <greater-than>
-                    <property>systems/electrical/outputs/adf</property>
-                    <value>1</value>
-                </greater-than>
-                 <greater-than>
-                    <property>instrumentation/kr-87/outputs/selected-khz</property>
-                    <value>999</value>
-                </greater-than>
-            </and>
+            <property>/instrumentation/adf[0]/adf-btn</property>
         </condition>
     </animation>
 
     <animation>
         <type>select</type>
-        <object-name>stby.001</object-name>
+        <object-name>kr87.indicators.BFO</object-name>
         <condition>
-            <and>
-                <property>instrumentation/kr-87/inputs/power-btn</property>
-                <or>
-                    <greater-than>
-                        <property>instrumentation/kr-87/outputs/standby-khz</property>
-                        <value>999</value>
-                    </greater-than>
+            <property>/instrumentation/adf[0]/bfo-btn</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>kr87.indicators.FRQ</object-name>
+        <condition>
                     <equals>
-                        <property>instrumentation/kr-87/modes/stby</property>
-                        <value>1</value>
+                <property>/instrumentation/adf[0]/display-mode</property>
+                <value type="int">0</value>
                     </equals>
-                </or>
-                <greater-than>
-                    <property>systems/electrical/outputs/adf</property>
-                    <value>1</value>
-                </greater-than>
-            </and>
         </condition>
     </animation>
 
     <animation>
         <type>select</type>
-        <object-name>stby</object-name>
+        <object-name>kr87.indicators.FLT</object-name>
         <condition>
-            <and>
-                    <property>instrumentation/kr-87/inputs/power-btn</property>
-                <greater-than>
-                    <property>instrumentation/kr-87/modes/stby</property>
-                    <value>0</value>
-                </greater-than>
-                <greater-than>
-                    <property>systems/electrical/outputs/adf</property>
-                    <value>1</value>
-                </greater-than>
-            </and>
+            <equals>
+                <property>/instrumentation/adf[0]/display-mode</property>
+                <value type="int">1</value>
+            </equals>
         </condition>
     </animation>
 
     <animation>
-        <type>rotate</type>
-        <object-name>KR87.volume</object-name>
-        <property>instrumentation/kr-87/inputs/volume</property>
-        <interpolation>
-            <entry><ind>0</ind><dep>0</dep></entry>
-            <entry><ind>1.0</ind><dep>300</dep></entry>
-        </interpolation>
-        <center>
-            <x-m>0.00</x-m>
-            <y-m>0.038</y-m>
-            <z-m>-0.006</z-m>
-        </center>
+        <type>select</type>
+        <object-name>kr87.indicators.ET</object-name>
+        <condition>
+            <equals>
+                <property>/instrumentation/adf[0]/display-mode</property>
+                <value type="int">2</value>
+            </equals>
+        </condition>
+    </animation>
+
+    <!-- Use FREQ -->
+    <animation>
+        <type>select</type>
+        <object-name>kr87.indicators.Use.1000</object-name>
+        <condition>
+            <greater-than-equals>
+                <property>/instrumentation/adf[0]/frequencies/selected-khz</property>
+                <value type="int">1000</value>
+            </greater-than-equals>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>textranslate</type>
+        <object-name>kr87.indicators.Use.1000</object-name>
+        <property>/instrumentation/adf[0]/frequencies/selected-khz</property>
+        <step>1000</step>
+        <factor>0.0001</factor>
         <axis>
-            <x>-1</x>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+ 
+    <animation>
+        <type>textranslate</type>
+        <object-name>kr87.indicators.Use.100</object-name>
+        <property>/instrumentation/adf[0]/frequencies/selected-khz</property>
+        <step>100</step>
+        <factor>0.001</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+ 
+    <animation>
+        <type>textranslate</type>
+        <object-name>kr87.indicators.Use.10</object-name>
+        <property>/instrumentation/adf[0]/frequencies/selected-khz</property>
+        <step>10</step>
+        <factor>0.01</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+ 
+    <animation>
+        <type>textranslate</type>
+        <object-name>kr87.indicators.Use.1</object-name>
+        <property>/instrumentation/adf[0]/frequencies/selected-khz</property>
+        <step>1</step>
+        <factor>0.1</factor>
+        <axis>
+            <x>1</x>
             <y>0</y>
             <z>0</z>
         </axis>
     </animation>
 
+    <!-- STBY FREQ -->
+    <animation>
+        <condition>
+            <not-equals>
+                <property>/instrumentation/adf[0]/display-mode</property>
+                <value type="int">0</value>
+            </not-equals>
+        </condition>
+        <type>select</type>
+        <object-name>kr87.indicators.dots</object-name>
+    </animation>
+
+    <animation>
+        <condition>
+            <greater-than-equals>
+                <property alias="../../../../params/right-display"/>
+                <value type="int">1000</value>
+            </greater-than-equals>
+        </condition>
+        <type>select</type>
+        <object-name>kr87.indicators.Stby.1000</object-name>
+    </animation>
+
+    <animation>
+        <condition>
+            <greater-than-equals>
+                <property alias="../../../../params/right-display"/>
+                <value type="int">100</value>
+            </greater-than-equals>
+        </condition>
+        <type>select</type>
+        <object-name>kr87.indicators.Stby.100</object-name>
+    </animation>
+    
+    <animation>
+        <type>textranslate</type>
+        <object-name>kr87.indicators.Stby.1000</object-name>
+        <property alias="../../params/right-display"/>
+        <step>1000</step>
+        <factor>0.0001</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+ 
+    <animation>
+        <type>textranslate</type>
+        <object-name>kr87.indicators.Stby.100</object-name>
+        <property alias="../../params/right-display"/>
+        <step>100</step>
+        <factor>0.001</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+ 
+    <animation>
+        <type>textranslate</type>
+        <object-name>kr87.indicators.Stby.10</object-name>
+        <property alias="../../params/right-display"/>
+        <step>10</step>
+        <factor>0.01</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+ 
+    <animation>
+        <type>textranslate</type>
+        <object-name>kr87.indicators.Stby.1</object-name>
+        <property alias="../../params/right-display"/>
+        <step>1</step>
+        <factor>0.1</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+
+    <!-- knobs and buttons -->
     <animation>
         <type>translate</type>
-        <object-name>KR87.adf</object-name>
-        <property>instrumentation/kr-87/annunciators/adf</property>
-        <factor>0.001</factor>
+        <object-name>kr87.knobs.ADF</object-name>
+        <property>/instrumentation/adf[0]/adf-btn</property>
+        <factor>-0.004</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>kr87.knobs.BFO</object-name>
+        <property>/instrumentation/adf[0]/bfo-btn</property>
+        <factor>-0.004</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>kr87.knobs.FRQ</object-name>
+        <property>/instrumentation/adf[0]/frq-btn</property>
+        <factor>-0.004</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>kr87.knobs.FLT</object-name>
+        <property>/instrumentation/adf[0]/flt-btn</property>
+        <factor>-0.004</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>kr87.knobs.SET</object-name>
+        <property>/instrumentation/adf[0]/set-btn</property>
+        <factor>-0.004</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>kr87.knobs.Volume</object-name>
+        <property>/instrumentation/adf[0]/volume-norm</property>
+        <factor>-270</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
         <center>
-            <x-m>0.00</x-m>
-            <y-m>0.0</y-m>
-            <z-m>0.0</z-m>
+            <x-m>0.0188946</x-m>
+            <y-m>0.03362955</y-m>
+            <z-m>-0.00472295</z-m>
         </center>
-        <axis>
-            <x>-1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-    </animation>
-<!--    FREQUENCIES    -->
-
-    <animation>
-        <type>textranslate</type>
-        <object-name>freq.001</object-name>
-        <property>instrumentation/kr-87/outputs/selected-khz</property>
-        <factor>0.0001</factor>
-        <step>1000</step>
-        <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-    </animation>
- 
-    <animation>
-        <type>textranslate</type>
-        <object-name>freq.002</object-name>
-        <property>instrumentation/kr-87/outputs/selected-khz</property>
-        <factor>0.001</factor>
-        <step>100</step>
-        <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-    </animation>
- 
-    <animation>
-        <type>textranslate</type>
-        <object-name>freq.003</object-name>
-        <property>instrumentation/kr-87/outputs/selected-khz</property>
-        <factor>0.01</factor>
-        <step>10</step>
-        <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-    </animation>
- 
-    <animation>
-        <type>textranslate</type>
-        <object-name>freq.004</object-name>
-        <property>instrumentation/kr-87/outputs/selected-khz</property>
-        <factor>0.1</factor>
-        <step>1</step>
-        <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-    </animation>
-<!--    Standby -->
-    <animation>
-        <type>textranslate</type>
-        <object-name>stby.001</object-name>
-        <property>instrumentation/kr-87/outputs/standby-khz</property>
-        <factor>0.0001</factor>
-        <step>1000</step>
-        <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-    </animation>
- 
-    <animation>
-        <type>textranslate</type>
-        <object-name>stby.002</object-name>
-        <property>instrumentation/kr-87/outputs/standby-khz</property>
-        <factor>0.001</factor>
-        <step>100</step>
-        <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-    </animation>
- 
-    <animation>
-        <type>textranslate</type>
-        <object-name>stby.003</object-name>
-        <property>instrumentation/kr-87/outputs/standby-khz</property>
-        <factor>0.01</factor>
-        <step>10</step>
-        <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-    </animation>
- 
-    <animation>
-        <type>textranslate</type>
-        <object-name>stby.004</object-name>
-        <property>instrumentation/kr-87/outputs/standby-khz</property>
-        <factor>0.1</factor>
-        <step>1</step>
-        <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>ant.annun</object-name>
-        <condition>
-                <property>instrumentation/kr-87/annunciators/ant</property>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>adf.annun</object-name>
-        <condition>
-                <property>instrumentation/kr-87/annunciators/adf</property>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>bfo.annun</object-name>
-        <condition>
-                <property>instrumentation/kr-87/annunciators/bfo</property>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>et.annun</object-name>
-        <condition>
-                <property>instrumentation/kr-87/annunciators/et</property>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>flt.annun</object-name>
-        <condition>
-                <property>instrumentation/kr-87/annunciators/flt</property>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>frq.annun</object-name>
-        <condition>
-                <property>instrumentation/kr-87/annunciators/frq</property>
-        </condition>
     </animation>
 
 </PropertyList>

@@ -1,0 +1,296 @@
+<?xml version="1.0"?>
+<!--
+    $Id$
+    This is the hotspot fake instrument for the kr87 ADF 3d instrument. 
+    Maintainer: Torsten Dreyer
+    
+    $Log$
+    Revision 1.1  2008/12/04 22:44:23  martin
+
+    Heiko Schulz:
+
+    -new better panel
+    -added lights and made them switchable
+    -doors can be open now (pick animation)
+    -added some liveries by Brett Harrison
+    -added paintkit by Brett Harrison
+    -converted liveries to png
+    -replaced radio stack with 3d-radios, DME and marker-lights yet missing
+    -minor bugfixes
+    -added glass shader with fresnel effect
+
+    still work on the interior to do like the seats, walls and so on...
+
+    Revision 1.1  2006/06/01 12:58:33  mfranz
+    Torsten Dreyer: version 0.3 of the PA34-200T Seneca II (2006.05.30)
+
+-->
+<PropertyList xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../XMLSchemas/panel.xsd">
+    <name>KR87Panel</name>
+    <background>Aircraft/SenecaII/Instruments-3d/transparent.rgb</background>
+    <w>158</w>
+    <h>30</h>
+    <instruments>
+        <instrument>
+            <name>panel hotspots</name>
+            <x>79</x>
+            <y>15</y>
+            <w>158</w>
+            <h>30</h>
+            <w-base>158</w-base>
+            <h-base>30</h-base>
+            <actions>
+                <!-- ADF Button -->
+                <action>
+                    <name>ADFButton</name>
+                    <button>0</button>
+                    <x>-53</x>
+                    <y>-13</y>
+                    <w>9</w>
+                    <h>5</h>
+                    <binding>
+                        <command>property-toggle</command>
+                        <property>/instrumentation/adf[0]/adf-btn</property>
+                    </binding>
+                </action>
+                <!-- BFO Button -->
+                <action>
+                    <name>BFOButton</name>
+                    <button>0</button>
+                    <x>-37</x>
+                    <y>-13</y>
+                    <w>9</w>
+                    <h>5</h>
+                    <binding>
+                        <command>property-toggle</command>
+                        <property>/instrumentation/adf[0]/bfo-btn</property>
+                    </binding>
+                </action>
+
+                <!-- FRQ Button -->
+                <action>
+                    <name>FRQButton</name>
+                    <button>0</button>
+                    <x>-22</x>
+                    <y>-13</y>
+                    <w>9</w>
+                    <h>5</h>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>/instrumentation/adf[0]/frq-btn</property>
+                        <value type="int">1</value>
+                    </binding>
+                    <binding>
+                        <condition>
+                            <equals>
+                                <property>/instrumentation/adf[0]/display-mode</property>
+                                <value type="int">0</value>
+                            </equals>
+                        </condition>
+                        <command>property-swap</command>
+                        <property>/instrumentation/adf[0]/frequencies/selected-khz</property>
+                        <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>/instrumentation/adf[0]/display-mode</property>
+                        <value type="int">0</value>
+                    </binding>
+                    <mod-up>
+                        <binding>
+                            <command>property-assign</command>
+                            <property>/instrumentation/adf[0]/frq-btn</property>
+                            <value type="int">0</value>
+                        </binding>
+                    </mod-up>
+                </action>
+
+                <!-- FLT/ET Button -->
+                <action>
+                    <name>FLTButton</name>
+                    <button>0</button>
+                    <x>-6</x>
+                    <y>-13</y>
+                    <w>9</w>
+                    <h>5</h>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>/instrumentation/adf[0]/flt-btn</property>
+                        <value type="int">1</value>
+                    </binding>
+                    <binding>
+                        <command>property-adjust</command>
+                        <property>/instrumentation/adf[0]/display-mode</property>
+                        <step>1</step>
+                        <min>1</min>
+                        <max>3</max>
+                        <wrap>true</wrap>
+                    </binding>
+                    <mod-up>
+                        <binding>
+                            <command>property-assign</command>
+                            <property>/instrumentation/adf[0]/flt-btn</property>
+                            <value type="int">0</value>
+                        </binding>
+                    </mod-up>
+                </action>
+
+                <!-- SET/RST Button -->
+                <action>
+                    <name>SETButton</name>
+                    <button>0</button>
+                    <x>8</x>
+                    <y>-13</y>
+                    <w>9</w>
+                    <h>5</h>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>/instrumentation/adf[0]/set-btn</property>
+                        <value type="int">1</value>
+                    </binding>
+                    <mod-up>
+                        <binding>
+                            <command>property-assign</command>
+                            <property>/instrumentation/adf[0]/set-btn</property>
+                            <value type="int">0</value>
+                        </binding>
+                    </mod-up>
+                </action>
+
+                <!-- small frequencies increase -->
+                <action>
+                    <name>small com frequency increase</name>
+                    <button>0</button>
+                    <x>63</x>
+                    <y>-10</y>
+                    <w>8</w>
+                    <h>16</h>
+                    <binding>
+                        <command>property-adjust</command>
+                        <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
+                        <step>1</step>
+                        <min>200</min>
+                        <max>1800</max>
+                        <wrap>true</wrap>
+                    </binding>
+                </action>
+
+                <!-- small frequencies decrease -->
+                <action>
+                    <name>small com frequency decrease</name>
+                    <button>0</button>
+                    <x>55</x>
+                    <y>-10</y>
+                    <w>8</w>
+                    <h>16</h>
+
+                    <binding>
+                        <command>property-adjust</command>
+                        <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
+                        <step>-1</step>
+                        <min>200</min>
+                        <max>1800</max>
+                        <wrap>true</wrap>
+                    </binding>
+                </action>
+
+                <!-- large frequencies increase -->
+                <action>
+                    <name>small com frequency increase</name>
+                    <button>1</button>
+                    <x>63</x>
+                    <y>-10</y>
+                    <w>8</w>
+                    <h>16</h>
+                    <binding>
+                        <command>property-adjust</command>
+                        <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
+                        <step>100</step>
+                        <min>200</min>
+                        <max>1800</max>
+                        <wrap>true</wrap>
+                    </binding>
+                </action>
+
+                <!-- large frequencies decrease -->
+                <action>
+                    <name>small com frequency decrease</name>
+                    <button>1</button>
+                    <x>55</x>
+                    <y>-10</y>
+                    <w>8</w>
+                    <h>16</h>
+
+                    <binding>
+                        <command>property-adjust</command>
+                        <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
+                        <step>-100</step>
+                        <min>200</min>
+                        <max>1800</max>
+                        <wrap>true</wrap>
+                    </binding>
+                </action>
+
+                <!-- volume increase -->
+                <action>
+                    <name>volume increase</name>
+                    <button>0</button>
+                    <x>36</x>
+                    <y>-9</y>
+                    <w>4</w>
+                    <h>8</h>
+                    <binding>
+                        <command>property-adjust</command>
+                        <property>/instrumentation/adf[0]/volume-norm</property>
+                        <step>0.1</step>
+                        <min>0</min>
+                        <max>1.0</max>
+                    </binding>
+                    <binding>
+                        <condition>
+                            <greater-than>
+                                <property>/instrumentation/adf[0]/volume-norm</property>
+                                <value>0.0</value>
+                            </greater-than>
+                        </condition>
+                        <command>property-assign</command>
+                        <property>/instrumentation/adf[0]/power-btn</property>
+                        <value type="bool">1</value>
+                    </binding>
+                </action>
+
+                <!-- volume decrease -->
+                <action>
+                    <name>volume decrease</name>
+                    <button>0</button>
+                    <x>32</x>
+                    <y>-9</y>
+                    <w>4</w>
+                    <h>8</h>
+                    <binding>
+                        <command>property-adjust</command>
+                        <property>/instrumentation/adf[0]/volume-norm</property>
+                        <step>-0.1</step>
+                        <min>0</min>
+                        <max>1.0</max>
+                    </binding>
+                    <binding>
+                        <condition>
+                            <less-than>
+                                <property>/instrumentation/adf[0]/volume-norm</property>
+                                <value>0.1</value>
+                            </less-than>
+                        </condition>
+                        <command>property-assign</command>
+                        <property>/instrumentation/adf[0]/power-btn</property>
+                        <value type="bool">0</value>
+                    </binding>
+
+                </action>
+
+
+            </actions>
+        </instrument>
+    </instruments>
+</PropertyList>

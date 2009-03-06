@@ -9,9 +9,9 @@
 var elapsedTimeSecN = props.globals.getNode( "/sim/time/elapsed-sec" );
 
 var timer = {
-  new : func {
+  new : func(base) {
     var m = { parents: [timer] };
-    m.base = arg[0];
+    m.base = base;
     m.baseN = props.globals.getNode( m.base, 1 );
 
     m.timeN = m.baseN.initNode( "time", 0.0 );
@@ -66,9 +66,9 @@ var timer = {
 # KR87
 
 var kr87 = {
-  new : func {
+  new : func(base) {
     var m = { parents: [kr87] };
-    m.base = arg[0];
+    m.base = base;
     m.baseN = props.globals.getNode( m.base, 1 );
 
     m.flt = timer.new( m.base ~ "/flight-timer" );
@@ -95,6 +95,14 @@ var kr87 = {
     m.bfoButtonN = m.baseN.initNode( "bfo-btn", 0, "BOOL" );
 
     m.modeN = m.baseN.getNode( "mode" );
+    aircraft.data.add(
+      m.adfButtonN,
+      m.bfoButtonN,
+      m.volumeNormN, 
+      m.powerButtonN,
+      m.standbyFrequencyN,
+      m.baseN.getNode( "frequencies/selected-khz", 1 )
+    );
     setlistener( m.base ~ "/adf-btn", func { m.modeButtonListener() } );
     setlistener( m.base ~ "/bfo-btn", func { m.modeButtonListener() } );
     m.modeButtonListener();

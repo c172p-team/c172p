@@ -8,6 +8,11 @@
    <name>engstart</name>
    <path>Sounds/engstart.wav</path>
    <property>/engines/engine/cranking</property>
+   <position>
+    <x>-1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
    <volume>
     <offset>0.4</offset>
    </volume>
@@ -23,6 +28,11 @@
      <property>/engines/engine/running</property>
     </not>
    </condition>
+   <position>
+    <x>-1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
    <volume>
     <offset>0.5</offset>
    </volume>
@@ -32,6 +42,11 @@
    <name>cough</name>
    <path>Sounds/coughing.wav</path>
    <property>/engines/engine/running</property>
+   <position>
+    <x>-1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
    <volume>
     <offset>0.3</offset>
    </volume>
@@ -42,6 +57,11 @@
    <mode>looped</mode>
    <path>Sounds/wasp.wav</path>
    <property>/engines/engine/running</property>
+   <position>
+    <x>-1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
    <volume>
     <property>/engines/engine/mp-osi</property>
     <factor>0.00375</factor>
@@ -73,6 +93,11 @@
    <mode>looped</mode>
    <path>Sounds/turboprop1.wav</path>
    <property>/engines/engine/running</property>
+   <position>
+    <x>-1.5</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
    <volume>
     <property>/orientation/alpha-deg</property>
     <type>log</type>
@@ -104,6 +129,11 @@
     </or>
     <!-- <property>/sim/current-view/internal</property> -->
    </condition>
+   <position>
+    <x>1.0</x>
+    <y>0.0</y>
+    <z>-1.5</z>
+   </position>
    <volume>
     <property>/velocities/airspeed-kt</property>
     <type>log</type>
@@ -147,6 +177,11 @@
      </less-than>
     </and>
    </condition>
+   <position>
+    <x>1.0</x>
+    <y>0.0</y>
+    <z>-1.5</z>
+   </position>
    <volume>
     <property>velocities/groundspeed-kt</property>
     <factor>0.01</factor>
@@ -169,6 +204,11 @@
    <mode>in-transit</mode>
    <path>Sounds/flaps.wav</path>
    <property>/surface-positions/flap-pos-norm</property>
+   <position>
+    <x>0.5</x>
+    <y>0.0</y>
+    <z>0.5</z>
+   </position>
    <volume>
     <factor>0.8</factor>
    </volume>
@@ -180,7 +220,12 @@
    <name>wind</name>
    <mode>looped</mode>
    <path>Sounds/wind.wav</path>
-   <property>/velocities/airspeed-kt</property>
+   <condition>
+    <and>
+     <property>/velocities/airspeed-kt</property>
+     <property>/sim/current-view/internal</property>
+    </and>
+   </condition>
    <volume>
     <property>/position/altitude-ft</property>
     <factor>-0.000015</factor>
@@ -207,6 +252,7 @@
    <path>Sounds/stall.wav</path>
    <condition>
     <and>
+     <property>/sim/current-view/internal</property>
      <property>/sim/alarms/stall-warning</property>
      <greater-than>
        <property>/velocities/airspeed-kt</property>
@@ -218,7 +264,6 @@
        <property>/gear/gear[2]/wow</property>
      </not>
     </and>
-    <!-- <property>/sim/current-view/internal</property> -->
    </condition>
    <volume>
     <property>/sim/alarms/stall-warning</property>
@@ -240,7 +285,10 @@
    <mode>looped</mode>
    <path>Sounds/stall.wav</path>
    <condition>
-    <property>/autopilot/KAP140/annunciators/beep/state</property>
+    <and>
+     <property>/sim/current-view/internal</property>
+     <property>/autopilot/KAP140/annunciators/beep/state</property>
+    </and>
    </condition>
   </kap140beep>
 

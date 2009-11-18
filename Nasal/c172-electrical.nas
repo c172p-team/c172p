@@ -227,12 +227,19 @@ update_virtual_bus = func( dt ) {
     # print( "virtual bus volts = ", bus_volts );
 
     # starter motor
-    starter_switch = getprop("/controls/engines/engine[0]/starter");
-    starter_volts = 0.0;
+    var starter_switch = getprop("controls/switches/starter");
+    var starter_volts = 0.0;
     if ( starter_switch ) {
         starter_volts = bus_volts;
+        load += 12;
     }
-    setprop("/systems/electrical/outputs/starter[0]", starter_volts);
+    setprop("systems/electrical/outputs/starter[0]", starter_volts);
+    if (starter_volts > 1) {
+    setprop("controls/engines/engine[0]/starter",1);
+    setprop("controls/engines/engine[0]/magnetos",3);
+    } else {
+    setprop("controls/engines/engine[0]/starter",0);
+    }
 
     # bus network (1. these must be called in the right order, 2. the
     # bus routine itself determins where it draws power from.)
@@ -419,6 +426,9 @@ avionics_bus_1 = func() {
     # Audio Panel 1 Power
     setprop("/systems/electrical/outputs/audio-panel[0]", bus_volts);
 
+    # Com 1 Power
+    setprop("systems/electrical/outputs/comm[0]", bus_volts);
+
     # return cumulative load
     return load;
 }
@@ -440,6 +450,9 @@ avionics_bus_2 = func() {
 
     # Audio Panel 2 Power
     setprop("/systems/electrical/outputs/audio-panel[1]", bus_volts);
+
+    # Com 2 Power
+    setprop("systems/electrical/outputs/comm[1]", bus_volts);
 
     # Transponder Power
     setprop("/systems/electrical/outputs/transponder", bus_volts);

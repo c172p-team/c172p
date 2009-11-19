@@ -19,15 +19,35 @@ Started October 23 2001 by John Check, fgpanels@rockfish.net
   <aero archive="y">c172p</aero>
 
   <model>
-   <path archive="y">Aircraft/c172p/Models/c172p.xml</path>
-   <livery>
-    <file type="string"/>
-   </livery>
+    <path archive="y">Aircraft/c172p/Models/c172p.xml</path>
+
+    <livery>
+      <file type="string">n301dp</file>
+      <index type="int">0</index>
+    </livery>
+
+    <liverytail>
+      <file type="string">n301dp</file>
+      <index type="int">0</index>
+    </liverytail>
+	    
+    <liverywing>
+      <file type="string">n301dp</file>
+      <index type="int">0</index>
+    </liverywing>
+	    
+    <c172p>
+      <immat>true</immat>
+      <fairing1>true</fairing1>
+      <fairing2>false</fairing2>
+      <fairing3>false</fairing3>
+    </c172p>
+
   </model>
 
   <startup>
-			<splash-texture>Aircraft/c172p/splash.png</splash-texture>
-		</startup>
+    <splash-texture>Aircraft/c172p/splash.png</splash-texture>
+  </startup>
 
 
   <help>
@@ -78,34 +98,6 @@ Started October 23 2001 by John Check, fgpanels@rockfish.net
    <title>Cessna 172P</title>
   </help>
 
-<model>
-      <path archive="y">Aircraft/c172p/Models/c172p.xml</path>
-      
-      
-      <livery>
-        <file type="string">n301dp</file>
-	 <index type="int">0</index>
-      </livery>
-      
-       <liverytail>
-	    <file type="string">n301dp</file>
-	     <index type="int">0</index>
-	    </liverytail>
-	    
-	 <liverywing>
-	    <file type="string">n301dp</file>
-	     <index type="int">0</index>
-	    </liverywing>
-	    
-	    <c172p>
-<immat>true</immat>
-      <fairing1>true</fairing1>
-      <fairing2>false</fairing2>
-      <fairing3>false</fairing3>
-      </c172p>
-      
-    </model>
-
   <tutorials include="Tutorials/c172-tutorials.xml"/>
 
   <multiplay>
@@ -118,9 +110,9 @@ Started October 23 2001 by John Check, fgpanels@rockfish.net
         <int type="int">0</int>
         <int type="int">0</int>
       </generic>
-    </multiplay>
+  </multiplay>
   
-    <menubar include="Dialogs/c172p-menu.xml"/>
+  <menubar include="Dialogs/c172p-menu.xml"/>
 
  </sim>
 
@@ -171,7 +163,10 @@ Started October 23 2001 by John Check, fgpanels@rockfish.net
 
  <engines>
   <engine>
-   <rpm type="double">700</rpm>
+     <rpm type="double">0</rpm>
+     <magnetos type="int">0</magnetos>
+     <mixture type="double">0</mixture>
+     <running type="bool">false</running>
   </engine>
  </engines>
 
@@ -179,7 +174,7 @@ Started October 23 2001 by John Check, fgpanels@rockfish.net
 			<strobe type="bool">true</strobe>
 			<beacon type="bool">true</beacon>
 			<nav-lights type="bool">true</nav-lights>
-</lighting>
+ </lighting>
 
  <nasal>
  
@@ -247,4 +242,26 @@ Started October 23 2001 by John Check, fgpanels@rockfish.net
    <max-lb type="double">150.0</max-lb> <!-- WARNING: Max baggage "by the book" is 120lbs or less! -->
   </weight>
  </payload>  
+
+ <input>
+   <keyboard>
+     <key n="115">
+     <name>s</name>
+     <desc>Toggle Starter Switch</desc>
+     <binding>
+       <command>property-assign</command>
+       <property>/controls/switches/starter</property>
+       <value >1</value>
+     </binding>
+     <mod-up>
+       <binding>
+         <command>property-assign</command>
+         <property>/controls/switches/starter</property>
+         <value>0</value>
+       </binding>
+     </mod-up>
+    </key>
+  </keyboard> 
+ </input>
+
 </PropertyList>

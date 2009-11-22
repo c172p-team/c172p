@@ -17,6 +17,10 @@ var navLights = props.globals.getNode("controls/lighting/nav-lights", 1);
 var instrumentsNorm = props.globals.getNode("controls/lighting/instruments-norm", 1);
 var instrumentLightFactor = props.globals.getNode("sim/model/material/instruments/factor", 1);
 var panelLights = props.globals.getNode("controls/lighting/panel-norm", 1);
+var dhR_ft = props.globals.getNode("gear/gear[2]/compression-ft", 1);
+var dhL_ft = props.globals.getNode("gear/gear[1]/compression-ft", 1);
+var propGear1 = props.globals.getNode("gear/gear[1]", 1);
+var propGear2 = props.globals.getNode("gear/gear[2]", 1);
 
 # Associate Nodes
 
@@ -28,6 +32,8 @@ var filteredCDI0 = propNav0.getNode("filtered-cdiNAV0-deflection", 1);
 var filteredCDI1 = propNav1.getNode("filtered-cdiNAV1-deflection", 1);
 var filteredGS0  = propNav0.getNode("filtered-gsNAV0-deflection", 1);
 var filteredGS1  = propNav1.getNode("filtered-gsNAV1-deflection", 1);
+var right_main_rot = propGear2.getNode("compression-rotation-deg", 1);
+var left_main_rot = propGear1.getNode("compression-rotation-deg", 1);
 
 
 var init_actions = func {
@@ -43,6 +49,25 @@ var init_actions = func {
 
 var update_actions = func {
 
+#  Compute compression induced main gear rotations
+#
+#  constants
+   var R_m = 0.919679;
+   var h0 = 0.63872;
+   var theta0_rad = 0.803068;
+   var radTOdeg = 57.295779;
+
+#  Right main
+   var delta_h = dhR_ft.getValue()*12/39.4;
+   var right_alpha_deg = ( math.acos( (h0 - delta_h)/R_m ) - theta0_rad )*57.295779;
+
+#  Left main
+   var delta_h = dhL_ft.getValue()*12/39.4;
+   var left_alpha_deg = ( math.acos( (h0 - delta_h)/R_m ) - theta0_rad )*57.295779;
+   
+    
+
+  # outputs
     if ( navLights.getValue() ) {
        instrumentLightFactor.setDoubleValue(1.0);
        #  Used double in case one wants to later add the ability to dim the instrument lights
@@ -54,11 +79,12 @@ var update_actions = func {
        panelLights.setDoubleValue(0.0);       
     }
 
-  # outputs
     filteredCDI0.setDoubleValue( cdi0_lowpass.filter(cdiNAV0.getValue()));
     filteredCDI1.setDoubleValue(cdi1_lowpass.filter(cdiNAV1.getValue()));
     filteredGS0.setDoubleValue(gs0_lowpass.filter(gsNAV0.getValue()));
     filteredGS1.setDoubleValue(gs1_lowpass.filter(gsNAV1.getValue()));
+    right_main_rot.setDoubleValue(right_alpha_deg);
+    left_main_rot.setDoubleValue(left_alpha_deg);
 
     settimer(update_actions, 0);
 }

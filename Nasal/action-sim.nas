@@ -56,14 +56,16 @@ var update_actions = func {
    var h0 = 0.63872;
    var theta0_rad = 0.803068;
    var radTOdeg = 57.295779;
+   var ftTOm = 0.304569;
 
 #  Right main
-   var delta_h = dhR_ft.getValue()*12/39.4;
-   var right_alpha_deg = ( math.acos( (h0 - delta_h)/R_m ) - theta0_rad )*57.295779;
+   var delta_h = dhR_ft.getValue()*ftTOm;
+   var right_alpha_deg = ( math.acos( (h0 - delta_h)/R_m ) - theta0_rad )*radTOdeg;
+
 
 #  Left main
-   var delta_h = dhL_ft.getValue()*12/39.4;
-   var left_alpha_deg = ( math.acos( (h0 - delta_h)/R_m ) - theta0_rad )*57.295779;
+   var delta_h = dhL_ft.getValue()*ftTOm;
+   var left_alpha_deg = ( math.acos( (h0 - delta_h)/R_m ) - theta0_rad )*radTOdeg;
    
     
 

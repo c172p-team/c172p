@@ -66,20 +66,10 @@ var update_actions = func {
 #  Left main
    var delta_h = dhL_ft.getValue()*ftTOm;
    var left_alpha_deg = ( math.acos( (h0 - delta_h)/R_m ) - theta0_rad )*radTOdeg;
-   
-    
 
-  # outputs
-    if ( navLights.getValue() ) {
-       instrumentLightFactor.setDoubleValue(1.0);
-       #  Used double in case one wants to later add the ability to dim the instrument lights
-       instrumentsNorm.setDoubleValue(1.0);
-       panelLights.setDoubleValue(1.0);
-    } else {
-       instrumentLightFactor.setDoubleValue(0.0);
-       instrumentsNorm.setDoubleValue(0.0);
-       panelLights.setDoubleValue(0.0);       
-    }
+# Outputs
+    instrumentLightFactor.setDoubleValue(instrumentsNorm.getValue());
+    panelLights.setDoubleValue(instrumentsNorm.getValue());
 
     filteredCDI0.setDoubleValue( cdi0_lowpass.filter(cdiNAV0.getValue()));
     filteredCDI1.setDoubleValue(cdi1_lowpass.filter(cdiNAV1.getValue()));

@@ -35,7 +35,6 @@ var filteredGS1  = propNav1.getNode("filtered-gsNAV1-deflection", 1);
 var right_main_rot = propGear2.getNode("compression-rotation-deg", 1);
 var left_main_rot = propGear1.getNode("compression-rotation-deg", 1);
 
-
 var init_actions = func {
     filteredCDI0.setDoubleValue(0.0);
     filteredCDI1.setDoubleValue(0.0);
@@ -55,17 +54,18 @@ var update_actions = func {
    var R_m = 0.919679;
    var h0 = 0.63872;
    var theta0_rad = 0.803068;
-   var radTOdeg = 57.295779;
-   var ftTOm = 0.304569;
+
+#  Note:  R2D and FT2M  are unit conversion factors defined in $FG_ROOT/Nasal/globals.nas
+#         R2D (radians to degrees) FT2M (feet to meters)
 
 #  Right main
-   var delta_h = dhR_ft.getValue()*ftTOm;
-   var right_alpha_deg = ( math.acos( (h0 - delta_h)/R_m ) - theta0_rad )*radTOdeg;
+   var delta_h = dhR_ft.getValue()*FT2M;
+   var right_alpha_deg = ( math.acos( (h0 - delta_h)/R_m ) - theta0_rad )*R2D;
 
 
 #  Left main
-   var delta_h = dhL_ft.getValue()*ftTOm;
-   var left_alpha_deg = ( math.acos( (h0 - delta_h)/R_m ) - theta0_rad )*radTOdeg;
+   var delta_h = dhL_ft.getValue()*FT2M;
+   var left_alpha_deg = ( math.acos( (h0 - delta_h)/R_m ) - theta0_rad )*R2D;
 
 # Outputs
     instrumentLightFactor.setDoubleValue(instrumentsNorm.getValue());

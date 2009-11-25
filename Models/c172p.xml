@@ -286,30 +286,42 @@
    </offsets>
  </model>
 
+ <model>
+   <name>LeftYoke</name>
+   <path>Aircraft/c172p/Models/Yoke/yoke.xml</path>
+   <offsets>
+     <x-m>-0.36</x-m>
+     <y-m>-0.219</y-m>
+     <z-m>-0.130</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>RightYoke</name>
+   <path>Aircraft/c172p/Models/Yoke/yoke.xml</path>
+   <offsets>
+     <x-m>-0.36</x-m>
+     <y-m> 0.239</y-m>
+     <z-m>-0.130</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>FlapSwitch</name>
+   <path>Aircraft/Instruments-3d/flaps/flaps.xml</path>
+   <offsets>
+     <x-m>-0.36</x-m>
+     <y-m>0.19</y-m>
+     <z-m>-0.25</z-m>
+   </offsets>
+ </model>
+
 <!-- Controls -->
  <animation>
    <name>CarbHeatGroup</name>
    <object-name>CarbHeat</object-name>
    <object-name>CarbHeatBack</object-name>
    <object-name>CarbHeatRod</object-name>
- </animation>
-
- <animation>
-   <name>ThrottleGroup</name>
-   <object-name>Throttle</object-name>
-   <object-name>ThrottleRod</object-name>
- </animation>
-
- <animation>
-   <name>MixtureGroup</name>
-   <object-name>Mixture</object-name>
-   <object-name>MixtureRod</object-name>
- </animation>
-
- <animation>
-   <name>FlapSwitchGroup</name>
-   <object-name>FlapSwitch</object-name>
-   <object-name>FlapSwitchRod</object-name>
  </animation>
 
  <animation>
@@ -334,8 +346,8 @@
    <object-name>LeftYoke</object-name>
    <object-name>RightYoke</object-name>
    <object-name>CarbHeatGroup</object-name>
-   <object-name>ThrottleGroup</object-name>
-   <object-name>MixtureGroup</object-name>
+   <object-name>Throttle</object-name>
+   <object-name>Mixture</object-name>
    <object-name>FlapSwitchGroup</object-name>
    <object-name>TrimWheel</object-name>
  </animation> -->
@@ -650,64 +662,6 @@
  </animation>
 
  <animation>
-   <type>select</type>
-   <object-name>LeftYoke</object-name>
-   <object-name>RightYoke</object-name>
-   <condition>
-     <not>
-       <property>sim/model/hide-yoke</property>
-     </not>
-   </condition>
- </animation>
-
- <animation>
-   <type>translate</type>
-   <object-name>LeftYoke</object-name>
-   <object-name>RightYoke</object-name>
-   <property>controls/flight/elevator</property>
-   <factor>-0.03</factor>
-   <axis>
-     <x>1.0</x>
-     <y>0.0</y>
-     <z>0.0</z>
-   </axis>
- </animation>
-
- <animation>
-   <type>rotate</type>
-   <object-name>LeftYoke</object-name>
-   <property>controls/flight/aileron</property>
-   <factor>-45</factor>
-   <center>
-     <x-m>-0.23</x-m>
-     <y-m>-0.219</y-m>
-     <z-m>-0.130</z-m>
-   </center>
-   <axis>
-     <x>1.0</x>
-     <y>0.0</y>
-     <z>0.0</z>
-   </axis>
- </animation>
-
- <animation>
-   <type>rotate</type>
-   <object-name>RightYoke</object-name>
-   <property>controls/flight/aileron</property>
-   <factor>-45</factor>
-   <center>
-     <x-m>-0.23</x-m>
-     <y-m>0.245</y-m>
-     <z-m>-0.13</z-m>
-   </center>
-   <axis>
-     <x>1.0</x>
-     <y>0.0</y>
-     <z>0.0</z>
-   </axis>
- </animation>
-
- <animation>
    <type>translate</type>
    <object-name>CarbHeatGroup</object-name>
    <property>controls/anti-ice/engine[0]/carb-heat</property>
@@ -718,48 +672,110 @@
      <z>0.0</z>
    </axis>
  </animation>
+ 
+ <animation>
+   <type>pick</type>
+   <object-name>CarbHeatGroup</object-name>
+   <visible>true</visible>
+   <action>
+     <button>0</button>
+     <repeatable>false</repeatable>
+     <binding>
+       <command>property-toggle</command>
+       <property>controls/anti-ice/engine[0]/carb-heat</property>
+     </binding>
+   </action>
+ </animation>
 
  <animation>
    <type>translate</type>
-   <object-name>ThrottleGroup</object-name>
+   <object-name>Throttle</object-name>
    <property>controls/engines/engine[0]/throttle</property>
-   <factor>-0.10</factor>
+   <factor>-0.08</factor>
    <axis>
      <x>1.0</x>
      <y>0.0</y>
      <z>0.0</z>
    </axis>
+ </animation>
+ 
+ <animation>
+   <type>pick</type>
+   <object-name>Throttle</object-name>
+   <object-name>ThrottleMount</object-name>
+   <visible>true</visible>
+   <action>
+     <name>small increase (scrollwheel)</name>
+     <button>3</button>
+     <repeatable>true</repeatable>
+     <binding>
+       <command>property-adjust</command>
+       <property>controls/engines/engine[0]/throttle</property>
+       <step>0.05</step>
+       <min>0</min>
+       <max>1</max>
+       <wrap>0</wrap>
+     </binding>
+   </action>
+   <action>
+     <name>small decrease (scrollwheel)</name>
+     <button>4</button>
+     <repeatable>true</repeatable>
+     <binding>
+       <command>property-adjust</command>
+       <property>controls/engines/engine[0]/throttle</property>
+       <step>-0.05</step>
+       <min>0</min>
+       <max>1</max>
+       <wrap>0</wrap>
+     </binding>
+   </action>
  </animation>
 
  <animation>
    <type>translate</type>
-   <object-name>MixtureGroup</object-name>
+   <object-name>Mixture</object-name>
    <property>controls/engines/engine[0]/mixture</property>
-   <factor>-0.10</factor>
+   <factor>-0.08</factor>
    <axis>
      <x>1.0</x>
      <y>0.0</y>
      <z>0.0</z>
    </axis>
  </animation>
-
+ 
  <animation>
-   <type>rotate</type>
-   <property>controls/flight/flaps</property>
-   <object-name>FlapSwitchGroup</object-name>
-   <factor>60</factor>
-   <offset-deg>-30</offset-deg>
-   <axis>
-     <x>0.0</x>
-     <y>1.0</y>
-     <z>0.0</z>
-   </axis>
-   <center>
-     <x-m>-0.39</x-m>
-     <y-m>0.19</y-m>
-     <z-m>-0.25</z-m>
-   </center>
- </animation>  
+   <type>pick</type>
+   <object-name>Mixture</object-name>
+   <object-name>MixtureMount</object-name>
+   <visible>true</visible>
+   <action>
+     <name>small increase (scrollwheel)</name>
+     <button>3</button>
+     <repeatable>true</repeatable>
+     <binding>
+       <command>property-adjust</command>
+       <property>controls/engines/engine[0]/mixture</property>
+       <step>0.05</step>
+       <min>0</min>
+       <max>1</max>
+       <wrap>0</wrap>
+     </binding>
+   </action>
+   <action>
+     <name>small decrease (scrollwheel)</name>
+     <button>4</button>
+     <repeatable>true</repeatable>
+     <binding>
+       <command>property-adjust</command>
+       <property>controls/engines/engine[0]/mixture</property>
+       <step>-0.05</step>
+       <min>0</min>
+       <max>1</max>
+       <wrap>0</wrap>
+     </binding>
+   </action>
+ </animation> 
 
  <animation>
    <type>rotate</type>

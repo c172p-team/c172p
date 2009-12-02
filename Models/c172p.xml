@@ -661,6 +661,51 @@
    </action>
  </animation>
 
+ <!-- Parking Brake -->
+ <animation>
+   <type>translate</type>
+   <object-name>ParkingBrake</object-name>
+   <property>/controls/gear/brake-parking</property>
+   <factor>0.04</factor>
+   <axis>
+     <x>1.0</x>
+     <y>0.0</y>
+     <z>0.0</z>
+   </axis>
+ </animation>
+ 
+ <animation>
+   <type>rotate</type>
+   <object-name>ParkingBrake</object-name>
+   <property>/controls/gear/brake-parking</property>
+   <factor>90</factor>
+   <axis>
+     <x>1.0</x>
+     <y>0.0</y>
+     <z>0.0</z>
+   </axis>
+   <center>
+     <x-m>-0.36</x-m>
+     <y-m>-0.20</y-m>
+     <z-m>-0.33</z-m>
+   </center>
+ </animation>
+
+ <animation>
+   <type>pick</type>
+   <object-name>ParkingBrake</object-name>
+   <visible>true</visible>
+   <action>
+     <name>Select</name>
+     <button>0</button>
+     <binding>
+       <command>property-toggle</command>
+       <property>/controls/gear/brake-parking</property>
+     </binding>
+   </action>
+ </animation>
+
+ <!-- Card Heat -->
  <animation>
    <type>translate</type>
    <object-name>CarbHeatGroup</object-name>
@@ -777,6 +822,7 @@
    </action>
  </animation> 
 
+ <!-- Elevator Trim -->
  <animation>
    <type>rotate</type>
    <object-name>TrimWheel</object-name>
@@ -788,11 +834,60 @@
      <z>0.0</z>
    </axis>
    <center>
-     <x-m>-0.41</x-m>
-     <y-m>-0.04</y-m>
-     <z-m>-0.46</z-m>
+     <x-m>-0.406</x-m>
+     <y-m>-0.20</y-m>
+     <z-m>-0.48</z-m>
    </center>
- </animation>  
+ </animation>
+
+ <animation>
+   <type>pick</type>
+   <object-name>TrimWheel</object-name>
+   <visible>true</visible>
+   <action>
+     <name>Dncrease (scrollwheel)</name>
+     <button>3</button>
+     <repeatable>true</repeatable>
+     <binding>
+       <command>property-adjust</command>
+       <property>controls/flight/elevator-trim</property>
+       <step>0.01</step>
+       <min>-1</min>
+       <max>1</max>
+       <wrap>0</wrap>
+     </binding>
+   </action>
+   <action>
+     <name>Decrease (scrollwheel)</name>
+     <button>4</button>
+     <binding>
+       <command>property-adjust</command>
+       <property>controls/flight/elevator-trim</property>
+       <step>-0.01</step>
+       <min>-1</min>
+       <max>1</max>
+       <wrap>0</wrap>
+     </binding>
+   </action>
+ </animation>
+ 
+ <animation>
+   <type>rotate</type>
+   <object-name>ElevatorTrimPos</object-name>
+   <property>controls/flight/elevator-trim</property>
+   <factor>-12</factor>
+   <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+   </axis>
+   <center>
+     <x-m>-0.406</x-m>
+     <y-m>-0.20</y-m>
+     <z-m>-0.48</z-m>
+   </center>
+ </animation>
+ 
 
  <animation>
    <type>rotate</type>

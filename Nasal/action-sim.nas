@@ -84,7 +84,8 @@ var update_actions = func {
 
 # Setup listener call to start update loop once the fdm is initialized
 # 
-setlistener("sim/signals/fdm-initialized", init_actions);  
+setlistener("sim/signals/fdm-initialized", init_actions); 
+setlistener("sim/signals/reset", init_actions);
 
 
 

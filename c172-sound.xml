@@ -53,68 +53,52 @@
   </crank>
 
   <engine>
-   <name>engine</name>
-   <mode>looped</mode>
-   <path>Sounds/wasp.wav</path>
-   <property>engines/engine/running</property>
-   <position>
-    <x>-1.0</x>
-    <y>0.0</y>
-    <z>0.0</z>
-   </position>
-   <volume>
-    <property>engines/engine/mp-osi</property>
-    <factor>0.00375</factor>
-    <min>0.15</min>
-    <max>0.5</max>
-   </volume>
-   <volume>
-    <property>orientation/alpha-deg</property>
-    <type>log</type>
-    <min>1.0</min>
-    <max>1.5</max>
-   </volume>
-   <volume>
-    <property>sim/current-view/internal</property>
-    <offset>1.0</offset>
-    <factor>-0.7</factor>
-   </volume>
-   <pitch>
-    <property>engines/engine/rpm</property>
-    <factor>0.0004</factor>
-    <min>0.5</min>
-    <max>2.0</max>
-    <offset>0.15</offset>
-   </pitch>
+    <name>engine</name>
+    <mode>looped</mode>
+    <path>Sounds/wasp.wav</path>
+    <property>/engines/engine/running</property>
+    <volume>
+      <property>/engines/engine/mp-osi</property>
+      <factor>0.027777</factor>
+      <!-- these values of min and max are unlikely to be relevant,
+           because the MAP is unlikely to go below 5" or above 28".
+           Also note that propeller noise is additional to engine
+           noise, rather like an <offset>.
+             -->
+      <max>1.0</max>
+      <min>0.10</min>
+    </volume>
+    <pitch>
+      <property>/engines/engine/rpm</property>
+      <factor>0.0004</factor>
+      <min>0.0</min>
+      <max>2.0</max>
+      <offset>0.01</offset>
+    </pitch>
   </engine>
 
   <propeller>
-   <name>propeller</name>
-   <mode>looped</mode>
-   <path>Sounds/turboprop1.wav</path>
-   <property>engines/engine/running</property>
-   <position>
-    <x>-1.5</x>
-    <y>0.0</y>
-    <z>0.0</z>
-   </position>
-   <volume>
-    <property>orientation/alpha-deg</property>
-    <type>log</type>
-    <min>0.2</min>
-    <max>1.0</max>
-   </volume>
-   <volume>
-    <property>sim/current-view/internal</property>
-    <factor>0.5</factor>
-   </volume>
-   <pitch>
-    <property>engines/engine/mp-osi</property>
-    <factor>0.0036</factor>
-    <min>0.5</min>
-    <max>2.0</max>
-    <offset>0.9</offset>
-   </pitch>
+    <name>propeller</name>
+    <mode>looped</mode>
+    <path>Sounds/wasp.wav</path>
+    <condition>
+      <greater-than>
+        <property>/engines/engine/rpm</property>
+        <value>10</value>
+      </greater-than>
+    </condition>
+    <volume>
+      <property>/engines/engine/rpm</property>
+      <factor>0.0001</factor>
+      <max>0.25</max>
+    </volume>
+    <pitch>
+      <property>/engines/engine/rpm</property>
+      <factor>0.0004</factor>
+      <min>0.0</min>
+      <max>2.0</max>
+      <offset>0.01</offset>
+    </pitch>
   </propeller>
 
   <rumble>
@@ -273,13 +257,6 @@
    <max-dist>20.0</max-dist>
   </stall>
  
-<!-- no binding yet?
-  <click>
-   <name>click</name>
-   <path>Sounds/click.wav</path>
-  </click>
--->
-
   <kap140beep>
    <name>KAP140Beep</name>
    <type>avionics</type>

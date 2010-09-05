@@ -1853,7 +1853,6 @@
  <!-- Airframe -->
 
  <animation>
-
    <type>select</type>
    <object-name>Propeller</object-name>
    <condition>
@@ -1862,37 +1861,26 @@
        <value>500</value>
      </less-than>
    </condition>
-
  </animation>
 
  <animation>
-
-   <type>select</type>
-   <object-name>Propeller.Slow</object-name>
-   <condition>
-     <and>
-       <greater-than>
-         <property>engines/engine[0]/rpm</property>
-         <value>400</value>
-       </greater-than>
-       <less-than>
-         <property>engines/engine[0]/rpm</property>
-         <value>1200</value>
-       </less-than>
-     </and>
-   </condition>
-
+  <type>select</type>
+  <object-name>Propeller.Fast</object-name>
+  <condition>
+   <greater-than>
+    <property>engines/engine[0]/rpm</property>
+    <value>400</value>
+   </greater-than>
+  </condition>
  </animation>
 
  <animation>
-   <type>select</type>
+   <type>blend</type>
    <object-name>Propeller.Fast</object-name>
-   <condition>
-     <greater-than>
-       <property>engines/engine[0]/rpm</property>
-       <value>1200</value>
-     </greater-than>
-   </condition>
+   <property>engines/engine[0]/rpm</property>
+   <factor>0.0004</factor>
+   <max>1.0</max>
+   <min>0.0</min>
  </animation>
 
  <animation>

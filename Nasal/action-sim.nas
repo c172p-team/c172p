@@ -51,7 +51,7 @@ var init_actions = func {
     filteredGS1.setDoubleValue(0.0);
 
     # Make sure that init_actions is called when the sim is reset
-    setlistener("sim/signals/reset", init_actions); 
+    setlistener("sim/signals/reset", init_actions);
 
     # Request that the update fuction be called next frame
     settimer(update_actions, 0);
@@ -113,15 +113,25 @@ var update_actions = func {
 
 var scissor_angle = func(H,C,L,phi) {
     var a = (H - C)/2/L;
-    # Use 2 iterates of Newton's method and 4th order Taylor series to 
+    # Use 2 iterates of Newton's method and 4th order Taylor series to
     # approximate theta where sin(phi - theta) = a
     var theta = phi - 2*a/3 - a/3/(1-a*a/2);
     return theta;
 }
 
 # Setup listener call to start update loop once the fdm is initialized
-# 
-setlistener("sim/signals/fdm-initialized", init_actions); 
+#
+setlistener("sim/signals/fdm-initialized", init_actions);
 
+#
+# Listeners to tie the /consumables/fuels/tank[]/selected to
+# /fdm/jsbsim/propulsion/tank[]/priority
 
+setlistener("consumables/fuel/tank[0]/selected", func(selected) {
+  setprop("/fdm/jsbsim/propulsion/tank[0]/priority", selected.getBoolValue() ? 1 : 0);
+});
+
+setlistener("consumables/fuel/tank[1]/selected", func(selected) {
+  setprop("/fdm/jsbsim/propulsion/tank[1]/priority", selected.getBoolValue() ? 1 : 0);
+});
 

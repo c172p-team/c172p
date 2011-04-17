@@ -5,6 +5,26 @@
 <!-- component. -->
 <PropertyList>
 
+  <filter>
+    <name>heading bug error computer/normalizer</name>
+    <debug>false</debug>
+    <type>gain</type>
+    <input>
+      <property>autopilot/settings/heading-bug-deg</property>
+      <offset>
+        <property>instrumentation/heading-indicator/indicated-heading-deg</property>
+        <scale>-1.0</scale>
+      </offset>
+    </input>
+    <output>autopilot/internal/heading-bug-error-deg</output>
+    <period>
+      <min>-180</min>
+      <max>180</max>
+    </period>
+    <gain>1.0</gain>
+  </filter>
+
+
   <!-- =============================================================== -->
   <!-- Roll Axis Modes                                                 -->
   <!-- =============================================================== -->
@@ -227,6 +247,15 @@
       <u_max>0.017</u_max>  <!-- maximum output clamp -->
     </config>
    </pid-controller>
+
+  <filter>
+    <name>static port pressure rate computer</name>
+    <debug>false</debug>
+    <type>derivative</type>
+    <input>systems/static[0]/pressure-inhg</input>
+    <output>autopilot/internal/pressure-rate</output>
+    <filter-time>1.0</filter-time>
+  </filter>
 
    <filter>
     <name>pressure-rate-filter</name>

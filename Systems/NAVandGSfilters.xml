@@ -37,5 +37,22 @@
     <output>instrumentation/nav[1]/filtered-gsNAV1-deflection</output>
   </filter>
 
+  <filter>
+    <name>EGT lowpass</name>
+    <debug>false</debug>
+    <type>exponential</type>
+    <filter-time>4.0</filter-time>
+    <input>
+      <property>engines/engine[0]/egt-degf</property>
+      <!-- 300 * scale + offset = 0.0
+           800 * scale + offset = 1.0 -->
+      <scale>0.002</scale> 
+      <offset>-0.6</offset>
+    </input>
+    <output>engines/engine[0]/egt-norm</output>
+    <min>0.0</min>
+    <max>1.0</max>
+  </filter>
+
 </PropertyList>
 

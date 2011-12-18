@@ -1,0 +1,202 @@
+<?xml version="1.0"?>
+<!--
+Cessna 172 Skyhawk panel for the ATC 610x.
+Started by John Check <j4strngs@rockfish.net> - October 2000
+Updated by Curt Olson <curt@flightgear.org> - July 2002
+_______________________________________________________________________
+
+This is a panel configuration file for the open-source flight
+simulator FlightGear (www.flightgear.org).  The file is an XML-encoded
+FlightGear property list defining the panel's background texture and
+the location (and optionally, size) of the instruments that will
+appear on the panel.
+
+Each instrument is, itself, defined in an XML-encoded property list
+in a separate file.
+
+Co-ordinates are relative to the *bottom* left corner of the screen
+(as in OpenGL).  The total FlightGear window is always considered to
+be 1024x768, whatever its actual display size on the screen.  All
+paths are relative to $FG_ROOT.
+
+Note that the name of the element defining each instrument must be
+different, or else instrument definitions will be overwritten:
+that's not particularly XML-ish, but that's how property lists
+work in FlightGear right now.
+
+Each instrument has its own preferred width and height, but you can
+override those by providing <w>..</w> and <h>..</h> properties with the
+<x>...</x> and <y>...</y> properties.
+-->
+
+<!DOCTYPE PropertyList SYSTEM "panel.dtd">
+
+<PropertyList>
+
+ <name>Cessna C172 Skyhawk IFR Panel</name>
+ <background>Aircraft/c172p/Panels/Textures/panel-610x-bg.rgb</background>
+ <w>1024</w>
+ <h>768</h>
+ <view-height>5</view-height>
+
+
+ <instruments>
+
+ <!-- Outside air tempurature -->
+ <instrument include="../../Instruments/oat.xml">
+   <name>OAT</name>
+   <x>86</x>
+   <y>711</y>
+   <w>75</w>
+   <h>31</h>
+  </instrument>
+
+ <!-- place holder for Annunciators -->
+ <instrument include="../../Instruments/ann-c172s.xml">
+   <name>Annunciator</name>
+   <x>569</x>
+   <y>756</y>
+   <w>225</w>
+   <h>32</h>
+  </instrument>
+
+ <!-- engine gauge cluster -->  
+
+  <instrument include="../../Instruments/fuel-c172s.xml">
+   <name>Fuel Gauge</name>
+   <x>87</x>
+   <y>601</y>
+   <w>165</w>
+   <h>165</h>
+  </instrument>
+
+  <instrument include="../../Instruments/egt-ff-c172s.xml">
+   <name>Exhaust Gas Temperature Gauge</name>
+   <x>89</x>
+   <y>428</y>
+   <w>165</w>
+   <h>165</h>
+  </instrument>
+
+
+  <instrument include="../../Instruments/oil-c172s.xml">
+   <name>Oil Gauge</name>
+   <x>87</x>
+   <y>255</y>
+   <w>165</w>
+   <h>165</h>
+  </instrument>
+  
+  <instrument include="../../Instruments/vac-amp-c172s.xml">
+   <name>Vacuum Pressure Gauge</name>
+   <x>88</x>
+   <y>81</y>
+   <w>165</w>
+   <h>165</h>
+  </instrument>
+
+
+  <instrument include="../../Instruments/adf-c172s.xml">
+   <name>ADF Gauge</name>
+   <x>305</x>
+   <y>117</y>
+   <w>246</w>
+   <h>246</h>
+  </instrument>
+
+<!-- end engine gauges cluster -->
+
+<!-- engine controls cluster -->  
+ 
+  <instrument include="../../Instruments/rpm-c172s.xml">
+   <name>RPM Gauge</name>
+   <x>838</x>
+   <y>120</y>
+   <w>246</w>
+   <h>246</h>
+  </instrument>
+
+<!-- end engine controls cluster -->
+  
+<!-- sacred six -->
+
+  <instrument include="../../Instruments/asi-c172s.xml">
+   <name>Airspeed Indicator</name>
+   <x>305</x>
+   <y>611</y>
+   <w>246</w>
+   <h>246</h>
+  </instrument>
+
+  <instrument include="../../Instruments/ati-c172s.xml">
+   <name>Attitude Gyro</name>
+   <x>570</x>
+   <y>611</y>
+   <w>246</w>
+   <h>246</h>
+  </instrument>
+
+  <instrument include="../../Instruments/alt-c172s.xml">
+   <name>Altimeter</name>
+   <x>838</x>
+   <y>612</y>
+   <w>246</w>
+   <h>246</h>
+  </instrument>
+
+  <instrument include="../../Instruments/trn-c172s.xml">
+   <name>Turn Coordinator</name>
+   <x>304</x>
+   <y>366</y>
+   <w>246</w>
+   <h>246</h>
+  </instrument>
+
+  <!-- <instrument include="../../Instruments/hdg-c172s.xml"> -->
+  <!--  <name>Directional Gyro</name> -->
+  <instrument include="../../Instruments/hsi-bk-hi.xml">
+   <name>Bendix King HSI</name>
+   <!-- <x>563</x> -->
+   <!-- <y>384</y> -->
+   <!-- <w>246</w> -->
+   <!-- <h>246</h> -->
+   <x>572</x>
+   <y>377</y>
+   <w>226</w>
+   <h>236</h>
+  </instrument>
+
+  <instrument include="../../Instruments/vsi-c172s.xml">
+   <name>Vertical Velocity Indicator</name>
+   <x>837</x>
+   <y>367</y>
+   <w>246</w>
+   <h>246</h>
+  </instrument>
+
+<!-- end sacred six -->
+
+<!-- radio nav instruments --> 
+
+  <instrument include="../../Instruments/vor2-c172s.xml">
+  <name>VOR 2 Gauge</name>
+  <params>
+   <nav-to-flag>/instrumentation/nav[1]/to-flag</nav-to-flag>
+   <nav-from-flag>/instrumentation/nav[1]/from-flag</nav-from-flag>
+   <nav-radial-selected>/instrumentation/nav[1]/radials/selected-deg</nav-radial-selected>
+   <nav-gs-needle-deflection>/instrumentation/nav[1]/gs-needle-deflection</nav-gs-needle-deflection>
+   <nav-heading-needle-deflection>/instrumentation/nav[1]/heading-needle-deflection</nav-heading-needle-deflection>
+    <nav-has-gs-needle>/sim/instrument-options/nav[1]/has-gs-needle</nav-has-gs-needle>
+    <nav-needles-pivot>/sim/instrument-options/nav[1]/needles-pivot</nav-needles-pivot>
+  </params>
+  <x>572</x>
+  <y>120</y>
+  <w>246</w>
+  <h>246</h>
+  </instrument>
+
+ <!-- end radio nav instruments -->
+
+ </instruments>
+
+</PropertyList>

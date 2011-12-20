@@ -7,7 +7,7 @@
     <fileheader>
         <author> Unknown </author>
         <filecreationdate> 2002-01-01 </filecreationdate>
-        <version> $Id$ </version>
+        <version> $Id: c172p.xml,v 1.27 2011/06/20 14:22:04 jentron Exp $ </version>
         <description> Cessna C-172 </description>
     </fileheader>
 
@@ -451,6 +451,25 @@
             </product>
         </function>
 
+        <function name="aero/function/velocity-induced-fps">
+            <description> velocity including the propulsion induced velocity.</description>
+            <sum>
+                <property>velocities/u-aero-fps</property>
+                <property>propulsion/engine/prop-induced-velocity_fps</property>
+                <property>propulsion/engine/prop-induced-velocity_fps</property>
+            </sum>
+        </function> 
+
+        <function name="aero/function/qbar-induced-psf">
+            <description> q bar including the propulsion induced velocity.</description>
+            <product>
+                <property>aero/function/velocity-induced-fps</property>
+                <property>aero/function/velocity-induced-fps</property>
+                <property>atmosphere/rho-slugs_ft3</property>
+                <value>0.5</value>
+            </product>
+        </function> 
+
         <axis name="DRAG">
             <function name="aero/coefficient/CDo">
                 <description>Drag_at_zero_lift</description>
@@ -778,9 +797,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>metrics/cbarw-ft</property>
-                    <sin>
-                        <property>aero/alpha-rad</property>
-                    </sin>
+                    <property>aero/alpha-rad</property>
                     <value>-1.8000</value>
                 </product>
             </function>
@@ -809,7 +826,7 @@
             <function name="aero/coefficient/Cmde">
                 <description>Pitch_moment_due_to_elevator_deflection</description>
                 <product>
-                    <property>aero/qbar-psf</property>
+                    <property>aero/function/qbar-induced-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>metrics/cbarw-ft</property>
                     <property>fcs/elevator-pos-rad</property>
@@ -887,7 +904,7 @@
             <function name="aero/coefficient/Cndr">
                 <description>Yaw_moment_due_to_rudder</description>
                 <product>
-                    <property>aero/qbar-psf</property>
+                    <property>aero/function/qbar-induced-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>metrics/bw-ft</property>
                     <property>fcs/rudder-pos-rad</property>

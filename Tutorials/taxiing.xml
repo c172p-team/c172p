@@ -103,10 +103,10 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
       <property>/controls/engines/engine/starter</property>
       <value>false</value>
     </set>
-    <message>I've already started the engine. Press Shift-B to release the parking brake, allow the aircraft
-      to move forward slightly, then hold b to check that the normal brakes work.</message>
+    <message>I've already started the engine. Press Shift-B to release the parking brake. Throttle up to about 
+      20% to move forward slightly, then hold b to check that the normal brakes work.</message>
     <error>
-      <message>Apply the brakes by pressing b</message>
+      <message>Apply the brakes by pressing b.</message>
       <condition>
         <and>
           <equals>
@@ -131,6 +131,21 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
           <property>/controls/gear/brake-parking</property>
           <value>1</value>
         </equals>
+      </condition>
+    </error>
+    <error>
+      <message>Throttle up to about 20% to move forward slightly.</message>
+      <condition>
+        <and>
+          <equals>
+            <property>/controls/gear/brake-parking</property>
+            <value>0</value>
+          </equals>
+          <less-than>
+            <property>/controls/engines/engine/throttle</property>
+            <value>0.15</value>
+          </less-than>
+        </and>
       </condition>
     </error>
     <exit>

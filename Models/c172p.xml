@@ -7,14 +7,14 @@
    <pitch-deg>-3.0</pitch-deg>
    <z-m> -0.065 </z-m>
  </offsets>
- 
+
  <nasal>
    <load>
-     var rplayer = cmdarg();  
-     rplayer.getNode("sim/model/door-positions/rightDoor/position-norm", 1).alias(rplayer.getNode("sim/multiplay/generic/float[0]")); 
-     rplayer.getNode("sim/model/door-positions/leftDoor/position-norm", 1).alias(rplayer.getNode("sim/multiplay/generic/float[1]")); 
-     rplayer.getNode("sim/model/door-positions/baggageDoor/position-norm", 1).alias(rplayer.getNode("sim/multiplay/generic/float[2]")); 
-      
+     var rplayer = cmdarg();
+     rplayer.getNode("sim/model/door-positions/rightDoor/position-norm", 1).alias(rplayer.getNode("sim/multiplay/generic/float[0]"));
+     rplayer.getNode("sim/model/door-positions/leftDoor/position-norm", 1).alias(rplayer.getNode("sim/multiplay/generic/float[1]"));
+     rplayer.getNode("sim/model/door-positions/baggageDoor/position-norm", 1).alias(rplayer.getNode("sim/multiplay/generic/float[2]"));
+
      var livery_update = aircraft.livery_update.new(
      "Aircraft/c172p/Models/Liveries", 10,
      func { print("c172p livery update") });
@@ -23,41 +23,98 @@
    <unload>
      livery_update.stop();
    </unload>
- </nasal> 
+ </nasal>
 
  <!-- Normal shader effect. Separate effects required for each normal map texture -->
 
  <effect>
     <inherits-from>Aircraft/c172p/Models/Effects/bumpspec-wing</inherits-from>
-    <object-name>wing_1</object-name>
     <object-name>flaps</object-name>
-    <object-name>rightaileron</object-name>
     <object-name>leftaileron</object-name>
+    <object-name>rightaileron</object-name>
+    <object-name>wing_1</object-name>
 
  </effect>
 
  <effect>
     <inherits-from>Aircraft/c172p/Models/Effects/bumpspec-fuselage</inherits-from>
+    <object-name>LeftWheelStrut</object-name>
+    <object-name>RightWheelStrut</object-name>
+    <object-name>baggagedoor</object-name>
+    <object-name>charniere1</object-name>
+    <object-name>charniere2</object-name>
+    <object-name>charniere3</object-name>
+    <object-name>charniere4</object-name>
+    <object-name>fairing1</object-name>
+    <object-name>fairing2</object-name>
+    <object-name>fairing3</object-name>
     <object-name>fuselage_1</object-name>
+    <object-name>leftdoor</object-name>
+    <object-name>rightdoor</object-name>
  </effect>
 
   <effect>
     <inherits-from>Aircraft/c172p/Models/Effects/bumpspec-tail</inherits-from>
-    <object-name>vstab</object-name>
-    <object-name>rudder_1</object-name>
-    <object-name>hstab</object-name>
     <object-name>elevatorleft</object-name>
     <object-name>elevatorright</object-name>
+    <object-name>hstab</object-name>
+    <object-name>rudder_1</object-name>
+    <object-name>vstab</object-name>
  </effect>
 
-<!-- Transparent Surfaces for Rembrandt rendering -->
- <effect>
-    <inherits-from>Effects/model-transparent</inherits-from>
-    <object-name>glas</object-name>
-    <object-name>rightwindow</object-name>
-    <object-name>leftwindow</object-name>
-    <object-name>Propeller.Fast</object-name>
- </effect>
+ <!--  Specularity fix -->
+ <animation>
+     <type>material</type>
+     <object-name>LeftWheelStrut</object-name>
+     <object-name>RightWheelStrut</object-name>
+     <object-name>baggagedoor</object-name>
+     <object-name>charniere1</object-name>
+     <object-name>charniere2</object-name>
+     <object-name>charniere3</object-name>
+     <object-name>charniere4</object-name>
+     <object-name>elevatorleft</object-name>
+     <object-name>elevatorright</object-name>
+     <object-name>fairing1</object-name>
+     <object-name>fairing2</object-name>
+     <object-name>fairing3</object-name>
+     <object-name>flaps</object-name>
+     <object-name>fuselage_0</object-name>
+     <object-name>fuselage_1</object-name>
+     <object-name>hstab</object-name>
+     <object-name>leftaileron</object-name>
+     <object-name>leftdoor</object-name>
+     <object-name>rightaileron</object-name>
+     <object-name>rightdoor</object-name>
+     <object-name>rudder_1</object-name>
+     <object-name>vstab</object-name>
+     <object-name>wing_1</object-name>
+     <shininess>128</shininess>
+     <specular>
+         <r>1</r>
+         <g>1</g>
+         <b>1</b>
+     </specular>
+     <ambient>
+         <r>1</r>
+         <g>1</g>
+         <b>1</b>
+     </ambient>
+ </animation>
+
+   <!-- Transparent Surfaces for Rembrandt rendering -->
+   <effect>
+       <inherits-from>Aircraft/c172p/Models/Effects/glass</inherits-from>
+       <object-name>glas</object-name>
+       <object-name>rightwindow</object-name>
+       <object-name>leftwindow</object-name>
+       <object-name>landinglightcover</object-name>
+   </effect>
+
+   <effect>
+       <inherits-from>Effects/model-transparent</inherits-from>
+       <object-name>Propeller.Fast</object-name>
+   </effect>
+
 <!-- Immatriculatoin -->
  <model>
    <path>Aircraft/c172p/Models/Immat/immat.xml</path>
@@ -74,15 +131,6 @@
  <model>
    <path>Models/Aircraft/marker.xml</path>
  </model>
-
- <animation>
-   <type>shader</type>
-   <shader>chrome</shader>
-   <texture>glass_shader.png</texture>
-   <object-name>glas</object-name>
-   <object-name>leftwindow</object-name>
-   <object-name>rightwindow</object-name>
- </animation>
 
  <!--instrumentation-->
  <model>
@@ -2692,80 +2740,17 @@
    <!--global type="bool">true</global-->
    <object-name>RightWheelStrut</object-name>
    <object-name>LeftWheelStrut</object-name>
-   <property-base>sim/model/livery/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>fuselage-n301dp.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
    <object-name>fairing1</object-name>
-   <property-base>sim/model/livery/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>fuselage-n301dp.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
    <object-name>fairing2</object-name>
-   <property-base>sim/model/livery/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>fuselage-n301dp.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
    <object-name>fairing3</object-name>
-   <property-base>sim/model/livery/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>fuselage-n301dp.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
-   <object-name>fuselage</object-name>
-   <property-base>sim/model/livery/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>fuselage-n301dp.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
+   <object-name>fuselage_0</object-name>
+   <object-name>fuselage_1</object-name>
    <object-name>charniere1</object-name>
    <object-name>charniere2</object-name>
    <object-name>charniere3</object-name>
    <object-name>charniere4</object-name>
-   <property-base>sim/model/livery/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>fuselage-n301dp.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
    <object-name>leftdoor</object-name>
-   <property-base>sim/model/livery/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>fuselage-n301dp.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
    <object-name>rightdoor</object-name>
-   <property-base>sim/model/livery/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>fuselage-n301dp.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
    <object-name>baggagedoor</object-name>
    <property-base>sim/model/livery/</property-base>
    <texture-prop>texture</texture-prop>
@@ -2776,32 +2761,8 @@
    <type>material</type>
    <!--global type="bool">true</global-->
    <object-name>wing</object-name>
-   <property-base>sim/model/liverywing/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>wing.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
    <object-name>flaps</object-name>
-   <property-base>sim/model/liverywing/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>wing.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
    <object-name>rightaileron</object-name>
-   <property-base>sim/model/liverywing/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>wing.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
    <object-name>leftaileron</object-name>
    <property-base>sim/model/liverywing/</property-base>
    <texture-prop>texture</texture-prop>
@@ -2812,32 +2773,8 @@
    <type>material</type>
    <!--global type="bool">true</global-->
    <object-name>vstab</object-name>
-   <property-base>sim/model/liverytail/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>tail.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
    <object-name>hstab</object-name>
-   <property-base>sim/model/liverytail/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>tai.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
    <object-name>rudder</object-name>
-   <property-base>sim/model/liverytail/</property-base>
-   <texture-prop>texture</texture-prop>
-   <texture>tail.png</texture>
- </animation>
-
- <animation>
-   <type>material</type>
-   <!--global type="bool">true</global-->
    <object-name>elevatorleft</object-name>
    <object-name>elevatorright</object-name>
    <property-base>sim/model/liverytail/</property-base>

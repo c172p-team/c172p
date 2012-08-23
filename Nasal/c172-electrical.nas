@@ -335,9 +335,6 @@ electrical_bus_2 = func() {
     var bus_volts = vbus_volts;
     var load = 0.0;
 
-    # Turn Coordinator Power
-    setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);
-  
     # Map Lights Power
     if ( getprop("/controls/switches/nav-lights" ) ) {
         setprop("/systems/electrical/outputs/map-lights", bus_volts);
@@ -403,6 +400,12 @@ avionics_bus_1 = func() {
     if ( master_av ) {
         bus_volts = ebus1_volts;
     }
+
+    # Turn Coordinator Power
+    setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);
+
+    # Directional Gyro Power
+    setprop("/systems/electrical/outputs/DG", bus_volts);
 
     # Avionics Fan Power
     setprop("/systems/electrical/outputs/avionics-fan", bus_volts);

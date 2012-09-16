@@ -64,14 +64,21 @@ BatteryClass.new = func {
 BatteryClass.apply_load = func( amps, dt ) {
     var amphrs_used = amps * dt / 3600.0;
     var percent_used = amphrs_used / me.amp_hours;
-    me.charge_percent -= percent_used;
-    if ( me.charge_percent < 0.0 ) {
-        me.charge_percent = 0.0;
-    } elsif ( me.charge_percent > 1.0 ) {
-        me.charge_percent = 1.0;
+    var charge_percent = me.charge_percent;
+    charge_percent -= percent_used;
+    if ( charge_percent < 0.0 ) {
+        charge_percent = 0.0;
+    } elsif ( charge_percent > 1.0 ) {
+        charge_percent = 1.0;
     }
-    # print( "battery percent = ", me.charge_percent);
-    return me.amp_hours * me.charge_percent;
+    if ((charge_percent < 0.1)and(me.charge_percent >= 0.1))
+    {
+        print("Warning: Low battery! Enable alternator or apply external power to recharge battery.");
+    }
+    me.charge_percent = charge_percent;
+    setprop("/systems/electrical/battery-charge-percent", charge_percent);
+    # print( "battery percent = ", charge_percent);
+    return me.amp_hours * charge_percent;
 }
 
 ##
@@ -207,6 +214,10 @@ update_virtual_bus = func( dt ) {
     # switch state
     var master_bat = getprop("/controls/engines/engine[0]/master-bat");
     var master_alt = getprop("/controls/engines/engine[0]/master-alt");
+    if (getprop("/controls/electric/external-power"))
+    {
+        external_volts = 28;
+    }
 
     # determine power source
     var bus_volts = 0.0;
@@ -233,7 +244,7 @@ update_virtual_bus = func( dt ) {
         load += 12;
     }
     setprop("systems/electrical/outputs/starter[0]", starter_volts);
-    if (starter_volts > 1) {
+    if (starter_volts > 12) {
         setprop("controls/engines/engine[0]/starter",1);
         setprop("controls/engines/engine[0]/magnetos",3);
     } else {
@@ -251,9 +262,6 @@ update_virtual_bus = func( dt ) {
     # system loads and ammeter gauge
     var ammeter = 0.0;
     if ( bus_volts > 1.0 ) {
-        # normal load
-        load += 15.0;
-
         # ammeter gauge
         if ( power_source == "battery" ) {
             ammeter = -load;
@@ -271,12 +279,15 @@ update_virtual_bus = func( dt ) {
     }
 
     # filter ammeter needle pos
-    var ammeter_ave = 0.8 * ammeter_ave + 0.2 * ammeter;
+    ammeter_ave = 0.8 * ammeter_ave + 0.2 * ammeter;
 
     # outputs
     setprop("/systems/electrical/amps", ammeter_ave);
     setprop("/systems/electrical/volts", bus_volts);
-    vbus_volts = bus_volts;
+    if (bus_volts > 12)
+        vbus_volts = bus_volts;
+    else
+        vbus_volts = 0.0;
 
     return load;
 }
@@ -290,6 +301,7 @@ electrical_bus_1 = func() {
     # Cabin Lights Power
     if ( getprop("/controls/circuit-breakers/cabin-lights-pwr") ) {
         setprop("/systems/electrical/outputs/cabin-lights", bus_volts);
+        load += bus_volts / 57;
     } else {
         setprop("/systems/electrical/outputs/cabin-lights", 0.0);
     }
@@ -300,21 +312,23 @@ electrical_bus_1 = func() {
     # Fuel Pump Power
     if ( getprop("/controls/engines/engine[0]/fuel-pump") ) {
         setprop("/systems/electrical/outputs/fuel-pump", bus_volts);
+        load += bus_volts / 28;
     } else {
         setprop("/systems/electrical/outputs/fuel-pump", 0.0);
     }
 
     # Landing Light Power
-    if ( getprop("/controls/switches/landing-light") ) {
-        setprop("/systems/electrical/outputs/landing-light", bus_volts);
+    if ( getprop("/controls/lighting/landing-lights") ) {
+        setprop("/systems/electrical/outputs/landing-lights", bus_volts);
+        load += bus_volts / 5;
     } else {
-        setprop("/systems/electrical/outputs/landing-light", 0.0 );
+        setprop("/systems/electrical/outputs/landing-lights", 0.0 );
     }
 
     # Beacon Power
-    if ( getprop("/controls/switches/flashing-beacon" ) ) {
+    if ( getprop("/controls/lighting/beacon" ) ) {
         setprop("/systems/electrical/outputs/beacon", bus_volts);
-        if ( bus_volts > 1.0 ) { load += 7.5; }
+        load += bus_volts / 28;
     } else {
         setprop("/systems/electrical/outputs/beacon", 0.0);
     }
@@ -335,34 +349,37 @@ electrical_bus_2 = func() {
     var bus_volts = vbus_volts;
     var load = 0.0;
 
-    # Map Lights Power
-    if ( getprop("/controls/switches/nav-lights" ) ) {
-        setprop("/systems/electrical/outputs/map-lights", bus_volts);
-        if ( bus_volts > 1.0 ) { load += 7.0; }
+    # Nav Lights Power
+    if ( getprop("/controls/lighting/nav-lights" ) ) {
+        setprop("/systems/electrical/outputs/nav-lights", bus_volts);
+        load += bus_volts / 14;
     } else {
-        setprop("/systems/electrical/outputs/map-lights", 0.0);
+        setprop("/systems/electrical/outputs/nav-lights", 0.0);
     }
   
     # Instrument Lights Power
     setprop("/systems/electrical/outputs/instrument-lights", bus_volts);
   
     # Strobe Lights Power
-    if ( getprop("/controls/switches/strobe-lights" ) ) {
-        setprop("/systems/electrical/outputs/strobe-lights", bus_volts);
+    if ( getprop("/controls/lighting/strobe" ) ) {
+        setprop("/systems/electrical/outputs/strobe", bus_volts);
+        load += bus_volts / 14;
     } else {
-        setprop("/systems/electrical/outputs/strobe-lights", 0.0);
+        setprop("/systems/electrical/outputs/strobe", 0.0);
     }
   
     # Taxi Lights Power
-    if ( getprop("/controls/switches/taxi-lights" ) ) {
-        setprop("/systems/electrical/outputs/taxi-lights", bus_volts);
+    if ( getprop("/controls/lighting/taxi-light" ) ) {
+        setprop("/systems/electrical/outputs/taxi-light", bus_volts);
+        load += bus_volts / 10;
     } else {
-        setprop("/systems/electrical/outputs/taxi-lights", 0.0);
+        setprop("/systems/electrical/outputs/taxi-light", 0.0);
     }
   
     # Pitot Heat Power
-    if ( getprop("/controls/switches/pitot-heat" ) ) {
+    if ( getprop("/controls/anti-ice/pitot-heat" ) ) {
         setprop("/systems/electrical/outputs/pitot-heat", bus_volts);
+        load += bus_volts / 28;
     } else {
         setprop("/systems/electrical/outputs/pitot-heat", 0.0);
     }
@@ -400,6 +417,8 @@ avionics_bus_1 = func() {
     if ( master_av ) {
         bus_volts = ebus1_volts;
     }
+
+    load += bus_volts / 20.0;
 
     # Turn Coordinator Power
     setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);
@@ -440,7 +459,8 @@ avionics_bus_2 = func() {
     if ( master_av ) {
         bus_volts = ebus2_volts;
     }
-    var load = 0.0;
+
+    var load = bus_volts / 20.0;
 
     # NavCom 2 Power
     setprop("/systems/electrical/outputs/nav[1]", bus_volts);

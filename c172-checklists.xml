@@ -6,7 +6,7 @@
       <value>COMPLETE</value>
     </item>
     <item>
-      <name>Passenger</name>
+      <name>Passenger Briefing</name>
       <value>COMPLETE</value>
     </item>
     <item>
@@ -16,6 +16,12 @@
     <item>
       <name>Brakes</name>
       <value>TEST and SET (shift-B)</value>
+      <condition>
+        <equals>
+          <property>/controls/gear/brake-parking</property>
+          <value>1</value>
+        </equals>
+      </condition>
     </item>
     <item>
       <name>Avionics Power Switch</name>
@@ -32,6 +38,18 @@
     <item>
       <name>Fuel Selector Valve</name>
       <value>BOTH</value>
+      <condition>
+        <and>
+          <equals>
+            <property>/consumables/fuel/tank/selected</property>
+            <value>1</value>
+          </equals>
+          <equals>
+            <property>/consumables/fuel/tank[1]/selected</property>
+            <value>1</value>
+          </equals>
+        </and>
+      </condition>      
     </item>
   </checklist>
   
@@ -45,14 +63,38 @@
     <item>
       <name>Carburetor Heat</name>
       <value>COLD</value>
+      <condition>
+        <equals>
+          <property>/controls/anti-ice/engine[0]/carb-heat</property>
+          <value>0</value>
+        </equals>
+      </condition>
     </item>
     <item>
       <name>Throttle</name>
       <value>OPEN 1/8 INCH</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/controls/engines/engine[0]/throttle</property>
+            <value>0.1</value>
+          </greater-than>
+          <less-than>
+            <property>/controls/engines/engine[0]/throttle</property>
+            <value>0.4</value>
+          </less-than>
+        </and>
+      </condition>
     </item>    
     <item>
       <name>Mixture</name>
       <value>RICH</value>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine[0]/mixture</property>
+          <value>0.9</value>
+        </greater-than>
+      </condition>
     </item>
     <item>
       <name>Propellor Area</name>
@@ -66,6 +108,12 @@
       <name>Magnetos</name>
       <value>BOTH</value>
       <value>(press } three times)</value>
+      <condition>
+        <equals>
+          <property>/controls/engines/engine[0]/magnetos</property>
+          <value>3</value>
+        </equals>
+      </condition>
     </item>
     <item>
       <name>Ignition Switch</name>
@@ -81,12 +129,36 @@
       <value>ON</value>
     </item>
     <item>
-      <name>Navigation Lights and Flashing Beacon</name>
+      <name>Navigation Lights, Flashing Beacon</name>
       <value>ON as required</value>
+      <condition>
+        <and>
+          <equals>
+            <property>/controls/lighting/nav-lights</property>
+            <value>1</value>
+          </equals>
+          <equals>
+            <property>/controls/lighting/beacon</property>
+            <value>1</value>
+          </equals>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Radios</name>
       <value>ON</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/instrumentation/comm[0]/volume</property>
+            <value>0.0</value>
+          </greater-than>
+          <greater-than>
+            <property>/instrumentation/comm[1]/volume</property>
+            <value>0.0</value>
+          </greater-than>
+        </and>
+      </condition>
     </item>
   </checklist>
   
@@ -95,6 +167,12 @@
     <item>
       <name>Parking Brake</name>
       <value>SET (shift-B)</value>
+      <condition>
+        <equals>
+          <property>/controls/gear/brake-parking</property>
+          <value>1</value>
+        </equals>
+      </condition>
     </item>
     <item>
       <name>Seats, Seat Belts, Shoulder Harnesses</name>
@@ -119,18 +197,60 @@
     <item>
       <name>Mixture</name>
       <value>RICH</value>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine[0]/mixture</property>
+          <value>0.9</value>
+        </greater-than>
+      </condition>
     </item>
     <item>
       <name>Fuel Selector Valve</name>
       <value>RECHECK BOTH</value>
+      <condition>
+        <and>
+          <equals>
+            <property>/consumables/fuel/tank/selected</property>
+            <value>1</value>
+          </equals>
+          <equals>
+            <property>/consumables/fuel/tank[1]/selected</property>
+            <value>1</value>
+          </equals>
+        </and>
+      </condition>      
     </item>
     <item>
       <name>Elevator Trim</name>
       <value>SET for takeoff</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/controls/flight/elevator-trim</property>
+            <value>-0.25</value>
+          </greater-than>
+          <less-than>
+            <property>/controls/flight/elevator-trim</property>
+            <value>0.0</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Throttle</name>
       <value>1700 RPM</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/engines/engine/rpm</property>
+            <value>1600</value>
+          </greater-than>
+          <less-than>
+            <property>/engines/engine/rpm</property>
+            <value>1700</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Magnetos</name>
@@ -160,6 +280,12 @@
     <item>
       <name>Strobe Lights</name>
       <value>AS DESIRED</value>
+      <condition>
+        <equals>
+          <property>/controls/lighting/strobe</property>
+          <value>1</value>
+        </equals>
+      </condition>
     </item>
     <item>
       <name>Radios and Avionics</name>
@@ -172,10 +298,22 @@
     <item>
       <name>Wing Flaps</name>
       <value>SET for takeoff</value>
+      <condition>
+        <less-than>
+          <property>/controls/flight/flaps</property>
+          <value>0.5</value>
+        </less-than>
+      </condition>
     </item>
     <item>
       <name>Brakes</name>
       <value>RELEASE</value>
+      <condition>
+        <not-equals>
+          <property>/controls/gear/brake-parking</property>
+          <value>1</value>
+        </not-equals>
+      </condition>
     </item>    
   </checklist>
   
@@ -184,19 +322,54 @@
     <item>
       <name>Wing Flaps</name>
       <value>0 - 10 degrees</value>
+      <condition>
+        <less-than>
+          <property>/controls/flight/flaps</property>
+          <value>0.5</value>
+        </less-than>
+      </condition>
     </item>
     <item>
       <name>Carburetor Heat</name>
       <value>COLD</value>
+      <condition>
+        <equals>
+          <property>/controls/anti-ice/engine[0]/carb-heat</property>
+          <value>0</value>
+        </equals>
+      </condition>
+    </item>
+    <item>
+      <name>Mixture</name>
+      <value>RICH</value>
+      <value>(above 3000ft, LEAN to obtain maximum RPM)</value>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine[0]/mixture</property>
+          <value>0.9</value>
+        </greater-than>
+      </condition>
     </item>
     <item>
       <name>Throttle</name>
       <value>FULL OPEN</value>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine/throttle</property>
+          <value>0.95</value>
+        </greater-than>
+      </condition>
     </item>
     <item>
       <name>Elevator Control</name>
       <value>LIFT NOSE WHEEL</value>
       <value>(at 55 KIAS)</value>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+          <value>55.0</value>
+        </greater-than>
+      </condition>
     </item>
   </checklist>
 
@@ -205,27 +378,81 @@
     <item>
       <name>Wing Flaps</name>
       <value>10 degrees</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/controls/flight/flaps</property>
+            <value>0.2</value>
+          </greater-than>
+          <less-than>
+            <property>/controls/flight/flaps</property>
+            <value>0.5</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Carburetor Heat</name>
       <value>COLD</value>
+      <condition>
+        <equals>
+          <property>/controls/anti-ice/engine[0]/carb-heat</property>
+          <value>0</value>
+        </equals>
+      </condition>
     </item>
     <item>
       <name>Brakes</name>
       <value>APPLY</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/controls/gear/brake-left</property>
+            <value>0.9</value>
+          </greater-than>
+          <greater-than>
+            <property>/controls/gear/brake-right</property>
+            <value>0.9</value>
+          </greater-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Throttle</name>
       <value>FULL OPEN</value>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine/throttle</property>
+          <value>0.95</value>
+        </greater-than>
+      </condition>
     </item>
     <item>
       <name>Mixture</name>
       <value>RICH</value>
       <value>(above 3000ft, LEAN to obtain maximum RPM)</value>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine[0]/mixture</property>
+          <value>0.9</value>
+        </greater-than>
+      </condition>
     </item>
     <item>
       <name>Brakes</name>
       <value>RELEASE</value>
+      <condition>
+        <and>
+          <less-than>
+            <property>/controls/gear/brake-left</property>
+            <value>0.1</value>
+          </less-than>
+          <less-than>
+            <property>/controls/gear/brake-right</property>
+            <value>0.1</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Elevator Control</name>
@@ -242,15 +469,39 @@
     <item>
       <name>Airspeed</name>
       <value>70-85 KIAS</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>70.0</value>
+          </greater-than>
+          <less-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>85.0</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Throttle</name>
       <value>FULL OPEN</value>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine/throttle</property>
+          <value>0.95</value>
+        </greater-than>
+      </condition>
     </item>
     <item>
       <name>Mixture</name>
       <value>RICH</value>
       <value>(above 3000ft, LEAN to obtain maximum RPM)</value>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine[0]/mixture</property>
+          <value>0.9</value>
+        </greater-than>
+      </condition>
     </item>
   </checklist>
 
@@ -260,6 +511,18 @@
       <name>Power</name>
       <value>2100-2700 RPM</value>
       <value>(no more than 75% recommended)</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/engines/engine/rpm</property>
+            <value>2100</value>
+          </greater-than>
+          <less-than>
+            <property>/engines/engine/rpm</property>
+            <value>2700</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Elevator Trim</name>
@@ -276,6 +539,18 @@
     <item>
       <name>Fuel Selector Valve</name>
       <value>BOTH</value>
+      <condition>
+        <and>
+          <equals>
+            <property>/consumables/fuel/tank/selected</property>
+            <value>1</value>
+          </equals>
+          <equals>
+            <property>/consumables/fuel/tank[1]/selected</property>
+            <value>1</value>
+          </equals>
+        </and>
+      </condition>      
     </item>
     <item>
       <name>Power</name>
@@ -290,6 +565,12 @@
       <name>Carburetor Heat</name>
       <value>FULL HEAT AS REQUIRED</value>
       <value>(to prevent carburetor icing)</value>
+      <condition>
+        <equals>
+          <property>/controls/anti-ice/engine[0]/carb-heat</property>
+          <value>1</value>
+        </equals>
+      </condition>
     </item>
   </checklist>
 
@@ -302,15 +583,39 @@
     <item>
       <name>Fuel Selector Valve</name>
       <value>BOTH</value>
+      <condition>
+        <and>
+          <equals>
+            <property>/consumables/fuel/tank/selected</property>
+            <value>1</value>
+          </equals>
+          <equals>
+            <property>/consumables/fuel/tank[1]/selected</property>
+            <value>1</value>
+          </equals>
+        </and>
+      </condition>      
     </item>
     <item>
       <name>Mixture</name>
       <value>RICH</value>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine[0]/mixture</property>
+          <value>0.9</value>
+        </greater-than>
+      </condition>
     </item>
     <item>
       <name>Carburetor Heat</name>
       <value>FULL HEAT</value>
       <value>(apply full heat before reducing power)</value>
+      <condition>
+        <equals>
+          <property>/controls/anti-ice/engine[0]/carb-heat</property>
+          <value>1</value>
+        </equals>
+      </condition>
     </item>
     <item>
       <name>Autopilot</name>
@@ -323,16 +628,52 @@
     <item>
       <name>Airspeed</name>
       <value>65-75 KIAS (flaps UP)</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>65.0</value>
+          </greater-than>
+          <less-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>75.0</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Wing Flaps</name>
       <value>AS DESIRED</value>
-      <value>(0 - 10 degrees below 110KIAS</value>
+      <value>0 - 10 degrees below 110KIAS</value>
       <value>10 - 30 degrees below 85KIAS</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/controls/flight/flaps</property>
+            <value>0.2</value>
+          </greater-than>
+          <less-than>
+            <property>/controls/flight/flaps</property>
+            <value>0.5</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Airspeed</name>
       <value>60-70 KIAS (flaps DOWN)</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>60.0</value>
+          </greater-than>
+          <less-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>70.0</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Touchdown</name>
@@ -353,18 +694,54 @@
     <item>
       <name>Airspeed</name>
       <value>65-75 KIAS (flaps UP)</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>65.0</value>
+          </greater-than>
+          <less-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>75.0</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Wing Flaps</name>
       <value>FULL DOWN (30 degrees)</value>
+      <condition>
+        <greater-than>
+          <property>/controls/flight/flaps</property>
+          <value>0.9</value>
+        </greater-than>
+      </condition>
     </item>
     <item>
       <name>Airspeed</name>
       <value>61 KIAS (until flare)</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>59.0</value>
+          </greater-than>
+          <less-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>63.0</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Power</name>
       <value>REDUCE to idle after clearing obstacle</value>
+      <condition>
+        <less-than>
+          <property>/controls/engines/engine/throttle</property>
+          <value>0.05</value>
+        </less-than>
+      </condition>
     </item>
     <item>
       <name>Touchdown</name>
@@ -373,10 +750,28 @@
     <item>
       <name>Braking</name>
       <value>APPLY HEAVILY</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/controls/gear/brake-left</property>
+            <value>0.9</value>
+          </greater-than>
+          <greater-than>
+            <property>/controls/gear/brake-right</property>
+            <value>0.9</value>
+          </greater-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Wing Flaps</name>
       <value>RETRACT</value>
+      <condition>
+        <less-than>
+          <property>/controls/flight/flaps</property>
+          <value>0.2</value>
+        </less-than>
+      </condition>
     </item>
   </checklist>
 
@@ -385,23 +780,67 @@
     <item>
       <name>Throttle</name>
       <value>FULL OPEN</value>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine/throttle</property>
+          <value>0.95</value>
+        </greater-than>
+      </condition>
     </item>
     <item>
       <name>Carburetor Heat</name>
       <value>COLD</value>
+      <condition>
+        <equals>
+          <property>/controls/anti-ice/engine[0]/carb-heat</property>
+          <value>0</value>
+        </equals>
+      </condition>
     </item>
     <item>
       <name>Wing Flaps</name>
       <value>20 degrees (immediately)</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/controls/flight/flaps</property>
+            <value>0.6</value>
+          </greater-than>
+          <less-than>
+            <property>/controls/flight/flaps</property>
+            <value>0.7</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Climb Speed</name>
       <value>55 KIAS</value>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>53.0</value>
+          </greater-than>
+          <less-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>58.0</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
     <item>
       <name>Wing Flaps</name>
       <value>10 degrees (until obstacles are cleared)</value>
       <value>RETRACT (after reaching safe altitude and 60 KIAS)</value>
+      <condition>
+        <and>
+          <less-than>
+            <property>/controls/flight/flaps</property>
+            <value>0.4</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
   </checklist>
 
@@ -410,10 +849,24 @@
     <item>
       <name>Carburetor Heat</name>
       <value>COLD</value>
+      <condition>
+        <equals>
+          <property>/controls/anti-ice/engine[0]/carb-heat</property>
+          <value>0</value>
+        </equals>
+      </condition>
     </item>
     <item>
       <name>Wing Flaps</name>
       <value>UP</value>
+      <condition>
+        <and>
+          <less-than>
+            <property>/controls/flight/flaps</property>
+            <value>0.2</value>
+          </less-than>
+        </and>
+      </condition>
     </item>
   </checklist>
   
@@ -422,6 +875,12 @@
     <item>
       <name>Parking Brake</name>
       <value>SET</value>
+      <condition>
+        <equals>
+          <property>/controls/gear/brake-parking</property>
+          <value>1</value>
+        </equals>
+      </condition>
     </item>
     <item>
       <name>Avionics, Power, Electrical, Autopilot</name>
@@ -430,10 +889,22 @@
     <item>
       <name>Mixture</name>
       <value>PULLED FULL OUT</value>
+      <condition>
+        <less-than>
+          <property>/controls/engines/engine[0]/mixture</property>
+          <value>0.05</value>
+        </less-than>
+      </condition>
     </item>
     <item>
       <name>Ignition Switch</name>
       <value>OFF</value>
+      <condition>
+        <equals>
+          <property>/controls/engines/engine[0]/magnetos</property>
+          <value>0</value>
+        </equals>
+      </condition>
     </item>
     <item>
       <name>Control Lock</name>

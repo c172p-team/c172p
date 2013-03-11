@@ -72,36 +72,52 @@
    <z>0</z>
   </axis>
  </animation>
-
- <animation>
-  <type>pick</type>
-  <visible>false</visible>
-  <object-name>AdjustCCW</object-name>
-  <action>
-   <button>0</button>
-   <repeatable>true</repeatable>
-   <binding>
-    <command>property-adjust</command>
-    <property>instrumentation/attitude-indicator/horizon-offset-deg</property>
-    <step type="double">-0.5</step>
-   </binding>          
-  </action>
- </animation>
-
+ 
+ <!-- simply hide these -->
  <animation>
   <type>pick</type>
   <visible>false</visible>
   <object-name>AdjustCW</object-name>
-  <action>
-   <button>0</button>
-   <repeatable>true</repeatable>
-   <binding>
-    <command>property-adjust</command>
-    <property>instrumentation/attitude-indicator/horizon-offset-deg</property>
-    <step type="double">0.5</step>
-   </binding>          
-  </action>
+  <object-name>AdjustCCW</object-name>
  </animation>
+ 
+<animation>
+ <type>knob</type>
+ <object-name>AdjustKnob</object-name>
+  
+ <action>
+  <repeatable>true</repeatable>
+  <binding>
+   <command>property-adjust</command>
+   <property>instrumentation/attitude-indicator/horizon-offset-deg</property>
+   <factor type="double">0.5</factor>
+  </binding>          
+ </action>
+ 
+ <value>0.0</value>
+ 
+ <axis>
+  <x>1</x>
+  <y>0</y>
+  <z>0</z>
+ </axis>
+ 
+ <center>
+     <x-m>0.0</x-m>
+     <y-m>0.0</y-m>
+     <z-m>-0.0353</z-m>
+ </center>
+ 
+ <hovered>
+  <binding>
+    <command>set-tooltip</command>
+    <tooltip-id>ai-horizon-offset</tooltip-id>
+    <label>Horizon Offset: %2d</label>
+    <property>instrumentation/attitude-indicator/horizon-offset-deg</property>
+ </binding>
+ </hovered>
+</animation>
+
 
  <animation>
   <type>pick</type>
@@ -116,6 +132,16 @@
     <value type="bool">true</value>
    </binding>          
   </action>
+  
+  <hovered>
+   <binding>
+     <command>set-tooltip</command>
+     <tooltip-id>ai-caged</tooltip-id>
+     <label>Caged: %s</label>
+      <mapping>on-off</mapping>
+     <property>instrumentation/attitude-indicator/caged-flag</property>
+  </binding>
+  </hovered>
  </animation>
 
  <animation>

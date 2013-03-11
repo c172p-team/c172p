@@ -443,8 +443,16 @@
     </animation>
 
     <animation>
-        <type>rotate</type>
+        <type>pick</type>
+        <object-name>VolumePickLeft</object-name>
+        <object-name>VolumePickRight</object-name>
+        <visible>false</visible>
+    </animation>
+        
+    <animation>
+        <type>knob</type>
         <object-name>Volume</object-name>
+        
         <property>/instrumentation/adf[0]/volume-norm</property>
         <factor>-270</factor>
         <axis>
@@ -457,21 +465,17 @@
             <y-m>0.03362955</y-m>
             <z-m>-0.00472295</z-m>
         </center>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <visible>false</visible>
-        <object-name>VolumePickRight</object-name>
+        
         <action>
-            <button>0</button>
             <binding>
                 <command>property-adjust</command>
                 <property>/instrumentation/adf[0]/volume-norm</property>
-                <step>0.1</step>
+                <factor>0.1</factor>
                 <min>0</min>
                 <max>1.0</max>
             </binding>
+            
+            <!-- switch on if volume greater than 0.0 -->
             <binding>
                 <condition>
                     <greater-than>
@@ -483,22 +487,8 @@
                 <property>/instrumentation/adf[0]/power-btn</property>
                 <value type="bool">1</value>
             </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <visible>false</visible>
-        <object-name>VolumePickLeft</object-name>
-        <action>
-            <button>0</button>
-            <binding>
-                <command>property-adjust</command>
-                <property>/instrumentation/adf[0]/volume-norm</property>
-                <step>-0.1</step>
-                <min>0</min>
-                <max>1.0</max>
-            </binding>
+    
+            <!-- switch off if volume less than 0.1 -->
             <binding>
                 <condition>
                     <less-than>
@@ -510,186 +500,43 @@
                 <property>/instrumentation/adf[0]/power-btn</property>
                 <value type="bool">0</value>
             </binding>
+            
         </action>
     </animation>
-
-    <animation>
-        <type>pick</type>
-        <visible>true</visible>
-        <object-name>Volume</object-name>
-        <action>
-            <button>4</button>
-            <binding>
-                <command>property-adjust</command>
-                <property>/instrumentation/adf[0]/volume-norm</property>
-                <step>0.1</step>
-                <min>0</min>
-                <max>1.0</max>
-            </binding>
-            <binding>
-                <condition>
-                    <greater-than>
-                        <property>/instrumentation/adf[0]/volume-norm</property>
-                        <value>0.0</value>
-                    </greater-than>
-                </condition>
-                <command>property-assign</command>
-                <property>/instrumentation/adf[0]/power-btn</property>
-                <value type="bool">1</value>
-            </binding>
-        </action>
-        <action>
-            <button>3</button>
-            <binding>
-                <command>property-adjust</command>
-                <property>/instrumentation/adf[0]/volume-norm</property>
-                <step>-0.1</step>
-                <min>0</min>
-                <max>1.0</max>
-            </binding>
-            <binding>
-                <condition>
-                    <less-than>
-                        <property>/instrumentation/adf[0]/volume-norm</property>
-                        <value>0.1</value>
-                    </less-than>
-                </condition>
-                <command>property-assign</command>
-                <property>/instrumentation/adf[0]/power-btn</property>
-                <value type="bool">0</value>
-            </binding>
-        </action>
-    </animation>
-
+    
+    <!-- frequency knob -->
     <animation>
         <type>pick</type>
         <object-name>FreqPickLeft</object-name>
-        <visible>false</visible>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
-                <step>-1</step>
-                <min>200</min>
-                <max>1800</max>
-                <resolution>1</resolution>
-                <wrap>true</wrap>
-            </binding>
-        </action>
-        <action>
-            <button>1</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
-                <step>-100</step>
-                <min>200</min>
-                <max>1800</max>
-                <wrap>true</wrap>
-                <mask>integer</mask>
-            </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <type>pick</type>
         <object-name>FreqPickRight</object-name>
         <visible>false</visible>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
-                <step>1</step>
-                <min>200</min>
-                <max>1800</max>
-                <resolution>1</resolution>
-                <wrap>true</wrap>
-            </binding>
-        </action>
-        <action>
-            <button>1</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-adjust</command>
-                <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
-                <step>100</step>
-                <min>200</min>
-                <max>1800</max>
-                <wrap>true</wrap>
-                <mask>integer</mask>
-            </binding>
-        </action>
     </animation>
-
+        
     <animation>
-        <type>pick</type>
+        <type>knob</type>
         <object-name>FRQOuter</object-name>
         <object-name>FRQInner</object-name>
-        <visible>true</visible>
         <action>
-            <button>3</button>
-            <repeatable>false</repeatable>
             <binding>
-                <condition>
-                    <property>devices/status/keyboard/shift</property>
-                </condition>
                 <command>property-adjust</command>
                 <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
-                <step>-100</step>
-                <min>200</min>
-                <max>1800</max>
-                <resolution>1</resolution>
-                <wrap>true</wrap>
-            </binding>
-            <binding>
-                <condition>
-                    <not>
-                        <property>devices/status/keyboard/shift</property>
-                    </not>
-                </condition>
-                <command>property-adjust</command>
-                <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
-                <step>-1</step>
+                <factor>1</factor>
                 <min>200</min>
                 <max>1800</max>
                 <resolution>1</resolution>
                 <wrap>true</wrap>
             </binding>
         </action>
-        <action>
-            <button>4</button>
-            <repeatable>false</repeatable>
+        <shift-action>
             <binding>
-                <condition>
-                    <not>
-                        <property>devices/status/keyboard/shift</property>
-                    </not>
-                </condition>
                 <command>property-adjust</command>
                 <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
-                <step>1</step>
+                <factor>100</factor>
                 <min>200</min>
                 <max>1800</max>
+                <resolution>1</resolution>
                 <wrap>true</wrap>
-                <mask>integer</mask>
             </binding>
-            <binding>
-                <condition>
-                    <property>devices/status/keyboard/shift</property>
-                </condition>
-                <command>property-adjust</command>
-                <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
-                <step>100</step>
-                <min>200</min>
-                <max>1800</max>
-                <wrap>true</wrap>
-                <mask>integer</mask>
-            </binding>
-        </action>
+        </shift-action>
     </animation>
-
 </PropertyList>

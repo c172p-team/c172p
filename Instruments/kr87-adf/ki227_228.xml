@@ -115,8 +115,17 @@
   </animation>
 
   <animation>
-    <type>rotate</type>
+    <type>pick</type>
+    <object-name>HDGSelectorPick.L</object-name>
+    <object-name>HDGSelectorPick.R</object-name>
+    <visible>false</visible>
+  </animation>
+    
+
+  <animation>
+    <type>knob</type>
     <object-name>HDGSelector</object-name>
+
     <property alias="../../params/rotation-deg"/>
     <factor>8.0</factor>
     <axis>
@@ -129,96 +138,27 @@
       <y-m>-0.0318072</y-m>
       <z-m>-0.0327009</z-m>
     </center>
+    
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="../../../../params/rotation-deg"/>
+        <factor>1</factor>
+        <min>0</min>
+        <max>360</max>
+        <wrap>1</wrap>
+      </binding>
+    </action>
+
+    <hovered>
+     <binding>
+       <command>set-tooltip</command>
+       <tooltip-id>adf-hdg</tooltip-id>
+       <label>ADF Heading: %3d</label>
+       <property alias="../../../../params/rotation-deg"/>
+    </binding>
+    </hovered>
   </animation>
 
-  <animation>
-    <type>pick</type>
-    <object-name>HDGSelectorPick.L</object-name>
-    <visible>false</visible>
-    <action>
-      <button>0</button>
-      <repeatable>true</repeatable>
-      <binding>
-        <command>property-adjust</command>
-        <property alias="../../../../params/rotation-deg"/>
-        <step>-1</step>
-        <min>0</min>
-        <max>360</max>
-        <wrap>1</wrap>
-      </binding>
-    </action>
-    <action>
-      <button>1</button>
-      <repeatable>true</repeatable>
-      <binding>
-        <command>property-adjust</command>
-        <property alias="../../../../params/rotation-deg"/>
-        <step>-10</step>
-        <min>0</min>
-        <max>360</max>
-        <wrap>1</wrap>
-      </binding>
-    </action>
-  </animation>
-
-  <animation>
-    <type>pick</type>
-    <object-name>HDGSelectorPick.R</object-name>
-    <visible>false</visible>
-    <action>
-      <button>0</button>
-      <repeatable>true</repeatable>
-      <binding>
-        <command>property-adjust</command>
-        <property alias="../../../../params/rotation-deg"/>
-        <step>1</step>
-        <min>0</min>
-        <max>360</max>
-        <wrap>1</wrap>
-      </binding>
-    </action>
-    <action>
-      <button>1</button>
-      <repeatable>true</repeatable>
-      <binding>
-        <command>property-adjust</command>
-        <property alias="../../../../params/rotation-deg"/>
-        <step>10</step>
-        <min>0</min>
-        <max>360</max>
-        <wrap>1</wrap>
-      </binding>
-    </action>
-  </animation>
-
-  <animation>
-    <type>pick</type>
-    <object-name>HDGSelector</object-name>
-    <visible>true</visible>
-    <action>
-      <button>3</button>
-      <repeatable>true</repeatable>
-      <binding>
-        <command>property-adjust</command>
-        <property alias="../../../../params/rotation-deg"/>
-        <step>-1</step>
-        <min>0</min>
-        <max>360</max>
-        <wrap>1</wrap>
-      </binding>
-    </action>
-    <action>
-      <button>4</button>
-      <repeatable>true</repeatable>
-      <binding>
-        <command>property-adjust</command>
-        <property alias="../../../../params/rotation-deg"/>
-        <step>1</step>
-        <min>0</min>
-        <max>360</max>
-        <wrap>1</wrap>
-      </binding>
-    </action>
-  </animation>
 
 </PropertyList>

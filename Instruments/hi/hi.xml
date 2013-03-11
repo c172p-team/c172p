@@ -65,237 +65,72 @@
 
 <!--     Heading Bug control    -->
  <animation>
-  <type>pick</type>
+  <type>knob</type>
   <object-name>click-bug-L</object-name>
-  <visible>false</visible>
-  <action>
-    <name>small decrease</name>
-    <button>0</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>autopilot/settings/heading-bug-deg</property>
-      <step>-1</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
-  <action>
-    <name>large decrease</name>
-    <button>1</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>autopilot/settings/heading-bug-deg</property>
-      <step>-5</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
-  <action>
-    <name>small decrease (scrollwheel)</name>
-    <button>3</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>autopilot/settings/heading-bug-deg</property>
-      <step>-1</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
-  <action>
-    <name>small increase (scrollwheel)</name>
-    <button>4</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>autopilot/settings/heading-bug-deg</property>
-      <step>1</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
- </animation>
-
- <animation>
-  <type>pick</type>
   <object-name>click-bug-R</object-name>
   <visible>false</visible>
+  
   <action>
-    <name>small increase</name>
-    <button>0</button>
-    <repeatable>true</repeatable>
     <binding>
       <command>property-adjust</command>
       <property>autopilot/settings/heading-bug-deg</property>
-      <step>1</step>
+      <factor>1</factor>
       <min>0</min>
       <max>360</max>
       <wrap>1</wrap>
     </binding>
   </action>
-  <action>
-    <name>large increase</name>
-    <button>1</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>autopilot/settings/heading-bug-deg</property>
-      <step>5</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
-  <action>
-    <name>small decrease (scrollwheel)</name>
-    <button>3</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>autopilot/settings/heading-bug-deg</property>
-      <step>-1</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
-  <action>
-    <name>small increase (scrollwheel)</name>
-    <button>4</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>autopilot/settings/heading-bug-deg</property>
-      <step>1</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
+  
+  <!-- faster rate of change than the default -->
+  <drag-scale-px>4</drag-scale-px>
+  <shift-repeat type="int">5</shift-repeat>
+  
+  <hovered>
+   <binding>
+     <command>set-tooltip</command>
+     <tooltip-id>heading-bug</tooltip-id>
+     <mapping>heading</mapping>
+     <label>Heading Bug: %3d</label>
+     <property>autopilot/settings/heading-bug-deg</property>
+  </binding>
+  </hovered>
  </animation>
 
    <!--             Heading Offset             -->
- <animation>
-  <type>pick</type>
-  <object-name>click-offset-L</object-name>
-  <visible>false</visible>
-  <action>
-    <name>small decrease</name>
-    <button>0</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>instrumentation/heading-indicator/offset-deg</property>
-      <step>-1</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
+   
+   <animation>
+    <type>knob</type>
+    <object-name>click-offset-L</object-name>
+    <object-name>click-offset-R</object-name>
+    <visible>false</visible>
+  
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property>instrumentation/heading-indicator/offset-deg</property>
+        <factor>1</factor>
+        <min>0</min>
+        <max>360</max>
+        <wrap>1</wrap>
+      </binding>
+    </action>
+  
+    <!-- faster rate of change than the default -->
+    <drag-scale-px>4</drag-scale-px>
+    <shift-repeat type="int">5</shift-repeat>
+    
+    <hovered>
+     <binding>
+       <command>set-tooltip</command>
+       <tooltip-id>heading-offset</tooltip-id>
+       <label>Heading Offset: %3d</label>
+       <mapping>heading</mapping>
+       <property>instrumentation/heading-indicator/offset-deg</property>
     </binding>
-  </action>  
-  <action>
-    <name>large decrease</name>
-    <button>1</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>instrumentation/heading-indicator/offset-deg</property>
-      <step>-5</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
-  <action>
-    <name>small decrease (scrollwheel)</name>
-    <button>3</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>instrumentation/heading-indicator/offset-deg</property>
-      <step>-1</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
-  <action>
-    <name>small increase (scrollwheel)</name>
-    <button>4</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>instrumentation/heading-indicator/offset-deg</property>
-      <step>1</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
- </animation>
+    </hovered>
+   </animation>
+   
 
- <animation>
-  <type>pick</type>
-  <object-name>click-offset-R</object-name>
-  <visible>false</visible>
-  <action>
-    <name>small increase</name>
-    <button>0</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>instrumentation/heading-indicator/offset-deg</property>
-      <step>1</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>  
-  <action>
-    <name>large increase</name>
-    <button>1</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>instrumentation/heading-indicator/offset-deg</property>
-      <step>5</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
-  <action>
-    <name>small decrease (scrollwheel)</name>
-    <button>3</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>instrumentation/heading-indicator/offset-deg</property>
-      <step>-1</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
-  <action>
-    <name>small increase (scrollwheel)</name>
-    <button>4</button>
-    <repeatable>true</repeatable>
-    <binding>
-      <command>property-adjust</command>
-      <property>instrumentation/heading-indicator/offset-deg</property>
-      <step>1</step>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
-</animation>
 
 </PropertyList>
 

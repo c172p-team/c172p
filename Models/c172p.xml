@@ -1274,6 +1274,7 @@
  <animation>
    <type>pick</type>
    <object-name>doorhandleext_right</object-name>
+   <object-name>doorhandleint_right</object-name>
    <visible>true</visible>
    <action>
      <button>0</button>
@@ -1283,11 +1284,20 @@
         <script>c172p.rightDoor.toggle();</script>
      </binding>
    </action>
+   
+   <hovered>
+       <binding>
+         <command>set-tooltip</command>
+         <tooltip-id>door-handle-r</tooltip-id>
+         <label>Right Door Open/Close</label>
+    </binding>
+   </hovered>
  </animation>
 
  <animation>
    <type>pick</type>
    <object-name>doorhandleext_left</object-name>
+   <object-name>doorhandle_intle</object-name>
    <visible>true</visible>
    <action>
      <button>0</button>
@@ -1297,6 +1307,14 @@
        <script>c172p.leftDoor.toggle();</script>
      </binding>
    </action>
+   
+   <hovered>
+       <binding>
+         <command>set-tooltip</command>
+         <tooltip-id>door-handle-l</tooltip-id>
+         <label>Left Door Open/Close</label>
+    </binding>
+   </hovered>
  </animation>
 
  <animation>
@@ -1311,34 +1329,14 @@
        <script>c172p.baggageDoor.toggle();</script>
      </binding>
    </action>
- </animation>
-
- <animation>
-   <type>pick</type>
-   <object-name>doorhandleint_right</object-name>
-   <visible>true</visible>
-   <action>
-     <button>0</button>
-     <repeatable>false</repeatable>
-     <binding>
-       <command>nasal</command>
-       <script>c172p.rightDoor.toggle();</script>
-     </binding>
-   </action>
- </animation>
-
- <animation>
-   <type>pick</type>
-   <object-name>doorhandle_intle</object-name>
-   <visible>true</visible>
-   <action>
-     <button>0</button>
-     <repeatable>false</repeatable>
-     <binding>
-       <command>nasal</command>
-       <script>c172p.leftDoor.toggle();</script>
-     </binding>
-   </action>
+   
+   <hovered>
+       <binding>
+         <command>set-tooltip</command>
+         <tooltip-id>door-handle-baggage</tooltip-id>
+         <label>Baggage Door Open/Close</label>
+    </binding>
+   </hovered>
  </animation>
 
 <!--door animation-->
@@ -1500,6 +1498,15 @@
        <property>controls/lighting/landing-lights</property>
      </binding>
    </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>landing-light-switch</tooltip-id>
+      <label>Landing Lights: %s</label>
+      <mapping>on-off</mapping>
+      <property>controls/lighting/landing-lights</property>
+   </binding>
+   </hovered>
  </animation>
 
  <animation>
@@ -1514,6 +1521,15 @@
        <property>controls/lighting/taxi-light</property>
      </binding>
    </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>taxi-light-switch</tooltip-id>
+      <label>Taxi Light: %s</label>
+      <mapping>on-off</mapping>
+      <property>controls/lighting/taxi-light</property>
+   </binding>
+   </hovered>
  </animation>
 
  <animation>
@@ -1528,6 +1544,15 @@
        <property>controls/lighting/strobe</property>
      </binding>
    </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>strobe-switch</tooltip-id>
+      <label>Strobe: %s</label>
+      <mapping>on-off</mapping>
+      <property>controls/lighting/strobe</property>
+   </binding>
+   </hovered>
  </animation>
 
  <animation>
@@ -1542,6 +1567,15 @@
        <property>controls/lighting/beacon</property>
      </binding>
    </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>beacon-switch</tooltip-id>
+      <label>Beacon: %s</label>
+      <mapping>on-off</mapping>
+      <property>controls/lighting/beacon</property>
+   </binding>
+   </hovered>
  </animation>
 
  <animation>
@@ -1556,6 +1590,15 @@
        <property>controls/lighting/nav-lights</property>
      </binding>
    </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>nav-light-switch</tooltip-id>
+      <label>Navigation Lights: %s</label>
+      <mapping>on-off</mapping>
+      <property>controls/lighting/nav-lights</property>
+   </binding>
+   </hovered>
  </animation>
 
  <animation>
@@ -1570,6 +1613,15 @@
        <property>controls/anti-ice/pitot-heat</property>
      </binding>
    </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>pitot-heat</tooltip-id>
+      <label>Pitot Heat: %s</label>
+      <mapping>on-off</mapping>
+      <property>controls/anti-ice/pitot-heat</property>
+   </binding>
+   </hovered>
  </animation>
 
  <!-- Parking Brake -->
@@ -1614,6 +1666,15 @@
        <property>/controls/gear/brake-parking</property>
      </binding>
    </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <label>Parking brake: %s</label>
+      <property>/controls/gear/brake-parking</property>
+      <tooltip-id>parking-brake</tooltip-id>
+      <mapping>on-off</mapping>
+   </binding>
+   </hovered>
  </animation>
 
  <!-- Carb Heat -->
@@ -1656,36 +1717,36 @@
  </animation>
 
  <animation>
-   <type>pick</type>
+   <type>slider</type>
    <object-name>Throttle</object-name>
    <object-name>ThrottleMount</object-name>
    <visible>true</visible>
+   
+   <drag-direction>vertical</drag-direction>
+   <!-- no translation, we handle that seperately -->
+   
    <action>
-     <name>small increase (scrollwheel)</name>
-     <button>3</button>
-     <repeatable>true</repeatable>
      <binding>
        <command>property-adjust</command>
        <property>controls/engines/engine[0]/throttle</property>
-       <step>0.05</step>
+       <factor>0.05</factor>
        <min>0</min>
        <max>1</max>
        <wrap>0</wrap>
      </binding>
    </action>
-   <action>
-     <name>small decrease (scrollwheel)</name>
-     <button>4</button>
-     <repeatable>true</repeatable>
-     <binding>
-       <command>property-adjust</command>
-       <property>controls/engines/engine[0]/throttle</property>
-       <step>-0.05</step>
-       <min>0</min>
-       <max>1</max>
-       <wrap>0</wrap>
+   
+     <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <label>Throttle: %3d%%</label>
+        <measure-text>Throttle: 100%</measure-text>
+        <tooltip-id>throttle</tooltip-id>
+        <mapping>percent</mapping>
+        <property>controls/engines/engine[0]/throttle</property>
      </binding>
-   </action>
+     
+     </hovered>
  </animation>
 
  <animation>
@@ -1701,44 +1762,46 @@
  </animation>
 
  <animation>
-   <type>pick</type>
+   <type>slider</type>
    <object-name>Mixture</object-name>
    <object-name>MixtureMount</object-name>
    <visible>true</visible>
+   
+   <!-- no translation, we handle that seperately -->
+   <drag-direction>vertical</drag-direction>
+   
    <action>
-     <name>small increase (scrollwheel)</name>
-     <button>3</button>
-     <repeatable>true</repeatable>
      <binding>
        <command>property-adjust</command>
        <property>controls/engines/engine[0]/mixture</property>
-       <step>0.05</step>
+       <factor>0.05</factor>
        <min>0</min>
        <max>1</max>
        <wrap>0</wrap>
      </binding>
    </action>
-   <action>
-     <name>small decrease (scrollwheel)</name>
-     <button>4</button>
-     <repeatable>true</repeatable>
-     <binding>
-       <command>property-adjust</command>
-       <property>controls/engines/engine[0]/mixture</property>
-       <step>-0.05</step>
-       <min>0</min>
-       <max>1</max>
-       <wrap>0</wrap>
+   
+     <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <label>Mixture: %3d%%</label>
+        <measure-text>Mixture: 100%</measure-text>
+        <tooltip-id>mixture</tooltip-id>
+        <mapping>percent</mapping>
+        <property>controls/engines/engine[0]/mixture</property>
      </binding>
-   </action>
+     </hovered>
+
  </animation>
 
  <!-- Elevator Trim -->
  <animation>
-   <type>rotate</type>
+   <type>knob</type>
    <object-name>TrimWheel</object-name>
    <property>controls/flight/elevator-trim</property>
    <factor>-360</factor>
+   <drag-direction>vertical</drag-direction>
+   
    <axis>
      <x>0.0</x>
      <y>1.0</y>
@@ -1749,38 +1812,28 @@
      <y-m>-0.20</y-m>
      <z-m>-0.48</z-m>
    </center>
+   
+   <action>
+     <binding>
+       <command>property-adjust</command>
+       <property>controls/flight/elevator-trim</property>
+       <factor>0.01</factor>
+       <min>-1</min>
+       <max>1</max>
+       <wrap>0</wrap>
+     </binding>
+   </action>
+   
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <label>Elevator trim: %3f</label>
+      <tooltip-id>pitch-trim</tooltip-id>
+      <property>controls/flight/elevator-trim</property>
+   </binding>
+   </hovered>
  </animation>
 
- <animation>
-   <type>pick</type>
-   <object-name>TrimWheel</object-name>
-   <visible>true</visible>
-   <action>
-     <name>Increase (scrollwheel)</name>
-     <button>3</button>
-     <repeatable>true</repeatable>
-     <binding>
-       <command>property-adjust</command>
-       <property>controls/flight/elevator-trim</property>
-       <step>0.01</step>
-       <min>-1</min>
-       <max>1</max>
-       <wrap>0</wrap>
-     </binding>
-   </action>
-   <action>
-     <name>Decrease (scrollwheel)</name>
-     <button>4</button>
-     <binding>
-       <command>property-adjust</command>
-       <property>controls/flight/elevator-trim</property>
-       <step>-0.01</step>
-       <min>-1</min>
-       <max>1</max>
-       <wrap>0</wrap>
-     </binding>
-   </action>
- </animation>
 
  <animation>
    <type>rotate</type>

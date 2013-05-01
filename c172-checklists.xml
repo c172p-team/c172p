@@ -25,9 +25,14 @@
       <condition>
         <equals>
           <property>/controls/gear/brake-parking</property>
-          <value>1</value>
+					<value>1</value>
         </equals>
       </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/gear/brake-parking</property>
+				<value>1</value>
+			</binding>
     </item>
     <item>
       <name>Avionics Power Switch</name>
@@ -62,6 +67,16 @@
           </equals>
         </and>
       </condition>      
+      <binding>
+        <command>property-assign</command>
+        <property>/consumables/fuel/tank/selected</property>
+				<value>1</value>
+			</binding>
+      <binding>
+        <command>property-assign</command>
+        <property>/consumables/fuel/tank[1]/selected</property>
+				<value>1</value>
+			</binding>      
     </item>
   </checklist>
   
@@ -87,6 +102,11 @@
           <value>0</value>
         </equals>
       </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/anti-ice/engine[0]/carb-heat</property>
+				<value>0</value>
+			</binding>
     </item>
     <item>
       <name>Throttle</name>
@@ -109,6 +129,12 @@
           </less-than>
         </and>
       </condition>
+      <binding>
+        <command>property-interpolate</command>
+        <property>/controls/engines/engine[0]/throttle</property>
+				<value>0.25</value>
+				<rate>0.2</rate>
+			</binding>
     </item>    
     <item>
       <name>Mixture</name>
@@ -125,6 +151,12 @@
           <value>0.9</value>
         </greater-than>
       </condition>
+      <binding>
+        <command>property-interpolate</command>
+        <property>/controls/engines/engine[0]/mixture</property>
+				<value>1.0</value>
+				<rate>0.5</rate>
+			</binding>
     </item>
     <item>
       <name>Propellor Area</name>
@@ -150,6 +182,11 @@
           <value>3</value>
         </equals>
       </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/engines/engine[0]/magnetos</property>
+				<value>3</value>
+			</binding>
     </item>
     <item>
       <name>Ignition Switch</name>
@@ -185,6 +222,16 @@
           </equals>
         </and>
       </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/lighting/nav-lights</property>
+				<value>1</value>
+			</binding>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/lighting/beacon</property>
+				<value>1</value>
+			</binding>		
     </item>
     <item>
       <name>Radios</name>
@@ -207,6 +254,18 @@
           </greater-than>
         </and>
       </condition>
+      <binding>
+        <command>property-interpolate</command>
+        <property>/instrumentation/comm[0]/volume</property>
+				<value>1.0</value>
+				<rate>0.5</rate>
+			</binding>
+      <binding>
+        <command>property-interpolate</command>
+        <property>/instrumentation/comm[1]/volume</property>
+				<value>1.0</value>
+				<rate>0.5</rate>
+			</binding>
     </item>
   </checklist>
   
@@ -228,6 +287,11 @@
 						<value>1</value>
 					</equals>
 				</condition>
+				<binding>
+					<command>property-assign</command>
+					<property>/controls/gear/brake-parking</property>
+					<value>1</value>
+				</binding>		
 			</item>
 			<item>
 				<name>Seats, Seat Belts, Shoulder Harnesses</name>
@@ -264,6 +328,12 @@
 						<value>0.9</value>
 					</greater-than>
 				</condition>
+				<binding>
+					<command>property-interpolate</command>
+					<property>/controls/engines/engine[0]/mixture</property>
+					<value>1.0</value>
+					<rate>0.5</rate>
+				</binding>
 			</item>
 			<item>
 				<name>Fuel Selector Valve</name>
@@ -286,6 +356,16 @@
 						</equals>
 					</and>
 				</condition>      
+				<binding>
+					<command>property-assign</command>
+					<property>/consumables/fuel/tank/selected</property>
+					<value>1</value>
+				</binding>
+				<binding>
+					<command>property-assign</command>
+					<property>/consumables/fuel/tank[1]/selected</property>
+					<value>1</value>
+				</binding>      
 			</item>
 			<item>
 				<name>Elevator Trim</name>
@@ -308,6 +388,12 @@
 						</less-than>
 					</and>
 				</condition>
+				<binding>
+					<command>property-interpolate</command>
+					<property>/controls/flight/elevator-trim</property>
+					<value>-0.1</value>
+					<rate>0.1</rate>
+				</binding>
 			</item>
 			<item>
 				<name>Throttle</name>
@@ -326,10 +412,16 @@
 						</greater-than>
 						<less-than>
 							<property>/engines/engine/rpm</property>
-							<value>1700</value>
+							<value>1800</value>
 						</less-than>
 					</and>
 				</condition>
+				<binding>
+					<command>property-interpolate</command>
+					<property>/controls/engines/engine[0]/throttle</property>
+					<value>0.69</value>
+					<time>1.0</time>
+				</binding>
 			</item>
 			<item>
 				<name>Magnetos</name>
@@ -383,6 +475,18 @@
 					<z-m>-0.1367</z-m>
 					<scale>3.9167</scale>
 				</marker>
+				<condition>
+					<less-than>
+						<property>/engines/engine/rpm</property>
+						<value>1050</value>
+					</less-than>
+				</condition>
+				<binding>
+					<command>property-interpolate</command>
+					<property>/controls/engines/engine[0]/throttle</property>
+					<value>0.1</value>
+					<time>1.0</time>
+				</binding>
 			</item>
 			<item>
 				<name>Throttle Friction Lock</name>
@@ -464,6 +568,11 @@
           <value>0.5</value>
         </less-than>
       </condition>
+			<binding>
+				<command>property-assign</command>
+				<property>/controls/flight/flaps</property>
+				<value>0</value>
+			</binding>      
     </item>
     <item>
       <name>Carburetor Heat</name>
@@ -480,6 +589,11 @@
           <value>0</value>
         </equals>
       </condition>
+			<binding>
+				<command>property-assign</command>
+				<property>/controls/anti-ice/engine[0]/carb-heat</property>
+				<value>0</value>
+			</binding>      
     </item>
     <item>
       <name>Mixture</name>
@@ -497,6 +611,12 @@
           <value>0.9</value>
         </greater-than>
       </condition>
+			<binding>
+				<command>property-interpolate</command>
+				<property>/controls/engines/engine[0]/mixture</property>
+				<value>1.0</value>
+				<time>1.0</time>
+			</binding>
     </item>
     <item>
       <name>Throttle</name>
@@ -513,6 +633,12 @@
           <value>0.95</value>
         </greater-than>
       </condition>
+			<binding>
+				<command>property-interpolate</command>
+				<property>/controls/engines/engine[0]/throttle</property>
+				<value>1.0</value>
+				<time>2.0</time>
+			</binding>
     </item>
     <item>
       <name>Elevator Control</name>
@@ -550,6 +676,11 @@
           </less-than>
         </and>
       </condition>
+			<binding>
+				<command>property-assign</command>
+				<property>/controls/flight/flaps</property>
+				<value>0.333333</value>
+			</binding>      
     </item>
     <item>
       <name>Carburetor Heat</name>
@@ -566,6 +697,11 @@
           <value>0</value>
         </equals>
       </condition>
+			<binding>
+				<command>property-assign</command>
+				<property>/controls/anti-ice/engine[0]/carb-heat</property>
+				<value>0</value>
+			</binding>      
     </item>
     <item>
       <name>Brakes</name>
@@ -598,6 +734,12 @@
           <value>0.95</value>
         </greater-than>
       </condition>
+			<binding>
+				<command>property-interpolate</command>
+				<property>/controls/engines/engine[0]/throttle</property>
+				<value>1.0</value>
+				<time>2.0</time>
+			</binding>
     </item>
     <item>
       <name>Mixture</name>
@@ -615,6 +757,12 @@
           <value>0.9</value>
         </greater-than>
       </condition>
+			<binding>
+				<command>property-interpolate</command>
+				<property>/controls/engines/engine[0]/mixture</property>
+				<value>1.0</value>
+				<time>1.0</time>
+			</binding>
     </item>
     <item>
       <name>Brakes</name>

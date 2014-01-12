@@ -2,7 +2,7 @@
   <name>Before Takeoff Checks</name>
   <description>
 This tutorial covers the before takeoff checklist. This involves the engine checks that are made in the run-up area just prior to taxiing to the runway and taking off.
-    
+
 For more information on the before takeoff checklist, see Section 2-11 of the FAA Airplane Flying Handbook available at http://www.faa.gov/library/manuals/aircraft/airplane_handbook/.
   </description>
   <audio-dir>Aircraft/c172p/tutorial/startup</audio-dir>
@@ -20,7 +20,7 @@ For more information on the before takeoff checklist, see Section 2-11 of the FA
     <offset-azimuth-deg>0</offset-azimuth-deg>
     <offset-distance-nm>0</offset-distance-nm>
   </presets>
-  
+
   <init>
     <set>
       <property>/controls/gear/brake-parking</property>
@@ -59,21 +59,41 @@ For more information on the before takeoff checklist, see Section 2-11 of the FA
       <value>0.17</value>
     </set>
   </init>
-  
+
   <step>
     <message>In this lesson we'll cover the pre-takeoff checks.</message>
+    <nasal>
+      <script>
+
+      # Script to simulate holding down the starter button until the engine starts
+      var starter = func() {
+        setprop("/controls/engines/engine/starter", 1);
+        if (! getprop("/engines/engine/running")) {
+          settimer(starter, 0);
+        }
+      };
+
+      # The FDM resets the starter property on each FDM cycle.  By effectively starting
+      # a number of threads to continually keep setting the starter to true, we can
+      # get around this and give the engine the opportunity to catch.
+      starter();
+      starter();
+      starter();
+      starter();
+      starter();
+      </script>
+    </nasal>
   </step>
-  
+
   <step>
     <set>
       <property>/controls/engines/engine/starter</property>
       <value>false</value>
     </set>
-    <message>You can access the pre-takeoff checklist by pressing ?,
-or selecting Help->Aircraft Help from the menu.</message>
+    <message>You can access the pre-takeoff checklist by selecting Help->Checklists from the menu.</message>
     <wait>10</wait>
   </step>
-  
+
   <step>
     <message>The parking brakes are already applied, so our first check is that the flight controls are free and correct.
     </message>
@@ -90,7 +110,7 @@ or selecting Help->Aircraft Help from the menu.</message>
       <z-offset-m>0.4</z-offset-m>
       <field-of-view>55.0</field-of-view>
     </view>
-    
+
     <marker>
       <x-m>1.4000</x-m>
       <y-m>-4.0000</y-m>
@@ -130,7 +150,7 @@ and that the aircraft has been rigged correctly.</message>
       <z-offset-m>0.4</z-offset-m>
       <field-of-view>55.0</field-of-view>
     </view>
-    
+
     <marker>
       <x-m>-0.3129</x-m>
       <y-m>-0.0422</y-m>
@@ -149,7 +169,7 @@ and that the aircraft has been rigged correctly.</message>
       <z-offset-m>0.4</z-offset-m>
       <field-of-view>55.0</field-of-view>
     </view>
-    
+
     <marker>
       <x-m>-0.3476</x-m>
       <y-m>0.0898</y-m>
@@ -166,7 +186,7 @@ and that the aircraft has been rigged correctly.</message>
       </condition>
     </error>
   </step>
-  
+
   <step>
     <message>Set the throttle to 1700 rpm for the engine checks.</message>
     <view>
@@ -178,7 +198,7 @@ and that the aircraft has been rigged correctly.</message>
       <z-offset-m>0.4</z-offset-m>
       <field-of-view>34.2</field-of-view>
     </view>
-    
+
     <marker>
       <x-m>-0.3653</x-m>
       <y-m>-0.3107</y-m>
@@ -208,17 +228,17 @@ and that the aircraft has been rigged correctly.</message>
         <and>
           <greater-than>
             <property>/engines/engine/rpm</property>
-            <value>1650</value>
+            <value>1600</value>
           </greater-than>
           <less-than>
             <property>/engines/engine/rpm</property>
-            <value>1750</value>
+            <value>1700</value>
           </less-than>
         </and>
       </condition>
     </exit>
   </step>
-  
+
   <step>
     <message>This aircraft has a vacuum pump to power some instruments, such as the attitude indicator and directional gyro.</message>
   </step>
@@ -234,7 +254,7 @@ and that the aircraft has been rigged correctly.</message>
       <z-offset-m>0.4</z-offset-m>
       <field-of-view>23.2</field-of-view>
     </view>
-    
+
     <marker>
       <x-m>-0.3578</x-m>
       <y-m>-0.4324</y-m>
@@ -242,7 +262,7 @@ and that the aircraft has been rigged correctly.</message>
       <scale>1.4622</scale>
     </marker>
   </step>
-  
+
   <step>
     <message>Check that the engine instruments are in the green.</message>
     <view>
@@ -254,7 +274,7 @@ and that the aircraft has been rigged correctly.</message>
       <z-offset-m>0.4</z-offset-m>
       <field-of-view>23.2</field-of-view>
     </view>
-    
+
     <marker>
       <x-m>-0.3671</x-m>
       <y-m>-0.4031</y-m>
@@ -274,7 +294,7 @@ and that the aircraft has been rigged correctly.</message>
       <z-offset-m>0.4</z-offset-m>
       <field-of-view>23.2</field-of-view>
     </view>
-    
+
     <marker>
       <x-m>-0.3560</x-m>
       <y-m>-0.4102</y-m>
@@ -294,7 +314,7 @@ and that the aircraft has been rigged correctly.</message>
       <z-offset-m>0.4</z-offset-m>
       <field-of-view>23.2</field-of-view>
     </view>
-    
+
     <marker>
       <x-m>-0.3671</x-m>
       <y-m>-0.4142</y-m>
@@ -305,11 +325,11 @@ and that the aircraft has been rigged correctly.</message>
       <property>/sim/panel-hotspots</property>
       <value>true</value>
     </set>
-    
+
   </step>
 
   <step>
-    <message>Click the left hotspot twice, to switch to the right magneto.
+    <message>Click the left hotspot twice, to switch to the right magneto, or use your mouse scrollwheel.
       There should be a small drop in the tachometer.</message>
     <view>
       <heading-offset-deg>11.3</heading-offset-deg>
@@ -320,7 +340,7 @@ and that the aircraft has been rigged correctly.</message>
       <z-offset-m>0.4</z-offset-m>
       <field-of-view>23.2</field-of-view>
     </view>
-    
+
     <marker>
       <x-m>-0.3511</x-m>
       <y-m>-0.3107</y-m>
@@ -359,7 +379,7 @@ and that the aircraft has been rigged correctly.</message>
       <z-offset-m>0.4</z-offset-m>
       <field-of-view>23.2</field-of-view>
     </view>
-    
+
     <marker>
       <x-m>-0.3511</x-m>
       <y-m>-0.3107</y-m>
@@ -398,14 +418,14 @@ and that the aircraft has been rigged correctly.</message>
       <z-offset-m>0.4</z-offset-m>
       <field-of-view>23.2</field-of-view>
     </view>
-    
+
     <marker>
       <x-m>-0.3511</x-m>
       <y-m>-0.3107</y-m>
       <z-m>-0.1360</z-m>
       <scale>3.0</scale>
     </marker>
-    
+
     <error>
       <message>Click the left hotspot so the key is set to LEFT.</message>
       <condition>
@@ -424,7 +444,7 @@ and that the aircraft has been rigged correctly.</message>
       </condition>
     </exit>
   </step>
-  
+
   <step>
     <message>Click the middle hotspot, to switch back to both magnetos.
       The tachometer should recover back to 1700rpm.</message>
@@ -437,7 +457,7 @@ and that the aircraft has been rigged correctly.</message>
       <z-offset-m>0.4</z-offset-m>
       <field-of-view>23.2</field-of-view>
     </view>
-    
+
     <marker>
       <x-m>-0.3511</x-m>
       <y-m>-0.3107</y-m>
@@ -481,7 +501,7 @@ and that the aircraft has been rigged correctly.</message>
       <z-offset-m>0.4</z-offset-m>
       <field-of-view>23.2</field-of-view>
     </view>
-    
+
     <marker>
       <x-m>-0.3511</x-m>
       <y-m>-0.3107</y-m>

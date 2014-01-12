@@ -2,7 +2,7 @@
   <name>Radio Tuning</name>
   <description>
     Radios are used both for communication, and also for navigation.
-    
+
 This tutorial will teach you how to tune the radio of the aircraft to pick up
 the ATIS - Automatic Terminal Information Service. This is broadcast by all
 but the smallest airports and provides information on the current ground-level
@@ -23,7 +23,7 @@ weather, the altimeter setting and the runway in use.
     <offset-azimuth-deg>0</offset-azimuth-deg>
     <offset-distance-nm>0</offset-distance-nm>
   </presets>
-  
+
   <init>
     <set>
       <property>/controls/gear/brake-parking</property>
@@ -58,13 +58,13 @@ weather, the altimeter setting and the runway in use.
       <value>0.17</value>
     </set>
   </init>
-  
+
   <step>
     <message>In this lesson, you'll learn how to tune the radio to the Livermore ATIS.
       The radio is in the middle of the center console.</message>
     <wait>10</wait>
   </step>
-  
+
   <step>
     <message>There are 4 radios on this aircraft - two for communication (COMM1, COMM2) and two for navigation (NAV1, NAV2).
       Each radio has an active frequency and a standby frequency.
@@ -72,7 +72,8 @@ weather, the altimeter setting and the runway in use.
     <wait>10</wait>
   </step>
   <step>
-    <message>To change the standby frequency, you can click on the left side of the knob to decrease it, and the right side to increase it. </message>
+    <message>To change the standby frequency, click on the highlighted knob. The outer knob changes the number on the left of the decimal place.
+    The inner knob changes the number on the right of the decimal place.</message>
     <view>
       <field-of-view>14.0</field-of-view>
       <heading-offset-deg>336</heading-offset-deg>
@@ -86,7 +87,7 @@ weather, the altimeter setting and the runway in use.
     </marker>
   </step>
   <step>
-    <message>Using the middle mouse button changes the number on the left of the decimal place, while the left mouse button changes the number after the decimal place.</message>
+    <message>The left mouse button increases the value, while the middle button decreases it.  Alternatively, you can use your mouse wheel.</message>
     <view>
       <field-of-view>14.0</field-of-view>
       <heading-offset-deg>336</heading-offset-deg>
@@ -155,46 +156,78 @@ weather, the altimeter setting and the runway in use.
       </condition>
     </exit>
   </step>
-  
+
   <step>
-    <message>Listen to the ATIS message. If you cannot hear it,
-      look at the Sound Configuration dialog on the File menu.
-      It will tell you the current weather conditions, the runway in use, and the altimeter setting.</message>
-  </step>
-  
-  <step>
-    <message>Once you've heard it, you can switch it off by swapping the frequency back to standby. Do that now.</message>
+    <message>We need to set the COMM1 output to our headset using the audio panel.
+    Use your left mouse button to drag the COMM1 switch upwards.</message>
     <view>
       <field-of-view>14.0</field-of-view>
       <heading-offset-deg>336</heading-offset-deg>
       <pitch-offset-deg>-20</pitch-offset-deg>
     </view>
     <marker>
-      <x-m>-0.3444</x-m>
-      <y-m>0.0684</y-m>
-      <z-m>0.0142</z-m>
+      <x-m>-0.3494</x-m>
+      <y-m>0.0884</y-m>
+      <z-m>0.1084</z-m>
       <scale>1.0000</scale>
     </marker>
     <exit>
       <condition>
-        <and>
-          <greater-than>
-            <property>/instrumentation/comm[0]/frequencies/standby-mhz</property>
-            <value>119.64</value>
-          </greater-than>
-          <less-than>
-            <property>/instrumentation/comm[0]/frequencies/standby-mhz</property>
-            <value>119.66</value>
-          </less-than>
-        </and>
+        <not>
+          <equals>
+            <property>/instrumentation/kma20/com1</property>
+            <value>0</value>
+          </equals>
+        </not>
       </condition>
     </exit>
   </step>
-  
+
+  <step>
+    <message>Listen to the ATIS message. If you cannot hear it, look at the Sound Configuration dialog on the File menu.
+      It will tell you the current weather conditions, the runway in use, and the altimeter setting.</message>
+  </step>
+
+  <step>
+    <message>Once you've heard it, you can switch it off by swapping the frequency back to standby, or toggling off the audio panel.
+      Do that now.</message>
+    <view>
+      <field-of-view>14.0</field-of-view>
+      <heading-offset-deg>336</heading-offset-deg>
+      <pitch-offset-deg>-20</pitch-offset-deg>
+    </view>
+    <marker>
+      <x-m>-0.3494</x-m>
+      <y-m>0.0884</y-m>
+      <z-m>0.1084</z-m>
+      <scale>1.0000</scale>
+    </marker>
+    <exit>
+      <condition>
+        <or>
+          <and>
+            <greater-than>
+              <property>/instrumentation/comm[0]/frequencies/standby-mhz</property>
+              <value>119.64</value>
+            </greater-than>
+            <less-than>
+              <property>/instrumentation/comm[0]/frequencies/standby-mhz</property>
+              <value>119.66</value>
+            </less-than>
+          </and>
+          <equals>
+            <property>/instrumentation/kma20/com1</property>
+            <value>0</value>
+          </equals>
+        </or>
+      </condition>
+    </exit>
+  </step>
+
   <end>
     <message>Great job. COMM2 is located immediately below COMM1 in the radio stack, and is tuned in the same way.
       The NAV radios work in exactly the same way, except they use a different frequency
       range, and their output goes to the navigational instruments.</message>
   </end>
-  
+
 </PropertyList>

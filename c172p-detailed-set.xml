@@ -1,15 +1,19 @@
-<?xml version="1.0"?>
+<?xml version="1.0"  encoding="UTF-8" ?>
 <!--
 ************************************************************************
 JSBSim Cessna 172P with 3D cockpit.
 
 Started October 23 2001 by John Check, fgpanels@rockfish.net
 
-Detailed version:
--
+Detailed version January, 2015
+http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 
-Notice this version on the default c172p! Many files from the c172p
-directory are included.
+- Main model based on the original c172p by Jon Check
+- Enhanced model by thevirtualfer
+- Small details and systems by ludomotico (Juan Vera) and gsagostinho 
+
+Notice this version relays heavily on the original c172p!
+Many files from the original c172p directory are included in this file.
 
 ************************************************************************
 -->
@@ -123,6 +127,12 @@ directory are included.
       <!-- model defined later in the nasal section of this file. -->
       <path></path>
     </electrical>
+     
+    <!-- needed by shadows in ALS: http://forum.flightgear.org/viewtopic.php?f=4&t=25157&start=75#p232120 -->
+    <property-rule n="101">
+      <name>gear_agl-m</name>
+      <path>Aircraft/c172p-detailed/Systems/gearAGL.xml</path>
+    </property-rule>
   </systems>
 
   <sound>
@@ -428,11 +438,5 @@ init_electrical_detailed = func {
   </key>
   </keyboard> 
  </input>
- 
- <!-- needed by shadows in ALS: http://forum.flightgear.org/viewtopic.php?f=4&t=25157&start=75#p232120 -->
- <property-rule n="101">
-       <name>gear_agl-m</name>
-       <path>Aircraft/c172p-detailed/Systems/gearAGL.xml</path>
-</property-rule>
 
 </PropertyList>

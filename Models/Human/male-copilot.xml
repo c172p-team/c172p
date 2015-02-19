@@ -1,0 +1,808 @@
+<?xml version="1.0"?>
+
+<!-- Using a custom male-copilot to load pose[1] and not pose[0] and show always the head -->
+
+<PropertyList>
+    <nopreview/>
+	<offsets>
+		<z-m>0.96</z-m>
+	</offsets>
+	<animation>
+		<enable-hot type="bool">false</enable-hot>
+	</animation>
+
+<!-- Character -->
+ <model>
+	<name>Waldo</name>
+  <path>Aircraft/Generic/Human/Models/waldo.ac</path>
+  <!-- not including the xml to not use its animations: copilot's head must be always visible! -->
+ </model>
+ <animation>
+  <type>select</type>
+  <object-name>Waldo</object-name>
+  <condition>
+   <equals>
+    <property>sim/model/crew/pilot[1]/character</property>
+    <value>0</value>
+   </equals>
+  </condition>
+ </animation>
+
+
+<!-- Outfits -->
+
+	<model> 
+		<path>Aircraft/Generic/Human/Models/outfit/default-m.xml</path>
+		<name>Default</name>
+	</model>
+ <animation>
+  <type>select</type>
+  <object-name>Default</object-name>
+  <condition>
+   <equals>
+    <property>sim/model/crew/pilot[1]/outfit</property>
+    <value>0</value>
+   </equals>
+  </condition>
+ </animation>
+
+	<model> 
+		<path>Aircraft/Generic/Human/Models/outfit/airliner-m.xml</path>
+		<name>airliner</name>
+	</model>
+ <animation>
+  <type>select</type>
+  <object-name>airliner</object-name>
+  <condition>
+   <equals>
+    <property>sim/model/crew/pilot[1]/outfit</property>
+    <value>2</value>
+   </equals>
+  </condition>
+ </animation>
+
+	<model> 
+		<path>Aircraft/Generic/Human/Models/outfit/flightsuit-m.xml</path>
+		<name>Flightsuit</name>
+	</model>
+ <animation>
+  <type>select</type>
+  <object-name>Flightsuit</object-name>
+  <condition>
+   <equals>
+    <property>sim/model/crew/pilot[1]/outfit</property>
+    <value>1</value>
+   </equals>
+  </condition>
+ </animation>
+
+	<model> 
+		<path>Aircraft/Generic/Human/Models/equipment/headset-m.xml</path>
+		<name>Headset I</name>
+	</model>
+ <animation>
+  <type>select</type>
+  <object-name>Headset I</object-name>
+  <condition>
+   <equals>
+    <property>sim/model/crew/pilot[1]/equipment</property>
+    <value>0</value>
+   </equals>
+  </condition>
+ </animation>
+
+<!-- limbs center coordinates, in order of appearence -->
+	<limbs>
+		<chest-x>0.002584</chest-x>
+		<chest-y>0.0</chest-y>
+		<chest-z>0.1333</chest-z>
+		<head-x>0.019</head-x>
+		<head-y>0.0</head-y>
+		<head-z>0.586</head-z>
+		<shoulder-x>0.07</shoulder-x>
+		<shoulder-y-l>-0.16</shoulder-y-l>
+		<shoulder-y-r>0.16</shoulder-y-r>
+		<shoulder-z>0.47</shoulder-z>
+		<elbow-x>0.07046</elbow-x>
+		<elbow-y-l>-0.4310</elbow-y-l>
+		<elbow-y-r>0.4310</elbow-y-r>
+		<elbow-z>0.08939</elbow-z>
+		<hand-x>0.05601</hand-x>
+		<hand-y-l>-0.6904</hand-y-l>
+		<hand-y-r>0.6904</hand-y-r>
+		<hand-z>0.4981</hand-z>
+		<leg-x>-0.01813</leg-x>
+		<leg-y-l>-0.05154</leg-y-l>
+		<leg-y-r>0.05154</leg-y-r>
+		<leg-z>-0.04</leg-z>
+		<knee-x>0.02617</knee-x>
+		<knee-y-r>0.1008</knee-y-r>
+		<knee-y-l>-0.1008</knee-y-l>
+		<knee-z>-0.3636</knee-z>
+		<foot-x>0.09349</foot-x>
+		<foot-y-r>-0.1218</foot-y-r>
+		<foot-y-r>0.1218</foot-y-r>
+		<foot-z>-0.8861</foot-z>
+	</limbs>
+
+<!-- hip -->
+	<animation>
+		<type>rotate</type>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[0]/y-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m>0.01</x-m>
+			<y-m>0.0</y-m>
+			<z-m>0.1</z-m>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>translate</type>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[0]/z-m</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m>0.01</x-m>
+			<y-m>0.0</y-m>
+			<z-m>0.1</z-m>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>0.0</y>
+			<z>1.0</z>
+		</axis>
+	</animation>
+
+<!-- chest -->
+	<animation>
+		<type>rotate</type>
+		<object-name>chest</object-name>
+	<object-name>head</object-name>
+		<offset-deg>0</offset-deg>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[1]/y-deg</property>
+		<center>
+			<x-m alias="../../../limbs/chest-x"/>
+			<y-m alias="../../../limbs/chest-y"/>
+			<z-m alias="../../../limbs/chest-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>chest</object-name>
+	<object-name>head</object-name>
+		<offset-deg>0</offset-deg>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[1]/z-deg</property>
+		<center>
+			<x-m alias="../../../limbs/chest-x"/>
+			<y-m alias="../../../limbs/chest-y"/>
+			<z-m alias="../../../limbs/chest-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>0.0</y>
+			<z>-1.0</z>
+		</axis>
+	</animation>
+
+<!-- head -->
+	<animation>
+		<type>rotate</type>
+		<object-name>head</object-name>
+		<offset-deg>0</offset-deg>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[2]/y-deg</property>
+		<center>
+			<x-m alias="../../../limbs/head-x"/>
+			<y-m alias="../../../limbs/head-y"/>
+			<z-m alias="../../../limbs/head-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>head</object-name>
+		<offset-deg>0</offset-deg>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[2]/z-deg</property>
+		<center>
+			<x-m alias="../../../limbs/head-x"/>
+			<y-m alias="../../../limbs/head-y"/>
+			<z-m alias="../../../limbs/head-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>0.0</y>
+			<z>-1.0</z>
+		</axis>
+	</animation>
+
+<!-- right arm -->
+	<animation>
+		<type>rotate</type>
+		<object-name>arm1.R</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[3]/x-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/shoulder-x"/>
+			<y-m alias="../../../limbs/shoulder-y-r"/>
+			<z-m alias="../../../limbs/shoulder-z"/>
+		</center>
+		<axis>
+			<x>1.0</x>
+			<y>0.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>arm1.R</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[3]/y-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/shoulder-x"/>
+			<y-m alias="../../../limbs/shoulder-y-r"/>
+			<z-m alias="../../../limbs/shoulder-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>arm1.R</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[3]/z-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/shoulder-x"/>
+			<y-m alias="../../../limbs/shoulder-y-r"/>
+			<z-m alias="../../../limbs/shoulder-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>0.0</y>
+			<z>-1.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>arm2.R</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[4]/y-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/elbow-x"/>
+			<y-m alias="../../../limbs/elbow-y-r"/>
+			<z-m alias="../../../limbs/elbow-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>arm2.R</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[4]/z-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/elbow-x"/>
+			<y-m alias="../../../limbs/elbow-y-r"/>
+			<z-m alias="../../../limbs/elbow-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>0.0</y>
+			<z>1.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>hand.R</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[5]/x-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/hand-x"/>
+			<y-m alias="../../../limbs/hand-y-r"/>
+			<z-m alias="../../../limbs/hand-z"/>
+		</center>
+		<axis>
+			<x>1.0</x>
+			<y>0.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>hand.R</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[5]/y-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/hand-x"/>
+			<y-m alias="../../../limbs/hand-y-r"/>
+			<z-m alias="../../../limbs/hand-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+<!-- Hand Poses -->
+ <animation>
+  <type>select</type>
+	<object-name>hand.R</object-name>
+  <condition>
+ 	<equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[5]/hand-pose</property>
+    <value>0</value>
+   </equals>
+  </condition>
+ </animation>
+ <animation>
+  <type>select</type>
+	<object-name>grip.R</object-name>
+  <condition>
+ 	<equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[5]/hand-pose</property>
+    <value>1</value>
+   </equals>
+  </condition>
+ </animation>
+ <animation>
+  <type>select</type>
+	<object-name>fist.R</object-name>
+  <condition>
+ 	<equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[5]/hand-pose</property>
+    <value>2</value>
+   </equals>
+  </condition>
+ </animation>
+ <animation>
+  <type>select</type>
+	<object-name>point.R</object-name>
+  <condition>
+ <equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[5]/hand-pose</property>
+    <value>3</value>
+   </equals>
+  </condition>
+ </animation>
+ <animation>
+  <type>select</type>
+	<object-name>handedge.R</object-name>
+  <condition>
+ <equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[5]/hand-pose</property>
+    <value>4</value>
+   </equals>
+  </condition>
+ </animation>
+ <animation>
+  <type>select</type>
+	<object-name>victory.R</object-name>
+  <condition>
+ <equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[5]/hand-pose</property>
+    <value>5</value>
+   </equals>
+  </condition>
+ </animation>
+ <animation>
+  <type>select</type>
+	<object-name>thumbsup.R</object-name>
+  <condition>
+ <equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[5]/hand-pose</property>
+    <value>6</value>
+   </equals>
+  </condition>
+ </animation>
+
+<!-- left arm -->
+	<animation>
+		<type>rotate</type>
+		<object-name>arm1.L</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[6]/x-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/shoulder-x"/>
+			<y-m alias="../../../limbs/shoulder-y-l"/>
+			<z-m alias="../../../limbs/shoulder-z"/>
+		</center>
+		<axis>
+			<x>-1.0</x>
+			<y>0.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>arm1.L</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[6]/y-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/shoulder-x"/>
+			<y-m alias="../../../limbs/shoulder-y-l"/>
+			<z-m alias="../../../limbs/shoulder-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>-1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>arm1.L</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[6]/z-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/shoulder-x"/>
+			<y-m alias="../../../limbs/shoulder-y-l"/>
+			<z-m alias="../../../limbs/shoulder-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>0.0</y>
+			<z>1.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>arm2.L</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[7]/y-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/elbow-x"/>
+			<y-m alias="../../../limbs/elbow-y-l"/>
+			<z-m alias="../../../limbs/elbow-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>-1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>arm2.L</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[7]/z-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/elbow-x"/>
+			<y-m alias="../../../limbs/elbow-y-l"/>
+			<z-m alias="../../../limbs/elbow-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>0.0</y>
+			<z>-1.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>hand.L</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[8]/x-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/hand-x"/>
+			<y-m alias="../../../limbs/hand-y-l"/>
+			<z-m alias="../../../limbs/hand-z"/>
+		</center>
+		<axis>
+			<x>-1.0</x>
+			<y>0.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>hand.L</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[8]/y-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/hand-x"/>
+			<y-m alias="../../../limbs/hand-y-l"/>
+			<z-m alias="../../../limbs/hand-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>-1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+<!-- Hand Poses -->
+ <animation>
+  <type>select</type>
+	<object-name>hand.L</object-name>
+  <condition>
+ 	<equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[8]/hand-pose</property>
+    <value>0</value>
+   </equals>
+  </condition>
+ </animation>
+ <animation>
+  <type>select</type>
+	<object-name>grip.L</object-name>
+  <condition>
+ 	<equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[8]/hand-pose</property>
+    <value>1</value>
+   </equals>
+  </condition>
+ </animation>
+ <animation>
+  <type>select</type>
+	<object-name>fist.L</object-name>
+  <condition>
+ 	<equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[8]/hand-pose</property>
+    <value>2</value>
+   </equals>
+  </condition>
+ </animation>
+ <animation>
+  <type>select</type>
+	<object-name>point.L</object-name>
+  <condition>
+ <equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[8]/hand-pose</property>
+    <value>3</value>
+   </equals>
+  </condition>
+ </animation>
+ <animation>
+  <type>select</type>
+	<object-name>handedge.L</object-name>
+  <condition>
+ <equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[8]/hand-pose</property>
+    <value>4</value>
+   </equals>
+  </condition>
+ </animation>
+ <animation>
+  <type>select</type>
+	<object-name>victory.L</object-name>
+  <condition>
+ <equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[8]/hand-pose</property>
+    <value>5</value>
+   </equals>
+  </condition>
+ </animation>
+ <animation>
+  <type>select</type>
+	<object-name>thumbsup.L</object-name>
+  <condition>
+ <equals>
+    <property>sim/model/crew/pilot[1]/pose/position/limb[8]/hand-pose</property>
+    <value>6</value>
+   </equals>
+  </condition>
+ </animation>
+
+<!--right leg -->
+	<animation>
+		<type>rotate</type>
+		<object-name>leg1.R</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[9]/x-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/leg-x"/>
+			<y-m alias="../../../limbs/leg-y-r"/>
+			<z-m alias="../../../limbs/leg-z"/>
+		</center>
+		<axis>
+			<x>-1.0</x>
+			<y>0.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>leg1.R</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[9]/y-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/leg-x"/>
+			<y-m alias="../../../limbs/leg-y-r"/>
+			<z-m alias="../../../limbs/leg-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>-1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>leg1.R</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[9]/z-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/leg-x"/>
+			<y-m alias="../../../limbs/leg-y-r"/>
+			<z-m alias="../../../limbs/leg-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>0.0</y>
+			<z>-1.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>leg2.R</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[10]/y-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/knee-x"/>
+			<y-m alias="../../../limbs/knee-y-r"/>
+			<z-m alias="../../../limbs/knee-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>-1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>foot.R</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[11]/y-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/foot-x"/>
+			<y-m alias="../../../limbs/foot-y-r"/>
+			<z-m alias="../../../limbs/foot-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+<!-- left leg -->
+	<animation>
+		<type>rotate</type>
+		<object-name>leg1.L</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[12]/x-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/leg-x"/>
+			<y-m alias="../../../limbs/leg-y-l"/>
+			<z-m alias="../../../limbs/leg-z"/>
+		</center>
+		<axis>
+			<x>1.0</x>
+			<y>0.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>leg1.L</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[12]/y-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/leg-x"/>
+			<y-m alias="../../../limbs/leg-y-l"/>
+			<z-m alias="../../../limbs/leg-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>-1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>leg1.L</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[12]/z-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/leg-x"/>
+			<y-m alias="../../../limbs/leg-y-l"/>
+			<z-m alias="../../../limbs/leg-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>0.0</y>
+			<z>-1.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>leg2.L</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[13]/y-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/knee-x"/>
+			<y-m alias="../../../limbs/knee-y-l"/>
+			<z-m alias="../../../limbs/knee-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>-1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+	<animation>
+		<type>rotate</type>
+		<object-name>foot.L</object-name>
+		<property>sim/model/crew/pilot[1]/pose/position/limb[14]/y-deg</property>
+		<offset-deg>0</offset-deg>
+		<center>
+			<x-m alias="../../../limbs/foot-x"/>
+			<y-m alias="../../../limbs/foot-y-l"/>
+			<z-m alias="../../../limbs/foot-z"/>
+		</center>
+		<axis>
+			<x>0.0</x>
+			<y>1.0</y>
+			<z>0.0</z>
+		</axis>
+	</animation>
+
+<!-- parachute -->
+	<model>
+		<name>parachute backpack</name>
+		<path>Aircraft/Generic/Human/Models/backpack.xml</path>
+		<offsets>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>0</z-m>
+		</offsets>
+	</model>
+
+	<model>
+		<name>parachute</name>
+		<path>Aircraft/Generic/Human/Models/chute.xml</path>
+		<offsets>
+			<x-m>0</x-m>
+			<y-m>0</y-m>
+			<z-m>0</z-m>
+		</offsets>
+	</model>
+</PropertyList>

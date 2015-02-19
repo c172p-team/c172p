@@ -3213,6 +3213,47 @@
  <!--  ALS ground shadow  -->
   <model>
    <path>Aircraft/c172p-detailed/Models/Effects/shadow.xml</path>
- </model>
+  </model>
+ 
+   <!-- Pilot and copilot -->
+  <model>
+    <name>Pilot</name>
+    <path>Human/female-pilot.xml</path>
+    <offsets>
+      <x-m> 0.2 </x-m>
+      <y-m> -0.251 </y-m>
+      <z-m> -1.4 </z-m>
+    </offsets>
+  </model>
+  <model>
+    <name>Copilot</name>
+    <path>Human/male-copilot.xml</path>
+    <offsets>
+      <x-m> 0.2 </x-m>
+      <y-m> 0.251 </y-m>
+      <z-m> -1.4 </z-m>
+    </offsets>
+  </model>
+  <!-- Pilot not visible in the cockpit AND walker modes -->
+  <animation>
+    <type>select</type>
+    <object-name>Pilot</object-name>
+    <condition>
+      <and>
+        <not-equals>
+          <property>sim/current-view/name</property>
+          <value>Cockpit View</value>
+        </not-equals>
+        <not-equals>
+          <property>sim/current-view/name</property>
+          <value>Walk View</value>
+        </not-equals>
+        <not-equals>
+          <property>sim/current-view/name</property>
+          <value>Walker Orbit View</value>
+        </not-equals>
+      </and>
+    </condition>
+  </animation>
 
 </PropertyList>

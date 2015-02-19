@@ -1,0 +1,425 @@
+<PropertyList>
+  <name>Flying the Pattern</name>
+  <description>
+The traffic pattern is used as a method to stop aircraft crashing into each other when near an airport.
+    
+The pattern is a rectangular flight path with the runway forming one of the long sides.
+    
+It consists of the following sections:
+- Upwind.    Once we've taken off, we flying straight ahead on the runway heading to 500ft.
+- Crosswind. At 500ft, we turn left 90 degrees and continue climbing until we get to 1000ft.
+- Downwind.  When we reach 1000ft, we turn left again so we are parallel to the runway, reduce power and fly at 100kts. When we are "abeam the numbers" (opposite the number on the runway we intend to land on), we reduce power to 50%, drop one notch of flat and descend 100ft at 90kts.
+- Base.      We now make another left-hand turn, add another notch of flaps, and let speed continue to dissipate.
+- Final.     At the correct moment (based on visual queues),we make a final left turn to line up with the runway. We drop our final lot of flaps, descend and land.
+    
+As before, we'll be flying at KHAF, on runway 12, on a clear day.
+    
+Runway 12 does not have a VASI. Instead you will need to judge whether you are too low or too high by the view of the runway. If the runway is going away from you, you will land short. If the runway is coming towards you, you will over-shoot. Remember, you should aim to have the runway about a third of the way above the glare-shield, and adjust your rate of descent using power.
+  </description>
+  <audio-dir>Aircraft/c172p/tutorial</audio-dir>
+  <timeofday>morning</timeofday>
+  <presets>
+    <airport-id>KHAF</airport-id>
+    <on-ground>1</on-ground>
+    <runway>12</runway>
+    <altitude-ft>-9999</altitude-ft>
+    <latitude-deg>-9999</latitude-deg>
+    <longitude-deg>-9999</longitude-deg>
+    <heading-deg>0</heading-deg>
+    <airspeed-kt>0</airspeed-kt>
+    <glideslope-deg>0</glideslope-deg>
+    <offset-azimuth-deg>0</offset-azimuth-deg>
+    <offset-distance-nm>0</offset-distance-nm>
+  </presets>
+  
+  <init>
+    <set>
+      <property>/controls/flight/flaps</property>
+      <value>0.0</value>
+    </set>
+    <set>
+      <property>/controls/gear/brake-parking</property>
+      <value>1</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/magnetos</property>
+      <value>3</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/throttle</property>
+      <value>0.5</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/starter</property>
+      <value>true</value>
+    </set>
+    <set>
+      <property>/instrumentation/adf/frequencies/selected-khz</property>
+      <value>340</value>
+    </set>
+    <set>
+      <property>/environment/weather-scenario</property>
+      <value>Fair weather</value>
+    </set>
+    <set>
+      <property>/controls/flight/elevator-trim</property>
+      <value>0.17</value>
+    </set>
+  </init>
+  
+  <step>
+    <message>Release the parking brakes, smoothly apply full power and start your take-off.</message>
+    <error>
+      <message>Apply full throttle for take-off</message>
+      <condition>
+        <less-than>
+          <property>/controls/engines/engine/throttle</property>
+          <value>0.95</value>
+        </less-than>
+      </condition>
+    </error>
+    <error>
+      <message>Release the parking brake using Shift B</message>
+      <condition>
+        <equals>
+          <property>/controls/gear/brake-parking</property>
+          <value>1</value>
+        </equals>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/velocities/airspeed-kt</property>
+          <value>5.0</value>
+        </greater-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Stay on the center-line of the runway using the rudder.</message>
+    <set>
+      <property>/controls/engines/engine/starter</property>
+      <value>false</value>
+    </set>
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/velocities/airspeed-kt</property>
+          <value>45.0</value>
+        </greater-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Take-off at 65 knots and climb straight out on heading 120 at 600 feet per minute (about 70 knots).</message>
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+          <value>300</value>
+        </greater-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Continue your climb on heading 120 at 600 feet per minute to 500 feet.</message>
+    <error>
+      <message>Your climb angle is too shallow - raise the nose slightly to increase your climb rate.</message>
+      <condition>
+        <less-than>
+          <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+          <value>400</value>
+        </less-than>
+      </condition>
+    </error>
+    <error>
+      <message>Your climb angle is too great - lower the nose slightly to decrease your climb rate.</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+          <value>900</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are heading too far left, Turn right slightly to heading 120.</message>
+      <condition>
+        <less-than>
+          <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+          <value>110</value>
+        </less-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are heading too far right, Turn left slightly to heading 120.</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+          <value>130</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are in danger of being "behind the power curve". Drop the nose to speed up to 70 knots.</message>
+      <condition>
+        <less-than>
+          <property>/velocities/airspeed-kt</property>
+          <value>69</value>
+        </less-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+          <value>500</value>
+        </greater-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Make a left turn to crosswind (heading 030) and continue climbing to 1000 feet.</message>
+    <exit>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+            <value>900</value>
+          </greater-than>
+          <greater-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>020</value>
+          </greater-than>
+          <less-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>040</value>
+          </less-than>
+        </and>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Level off at 1000 feet and make another left turn to downwind (heading 300).</message>
+    <exit>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+            <value>950</value>
+          </greater-than>
+          <greater-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>290</value>
+          </greater-than>
+          <less-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>310</value>
+          </less-than>
+        </and>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Reduce power to 60%, and trim for level flight. Continue flying parallel to the runway.</message>
+    <error>
+      <message>You are heading too far left, Turn right slightly to heading 300.</message>
+      <condition>
+        <less-than>
+          <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+          <value>290</value>
+        </less-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are heading too far right, Turn left slightly to heading 300.</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+          <value>310</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are too high. Pattern altitude is 1000 feet.</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+          <value>1100</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are too low. Pattern altitude is 1000 feet.</message>
+      <condition>
+        <less-than>
+          <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+          <value>900</value>
+        </less-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/position/latitude-deg</property>
+          <value>37.528</value>
+        </greater-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>You are now opposite the end of the runway. Reduce power to 50%, set flaps to 10.</message>
+    <exit>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/controls/flight/flaps</property>
+            <value>0.3</value>
+          </greater-than>
+          <less-than>
+            <property>/controls/engines/engine/throttle</property>
+            <value>0.55</value>
+          </less-than>
+        </and>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Let the aircraft descend and slow. Continue flying a heading of 300.</message>
+    <error>
+      <message>You are heading too far left, Turn right slightly to heading 300.</message>
+      <condition>
+        <less-than>
+          <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+          <value>290</value>
+        </less-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are heading too far right, Turn left slightly to heading 300.</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+          <value>310</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are too high. You should be descending to around 850 feet.</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+          <value>1100</value>
+        </greater-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <less-than>
+          <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+          <value>900</value>
+        </less-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Turn left to base (heading 210), and set flaps to 20.
+      Continue to descend at around 500 feet per minute.</message>
+    <exit>
+      <condition>
+        <less-than>
+          <property>/position/longitude-deg</property>
+          <value>-122.520</value>
+        </less-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Turn onto final (heading 120), and line up with the runway.</message>
+    <exit>
+      <condition>
+        <and>
+          <less-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>140</value>
+          </less-than>
+          <greater-than>
+            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+            <value>100</value>
+          </greater-than>
+          <less-than>
+            <property>/position/latitude-deg</property>
+            <value>37.545</value>
+          </less-than>
+        </and>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Set flaps to 30. Control your descent rate using the throttle.</message>
+    <exit>
+      <condition>
+        <less-than>
+          <property>/position/latitude-deg</property>
+          <value>37.525</value>
+        </less-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Reduce power to idle. When you are about 10 feet above the ground,
+      smoothly bring the nose up so it is just above the horizon.</message>
+    <exit>
+      <condition>
+        <less-than>
+          <property>/position/altitude-agl-ft</property>
+          <value>10.0</value>
+        </less-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Keep tracking straight down the runway using the rudder
+      and let the aircraft land on the main gear.</message>
+    <exit>
+      <condition>
+        <less-than>
+          <property>/velocities/airspeed-kt</property>
+          <value>45.0</value>
+        </less-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Lower the nose wheel, continue to track down the runway and gently brake to a stop.</message>
+    <exit>
+      <condition>
+        <less-than>
+          <property>/velocities/airspeed-kt</property>
+          <value>5.0</value>
+        </less-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <end>
+    <message>Congratulations on successfully following the pattern.
+      If you want to practice more landings, you can take off again immediately.
+      Don't forget to lift your flaps though! This is known as a Touch and Go.
+    </message>
+  </end>
+</PropertyList>

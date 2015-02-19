@@ -1,0 +1,184 @@
+<PropertyList>
+  <name>Setting the Altimeter</name>
+  <description>
+    The Altimeter on an aircraft works using air pressure. This varies due to weather conditions, so the altimeter must be set regularly to a known value.
+
+Having the correct altimeter setting is important. As well as helping pilots to avoid any high terrain, it means that aircraft can be separated by altitude and not hit each other. This is particular important in busy airspace.
+
+The source of this altimeter setting varies. At high altitudes, a standard pressure is used. At lower levels, and area setting is used, and around airports, the current airport setting is used.
+
+This tutorial will teach you how to set the altimeter based on the ATIS (Automatic Terminal Information Service) for Livermore Municipal airport.
+  </description>
+  <audio-dir>Aircraft/c172p/Tutorials/altimeter</audio-dir>
+  <timeofday>morning</timeofday>
+  <presets>
+    <airport-id>KLVK</airport-id>
+    <on-ground>1</on-ground>
+    <runway>12</runway>
+    <altitude-ft>-9999</altitude-ft>
+    <latitude-deg>37.6952</latitude-deg>
+    <longitude-deg>-121.8167</longitude-deg>
+    <heading-deg>175.0</heading-deg>
+    <airspeed-kt>0</airspeed-kt>
+    <glideslope-deg>0</glideslope-deg>
+    <offset-azimuth-deg>0</offset-azimuth-deg>
+    <offset-distance-nm>0</offset-distance-nm>
+  </presets>
+
+  <init>
+    <set>
+      <property>/controls/gear/brake-parking</property>
+      <value>1</value>
+    </set>
+    <set>
+      <property>/controls/flight/flaps</property>
+      <value>0.0</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/magnetos</property>
+      <value>0</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/throttle</property>
+      <value>0.0</value>
+    </set>
+    <set>
+      <property>/engines/engine/running</property>
+      <value>false</value>
+    </set>
+    <set>
+      <property>/instrumentation/adf/frequencies/selected-khz</property>
+      <value>340</value>
+    </set>
+    <set>
+      <property>/environment/weather-scenario</property>
+      <value>Fair weather</value>
+    </set>
+    <set>
+      <property>/controls/flight/elevator-trim</property>
+      <value>0.17</value>
+    </set>
+    <set>
+      <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+      <value>119.650</value>
+    </set>
+  </init>
+
+  <step>
+    <message>In this lesson, you'll learn how to set the altimeter to the Livermore ATIS. I've already
+      set the radio to the correct frequency - 119.65</message>
+    <wait>10</wait>
+  </step>
+
+  <step>
+    <message>Listen to the ATIS message. If you cannot hear it, check the Sound Configuration item in the File menu.</message>
+    <wait>20</wait>
+    <set>
+      <property>/instrumentation/kma20/com1</property>
+      <value>-1</value>
+    </set>
+  </step>
+
+  <step>
+    <message>The ATIS message said the altimeter setting was 30.13.
+      We can set this on the altimeter by using the small insert window on the right side.
+      Alternatively we can adjust the altimeter so that it matches the altitude of Livermore - 380ft.
+    </message>
+    <wait>10</wait>
+    <view>
+      <heading-offset-deg>353.8</heading-offset-deg>
+      <pitch-offset-deg>-20.3</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>15.1</field-of-view>
+    </view>
+  </step>
+
+  <step>
+    <message>To adjust the altimeter directly, use the knob on the bottom left. Click on the right
+      side to increase the altitude, and left to decrease. Alternatively, use your mouse scroll wheel.
+    </message>
+    <wait>10</wait>
+    <view>
+      <heading-offset-deg>353.8</heading-offset-deg>
+      <pitch-offset-deg>-20.3</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>15.1</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3525</x-m>
+      <y-m>-0.1640</y-m>
+      <z-m>0.0409</z-m>
+      <scale>0.8756</scale>
+    </marker>
+  </step>
+
+  <step>
+    <message>Set the altimeter to 380 feet, or the pressure setting to 30.13 inHG.</message>
+    <wait>10</wait>
+    <view>
+      <heading-offset-deg>353.8</heading-offset-deg>
+      <pitch-offset-deg>-20.3</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>15.1</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3525</x-m>
+      <y-m>-0.1640</y-m>
+      <z-m>0.0409</z-m>
+      <scale>0.8756</scale>
+    </marker>
+
+    <error>
+      <message>That's too low. Increase the altimeter setting or altitude.</message>
+      <condition>
+        <less-than>
+          <property>/instrumentation/altimeter/setting-inhg</property>
+          <value>30.12</value>
+        </less-than>
+      </condition>
+    </error>
+
+    <error>
+      <message>That's too high. Decrease the altimeter setting or altitude.</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/altimeter/setting-inhg</property>
+          <value>30.14</value>
+        </greater-than>
+      </condition>
+    </error>
+
+
+    <exit>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/instrumentation/altimeter/setting-inhg</property>
+            <value>30.12</value>
+          </greater-than>
+          <less-than>
+            <property>/instrumentation/altimeter/setting-inhg</property>
+            <value>30.14</value>
+          </less-than>
+        </and>
+      </condition>
+
+    </exit>
+  </step>
+  <end>
+    <message>Tutorial complete.  If you set the pressure setting directly,
+      you can double-check you've set the correct value by checking the current altitude.</message>
+  </end>
+
+</PropertyList>

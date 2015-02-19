@@ -1,0 +1,548 @@
+<PropertyList>
+  <name>Before Takeoff Checks</name>
+  <description>
+This tutorial covers the before takeoff checklist. This involves the engine checks that are made in the run-up area just prior to taxiing to the runway and taking off.
+
+For more information on the before takeoff checklist, see Section 2-11 of the FAA Airplane Flying Handbook available at http://www.faa.gov/library/manuals/aircraft/airplane_handbook/.
+  </description>
+  <audio-dir>Aircraft/c172p/tutorial/startup</audio-dir>
+  <timeofday>morning</timeofday>
+  <presets>
+    <airport-id>KLVK</airport-id>
+    <on-ground>1</on-ground>
+    <runway>12</runway>
+    <altitude-ft>-9999</altitude-ft>
+    <latitude-deg>37.6946</latitude-deg>
+    <longitude-deg>-121.82949</longitude-deg>
+    <heading-deg>80.0</heading-deg>
+    <airspeed-kt>0</airspeed-kt>
+    <glideslope-deg>0</glideslope-deg>
+    <offset-azimuth-deg>0</offset-azimuth-deg>
+    <offset-distance-nm>0</offset-distance-nm>
+  </presets>
+
+  <init>
+    <set>
+      <property>/controls/gear/brake-parking</property>
+      <value>1</value>
+    </set>
+    <set>
+      <property>/controls/flight/flaps</property>
+      <value>0.0</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/magnetos</property>
+      <value>3</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/throttle</property>
+      <value>0.07</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/starter</property>
+      <value>true</value>
+    </set>
+    <set>
+      <property>/engines/engine/running</property>
+      <value>true</value>
+    </set>
+    <set>
+      <property>/instrumentation/adf/frequencies/selected-khz</property>
+      <value>340</value>
+    </set>
+    <set>
+      <property>/environment/weather-scenario</property>
+      <value>none</value>
+    </set>
+    <set>
+      <property>/controls/flight/elevator-trim</property>
+      <value>0.17</value>
+    </set>
+  </init>
+
+  <step>
+    <message>In this lesson we'll cover the pre-takeoff checks.</message>
+    <nasal>
+      <script>
+
+      # Script to simulate holding down the starter button until the engine starts
+      var starter = func() {
+        setprop("/controls/engines/engine/starter", 1);
+        if (! getprop("/engines/engine/running")) {
+          settimer(starter, 0);
+        }
+      };
+
+      # The FDM resets the starter property on each FDM cycle.  By effectively starting
+      # a number of threads to continually keep setting the starter to true, we can
+      # get around this and give the engine the opportunity to catch.
+      starter();
+      starter();
+      starter();
+      starter();
+      starter();
+      </script>
+    </nasal>
+  </step>
+
+  <step>
+    <set>
+      <property>/controls/engines/engine/starter</property>
+      <value>false</value>
+    </set>
+    <message>You can access the pre-takeoff checklist by selecting Help->Checklists from the menu.</message>
+    <wait>10</wait>
+  </step>
+
+  <step>
+    <message>The parking brakes are already applied, so our first check is that the flight controls are free and correct.
+    </message>
+  </step>
+
+  <step>
+    <message>Check that moving the yoke from left to right moves the aileron in the expected manner.</message>
+    <view>
+      <heading-offset-deg>105.2</heading-offset-deg>
+      <pitch-offset-deg>1.0</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.3</x-offset-m>
+      <y-offset-m>0.2</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>55.0</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>1.4000</x-m>
+      <y-m>-4.0000</y-m>
+      <z-m>0.3000</z-m>
+      <scale>41.0000</scale>
+    </marker>
+  </step>
+
+  <step>
+    <message>Now, check the other aileron. We're checking that the controls aren't jammed by our seatbelts etc.
+and that the aircraft has been rigged correctly.</message>
+    <view>
+      <heading-offset-deg>-105.2</heading-offset-deg>
+      <pitch-offset-deg>1.0</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.3</x-offset-m>
+      <y-offset-m>0.2</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>55.0</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>1.4000</x-m>
+      <y-m>4.0000</y-m>
+      <z-m>0.3000</z-m>
+      <scale>41.0000</scale>
+    </marker>
+  </step>
+  <step>
+    <message>Check the trim is in position</message>
+    <view>
+      <heading-offset-deg>349.2</heading-offset-deg>
+      <pitch-offset-deg>-32.9</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>55.0</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3129</x-m>
+      <y-m>-0.0422</y-m>
+      <z-m>-0.4427</z-m>
+      <scale>4.0</scale>
+    </marker>
+  </step>
+  <step>
+    <message>Now check that the mixture is set to rich - fully in.</message>
+    <view>
+      <heading-offset-deg>336.5</heading-offset-deg>
+      <pitch-offset-deg>-30.3</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>55.0</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3476</x-m>
+      <y-m>0.0898</y-m>
+      <z-m>-0.2289</z-m>
+      <scale>3.6933</scale>
+    </marker>
+    <error>
+      <message>The mixture isn't completely in. Press m to richen the mixture to fully rich.</message>
+      <condition>
+        <less-than>
+          <property>/controls/engines/engine/mixture</property>
+          <value>0.99</value>
+        </less-than>
+      </condition>
+    </error>
+  </step>
+
+  <step>
+    <message>Set the throttle to 1700 rpm for the engine checks.</message>
+    <view>
+      <heading-offset-deg>8.4</heading-offset-deg>
+      <pitch-offset-deg>-31.3</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>34.2</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3653</x-m>
+      <y-m>-0.3107</y-m>
+      <z-m>-0.1453</z-m>
+      <scale>5.0000</scale>
+    </marker>
+    <error>
+      <message>That's a bit high. Reduce throttle to 1700 rpm with PgDn, or your joystick throttle control.</message>
+      <condition>
+        <greater-than>
+          <property>/engines/engine/rpm</property>
+          <value>1800.0</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>That's too low. Increase throttle to 1700 rpm with PgUp, or your joystick throttle control.</message>
+      <condition>
+        <less-than>
+          <property>/engines/engine/rpm</property>
+          <value>1600.0</value>
+        </less-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/engines/engine/rpm</property>
+            <value>1600</value>
+          </greater-than>
+          <less-than>
+            <property>/engines/engine/rpm</property>
+            <value>1700</value>
+          </less-than>
+        </and>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <message>This aircraft has a vacuum pump to power some instruments, such as the attitude indicator and directional gyro.</message>
+  </step>
+  <step>
+    <message>
+      We need to check that the vacuum system is working correct by checking the suction gauge.</message>
+    <view>
+      <heading-offset-deg>17.3</heading-offset-deg>
+      <pitch-offset-deg>-19.2</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>23.2</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3578</x-m>
+      <y-m>-0.4324</y-m>
+      <z-m>0.0244</z-m>
+      <scale>1.4622</scale>
+    </marker>
+  </step>
+
+  <step>
+    <message>Check that the engine instruments are in the green.</message>
+    <view>
+      <heading-offset-deg>10.7</heading-offset-deg>
+      <pitch-offset-deg>-24.8</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>23.2</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3671</x-m>
+      <y-m>-0.4031</y-m>
+      <z-m>-0.0595</z-m>
+      <scale>3.0</scale>
+    </marker>
+  </step>
+
+  <step>
+    <message>Check that the electrical system is also fine.</message>
+    <view>
+      <heading-offset-deg>15.2</heading-offset-deg>
+      <pitch-offset-deg>-28.2</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>23.2</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3560</x-m>
+      <y-m>-0.4102</y-m>
+      <z-m>-0.1667</z-m>
+      <scale>3.0000</scale>
+    </marker>
+  </step>
+
+  <step>
+    <message>Now we need to check that the magnetos are working correctly.</message>
+    <view>
+      <heading-offset-deg>11.3</heading-offset-deg>
+      <pitch-offset-deg>-34.3</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>23.2</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3671</x-m>
+      <y-m>-0.4142</y-m>
+      <z-m>-0.2502</z-m>
+      <scale>2.3067</scale>
+    </marker>
+    <set>
+      <property>/sim/panel-hotspots</property>
+      <value>true</value>
+    </set>
+
+  </step>
+
+  <step>
+    <message>Click the left hotspot twice, to switch to the right magneto, or use your mouse scrollwheel.
+      There should be a small drop in the tachometer.</message>
+    <view>
+      <heading-offset-deg>11.3</heading-offset-deg>
+      <pitch-offset-deg>-34.3</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>23.2</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3511</x-m>
+      <y-m>-0.3107</y-m>
+      <z-m>-0.1360</z-m>
+      <scale>3.0</scale>
+    </marker>
+
+    <error>
+      <message>Click the left hotspot twice so the key is set to RIGHT.</message>
+      <condition>
+        <not-equals>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>1</value>
+        </not-equals>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <equals>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>1</value>
+        </equals>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <message>Click the middle hotspot twice, to switch back to both magnetos.
+      The tachometer should recover back to 1700rpm.</message>
+    <view>
+      <heading-offset-deg>11.3</heading-offset-deg>
+      <pitch-offset-deg>-34.3</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>23.2</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3511</x-m>
+      <y-m>-0.3107</y-m>
+      <z-m>-0.1360</z-m>
+      <scale>3.0</scale>
+    </marker>
+
+    <error>
+      <message>Click the left hotspot twice, so the key is set to BOTH.</message>
+      <condition>
+        <not-equals>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>3</value>
+        </not-equals>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <equals>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>3</value>
+        </equals>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <message>Now we'll check the left magneto. Click the left hotspot, to switch to the left magneto.
+      Again, there should be a small drop in the tachometer.</message>
+    <view>
+      <heading-offset-deg>11.3</heading-offset-deg>
+      <pitch-offset-deg>-34.3</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>23.2</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3511</x-m>
+      <y-m>-0.3107</y-m>
+      <z-m>-0.1360</z-m>
+      <scale>3.0</scale>
+    </marker>
+
+    <error>
+      <message>Click the left hotspot so the key is set to LEFT.</message>
+      <condition>
+        <not-equals>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>2</value>
+        </not-equals>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <equals>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>2</value>
+        </equals>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <message>Click the middle hotspot, to switch back to both magnetos.
+      The tachometer should recover back to 1700rpm.</message>
+    <view>
+      <heading-offset-deg>11.3</heading-offset-deg>
+      <pitch-offset-deg>-34.3</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>23.2</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3511</x-m>
+      <y-m>-0.3107</y-m>
+      <z-m>-0.1360</z-m>
+      <scale>3.0</scale>
+    </marker>
+
+    <error>
+      <message>Click the left hotspot so the key is set to BOTH.</message>
+      <condition>
+        <not-equals>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>3</value>
+        </not-equals>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <equals>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>3</value>
+        </equals>
+      </condition>
+    </exit>
+  </step>
+
+<!-- We should now check for carb heat, but we don't have that modeled yet -->
+
+  <step>
+    <message>Set the throttle back to between 800 and 1000 rpm.</message>
+    <set>
+      <property>/sim/panel-hotspots</property>
+      <value>false</value>
+    </set>
+    <view>
+      <heading-offset-deg>11.3</heading-offset-deg>
+      <pitch-offset-deg>-34.3</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>23.2</field-of-view>
+    </view>
+
+    <marker>
+      <x-m>-0.3511</x-m>
+      <y-m>-0.3107</y-m>
+      <z-m>-0.1360</z-m>
+      <scale>3.0</scale>
+    </marker>
+
+    <error>
+      <message>That's a bit high. Reduce throttle slightly with PgDn, or your joystick throttle control.</message>
+      <condition>
+        <greater-than>
+          <property>/engines/engine/rpm</property>
+          <value>1000.0</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>That's too low. Increase throttle slightly with PgUp, or your joystick throttle control.</message>
+      <condition>
+        <less-than>
+          <property>/engines/engine/rpm</property>
+          <value>800.0</value>
+        </less-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/engines/engine/rpm</property>
+            <value>800</value>
+          </greater-than>
+          <less-than>
+            <property>/engines/engine/rpm</property>
+            <value>1000</value>
+          </less-than>
+        </and>
+      </condition>
+    </exit>
+  </step>
+  <end>
+    <message>Our pre-takeoff checks are now complete. We're ready to fly.</message>
+  </end>
+</PropertyList>

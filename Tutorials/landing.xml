@@ -1,0 +1,198 @@
+<PropertyList>
+  <name>Straight-in Landing</name>
+  <description>Landings are not optional...
+
+Land the aircraft from an altitude of 1000ft on runway 30 at KHAF on a calm morning.
+
+Unlike normal flight, when landing you use power alone to control descent rate. The runway should stay in the same position throughout the descent - about a third of the distance above the glare-shield.
+
+KHAF has a VASI to the left of runway 30, a series of lights designed to help you judge your approach. Simply put, the VASI will display red lights if you are descending too fast (indicating that you need to increase power), and white lights if you are too high (indicating that you need to decrease power). If you are descending at the right angle, you will see 3 red lights and 3 white.
+
+You start the tutorial cruising at around 1000ft and 90kts. To begin your descent, you will need to reduce power and drop one notch flaps. You are aiming to approach at 80kts and 300fpm. As you get closer, you will need to reduce power further and drop more flaps, aiming to touch down "on the numbers" at 65kts.
+  </description>
+  <timeofday>afternoon</timeofday>
+  <presets>
+    <airport-id>KHAF</airport-id>
+    <on-ground>0</on-ground>
+    <runway>30</runway>
+    <altitude-ft>1000</altitude-ft>
+    <latitude-deg>-9999</latitude-deg>
+    <longitude-deg>-9999</longitude-deg>
+<!--    <heading-deg>300.0</heading-deg> -->
+    <airspeed-kt>90.0</airspeed-kt>
+    <glideslope-deg>3</glideslope-deg>
+    <offset-azimuth-deg>0</offset-azimuth-deg>
+    <offset-distance-nm>3</offset-distance-nm>
+    <ndb-id>0</ndb-id>
+    <vor-id>0</vor-id>
+    <fix>0</fix>
+  </presets>
+
+  <init>
+    <set>
+      <property>/controls/flight/flaps</property>
+      <value>0.0</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/magnetos</property>
+      <value>3</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/throttle</property>
+      <value>0.4</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/starter</property>
+      <value>true</value>
+    </set>
+    <set>
+      <property>/instrumentation/adf/frequencies/selected-khz</property>
+      <value>340</value>
+    </set>
+    <set>
+      <property>/environment/weather-scenario</property>
+      <value>Fair weather</value>
+    </set>
+  </init>
+
+  <step>
+    <message>The runway is straight ahead. Reduce throttle to 50% and apply one degree of flaps.
+      Stay in line with the runway about a hands-width above the glare-shield.
+      You are aiming to descend at around 500 feet per minute and 80 knots.
+    </message>
+    <set>
+      <property>/controls/flight/elevator-trim</property>
+      <value>0.11</value>
+    </set>
+    <error>
+      <message>You are going too fast. Reduce power and pitch up to reduce your airspeed to 80 knots.</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+          <value>100.0</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>Reduce throttle to 50%</message>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine/throttle</property>
+          <value>0.5</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>Set one step of flaps by pressing ]</message>
+      <condition>
+        <less-than>
+          <property>/controls/flight/flaps</property>
+          <value>0.3</value>
+        </less-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/position/latitude-deg</property>
+          <value>37.48</value>
+        </greater-than>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <set>
+      <property>/controls/engines/engine/starter</property>
+      <value>false</value>
+    </set>
+    <message>Let down the second step of flaps and use the VASI to check your descent rate.
+      White - too high. Red - too low, Red and white - just right.
+      Use throttle to control your descent rate rather than attitude.
+    </message>
+    <error>
+      <message>Set your second set of flaps by pressing ]</message>
+      <condition>
+        <less-than>
+          <property>/controls/flight/flaps</property>
+          <value>0.6</value>
+        </less-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/position/latitude-deg</property>
+          <value>37.495</value>
+        </greater-than>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <message>Let down your final set of flaps and continue to follow the VASI glideslope.
+      Stay lined up with the middle of the runway.
+    </message>
+    <error>
+      <message>Set your final set of flaps by pressing ]</message>
+      <condition>
+        <less-than>
+          <property>/controls/flight/flaps</property>
+          <value>0.9</value>
+        </less-than>
+      </condition>
+    </error>
+
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/position/latitude-deg</property>
+          <value>37.506</value>
+        </greater-than>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <message>Reduce power to idle. When you are about 10 feet above the ground,
+      smoothly bring the nose up so it is level with the horizon.
+    </message>
+    <exit>
+      <condition>
+        <less-than>
+          <property>/position/altitude-agl-ft</property>
+          <value>7.0</value>
+        </less-than>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <message>Keep tracking straight down the runway and let the aircraft land on the main gear.</message>
+    <exit>
+      <condition>
+        <less-than>
+          <property>/velocities/airspeed-kt</property>
+          <value>45.0</value>
+        </less-than>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <message>Lower the nose wheel, continue to track down the runway and gently brake to a stop. Use
+      the mouse with the left button held down to steer.</message>
+    <exit>
+      <condition>
+        <less-than>
+          <property>/velocities/groundspeed-kt</property>
+          <value>5.0</value>
+        </less-than>
+      </condition>
+    </exit>
+  </step>
+
+  <end>
+    <message>Congratulations on a successful landing.</message>
+  </end>
+</PropertyList>

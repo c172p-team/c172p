@@ -1,0 +1,327 @@
+<PropertyList>
+  <name>Start Up</name>
+  <description>
+Before you go flying, you'll need to learn how to start the engines.
+
+This tutorial will take you through the pre-startup checklist and starting the Cessna 172p.
+  </description>
+  <audio-dir>Aircraft/c172p/Tutorials/startup</audio-dir>
+  <timeofday>morning</timeofday>
+
+  <presets>
+    <airport-id>KLVK</airport-id>
+    <on-ground>1</on-ground>
+    <runway>12</runway>
+    <altitude-ft>-9999</altitude-ft>
+    <latitude-deg>37.6952</latitude-deg>
+    <longitude-deg>-121.8167</longitude-deg>
+    <heading-deg>175.0</heading-deg>
+    <airspeed-kt>0</airspeed-kt>
+    <glideslope-deg>0</glideslope-deg>
+    <offset-azimuth-deg>0</offset-azimuth-deg>
+    <offset-distance-nm>0</offset-distance-nm>
+  </presets>
+
+  <init>
+    <set>
+      <property>/controls/gear/brake-parking</property>
+      <value>1</value>
+    </set>
+    <set>
+      <property>/controls/flight/flaps</property>
+      <value>0.0</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/magnetos</property>
+      <value>0</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/throttle</property>
+      <value>0.0</value>
+    </set>
+    <set>
+      <property>/engines/engine/running</property>
+      <value>false</value>
+    </set>
+    <set>
+      <property>/instrumentation/adf/frequencies/selected-khz</property>
+      <value>340</value>
+    </set>
+    <set>
+      <property>/environment/weather-scenario</property>
+      <value>Fair weather</value>
+    </set>
+    <set>
+      <property>/controls/flight/elevator-trim</property>
+      <value>0.17</value>
+    </set>
+  </init>
+
+  <step>
+    <message>Welcome to Livermore Municipal Airport. In this lesson we'll go through the pre-startup checks and start the aircraft.</message>
+    <wait>10</wait>
+  </step>
+
+  <step>
+    <message>Before we start up, we need to brief what we'll do in case of an engine fire on startup. As
+      this isn't our aircraft, and we're fully insured, we'll simply open the door and run away.</message>
+    <wait>10</wait>
+  </step>
+
+  <step>
+    <message>Next, we check our seatbelts, and seat adjustments. Cessnas can get worn seat rails that
+      sometimes cause the seat to slip backwards, often just as you take off, so make sure it is secure.</message>
+    <wait>10</wait>
+  </step>
+
+  <step>
+    <message>The fuel selector is set to BOTH, the Mixture control is fully rich, and the carb heat is off.</message>
+    <view>
+      <heading-offset-deg>344.0</heading-offset-deg>
+      <pitch-offset-deg>-48.7</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.235</y-offset-m>
+      <z-offset-m>0.36</z-offset-m>
+      <field-of-view>37.0</field-of-view>
+    </view>
+  </step>
+
+  <step>
+    <message>Open the throttle slightly. Use your joystick throttle control,
+      or PgUp to increase throttle to about 10%.</message>
+    <view>
+      <heading-offset-deg>347.2</heading-offset-deg>
+      <pitch-offset-deg>-21.8</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>55.0</field-of-view>
+    </view>
+    <marker>
+      <x-m>-0.3342</x-m>
+      <y-m>-0.0027</y-m>
+      <z-m>-0.2289</z-m>
+      <scale>3.1156</scale>
+    </marker>
+    <error>
+      <message>Push in the throttle using PgUp, or your joystick throttle control.</message>
+      <message>Open the throttle a bit more.</message>
+      <condition>
+        <less-than>
+          <property>/controls/engines/engine/throttle</property>
+          <value>0.05</value>
+        </less-than>
+      </condition>
+    </error>
+    <error>
+      <message>That's a bit too much. Pull it out slightly using your joystick throttle control, or PgDn.</message>
+      <message>That's a bit too much - pull it out slightly.</message>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine/throttle</property>
+          <value>0.2</value>
+        </greater-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/controls/engines/engine/throttle</property>
+            <value>0.05</value>
+          </greater-than>
+          <less-than>
+            <property>/controls/engines/engine/throttle</property>
+            <value>0.2</value>
+          </less-than>
+        </and>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <message>Now, we'll check no-one is about to walk into our propeller.</message>
+    <wait>2</wait>
+    <view>
+      <heading-offset-deg>44.0</heading-offset-deg>
+      <pitch-offset-deg>-15.7</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>55.0</field-of-view>
+    </view>
+  </step>
+
+  <step>
+    <message>Looks clear.</message>
+    <wait>2</wait>
+    <view>
+      <heading-offset-deg>296.6</heading-offset-deg>
+      <pitch-offset-deg>-10.4</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>55.0</field-of-view>
+    </view>
+  </step>
+
+  <step>
+    <message>We need to switch on the magnetos.
+      Click the middle hotspot three times, or use your mouse scroll wheel, so the key is set to BOTH.</message>
+    <view>
+      <heading-offset-deg>12.2</heading-offset-deg>
+      <pitch-offset-deg>-35.2</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>27.6</field-of-view>
+    </view>
+    <marker>
+      <x-m>-0.3689</x-m>
+      <y-m>-0.4138</y-m>
+      <z-m>-0.2493</z-m>
+      <scale>3.0000</scale>
+    </marker>
+    <set>
+      <property>/sim/panel-hotspots</property>
+      <value>true</value>
+    </set>
+    <set>
+      <property>/sim/model/hide-yoke</property>
+      <value>true</value>
+    </set>
+    <error>
+      <message>Click the middle hotspot three times, so both magnetos are on and the key
+        is set to BOTH.</message>
+      <condition>
+        <less-than>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>3</value>
+        </less-than>
+      </condition>
+    </error>
+
+    <exit>
+      <condition>
+        <equals>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>3</value>
+        </equals>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <message>Finally, we can start the engine. Hold down s, or the right hotspot until the engine catches.</message>
+    <view>
+      <heading-offset-deg>12.2</heading-offset-deg>
+      <pitch-offset-deg>-35.2</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>27.6</field-of-view>
+    </view>
+    <marker>
+      <x-m>-0.3689</x-m>
+      <y-m>-0.4138</y-m>
+      <z-m>-0.2493</z-m>
+      <scale>3.0000</scale>
+    </marker>
+    <error>
+      <message>Wrong way - set the magnetos back to BOTH.</message>
+      <message>You need the magnetos on to start the engine. Set them to BOTH by clicking the middle hotspot or pressing ].</message>
+      <condition>
+        <not-equals>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>3</value>
+        </not-equals>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <equals>
+          <property>/engines/engine/running</property>
+          <value>1</value>
+        </equals>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <message>Great, the engine is running. Adjust the throttle so we're running at between 800 and 1000 RPM.</message>
+    <view>
+      <heading-offset-deg>360.0</heading-offset-deg>
+      <pitch-offset-deg>-12.0</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>55.0</field-of-view>
+    </view>
+    <marker>
+      <x-m>-0.3791</x-m>
+      <y-m>-0.3089</y-m>
+      <z-m>-0.1320</z-m>
+      <scale>3.8622</scale>
+    </marker>
+    <set>
+      <property>/sim/panel-hotspots</property>
+      <value>false</value>
+    </set>
+    <set>
+      <property>/sim/model/hide-yoke</property>
+      <value>false</value>
+    </set>
+    <error>
+      <message>You can release the starter motor now - the engine is running</message>
+      <condition>
+        <equals>
+          <property>/controls/engines/engine/starter</property>
+          <value>true</value>
+        </equals>
+      </condition>
+    </error>
+    <error>
+      <message>That's a bit high. Reduce throttle to below 1000 RPM using PgDn, or your joystick throttle control.</message>
+      <condition>
+        <greater-than>
+          <property>/engines/engine/rpm</property>
+          <value>1000.0</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>That's too low. Increase throttle to above 800 RPM with PgUp, or your joystick throttle control.</message>
+      <condition>
+        <less-than>
+          <property>/engines/engine/rpm</property>
+          <value>800.0</value>
+        </less-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/engines/engine/rpm</property>
+            <value>800</value>
+          </greater-than>
+          <less-than>
+            <property>/engines/engine/rpm</property>
+            <value>1000</value>
+          </less-than>
+        </and>
+      </condition>
+    </exit>
+  </step>
+
+  <end>
+    <message>Great, our lesson is complete. We're now ready to taxi to the runway.</message>
+  </end>
+</PropertyList>

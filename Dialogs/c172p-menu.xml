@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+  <default>
+    <menu n="10">
+      <label>Cessna C172P</label>
+      <enabled type="bool">true</enabled>
+      <item>
+        <name>select-livery</name>
+        <binding>
+          <command>nasal</command>
+          <script>aircraft.livery.dialog.toggle()</script>
+        </binding>
+      </item>
+      <item>
+        <name>immatriculation</name>
+        <binding>
+          <command>nasal</command>
+          <script>c172p.immat_dialog.toggle()</script>
+        </binding>
+      </item>
+      <item>
+        <name>show-hide-yokes</name>
+        <binding>
+          <command>property-toggle</command>
+          <property>sim/model/hide-yoke</property>
+        </binding>
+      </item>
+      <item>
+        <name>autostart</name>
+        <binding>
+          <command>nasal</command>
+          <script>
+            if (getprop("/engines/engine/running")) {
+              gui.popupTip("Engine already running.", 5);
+            
+            } else {
+              setprop("/controls/engines/engine/magnetos", 3);
+              setprop("/controls/engines/engine/throttle", 0.2);
+              setprop("/controls/engines/engine/mixture", 1.0);
+              
+              setprop("/controls/flight/elevator-trim", -0.19);
+              
+              setprop("/controls/lighting/nav-lights", 1);
+              setprop("/controls/lighting/strobe", 1);
+              setprop("/controls/lighting/beacon", 1);
+
+              setprop("/consumables/fuel/tank[0]/selected", 1);
+              setprop("/consumables/fuel/tank[1]/selected", 1);
+              
+              
+              # Set the altimeter
+              setprop("/instrumentation/altimeter/setting-inhg", getprop("/environment/pressure-sea-level-inhg"));
+              
+              gui.popupTip("Hold down \"s\" to start the engine.", 5);
+            }
+          </script>
+        </binding>
+      </item>
+    </menu>
+  </default>
+
+</PropertyList>
+

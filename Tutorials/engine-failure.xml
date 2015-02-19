@@ -1,0 +1,239 @@
+<PropertyList>
+  <name>Engine Failure</name>
+  <description>Engine failure is very rare in flight simulators, but a risk in real life.
+    
+    
+The tutorial starts with you cruising at 3500ft over the hills of San Francisco. A total engine failure will occur, with no possibility of restart - black smoke, chunks of metal pushed out of the cowling.
+    
+Glide the aircraft to the nearest airport and make a successful emergency landing. You must manage your altitude and fly a normal pattern from "abeam the numbers". Don't deploy flaps until you have the runway "made".
+    
+The Cessna 172 glides at a ratio of 10:1 at a best glide speed of 90kts IAS. The glide ratio assumes no flaps and a "windmilling" propeller. If you fly any faster or slower, or have flaps deployed, the glide rate will be worse.
+    
+Both KSFO (San Francisco International) and KHAF (Half Moon Bay) are within glide distance. In real life, you would opt for the larger of the two airports, but for an extra challenge, try to land at KHAF.
+  </description>
+  <timeofday>dusk</timeofday>
+  <presets>
+    <airport-id>KHAF</airport-id>
+    <on-ground>0</on-ground>
+    <runway>30</runway>
+    <altitude-ft>3500</altitude-ft>
+    <latitude-deg>37.5</latitude-deg>
+    <longitude-deg>-122.4</longitude-deg>
+    <heading-deg>010.0</heading-deg>
+    <airspeed-kt>105.0</airspeed-kt>
+    <glideslope-deg>0</glideslope-deg>
+    <offset-azimuth-deg>0</offset-azimuth-deg>
+    <offset-distance-nm>0</offset-distance-nm>
+    <ndb-id>0</ndb-id>
+    <vor-id>0</vor-id>
+    <fix>0</fix>
+  </presets>
+  
+  <init>
+    <set>
+      <property>/controls/flight/flaps</property>
+      <value>0.0</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/magnetos</property>
+      <value>3</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/throttle</property>
+      <value>0.5</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/starter</property>
+      <value>true</value>
+    </set>
+    <set>
+      <property>/instrumentation/adf/frequencies/selected-khz</property>
+      <value>340</value>
+    </set>
+    <set>
+      <property>/environment/weather-scenario</property>
+      <value>Fair weather</value>
+    </set>
+  </init>
+  
+  <step>
+    <message>We're happily cruising along, enjoying an evenings flight.</message>
+    <wait>10</wait>
+  </step>
+  
+  <step>
+    <message>Engine failure! Engine failure! Trim for a best glide speed of 90 knots.</message>
+    <set>
+      <property>/controls/engines/engine/starter</property>
+      <value>false</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/faults/left-magneto-serviceable</property>
+      <value>false</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/faults/right-magneto-serviceable</property>
+      <value>false</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/faults/spark-plugs-serviceable</property>
+      <value>false</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/magnetos</property>
+      <value>0</value>
+    </set>
+  </step>
+  
+  <step>
+    <message>Now look around and choose an airport, or emergency landing site. Stay at 90 knots.</message>
+    <set>
+      <property>/engines/engine/running</property>
+      <value>false</value>
+    </set>
+    <error>
+      <message>You are too slow. You need to fly at 90 knots IAS for maximum glide.</message>
+      <condition>
+        <less-than>
+          <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+          <value>88</value>
+        </less-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are too fast. You need to fly at 90 knots IAS for maximum glide.</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+          <value>92</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>Engine failure is currently simulated by switching off the magnetos.
+        Please switch them off again to continue the tutorial.</message>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>0</value>
+        </greater-than>
+      </condition>
+    </error>
+  </step>
+  
+  <step>
+    <message>Start maneuvering towards your chosen emergency landing spot,
+      keeping your speed at 90 knots IAS.</message>
+    <set>
+      <property>/engines/engine/running</property>
+      <value>false</value>
+    </set>
+    <error>
+      <message>You are too slow. You need to fly at 90 knots IAS for maximum glide.</message>
+      <condition>
+        <less-than>
+          <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+          <value>88</value>
+        </less-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are too fast. You need to fly at 90 knots IAS for maximum glide.</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+          <value>92</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>Engine failure is currently simulated by switching off the magnetos.
+        Please switch them off again to continue the tutorial.</message>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>0</value>
+        </greater-than>
+      </condition>
+    </error>
+  </step>
+  
+  <step>
+    <message>At this point we would radio an emergency/mayday.
+      Remember - Aviate, Navigate, Communicate - in that order.</message>
+    <set>
+      <property>/engines/engine/running</property>
+      <value>false</value>
+    </set>
+    <error>
+      <message>You are too slow. You need to fly at 90 knots IAS for maximum glide.</message>
+      <condition>
+        <less-than>
+          <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+          <value>88</value>
+        </less-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are too fast. You need to fly at 90 knots IAS for maximum glide.</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+          <value>92</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>Engine failure is currently simulated by switching off the magnetos.
+        Please switch them off again to continue the tutorial.</message>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>0</value>
+        </greater-than>
+      </condition>
+    </error>
+  </step>
+  
+  <step>
+    <message>Continue flying towards your emergency landing spot.
+      If we had the spare capacity, we might attempt to restart the engine at this point.</message>
+    <error>
+      <message>Engine failure is currently simulated by switching off the magnetos.
+        Please switch them off again to continue the tutorial.</message>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>0</value>
+        </greater-than>
+      </condition>
+    </error>
+  </step>
+  
+  <step>
+    <message>Stay a 90 knots for maximum glide. Only use flaps once the runway is "made".</message>
+    <error>
+      <message>Engine failure is currently simulated by switching off the magnetos.
+        Please switch them off again to continue the tutorial.</message>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine/magnetos</property>
+          <value>0</value>
+        </greater-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <less-than>
+          <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+          <value>10</value>
+        </less-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <end>
+    <message>Assuming the aircraft is upright and you landed on a runway,
+      you walked away from a total engine failure - well done!</message>
+  </end>
+</PropertyList>

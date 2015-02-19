@@ -1,0 +1,261 @@
+<PropertyList>
+  <name>Takeoff</name>
+  <description>
+This tutorial starts from Half-Moon Bay (KHAF), a small airport on the coast near San Francisco, in clear, still, weather.
+    
+This tutorial will teach you how to take-off, and climb at 600 feet per minute. You will level off at 1000ft to complete the tutorial.
+  </description>
+  <audio-dir>Aircraft/c172p/tutorial</audio-dir>
+  <timeofday>morning</timeofday>
+  <presets>
+    <airport-id>KHAF</airport-id>
+    <on-ground>1</on-ground>
+    <runway>12</runway>
+    <altitude-ft>-9999</altitude-ft>
+    <latitude-deg>-9999</latitude-deg>
+    <longitude-deg>-9999</longitude-deg>
+    <heading-deg>0</heading-deg>
+    <airspeed-kt>0</airspeed-kt>
+    <glideslope-deg>0</glideslope-deg>
+    <offset-azimuth-deg>0</offset-azimuth-deg>
+    <offset-distance-nm>0</offset-distance-nm>
+  </presets>
+  
+  <init>
+    <set>
+      <property>/controls/gear/brake-parking</property>
+      <value>1</value>
+    </set>
+    <set>
+      <property>/controls/flight/flaps</property>
+      <value>0.0</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/magnetos</property>
+      <value>3</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/throttle</property>
+      <value>0.2</value>
+    </set>
+    <set>
+      <property>/controls/engines/engine/starter</property>
+      <value>true</value>
+    </set>
+    <set>
+      <property>/instrumentation/adf/frequencies/selected-khz</property>
+      <value>340</value>
+    </set>
+    <set>
+      <property>/environment/weather-scenario</property>
+      <value>Fair weather</value>
+    </set>
+    <set>
+      <property>/controls/flight/elevator-trim</property>
+      <value>0.17</value>
+    </set>
+  </init>
+  
+  <step>
+    <message>At the start of the take-off roll, you will control the direction of the aircraft using the
+      nose-wheel steering and rudder. As the aircraft takes off, you will use the ailerons and elevator
+      to control the direction and attitude of the aircraft.
+    </message>
+    <wait>10</wait>
+  </step>
+  
+  <step>
+    <message>
+      The nose-wheel and rudder is controlled using 0/Enter on the numeric keypad, or by using the mouse
+      in "yoke" mode with the left mouse button held down.
+      To switch the mouse to yoke mode, press the right mouse button until it displays as a + sign.
+    </message>
+    <wait>10</wait>
+  </step>
+  
+  <step>
+    <message>Release the parking brakes using Shift-B</message>
+    <set>
+      <property>/controls/engines/engine/starter</property>
+      <value>false</value>
+    </set>
+    <error>
+      <message>Release the parking brake using Shift B</message>
+      <condition>
+        <equals>
+          <property>/controls/gear/brake-parking</property>
+          <value>1</value>
+        </equals>
+      </condition>
+    </error>
+    
+  </step>
+  
+  <step>
+    <message>Smoothly apply full power using PgUp, controlling the direction using the nosewheel.</message>
+    <error>
+      <message>Release the parking brake using Shift B</message>
+      <condition>
+        <equals>
+          <property>/controls/gear/brake-parking</property>
+          <value>1</value>
+        </equals>
+      </condition>
+    </error>
+    <error>
+      <message>Apply full throttle for take-off.</message>
+      <condition>
+        <less-than>
+          <property>/controls/engines/engine/throttle</property>
+          <value>0.95</value>
+        </less-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/velocities/airspeed-kt</property>
+          <value>5.0</value>
+        </greater-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Stay on the center-line of the runway using the rudder. Steer using the mouse with the left button held down, or using 0/Enter on the numeric keypad</message>
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/velocities/airspeed-kt</property>
+          <value>45.0</value>
+        </greater-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Let the aircraft lift off at 65 knots and climb straight out on heading 120 at 600 feet per minute.</message>
+    <error>
+      <message>Gently raise the nose, by pressing the down key on the keypad, or moving the mouse back slightly.</message>
+      <condition>
+        <equals>
+          <property>/gear/gear[0]/wow</property>
+          <value>1</value>
+        </equals>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+          <value>300</value>
+        </greater-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Continue your climb on heading 120 at 600 feet per minute to 1000 feet.</message>
+    <error>
+      <message>Your climb angle is too shallow - raise the nose very slightly to increase your climb rate.</message>
+      <condition>
+        <less-than>
+          <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+          <value>400</value>
+        </less-than>
+      </condition>
+    </error>
+    <error>
+      <message>Your climb angle is too great - lower the nose slightly to decrease your climb rate.</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+          <value>900</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are heading too far left, Turn right slightly to heading 120.</message>
+      <condition>
+        <less-than>
+          <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+          <value>110</value>
+        </less-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are heading too far right, Turn left slightly to heading 120.</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+          <value>130</value>
+        </greater-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are in danger of being "behind the power curve". Drop the nose to speed up to 70 knots.</message>
+      <condition>
+        <less-than>
+          <property>/velocities/airspeed-kt</property>
+          <value>69.0</value>
+        </less-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+          <value>1000</value>
+        </greater-than>
+      </condition>
+    </exit>
+  </step>
+  
+  <step>
+    <message>Level off at between 1000 and 1100 feet.</message>
+    <error>
+      <message>You are too low</message>
+      <condition>
+        <less-than>
+          <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+          <value>1000</value>
+        </less-than>
+      </condition>
+    </error>
+    <error>
+      <message>You are too high</message>
+      <condition>
+        <greater-than>
+          <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+          <value>1100</value>
+        </greater-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+            <value>1000</value>
+          </greater-than>
+          <less-than>
+            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+            <value>1100</value>
+          </less-than>
+          <less-than>
+            <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+            <value>150</value>
+          </less-than>
+          <greater-than>
+            <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+            <value>-150</value>
+          </greater-than>
+        </and>
+      </condition>
+    </exit>
+  </step>
+  
+  <end>
+    <message>Congratulations, you've successfully taken off. Now try landing!</message>
+  </end>
+</PropertyList>

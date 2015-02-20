@@ -1,3 +1,9 @@
+
+# Manages the engine:
+# Fuel system: based on the spitfire. Manages primer and negGCutoff
+# Hobbs meter
+
+
 # =============================== DEFINITIONS ===========================================
 
 # set the update period
@@ -18,6 +24,32 @@ var init_double_prop = func(node, prop, val) {
 	node.getNode(prop, 1).setDoubleValue(val);
 }
 
+# =============================== Hobbs meter =======================================
+
+# AFAIK, this property is saved
+var hobbsmeter_engine = aircraft.timer.new("/sim/time/hobbs/engine[0]", 60, 1);
+setlistener("/engines/engine[0]/running", func {
+  if ( getprop("/engines/engine[0]/running") or 0 ) {
+    hobbsmeter_engine.start();
+    print("Hobbs system started");
+  } else {
+    hobbsmeter_engine.stop();
+    print("Hobbs system stopped");
+  }
+}, 1, 0);
+setlistener("/sim/time/hobbs/engine[0]", func {
+  # in seconds
+  hobbs = getprop("/sim/time/hobbs/engine[0]") or 0.0;
+  # in minutes
+  hobbs = hobbs / 60.0;
+  # tenths of hour
+  setprop("/instrumentation/hobbs-meter/digits0", math.mod(int(hobbs * 10), 10));
+  # rest of digits
+  setprop("/instrumentation/hobbs-meter/digits1", math.mod(int(hobbs), 10));
+  setprop("/instrumentation/hobbs-meter/digits2", math.mod(int(hobbs / 10), 10));
+  setprop("/instrumentation/hobbs-meter/digits3", math.mod(int(hobbs / 100), 10));
+  setprop("/instrumentation/hobbs-meter/digits4", math.mod(int(hobbs / 1000), 10));
+}, 1, 0);
 
 # =============================== -ve g cutoff stuff =========================================
 

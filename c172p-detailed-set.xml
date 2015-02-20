@@ -105,6 +105,14 @@ Many files from the original c172p directory are included in this file.
         <equipment>0</equipment>
       </pilot>
     </crew>
+    
+    <!-- an exit for the walker -->
+    <map>
+      <default_exit>
+        <x-offset-m type="float">-0.35</x-offset-m>
+        <y-offset-m type="float">-0.84</y-offset-m>
+      </default_exit>
+    </map>
   </model>
 
   <startup>
@@ -207,8 +215,10 @@ Many files from the original c172p directory are included in this file.
     <magnetos type="int">0</magnetos>
     <master-bat type="bool">false</master-bat>
     <master-alt type="bool">false</master-alt>
-    <mixture>0</mixture>
+    <mixture-lever>0</mixture-lever>
     <throttle>0</throttle>
+    <primer>0</primer>
+    <primer-lever>0</primer-lever>
    </engine>
    <!-- ENDMOD -->
   </engines>
@@ -239,10 +249,12 @@ Many files from the original c172p directory are included in this file.
  <consumables>
   <fuel>
    <tank n="0">
+    <name>LeftTank</name>
     <level-gal_us type="double">20</level-gal_us>
     <selected type="bool">true</selected>
    </tank>
    <tank n="1">
+    <name>RightTank</name>
     <level-gal_us type="double">20</level-gal_us>
     <selected type="bool">true</selected>
    </tank>
@@ -285,6 +297,7 @@ Many files from the original c172p directory are included in this file.
    <rpm type="double">0</rpm>
    <magnetos type="int">0</magnetos>
    <mixture type="double">0</mixture>
+   <mixture-lever type="double">0</mixture-lever>
    <running type="bool">false</running>
   </engine>
  </engines>
@@ -299,6 +312,7 @@ Many files from the original c172p directory are included in this file.
       <file>/Aircraft/c172p/Nasal/tanks.nas</file>
       <file>/Aircraft/c172p/Nasal/kma20.nas</file>
       <file>/Aircraft/c172p/Nasal/ki266.nas</file>
+      <file>Nasal/fuel.nas</file>
       <script><![CDATA[
         ki266.new(0);
         aircraft.data.add( "engines/engine[0]/egt-bug-norm" );
@@ -321,11 +335,16 @@ Many files from the original c172p directory are included in this file.
                     # electrical.nas switches on MASTER and ALT always!
                     # I prefer not changing electrical.nas because other versions of the c172p in FG may prefer that
 init_electrical_detailed = func {
-    # set initial switch positions
+    # set initial positions for main switches
     setprop("/controls/engines/engine[0]/master-bat", 0);
     setprop("/controls/engines/engine[0]/master-alt", 0);
     setprop("/controls/switches/master-avionics", 0);
-    # TODO: switch all navaids off
+    # switch all avionics off
+    setprop("/instrumentation/transponder/inputs/knob-mode", 0);
+    setprop("/instrumentation/dme/power-btn", 0);
+    setprop("/instrumentation/comm/power-btn", 0);
+    setprop("/instrumentation/comm[1]/power-btn", 0);
+    setprop("/instrumentation/adf/power-btn", 0);
 }
                     settimer(init_electrical_detailed, 1.0);
     ]]>
@@ -448,7 +467,8 @@ var head_z = "sim/model/crew/pilot[0]/pose/position/limb[2]/z-deg";
    <key n="115">
    <name>s</name>
    <desc>Toggle Starter Switch</desc>
-   <binding>
+   <repeatable type="bool">false</repeatable>
+   <!--binding>
     <command>property-assign</command>
     <property>/controls/switches/starter</property>
     <value >1</value>
@@ -459,7 +479,7 @@ var head_z = "sim/model/crew/pilot[0]/pose/position/limb[2]/z-deg";
      <property>/controls/switches/starter</property>
      <value>0</value>
     </binding>
-   </mod-up>
+   </mod-up-->
   </key>
   </keyboard> 
  </input>

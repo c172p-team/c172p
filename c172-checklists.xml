@@ -86,6 +86,23 @@
     <item>
       <name>Prime</name>
       <value>As Required - 2-6 strokes</value>
+        <marker>
+            <x-m>-0.3500</x-m>
+            <y-m>-0.4400</y-m>
+            <z-m>-0.2700</z-m>
+            <scale>1.0000</scale>
+        </marker>
+	      <condition>
+        <greater-than>
+          <property>/controls/engines/engine[0]/primer</property>
+          <value>2</value>
+        </greater-than>
+      </condition>
+            <binding>
+        <command>property-assign</command>
+          <property>/controls/engines/engine/primer</property>
+          <value>3</value>
+        </binding>
     </item>
     <item>
       <name>Carburetor Heat</name>
@@ -148,13 +165,13 @@
 			</marker>
       <condition>
         <greater-than>
-          <property>/controls/engines/engine[0]/mixture</property>
+          <property>/controls/engines/engine[0]/mixture-lever</property>
           <value>0.9</value>
         </greater-than>
       </condition>
       <binding>
         <command>property-interpolate</command>
-        <property>/controls/engines/engine[0]/mixture</property>
+        <property>/controls/engines/engine[0]/mixture-lever</property>
 				<value>1.0</value>
 				<rate>0.5</rate>
 			</binding>
@@ -166,10 +183,10 @@
     <item>
       <name>Master Switch</name>
       <value>ON</value>
-      <marker>
-    <x-m>-0.3500</x-m>
-    <y-m>-0.3200</y-m>
-    <z-m>-0.2400</z-m>
+<marker>
+    <x-m>-0.3689</x-m>
+    <y-m>-0.3638</y-m>
+    <z-m>-0.2793</z-m>
     <scale>3.0000</scale>
 </marker>
           <condition>
@@ -188,12 +205,12 @@
       <name>Magnetos</name>
       <value>BOTH</value>
       <value>(press } three times)</value>
-			<marker>
-				<x-m>-0.3689</x-m>
-				<y-m>-0.4138</y-m>
-				<z-m>-0.2493</z-m>
-				<scale>3.0000</scale>
-			</marker>      
+   <marker>
+    <x-m>-0.3500</x-m>
+    <y-m>-0.3600</y-m>
+    <z-m>-0.2700</z-m>
+    <scale>2.0000</scale>
+</marker>
       <condition>
         <equals>
           <property>/controls/engines/engine[0]/magnetos</property>
@@ -209,15 +226,53 @@
     <item>
       <name>Ignition Switch</name>
       <value>ON</value>
-      <value>(press s, release when engine starts)</value>
+      <value>(WARNING: s key does not work)</value>
     </item>
     <item>
       <name>Oil Pressure</name>
       <value>CHECK</value>
     </item>
+        <item>
+      <name>ALT Switch</name>
+      <value>ON</value>
+<marker>
+    <x-m>-0.3500</x-m>
+    <y-m>-0.4000</y-m>
+    <z-m>-0.2300</z-m>
+    <scale>1.0000</scale>
+</marker>
+          <condition>
+        <equals>
+          <property>/controls/engines/engine[0]/master-alt</property>
+          <value>true</value>
+        </equals>
+      </condition>
+            <binding>
+        <command>property-assign</command>
+        <property>/controls/engines/engine[0]/master-alt</property>
+				<value>true</value>
+			</binding>
+    </item>
     <item>
       <name>Avionics Power Switch</name>
       <value>ON</value>
+<marker>
+    <x-m>-0.3500</x-m>
+    <y-m>-0.4200</y-m>
+    <z-m>-0.2400</z-m>
+    <scale>1.0000</scale>
+</marker>
+          <condition>
+        <equals>
+          <property>/controls/switches/master-avionics</property>
+          <value>true</value>
+        </equals>
+      </condition>
+            <binding>
+        <command>property-assign</command>
+        <property>/controls/switches/master-avionics</property>
+				<value>true</value>
+			</binding>
     </item>
     <item>
       <name>Navigation Lights, Flashing Beacon</name>

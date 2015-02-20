@@ -97,6 +97,15 @@ var primerMixture = func{
 	   
 } # end function
 
+# Primes the engine automatically. This function takes several seconds
+var autoPrime = func {
+  var p = getprop("/controls/engines/engine/primer") or 0;
+  if ( p < 3 ) {
+    pumpPrimer();
+    settimer(autoPrime, 1);
+  }
+};
+
 # Mixture will be calculated using the primer during 5 seconds AFTER the pilot used the starter
 # This prevents the engine to start just after releasing the starter: the propeller will be running
 # thanks to the electric starter, but carburator has not yet enough mixture
@@ -106,7 +115,6 @@ var primerTimer = maketimer(5, func {
    setprop("/controls/engines/engine/primer", 0);
    print("Primer reset to 0");
    primerTimer.stop();
-   print("Primer timeout");
 } );
 
 
@@ -209,7 +217,7 @@ var update = func {
 		} 
 	elsif( usePrimer == 1 ) 
 		{ # mixture is controlled by start conditions
-		primer = getprop("/controls/engines/engine/primer", 0);
+		primer = getprop("/controls/engines/engine/primer") or 0;
 		mixture = ( primerMixture(primer) );
 #		print("Primer controls fuel");
 		}
@@ -236,7 +244,7 @@ var loop = func {
 
 # controls.startEngine = func(v = 1) {
 setlistener("/controls/switches/starter", func {
-    v = getprop("/controls/switches/starter", 0);
+    v = getprop("/controls/switches/starter") or 0;
     if (v == 0) {
         print("Starter off");
         # notice the starter will be reset after 5 seconds
@@ -264,7 +272,12 @@ var total_gals = nil;
 var total_lbs = nil;
 var total_norm = nil;
 
-controls.startEngine = func(v = 1) { print("controls.startEngine(): This function shouldn't be called!"); }
+# key 's' calls to this function when it is pressed DOWN even if I overwrite the binding in the -set.xml file!
+# fun fact: the key UP event can be overwriten!
+controls.startEngine = func(v = 1) {
+  setprop("/controls/switches/starter", v);
+  # TODO: I still don't know where "/controls/engines/engine/starter" is set to true...
+}
 
 var L = setlistener("/sim/signals/fdm-initialized", func {
 	removelistener(L);

@@ -38,7 +38,16 @@
             } else {
               setprop("/controls/engines/engine/magnetos", 3);
               setprop("/controls/engines/engine/throttle", 0.2);
-              setprop("/controls/engines/engine/mixture", 1.0);
+              setprop("/controls/engines/engine/mixture-lever", 1.0);
+              setprop("/controls/engines/engine/master-bat", 1.0);
+              setprop("/controls/engines/engine/master-alt", 1.0);
+
+              setprop("/controls/switches/master-avionics", 1.0);
+              setprop("/instrumentation/transponder/inputs/knob-mode", 4);
+              setprop("/instrumentation/dme/power-btn", 1);
+              setprop("/instrumentation/comm/power-btn", 1);
+              setprop("/instrumentation/comm[1]/power-btn", 1);
+              setprop("/instrumentation/adf/power-btn", 1);
               
               setprop("/controls/flight/elevator-trim", -0.19);
               
@@ -53,7 +62,9 @@
               # Set the altimeter
               setprop("/instrumentation/altimeter/setting-inhg", getprop("/environment/pressure-sea-level-inhg"));
               
-              gui.popupTip("Hold down \"s\" to start the engine.", 5);
+              #c172p.autoPrime();
+              setprop("/controls/engines/engine/primer", 3);
+              gui.popupTip("Hold down \"s\" to start the engine. After that, release brakes (\"B\")", 5);
             }
           </script>
         </binding>

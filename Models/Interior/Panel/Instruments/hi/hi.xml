@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ <path>hi.ac</path>
+
+ <animation>
+  <type>material</type>
+  <object-name>Face</object-name>
+  <object-name>Front</object-name>
+  <emission>
+   <red>1.0</red>
+   <green>0.2</green>
+   <blue>0.0</blue>
+   <factor-prop>sim/model//material/instruments/factor</factor-prop>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>material</type>
+  <object-name>OBS-Knob</object-name>
+  <object-name>Hdg-Knob</object-name>
+  <emission>
+   <red>0.45</red>
+   <green>0.09</green>
+   <blue>0.00001</blue>
+   <factor-prop>sim/model//material/instruments/factor</factor-prop>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>Face</object-name>
+  <property>instrumentation/heading-indicator/indicated-heading-deg</property>
+  <factor>-1</factor>
+  <axis>
+   <x>-1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>HdgBug</object-name>
+  <property>instrumentation/heading-indicator/indicated-heading-deg</property>
+  <factor>-1</factor>
+  <axis>
+   <x>-1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>HdgBug</object-name>
+   <property>autopilot/settings/heading-bug-deg</property>
+  <axis>
+   <x>-1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+<!--     Heading Bug control    -->
+ <animation>
+  <type>knob</type>
+  <object-name>click-bug-L</object-name>
+  <object-name>click-bug-R</object-name>
+  <visible>false</visible>
+  
+  <action>
+    <binding>
+      <command>property-adjust</command>
+      <property>autopilot/settings/heading-bug-deg</property>
+      <factor>1</factor>
+      <min>0</min>
+      <max>360</max>
+      <wrap>1</wrap>
+    </binding>
+  </action>
+  
+  <!-- faster rate of change than the default -->
+  <drag-scale-px>4</drag-scale-px>
+  <shift-repeat type="int">5</shift-repeat>
+  
+  <hovered>
+   <binding>
+     <command>set-tooltip</command>
+     <tooltip-id>heading-bug</tooltip-id>
+     <mapping>heading</mapping>
+     <label>Heading Bug: %3d</label>
+     <property>autopilot/settings/heading-bug-deg</property>
+  </binding>
+  </hovered>
+ </animation>
+
+   <!--             Heading Offset             -->
+   
+   <animation>
+    <type>knob</type>
+    <object-name>click-offset-L</object-name>
+    <object-name>click-offset-R</object-name>
+    <visible>false</visible>
+  
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property>instrumentation/heading-indicator/offset-deg</property>
+        <factor>1</factor>
+        <min>0</min>
+        <max>360</max>
+        <wrap>1</wrap>
+      </binding>
+    </action>
+  
+    <!-- faster rate of change than the default -->
+    <drag-scale-px>4</drag-scale-px>
+    <shift-repeat type="int">5</shift-repeat>
+    
+    <hovered>
+     <binding>
+       <command>set-tooltip</command>
+       <tooltip-id>heading-offset</tooltip-id>
+       <label>Heading Offset: %3d</label>
+       <mapping>heading</mapping>
+       <property>instrumentation/heading-indicator/offset-deg</property>
+    </binding>
+    </hovered>
+   </animation>
+   
+
+
+</PropertyList>
+
+

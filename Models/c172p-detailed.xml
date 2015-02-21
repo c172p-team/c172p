@@ -3251,7 +3251,7 @@
    <path>Aircraft/c172p-detailed/Models/Effects/shadow.xml</path>
   </model>
  
-   <!-- Pilot and copilot -->
+   <!-- Pilot, copilot and passengers -->
   <model>
     <name>Pilot</name>
     <path>Human/female-pilot.xml</path>
@@ -3268,6 +3268,24 @@
       <x-m> 0.2 </x-m>
       <y-m> 0.251 </y-m>
       <z-m> -1.4 </z-m>
+    </offsets>
+  </model>
+  <model>
+    <name>LeftPassenger</name>
+    <path>Human/male-copilot.xml</path>
+    <offsets>
+      <x-m> 0.9 </x-m>
+      <y-m> 0.2 </y-m>
+      <z-m> -1.45 </z-m>
+    </offsets>
+  </model>
+  <model>
+    <name>RightPassenger</name>
+    <path>Human/male-copilot.xml</path>
+    <offsets>
+      <x-m> 0.9 </x-m>
+      <y-m> -0.2 </y-m>
+      <z-m> -1.45 </z-m>
     </offsets>
   </model>
   <!-- Pilot not visible in the cockpit AND walker modes -->
@@ -3289,6 +3307,37 @@
           <value>Walker Orbit View</value>
         </not-equals>
       </and>
+    </condition>
+  </animation>
+  <!-- Copilot and passangers not visible if not enough weight on his seat -->
+  <animation>
+    <type>select</type>
+    <object-name>Copilot</object-name>
+    <condition>
+        <greater-than>
+	  <property>payload/weight[1]/weight-lb</property>
+          <value>100</value>
+        </greater-than>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>LeftPassenger</object-name>
+    <condition>
+        <greater-than>
+	  <property>payload/weight[2]/weight-lb</property>
+          <value>100</value>
+        </greater-than>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>RightPassenger</object-name>
+    <condition>
+        <greater-than>
+	  <property>payload/weight[3]/weight-lb</property>
+          <value>100</value>
+        </greater-than>
     </condition>
   </animation>
 

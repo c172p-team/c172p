@@ -1,0 +1,187 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ <params>
+  <nav-to-flag>/instrumentation/nav[1]/to-flag</nav-to-flag>
+  <nav-from-flag>/instrumentation/nav[1]/from-flag</nav-from-flag>
+  <nav-radial-selected>/instrumentation/nav[1]/radials/selected-deg</nav-radial-selected>
+  <nav-gs-needle-deflection>/instrumentation/nav[1]/filtered-gsNAV1-deflection</nav-gs-needle-deflection>
+  <nav-heading-needle-deflection>/instrumentation/nav[1]/filtered-cdiNAV1-deflection</nav-heading-needle-deflection>
+  <nav-in-range>/instrumentation/nav[1]/in-range</nav-in-range>
+  <gs-in-range>/instrumentation/nav[1]/gs-in-range</gs-in-range>
+ </params>
+
+ <path>vor.ac</path>
+
+ <animation>
+  <type>material</type>
+  <object-name>Face</object-name>
+  <object-name>GlideslopeNeedle</object-name>
+  <object-name>Ring</object-name>
+  <object-name>LocalizerNeedle</object-name>
+  <object-name>Front</object-name>
+  <object-name>TO</object-name>
+  <object-name>FR</object-name>
+  <object-name>NAV</object-name>
+  <object-name>GS_out_of_range</object-name>
+  <object-name>GS_in_range</object-name>
+  <emission>
+   <red>1.0</red>
+   <green>0.2</green>
+   <blue>0.0</blue>
+   <factor-prop>/sim/model/material/instruments/factor</factor-prop>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>material</type>
+  <object-name>disk</object-name>
+  <emission>
+   <red>0.45</red>
+   <green>0.09</green>
+   <blue>0.00001</blue>
+   <factor-prop>/sim/model//material/instruments/factor</factor-prop>
+  </emission>
+ </animation>
+
+ <animation>
+  <name>LocalizerNeedleTransform</name>
+  <type>rotate</type>
+  <object-name>LocalizerNeedle</object-name>
+  <property alias="../../params/nav-heading-needle-deflection"/>
+  <factor>-2.8</factor>
+  <center>
+   <x-m>0</x-m>
+   <y-m>0</y-m>
+   <z-m>0.03</z-m>
+  </center>
+  <axis>
+   <x>-1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>select</type>
+  <object-name>GS_in_range</object-name>
+  <condition>
+   <property alias="../../../params/gs-in-range"/>
+  </condition>
+ </animation>
+
+ <animation>
+  <type>select</type>
+  <object-name>GS_out_of_range</object-name>
+  <condition>
+   <not>
+    <property alias="../../../../params/gs-in-range"/>
+   </not>
+  </condition>
+ </animation>
+
+ <animation>
+  <type>select</type>
+  <object-name>NAV</object-name>
+  <condition>
+   <not>
+    <property alias="../../../../params/nav-in-range"/>
+   </not>
+  </condition>
+ </animation>
+
+ <animation>
+  <type>select</type>
+  <object-name>TO</object-name>
+  <condition>
+   <property alias="../../../params/nav-to-flag"/>
+  </condition>
+ </animation>
+
+ <animation>
+  <type>select</type>
+  <object-name>FR</object-name>
+  <condition>
+   <property alias="../../../params/nav-from-flag"/>
+  </condition>
+ </animation>
+
+ <animation>
+  <name>GlideslopeNeedleTransform</name>
+  <type>rotate</type>
+  <object-name>GlideslopeNeedle</object-name>
+   <property alias="../../params/nav-gs-needle-deflection"/>
+  <factor>-25</factor>
+  <min-deg>-25</min-deg>
+  <max-deg>25</max-deg>
+  <center>
+   <x-m>0</x-m>
+   <y-m>-0.03</y-m>
+   <z-m>0</z-m>
+  </center>
+  <axis>
+   <x>-1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <name>RingTransform</name>
+  <type>rotate</type>
+  <object-name>Ring</object-name>
+   <property alias="../../params/nav-radial-selected"/>
+  <factor>-1</factor>
+  <axis>
+   <x>-1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+<!--	VOR 2 Radial adjust  -->
+
+<animation>
+    <type>knob</type>
+     <type>pick</type>
+     <object-name>click-R</object-name>
+      <object-name>click-L</object-name>
+     <visible>false</visible>
+
+     <shift-repeat type="int">5</shift-repeat>
+     
+     <action>
+         <binding>
+           <command>property-adjust</command>
+           <property>/instrumentation/nav[1]/radials/selected-deg</property>
+           <factor>1</factor>
+           <min>0</min>
+           <max>360</max>
+           <wrap>1</wrap>
+         </binding>
+    </action>
+    
+    <hovered>
+     <binding>
+       <command>set-tooltip</command>
+       <tooltip-id>nav2-obs</tooltip-id>
+       <label>Nav 2 Radial %3d</label>
+       <mapping>heading</mapping>
+       <property>/instrumentation/nav[1]/radials/selected-deg</property>
+    </binding>
+    </hovered>
+ </animation>
+
+ <animation>
+  <name>Alpha Order Group</name>
+  <object-name>Face</object-name>
+  <object-name>LocalizerNeedleTransform</object-name>
+  <object-name>GlideslopeNeedleTransform</object-name>
+  <object-name>RingTransform</object-name>
+  <object-name>Front</object-name>
+ </animation>
+
+</PropertyList>
+
+

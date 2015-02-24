@@ -316,6 +316,58 @@ Many files from the original c172p directory are included in this file.
       <script><![CDATA[
         ki266.new(0);
         aircraft.data.add( "engines/engine[0]/egt-bug-norm" );
+	# save the state of the avionics
+	# Radio control panel (according to its documentation)
+	aircraft.data.add(
+          "instrumentation/kma20/test",
+          "instrumentation/kma20/auto",
+          "instrumentation/kma20/com1",
+          "instrumentation/kma20/com2",
+          "instrumentation/kma20/nav1",
+          "instrumentation/kma20/nav2",
+          "instrumentation/kma20/adf",
+          "instrumentation/kma20/dme",
+          "instrumentation/kma20/mkr",
+          "instrumentation/kma20/sens",
+          "instrumentation/kma20/knob"
+        );
+	# COMM1 (according to its documentation)
+	aircraft.data.add(
+          "instrumentation/comm[0]/power-btn",
+          "instrumentation/comm[0]/volume",
+          "instrumentation/comm[0]/frequencies/selected-mhz",
+          "instrumentation/comm[0]/frequencies/standby-mhz",
+          "instrumentation/comm[0]/test-btn",
+          "instrumentation/nav[0]/audio-btn",
+          "instrumentation/nav[0]/power-btn",
+          "instrumentation/nav[0]/frequencies/selected-mhz",
+          "instrumentation/nav[0]/frequencies/standby-mhz",
+        );
+	# COMM2 (according to its documentation)
+	aircraft.data.add(
+          "instrumentation/comm[1]/power-btn",
+          "instrumentation/comm[1]/volume",
+          "instrumentation/comm[1]/frequencies/selected-mhz",
+          "instrumentation/comm[1]/frequencies/standby-mhz",
+          "instrumentation/comm[1]/test-btn",
+          "instrumentation/nav[1]/audio-btn",
+          "instrumentation/nav[1]/power-btn",
+          "instrumentation/nav[1]/frequencies/selected-mhz",
+          "instrumentation/nav[1]/frequencies/standby-mhz",
+        );
+	# DME saves power-btn in ki266.nas
+	# ADF saves its properties in ki87.nas
+	# TRANSPONDER (KT76A)
+	aircraft.data.add(
+	  "instrumentation/transponder/inputs/knob-mode",
+	  "instrumentation/transponder/inputs/ident-btn",
+	  "instrumentation/transponder/inputs/digit[0]",
+	  "instrumentation/transponder/inputs/digit[1]",
+	  "instrumentation/transponder/inputs/digit[2]",
+	  "instrumentation/transponder/inputs/digit[3]",
+	  "instrumentation/transponder/inputs/dimming-norm",
+	);
+	# Hobbs meter is saved in Nasal/engine.nas
       ]]></script>
     </c172p>
 
@@ -339,12 +391,6 @@ init_electrical_detailed = func {
     setprop("/controls/engines/engine[0]/master-bat", 0);
     setprop("/controls/engines/engine[0]/master-alt", 0);
     setprop("/controls/switches/master-avionics", 0);
-    # switch all avionics off
-    setprop("/instrumentation/transponder/inputs/knob-mode", 0);
-    setprop("/instrumentation/dme/power-btn", 0);
-    setprop("/instrumentation/comm/power-btn", 0);
-    setprop("/instrumentation/comm[1]/power-btn", 0);
-    setprop("/instrumentation/adf/power-btn", 0);
 }
                     settimer(init_electrical_detailed, 1.0);
     ]]>

@@ -4,7 +4,6 @@ TODO
 ========
 
 - correct number of breakers (fuses)
-- when opening the door from the inside of the cockpit, the latcher is colliding with the door handle strip
 - fuselage around the panel is way too large. Compare the pictures below:
 	http://i.ytimg.com/vi/LHPTqAe09Fo/maxresdefault.jpg
 	http://cdn1.airplane-pictures.net/images/uploaded-images/2010/1/25/76689.jpg
@@ -19,25 +18,42 @@ TEXTURES
 
 - better background for magneto keys
 - create both high resolution (2048x2048) and regular resolution (1024x1024) of darker panel and allow the user to switch among them (such as by using two different liveries, one called "OH-CTL (HD)" and the other simply "OH-CTL")
+- better texture for the ceiling
 
-INSTRUMENTS
-===========
+ANIMATIONS (XML)
+================
 
-- according to tigert, the compass has a fairly dim illumination, although some planes have it broken. Implement it or not?
 - with the instrument illumination turned on, the heading indicator bug and the inactive square of the turn coordinator should be illuminated
 - with the instrument illumination turned off, the heading indicator bug and the inactive square of the turn coordinator should be completely dark
-- implement the black and blue attitude indicator to our Cessna (located at ./Models/Interior/Panel/Instruments/AI). If someone doesn't like it black and blue, then create a brown and blue version of it. Any votes on this?
+- the background of the attitude indicator (just behind the moving part which shows the attitude) is currently grey, but it should be coloured according to the file AI1.rgb
+  * Ludomotico: This is a weird bug: the background of the AI depends on the angle of view or the zoom level.
+- when opening the door from the inside of the cockpit, the latcher is colliding with the door handle strip
+- smoke coming from tyres during takeoff (at around 40 knots)
+- make flaps clickable in the cockpit?
+- Add Throsten's new effect for glass
+- Check all interior objects are NOT selected if the viewer is further than 50m (useful in multiplayer)
+- fine tune ALS shadow to translate lower with aircraft on deck and translate higher on altitude gain
+- Themes not working in Rembrandt
+- Behind many instruments you can see the sky! For example, the turn coordinator. Transparent surfaces and wrong shaders?
 
-XML, PROCEDURES, VISUAL FX, ETC.
-================================
+PROCEDURES
+==========
 
 - carb heat does not drop RPM as expected
 - fine tune tyresmoke for better display at softer landing?
 - add dust effect during off-pavement landing and take-off.
 - crash detect/gear collapse - see Cap10C for example
-- fine tune ALS shadow to translate lower with aircraft on deck and translate higher on altitude gain 
 - make flaps clickable in the cockpit?
 - primer procedure with flooded engine: if the engine is flooded and turned off (lean mix, no throttle, mags off) and then on again, it automatically resets the situation and requires more primer, while in real life it would have a different procedure (it would stay flooded)
+  * Ludomotico: I think an (initially) flooded engine will probably start if the starter runs long enough because the movement of the piston will extract the fuel from the cylinders. Beware I never tested this in real life and I'm not completely sure! In any case, I think giving a second chance to the pilot to start the engine by reseting the state of the primer is fair :) Which are the options? Calling thee engineer by reseting the simulator?
+- implement oil management and oil check
+- check failures
+
+TUTORIALS
+=========
+
+- Tutorials are currently not working. They crash the simulator
+- Add missions to the extended tutorial system
 
 FDM
 ===
@@ -48,3 +64,12 @@ OTHER BUGS
 ==========
 
 - interior not visible through the glasses from outside (but visible when the door is opened)
+
+OLD (ALREADY FIXED, TEST!)
+=========================
+
+- according to tigert, the compass has a fairly dim illumination, although some planes have it broken. Implement it or not?
+  * Implemented
+- implement the black and blue attitude indicator to our Cessna (located at ./Models/Interior/Panel/Instruments/AI). If someone doesn't like it black and blue, then create a brown and blue version of it. Any votes on this?
+  * Implemented
+

@@ -7,6 +7,8 @@
 
 # =============================== DEFINITIONS ===========================================
 
+var clamp = func(v, min=0, max=1) { v < min ? min : v > max ? max : v }
+
 # set the update period
 
 UPDATE_PERIOD = 0.3;
@@ -300,6 +302,13 @@ controls.startEngine = func(v = 1) {
 }
 
 var L = setlistener("/sim/signals/fdm-initialized", func {
+    var mixture_node = props.globals.getNode("/controls/engines/engine[0]/mixture-lever", 1);
+    controls.adjMixture = func (speed) {
+        var delta = speed * controls.THROTTLE_RATE * getprop("/sim/time/delta-realtime-sec");
+        var clamped_value = clamp(mixture_node.getValue() + delta, 0, 1);
+        mixture_node.setValue(clamped_value);
+    };
+
     removelistener(L);
     print( "Initializing Fuel System ..." );
     setlistener("/sim/freeze/fuel", func(n) { fuel_freeze = n.getBoolValue() }, 1);

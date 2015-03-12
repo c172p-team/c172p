@@ -60,7 +60,16 @@ setlistener("/sim/time/hobbs/engine[0]", func {
 # Manages mixture depending on g force
 var negGCutoff = func {
 
-    g = getprop("accelerations/pilot-gdamped") or 0;
+    var g = gcurrent.getValue();
+    var grav = gravity.getValue();
+    
+    if ( g != nil and grav != nil ) {
+        g = -g / grav;
+    } else {
+        # we are not able to compute gravity, just assume 1
+        g = 1;
+    }
+    
     mixture = getprop("/controls/engines/engine/mixture-lever");
 
     if (g > 0.75) {
@@ -104,7 +113,7 @@ var primerMixture = func {
     var throttle = getprop("/controls/engines/engine/throttle") or 0;
     
     # warm engine: just use mixture
-    if (getprop("/engines/engine/cht-degf", 0) > 100 ) {
+    if (getprop("/engines/engine/oil-temperature-degf") > 75 ) {
         return negGCutoff();
     }
     
@@ -291,6 +300,8 @@ var fuel_freeze = nil;
 var total_gals = nil;
 var total_lbs = nil;
 var total_norm = nil;
+var gcurrent = nil;
+var gravity = nil;
 
 # key 's' calls to this function when it is pressed DOWN even if I overwrite the binding in the -set.xml file!
 # fun fact: the key UP event can be overwriten!
@@ -300,6 +311,9 @@ controls.startEngine = func(v = 1) {
 }
 
 var L = setlistener("/sim/signals/fdm-initialized", func {
+     gcurrent = props.globals.getNode("accelerations/pilot/z-accel-fps_sec", 1);
+     gravity = props.globals.getNode("fdm/jsbsim/accelerations/gravity-ft_sec2", 1);
+    
     removelistener(L);
     print( "Initializing Fuel System ..." );
     setlistener("/sim/freeze/fuel", func(n) { fuel_freeze = n.getBoolValue() }, 1);

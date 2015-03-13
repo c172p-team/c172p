@@ -40,11 +40,11 @@
     </item>
     <item>
       <name>Avionics Power Switch</name>
-      <value>CHECK OFF</value>
+      <value>OFF</value>
       <marker>
         <x-m>-0.3600</x-m>
-        <y-m>-0.3200</y-m>
-        <z-m>-0.2700</z-m>
+        <y-m>-0.3230</y-m>
+        <z-m>-0.2660</z-m>
         <scale>1.0000</scale>
       </marker>
       <condition>
@@ -53,6 +53,11 @@
           <value>false</value>
         </equals>
       </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/switches/master-avionics</property>
+        <value type="bool">false</value>
+      </binding>
     </item>
     <item>
       <name>Circuit Breakers</name>
@@ -66,12 +71,22 @@
     </item>
     <item>
       <name>Electrical Equipment, Autopilot</name>
-      <value>CHECK OFF</value>
+      <value>OFF</value>
       <marker>
         <x-m>-0.3525</x-m>
         <y-m>0.0525</y-m>
         <z-m>-0.0108</z-m>
         <scale>4.7167</scale>
+      </marker>
+    </item>
+    <item>
+      <name>Fuel Quantity</name>
+      <value>CHECK</value>
+      <marker>
+        <x-m>-0.3608</x-m>
+        <y-m>-0.3970</y-m>
+        <z-m>-0.0147</z-m>
+        <scale>2.6333</scale>
       </marker>
     </item>
     <item>
@@ -226,7 +241,7 @@
       <value>CLEAR</value>
     </item>
     <item>
-      <name>Master Switch</name>
+      <name>Battery Master Switch</name>
       <value>ON</value>
       <marker>
         <x-m>-0.3500</x-m>
@@ -235,15 +250,12 @@
         <scale>1.0000</scale>
       </marker>
       <condition>
-        <equals>
-          <property>/controls/engines/engine[0]/master-bat</property>
-          <value>true</value>
-        </equals>
+        <property>/controls/engines/engine[0]/master-bat</property>
       </condition>
       <binding>
         <command>property-assign</command>
         <property>/controls/engines/engine[0]/master-bat</property>
-        <value>true</value>
+        <value type="bool">true</value>
       </binding>
     </item>
     <item>
@@ -291,7 +303,7 @@
       </marker>
     </item>
     <item>
-      <name>ALT Switch</name>
+      <name>Alternator Master Switch</name>
       <value>ON</value>
       <marker>
         <x-m>-0.3500</x-m>
@@ -300,15 +312,12 @@
         <scale>1.0000</scale>
       </marker>
       <condition>
-        <equals>
-          <property>/controls/engines/engine[0]/master-alt</property>
-          <value>true</value>
-        </equals>
+        <property>/controls/engines/engine[0]/master-alt</property>
       </condition>
       <binding>
         <command>property-assign</command>
         <property>/controls/engines/engine[0]/master-alt</property>
-        <value>true</value>
+        <value type="bool">true</value>
       </binding>
     </item>
     <item>
@@ -329,7 +338,7 @@
       <binding>
         <command>property-assign</command>
         <property>/controls/switches/master-avionics</property>
-        <value>true</value>
+        <value type="bool">true</value>
       </binding>
     </item>
     <item>
@@ -430,6 +439,34 @@
       <item>
         <name>Cabin Doors</name>
         <value>CLOSED and LOCKED</value>
+        <condition>
+          <and>
+            <equals>
+              <property>/sim/model/door-positions/leftDoor/position-norm</property>
+              <value>0</value>
+            </equals>
+            <equals>
+              <property>/sim/model/door-positions/rightDoor/position-norm</property>
+              <value>0</value>
+            </equals>
+            <equals>
+              <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+              <value>0</value>
+            </equals>
+          </and>
+        </condition>
+        <binding>
+          <command>nasal</command>
+          <script>c172p.leftDoor.close();</script>
+        </binding>
+        <binding>
+          <command>nasal</command>
+          <script>c172p.rightDoor.close();</script>
+        </binding>
+        <binding>
+          <command>nasal</command>
+          <script>c172p.baggageDoor.close();</script>
+        </binding>
       </item>
       <item>
         <name>Flight Controls</name>
@@ -442,6 +479,12 @@
       <item>
         <name>Fuel Quantity</name>
         <value>CHECK</value>
+        <marker>
+          <x-m>-0.3608</x-m>
+          <y-m>-0.3970</y-m>
+          <z-m>-0.0147</z-m>
+          <scale>2.6333</scale>
+        </marker>
       </item>
       <item>
         <name>Mixture</name>
@@ -623,11 +666,29 @@
         <value>ADJUST</value>
       </item>
       <item>
-        <name>Strobe Lights</name>
-        <value>AS DESIRED</value>
+        <name>Landing Light</name>
+        <value>ON</value>
         <marker>
           <x-m>-0.3608</x-m>
-          <y-m>-0.1275</y-m>
+          <y-m>-0.1285</y-m>
+          <z-m>-0.2150</z-m>
+          <scale>2.2667</scale>
+        </marker>
+        <condition>
+          <property>/controls/lighting/landing-lights</property>
+        </condition>
+        <binding>
+          <command>property-assign</command>
+          <property>/controls/lighting/landing-lights</property>
+          <value type="bool">true</value>
+        </binding>
+      </item>
+      <item>
+        <name>Strobe Lights</name>
+        <value>ON</value>
+        <marker>
+          <x-m>-0.3608</x-m>
+          <y-m>-0.1285</y-m>
           <z-m>-0.2650</z-m>
           <scale>2.2667</scale>
         </marker>
@@ -637,6 +698,11 @@
             <value>1</value>
           </equals>
         </condition>
+        <binding>
+          <command>property-assign</command>
+          <property>/controls/lighting/strobe</property>
+          <value type="bool">true</value>
+        </binding>
       </item>
       <item>
         <name>Radios and Avionics</name>
@@ -652,6 +718,28 @@
           <z-m>-0.1700</z-m>
           <scale>3.0000</scale>
         </marker>
+      </item>
+      <item>
+        <name>Transponder Mode</name>
+        <value>ON OR ALT</value>
+        <marker>
+          <x-m>-0.3300</x-m>
+          <y-m>0.0480</y-m>
+          <z-m>-0.1650</z-m>
+          <scale>1.6000</scale>
+        </marker>
+        <condition>
+          <or>
+            <equals>
+              <property>/instrumentation/transponder/inputs/knob-mode</property>
+              <value>4</value>
+            </equals>
+            <equals>
+              <property>/instrumentation/transponder/inputs/knob-mode</property>
+              <value>5</value>
+            </equals>
+          </or>
+        </condition>
       </item>
       <item>
         <name>Autopilot</name>
@@ -693,16 +781,6 @@
   </checklist>
   <checklist>
     <title>Normal Takeoff</title>
-    <item>
-      <name>Transponder</name>
-      <value>ALT/C Mode</value>
-      <marker>
-        <x-m>-0.3300</x-m>
-        <y-m>0.1100</y-m>
-        <z-m>-0.1700</z-m>
-        <scale>3.0000</scale>
-      </marker>
-    </item>
     <item>
       <name>Wing Flaps</name>
       <value>0 - 10 degrees</value>
@@ -804,16 +882,6 @@
   </checklist>
   <checklist>
     <title>Short Field Takeoff</title>
-    <item>
-      <name>Transponder</name>
-      <value>ALT/C Mode</value>
-      <marker>
-        <x-m>-0.3300</x-m>
-        <y-m>0.1100</y-m>
-        <z-m>-0.1700</z-m>
-        <scale>3.0000</scale>
-      </marker>
-    </item>
     <item>
       <name>Wing Flaps</name>
       <value>10 degrees</value>
@@ -1015,6 +1083,16 @@
   <checklist>
     <title>Cruise</title>
     <item>
+      <name>Altimeter</name>
+      <value>SET STD/QNH</value>
+      <marker>
+        <x-m>-0.359</x-m>
+        <y-m>-0.16045</y-m>
+        <z-m>0.03863</z-m>
+        <scale>1.0</scale>
+      </marker>
+    </item>
+    <item>
       <name>Power</name>
       <value>2100-2700 RPM</value>
       <value>(no more than 75% recommended)</value>
@@ -1057,9 +1135,71 @@
         <scale>2.1833</scale>
       </marker>
     </item>
+    <item>
+      <name>Fuel Quantity</name>
+      <value>CHECK</value>
+      <marker>
+        <x-m>-0.3608</x-m>
+        <y-m>-0.3970</y-m>
+        <z-m>-0.0147</z-m>
+        <scale>2.6333</scale>
+      </marker>
+    </item>
+    <item>
+      <name>Lights</name>
+      <value>AS REQUIRED</value>
+      <marker>
+        <x-m>-0.3608</x-m>
+        <y-m>-0.1470</y-m>
+        <z-m>-0.2350</z-m>
+        <scale>4.0167</scale>
+      </marker>
+    </item>
   </checklist>
   <checklist>
     <title>Descent</title>
+    <item>
+      <name>ATIS</name>
+      <value>NOTED</value>
+    </item>
+    <item>
+      <name>Altimeter</name>
+      <value>SET QNH</value>
+      <marker>
+        <x-m>-0.359</x-m>
+        <y-m>-0.16045</y-m>
+        <z-m>0.03863</z-m>
+        <scale>1.0</scale>
+      </marker>
+    </item>
+    <item>
+      <name>Landing Light</name>
+      <value>ON</value>
+      <marker>
+        <x-m>-0.3608</x-m>
+        <y-m>-0.1285</y-m>
+        <z-m>-0.2150</z-m>
+        <scale>2.2667</scale>
+      </marker>
+      <condition>
+        <property>/controls/lighting/landing-lights</property>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/lighting/landing-lights</property>
+        <value type="bool">true</value>
+      </binding>
+    </item>
+    <item>
+      <name>Fuel Quantity</name>
+      <value>CHECK</value>
+      <marker>
+        <x-m>-0.3608</x-m>
+        <y-m>-0.3970</y-m>
+        <z-m>-0.0147</z-m>
+        <scale>2.6333</scale>
+      </marker>
+    </item>
     <item>
       <name>Fuel Selector Valve</name>
       <value>BOTH</value>
@@ -1179,6 +1319,24 @@
     <item>
       <name>Autopilot</name>
       <value>OFF</value>
+    </item>
+    <item>
+      <name>Landing Light</name>
+      <value>ON</value>
+      <marker>
+        <x-m>-0.3608</x-m>
+        <y-m>-0.1285</y-m>
+        <z-m>-0.2150</z-m>
+        <scale>2.2667</scale>
+      </marker>
+      <condition>
+        <property>/controls/lighting/landing-lights</property>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/lighting/landing-lights</property>
+        <value type="bool">true</value>
+      </binding>
     </item>
   </checklist>
   <checklist>
@@ -1497,6 +1655,55 @@
         </and>
       </condition>
     </item>
+    <item>
+      <name>Transponder Mode</name>
+      <value>SBY</value>
+      <marker>
+        <x-m>-0.3300</x-m>
+        <y-m>0.0480</y-m>
+        <z-m>-0.1650</z-m>
+        <scale>1.6000</scale>
+      </marker>
+      <condition>
+        <equals>
+          <property>/instrumentation/transponder/inputs/knob-mode</property>
+          <value>1</value>
+        </equals>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/instrumentation/transponder/inputs/knob-mode</property>
+        <value>1</value>
+      </binding>
+    </item>
+    <item>
+      <name>Landing Light</name>
+      <value>AS REQUIRED</value>
+      <marker>
+        <x-m>-0.3608</x-m>
+        <y-m>-0.1285</y-m>
+        <z-m>-0.2150</z-m>
+        <scale>2.2667</scale>
+      </marker>
+    </item>
+    <item>
+      <name>Taxi Light</name>
+      <value>ON</value>
+      <marker>
+        <x-m>-0.3608</x-m>
+        <y-m>-0.1485</y-m>
+        <z-m>-0.2150</z-m>
+        <scale>2.2667</scale>
+      </marker>
+      <condition>
+        <property>/controls/lighting/taxi-light</property>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/lighting/taxi-light</property>
+        <value type="bool">true</value>
+      </binding>
+    </item>
   </checklist>
   <checklist>
     <title>Securing Airplane</title>
@@ -1517,8 +1724,44 @@
       </condition>
     </item>
     <item>
+      <name>Power</name>
+      <value>SET 1000 RPM</value>
+      <marker>
+        <x-m>-0.3575</x-m>
+        <y-m>-0.3083</y-m>
+        <z-m>-0.1367</z-m>
+        <scale>3.9167</scale>
+      </marker>
+      <condition>
+        <less-than>
+          <property>/engines/engine/rpm</property>
+          <value>1000</value>
+        </less-than>
+      </condition>
+    </item>
+    <item>
       <name>Avionics, Power, Electrical, Autopilot</name>
+      <value>ALL OFF</value>
+    </item>
+    <item>
+      <name>Avionics Power Switch</name>
       <value>OFF</value>
+      <marker>
+        <x-m>-0.3600</x-m>
+        <y-m>-0.3200</y-m>
+        <z-m>-0.2700</z-m>
+        <scale>1.0000</scale>
+      </marker>
+      <condition>
+        <not>
+          <property>/controls/switches/master-avionics</property>
+        </not>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/switches/master-avionics</property>
+        <value type="bool">false</value>
+      </binding>
     </item>
     <item>
       <name>Mixture</name>
@@ -1537,13 +1780,13 @@
       </condition>
     </item>
     <item>
-      <name>Ignition Switch</name>
+      <name>Magnetos</name>
       <value>OFF</value>
       <marker>
-        <x-m>-0.3689</x-m>
-        <y-m>-0.4138</y-m>
-        <z-m>-0.2493</z-m>
-        <scale>3.0000</scale>
+        <x-m>-0.3500</x-m>
+        <y-m>-0.3600</y-m>
+        <z-m>-0.2700</z-m>
+        <scale>2.0000</scale>
       </marker>
       <condition>
         <equals>
@@ -1551,6 +1794,75 @@
           <value>0</value>
         </equals>
       </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/engines/engine[0]/magnetos</property>
+        <value>0</value>
+      </binding>
+    </item>
+    <item>
+      <name>Flashing Beacon</name>
+      <value>OFF</value>
+      <marker>
+        <x-m>-0.3608</x-m>
+        <y-m>-0.1550</y-m>
+        <z-m>-0.2633</z-m>
+        <scale>1.7167</scale>
+      </marker>
+      <condition>
+        <not>
+          <property>/controls/lighting/beacon</property>
+        </not>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/lighting/beacon</property>
+        <value type="bool">false</value>
+      </binding>
+    </item>
+    <item>
+      <name>Alternator Master Switch</name>
+      <value>OFF</value>
+      <marker>
+        <x-m>-0.3500</x-m>
+        <y-m>-0.4000</y-m>
+        <z-m>-0.2300</z-m>
+        <scale>1.0000</scale>
+      </marker>
+      <condition>
+        <not>
+          <property>/controls/engines/engine[0]/master-alt</property>
+        </not>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/engines/engine[0]/master-alt</property>
+        <value type="bool">false</value>
+      </binding>
+    </item>
+    <item>
+      <name>Battery Master Switch</name>
+      <value>OFF</value>
+      <marker>
+        <x-m>-0.3500</x-m>
+        <y-m>-0.4200</y-m>
+        <z-m>-0.2400</z-m>
+        <scale>1.0000</scale>
+      </marker>
+      <condition>
+        <not>
+          <property>/controls/engines/engine[0]/master-bat</property>
+        </not>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/engines/engine[0]/master-bat</property>
+        <value type="bool">false</value>
+      </binding>
+    </item>
+    <item>
+      <name>Parking Brake</name>
+      <value>SET AS CONVENIENT</value>
     </item>
     <item>
       <name>Control Lock</name>

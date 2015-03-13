@@ -225,15 +225,15 @@ Many files from the original c172p directory are included in this file.
   <gear>
     <brake-parking type="bool">true</brake-parking>
   </gear>
-  <lighting>
+  <!--lighting The state of these switches is saved >
    <landing-lights type="bool">false</landing-lights>
    <taxi-light type="bool">false</taxi-light>
    <strobe type="bool">false</strobe>
    <beacon type="bool">false</beacon>
    <nav-lights type="bool">false</nav-lights>
-  </lighting>
+  </lighting-->
   <switches>
-   <master-avionics type="bool">true</master-avionics>
+   <!--master-avionics type="bool">true</master-avionics-->
    <starter type="bool">false</starter>
   </switches>
  </controls>
@@ -368,6 +368,24 @@ Many files from the original c172p directory are included in this file.
 	  "instrumentation/transponder/inputs/dimming-norm",
 	);
 	# Hobbs meter is saved in Nasal/engine.nas
+    # Save switches
+    aircraft.data.add(
+      "/controls/lighting/beacon",
+      "/controls/lighting/instruments-norm",
+      "/controls/lighting/landing-lights",
+      "/controls/lighting/nav-lights",
+      "/controls/lighting/panel-norm",
+      "/controls/lighting/strobe",
+      "/controls/lighting/taxi-light"
+    );
+    # Other controls
+    aircraft.data.add(
+      "/controls/anti-ice/engine/carb-heat",
+      "/controls/anti-ice/pitot-heat",
+      "/consumables/fuel/tank/selected",
+      "/consumables/fuel/tank[1]/selected"
+    );
+    
       ]]></script>
     </c172p>
 

@@ -27,6 +27,29 @@
           <property>sim/model/hide-yoke</property>
         </binding>
       </item>
+	  <item>
+        <name>shadow-volume</name>
+        <binding>
+          <command>nasal</command>
+          <script>
+            if (getprop("/sim/rendering/shadow-volume")) {
+				if (getprop("/sim/rendering/shaders/skydome")) {
+					setprop("/sim/rendering/shadow-volume", 0);
+					gui.popupTip("Shadow Volume is Off", 5);
+				} else {
+					gui.popupTip("Enable ALS for Shadow Volume", 5);
+				}
+            } else {
+				if (getprop("/sim/rendering/shaders/skydome")) {
+					setprop("/sim/rendering/shadow-volume", 1);
+					gui.popupTip("Shadow Volume is On", 5);
+				} else {
+					gui.popupTip("Enable ALS for Shadow Volume", 5);
+				}
+            }
+          </script>
+        </binding>
+      </item>
       <item>
         <name>autostart</name>
         <binding>

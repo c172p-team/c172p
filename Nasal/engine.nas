@@ -289,6 +289,36 @@ setlistener("/controls/switches/starter", func {
     }
 }, 1, 1);
 
+var autostart = func {
+    if (getprop("/engines/engine/running")) {
+        gui.popupTip("Engine already running.", 5);
+    }
+    else {
+        setprop("/controls/engines/engine/magnetos", 3);
+        setprop("/controls/engines/engine/throttle", 0.2);
+        setprop("/controls/engines/engine/mixture-lever", 1.0);
+        setprop("/controls/engines/engine/master-bat", 1.0);
+        setprop("/controls/engines/engine/master-alt", 1.0);
+        setprop("/controls/switches/master-avionics", 1.0);
+
+        setprop("/controls/flight/elevator-trim", -0.19);
+
+        setprop("/controls/lighting/nav-lights", 1);
+        setprop("/controls/lighting/strobe", 1);
+        setprop("/controls/lighting/beacon", 1);
+
+        setprop("/consumables/fuel/tank[0]/selected", 1);
+        setprop("/consumables/fuel/tank[1]/selected", 1);
+
+        # Set the altimeter
+        setprop("/instrumentation/altimeter/setting-inhg", getprop("/environment/pressure-sea-level-inhg"));
+
+        #c172p.autoPrime();
+        setprop("/controls/engines/engine/primer", 3);
+        gui.popupTip("Hold down \"s\" to start the engine. After that, release brakes (press \"B\")", 5);
+    }
+};
+
 # ================================ Initalize ====================================== 
 # Make sure all needed properties are present and accounted 
 # for, and that they have sane default values.

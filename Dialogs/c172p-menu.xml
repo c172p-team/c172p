@@ -32,21 +32,15 @@
         <binding>
           <command>nasal</command>
           <script>
-            if (getprop("/sim/rendering/shadow-volume")) {
+            if (/sim/version/flightgear > 3.4) {
 				if (getprop("/sim/rendering/shaders/skydome")) {
-					setprop("/sim/rendering/shadow-volume", 0);
-					gui.popupTip("Shadow Volume is Off", 5);
+					setprop("/sim/rendering/shadow-volume", 0) = ! setprop("/sim/rendering/shadow-volume", 0);
 				} else {
 					gui.popupTip("Enable ALS for Shadow Volume", 5);
 				}
-            } else {
-				if (getprop("/sim/rendering/shaders/skydome")) {
-					setprop("/sim/rendering/shadow-volume", 1);
-					gui.popupTip("Shadow Volume is On", 5);
-				} else {
-					gui.popupTip("Enable ALS for Shadow Volume", 5);
-				}
-            }
+			} else {
+				gui.popupTip("ALS Shadow Volumes require ver. 3.5 or greater", 5);
+			}
           </script>
         </binding>
       </item>

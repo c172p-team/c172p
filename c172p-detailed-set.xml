@@ -306,94 +306,15 @@ Many files from the original c172p directory are included in this file.
  
     <c172p>
       <file>Nasal/liveries.nas</file>
-      <file>/Aircraft/c172p/Nasal/immat.nas</file>
-      <file>/Aircraft/c172p/Nasal/doors.nas</file>
-      <file>/Aircraft/c172p/Nasal/light.nas</file>
-      <file>/Aircraft/c172p/Nasal/tanks.nas</file>
-      <file>/Aircraft/c172p/Nasal/kma20.nas</file>
-      <file>/Aircraft/c172p/Nasal/ki266.nas</file>
+      <file>Aircraft/c172p/Nasal/immat.nas</file>
+      <file>Aircraft/c172p/Nasal/doors.nas</file>
+      <file>Aircraft/c172p/Nasal/light.nas</file>
+      <file>Aircraft/c172p/Nasal/tanks.nas</file>
+      <file>Aircraft/c172p/Nasal/kma20.nas</file>
+      <file>Aircraft/c172p/Nasal/ki266.nas</file>
       <file>Nasal/engine.nas</file>
-	  
-	  <!-- Volume Shadow -->
-	  <script><![CDATA[
-		props.Node.new({ "/sim/rendering/shadow-volume":0 });
-		props.globals.initNode("/sim/rendering/shadow-volume", 0, "INT" );
-	  ]]></script>
-	  
-      <script><![CDATA[
-        ki266.new(0);
-        aircraft.data.add( "engines/engine[0]/egt-bug-norm" );
-	# save the state of the avionics
-	# Radio control panel (according to its documentation)
-	aircraft.data.add(
-          "instrumentation/kma20/test",
-          "instrumentation/kma20/auto",
-          "instrumentation/kma20/com1",
-          "instrumentation/kma20/com2",
-          "instrumentation/kma20/nav1",
-          "instrumentation/kma20/nav2",
-          "instrumentation/kma20/adf",
-          "instrumentation/kma20/dme",
-          "instrumentation/kma20/mkr",
-          "instrumentation/kma20/sens",
-          "instrumentation/kma20/knob"
-        );
-	# COMM1 (according to its documentation)
-	aircraft.data.add(
-          "instrumentation/comm[0]/power-btn",
-          "instrumentation/comm[0]/volume",
-          "instrumentation/comm[0]/frequencies/selected-mhz",
-          "instrumentation/comm[0]/frequencies/standby-mhz",
-          "instrumentation/comm[0]/test-btn",
-          "instrumentation/nav[0]/audio-btn",
-          "instrumentation/nav[0]/power-btn",
-          "instrumentation/nav[0]/frequencies/selected-mhz",
-          "instrumentation/nav[0]/frequencies/standby-mhz",
-        );
-	# COMM2 (according to its documentation)
-	aircraft.data.add(
-          "instrumentation/comm[1]/power-btn",
-          "instrumentation/comm[1]/volume",
-          "instrumentation/comm[1]/frequencies/selected-mhz",
-          "instrumentation/comm[1]/frequencies/standby-mhz",
-          "instrumentation/comm[1]/test-btn",
-          "instrumentation/nav[1]/audio-btn",
-          "instrumentation/nav[1]/power-btn",
-          "instrumentation/nav[1]/frequencies/selected-mhz",
-          "instrumentation/nav[1]/frequencies/standby-mhz",
-        );
-	# DME saves power-btn in ki266.nas
-	# ADF saves its properties in ki87.nas
-	# TRANSPONDER (KT76A)
-	aircraft.data.add(
-	  "instrumentation/transponder/inputs/knob-mode",
-	  "instrumentation/transponder/inputs/ident-btn",
-	  "instrumentation/transponder/inputs/digit[0]",
-	  "instrumentation/transponder/inputs/digit[1]",
-	  "instrumentation/transponder/inputs/digit[2]",
-	  "instrumentation/transponder/inputs/digit[3]",
-	  "instrumentation/transponder/inputs/dimming-norm",
-	);
-	# Hobbs meter is saved in Nasal/engine.nas
-    # Save switches
-    aircraft.data.add(
-      "/controls/lighting/beacon",
-      "/controls/lighting/instruments-norm",
-      "/controls/lighting/landing-lights",
-      "/controls/lighting/nav-lights",
-      "/controls/lighting/panel-norm",
-      "/controls/lighting/strobe",
-      "/controls/lighting/taxi-light"
-    );
-    # Other controls
-    aircraft.data.add(
-      "/controls/anti-ice/engine/carb-heat",
-      "/controls/anti-ice/pitot-heat",
-      "/consumables/fuel/tank/selected",
-      "/consumables/fuel/tank[1]/selected"
-    );
-    
-      ]]></script>
+	  <file>Aircraft/c172p-detailed/Nasal/shadow.nas</file>
+	  <file>Aircraft/c172p-detailed/Nasal/avionics.nas</file>
     </c172p>
 
   <electrical>
@@ -401,25 +322,7 @@ Many files from the original c172p directory are included in this file.
   </electrical>
   <kap140>
    <file>/Aircraft/Generic/kap140.nas</file>
-   <!-- We can set some variables that might be
-        aircraft specific. We must do it after the file
-        to override the ones that are in the .nas file.-->
-   <script><![CDATA[
-                    headingNeedleDeflection = "/instrumentation/nav/heading-needle-deflection";
-                    gsNeedleDeflection = "/instrumentation/nav/gs-needle-deflection-norm";
-                    staticPressure = "systems/static/pressure-inhg";
-
-                    # electrical.nas switches on MASTER and ALT always!
-                    # I prefer not changing electrical.nas because other versions of the c172p in FG may prefer that
-init_electrical_detailed = func {
-    # set initial positions for main switches
-    setprop("/controls/engines/engine[0]/master-bat", 0);
-    setprop("/controls/engines/engine[0]/master-alt", 0);
-    setprop("/controls/switches/master-avionics", 0);
-}
-                    settimer(init_electrical_detailed, 1.0);
-    ]]>
-   </script>
+   <file>Aircraft/c172p-detailed/Nasal/c172p-kap140.nas</file>
   </kap140>
   <kr87>
     <file>/Aircraft/c172p/Nasal/kr87.nas</file>

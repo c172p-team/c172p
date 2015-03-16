@@ -31,52 +31,14 @@
         <label>Shadow Volume</label>
         <binding>
           <command>nasal</command>
-          <script>
-            if (/sim/version/flightgear > 3.4) {
-				if (getprop("/sim/rendering/shaders/skydome")) {
-					setprop("/sim/rendering/shadow-volume", 0) = ! setprop("/sim/rendering/shadow-volume", 0);
-				} else {
-					gui.popupTip("Enable ALS for Shadow Volume", 5);
-				}
-			} else {
-				gui.popupTip("ALS Shadow Volumes require ver. 3.5 or greater", 5);
-			}
-          </script>
+          <script>c172p.toggle_shadow_volume()</script>
         </binding>
       </item>
       <item>
         <name>autostart</name>
         <binding>
           <command>nasal</command>
-          <script>
-            if (getprop("/engines/engine/running")) {
-              gui.popupTip("Engine already running.", 5);
-            
-            } else {
-              setprop("/controls/engines/engine/magnetos", 3);
-              setprop("/controls/engines/engine/throttle", 0.2);
-              setprop("/controls/engines/engine/mixture-lever", 1.0);
-              setprop("/controls/engines/engine/master-bat", 1.0);
-              setprop("/controls/engines/engine/master-alt", 1.0);
-              setprop("/controls/switches/master-avionics", 1.0);
-
-              setprop("/controls/flight/elevator-trim", -0.19);
-              
-              setprop("/controls/lighting/nav-lights", 1);
-              setprop("/controls/lighting/strobe", 1);
-              setprop("/controls/lighting/beacon", 1);
-
-              setprop("/consumables/fuel/tank[0]/selected", 1);
-              setprop("/consumables/fuel/tank[1]/selected", 1);
-              
-              # Set the altimeter
-              setprop("/instrumentation/altimeter/setting-inhg", getprop("/environment/pressure-sea-level-inhg"));
-              
-              #c172p.autoPrime();
-              setprop("/controls/engines/engine/primer", 3);
-              gui.popupTip("Hold down \"s\" to start the engine. After that, release brakes (press \"B\")", 5);
-            }
-          </script>
+          <script>c172p.autostart()</script>
         </binding>
       </item>
     </menu>

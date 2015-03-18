@@ -27,12 +27,24 @@ var ammeter_ave = 0.0;
 init_electrical = func {
     battery = BatteryClass.new();
     alternator = AlternatorClass.new();
-
-    # set initial switch positions
-    setprop("/controls/engines/engine[0]/master-bat", 1);
-    setprop("/controls/engines/engine[0]/master-alt", 1);
-    setprop("/controls/switches/master-avionics", 1);
-    setprop("/systems/electrical/outputs/autopilot",0.0);
+    
+    props.globals.getNode("controls/circuit-breakers/aircond", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/master", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/flaps", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/pitot-heat", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/instr", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/intlt", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/navlt", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/bcnlt", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/landing", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/strobe", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/turn-coordinator", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/radio1", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/radio2", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/radio3", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/radio4", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/radio5", 1).setBoolValue(1);
+    props.globals.getNode("controls/circuit-breakers/autopilot", 1).setBoolValue(1);
 
     # Request that the update function be called next frame
     settimer(update_electrical, 0);
@@ -254,10 +266,7 @@ update_virtual_bus = func( dt ) {
     # bus network (1. these must be called in the right order, 2. the
     # bus routine itself determins where it draws power from.)
     load += electrical_bus_1();
-    load += electrical_bus_2();
-    load += cross_feed_bus();
     load += avionics_bus_1();
-    load += avionics_bus_2();
 
     # system loads and ammeter gauge
     var ammeter = 0.0;
@@ -297,6 +306,32 @@ electrical_bus_1 = func() {
     # we are fed from the "virtual" bus
     var bus_volts = vbus_volts;
     var load = 0.0;
+    
+    # Air-cond
+    if ( getprop("/controls/circuit-breakers/aircond-pwr") ) {
+        setprop("/systems/electrical/outputs/aircond", bus_volts);
+        load += bus_volts / 57;
+    } else {
+        setprop("/systems/electrical/outputs/cabin-lights", 0.0);
+    }
+    
+    # TODO: master breaker is not modelled, it switches on/off the virtual bus
+    
+    # Flaps
+    if ( getprop("/controls/circuit-breakers/flaps") ) {
+        setprop("/systems/electrical/outputs/flaps", bus_volts);
+        load += bus_volts / 57;
+    } else {
+        setprop("/systems/electrical/outputs/flaps", 0.0);
+    }
+    
+    # Pitot Heat Power
+    if ( getprop("/controls/anti-ice/pitot-heat" ) ) {
+        setprop("/systems/electrical/outputs/pitot-heat", bus_volts);
+        load += bus_volts / 28;
+    } else {
+        setprop("/systems/electrical/outputs/pitot-heat", 0.0);
+    }
 
     # Cabin Lights Power
     if ( getprop("/controls/circuit-breakers/cabin-lights-pwr") ) {
@@ -307,34 +342,63 @@ electrical_bus_1 = func() {
     }
 
     # Instrument Power
-    setprop("/systems/electrical/outputs/instr-ignition-switch", bus_volts);
-
-    # Fuel Pump Power
-    if ( getprop("/controls/engines/engine[0]/fuel-pump") ) {
-        setprop("/systems/electrical/outputs/fuel-pump", bus_volts);
-        load += bus_volts / 28;
+    if ( getprop("/controls/circuit-breakers/instr") ) {
+        setprop("/systems/electrical/outputs/instr-ignition-switch", bus_volts);
+        load += bus_volts / 57;
     } else {
-        setprop("/systems/electrical/outputs/fuel-pump", 0.0);
+        setprop("/systems/electrical/outputs/instr-ignition-switch", 0.0);
     }
+    
 
     # Landing Light Power
-    if ( getprop("/controls/lighting/landing-lights") ) {
+    if ( getprop("/controls/circuit-breakers/landing") and getprop("/controls/lighting/landing-lights") ) {
         setprop("/systems/electrical/outputs/landing-lights", bus_volts);
         load += bus_volts / 5;
     } else {
         setprop("/systems/electrical/outputs/landing-lights", 0.0 );
+    }    
+        
+    # Taxi Lights Power
+    # Notice taxi lights also use landing lights breaker. It is not a bug.
+    if ( getprop("/controls/circuit-breakers/landing") and getprop("/controls/lighting/taxi-light" ) ) {
+        setprop("/systems/electrical/outputs/taxi-light", bus_volts);
+        load += bus_volts / 10;
+    } else {
+        setprop("/systems/electrical/outputs/taxi-light", 0.0);
     }
 
     # Beacon Power
-    if ( getprop("/controls/lighting/beacon" ) ) {
+    if ( getprop("/controls/circuit-breakers/bcnlt") and getprop("/controls/lighting/beacon" ) ) {
         setprop("/systems/electrical/outputs/beacon", bus_volts);
         load += bus_volts / 28;
     } else {
         setprop("/systems/electrical/outputs/beacon", 0.0);
     }
+    
+    # Nav Lights Power
+    if ( getprop("/controls/circuit-breakers/navlt") and getprop("/controls/lighting/nav-lights" ) ) {
+        setprop("/systems/electrical/outputs/nav-lights", bus_volts);
+        load += bus_volts / 14;
+    } else {
+        setprop("/systems/electrical/outputs/nav-lights", 0.0);
+    }
 
-    # Flaps Power
-    setprop("/systems/electrical/outputs/flaps", bus_volts);
+          
+    # Strobe Lights Power
+    if ( getprop("/controls/circuit-breakers/strobe") and getprop("/controls/lighting/strobe" ) ) {
+        setprop("/systems/electrical/outputs/strobe", bus_volts);
+        load += bus_volts / 14;
+    } else {
+        setprop("/systems/electrical/outputs/strobe", 0.0);
+    }
+    
+    # Turn Coordinator Power
+    if ( getprop("/controls/circuit-breakers/turn-coordinator") ) {
+        setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);
+        load += bus_volts / 14;
+    } else {
+        setprop("/systems/electrical/outputs/turn-coordinator", 0.0);
+    }
 
     # register bus voltage
     ebus1_volts = bus_volts;
@@ -342,71 +406,6 @@ electrical_bus_1 = func() {
     # return cumulative load
     return load;
 }
-
-
-electrical_bus_2 = func() {
-    # we are fed from the "virtual" bus
-    var bus_volts = vbus_volts;
-    var load = 0.0;
-
-    # Nav Lights Power
-    if ( getprop("/controls/lighting/nav-lights" ) ) {
-        setprop("/systems/electrical/outputs/nav-lights", bus_volts);
-        load += bus_volts / 14;
-    } else {
-        setprop("/systems/electrical/outputs/nav-lights", 0.0);
-    }
-  
-    # Instrument Lights Power
-    setprop("/systems/electrical/outputs/instrument-lights", bus_volts);
-  
-    # Strobe Lights Power
-    if ( getprop("/controls/lighting/strobe" ) ) {
-        setprop("/systems/electrical/outputs/strobe", bus_volts);
-        load += bus_volts / 14;
-    } else {
-        setprop("/systems/electrical/outputs/strobe", 0.0);
-    }
-  
-    # Taxi Lights Power
-    if ( getprop("/controls/lighting/taxi-light" ) ) {
-        setprop("/systems/electrical/outputs/taxi-light", bus_volts);
-        load += bus_volts / 10;
-    } else {
-        setprop("/systems/electrical/outputs/taxi-light", 0.0);
-    }
-  
-    # Pitot Heat Power
-    if ( getprop("/controls/anti-ice/pitot-heat" ) ) {
-        setprop("/systems/electrical/outputs/pitot-heat", bus_volts);
-        load += bus_volts / 28;
-    } else {
-        setprop("/systems/electrical/outputs/pitot-heat", 0.0);
-    }
-  
-    # register bus voltage
-    ebus2_volts = bus_volts;
-
-    # return cumulative load
-    return load;
-}
-
-
-cross_feed_bus = func() {
-    # we are fed from either of the electrical bus 1 or 2
-    var bus_volts = ebus2_volts;
-    if ( ebus1_volts > ebus2_volts ) {
-        bus_volts = ebus1_volts;
-    }
-
-    var load = 0.0;
-
-    setprop("/systems/electrical/outputs/annunciators", bus_volts);
-
-    # return cumulative load
-    return load;
-}
-
 
 avionics_bus_1 = func() {
     var bus_volts = 0.0;
@@ -420,65 +419,61 @@ avionics_bus_1 = func() {
 
     load += bus_volts / 20.0;
 
-    # Turn Coordinator Power
-    setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);
-
     # Directional Gyro Power
+    # TODO: assign this to a breaker, probably in electrical_bus_1
     setprop("/systems/electrical/outputs/DG", bus_volts);
 
     # Avionics Fan Power
-    setprop("/systems/electrical/outputs/avionics-fan", bus_volts);
+    #setprop("/systems/electrical/outputs/avionics-fan", bus_volts);
 
-    # GPS Power
-    setprop("/systems/electrical/outputs/gps", bus_volts);
-  
-    # HSI Power
-    setprop("/systems/electrical/outputs/hsi", bus_volts);
-  
-    # NavCom 1 Power
-    setprop("/systems/electrical/outputs/nav[0]", bus_volts);
-  
-    # DME Power
-    setprop("/systems/electrical/outputs/dme", bus_volts);
-  
     # Audio Panel 1 Power
-    setprop("/systems/electrical/outputs/audio-panel[0]", bus_volts);
-
-    # Com 1 Power
-    setprop("systems/electrical/outputs/comm[0]", bus_volts);
-
-    # return cumulative load
-    return load;
-}
-
-
-avionics_bus_2 = func() {
-    var master_av = getprop("/controls/switches/master-avionics");
-    # we are fed from the electrical bus 2
-    var bus_volts = 0.0;
-    if ( master_av ) {
-        bus_volts = ebus2_volts;
+    if ( getprop("/controls/circuit-breakers/radio1") ) {
+      setprop("/systems/electrical/outputs/audio-panel[0]", bus_volts);
+    } else {
+      setprop("/systems/electrical/outputs/audio-panel[0]", 0.0);
     }
 
-    var load = bus_volts / 20.0;
-
-    # NavCom 2 Power
-    setprop("/systems/electrical/outputs/nav[1]", bus_volts);
-
-    # Audio Panel 2 Power
-    setprop("/systems/electrical/outputs/audio-panel[1]", bus_volts);
-
-    # Com 2 Power
-    setprop("systems/electrical/outputs/comm[1]", bus_volts);
+    # Com and Nav 1 Power
+    if ( getprop("/controls/circuit-breakers/radio2") ) {
+      setprop("/systems/electrical/outputs/nav[0]", bus_volts);
+      setprop("systems/electrical/outputs/comm[0]", bus_volts);
+    } else {
+      setprop("/systems/electrical/outputs/nav[0]", 0.0);
+      setprop("systems/electrical/outputs/comm[0]", 0.0);
+    }
+    
+    # Com and Nav 2 Power
+    if ( getprop("/controls/circuit-breakers/radio3") ) {
+      setprop("/systems/electrical/outputs/nav[1]", bus_volts);
+      setprop("systems/electrical/outputs/comm[1]", bus_volts);
+    } else {
+      setprop("/systems/electrical/outputs/nav[1]", 0.0);
+      setprop("systems/electrical/outputs/comm[1]", 0.0);
+    }
 
     # Transponder Power
-    setprop("/systems/electrical/outputs/transponder", bus_volts);
+    if ( getprop("/controls/circuit-breakers/radio4") ) {
+      setprop("/systems/electrical/outputs/transponder", bus_volts);
+    } else {
+      setprop("/systems/electrical/outputs/transponder", 0.0);
+    }
+    
+    # DME and ADF Power
+    if ( getprop("/controls/circuit-breakers/radio5") ) {
+      setprop("/systems/electrical/outputs/dme", bus_volts);
+      setprop("/systems/electrical/outputs/adf", bus_volts);
+    } else {
+      setprop("/systems/electrical/outputs/dme", 0.0);
+      setprop("/systems/electrical/outputs/adf", 0.0);
+    }
 
     # Autopilot Power
-    setprop("/systems/electrical/outputs/autopilot", bus_volts);
-
-    # ADF Power
-    setprop("/systems/electrical/outputs/adf", bus_volts);
+    if ( getprop("/controls/circuit-breakers/autopilot") ) {
+      setprop("/systems/electrical/outputs/autopilot", bus_volts);
+    } else {
+      setprop("/systems/electrical/outputs/autopilot", 0.0);
+    }
+    
 
     # return cumulative load
     return load;

@@ -203,40 +203,19 @@ Many files from the original c172p directory are included in this file.
   </instrumentation>
  </sim>
 
- <!-- trim for level cruise -->
-
  <controls>
   <flight>
    <aileron-trim type="double">0.027</aileron-trim>
    <rudder-trim type="double">0.0</rudder-trim>
   </flight>
   <engines>
-    <!-- MOD: more realistic initial configuration. Notice master-bat and master-alt are switched on in electrical.nas! We fix this in nasal after loading the aircraft -->
    <engine n="0">
-    <magnetos type="int">0</magnetos>
-    <master-bat type="bool">false</master-bat>
-    <master-alt type="bool">false</master-alt>
     <mixture-lever>0</mixture-lever>
     <throttle>0</throttle>
     <primer>0</primer>
     <primer-lever>0</primer-lever>
    </engine>
-   <!-- ENDMOD -->
   </engines>
-  <gear>
-    <brake-parking type="bool">true</brake-parking>
-  </gear>
-  <!--lighting The state of these switches is saved >
-   <landing-lights type="bool">false</landing-lights>
-   <taxi-light type="bool">false</taxi-light>
-   <strobe type="bool">false</strobe>
-   <beacon type="bool">false</beacon>
-   <nav-lights type="bool">false</nav-lights>
-  </lighting-->
-  <switches>
-   <!--master-avionics type="bool">true</master-avionics-->
-   <starter type="bool">false</starter>
-  </switches>
  </controls>
 
  <autopilot>
@@ -319,24 +298,14 @@ Many files from the original c172p directory are included in this file.
     </c172p>
 
   <electrical>
-   <file>Aircraft/c172p/Nasal/c172-electrical.nas</file>
+   <file>Aircraft/c172p-detailed/Nasal/electrical.nas</file>
   </electrical>
   <kap140>
    <file>Aircraft/Generic/kap140.nas</file>
-   <file>Aircraft/c172p-detailed/Nasal/c172p-kap140.nas</file>
   </kap140>
   <kr87>
     <file>Aircraft/c172p/Nasal/kr87.nas</file>
   </kr87>
-  
-  <!-- pilot-movment>
-    <file>Aircraft/Generic/Human/Nasal/pilot-movment.nas</file>
-    <script>
-var head_x = "sim/model/crew/pilot[0]/pose/position/limb[2]/x-deg";
-var head_y = "sim/model/crew/pilot[0]/pose/position/limb[2]/y-deg";
-var head_z = "sim/model/crew/pilot[0]/pose/position/limb[2]/z-deg";
-    </script>
-  </pilot-movment -->
   
   <tyresmoke>
    <file>Aircraft/c172p-detailed/Nasal/tyresmoke.nas</file>

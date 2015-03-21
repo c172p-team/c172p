@@ -28,7 +28,7 @@
     <params>
         <lighting>
             <navigation>
-                <property>sim/multiplay/generic/int[0]</property>
+                <property>sim/multiplay/generic/float[3]</property>
             </navigation>
             <beacon-top>
                 <property>sim/multiplay/generic/int[1]</property>
@@ -36,6 +36,12 @@
             <strobes>
                 <property>sim/multiplay/generic/int[2]</property>
             </strobes>
+            <taxi>
+                <property>sim/multiplay/generic/float[4]</property>
+            </taxi>
+            <landing>
+                <property>sim/multiplay/generic/float[5]</property>
+            </landing>
         </lighting>
     </params>
 
@@ -2957,7 +2963,7 @@
    <condition>
      <and>
        <property>/sim/rendering/rembrandt/enabled</property>
-       <property>systems/electrical/outputs/landing-lights</property>
+       <property alias="../../../params/lighting/landing/property"/>
      </and>
    </condition>
  </animation>
@@ -2968,7 +2974,7 @@
    <condition>
      <and>
        <property>/sim/rendering/rembrandt/enabled</property>
-       <property>systems/electrical/outputs/taxi-light</property>
+       <property alias="../../../params/lighting/taxi/property"/>
      </and>
    </condition>
  </animation>
@@ -2981,7 +2987,7 @@
    <object-name>landinglight2</object-name>
    <condition>
      <and>
-       <property>systems/electrical/outputs/landing-lights</property>
+       <property alias="../../../params/lighting/landing/property"/>
        <not>
          <property>/sim/rendering/rembrandt/enabled</property>
        </not>
@@ -2996,7 +3002,7 @@
    <object-name>LandingLightCone</object-name>
    <nopreview/>
    <condition>
-     <property>controls/lighting/landing-lights</property>
+     <property alias="../../../params/lighting/landing/property"/>
    </condition>
    <position>
      <x>-0.078</x>
@@ -3044,7 +3050,7 @@
    <object-name>TaxiLightCone</object-name>
    <nopreview/>
    <condition>
-     <property>systems/electrical/outputs/taxi-light</property>
+     <property alias="../../../params/lighting/taxi/property"/>
    </condition>
    <position>
      <x>-0.078</x>
@@ -3091,7 +3097,7 @@
    <object-name>landinglightcover</object-name>
    <condition>
      <not>
-       <property>systems/electrical/outputs/landing-lights</property>
+       <property alias="../../../params/lighting/landing/property"/>
      </not>
    </condition>
  </animation>

@@ -10,11 +10,6 @@
 
  <nasal>
    <load>
-     var rplayer = cmdarg();
-     rplayer.getNode("sim/model/door-positions/rightDoor/position-norm", 1).alias(rplayer.getNode("sim/multiplay/generic/float[0]"));
-     rplayer.getNode("sim/model/door-positions/leftDoor/position-norm", 1).alias(rplayer.getNode("sim/multiplay/generic/float[1]"));
-     rplayer.getNode("sim/model/door-positions/baggageDoor/position-norm", 1).alias(rplayer.getNode("sim/multiplay/generic/float[2]"));
-
      var livery_update = aircraft.livery_update.new(
      "Aircraft/c172p/Models/Liveries", 10,
      func { print("c172p livery update") });
@@ -43,6 +38,17 @@
                 <property>sim/multiplay/generic/float[5]</property>
             </landing>
         </lighting>
+        <doors>
+            <left>
+                <property>sim/multiplay/generic/float[1]</property>
+            </left>
+            <right>
+                <property>sim/multiplay/generic/float[0]</property>
+            </right>
+            <baggage>
+                <property>sim/multiplay/generic/float[2]</property>
+            </baggage>
+        </doors>
     </params>
 
  <!-- Normal shader effect. Separate effects required for each normal map texture -->
@@ -1681,7 +1687,7 @@
 <!-- MOD: Added an interior window-->
    <object-name>rightwindow_int</object-name>
 <!-- MODEND: Added an interior window -->
-   <property>sim/model/door-positions/rightDoor/position-norm</property>
+   <property alias="../../params/doors/right/property"/>
    <interpolation>
      <entry>
        <ind>0.0</ind>
@@ -1711,7 +1717,7 @@
  <animation>
    <type>rotate</type>
    <object-name>doorhandleint_right</object-name>
-   <property>sim/model/door-positions/rightDoor/position-norm</property>
+   <property alias="../../params/doors/right/property"/>
    <interpolation>
      <entry>
        <ind>0.0</ind>
@@ -1749,7 +1755,7 @@
 <!-- MOD: Added an interior window-->
    <object-name>leftwindow_int</object-name>
 <!-- MODEND: Added an interior window -->
-   <property>sim/model/door-positions/leftDoor/position-norm</property>
+   <property alias="../../params/doors/left/property"/>
    <interpolation>
      <entry>
        <ind>0.0</ind>
@@ -1778,7 +1784,7 @@
  <animation>
    <type>rotate</type>
    <object-name>doorhandleint_left</object-name>
-   <property>sim/model/door-positions/leftDoor/position-norm</property>
+   <property alias="../../params/doors/left/property"/>
    <interpolation>
      <entry>
        <ind>0.0</ind>
@@ -1811,7 +1817,7 @@
    <object-name>baggagedoor</object-name>
    <object-name>baggagedoor.002</object-name>
    <object-name>baggagedoorhandle</object-name>
-   <property>sim/model/door-positions/baggageDoor/position-norm</property>
+   <property alias="../../params/doors/baggage/property"/>
    <factor>-90</factor>
    <axis>
      <x1-m>1.373</x1-m>

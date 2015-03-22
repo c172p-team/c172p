@@ -130,13 +130,12 @@
    <object-name>pilotseat_left</object-name>
    <object-name>pilotseat_right</object-name>
    <object-name>AircondControl</object-name>
-   <object-name>AvionicsSwitch</object-name>
    <object-name>BeaconSwitch</object-name>
-   <object-name>Breakers</object-name>
+   <object-name>BreakersAndAvionicsSwitch</object-name>
    <object-name>CarbHeat</object-name>
    <object-name>CarbHeatMount</object-name>
    <object-name>GenSwitch</object-name>
-   <object-name>LandingLightSwitch</object-name>
+   <!--object-name>LandingLightSwitch</object-name-->
    <object-name>LeftBag</object-name>
    <object-name>bolt.012</object-name>
    <object-name>bolt.013</object-name>
@@ -194,6 +193,7 @@
    <inherits-from>Aircraft/c172p-detailed/Models/Effects/interior/c172p-interior-glass-reflection-side</inherits-from>
    <object-name>leftwindow_interior</object-name>
    <object-name>rightwindow_interior</object-name>
+   <object-name>glas_sides</object-name>
  </effect>   
  
  <effect>
@@ -222,6 +222,18 @@
  <model>
    <path>Models/Aircraft/marker.xml</path>
  </model>
+ 
+ <!-- breakers and avionics switch -->
+ <model>
+   <name>BreakersAndAvionicsSwitch</name>
+   <path>Aircraft/c172p-detailed/Models/Interior/Panel/Buttons/breakers/breakers.xml</path>
+   <offsets>
+     <x-m>-0.36873</x-m>
+     <y-m>-0.30291</y-m>
+     <z-m>-0.26824</z-m>
+   </offsets>
+ </model>
+
 
  <!--instrumentation-->
  <model>
@@ -1480,28 +1492,6 @@
    <object-name>CarbHeatRod</object-name>
  </animation>
 
- <animation>
-   <name>ElectronicsGroup</name>
-   <object-name>TaxiLightSwitch</object-name>
-   <object-name>LandingLightSwitch</object-name>
-   <object-name>PitotHeatSwitch</object-name>
-   <object-name>NavLightSwitch</object-name>
-   <object-name>BeaconSwitch</object-name>
-   <object-name>StrobeSwitch</object-name>
-   <object-name>PanelLight</object-name>
-<!-- MOD: MASTER/GEN Switches included 1/3 -->
-   <object-name>MasterSwitch</object-name>
-   <object-name>GenSwitch</object-name>
-<!-- MODEND: MASTER/GEN 1/3               -->
-<!-- MOD: AVIONICS Switch 1/3 -->
-   <object-name>AvionicsSwitch</object-name>
-<!-- MODEND: AVIONICS Switch 1/3          -->
-<!--
-   <object-name>ElectronicsLabels</object-name>
-   <object-name>ElectronicsLabels2</object-name>
--->
- </animation>
-
 <!-- <animation>
    <name>ControlsGroup</name>
    <object-name>PanelInstruments</object-name>
@@ -1933,31 +1923,6 @@
        </hovered>
      </animation>
 <!-- MODEND: MASTER/GEN 2/3 -->
-<!-- MOD: AVIONICS Switch 2/3 -->
-    <animation>
-       <type>pick</type>
-       <object-name>AvionicsSwitch</object-name>
-       <visible>true</visible>
-       <action>
-         <button>0</button>
-         <repeatable>false</repeatable>
-         <binding>
-           <command>property-toggle</command>
-           <property>/controls/switches/master-avionics</property>
-         </binding>
-       </action>
-       <hovered>
-        <binding>
-          <command>set-tooltip</command>
-          <tooltip-id>AVIONICS-switch</tooltip-id>
-          <label>AVIONICS: %s</label>
-          <mapping>on-off</mapping>
-          <property>/controls/switches/master-avionics</property>
-       </binding>
-       </hovered>
-     </animation>
-
-<!-- MODEND: AVIONICS Switch 2/3 -->
 
  <animation>
    <type>pick</type>
@@ -2533,25 +2498,6 @@
    </center>
   </animation>
 <!-- MODEND: MASTER/GEN 3/3 -->
-<!-- MOD: AVIONICS Switch 3/3 -->
- <animation>
-   <type>rotate</type>
-   <object-name>AvionicsSwitch</object-name>
-   <property>/controls/switches/master-avionics</property>
-   <factor>-45</factor>
-   <axis>
-     <x>0.0</x>
-     <y>1.0</y>
-     <z>0.0</z>
-   </axis>
-   <center>
-     <x-m>-0.36934</x-m>
-     <y-m>-0.26399</y-m>
-     <z-m>-0.2579</z-m>
-   </center>
-  </animation>
-<!-- MODEND: AVIONICS Switch 3/3 -->
-
 
  <!-- Interior -->
 

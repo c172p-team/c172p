@@ -60,7 +60,12 @@ setlistener("/sim/time/hobbs/engine[0]", func {
 # =============================== -ve g cutoff stuff =========================================
 
 # Manages mixture depending on g force
+# 0: normal, 1: low gravity; 2: neg G.
+var negg_state = 0;
 var negGCutoff = func {
+    
+    # TODO: this is working really bad, fix using jsbsim systems
+    return  getprop("/controls/engines/engine/mixture-lever");
 
     var g = gcurrent.getValue();
     var grav = gravity.getValue();
@@ -68,9 +73,10 @@ var negGCutoff = func {
     if ( g != nil and grav != nil ) {
         g = -g / grav;
     } else {
-        # we are not able to compute gravity, just assume 1
+        # we are not able to calculate gravity, just assume 1
         g = 1;
     }
+
     
     mixture = getprop("/controls/engines/engine/mixture-lever");
 

@@ -246,22 +246,7 @@ update_virtual_bus = func( dt ) {
         bus_volts = external_volts;
         power_source = "external";
     }
-    # print( "virtual bus volts = ", bus_volts );
-
-    # starter motor
-    var starter_switch = getprop("controls/switches/starter");
-    var starter_volts = 0.0;
-    if ( starter_switch ) {
-        starter_volts = bus_volts;
-        load += 12;
-    }
-    setprop("systems/electrical/outputs/starter[0]", starter_volts);
-    if (starter_volts > 12) {
-        setprop("controls/engines/engine[0]/starter",1);
-        setprop("controls/engines/engine[0]/magnetos",3);
-    } else {
-        setprop("controls/engines/engine[0]/starter",0);
-    }
+    #print( "virtual bus volts = ", bus_volts );
 
     # bus network (1. these must be called in the right order, 2. the
     # bus routine itself determins where it draws power from.)
@@ -303,9 +288,15 @@ update_virtual_bus = func( dt ) {
 
 
 electrical_bus_1 = func() {
-    # we are fed from the "virtual" bus
-    var bus_volts = vbus_volts;
+    var bus_volts = 0.0;
     var load = 0.0;
+    
+    # check master breaker
+    if ( getprop("/controls/circuit-breakers/master") ) {
+        # we are feed from the virtual bus
+        bus_volts = vbus_volts;        
+    }
+    #print("Bus volts: ", bus_volts);
     
     # Air-cond
     if ( getprop("/controls/circuit-breakers/aircond-pwr") ) {
@@ -314,8 +305,6 @@ electrical_bus_1 = func() {
     } else {
         setprop("/systems/electrical/outputs/cabin-lights", 0.0);
     }
-    
-    # TODO: master breaker is not modelled, it switches on/off the virtual bus
     
     # Flaps
     if ( getprop("/controls/circuit-breakers/flaps") ) {
@@ -341,14 +330,50 @@ electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/cabin-lights", 0.0);
     }
 
-    # Instrument Power
+    # Instrument Power: ignition, fuel, oil temperature
     if ( getprop("/controls/circuit-breakers/instr") ) {
         setprop("/systems/electrical/outputs/instr-ignition-switch", bus_volts);
-        load += bus_volts / 57;
+        if ( bus_volts > 12 ) {
+            # starter
+            if ( getprop("controls/switches/starter") ) {
+                setprop("systems/electrical/outputs/starter[0]", bus_volts);
+                setprop("controls/engines/engine[0]/starter", 1);
+                load += 12;
+            } else {
+                setprop("controls/engines/engine[0]/starter", 0);
+            }
+            # fuel
+            setprop("consumables/fuel/tank[0]/indicated-level-gal_us", getprop("consumables/fuel/tank[0]/level-gal_us"));
+            setprop("consumables/fuel/tank[1]/indicated-level-gal_us", getprop("consumables/fuel/tank[1]/level-gal_us"));
+            # oil
+            setprop("engines/engine[0]/indicated-oil-temperature-degf", getprop("engines/engine[0]/indicated-oil-temperature-degf"));
+            setprop("engines/engine[0]/indicated-oil-pressure-psi", getprop("engines/engine[0]/oil-pressure-psi"));
+            load += bus_volts / 57;
+        } else {
+            setprop("systems/electrical/outputs/starter[0]", 0.0);
+            setprop("controls/engines/engine[0]/starter", 0);
+            setprop("consumables/fuel/tank[0]/indicated-level-gal_us", 0);
+            setprop("consumables/fuel/tank[1]/indicated-level-gal_us", 0);
+            setprop("engines/engine[0]/indicated-oil-temperature-degf", 0);
+            setprop("engines/engine[0]/indicated-oil-pressure-psi", 0);
+        }
     } else {
         setprop("/systems/electrical/outputs/instr-ignition-switch", 0.0);
+        setprop("/systems/electrical/outputs/starter[0]", 0.0);
+        setprop("controls/engines/engine[0]/starter", 0);
+        setprop("consumables/fuel/tank[0]/indicated-level-gal_us", 0);
+        setprop("consumables/fuel/tank[1]/indicated-level-gal_us", 0);
+        setprop("engines/engine[0]/indicated-oil-temperature-degf", 0);
+        setprop("engines/engine[0]/indicated-oil-pressure-psi", 0);
     }
     
+    # Interior lights
+    if ( getprop("/controls/circuit-breakers/intlt") ) {
+        setprop("/systems/electrical/outputs/instrument-lights", bus_volts);
+        load += bus_volts / 57;
+    } else {
+        setprop("/systems/electrical/outputs/istrument-lights", 0.0);
+    }    
 
     # Landing Light Power
     if ( getprop("/controls/circuit-breakers/landing") and getprop("/controls/lighting/landing-lights") ) {
@@ -392,12 +417,14 @@ electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/strobe", 0.0);
     }
     
-    # Turn Coordinator Power
+    # Turn Coordinator and directional gyro Power
     if ( getprop("/controls/circuit-breakers/turn-coordinator") ) {
         setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);
+        setprop("/systems/electrical/outputs/DG", bus_volts);
         load += bus_volts / 14;
     } else {
         setprop("/systems/electrical/outputs/turn-coordinator", 0.0);
+        setprop("/systems/electrical/outputs/DG", 0.0);
     }
 
     # register bus voltage
@@ -418,10 +445,6 @@ avionics_bus_1 = func() {
     }
 
     load += bus_volts / 20.0;
-
-    # Directional Gyro Power
-    # TODO: assign this to a breaker, probably in electrical_bus_1
-    setprop("/systems/electrical/outputs/DG", bus_volts);
 
     # Avionics Fan Power
     #setprop("/systems/electrical/outputs/avionics-fan", bus_volts);
@@ -483,3 +506,13 @@ avionics_bus_1 = func() {
 # Setup a timer based call to initialized the electrical system as
 # soon as possible.
 settimer(init_electrical, 0);
+
+############################ Utility function
+
+# (from the g115) Only move flaps if voltage is sufficient
+var flapsDown = controls.flapsDown;
+controls.flapsDown = func(v){
+  var volts = getprop("systems/electrical/outputs/flaps");
+  print("Flap Volts: ",volts);
+  flapsDown(volts > 16 ? v : 0);
+}

@@ -45,9 +45,10 @@ setlistener("/engines/engine[0]/running", func {
 setlistener("/sim/time/hobbs/engine[0]", func {
     # in seconds
     hobbs = getprop("/sim/time/hobbs/engine[0]") or 0.0;
-    # in minutes
-    # TODO: change to hours for the final version
-    hobbs = hobbs / 60.0;
+    # This uses minutes, for testing
+    #hobbs = hobbs / 60.0;
+    # in hours
+    hobbs = hobbs / 3600.0;
     # tenths of hour
     setprop("/instrumentation/hobbs-meter/digits0", math.mod(int(hobbs * 10), 10));
     # rest of digits

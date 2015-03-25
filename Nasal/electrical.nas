@@ -20,6 +20,9 @@ var ebus2_volts = 0.0;
 
 var ammeter_ave = 0.0;
 
+# number of seconds for a delay of the fuel and oil instruments 
+var DELAY_SECS = 3;
+
 ##
 # Initialize the electrical system
 #
@@ -252,6 +255,11 @@ update_virtual_bus = func( dt ) {
     # bus routine itself determins where it draws power from.)
     load += electrical_bus_1();
     load += avionics_bus_1();
+    
+    # swtich the master breaker off if load is out of limits
+    if ( load > 55 ) {
+      bus_volts = 0;
+    }
 
     # system loads and ammeter gauge
     var ammeter = 0.0;
@@ -343,28 +351,28 @@ electrical_bus_1 = func() {
                 setprop("controls/engines/engine[0]/starter", 0);
             }
             # fuel
-            setprop("consumables/fuel/tank[0]/indicated-level-gal_us", getprop("consumables/fuel/tank[0]/level-gal_us"));
-            setprop("consumables/fuel/tank[1]/indicated-level-gal_us", getprop("consumables/fuel/tank[1]/level-gal_us"));
+            interpolate("consumables/fuel/tank[0]/indicated-level-gal_us", getprop("consumables/fuel/tank[0]/level-gal_us"), DELAY_SECS);
+            interpolate("consumables/fuel/tank[1]/indicated-level-gal_us", getprop("consumables/fuel/tank[1]/level-gal_us"), DELAY_SECS);
             # oil
-            setprop("engines/engine[0]/indicated-oil-temperature-degf", getprop("engines/engine[0]/indicated-oil-temperature-degf"));
-            setprop("engines/engine[0]/indicated-oil-pressure-psi", getprop("engines/engine[0]/oil-pressure-psi"));
+            interpolate("engines/engine[0]/indicated-oil-temperature-degf", getprop("engines/engine[0]/oil-temperature-degf"), DELAY_SECS);
+            interpolate("engines/engine[0]/indicated-oil-pressure-psi", getprop("engines/engine[0]/oil-pressure-psi"), DELAY_SECS);
             load += bus_volts / 57;
         } else {
             setprop("systems/electrical/outputs/starter[0]", 0.0);
             setprop("controls/engines/engine[0]/starter", 0);
-            setprop("consumables/fuel/tank[0]/indicated-level-gal_us", 0);
-            setprop("consumables/fuel/tank[1]/indicated-level-gal_us", 0);
-            setprop("engines/engine[0]/indicated-oil-temperature-degf", 0);
-            setprop("engines/engine[0]/indicated-oil-pressure-psi", 0);
+            interpolate("consumables/fuel/tank[0]/indicated-level-gal_us", 0, DELAY_SECS);
+            interpolate("consumables/fuel/tank[1]/indicated-level-gal_us", 0, DELAY_SECS);
+            interpolate("engines/engine[0]/indicated-oil-temperature-degf", 0, DELAY_SECS);
+            interpolate("engines/engine[0]/indicated-oil-pressure-psi", 0, DELAY_SECS);
         }
     } else {
         setprop("/systems/electrical/outputs/instr-ignition-switch", 0.0);
         setprop("/systems/electrical/outputs/starter[0]", 0.0);
         setprop("controls/engines/engine[0]/starter", 0);
-        setprop("consumables/fuel/tank[0]/indicated-level-gal_us", 0);
-        setprop("consumables/fuel/tank[1]/indicated-level-gal_us", 0);
-        setprop("engines/engine[0]/indicated-oil-temperature-degf", 0);
-        setprop("engines/engine[0]/indicated-oil-pressure-psi", 0);
+        interpolate("consumables/fuel/tank[0]/indicated-level-gal_us", 0, DELAY_SECS);
+        interpolate("consumables/fuel/tank[1]/indicated-level-gal_us", 0, DELAY_SECS);
+        interpolate("engines/engine[0]/indicated-oil-temperature-degf", 0, DELAY_SECS);
+        interpolate("engines/engine[0]/indicated-oil-pressure-psi", 0, DELAY_SECS);
     }
     
     # Interior lights

@@ -9,8 +9,20 @@
     <lighting>false</lighting>
 
     <condition>
-		<property>gear/gear[0]/tyre-smoke</property>
-		<value>1</value>
+		<or>
+			<property>gear/gear[0]/tyre-smoke</property>
+			<value>1</value>
+			<and>
+				<greater-than>
+					<property>fdm/jsbsim/ground/bumpiness</property>
+					<value type="double">0.1</value>
+				</greater-than>
+				<equals>
+					<property>gear/gear[0]/wow</property>
+					<value type="bool">true</value>
+				</equals>
+			</and>
+		</or>
 	</condition>
 
     <attach>world</attach>

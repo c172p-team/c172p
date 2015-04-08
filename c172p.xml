@@ -182,7 +182,86 @@
             <brake_group> NONE </brake_group>
             <retractable>0</retractable>
         </contact>
+
+	<!-- SPARK MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+		<contact type="STRUCTURE" name="FRONT_GEAR">
+			<location unit="IN">
+				 <x> -150 </x>
+				 <y> 0 </y>
+				 <z> 6 </z>
+			</location>
+			<static_friction>  0.8 </static_friction>
+			<dynamic_friction> 0.5 </dynamic_friction>
+			<rolling_friction> 0.2 </rolling_friction>
+			<spring_coeff unit="LBS/FT">       1830.15 </spring_coeff>
+			<damping_coeff unit="LBS/FT/SEC">   366.03 </damping_coeff>
+		 </contact>
+		 <contact type="STRUCTURE" name="LEFT_GEAR">
+			<location unit="IN">
+				 <x> -25 </x>
+				 <y> -3 </y>
+				 <z> 1 </z>
+			</location>
+			<static_friction>  0.8 </static_friction>
+			<dynamic_friction> 0.5 </dynamic_friction>
+			<rolling_friction> 0.2 </rolling_friction>
+			<spring_coeff unit="LBS/FT">       1830.15 </spring_coeff>
+			<damping_coeff unit="LBS/FT/SEC">   366.03 </damping_coeff>
+		 </contact>
+		 <contact type="STRUCTURE" name="RIGHT_GEAR">
+			<location unit="IN">
+				 <x> -25 </x>
+				 <y> 3 </y>
+				 <z> 1 </z>
+			</location>
+			<static_friction>  0.8 </static_friction>
+			<dynamic_friction> 0.5 </dynamic_friction>
+			<rolling_friction> 0.2 </rolling_friction>
+			<spring_coeff unit="LBS/FT">       1830.15 </spring_coeff>
+			<damping_coeff unit="LBS/FT/SEC">   366.03 </damping_coeff>
+		 </contact>
+		 <contact type="STRUCTURE" name="TAIL">
+            <location unit="IN">
+                <x> 188 </x>
+                <y> 0 </y>
+                <z> 8 </z>
+            </location>
+            <static_friction> 0.2 </static_friction>
+            <dynamic_friction> 0.2 </dynamic_friction>
+            <rolling_friction> 0.2 </rolling_friction>
+            <spring_coeff unit="LBS/FT"> 20000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 1000 </damping_coeff>
+        </contact>
+        <!--contact type="STRUCTURE" name="LEFT_WING_TIP">
+            <location unit="M">
+                <x> -0.7579 </x>
+                <y> -5.6338 </y>
+                <z> 0.3928 </z>
+            </location>
+            <static_friction> 0.2 </static_friction>
+            <dynamic_friction> 0.2 </dynamic_friction>
+            <rolling_friction> 0.2 </rolling_friction>
+            <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+        </contact>
+        <contact type="STRUCTURE" name="RIGHT_WING_TIP">
+            <location unit="M">
+                <x> -0.7579 </x>
+                <y> 5.6338 </y>
+                <z> 0.3928 </z>
+            </location>
+            <static_friction> 0.2 </static_friction>
+            <dynamic_friction> 0.2 </dynamic_friction>
+            <rolling_friction> 0.2 </rolling_friction>
+            <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+        </contact-->
+	<!-- END SPARK MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->	
+	
     </ground_reactions>
+	
+	<system file="crash-detect"/>
+	
     <propulsion>
         <engine file="eng_io320">
             <location unit="IN">
@@ -231,6 +310,7 @@
             <contents unit="LBS"> 100 </contents>
         </tank>
     </propulsion>
+	
     <flight_control name="FCS: c172">
         <channel name="Pitch">
             <summer name="Pitch Trim Sum">
@@ -390,6 +470,12 @@
               <output>fcs/flap-pos-norm</output>
             </aerosurface_scale>
         </channel>
+		
+		<!-- SPARK MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+		<channel name="Landing Gear">
+		</channel>
+		<!-- END SPARK MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+  
     </flight_control>
     <aerodynamics>
 

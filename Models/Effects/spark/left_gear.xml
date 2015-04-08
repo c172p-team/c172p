@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ cap10c-set.xml  - Cap10C by PAF team  - http://equipe-flightgear.forumactif.com
+
+ Written by Flavien BLANC
+ Modified by PAF team  - April 2012
+
+ Copyright (C) 2011-2012  Flavien BLANC  - http://equipe-flightgear.forumactif.com/u56
+ Copyright (C) 2012  Clément DE L'HAMAIDE  - http://equipe-flightgear.forumactif.com/u115
+
+
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as
+ published by the Free Software Foundation; either version 2 of the
+ License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program; if not see <http://www.gnu.org/licenses/>.
+-->
+
+<!-- New version May, 07, 2009 by 102nd-YU-Nitro -->
+
+<PropertyList>
+
+  <particlesystem>
+
+    <name>spark</name>
+    <type>normal</type>
+
+    <offsets>
+      <x-m> 0.0 </x-m>
+      <y-m> 0.0 </y-m>
+      <z-m> 0.0 </z-m>
+    </offsets>
+
+    <condition>
+      <and>
+        <property>fdm/jsbsim/contact/unit[7]/WOW</property>
+        <greater-than>
+          <property>velocities/groundspeed-kt</property>
+          <value>8</value>
+        </greater-than>
+      </and>
+    </condition>
+
+    <texture>spark.png</texture>
+    <emissive>true</emissive>
+    <lighting>true</lighting>
+    <align>billboard</align>
+    <attach>world</attach>
+
+    <placer>
+      <type>point</type>
+    </placer>
+
+    <shooter>
+      <theta-min-deg>0</theta-min-deg>
+      <theta-max-deg>360</theta-max-deg>
+      <phi-min-deg>0</phi-min-deg>
+      <phi-max-deg>360</phi-max-deg>
+      <speed>
+        <value>0</value>
+        <spread>0</spread>
+      </speed>
+      <rotation-speed>
+        <x-min-deg-sec>0</x-min-deg-sec>
+        <y-min-deg-sec>0</y-min-deg-sec>
+        <z-min-deg-sec>0</z-min-deg-sec>
+        <x-max-deg-sec>3600</x-max-deg-sec>
+        <y-max-deg-sec>3600</y-max-deg-sec>
+        <z-max-deg-sec>3600</z-max-deg-sec>
+      </rotation-speed>
+    </shooter>
+    
+    <counter>
+      <particles-per-sec>
+        <value>200</value>
+        <spread>0</spread>
+      </particles-per-sec>
+    </counter>
+
+    <particle>
+      <start>
+        <color>
+          <red><value>   1.0 </value></red>
+          <green><value> 1.0 </value></green>
+          <blue><value>  0.0 </value></blue>
+          <alpha><value> 1.0 </value></alpha>
+        </color>
+        <size><value>    0.05 </value></size>
+      </start>
+
+      <end>
+        <color>
+          <red><value>   1.0 </value></red>
+          <green><value> 1.0 </value></green>
+          <blue><value>  0.0 </value></blue>
+          <alpha><value> 0.6 </value></alpha>
+        </color>
+        <size><value>    0.00025 </value></size>
+      </end>
+
+      <life-sec>
+        <value>0.5</value>
+      </life-sec>
+
+      <mass-kg>0.015</mass-kg>
+      <radius-m>0.1</radius-m>
+    </particle>
+
+    <program>
+      <fluid>air</fluid>
+      <gravity type="bool">true</gravity>
+      <wind type="bool">false</wind>
+    </program>
+
+  </particlesystem>
+
+</PropertyList>

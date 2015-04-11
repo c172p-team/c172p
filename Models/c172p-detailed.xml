@@ -421,37 +421,37 @@
    <object-name>Propeller.Fast</object-name>
  </effect>
  
- <!-- SPARK MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx -->
+ <!-- DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx -->
  <model>
-    <path>Aircraft/c172p-detailed/Models/Effects/spark/nose_gear.xml</path>
+    <path>Aircraft/c172p-detailed/Models/Effects/damage/nose_gear.xml</path>
     <offsets>
       <x-m> -1 </x-m>
       <y-m>  0.0000 </y-m>
-      <z-m> -0.9 </z-m>
+      <z-m> -1.2 </z-m>
     </offsets>
  </model>
   <model>
-    <path>Aircraft/c172p-detailed/Models/Effects/spark/left_gear.xml</path>
+    <path>Aircraft/c172p-detailed/Models/Effects/damage/left_gear.xml</path>
     <offsets>
-      <x-m> 0.7 </x-m>
-      <y-m> -1.0 </y-m>
+      <x-m> -0.7 </x-m>
+      <y-m> -1.9 </y-m>
       <z-m> -0.95 </z-m>
     </offsets>
  </model>
   <model>
-    <path>Aircraft/c172p-detailed/Models/Effects/spark/right_gear.xml</path>
+    <path>Aircraft/c172p-detailed/Models/Effects/damage/right_gear.xml</path>
     <offsets>
-      <x-m> 0.7 </x-m>
-      <y-m> 1.0 </y-m>
+      <x-m> -0.7 </x-m>
+      <y-m> 1.9 </y-m>
       <z-m> -0.95 </z-m>
     </offsets>
  </model>
  <model>
-    <path>Aircraft/c172p-detailed/Models/Effects/spark/tail.xml</path>
+    <path>Aircraft/c172p-detailed/Models/Effects/damage/tail.xml</path>
     <offsets>
       <x-m>  4.9264 </x-m>
       <y-m>  0.0000 </y-m>
-      <z-m> -0.8</z-m>
+      <z-m> -0.6</z-m>
     </offsets>
  </model>
  <!--model>
@@ -470,7 +470,7 @@
 	  <z-m> 0.3928 </z-m>
     </offsets>
  </model-->
- <!-- END SPARK MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx -->
+ <!-- END DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx -->
  
 <!-- Immatriculation -->
  <model>
@@ -3256,7 +3256,88 @@
    </axis>
    <interpolation include="MainRotationInterpolation.xml"/>
  </animation>
-
+ 
+ <!-- DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+ <animation>
+   <type>select</type>
+   <object-name>NoseWheel</object-name>
+   <object-name>Axle.001</object-name>
+   <object-name>NoseWheelStrut</object-name> 
+   <object-name>NoseWheelStrut.000</object-name> 
+   <object-name>Propeller</object-name>
+   <object-name>Propeller.Fast</object-name>
+   <condition>
+     <equals>
+		<property>/fdm/jsbsim/gear/unit[0]/broken</property>
+		<value>0</value>
+	 </equals>
+   </condition>
+ </animation>
+  
+ <animation>
+   <type>select</type>
+   <object-name>NoseWheel.001</object-name>
+   <object-name>Axle.000</object-name>
+   <object-name>NoseWheelStrut.001</object-name>
+   <object-name>NoseWheelStrut.002</object-name>
+   <object-name>Propeller.001</object-name>
+   <condition>
+     <equals>
+		<property>/fdm/jsbsim/gear/unit[0]/broken</property>
+		<value>1</value>
+	 </equals>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>LeftWheel</object-name> 
+   <object-name>LeftWheelStrut</object-name> 
+   <condition>
+     <equals>
+		<property>/fdm/jsbsim/gear/unit[1]/broken</property>
+		<value>0</value>
+	 </equals>
+   </condition>
+ </animation>
+  
+ <animation>
+   <type>select</type>
+   <object-name>LeftWheel.001</object-name>
+   <object-name>LeftWheelStrut.001</object-name>
+   <condition>
+     <equals>
+		<property>/fdm/jsbsim/gear/unit[1]/broken</property>
+		<value>1</value>
+	 </equals>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>RightWheel</object-name>
+   <object-name>RightWheelStrut</object-name>   
+   <condition>
+     <equals>
+		<property>/fdm/jsbsim/gear/unit[2]/broken</property>
+		<value>0</value>
+	 </equals>
+   </condition>
+ </animation>
+  
+ <animation>
+   <type>select</type>
+   <object-name>RightWheel.001</object-name>
+   <object-name>RightWheelStrut.001</object-name>
+   <condition>
+     <equals>
+		<property>/fdm/jsbsim/gear/unit[2]/broken</property>
+		<value>1</value>
+	 </equals>
+   </condition>
+ </animation>
+ <!-- END DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+ 
  <!--Lights-->
 
 <!-- Disable/enable different light types depending on rembrandt -->

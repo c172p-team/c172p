@@ -308,7 +308,7 @@ var autostart = func {
         setprop("/controls/engines/engine/master-alt", 1.0);
         setprop("/controls/switches/master-avionics", 1.0);
 
-        setprop("/controls/flight/elevator-trim", -0.19);
+#        setprop("/controls/flight/elevator-trim", -0.19);
 
         setprop("/controls/lighting/nav-lights", 1);
         setprop("/controls/lighting/strobe", 1);

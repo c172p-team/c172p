@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright (c) 2015 onox
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<PropertyList>
+
+    <logic>
+        <name>ALS Lighting Landing</name>
+        <input>
+            <and>
+                <property>/sim/current-view/internal</property>
+                <less-than>
+                    <property>/systems/electrical/outputs/landing-lights</property>
+                    <value>28.0</value>
+                </less-than>
+                <greater-than>
+                    <property>/systems/electrical/outputs/landing-lights</property>
+                    <value>20.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/rendering/als-secondary-lights/use-landing-light</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>ALS Lighting Taxi</name>
+        <input>
+            <and>
+                <property>/sim/current-view/internal</property>
+                <less-than>
+                    <property>/systems/electrical/outputs/taxi-light</property>
+                    <value>28.0</value>
+                </less-than>
+                <greater-than>
+                    <property>/systems/electrical/outputs/taxi-light</property>
+                    <value>20.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/rendering/als-secondary-lights/use-alt-landing-light</property>
+        </output>
+    </logic>
+
+</PropertyList>

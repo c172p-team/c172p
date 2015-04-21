@@ -8,9 +8,20 @@
    <z-m> -0.065 </z-m>
  </offsets>
  
- <model>
-	<!--name>Damage</name-->
+  <model>
+	<name>Damage</name>
 	<path>Aircraft/c172p-detailed/Models/Effects/damage/damage.xml</path>
+	<offsets>
+		<x-m>0.0</x-m>
+		<y-m>0.0</y-m>
+		<z-m>0.0</z-m>
+		<pitch-deg>0</pitch-deg>
+	</offsets>
+ </model>
+ 
+ <model>
+	<name>Bushkit</name>
+	<path>Aircraft/c172p-detailed/Models/Effects/bushkit/bushkit.xml</path>
 	<offsets>
 		<x-m>0.0</x-m>
 		<y-m>0.0</y-m>
@@ -284,16 +295,16 @@
 	<object-name>windlocket_left</object-name>
 	<type>select</type>
 	<condition>
-	  <and>
+	  <!--and>
         <not>
           <property>/sim/rendering/rembrandt/enabled</property>
         </not>
-		<property>/sim/rendering/shaders/skydome</property>
+		<property>/sim/rendering/shaders/skydome</property-->
 		<equals>
           <property>/sim/rendering/internal-shadow</property>
 		  <value>0</value>
 		</equals>
-	  </and>
+	  <!--/and-->
     </condition>  
  </animation>
 
@@ -430,15 +441,16 @@
  <effect>
    <inherits-from>/Effects/model-transparent</inherits-from>
    <object-name>Propeller.Fast</object-name>
+   <object-name>PropellerBK.Fast</object-name>
  </effect>
  
  <!-- DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx -->
  <model>
     <path>Aircraft/c172p-detailed/Models/Effects/damage/nose_gear.xml</path>
     <offsets>
-      <x-m> -1 </x-m>
+      <x-m> -.85 </x-m>
       <y-m>  0.0000 </y-m>
-      <z-m> -1.2 </z-m>
+      <z-m> -.98 </z-m>
     </offsets>
  </model>
   <model>
@@ -465,22 +477,22 @@
       <z-m> -0.6</z-m>
     </offsets>
  </model>
- <!--model>
-    <path>Aircraft/c172p-detailed/Models/Effects/spark/wing-left.xml</path>
+ <model>
+    <path>Aircraft/c172p-detailed/Models/Effects/damage/wing-left.xml</path>
     <offsets>
-      <x-m> -0.7579 </x-m>
+      <x-m> .15 </x-m>
       <y-m> -5.6338 </y-m>
-	  <z-m> 0.3928 </z-m>
+	  <z-m> 0.49 </z-m>
     </offsets>
  </model>
  <model>
-    <path>Aircraft/c172p-detailed/Models/Effects/spark/wing-right.xml</path>
+    <path>Aircraft/c172p-detailed/Models/Effects/damage/wing-right.xml</path>
     <offsets>
-      <x-m> -0.7579 </x-m>
+      <x-m> .15 </x-m>
       <y-m> 5.6338 </y-m>
-	  <z-m> 0.3928 </z-m>
+	  <z-m> 0.49 </z-m>
     </offsets>
- </model-->
+ </model>
  <!-- END DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx -->
  
 <!-- Immatriculation -->
@@ -2916,6 +2928,7 @@
  <animation>
    <type>select</type>
    <object-name>Propeller</object-name>
+   <object-name>PropellerBK</object-name>
    <condition>
      <less-than>
        <property>engines/engine[0]/rpm</property>
@@ -2927,6 +2940,7 @@
  <animation>
   <type>select</type>
   <object-name>Propeller.Fast</object-name>
+  <object-name>PropellerBK.Fast</object-name>
   <condition>
    <greater-than>
     <property>engines/engine[0]/rpm</property>
@@ -2938,6 +2952,7 @@
  <animation>
    <type>blend</type>
    <object-name>Propeller.Fast</object-name>
+   <object-name>PropellerBK.Fast</object-name>
    <property>engines/engine[0]/rpm</property>
    <factor>0.0004</factor>
    <max>1.0</max>
@@ -2957,6 +2972,7 @@
  <animation>
    <type>spin</type>
    <object-name>Propeller</object-name>
+   <object-name>PropellerBK</object-name>
    <property>engines/engine[0]/rpm</property>
    <factor>-1</factor>
    <center>
@@ -2974,6 +2990,7 @@
  <animation>
    <type>spin</type>
    <object-name>Propeller.Fast</object-name>
+   <object-name>PropellerBK.Fast</object-name>
    <property>engines/engine[0]/rpm</property>
    <factor>-0.001</factor>
    <center>
@@ -3170,10 +3187,15 @@
    <type>rotate</type>
    <object-name>fairing1</object-name>
    <object-name>NoseWheel</object-name>
+   <object-name>NoseWheelBK</object-name>
    <object-name>NoseWheelStrut</object-name>
+   <object-name>NoseWheelStrutBK</object-name>
    <object-name>TopLink</object-name>
+   <object-name>TopLinkBK</object-name>
    <object-name>BottomLink</object-name>
+   <object-name>BottomLinkBK</object-name>
    <object-name>Axle.001</object-name>
+   <object-name>AxleBK.001</object-name>
    <property>surface-positions/rudder-pos-norm</property>
    <factor>30</factor>
    <axis>
@@ -3190,9 +3212,13 @@
    <type>translate</type>
    <object-name>fairing1</object-name>
    <object-name>NoseWheel</object-name>
+   <object-name>NoseWheelBK</object-name>
    <object-name>NoseWheelStrut</object-name>
+   <object-name>NoseWheelStrutBK</object-name>
    <object-name>BottomLink</object-name>
+   <object-name>BottomLinkBK</object-name>
    <object-name>Axle.001</object-name>
+   <object-name>AxleBK.001</object-name>
    <property>gear/gear[0]/compression-norm</property>
    <factor>0.30</factor>
    <axis>
@@ -3205,6 +3231,7 @@
  <animation>
    <type>rotate</type>
    <object-name>TopLink</object-name>
+   <object-name>TopLinkBK</object-name>
    <property>gear/gear[0]/compression-norm</property>
    <center>
      <x-m>-0.95412</x-m>
@@ -3222,6 +3249,7 @@
  <animation>
    <type>rotate</type>
    <object-name>BottomLink</object-name>
+   <object-name>BottomLinkBK</object-name>
    <property>gear/gear[0]/compression-norm</property>
    <center>
      <x-m>-1.02349</x-m>
@@ -3240,7 +3268,9 @@
    <type>rotate</type>
    <object-name>fairing3</object-name>
    <object-name>RightWheelStrut</object-name>
+   <object-name>RightWheelStrutBK</object-name>
    <object-name>RightWheel</object-name>
+   <object-name>RightWheelBK</object-name> 
    <property>gear/gear[2]/compression-norm</property>
    <center>
      <x-m>0.711</x-m>
@@ -3259,7 +3289,9 @@
    <type>rotate</type>
    <object-name>fairing2</object-name>
    <object-name>LeftWheelStrut</object-name>
+   <object-name>LeftWheelStrutBK</object-name>
    <object-name>LeftWheel</object-name>
+   <object-name>LeftWheelBK</object-name> 
    <property>gear/gear[1]/compression-norm</property>
    <center>
      <x-m>0.711</x-m>
@@ -3274,33 +3306,81 @@
    <interpolation include="MainRotationInterpolation.xml"/>
  </animation>
  
+ <!-- MOD: Spin to gears -->
+ <animation>
+        <type>spin</type>
+        <object-name>RightWheel</object-name>
+		<object-name>RightWheelBK</object-name>
+        <property>gear/gear[1]/rollspeed-ms</property>
+        <factor>13</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0.53015</x-m>
+            <y-m>1.127</y-m>
+            <z-m>-1.14693</z-m>
+        </center>
+ </animation>
+ <animation>
+        <type>spin</type>
+        <object-name>LeftWheel</object-name>
+		<object-name>LeftWheelBK</object-name>
+        <property>gear/gear[1]/rollspeed-ms</property>
+        <factor>13</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0.53015</x-m>
+            <y-m>-1.127</y-m>
+            <z-m>-1.14693</z-m>
+        </center>
+ </animation>
+ <animation>
+        <type>spin</type>
+        <object-name>NoseWheel</object-name>
+		<object-name>NoseWheelBK</object-name>
+        <property>gear/gear[0]/rollspeed-ms</property>
+        <factor>13</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-1.11403</x-m>
+            <y-m>0.00000</y-m>
+            <z-m>-1.18615</z-m>
+        </center>
+ </animation>
+<!-- MODEND: Spin to gears -->
+ 
  <!-- DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
  <animation>
    <type>select</type>
    <object-name>NoseWheel</object-name>
    <object-name>Axle.001</object-name>
-   <object-name>NoseWheelStrut</object-name> 
+   <object-name>NoseWheelStrut</object-name>
+   <object-name>TopLink</object-name>
+   <object-name>BottomLink</object-name>
    <object-name>Propeller</object-name>
    <object-name>Propeller.Fast</object-name>
    <condition>
-     <equals>
-		<property>/fdm/jsbsim/gear/unit[0]/broken</property>
-		<value>0</value>
-	 </equals>
-   </condition>
- </animation>
-  
- <animation>
-   <type>select</type>
-   <object-name>NoseWheelD</object-name>
-   <object-name>AxleD.001</object-name>
-   <object-name>NoseWheelStrutD</object-name>
-   <object-name>PropellerD</object-name>
-   <condition>
-     <equals>
-		<property>/fdm/jsbsim/gear/unit[0]/broken</property>
-		<value>1</value>
-	 </equals>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>0</value>
+		 </equals>
+	  </and>
    </condition>
  </animation>
  
@@ -3309,22 +3389,16 @@
    <object-name>LeftWheel</object-name> 
    <object-name>LeftWheelStrut</object-name> 
    <condition>
-     <equals>
-		<property>/fdm/jsbsim/gear/unit[1]/broken</property>
-		<value>0</value>
-	 </equals>
-   </condition>
- </animation>
-  
- <animation>
-   <type>select</type>
-   <object-name>LeftWheelD</object-name>
-   <object-name>LeftWheelStrutD</object-name>
-   <condition>
-     <equals>
-		<property>/fdm/jsbsim/gear/unit[1]/broken</property>
-		<value>1</value>
-	 </equals>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>0</value>
+		 </equals>
+	  </and>
    </condition>
  </animation>
  
@@ -3333,24 +3407,194 @@
    <object-name>RightWheel</object-name>
    <object-name>RightWheelStrut</object-name>   
    <condition>
-     <equals>
-		<property>/fdm/jsbsim/gear/unit[2]/broken</property>
-		<value>0</value>
-	 </equals>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>0</value>
+		 </equals>
+	  </and>
    </condition>
  </animation>
-  
+ 
  <animation>
+   <type>select</type>
+   <object-name>NoseWheelBK</object-name>
+   <object-name>AxleBK.001</object-name>
+   <object-name>NoseWheelStrutBK</object-name>
+   <object-name>TopLinkBK</object-name>
+   <object-name>BottomLinkBK</object-name>
+   <object-name>PropellerBK</object-name>
+   <object-name>PropellerBK.Fast</object-name>
+   <condition>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+  <animation>
+   <type>select</type>
+   <object-name>LeftWheelBK</object-name>
+   <object-name>LeftWheelStrutBK</object-name>
+   <condition>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+  <animation>
+   <type>select</type>
+   <object-name>RightWheelBK</object-name>
+   <object-name>RightWheelStrutBK</object-name>
+   <condition>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>NoseWheelD</object-name>
+   <object-name>AxleD.001</object-name>
+   <object-name>NoseWheelStrutD</object-name>
+   <object-name>TopLinkD</object-name>
+   <object-name>BottomLinkD</object-name>
+   <object-name>PropellerD</object-name>
+   <condition>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>0</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>LeftWheelD</object-name>
+   <object-name>LeftWheelStrutD</object-name>
+   <condition>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>0</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+  <animation>
    <type>select</type>
    <object-name>RightWheelD</object-name>
    <object-name>RightWheelStrutD</object-name>
    <condition>
-     <equals>
-		<property>/fdm/jsbsim/gear/unit[2]/broken</property>
-		<value>1</value>
-	 </equals>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>0</value>
+		 </equals>
+	  </and>
    </condition>
  </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>NoseWheelBKD</object-name>
+   <object-name>AxleBKD.001</object-name>
+   <object-name>NoseWheelStrutBKD</object-name>
+   <object-name>TopLinkBKD</object-name>
+   <object-name>BottomLinkBKD</object-name>
+   <object-name>PropellerBKD</object-name>
+   <condition>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>LeftWheelBKD</object-name>
+   <object-name>LeftWheelStrutBKD</object-name>
+   <condition>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+  <animation>
+   <type>select</type>
+   <object-name>RightWheelBKD</object-name>
+   <object-name>RightWheelStrutBKD</object-name>
+   <condition>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
  <!-- END DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
  
  <!--Lights-->
@@ -3922,56 +4166,5 @@
         </greater-than>
     </condition>
   </animation>
-
-<!-- MOD: Spin to gears -->
- <animation>
-        <type>spin</type>
-        <object-name>RightWheel</object-name>
-        <property>gear/gear[1]/rollspeed-ms</property>
-        <factor>13</factor>
-        <axis>
-            <x>0</x>
-            <y>-1</y>
-            <z>0</z>
-        </axis>
-        <center>
-            <x-m>0.53015</x-m>
-            <y-m>1.127</y-m>
-            <z-m>-1.14693</z-m>
-        </center>
- </animation>
- <animation>
-        <type>spin</type>
-        <object-name>LeftWheel</object-name>
-        <property>gear/gear[1]/rollspeed-ms</property>
-        <factor>13</factor>
-        <axis>
-            <x>0</x>
-            <y>-1</y>
-            <z>0</z>
-        </axis>
-        <center>
-            <x-m>0.53015</x-m>
-            <y-m>-1.127</y-m>
-            <z-m>-1.14693</z-m>
-        </center>
- </animation>
- <animation>
-        <type>spin</type>
-        <object-name>NoseWheel</object-name>
-        <property>gear/gear[0]/rollspeed-ms</property>
-        <factor>13</factor>
-        <axis>
-            <x>0</x>
-            <y>-1</y>
-            <z>0</z>
-        </axis>
-        <center>
-            <x-m>-1.11403</x-m>
-            <y-m>0.00000</y-m>
-            <z-m>-1.18615</z-m>
-        </center>
- </animation>
-<!-- MODEND: Spin to gears -->
 
 </PropertyList>

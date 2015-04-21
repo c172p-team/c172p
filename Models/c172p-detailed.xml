@@ -87,7 +87,11 @@
  <effect>
     <inherits-from>Aircraft/c172p/Models/Effects/bumpspec-fuselage</inherits-from>
     <object-name>LeftWheelStrut</object-name>
+	<object-name>LeftWheelStrutBK</object-name>
+	<object-name>LeftWheelStrutBKs</object-name>
     <object-name>RightWheelStrut</object-name>
+	<object-name>RightWheelStrutBK</object-name>
+	<object-name>RightWheelStrutBKs</object-name>
     <object-name>baggagedoor</object-name>
     <object-name>charniere1</object-name>
     <object-name>charniere2</object-name>
@@ -115,7 +119,11 @@
  <animation>
 	 <type>material</type>
 	 <object-name>LeftWheelStrut</object-name>
-	 <object-name>RightWheelStrut</object-name>
+	 <object-name>LeftWheelStrutBK</object-name>
+	 <object-name>LeftWheelStrutBKs</object-name>
+     <object-name>RightWheelStrut</object-name>
+	 <object-name>RightWheelStrutBK</object-name>
+	 <object-name>RightWheelStrutBKs</object-name>
 	 <object-name>baggagedoor</object-name>
 	 <object-name>charniere1</object-name>
 	 <object-name>charniere2</object-name>
@@ -3269,8 +3277,10 @@
    <object-name>fairing3</object-name>
    <object-name>RightWheelStrut</object-name>
    <object-name>RightWheelStrutBK</object-name>
+   <object-name>RightWheelStrutBKs</object-name>
    <object-name>RightWheel</object-name>
-   <object-name>RightWheelBK</object-name> 
+   <object-name>RightWheelBK</object-name>
+   <object-name>RightWheelBKs</object-name>
    <property>gear/gear[2]/compression-norm</property>
    <center>
      <x-m>0.711</x-m>
@@ -3290,8 +3300,10 @@
    <object-name>fairing2</object-name>
    <object-name>LeftWheelStrut</object-name>
    <object-name>LeftWheelStrutBK</object-name>
+   <object-name>LeftWheelStrutBKs</object-name>
    <object-name>LeftWheel</object-name>
-   <object-name>LeftWheelBK</object-name> 
+   <object-name>LeftWheelBK</object-name>
+   <object-name>LeftWheelBKs</object-name>
    <property>gear/gear[1]/compression-norm</property>
    <center>
      <x-m>0.711</x-m>
@@ -3311,6 +3323,7 @@
         <type>spin</type>
         <object-name>RightWheel</object-name>
 		<object-name>RightWheelBK</object-name>
+		<object-name>RightWheelBKs</object-name>
         <property>gear/gear[1]/rollspeed-ms</property>
         <factor>13</factor>
         <axis>
@@ -3328,6 +3341,7 @@
         <type>spin</type>
         <object-name>LeftWheel</object-name>
 		<object-name>LeftWheelBK</object-name>
+		<object-name>LeftWheelBKs</object-name>
         <property>gear/gear[1]/rollspeed-ms</property>
         <factor>13</factor>
         <axis>
@@ -3457,6 +3471,10 @@
 			<property>/sim/rendering/bushkit</property>
 			<value>1</value>
 		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkits</property>
+			<value>0</value>
+		 </equals>
 	  </and>
    </condition>
  </animation>
@@ -3473,6 +3491,54 @@
 		 </equals>
 		 <equals>
 			<property>/sim/rendering/bushkit</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkits</property>
+			<value>0</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+   <animation>
+   <type>select</type>
+   <object-name>LeftWheelBKs</object-name>
+   <object-name>LeftWheelStrutBKs</object-name>
+   <condition>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkits</property>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+  <animation>
+   <type>select</type>
+   <object-name>RightWheelBKs</object-name>
+   <object-name>RightWheelStrutBKs</object-name>
+   <condition>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkits</property>
 			<value>1</value>
 		 </equals>
 	  </and>
@@ -3555,6 +3621,10 @@
 			<property>/sim/rendering/bushkit</property>
 			<value>1</value>
 		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkits</property>
+			<value>0</value>
+		 </equals>
 	  </and>
    </condition>
  </animation>
@@ -3573,6 +3643,10 @@
 			<property>/sim/rendering/bushkit</property>
 			<value>1</value>
 		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkits</property>
+			<value>0</value>
+		 </equals>
 	  </and>
    </condition>
  </animation>
@@ -3589,6 +3663,80 @@
 		 </equals>
 		 <equals>
 			<property>/sim/rendering/bushkit</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkits</property>
+			<value>0</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+  <animation>
+   <type>select</type>
+   <object-name>NoseWheelBKsD</object-name>
+   <object-name>AxleBKsD.001</object-name>
+   <object-name>NoseWheelStrutBKsD</object-name>
+   <object-name>TopLinkBKsD</object-name>
+   <object-name>BottomLinkBKsD</object-name>
+   <object-name>PropellerBKsD</object-name>
+   <condition>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkits</property>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>LeftWheelBKsD</object-name>
+   <object-name>LeftWheelStrutBKsD</object-name>
+   <condition>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkits</property>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+  <animation>
+   <type>select</type>
+   <object-name>RightWheelBKsD</object-name>
+   <object-name>RightWheelStrutBKsD</object-name>
+   <condition>
+      <and>
+		 <equals>
+			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkit</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/sim/rendering/bushkits</property>
 			<value>1</value>
 		 </equals>
 	  </and>

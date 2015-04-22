@@ -1,7 +1,5 @@
 props.Node.new({ "/sim/rendering/bushkit":0 });
 props.globals.initNode("/sim/rendering/bushkit", 0, "INT");
-props.Node.new({ "/sim/rendering/bushkits":0 });
-props.globals.initNode("/sim/rendering/bushkits", 0, "INT");
 
 props.Node.new({ "/sim/rendering/nosedamage":0 });
 props.globals.initNode("/sim/rendering/nosedamage", 0, "INT");
@@ -15,12 +13,14 @@ props.globals.initNode("/sim/rendering/alldamage", 0, "INT");
 var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
 var lastkit=0;
-var lastkits=0;
 var settledelay=0;
+var fairing1=0;
+var fairing2=0;
+var fairing3=0;
 
 var physics = func
 {
-	if (lastkit == getprop("/sim/rendering/bushkit") and lastkits == getprop("/sim/rendering/bushkits")) {
+	if (lastkit == getprop("/sim/rendering/bushkit")) {
 		settledelay = 0;
 		#if(getprop(gears~"unit[0]/compression-ft") > 0.59)
 		if(getprop(gears~"unit[0]/compression-ft") > 0.59 or getprop("/sim/rendering/nosedamage") or getprop("/sim/rendering/alldamage"))
@@ -41,7 +41,9 @@ var physics = func
 			setprop(gears~"unit[2]/z-position", 0);
 			setprop(gears~"unit[2]/broken", 1);
 		}
-	} else {
+	} 
+	else 
+	{
 		if (getprop("/sim/rendering/bushkit") == 0)
 		{
 			setprop(gears~"unit[0]/z-position", -19.5);
@@ -51,7 +53,8 @@ var physics = func
 			setprop(contact~"unit[7]/z-position", -7.95);
 			setprop(contact~"unit[8]/z-position", -7.8);
 		} 
-		else if (getprop("/sim/rendering/bushkits") == 1)
+		else
+		if (getprop("/sim/rendering/bushkit") == 1)
 		{
 			setprop(gears~"unit[0]/z-position", -22);
 			setprop(gears~"unit[1]/z-position", -20);
@@ -59,7 +62,9 @@ var physics = func
 			setprop(contact~"unit[6]/z-position", -17);
 			setprop(contact~"unit[7]/z-position", -14);
 			setprop(contact~"unit[8]/z-position", -15);
-		} else {
+		} 
+		else 
+		{	
 			setprop(gears~"unit[0]/z-position", -22);
 			setprop(gears~"unit[1]/z-position", -22);
 			setprop(gears~"unit[2]/z-position", -22);
@@ -70,7 +75,29 @@ var physics = func
 		settledelay+=1;
 		if (settledelay == 5) {
 			lastkit = getprop("/sim/rendering/bushkit");
-			lastkits = getprop("/sim/rendering/bushkits");
 		}
 	}
+	if (getprop("/sim/rendering/bushkit") == 1 or getprop("/sim/rendering/bushkit") == 2)
+	{	
+		setprop("/sim/model/c172p/fairing1", 0);
+		setprop("/sim/model/c172p/fairing2", 0);
+		setprop("/sim/model/c172p/fairing3", 0);		
+	}	
 }
+setlistener("/sim/rendering/bushkit", func {
+	if (getprop("/sim/rendering/bushkit") == 1 or getprop("/sim/rendering/bushkit") == 2)
+	{
+		if (getprop("/sim/model/c172p/fairing1"))
+			fairing1 = getprop("/sim/model/c172p/fairing1");
+		if (getprop("/sim/model/c172p/fairing2"))
+			fairing2 = getprop("/sim/model/c172p/fairing2");
+		if (getprop("/sim/model/c172p/fairing3"))
+			fairing3 = getprop("/sim/model/c172p/fairing3");
+	}	
+	if (getprop("/sim/rendering/bushkit") == 0)
+	{
+		setprop("/sim/model/c172p/fairing1", fairing1);
+		setprop("/sim/model/c172p/fairing2", fairing2);
+		setprop("/sim/model/c172p/fairing3", fairing3);
+	}
+});

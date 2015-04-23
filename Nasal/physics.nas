@@ -14,9 +14,10 @@ var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
 var lastkit=0;
 var settledelay=0;
-var fairing1=0;
-var fairing2=0;
-var fairing3=0;
+
+var fairing1 = 0;
+var fairing2 = 0;
+var fairing3 = 0;
 
 var physics = func
 {
@@ -84,20 +85,3 @@ var physics = func
 		setprop("/sim/model/c172p/fairing3", 0);		
 	}	
 }
-setlistener("/sim/rendering/bushkit", func {
-	if (getprop("/sim/rendering/bushkit") == 1 or getprop("/sim/rendering/bushkit") == 2)
-	{
-		if (getprop("/sim/model/c172p/fairing1"))
-			fairing1 = getprop("/sim/model/c172p/fairing1");
-		if (getprop("/sim/model/c172p/fairing2"))
-			fairing2 = getprop("/sim/model/c172p/fairing2");
-		if (getprop("/sim/model/c172p/fairing3"))
-			fairing3 = getprop("/sim/model/c172p/fairing3");
-	}	
-	if (getprop("/sim/rendering/bushkit") == 0)
-	{
-		setprop("/sim/model/c172p/fairing1", fairing1);
-		setprop("/sim/model/c172p/fairing2", fairing2);
-		setprop("/sim/model/c172p/fairing3", fairing3);
-	}
-});

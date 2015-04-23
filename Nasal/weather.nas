@@ -4,7 +4,7 @@ var foglevel = 0;
 var frostlevel = 0;
 
 #debug
-var tempmatch = 0;
+#var tempmatch = 0;
 #end debug
 
 var dewpointC = getprop("/environment/dewpoint-degc");
@@ -19,8 +19,8 @@ var cabinairset = 0;  #double flow 0 - 1
 var cabindewpointset = -7; #19.4 degF
 
 #debug
-props.Node.new({ "/environment/aircraft-effects/debug-tempmatch-airtempC":0 });
-props.globals.initNode("/environment/aircraft-effects/debug-tempmatch-airtempC", tempmatch, "INT");
+#props.Node.new({ "/environment/aircraft-effects/debug-tempmatch-airtempC":0 });
+#props.globals.initNode("/environment/aircraft-effects/debug-tempmatch-airtempC", tempmatch, "INT");
 #end debug
 
 props.Node.new({ "/environment/aircraft-effects/cabin-heat-set":0 });
@@ -61,8 +61,8 @@ var weather_effects_loop = func {
 	cabinheatset = getprop("/environment/aircraft-effects/cabin-heat-set");
 	
 	#debug
-	tempmatch = getprop("/environment/aircraft-effects/debug-tempmatch-airtempC");
-	if (tempmatch) surfacetempC = cabinairtempC = airtempC;
+	#tempmatch = getprop("/environment/aircraft-effects/debug-tempmatch-airtempC");
+	#if (tempmatch) surfacetempC = cabinairtempC = airtempC;
 	#end debug
 
 	#limit until tied to knobs
@@ -151,47 +151,47 @@ var weather_effects_loop = func {
 	setprop("/environment/aircraft-effects/fog-level", foglevel);
 		
 	#debug
-	if (cabinairtempC > 0)
-	{
-		print("NO ICE, TOO WARM cabinairtempC > 0");
-	} else print("ICE POSSIBLE, CABIN FREEZING cabinairtempC <= 0");
-	if (airtempC > dewpointC) 
-	{
-		print("NO OUTSIDE DEW airtempC > dewpointC");
-	} else
-	if (airtempC <= dewpointC) 
-	{
-		print("OUTSIDE DEW ABLE airtempC <= dewpointC");
-		if (cabinairtempC < 0)
-		{
-			print("ICE ABLE, OUTSIDE DEW cabinairtempC < 0");
-		}
-	} 
-	if (cabinairtempC > cabinairdewpointC)
-	{
-		print("NO INSIDE DEW cabinairtempC > cabinairdewpointC");
-	} else
-	if (cabinairtempC <= cabinairdewpointC)
-	{
-		print("INSIDE DEW FORMING cabinairtempC <= cabinairdewpointC");
-		if (cabinairtempC <= 0)
-		{
-			if (surfacetempC <= 0)	
-				print("ICE BUILDING, CABIN DEW AND SUFACE FREEZING");
-			else
-				print("ICE ABLE CABIN DEW, SURFACE NOT FREEZING surfacetempC > 0");
-		}
-	}
-	print("moisture="~moisture);
-	print("airtempC="~airtempC);
-	print("dewpointC="~dewpointC);
-	print("cabinheatset="~cabinheatset);
-	print("cabinairset="~cabinairset);
-	print("surfacetempC="~surfacetempC);
-	print("cabinairtempC="~cabinairtempC);
-	print("cabinairdewpointC="~cabinairdewpointC);
-	print("foglevel="~foglevel);
-	print("frostlevel="~frostlevel);
+	#if (cabinairtempC > 0)
+	#{
+	#	print("NO ICE, TOO WARM cabinairtempC > 0");
+	#} else print("ICE POSSIBLE, CABIN FREEZING cabinairtempC <= 0");
+	#if (airtempC > dewpointC) 
+	#{
+	#	print("NO OUTSIDE DEW airtempC > dewpointC");
+	#} else
+	#if (airtempC <= dewpointC) 
+	#{
+	#	print("OUTSIDE DEW ABLE airtempC <= dewpointC");
+	#	if (cabinairtempC < 0)
+	#	{
+	#		print("ICE ABLE, OUTSIDE DEW cabinairtempC < 0");
+	#	}
+	#} 
+	#if (cabinairtempC > cabinairdewpointC)
+	#{
+	#	print("NO INSIDE DEW cabinairtempC > cabinairdewpointC");
+	#} else
+	#if (cabinairtempC <= cabinairdewpointC)
+	#{
+	#	print("INSIDE DEW FORMING cabinairtempC <= cabinairdewpointC");
+	#	if (cabinairtempC <= 0)
+	#	{
+	#		if (surfacetempC <= 0)	
+	#			print("ICE BUILDING, CABIN DEW AND SUFACE FREEZING");
+	#		else
+	#			print("ICE ABLE CABIN DEW, SURFACE NOT FREEZING surfacetempC > 0");
+	#	}
+	#}
+	#print("moisture="~moisture);
+	#print("airtempC="~airtempC);
+	#print("dewpointC="~dewpointC);
+	#print("cabinheatset="~cabinheatset);
+	#print("cabinairset="~cabinairset);
+	#print("surfacetempC="~surfacetempC);
+	#print("cabinairtempC="~cabinairtempC);
+	#print("cabinairdewpointC="~cabinairdewpointC);
+	#print("foglevel="~foglevel);
+	#print("frostlevel="~frostlevel);
 	#end debug
 	
 	settimer( func {weather_effects_loop() },1.0);

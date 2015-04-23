@@ -137,7 +137,7 @@
             <brake_group> RIGHT </brake_group>
             <retractable>0</retractable>
         </contact>
-        <contact type="BOGEY" name="TAIL_SKID">
+        <!--contact type="BOGEY" name="TAIL_SKID">
             <location unit="IN">
                 <x> 188 </x>
                 <y> 0 </y>
@@ -181,9 +181,43 @@
             <max_steer unit="DEG"> 0.0 </max_steer>
             <brake_group> NONE </brake_group>
             <retractable>0</retractable>
-        </contact>
+        </contact-->
 		
 		<!-- DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
+		 <contact type="STRUCTURE" name="TAIL_SKID">
+            <location unit="IN">
+                <x> 188 </x>
+                <y> 0 </y>
+                <z> 8 </z>
+            </location>
+            <static_friction> 0.5 </static_friction>
+            <dynamic_friction> 0.25 </dynamic_friction>
+            <spring_coeff unit="LBS/FT">       2000 </spring_coeff>
+			<damping_coeff unit="LBS/FT/SEC">   1000 </damping_coeff>
+        </contact>
+		<contact type="STRUCTURE" name="LEFT_TIP">
+            <location unit="IN">
+                <x> 35 </x>
+                <y> -210 </y>
+                <z> 62 </z>
+            </location>
+            <static_friction> 0.2 </static_friction>
+            <dynamic_friction> 0.2 </dynamic_friction>
+            <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+        </contact>
+        <contact type="STRUCTURE" name="RIGHT_TIP">
+            <location unit="IN">
+                <x> 35 </x>
+                <y> 210 </y>
+                <z> 62 </z>
+            </location>
+            <static_friction> 0.2 </static_friction>
+            <dynamic_friction> 0.2 </dynamic_friction>
+            <spring_coeff unit="LBS/FT"> 10000 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 2000 </damping_coeff>
+        </contact>	
+		<!-- contact 6, 7, 8 -->
 		<contact type="STRUCTURE" name="FRONT_GEAR">
 			<location unit="IN">
 				 <x> -6.8 </x>
@@ -217,21 +251,9 @@
 			<spring_coeff unit="LBS/FT">       1830.15 </spring_coeff>
 			<damping_coeff unit="LBS/FT/SEC">   366.03 </damping_coeff>
 		 </contact>
-		 <contact type="STRUCTURE" name="TAIL">
-            <location unit="IN">
-                <x> 188 </x>
-                <y> 0 </y>
-                <z> 6 </z>
-            </location>
-            <static_friction> 0.5 </static_friction>
-            <dynamic_friction> 0.25 </dynamic_friction>
-            <spring_coeff unit="LBS/FT">       1830.15 </spring_coeff>
-			<damping_coeff unit="LBS/FT/SEC">   366.03 </damping_coeff>
-        </contact>
-
-	<!-- END DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
-	
+	<!-- END DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->	
     </ground_reactions>
+
     <propulsion>
         <engine file="eng_io320">
             <location unit="IN">
@@ -280,6 +302,7 @@
             <contents unit="LBS"> 100 </contents>
         </tank>
     </propulsion>
+	
     <flight_control name="FCS: c172">
         <channel name="Pitch">
             <summer name="Pitch Trim Sum">
@@ -438,16 +461,10 @@
               </range>
               <output>fcs/flap-pos-norm</output>
             </aerosurface_scale>
-        </channel>
-		
-		<!-- DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
-		<channel name="Landing Gear">
-		</channel>
-		<!-- END DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX -->
-		
+        </channel>	
     </flight_control>
+	
     <aerodynamics>
-
         <alphalimits unit="RAD">
             <min>-0.087</min>
             <max>0.28</max>

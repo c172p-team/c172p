@@ -12,7 +12,6 @@ var fairing3 = 0;
 
 var poll_damage = func
 {
-	settledelay = 0;
 	if(getprop(gears~"unit[0]/compression-ft") > 0.59)
 	{
 		setprop(gears~"unit[0]/z-position", 0);
@@ -61,10 +60,6 @@ var poll_gear_delay = func
 		setprop(contact~"unit[7]/z-position", -16);
 		setprop(contact~"unit[8]/z-position", -17);
 	}
-	settledelay+=1;
-	if (settledelay == 5) {
-		lastkit = getprop("/sim/rendering/bushkit");
-	}
 }
 
 var poll_gear = func
@@ -79,9 +74,17 @@ var poll_gear = func
 var physics = func
 {
 	if (lastkit == getprop("/sim/rendering/bushkit"))
+	{
+		settledelay = 0;
 		poll_damage();
-	else 
+	}
+	else
+	{
 		poll_gear_delay();
-
+		settledelay+=1;
+		if (settledelay == 5) {
+			lastkit = getprop("/sim/rendering/bushkit");
+		}
+	}
 	poll_gear();
 }

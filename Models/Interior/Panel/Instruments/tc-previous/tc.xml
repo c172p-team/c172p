@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ <path>tc.ac</path>
+<!-- MOD: Transparent effect -->
+   <effect>
+       <inherits-from>Effects/model-transparent</inherits-from>
+       <object-name>Face</object-name>
+       <object-name>Airplane</object-name>
+   </effect>
+ <!-- MODEND: Transparent effect -->
+
+ <animation>
+  <type>material</type>
+  <object-name>Ball</object-name>
+  <object-name>Face</object-name>
+  <object-name>Airplane</object-name>
+  <object-name>Back</object-name>
+  <object-name>Flag</object-name>     <!-- MOD: flag illumination -->
+ <emission>
+   <red>1.0</red>
+   <green>0.2</green>
+   <blue>0.0</blue>
+   <factor-prop>/sim/model//material/instruments/factor</factor-prop>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>Airplane</object-name>
+  <property>/instrumentation/turn-indicator/indicated-turn-rate</property>
+  <factor>20.0</factor>
+  <axis>
+   <x>-1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>rotate</type>
+  <object-name>Ball</object-name>
+  <property>/instrumentation/slip-skid-ball/indicated-slip-skid</property>
+  <factor>5.729</factor>
+<!--
+   From the source for slip_skid_ball.cxx, the number returned is (-z_accel/y_accel)*10.
+   For small theta, theta~=tan(theta) when theta is in radians.  So the angle of a "ball" 
+   undergoing z_accel and y_accel hung on the end of a string makes with the verticle
+   will be approximately -z_accel/y_accel radians. Converting to degrees, multiply by
+   180/pi=57.29, or 5.729 times the returned value. Edited by Dave Perry, 2/26/06.
+-->
+  <min-deg>-5</min-deg>
+  <max-deg>5</max-deg>
+  <center>
+   <x-m>0</x-m>
+   <y-m>0</y-m>
+   <z-m>0.25</z-m>  <!--  Makes the radius of curvature for the glass tube ~10 inches -->
+  </center>
+  <axis>
+   <x>-1</x>
+   <y>0</y>
+   <z>0</z>
+  </axis>
+ </animation>
+
+ <animation>
+  <type>translate</type>
+  <object-name>Flag</object-name>
+  <property>/instrumentation/turn-indicator/spin</property>
+  <factor>0.0040</factor>
+  <axis>
+   <x>0</x>
+   <y>0</y>
+   <z>1</z>
+  </axis>
+ </animation>
+
+</PropertyList>
+
+

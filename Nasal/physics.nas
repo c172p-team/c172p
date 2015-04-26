@@ -12,7 +12,7 @@ var fairing3 = 0;
 
 var poll_damage = func
 {
-	if(getprop(gears~"unit[0]/compression-ft") > 0.59)
+	if(getprop(gears~"unit[0]/compression-ft") > 0.75)
 	{
 		setprop(gears~"unit[0]/z-position", 0);
 		setprop("/controls/engines/engine/magnetos", 0);

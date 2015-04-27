@@ -91,7 +91,7 @@ var poll_gear_delay = func
 
 var poll_gear = func
 {
-	if (getprop("/sim/rendering/bushkit") == 1 or getprop("/sim/rendering/bushkit") == 2)
+	if (getprop("/sim/rendering/bushkit") == 1 or getprop("/sim/rendering/bushkit") == 2 or getprop(gears~"unit[0]/broken") or getprop(gears~"unit[1]/broken") or getprop(gears~"unit[2]/broken"))
 	{	
 		setprop("/sim/model/c172p/fairing1", 0);
 		setprop("/sim/model/c172p/fairing2", 0);

@@ -28,6 +28,16 @@ var poll_damage = func
 		setprop(gears~"unit[2]/z-position", 0);
 		setprop(gears~"unit[2]/broken", 1);
 	}
+	
+	if(getprop(contact~"unit[4]/compression-ft") > 0.005 and getprop(contact~"unit[5]/broken") == 0)
+	{
+		setprop(contact~"unit[4]/broken", 1);
+	}
+
+	if(getprop(contact~"unit[5]/compression-ft") > 0.005 and getprop(contact~"unit[4]/broken") == 0)
+	{
+		setprop(contact~"unit[5]/broken", 1);
+	}
 }
 
 var poll_gear_delay = func

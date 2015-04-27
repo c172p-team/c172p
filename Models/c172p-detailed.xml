@@ -81,7 +81,6 @@
     <object-name>leftaileron</object-name>
     <object-name>rightaileron</object-name>
     <object-name>wing_1</object-name>
-
  </effect>
 
  <effect>
@@ -146,6 +145,14 @@
 	 <object-name>RightWheelStrutD</object-name>
 	 <object-name>RightWheelStrutBKsD</object-name>
 	 <object-name>RightWheelStrutBKD</object-name>
+	 <object-name>flapsRD</object-name>
+	 <object-name>flapsLD</object-name>
+	 <object-name>leftaileronRD</object-name>
+	 <object-name>leftaileronLD</object-name>
+	 <object-name>rightaileronRD</object-name>
+	 <object-name>rightaileronLD</object-name>
+	 <object-name>wing_1RD</object-name>
+	 <object-name>wing_1LD</object-name>
 	 <!-- bushkit mod -->
 	 <object-name>LeftWheelStrutBK</object-name>
 	 <object-name>LeftWheelStrutBKs</object-name>
@@ -164,7 +171,7 @@
 	 </ambient>
  </animation>
 
- <!-- Transparent Surfaces for Rembrandt rendering -->
+  <!-- Transparent Surfaces for Rembrandt rendering -->
  <!-- MOD: Transparent effect -->
  <effect>
      <inherits-from>Effects/model-transparent</inherits-from>
@@ -175,6 +182,13 @@
      <object-name>strobe2</object-name>
      <object-name>navlight_back</object-name>
      <object-name>BeaconOffX</object-name>
+	 <!-- damage mod -->
+	 <object-name>navlight_leftU</object-name>
+	 <object-name>navlight_leftD</object-name>
+	 <object-name>navlight_rightU</object-name>
+	 <object-name>navlight_rightD</object-name>
+	 <object-name>strobe1.001</object-name>
+     <object-name>strobe2.001</object-name>
  </effect>
  <!-- MODEND: Transparent effect -->
  
@@ -2768,6 +2782,7 @@
  <animation>
    <type>rotate</type>
    <object-name>leftaileron</object-name>
+   <object-name>leftaileronD</object-name>
    <property>surface-positions/left-aileron-pos-norm</property>
    <interpolation>
      <entry>
@@ -2796,6 +2811,7 @@
  <animation>
    <type>rotate</type>
    <object-name>rightaileron</object-name>
+   <object-name>rightaileronD</object-name>
    <property>surface-positions/right-aileron-pos-norm</property>
    <interpolation>
      <entry>
@@ -2824,6 +2840,7 @@
  <animation>
    <type>translate</type>
    <object-name>flaps</object-name>
+   <object-name>flapsD</object-name>
    <property>surface-positions/flap-pos-norm</property>
    <factor>0.07</factor>
    <axis>
@@ -2836,6 +2853,7 @@
  <animation>
    <type>rotate</type>
    <object-name>flaps</object-name>
+   <object-name>flapsD</object-name>
    <property>surface-positions/flap-pos-norm</property>
    <factor>30</factor>
    <center>
@@ -3125,6 +3143,66 @@
 <!-- MODEND: Spin to gears -->
  
  <!-- DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+ <animation>
+   <type>select</type>
+   <object-name>wing_1</object-name>
+   <object-name>rightaileron</object-name>
+   <object-name>leftaileron</object-name>
+   <object-name>flaps</object-name>
+   <object-name>RightNavLight</object-name>
+   <object-name>navlight_right</object-name>
+   <object-name>LeftNavLight</object-name>
+   <object-name>navlight_left</object-name>
+   <condition>
+    <and>
+	 <equals>
+	  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
+	  <value>0</value>
+	 </equals>
+	 <equals>
+	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
+	  <value>0</value>
+	 </equals>
+	</and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>wing_1LD</object-name>
+   <object-name>rightaileronLD</object-name>
+   <object-name>leftaileronLD</object-name>
+   <object-name>flapsLD</object-name>
+   <object-name>LeftNavLightD</object-name>
+   <object-name>navlight_leftD</object-name>
+   <object-name>RightNavLightU</object-name>
+   <object-name>navlight_rightU</object-name>
+   <condition>
+	<equals>
+	  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
+	  <value>1</value>
+	</equals>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>wing_1RD</object-name>
+   <object-name>rightaileronRD</object-name>
+   <object-name>leftaileronRD</object-name>
+   <object-name>flapsRD</object-name>
+   <object-name>RightNavLightD</object-name>
+   <object-name>navlight_rightD</object-name>
+   <object-name>LeftNavLightU</object-name>
+   <object-name>navlight_leftU</object-name>
+   <condition>
+	<equals>
+	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
+	  <value>1</value>
+	</equals>
+   </condition>
+ </animation>
+ 
  <animation>
    <type>select</type>
    <object-name>NoseWheel</object-name>
@@ -3638,9 +3716,48 @@
  <animation>
    <type>select</type>
    <object-name>strobe1</object-name>
+   <condition>
+     <property alias="../../../params/lighting/strobes/property"/>
+	 <equals>
+		<property>/fdm/jsbsim/contact/unit[4]/broken</property>
+		<value>0</value>
+     </equals>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
    <object-name>strobe2</object-name>
    <condition>
      <property alias="../../../params/lighting/strobes/property"/>
+	 <equals>
+		<property>/fdm/jsbsim/contact/unit[5]/broken</property>
+		<value>0</value>
+     </equals>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>strobe1.001</object-name>
+   <condition>
+     <property alias="../../../params/lighting/strobes/property"/>
+	 <equals>
+		<property>/fdm/jsbsim/contact/unit[4]/broken</property>
+		<value>1</value>
+     </equals>
+   </condition>
+ </animation>
+ 
+  <animation>
+   <type>select</type>
+   <object-name>strobe2.001</object-name>
+   <condition>
+     <property alias="../../../params/lighting/strobes/property"/>
+	 <equals>
+		<property>/fdm/jsbsim/contact/unit[5]/broken</property>
+		<value>1</value>
+     </equals>
    </condition>
  </animation>
 
@@ -3660,6 +3777,8 @@
    <name>Plane.014XGroup</name>
    <object-name>strobe1</object-name>
    <object-name>strobe2</object-name>
+   <object-name>strobe1.001</object-name>
+   <object-name>strobe2.001</object-name>
  </animation>
 
  <animation>
@@ -3689,41 +3808,44 @@
      <z>0.564638</z>
    </axis>
  </animation>
-
+ 
  <animation>
-   <type>billboard</type>
-   <object-name>strobe1</object-name>
-   <spherical type="bool">true</spherical>
+   <type>translate</type>
+   <object-name>strobe1.001</object-name>
+   <offset-m>5.760493</offset-m>
+   <axis>
+     <x>0.293912</x>
+     <y>-5.227128</y>
+     <z>0.999938</z>
+   </axis>
+ </animation>
+ 
+ <animation>
+   <type>translate</type>
+   <object-name>strobe2.001</object-name>
+   <offset-m>5.742337</offset-m>
+   <axis>
+     <x>0.383912</x>
+     <y>5.708865</y>
+     <z>0.999938</z>
+   </axis>
  </animation>
 
  <animation>
    <type>billboard</type>
+   <object-name>strobe1</object-name>
    <object-name>strobe2</object-name>
+   <object-name>strobe1.001</object-name>
+   <object-name>strobe2.001</object-name>
    <spherical type="bool">true</spherical>
  </animation>
 
  <animation>
    <type>dist-scale</type>
    <object-name>strobe1</object-name>
-   <interpolation>
-     <entry>
-       <ind>0</ind>
-       <dep alias="../../../../Plane.014Xparams/light-near"/>
-     </entry>
-     <entry>
-       <ind>500</ind>
-       <dep alias="../../../../Plane.014Xparams/light-med"/>
-     </entry>
-     <entry>
-       <ind>16000</ind>
-       <dep alias="../../../../Plane.014Xparams/light-far"/>
-     </entry>
-   </interpolation>
- </animation>
-
- <animation>
-   <type>dist-scale</type>
    <object-name>strobe2</object-name>
+   <object-name>strobe1.001</object-name>
+   <object-name>strobe2.001</object-name>
    <interpolation>
      <entry>
        <ind>0</ind>
@@ -3832,15 +3954,11 @@
    </condition>
  </animation>
 
- <animation>
+  <animation>
    <type>material</type>
    <!--global type="bool">true</global-->
    <object-name>RightWheelStrut</object-name>
-   <object-name>RightWheelStrutBK</object-name>
-   <object-name>RightWheelStrutBKs</object-name>
    <object-name>LeftWheelStrut</object-name>
-   <object-name>LeftWheelStrutBK</object-name>
-   <object-name>LeftWheelStrutBks</object-name>
    <object-name>fairing1</object-name>
    <object-name>fairing2</object-name>
    <object-name>fairing3</object-name>
@@ -3854,6 +3972,18 @@
    <object-name>rightdoor</object-name>
    <object-name>baggagedoor</object-name>
    <object-name>Spinner</object-name>
+   <!-- damage mod -->
+   <object-name>RightWheelStrutD</object-name>
+   <object-name>RightWheelStrutBKsD</object-name>
+   <object-name>RightWheelStrutBKD</object-name>
+   <object-name>LeftWheelStrutD</object-name>
+   <object-name>LeftWheelStrutBKsD</object-name>
+   <object-name>LeftWheelStrutBKD</object-name>
+   <!-- bushkit mod -->
+   <object-name>RightWheelStrutBK</object-name>
+   <object-name>RightWheelStrutBKs</object-name>
+   <object-name>LeftWheelStrutBK</object-name>
+   <object-name>LeftWheelStrutBks</object-name>
    <property-base>sim/model/livery/</property-base>
    <texture-prop>texture</texture-prop>
    <texture>fuselage.deeqa.png </texture>
@@ -3866,6 +3996,15 @@
    <object-name>flaps</object-name>
    <object-name>rightaileron</object-name>
    <object-name>leftaileron</object-name>
+   <!-- damage mod -->
+   <object-name>wingRD</object-name>
+   <object-name>wingLD</object-name>
+   <object-name>flapsRD</object-name>
+   <object-name>flapsLD</object-name>
+   <object-name>rightaileronRD</object-name>
+   <object-name>rightaileronLD</object-name>
+   <object-name>leftaileronRD</object-name>
+   <object-name>leftaileronLD</object-name>
    <property-base>sim/model/liverywing/</property-base>
    <texture-prop>texture</texture-prop>
    <texture>wing.png</texture>

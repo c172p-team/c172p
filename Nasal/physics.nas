@@ -27,6 +27,7 @@ var poll_damage = func
 {
 	#if(getprop(gears~"unit[0]/compression-ft") > 0.75)
 	if(getprop(gears~"unit[0]/compression-ft") > 0.75 or getprop("/sim/rendering/nosedamage") or getprop("/sim/rendering/alldamage"))
+
 	{
 		setprop(gears~"unit[0]/z-position", 0);
 		setprop("/controls/engines/engine/magnetos", 0);
@@ -44,7 +45,7 @@ var poll_damage = func
 		setprop(gears~"unit[2]/z-position", 0);
 		setprop(gears~"unit[2]/broken", 1);
 	}
-	
+
 	if(((getprop(contact~"unit[4]/compression-ft") > 0.005 or getprop("/sim/rendering/leftwingdamage")) and getprop(contact~"unit[5]/broken") == 0))
 	{
 		setprop(contact~"unit[4]/broken", 1);

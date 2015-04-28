@@ -13,6 +13,8 @@ props.Node.new({ "/sim/rendering/rightwingdamage":0 });
 props.globals.initNode("/sim/rendering/rightwingdamage", 0, "INT");
 props.Node.new({ "/sim/rendering/leftwingdamage":0 });
 props.globals.initNode("/sim/rendering/leftwingdamage", 0, "INT");
+props.Node.new({ "/sim/rendering/allfix":0 });
+props.globals.initNode("/sim/rendering/allfix", 0, "INT");
 
 var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
@@ -49,16 +51,44 @@ var poll_damage = func
 	if(getprop(contact~"unit[4]/compression-ft") > 0.005 or getprop("/sim/rendering/leftwingdamage"))
 	{
 		setprop(contact~"unit[4]/broken", 1);
+		setprop("/fdm/jsbsim/wing/broken-one", -1);
+		
 	}
 	if(getprop(contact~"unit[5]/compression-ft") > 0.005 or getprop("/sim/rendering/rightwingdamage"))
 	{
 		setprop(contact~"unit[5]/broken", 1);
+		setprop("/fdm/jsbsim/wing/broken-one", 1);
+	}
+	if(getprop(contact~"unit[4]/broken") and getprop(contact~"unit[5]/broken")) {
+		setprop("/fdm/jsbsim/wing/broken-both", 1);
 	}
 	if(getprop(gears~"unit[0]/broken") and getprop(gears~"unit[1]/broken") and getprop(gears~"unit[2]/broken"))
 	{
 		setprop("/fdm/jsbsim/crash", 1);
+		setprop("/fdm/jsbsim/wing/broken-both", 1);
 	}
-	
+	if(getprop("position/altitude-agl-m") < 10 and (getprop("/fdm/jsbsim/crash") or getprop("/fdm/jsbsim/wing/broken-one") or getprop("/fdm/jsbsim/wing/broken-both"))) {
+		setprop("/controls/engines/engine/magnetos", 0);
+	}
+	if (getprop("/sim/rendering/allfix"))
+	{
+		setprop(gears~"unit[0]/broken", 0);
+		setprop(gears~"unit[1]/broken", 0);
+		setprop(gears~"unit[2]/broken", 0);
+		poll_gear_delay();
+		setprop(contact~"unit[4]/broken", 0);
+		setprop(contact~"unit[5]/broken", 0);
+		setprop("/sim/rendering/alldamage", 0);
+		setprop("/fdm/jsbsim/wing/broken-one", 0);
+		setprop("/fdm/jsbsim/wing/broken-both", 0);
+		setprop("/fdm/jsbsim/crash", 0);
+		setprop("/sim/rendering/nosegeardamage", 0);
+		setprop("/sim/rendering/leftgeardamage", 0);
+		setprop("/sim/rendering/rightgeardamage", 0);
+		setprop("/sim/rendering/leftwingdamage", 0);
+		setprop("/sim/rendering/rightwingdamage", 0);
+		setprop("/sim/rendering/allfix", 0);
+	}
 }
 
 var poll_gear_delay = func
@@ -73,7 +103,8 @@ var poll_gear_delay = func
 		setprop(contact~"unit[8]/z-position", -7.8);
 	} 
 	else
-	if (getprop("/fdm/jsbsim/bushkit") == 1)
+    if	
+	(getprop("/fdm/jsbsim/bushkit") == 1)
 	{
 		setprop(gears~"unit[0]/z-position", -22);
 		setprop(gears~"unit[1]/z-position", -20);
@@ -102,7 +133,7 @@ var poll_gear = func
 		setprop("/sim/model/c172p/fairing3", 0);		
 	}
 }
-var physics = func
+var physics_loop = func
 {
 	if (lastkit == getprop("/fdm/jsbsim/bushkit"))
 	{

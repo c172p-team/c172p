@@ -194,6 +194,4 @@ var weather_effects_loop = func {
 	#print("frostlevel="~frostlevel);
 	#end debug
 	
-	settimer( func {weather_effects_loop() },1.0);
 }
-weather_effects_loop();

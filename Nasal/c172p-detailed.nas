@@ -5,7 +5,7 @@
 # Do terrain modelling ourselves.
 #setprop("sim/fdm/surface/override-level", 1);
 
-var terrain_survol = func {
+var terrain_survol_loop = func {
   var lat = getprop("/position/latitude-deg");
   var lon = getprop("/position/longitude-deg");
 
@@ -39,19 +39,18 @@ var terrain_survol = func {
     setprop("sim/freeze/master", 1);
     setprop("sim/crashed", 1);
   }
-#  settimer(terrain_survol, 0);
+
 }
 
 ############################################
 # Global loop function
 # If you need to run nasal as loop, add it in this function
 ############################################
-global_system = func{
+global_system_loop = func{
 
-  terrain_survol();
-  c172p.physics();
-
-  settimer(global_system, 0);
+  terrain_survol_loop();
+  c172p.physics_loop();
+  c172p.weather_effects_loop();
 
 }
 
@@ -66,7 +65,8 @@ setlistener("/sim/signals/fdm-initialized", func{
   setprop("/environment/terrain-rolling-friction",0.02);
 });
 
-var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
-  settimer(global_system, 2);
+var nasalInit = setlistener("/sim/signals/fdm-initialized", func{ 
+  var c172_timer = maketimer(0.25, func{global_system_loop()});
+  c172_timer.start();
   removelistener(nasalInit);
 });

@@ -81,7 +81,7 @@ var poll_gear = func
 		setprop("/sim/model/c172p/fairing3", 0);		
 	}
 }
-var physics = func
+var physics_loop = func
 {
 	if (lastkit == getprop("/sim/rendering/bushkit"))
 	{

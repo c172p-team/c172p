@@ -185,10 +185,16 @@
 	 <!-- damage mod -->
 	 <object-name>navlight_leftU</object-name>
 	 <object-name>navlight_leftD</object-name>
+	 <object-name>navlight_leftBD</object-name>
+	 <object-name>navlight_leftCollapse</object-name>
 	 <object-name>navlight_rightU</object-name>
 	 <object-name>navlight_rightD</object-name>
-	 <object-name>strobe1.001</object-name>
-     <object-name>strobe2.001</object-name>
+	 <object-name>navlight_rightBD</object-name>
+	 <object-name>navlight_rightCollapse</object-name>
+	 <object-name>strobe1BD</object-name>
+     <object-name>strobe2BD</object-name>
+	 <object-name>strobe1Collapse</object-name>
+     <object-name>strobe2Collapse</object-name>
  </effect>
  <!-- MODEND: Transparent effect -->
  
@@ -274,6 +280,10 @@
  <effect>
    <inherits-from>Aircraft/c172p/Models/Effects/glass</inherits-from>
    <object-name>landinglightcover</object-name>
+   <object-name>landinglightcoverLD</object-name>
+   <object-name>landinglightcoverRD</object-name>
+   <object-name>landinglightcoverBD</object-name>
+   <object-name>landinglightcoverCollapse</object-name>
  </effect>
 
  <effect>
@@ -2743,9 +2753,13 @@
    <object-name>navlight_back</object-name>
    <!-- Damage Mod -->
    <object-name>navlight_leftU</object-name>
-   <object-name>navlight_rightU</object-name>
    <object-name>navlight_leftD</object-name>
+   <object-name>navlight_leftBD</object-name>
+   <object-name>navlight_leftCollapse</object-name>
+   <object-name>navlight_rightU</object-name>
    <object-name>navlight_rightD</object-name>
+   <object-name>navlight_rightBD</object-name>
+   <object-name>navlight_rightCollapse</object-name>
    <condition>
      <property alias="../../../params/lighting/navigation/property"/>
    </condition>
@@ -2795,6 +2809,8 @@
    <!-- Damage Mod -->
    <object-name>leftaileronRD</object-name>
    <object-name>leftaileronLD</object-name>
+   <object-name>leftaileronBD</object-name>
+   <object-name>leftaileronCollapse</object-name>
    <property>surface-positions/left-aileron-pos-norm</property>
    <interpolation>
      <entry>
@@ -2826,6 +2842,8 @@
    <!-- Damage Mod -->
    <object-name>rightaileronRD</object-name>
    <object-name>rightaileronLD</object-name>
+   <object-name>rightaileronBD</object-name>
+   <object-name>rightaileronCollapse</object-name>
    <property>surface-positions/right-aileron-pos-norm</property>
    <interpolation>
      <entry>
@@ -2857,6 +2875,8 @@
    <!-- Damage Mod -->
    <object-name>flapsRD</object-name>
    <object-name>flapsLD</object-name>
+   <object-name>flapsBD</object-name>
+   <object-name>flapsCollapse</object-name>
    <property>surface-positions/flap-pos-norm</property>
    <factor>0.07</factor>
    <axis>
@@ -2872,6 +2892,8 @@
    <!-- Damage Mod -->
    <object-name>flapsRD</object-name>
    <object-name>flapsLD</object-name>
+   <object-name>flapsBD</object-name>
+   <object-name>flapsCollapse</object-name>
    <property>surface-positions/flap-pos-norm</property>
    <factor>30</factor>
    <center>
@@ -3012,10 +3034,9 @@
    <object-name>Axle.001</object-name>
    <!-- Bushkit Mod -->
    <object-name>NoseWheelBK</object-name>
-   <object-name>AxleBK.001</object-name>
    <object-name>NoseWheelStrutBK</object-name>
    <object-name>BottomLinkBK</object-name>
-   <object-name>BottomLinkBK</object-name>
+   <object-name>AxleBK.001</object-name>
    <property>gear/gear[0]/compression-norm</property>
    <factor>0.30</factor>
    <axis>
@@ -3182,6 +3203,8 @@
    <object-name>navlight_right</object-name>
    <object-name>LeftNavLight</object-name>
    <object-name>navlight_left</object-name>
+   <object-name>landinglightcover</object-name>
+   <object-name>landinglight2</object-name>
    <condition>
     <and>
 	 <equals>
@@ -3192,14 +3215,70 @@
 	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
 	  <value>0</value>
 	 </equals>
+	 <equals>
+	  <property>/fdm/jsbsim/crash</property>
+	  <value>0</value>
+	 </equals>
 	</and>
    </condition>
  </animation>
  
  <animation>
    <type>select</type>
-   <object-name>wing_1LD</object-name>
+   <object-name>wing_1Collapse</object-name>
+   <object-name>wing_0Collapse</object-name>
+   <object-name>rightaileronCollapse</object-name>
+   <object-name>leftaileronCollapse</object-name>
+   <object-name>flapsCollapse</object-name>
+   <object-name>RightNavLightCollapse</object-name>
+   <object-name>navlight_rightCollapse</object-name>
+   <object-name>LeftNavLightCollapse</object-name>
+   <object-name>navlight_leftCollapse</object-name>
+   <object-name>landinglightcoverCollapse</object-name>
+   <object-name>landinglight2Collapse</object-name>
+   <condition>
+    <equals>
+	 <property>/fdm/jsbsim/crash</property>
+	 <value>1</value>
+	</equals>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>wing_0BD</object-name>
+   <object-name>wing_1BD</object-name>
+   <object-name>rightaileronBD</object-name>
+   <object-name>leftaileronBD</object-name>
+   <object-name>flapsBD</object-name>
+   <object-name>RightNavLightBD</object-name>
+   <object-name>navlight_rightBD</object-name>
+   <object-name>LeftNavLightBD</object-name>
+   <object-name>navlight_leftBD</object-name>
+   <object-name>landinglightcoverBD</object-name>
+   <object-name>landinglight2BD</object-name>
+   <condition>
+    <and>
+	<equals>
+	  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
+	  <value>1</value>
+	</equals>
+	<equals>
+	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
+	  <value>1</value>
+	</equals>
+    <equals>
+	 <property>/fdm/jsbsim/crash</property>
+	 <value>0</value>
+	</equals>
+	</and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
    <object-name>wing_0LD</object-name>
+   <object-name>wing_1LD</object-name>
    <object-name>rightaileronLD</object-name>
    <object-name>leftaileronLD</object-name>
    <object-name>flapsLD</object-name>
@@ -3207,18 +3286,30 @@
    <object-name>navlight_leftD</object-name>
    <object-name>RightNavLightU</object-name>
    <object-name>navlight_rightU</object-name>
+   <object-name>landinglightcoverLD</object-name>
+   <object-name>landinglight2LD</object-name>
    <condition>
-	<equals>
+	<and>
+	 <equals>
 	  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
 	  <value>1</value>
+	 </equals>
+	 <equals>
+	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
+	  <value>0</value>
 	</equals>
+	 <equals>
+	  <property>/fdm/jsbsim/crash</property>
+	  <value>0</value>
+	 </equals>
+	</and>
    </condition>
  </animation>
  
  <animation>
    <type>select</type>
-   <object-name>wing_1RD</object-name>
    <object-name>wing_0RD</object-name>
+   <object-name>wing_1RD</object-name>
    <object-name>rightaileronRD</object-name>
    <object-name>leftaileronRD</object-name>
    <object-name>flapsRD</object-name>
@@ -3226,11 +3317,23 @@
    <object-name>navlight_rightD</object-name>
    <object-name>LeftNavLightU</object-name>
    <object-name>navlight_leftU</object-name>
+   <object-name>landinglightcoverRD</object-name>
+   <object-name>landinglight2RD</object-name>
    <condition>
-	<equals>
+	<and>
+	 <equals>
 	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
 	  <value>1</value>
+	 </equals>
+	 <equals>
+	  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
+	  <value>0</value>
 	</equals>
+	 <equals>
+	  <property>/fdm/jsbsim/crash</property>
+	  <value>0</value>
+	 </equals>
+	</and>
    </condition>
  </animation>
  
@@ -3601,6 +3704,13 @@
    <type>select</type>
    <object-name>landinglight</object-name>
    <object-name>landinglight2</object-name>
+   <!-- Damage Mod -->
+   <object-name>landinglightBD</object-name>
+   <object-name>landinglightCollapse</object-name>
+   <object-name>landinglight2BD</object-name>
+   <object-name>landinglight2LD</object-name>
+   <object-name>landinglight2RD</object-name>
+   <object-name>landinglight2Collapse</object-name>
    <condition>
      <and>
        <property alias="../../../../params/lighting/landing/property"/>
@@ -3710,6 +3820,11 @@
  <animation>
    <type>select</type>
    <object-name>landinglightcover</object-name>
+   <!-- Damage Mod -->
+   <object-name>landinglightcoverBD</object-name>
+   <object-name>landinglightcoverLD</object-name>
+   <object-name>landinglightcoverRD</object-name>
+   <object-name>landinglightcoverCollapse</object-name>
    <condition>
      <not>
        <property alias="../../../../params/lighting/landing/property"/>
@@ -3720,11 +3835,17 @@
  <animation>
    <type>noshadow</type>
    <object-name>landinglight</object-name>
+   <!-- Damage Mod -->
+   <object-name>landinglightBD</object-name>
+   <object-name>landinglightCollapse</object-name>
  </animation>
 
  <animation>
    <type>flash</type>
    <object-name>landinglight</object-name>
+   <!-- Damage Mod -->
+   <object-name>landinglightBD</object-name>
+   <object-name>landinglightCollapse</object-name>
    <center>
      <x-m>-0.117</x-m>
      <y-m>-2.872</y-m>
@@ -3754,6 +3875,10 @@
 		<property>/fdm/jsbsim/contact/unit[4]/broken</property>
 		<value>0</value>
      </equals>
+	 <equals>
+	  <property>/fdm/jsbsim/crash</property>
+	  <value>0</value>
+	 </equals>
    </condition>
  </animation>
  
@@ -3766,30 +3891,65 @@
 		<property>/fdm/jsbsim/contact/unit[5]/broken</property>
 		<value>0</value>
      </equals>
+	 <equals>
+	  <property>/fdm/jsbsim/crash</property>
+	  <value>0</value>
+	 </equals>
    </condition>
  </animation>
  
  <animation>
    <type>select</type>
-   <object-name>strobe1.001</object-name>
+   <object-name>strobe1BD</object-name>
    <condition>
      <property alias="../../../params/lighting/strobes/property"/>
 	 <equals>
 		<property>/fdm/jsbsim/contact/unit[4]/broken</property>
 		<value>1</value>
      </equals>
+	 <equals>
+	  <property>/fdm/jsbsim/crash</property>
+	  <value>0</value>
+	 </equals>
    </condition>
  </animation>
  
-  <animation>
+ <animation>
    <type>select</type>
-   <object-name>strobe2.001</object-name>
+   <object-name>strobe2BD</object-name>
    <condition>
      <property alias="../../../params/lighting/strobes/property"/>
 	 <equals>
 		<property>/fdm/jsbsim/contact/unit[5]/broken</property>
 		<value>1</value>
      </equals>
+	 <equals>
+	  <property>/fdm/jsbsim/crash</property>
+	  <value>0</value>
+	 </equals>
+   </condition>
+ </animation>
+ <animation>
+   <type>select</type>
+   <object-name>strobe1Collapse</object-name>
+   <condition>
+     <property alias="../../../params/lighting/strobes/property"/>
+	 <equals>
+	  <property>/fdm/jsbsim/crash</property>
+	  <value>1</value>
+	 </equals>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>strobe2Collapse</object-name>
+   <condition>
+     <property alias="../../../params/lighting/strobes/property"/>
+	 <equals>
+	  <property>/fdm/jsbsim/crash</property>
+	  <value>1</value>
+	 </equals>
    </condition>
  </animation>
  <!-- End Damage Mod -->
@@ -3811,8 +3971,10 @@
    <object-name>strobe1</object-name>
    <object-name>strobe2</object-name>
    <!-- Damage Mod -->
-   <object-name>strobe1.001</object-name>
-   <object-name>strobe2.001</object-name>
+   <object-name>strobe1BD</object-name>
+   <object-name>strobe2BD</object-name>
+   <object-name>strobe1Collapse</object-name>
+   <object-name>strobe2Collapse</object-name>
  </animation>
 
  <animation>
@@ -3846,7 +4008,7 @@
  <!-- Damage Mod -->
  <animation>
    <type>translate</type>
-   <object-name>strobe1.001</object-name>
+   <object-name>strobe1BD</object-name>
    <offset-m>5.760493</offset-m>
    <axis>
      <x>0.293912</x>
@@ -3857,7 +4019,7 @@
  
  <animation>
    <type>translate</type>
-   <object-name>strobe2.001</object-name>
+   <object-name>strobe2BD</object-name>
    <offset-m>5.742337</offset-m>
    <axis>
      <x>0.383912</x>
@@ -3865,15 +4027,39 @@
      <z>0.999938</z>
    </axis>
  </animation>
- <!-- End Damage Mod -->
  
  <animation>
+   <type>translate</type>
+   <object-name>strobe1Collapse</object-name>
+   <offset-m>5.460493</offset-m>
+   <axis>
+     <x>0.153912</x>
+     <y>-5.327128</y>
+     <z>-0.799938</z>
+   </axis>
+ </animation>
+ 
+ <animation>
+   <type>translate</type>
+   <object-name>strobe2Collapse</object-name>
+   <offset-m>5.342337</offset-m>
+   <axis>
+     <x>0.283912</x>
+     <y>5.308865</y>
+     <z>-0.799938</z>
+   </axis>
+ </animation>
+ <!-- End Damage Mod -->
+ 
+<animation>
    <type>billboard</type>
    <object-name>strobe1</object-name>
    <object-name>strobe2</object-name>
    <!-- Damage Mod -->
-   <object-name>strobe1.001</object-name>
-   <object-name>strobe2.001</object-name>
+   <object-name>strobe1BD</object-name>
+   <object-name>strobe2BD</object-name>
+   <object-name>strobe1Collapse</object-name>
+   <object-name>strobe2Collapse</object-name>
    <spherical type="bool">true</spherical>
  </animation>
 
@@ -3882,8 +4068,10 @@
    <object-name>strobe1</object-name>
    <object-name>strobe2</object-name>
    <!-- Damage Mod -->
-   <object-name>strobe1.001</object-name>
-   <object-name>strobe2.001</object-name>
+   <object-name>strobe1BD</object-name>
+   <object-name>strobe2BD</object-name>
+   <object-name>strobe1Collapse</object-name>
+   <object-name>strobe2Collapse</object-name>
    <interpolation>
      <entry>
        <ind>0</ind>
@@ -4027,7 +4215,7 @@
    <texture>fuselage.deeqa.png </texture>
  </animation>
 
- <animation>
+<animation>
    <type>material</type>
    <!--global type="bool">true</global-->
    <object-name>wing</object-name>
@@ -4037,12 +4225,20 @@
    <!-- damage mod -->
    <object-name>wingRD</object-name>
    <object-name>wingLD</object-name>
+   <object-name>wingBD</object-name>
+   <object-name>wingCollapse</object-name>
    <object-name>flapsRD</object-name>
    <object-name>flapsLD</object-name>
+   <object-name>flapsBD</object-name>
+   <object-name>flapsCollapse</object-name>
    <object-name>rightaileronRD</object-name>
    <object-name>rightaileronLD</object-name>
+   <object-name>rightaileronBD</object-name>
+   <object-name>rightaileronCollapse</object-name>
    <object-name>leftaileronRD</object-name>
    <object-name>leftaileronLD</object-name>
+   <object-name>leftaileronBD</object-name>
+   <object-name>leftaileronCollapse</object-name>
    <property-base>sim/model/liverywing/</property-base>
    <texture-prop>texture</texture-prop>
    <texture>wing.png</texture>

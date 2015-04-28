@@ -29,14 +29,26 @@ var poll_damage = func
 		setprop(gears~"unit[2]/broken", 1);
 	}
 	
-	if(getprop(contact~"unit[4]/compression-ft") > 0.005 and getprop(contact~"unit[5]/broken") == 0)
+	if(getprop(contact~"unit[4]/compression-ft") > 0.005)
 	{
 		setprop(contact~"unit[4]/broken", 1);
+		setprop("/fdm/jsbsim/wing/broken-one", -1);
 	}
-
-	if(getprop(contact~"unit[5]/compression-ft") > 0.005 and getprop(contact~"unit[4]/broken") == 0)
+	if(getprop(contact~"unit[5]/compression-ft") > 0.005)
 	{
 		setprop(contact~"unit[5]/broken", 1);
+		setprop("/fdm/jsbsim/wing/broken-one", 1);
+	}
+	if(getprop(contact~"unit[4]/broken") and getprop(contact~"unit[5]/broken")) {
+		setprop("/fdm/jsbsim/wing/broken-both", 1);
+	}
+	if(getprop(gears~"unit[0]/broken") and getprop(gears~"unit[1]/broken") and getprop(gears~"unit[2]/broken"))
+	{
+		setprop("/fdm/jsbsim/crash", 1);
+		setprop("/fdm/jsbsim/wing/broken-both", 1);
+	}
+	if(getprop("position/altitude-agl-m") < 10 and (getprop("/fdm/jsbsim/crash") or getprop("/fdm/jsbsim/wing/broken-one") or getprop("/fdm/jsbsim/wing/broken-both"))) {
+		setprop("/controls/engines/engine/magnetos", 0);
 	}
 }
 

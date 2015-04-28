@@ -1,5 +1,5 @@
-props.Node.new({ "/sim/rendering/bushkit":0 });
-props.globals.initNode("/sim/rendering/bushkit", 0, "INT");
+props.Node.new({ "/fdm/jsbsim/bushkit":0 });
+props.globals.initNode("/fdm/jsbsim/bushkit", 0, "INT");
 
 props.Node.new({ "/sim/rendering/nosedamage":0 });
 props.globals.initNode("/sim/rendering/nosedamage", 0, "INT");
@@ -46,20 +46,24 @@ var poll_damage = func
 		setprop(gears~"unit[2]/broken", 1);
 	}
 
-	if(((getprop(contact~"unit[4]/compression-ft") > 0.005 or getprop("/sim/rendering/leftwingdamage")) and getprop(contact~"unit[5]/broken") == 0))
+	if(getprop(contact~"unit[4]/compression-ft") > 0.005 or getprop("/sim/rendering/leftwingdamage"))
 	{
 		setprop(contact~"unit[4]/broken", 1);
 	}
-
-	if(((getprop(contact~"unit[5]/compression-ft") > 0.005 or getprop("/sim/rendering/rightwingdamage")) and getprop(contact~"unit[4]/broken") == 0))
+	if(getprop(contact~"unit[5]/compression-ft") > 0.005 or getprop("/sim/rendering/rightwingdamage"))
 	{
 		setprop(contact~"unit[5]/broken", 1);
 	}
+	if(getprop(gears~"unit[0]/broken") and getprop(gears~"unit[1]/broken") and getprop(gears~"unit[2]/broken"))
+	{
+		setprop("/fdm/jsbsim/crash", 1);
+	}
+	
 }
 
 var poll_gear_delay = func
 {
-	if (getprop("/sim/rendering/bushkit") == 0)
+	if (getprop("/fdm/jsbsim/bushkit") == 0)
 	{
 		setprop(gears~"unit[0]/z-position", -19.5);
 		setprop(gears~"unit[1]/z-position", -15.5);
@@ -69,7 +73,7 @@ var poll_gear_delay = func
 		setprop(contact~"unit[8]/z-position", -7.8);
 	} 
 	else
-	if (getprop("/sim/rendering/bushkit") == 1)
+	if (getprop("/fdm/jsbsim/bushkit") == 1)
 	{
 		setprop(gears~"unit[0]/z-position", -22);
 		setprop(gears~"unit[1]/z-position", -20);
@@ -91,7 +95,7 @@ var poll_gear_delay = func
 
 var poll_gear = func
 {
-	if (getprop("/sim/rendering/bushkit") == 1 or getprop("/sim/rendering/bushkit") == 2 or getprop(gears~"unit[0]/broken") or getprop(gears~"unit[1]/broken") or getprop(gears~"unit[2]/broken"))
+	if (getprop("/fdm/jsbsim/bushkit") == 1 or getprop("/fdm/jsbsim/bushkit") == 2 or getprop(gears~"unit[0]/broken") or getprop(gears~"unit[1]/broken") or getprop(gears~"unit[2]/broken"))
 	{	
 		setprop("/sim/model/c172p/fairing1", 0);
 		setprop("/sim/model/c172p/fairing2", 0);
@@ -100,7 +104,7 @@ var poll_gear = func
 }
 var physics = func
 {
-	if (lastkit == getprop("/sim/rendering/bushkit"))
+	if (lastkit == getprop("/fdm/jsbsim/bushkit"))
 	{
 		settledelay = 0;
 		poll_damage();
@@ -110,7 +114,7 @@ var physics = func
 		poll_gear_delay();
 		settledelay+=1;
 		if (settledelay == 5) {
-			lastkit = getprop("/sim/rendering/bushkit");
+			lastkit = getprop("/fdm/jsbsim/bushkit");
 		}
 	}
 	poll_gear();

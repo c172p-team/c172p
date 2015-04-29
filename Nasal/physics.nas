@@ -72,22 +72,23 @@ var poll_damage = func
 	}
 	if (getprop("/sim/rendering/allfix"))
 	{
+		setprop("/controls/engines/engine/magnetos", 1);
 		setprop(gears~"unit[0]/broken", 0);
 		setprop(gears~"unit[1]/broken", 0);
 		setprop(gears~"unit[2]/broken", 0);
-		poll_gear_delay();
 		setprop(contact~"unit[4]/broken", 0);
 		setprop(contact~"unit[5]/broken", 0);
 		setprop("/sim/rendering/alldamage", 0);
 		setprop("/fdm/jsbsim/wing/broken-one", 0);
 		setprop("/fdm/jsbsim/wing/broken-both", 0);
 		setprop("/fdm/jsbsim/crash", 0);
-		setprop("/sim/rendering/nosegeardamage", 0);
+		setprop("/sim/rendering/nosedamage", 0);
 		setprop("/sim/rendering/leftgeardamage", 0);
 		setprop("/sim/rendering/rightgeardamage", 0);
 		setprop("/sim/rendering/leftwingdamage", 0);
 		setprop("/sim/rendering/rightwingdamage", 0);
 		setprop("/sim/rendering/allfix", 0);
+		lastkit=3;
 	}
 }
 
@@ -98,7 +99,7 @@ var poll_gear_delay = func
 		setprop(gears~"unit[0]/z-position", -19.5);
 		setprop(gears~"unit[1]/z-position", -15.5);
 		setprop(gears~"unit[2]/z-position", -15.5);
-		setprop(contact~"unit[6]/z-position", -14.9);
+		setprop(contact~"unit[6]/z-position", -10.95);
 		setprop(contact~"unit[7]/z-position", -7.95);
 		setprop(contact~"unit[8]/z-position", -7.8);
 	} 
@@ -109,7 +110,7 @@ var poll_gear_delay = func
 		setprop(gears~"unit[0]/z-position", -22);
 		setprop(gears~"unit[1]/z-position", -20);
 		setprop(gears~"unit[2]/z-position", -20);
-		setprop(contact~"unit[6]/z-position", -17);
+		setprop(contact~"unit[6]/z-position", -13.9);
 		setprop(contact~"unit[7]/z-position", -14);
 		setprop(contact~"unit[8]/z-position", -15);
 	} 
@@ -118,7 +119,7 @@ var poll_gear_delay = func
 		setprop(gears~"unit[0]/z-position", -22);
 		setprop(gears~"unit[1]/z-position", -22);
 		setprop(gears~"unit[2]/z-position", -22);
-		setprop(contact~"unit[6]/z-position", -19);
+		setprop(contact~"unit[6]/z-position", -13.9);
 		setprop(contact~"unit[7]/z-position", -16);
 		setprop(contact~"unit[8]/z-position", -17);
 	}

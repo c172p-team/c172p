@@ -59,7 +59,7 @@ var poll_gear_delay = func
 		setprop(gears~"unit[0]/z-position", -19.5);
 		setprop(gears~"unit[1]/z-position", -15.5);
 		setprop(gears~"unit[2]/z-position", -15.5);
-		setprop(contact~"unit[6]/z-position", -14.9);
+		setprop(contact~"unit[6]/z-position", -10.95);
 		setprop(contact~"unit[7]/z-position", -7.95);
 		setprop(contact~"unit[8]/z-position", -7.8);
 	} 
@@ -69,7 +69,7 @@ var poll_gear_delay = func
 		setprop(gears~"unit[0]/z-position", -22);
 		setprop(gears~"unit[1]/z-position", -20);
 		setprop(gears~"unit[2]/z-position", -20);
-		setprop(contact~"unit[6]/z-position", -17);
+		setprop(contact~"unit[6]/z-position", -13.9);
 		setprop(contact~"unit[7]/z-position", -14);
 		setprop(contact~"unit[8]/z-position", -15);
 	} 
@@ -78,7 +78,7 @@ var poll_gear_delay = func
 		setprop(gears~"unit[0]/z-position", -22);
 		setprop(gears~"unit[1]/z-position", -22);
 		setprop(gears~"unit[2]/z-position", -22);
-		setprop(contact~"unit[6]/z-position", -19);
+		setprop(contact~"unit[6]/z-position", -13.9);
 		setprop(contact~"unit[7]/z-position", -16);
 		setprop(contact~"unit[8]/z-position", -17);
 	}

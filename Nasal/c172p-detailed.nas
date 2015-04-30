@@ -39,7 +39,7 @@ var terrain_survol_loop = func {
     setprop("sim/freeze/master", 1);
     setprop("sim/crashed", 1);
   }
-#  settimer(terrain_survol, 0);
+
 }
 
 ############################################

@@ -1,5 +1,5 @@
-props.Node.new({ "/sim/rendering/bushkit":0 });
-props.globals.initNode("/sim/rendering/bushkit", 0, "INT");
+props.Node.new({ "/fdm/jsbsim/bushkit":0 });
+props.globals.initNode("/fdm/jsbsim/bushkit", 0, "INT");
 
 var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
@@ -54,39 +54,39 @@ var poll_damage = func
 
 var poll_gear_delay = func
 {
-	if (getprop("/sim/rendering/bushkit") == 0)
+	if (getprop("/fdm/jsbsim/bushkit") == 0)
 	{
 		setprop(gears~"unit[0]/z-position", -19.5);
 		setprop(gears~"unit[1]/z-position", -15.5);
 		setprop(gears~"unit[2]/z-position", -15.5);
-		setprop(contact~"unit[6]/z-position", -10.95);
-		setprop(contact~"unit[7]/z-position", -7.95);
-		setprop(contact~"unit[8]/z-position", -7.8);
+		setprop(contact~"unit[6]/z-position", -10);
+		setprop(contact~"unit[7]/z-position", -9.5);
+		setprop(contact~"unit[8]/z-position", -8);
 	} 
 	else
-	if (getprop("/sim/rendering/bushkit") == 1)
+	if (getprop("/fdm/jsbsim/bushkit") == 1)
 	{
 		setprop(gears~"unit[0]/z-position", -22);
 		setprop(gears~"unit[1]/z-position", -20);
 		setprop(gears~"unit[2]/z-position", -20);
-		setprop(contact~"unit[6]/z-position", -13.9);
-		setprop(contact~"unit[7]/z-position", -14);
-		setprop(contact~"unit[8]/z-position", -15);
+		setprop(contact~"unit[6]/z-position", -18.5);
+		setprop(contact~"unit[7]/z-position", -14.5);
+		setprop(contact~"unit[8]/z-position", -15.5);
 	} 
 	else 
 	{	
 		setprop(gears~"unit[0]/z-position", -22);
 		setprop(gears~"unit[1]/z-position", -22);
 		setprop(gears~"unit[2]/z-position", -22);
-		setprop(contact~"unit[6]/z-position", -13.9);
+		setprop(contact~"unit[6]/z-position", -17.7);
 		setprop(contact~"unit[7]/z-position", -16);
-		setprop(contact~"unit[8]/z-position", -17);
+		setprop(contact~"unit[8]/z-position", -17.4);
 	}
 }
 
 var poll_gear = func
 {
-	if (getprop("/sim/rendering/bushkit") == 1 or getprop("/sim/rendering/bushkit") == 2 or getprop(gears~"unit[0]/broken") or getprop(gears~"unit[1]/broken") or getprop(gears~"unit[2]/broken"))
+	if (getprop("/fdm/jsbsim/bushkit") == 1 or getprop("/fdm/jsbsim/bushkit") == 2 or getprop(gears~"unit[0]/broken") or getprop(gears~"unit[1]/broken") or getprop(gears~"unit[2]/broken"))
 	{	
 		setprop("/sim/model/c172p/fairing1", 0);
 		setprop("/sim/model/c172p/fairing2", 0);
@@ -95,7 +95,7 @@ var poll_gear = func
 }
 var physics_loop = func
 {
-	if (lastkit == getprop("/sim/rendering/bushkit"))
+	if (lastkit == getprop("/fdm/jsbsim/bushkit"))
 	{
 		settledelay = 0;
 		poll_damage();
@@ -105,7 +105,7 @@ var physics_loop = func
 		poll_gear_delay();
 		settledelay+=1;
 		if (settledelay == 5) {
-			lastkit = getprop("/sim/rendering/bushkit");
+			lastkit = getprop("/fdm/jsbsim/bushkit");
 		}
 	}
 	poll_gear();

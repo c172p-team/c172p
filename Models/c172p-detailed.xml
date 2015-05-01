@@ -220,8 +220,10 @@
     <object-name>chassis</object-name>
     <object-name>pilotseat_left</object-name>
     <object-name>pilotseat_right</object-name>
-	<object-name>AircondControl</object-name>
-	<object-name>BeaconSwitch</object-name>
+    <object-name>AirCondMounts</object-name>
+    <object-name>AirCond</object-name>
+    <object-name>CabinHeat</object-name>
+    <object-name>BeaconSwitch</object-name>
     <object-name>CarbHeat</object-name>
     <object-name>CarbHeatMount</object-name>
 	<object-name>GenSwitch</object-name>
@@ -1764,6 +1766,83 @@
      <z>0.0</z>
    </axis>
  </animation>
+ 
+    <!-- Cabin heat and Air Cond -->
+    <animation>
+        <type>slider</type>
+        <object-name>CabinHeat</object-name>
+        <visible>true</visible>
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/environment/aircraft-effects/cabin-heat-set</property>
+                <factor>0.1</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Cabin Heat: %3d%%</label>
+                <measure-text>Cabin Heat: 100%</measure-text>
+                <tooltip-id>cabinheat</tooltip-id>
+                <mapping>percent</mapping>
+                <property>/environment/aircraft-effects/cabin-heat-set</property>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>CabinHeat</object-name>
+        <property>/environment/aircraft-effects/cabin-heat-set</property>
+        <factor>0.03</factor>
+        <axis>
+        <x>1.0</x>
+        <y>0.0</y>
+        <z>0.0</z>
+        </axis>
+    </animation>
+    
+    <animation>
+        <type>slider</type>
+        <object-name>AirCond</object-name>
+        <visible>true</visible>
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/environment/aircraft-effects/cabin-air-set</property>
+                <factor>0.1</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Air Cond: %3d%%</label>
+                <measure-text>Air Cond: 100%</measure-text>
+                <tooltip-id>aircond</tooltip-id>
+                <mapping>percent</mapping>
+                <property>/environment/aircraft-effects/cabin-air-set</property>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>AirCond</object-name>
+        <property>/environment/aircraft-effects/cabin-air-set</property>
+        <factor>0.03</factor>
+        <axis>
+        <x>1.0</x>
+        <y>0.0</y>
+        <z>0.0</z>
+        </axis>
+    </animation>
 
 <!--pick animation for the doors-->
  <animation>

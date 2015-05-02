@@ -81,8 +81,8 @@ var rightwingbroke = func
 
 var bothwingbroke = func
 {
-	leftwingbroke();
-	rightwingbroke();
+	setprop(contact~"unit[4]/broken", 1);
+	setprop(contact~"unit[5]/broken", 1);
 	setprop("/fdm/jsbsim/wing/broken-both", 1);
 }
 

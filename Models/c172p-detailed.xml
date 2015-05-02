@@ -226,7 +226,9 @@
     <object-name>chassisV</object-name>
     <object-name>pilotseat_leftV</object-name>
     <object-name>pilotseat_rightV</object-name>	
-	<object-name>AircondControlV</object-name>
+	<object-name>CabinAirMountsV</object-name>
+    <object-name>CabinAirV</object-name>
+    <object-name>CabinHeatV</object-name>
 	<object-name>BeaconSwitchV</object-name>
     <object-name>CarbHeatV</object-name>
     <object-name>CarbHeatMountV</object-name>
@@ -296,9 +298,11 @@
 	<object-name>carpet</object-name>
     <object-name>chassis</object-name>
     <object-name>pilotseat_left</object-name>
-    <object-name>pilotseat_right</object-name>	
-	<object-name>AircondControl</object-name>
-	<object-name>BeaconSwitch</object-name>
+    <object-name>pilotseat_right</object-name>
+    <object-name>CabinAirMounts</object-name>
+    <object-name>CabinAir</object-name>
+    <object-name>CabinHeat</object-name>
+    <object-name>BeaconSwitch</object-name>
     <object-name>CarbHeat</object-name>
     <object-name>CarbHeatMount</object-name>
 	<object-name>GenSwitch</object-name>
@@ -410,7 +414,9 @@
     <object-name>chassisV</object-name>
     <object-name>pilotseat_leftV</object-name>
     <object-name>pilotseat_rightV</object-name>	
-	<object-name>AircondControlV</object-name>
+	<object-name>CabinAirMountsV</object-name>
+    <object-name>CabinAirV</object-name>
+    <object-name>CabinHeatV</object-name>
 	<object-name>BeaconSwitchV</object-name>
     <object-name>CarbHeatV</object-name>
     <object-name>CarbHeatMountV</object-name>
@@ -1964,6 +1970,87 @@
      <z>0.0</z>
    </axis>
  </animation>
+ 
+    <!-- Cabin heat and Air -->
+    <animation>
+        <type>slider</type>
+        <object-name>CabinHeat</object-name>
+		<object-name>CabinHeatV</object-name>
+        <visible>true</visible>
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/environment/aircraft-effects/cabin-heat-set</property>
+                <factor>0.1</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Cabin Heat: %3d%%</label>
+                <measure-text>Cabin Heat: 100%</measure-text>
+                <tooltip-id>cabinheat</tooltip-id>
+                <mapping>percent</mapping>
+                <property>/environment/aircraft-effects/cabin-heat-set</property>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>CabinHeat</object-name>
+		<object-name>CabinHeatV</object-name>
+        <property>/environment/aircraft-effects/cabin-heat-set</property>
+        <factor>0.03</factor>
+        <axis>
+        <x>1.0</x>
+        <y>0.0</y>
+        <z>0.0</z>
+        </axis>
+    </animation>
+    
+    <animation>
+        <type>slider</type>
+        <object-name>CabinAir</object-name>
+		<object-name>CabinAirV</object-name>
+        <visible>true</visible>
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/environment/aircraft-effects/cabin-air-set</property>
+                <factor>0.1</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Cabin Air: %3d%%</label>
+                <measure-text>Cabin Air: 100%</measure-text>
+                <tooltip-id>cabinair</tooltip-id>
+                <mapping>percent</mapping>
+                <property>/environment/aircraft-effects/cabin-air-set</property>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>CabinAir</object-name>
+		<object-name>CabinAirV</object-name>
+        <property>/environment/aircraft-effects/cabin-air-set</property>
+        <factor>0.03</factor>
+        <axis>
+        <x>1.0</x>
+        <y>0.0</y>
+        <z>0.0</z>
+        </axis>
+    </animation>
 
 <!--pick animation for the doors-->
  <animation>
@@ -4446,6 +4533,9 @@
    <object-name>rightdoor</object-name>
    <object-name>baggagedoor</object-name>
    <object-name>Spinner</object-name>
+   <object-name>Propeller</object-name>
+   <object-name>LeftNavLight</object-name>
+   <object-name>RightNavLight</object-name>
    <!-- damage mod -->
    <object-name>RightWheelStrutD</object-name>
    <object-name>RightWheelStrutBKsD</object-name>

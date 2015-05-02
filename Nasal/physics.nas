@@ -11,6 +11,19 @@ props.Node.new({ "limits/max-negative-g":0 });
 #5.8
 props.globals.initNode("limits/max-negative-g", -5.8, "DOUBLE");
 
+var g = getprop("/accelerations/pilot-gdamped") or 1;
+var max_positive = getprop("limits/max-positive-g");
+var max_negative = getprop("limits/max-negative-g");
+  
+var gears = "fdm/jsbsim/gear/";
+var contact = "fdm/jsbsim/contact/";
+var lastkit=0;
+var settledelay=0;
+
+var fairing1 = 0;
+var fairing2 = 0;
+var fairing3 = 0;
+
 props.Node.new({ "/sim/rendering/nosedamage":0 });
 props.globals.initNode("/sim/rendering/nosedamage", 0, "INT");
 props.Node.new({ "/sim/rendering/leftgeardamage":0 });
@@ -26,18 +39,26 @@ props.globals.initNode("/sim/rendering/leftwingdamage", 0, "INT");
 props.Node.new({ "/sim/rendering/allfix":0 });
 props.globals.initNode("/sim/rendering/allfix", 0, "INT");
 
-var g = getprop("/accelerations/pilot-gdamped") or 1;
-var max_positive = getprop("limits/max-positive-g");
-var max_negative = getprop("limits/max-negative-g");
-  
-var gears = "fdm/jsbsim/gear/";
-var contact = "fdm/jsbsim/contact/";
-var lastkit=0;
-var settledelay=0;
-
-var fairing1 = 0;
-var fairing2 = 0;
-var fairing3 = 0;
+var resetalldamage = func
+{
+	setprop("/controls/engines/engine/magnetos", 1);
+	setprop(gears~"unit[0]/broken", 0);
+	setprop(gears~"unit[1]/broken", 0);
+	setprop(gears~"unit[2]/broken", 0);
+	setprop(contact~"unit[4]/broken", 0);
+	setprop(contact~"unit[5]/broken", 0);
+	setprop("/sim/rendering/alldamage", 0);
+	setprop("/fdm/jsbsim/wing/broken-one", 0);
+	setprop("/fdm/jsbsim/wing/broken-both", 0);
+	setprop("/fdm/jsbsim/crash", 0);
+	setprop("/sim/rendering/nosedamage", 0);
+	setprop("/sim/rendering/leftgeardamage", 0);
+	setprop("/sim/rendering/rightgeardamage", 0);
+	setprop("/sim/rendering/leftwingdamage", 0);
+	setprop("/sim/rendering/rightwingdamage", 0);
+	setprop("/sim/rendering/allfix", 0);
+	lastkit=3;
+}
 
 var nosegearbroke = func
 {
@@ -95,27 +116,6 @@ var bothwingcollapse = func
 var killengine = func
 {
 	setprop("/controls/engines/engine/magnetos", 0);
-}
-
-var resetalldamage = func
-{
-	setprop("/controls/engines/engine/magnetos", 1);
-	setprop(gears~"unit[0]/broken", 0);
-	setprop(gears~"unit[1]/broken", 0);
-	setprop(gears~"unit[2]/broken", 0);
-	setprop(contact~"unit[4]/broken", 0);
-	setprop(contact~"unit[5]/broken", 0);
-	setprop("/sim/rendering/alldamage", 0);
-	setprop("/fdm/jsbsim/wing/broken-one", 0);
-	setprop("/fdm/jsbsim/wing/broken-both", 0);
-	setprop("/fdm/jsbsim/crash", 0);
-	setprop("/sim/rendering/nosedamage", 0);
-	setprop("/sim/rendering/leftgeardamage", 0);
-	setprop("/sim/rendering/rightgeardamage", 0);
-	setprop("/sim/rendering/leftwingdamage", 0);
-	setprop("/sim/rendering/rightwingdamage", 0);
-	setprop("/sim/rendering/allfix", 0);
-	lastkit=3;
 }
 
 var defaulttires = func

@@ -42,15 +42,32 @@ var terrain_survol_loop = func {
 
 }
 
+#use this loop for any system that requires monitoring and possesses no loop of its own
+var check_systems_status = func {
+	
+	#Volume shadow has version and ALS requirements 
+	var p = getprop("/sim/rendering/shadow-volume");
+	if (p) {
+		if (!c172p.check_eligibility()) {
+			setprop("/sim/rendering/shadow-volume", 0);
+		} 
+	}
+	
+}
+
 ############################################
 # Global loop function
 # If you need to run nasal as loop, add it in this function
 ############################################
 global_system_loop = func{
 
-  terrain_survol_loop();
+  # terrain_survol_loop was incorporated during damage system creation. 
+  # "Unimplemented" crash detection system requires this self terrain modelling (I think)
+  # If we end up not using it, then we can remove it.
+  #terrain_survol_loop();
   c172p.physics_loop();
   c172p.weather_effects_loop();
+  check_systems_status();
 
 }
 

@@ -23,15 +23,24 @@
 	<nasal>
 		<open>
 			var init = func {
+			
+				#bush kit
 				var p = getprop("fdm/jsbsim/bushkit");
-
 				setprop("/sim/model/c172p/bushkit_flag_0",0);
 				setprop("/sim/model/ec130/bushkit_flag_1",0);
 				setprop("/sim/model/ec130/bushkit_flag_2",0);
-
 				if ( p == 0 ) { setprop("/sim/model/c172p/bushkit_flag_0",1); }
 				if ( p == 1 ) { setprop("/sim/model/c172p/bushkit_flag_1",1); }
 				if ( p == 2 ) { setprop("/sim/model/c172p/bushkit_flag_2",1); }
+				
+				#shadow volume
+				var p = getprop("/sim/rendering/shadow-volume");
+				if (p) {
+					if (!c172p.check_eligibility()) {
+						setprop("/sim/rendering/shadow-volume", 0);
+					}
+				}
+	
 			}
 
 			init();
@@ -153,7 +162,8 @@
 		<empty><stretch>1</stretch></empty>
 		<halign>left</halign>
 		<checkbox>
-			<label> Shadow Volume</label>
+			<label> Volume Shadow</label>
+			<property>/sim/rendering/shadow-volume</property>
 			<live>true</live>
 			<binding>
 				<command>nasal</command>

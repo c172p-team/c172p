@@ -4383,12 +4383,12 @@
 
  <!--  ALS ground volume shadow  -->
   <model>
-   <path>Aircraft/c172p-detailed/Models/Effects/shadow/3dshadow.xml</path>
+   <path>Models/Effects/shadow/3dshadow.xml</path>
   </model>
   
   <!--  Non-ALS ground shadow  -->
   <model>
-   <path>Aircraft/c172p-detailed/Models/Effects/shadow/shadow.xml</path>
+   <path>Models/Effects/shadow/shadow.xml</path>
   </model>
  
    <!-- Pilot, copilot and passengers -->
@@ -4446,6 +4446,10 @@
           <property>sim/current-view/name</property>
           <value>Walker Orbit View</value>
         </not-equals>
+		<not-equals>
+          <property>sim/model/occupants</property>
+          <value>false</value>
+        </not-equals>
       </and>
     </condition>
   </animation>
@@ -4454,30 +4458,48 @@
     <type>select</type>
     <object-name>Copilot</object-name>
     <condition>
-        <greater-than>
-	  <property>payload/weight[1]/weight-lb</property>
-          <value>100</value>
-        </greater-than>
+		<and>
+			<greater-than>
+				<property>payload/weight[1]/weight-lb</property>
+				<value>100</value>
+			</greater-than>
+			<equals>
+			  <property>sim/model/occupants</property>
+			  <value>true</value>
+			</equals>
+		</and>
     </condition>
   </animation>
   <animation>
     <type>select</type>
     <object-name>LeftPassenger</object-name>
     <condition>
-        <greater-than>
-	  <property>payload/weight[2]/weight-lb</property>
-          <value>100</value>
-        </greater-than>
+		<and>
+			<greater-than>
+				<property>payload/weight[2]/weight-lb</property>
+				<value>100</value>
+			</greater-than>
+			<equals>
+				<property>sim/model/occupants</property>
+				<value>true</value>
+			</equals>
+		</and>
     </condition>
   </animation>
   <animation>
     <type>select</type>
     <object-name>RightPassenger</object-name>
     <condition>
-        <greater-than>
-	  <property>payload/weight[3]/weight-lb</property>
-          <value>100</value>
-        </greater-than>
+		<and>
+			<greater-than>
+				<property>payload/weight[3]/weight-lb</property>
+				<value>100</value>
+			</greater-than>
+			<equals>
+				<property>sim/model/occupants</property>
+				<value>true</value>
+			</equals>
+		</and>
     </condition>
   </animation>
 

@@ -45,7 +45,6 @@ var resetalldamage = func
 	setprop(gears~"unit[2]/broken", 0);
 	setprop(contact~"unit[4]/broken", 0);
 	setprop(contact~"unit[5]/broken", 0);
-	setprop("/sim/rendering/alldamage", 0);
 	setprop("/fdm/jsbsim/wing/broken-one", 0);
 	setprop("/fdm/jsbsim/wing/broken-both", 0);
 	setprop("/fdm/jsbsim/crash", 0);
@@ -54,6 +53,7 @@ var resetalldamage = func
 	#setprop("/sim/rendering/rightgeardamage", 0);
 	#setprop("/sim/rendering/leftwingdamage", 0);
 	#setprop("/sim/rendering/rightwingdamage", 0);
+	#setprop("/sim/rendering/alldamage", 0);
 	#setprop("/sim/rendering/allfix", 0);
 	lastkit=3;
 }

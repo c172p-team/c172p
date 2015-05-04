@@ -157,28 +157,28 @@ var removefairings = func
 
 var poll_damage = func
 {
-	if(getprop(gears~"unit[0]/compression-ft") > 0.75 or getprop("/sim/rendering/nosedamage") or getprop("/sim/rendering/alldamage"))
+	if (getprop(gears~"unit[0]/compression-ft") > 0.75 or getprop("/sim/rendering/nosedamage") or getprop("/sim/rendering/alldamage"))
 		nosegearbroke();
 
-	if(getprop(gears~"unit[1]/compression-ft") > .49 or getprop("/sim/rendering/leftgeardamage") or getprop("/sim/rendering/alldamage"))
+	if (getprop(gears~"unit[1]/compression-ft") > .49 or getprop("/sim/rendering/leftgeardamage") or getprop("/sim/rendering/alldamage"))
 		leftgearbroke();
 		
-	if(getprop(gears~"unit[2]/compression-ft") > 0.49 or getprop("/sim/rendering/rightgeardamage") or getprop("/sim/rendering/alldamage"))
+	if (getprop(gears~"unit[2]/compression-ft") > 0.49 or getprop("/sim/rendering/rightgeardamage") or getprop("/sim/rendering/alldamage"))
 		rightgearbroke();
 	
-	if(getprop(contact~"unit[4]/compression-ft") > 0.005 or getprop("/sim/rendering/leftwingdamage"))
+	if (getprop(contact~"unit[4]/compression-ft") > 0.005 or getprop("/sim/rendering/leftwingdamage"))
 		leftwingbroke();
 		
-	if(getprop(contact~"unit[5]/compression-ft") > 0.005 or getprop("/sim/rendering/rightwingdamage"))
+	if (getprop(contact~"unit[5]/compression-ft") > 0.005 or getprop("/sim/rendering/rightwingdamage"))
 		rightwingbroke();
 		
-	if(getprop(contact~"unit[4]/broken") and getprop(contact~"unit[5]/broken"))
+	if (getprop(contact~"unit[4]/broken") and getprop(contact~"unit[5]/broken"))
 		bothwingbroke();
 	
-	if(getprop(gears~"unit[0]/broken")	and getprop(gears~"unit[1]/broken")	and getprop(gears~"unit[2]/broken"))
+	if (getprop(gears~"unit[0]/broken")	and getprop(gears~"unit[1]/broken")	and getprop(gears~"unit[2]/broken"))
 		bothwingcollapse();
 	
-	if(getprop("position/altitude-agl-m") < 10 and (getprop("/fdm/jsbsim/crash") or getprop("/fdm/jsbsim/wing/broken-one") or getprop("/fdm/jsbsim/wing/broken-both")))
+	if (getprop("position/altitude-agl-m") < 10 and (getprop("/fdm/jsbsim/crash") or getprop("/fdm/jsbsim/wing/broken-one") or getprop("/fdm/jsbsim/wing/broken-both")))
 		killengine();
 	
 	if (getprop("/sim/rendering/allfix"))
@@ -196,10 +196,10 @@ var poll_damage = func
 
 var poll_gear_delay = func
 {
-	if(getprop("/fdm/jsbsim/bushkit") == 0)
+	if (getprop("/fdm/jsbsim/bushkit") == 0)
 		defaulttires();
 	else
-    if(getprop("/fdm/jsbsim/bushkit") == 1)
+    if (getprop("/fdm/jsbsim/bushkit") == 1)
 		medbushtires();
 	else
 		largebushtires();
@@ -216,7 +216,8 @@ var physics_loop = func
 	if (lastkit == getprop("/fdm/jsbsim/bushkit"))
 	{
 		settledelay = 0;
-		poll_damage();
+		if (getprop("/fdm/jsbsim/damage"))
+			poll_damage();
 	}
 	else
 	{

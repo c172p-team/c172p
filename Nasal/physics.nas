@@ -219,7 +219,8 @@ var physics_loop = func
 	if (lastkit == getprop("/fdm/jsbsim/bushkit"))
 	{
 		settledelay = 0;
-		poll_damage();
+		if (getprop("/fdm/jsbsim/damage"))
+			poll_damage();
 	}
 	else
 	{

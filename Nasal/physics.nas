@@ -1,14 +1,12 @@
 props.Node.new({ "/fdm/jsbsim/bushkit":0 });
 props.globals.initNode("/fdm/jsbsim/bushkit", 0, "INT");
 
+#reference Vne=158, max positive-g=5.8, max negative-g=5.8 
 props.Node.new({ "limits/vne":0 });
-#158
 props.globals.initNode("limits/vne", 158, "DOUBLE");
 props.Node.new({ "limits/max-positive-g":0 });
-#5.8
 props.globals.initNode("limits/max-positive-g", 5.8, "DOUBLE");
 props.Node.new({ "limits/max-negative-g":0 });
-#5.8
 props.globals.initNode("limits/max-negative-g", -5.8, "DOUBLE");
 
 var g = getprop("/accelerations/pilot-gdamped") or 1;

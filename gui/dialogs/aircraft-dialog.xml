@@ -43,6 +43,11 @@
 	
 			}
 
+			#if {getprop("/fdm/jsbsim/running")) {
+			#	c172p.autostart();
+			#	setprop("/controls/switches/starter", 3);
+			#}
+	
 			init();
 		</open>
 	</nasal>
@@ -80,10 +85,10 @@
 		<halign>left</halign>
 		<checkbox>
 			<label> Start with engine running</label>
+			<property>/fdm/jsbsim/running</property>
 			<live>true</live>
 			<binding>
-				<command>nasal</command>
-				<script>#needs tied to start engine code</script>
+				<command>dialog-apply</command>
 			</binding>
 		</checkbox>
 	</group>
@@ -95,10 +100,10 @@
 		<halign>left</halign>
 		<checkbox>
 			<label> Complex start up procedures</label>
+			<property>/fdm/jsbsim/complex</property>
 			<live>true</live>
 			<binding>
-				<command>nasal</command>
-				<script>#needs tied to complex start up procedure code</script>
+				<command>dialog-apply</command>
 			</binding>
 		</checkbox>
 	</group>

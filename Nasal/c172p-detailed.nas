@@ -55,7 +55,7 @@ var check_systems_status = func {
 			setprop("/sim/rendering/shadow-volume", 0);
 		} 
 	}
-	
+		
 }
 
 ############################################

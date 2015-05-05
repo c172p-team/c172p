@@ -37,26 +37,26 @@ var fairing3 = 0;
 #props.globals.initNode("/sim/rendering/leftwingdamage", 0, "INT");
 #props.Node.new({ "/sim/rendering/allfix":0 });
 #props.globals.initNode("/sim/rendering/allfix", 0, "INT");
-#var resetalldamage = func
-#{
-#	setprop("/controls/engines/engine/magnetos", 1);
-#	setprop(gears~"unit[0]/broken", 0);
-#	setprop(gears~"unit[1]/broken", 0);
-#	setprop(gears~"unit[2]/broken", 0);
-#	setprop(contact~"unit[4]/broken", 0);
-#	setprop(contact~"unit[5]/broken", 0);
-#	setprop("/sim/rendering/alldamage", 0);
-#	setprop("/fdm/jsbsim/wing/broken-one", 0);
-#	setprop("/fdm/jsbsim/wing/broken-both", 0);
-#	setprop("/fdm/jsbsim/crash", 0);
-#	setprop("/sim/rendering/nosedamage", 0);
-#	setprop("/sim/rendering/leftgeardamage", 0);
-#	setprop("/sim/rendering/rightgeardamage", 0);
-#	setprop("/sim/rendering/leftwingdamage", 0);
-#	setprop("/sim/rendering/rightwingdamage", 0);
-#	setprop("/sim/rendering/allfix", 0);
-#	lastkit=3;
-#}
+var resetalldamage = func
+{
+	setprop("/controls/engines/engine/magnetos", 1);
+	setprop(gears~"unit[0]/broken", 0);
+	setprop(gears~"unit[1]/broken", 0);
+	setprop(gears~"unit[2]/broken", 0);
+	setprop(contact~"unit[4]/broken", 0);
+	setprop(contact~"unit[5]/broken", 0);
+	setprop("/fdm/jsbsim/wing/broken-one", 0);
+	setprop("/fdm/jsbsim/wing/broken-both", 0);
+	setprop("/fdm/jsbsim/crash", 0);
+	#setprop("/sim/rendering/nosedamage", 0);
+	#setprop("/sim/rendering/leftgeardamage", 0);
+	#setprop("/sim/rendering/rightgeardamage", 0);
+	#setprop("/sim/rendering/leftwingdamage", 0);
+	#setprop("/sim/rendering/rightwingdamage", 0);
+	#setprop("/sim/rendering/alldamage", 0);
+	#setprop("/sim/rendering/allfix", 0);
+	lastkit=3;
+}
 
 var nosegearbroke = func
 {
@@ -219,7 +219,8 @@ var physics_loop = func
 	if (lastkit == getprop("/fdm/jsbsim/bushkit"))
 	{
 		settledelay = 0;
-		poll_damage();
+		if (getprop("/fdm/jsbsim/damage"))
+			poll_damage();
 	}
 	else
 	{

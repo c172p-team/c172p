@@ -95,19 +95,22 @@ Many files from the original c172p directory are included in this file.
     
     <crew>
       <pilot n="0">
-	<pose include = "Models/Human/pose-pilot.xml"></pose>
-        <character>0</character>
-        <outfit>0</outfit>
-        <equipment>0</equipment>
-      </pilot>
-      <pilot n="1">
-	<pose include = "Models/Human/pose-copilot.xml"></pose>
-        <character>0</character>
-        <outfit>0</outfit>
-        <equipment>0</equipment>
+		<pose include = "Models/Human/pose-pilot.xml"></pose>
+		<character>0</character>
+		<outfit>0</outfit>
+		<equipment>0</equipment>
+	  </pilot>
+	  <pilot n="1">
+		<pose include = "Models/Human/pose-copilot.xml"></pose>
+		<character>0</character>
+		<outfit>0</outfit>
+		<equipment>0</equipment>
       </pilot>
     </crew>
-    
+	
+	<!-- human models persistent menu choice -->
+	<occupants type="bool">0</occupants>
+  
     <!-- an exit for the walker -->
     <map>
       <default_exit>
@@ -116,6 +119,13 @@ Many files from the original c172p directory are included in this file.
       </default_exit>
     </map>
   </model>
+  
+  <aircraft-data>
+    <path>/sim/rendering/shadow-volume</path>
+    <path>/sim/model/occupants</path>
+    <path>/fdm/jsbsim/damage</path>
+	<path>fdm/jsbsim/bushkit</path>
+  </aircraft-data>
 
   <startup>
 	  <splash-texture>Aircraft/c172p-detailed/splash.png</splash-texture>
@@ -203,7 +213,7 @@ Many files from the original c172p directory are included in this file.
     </config>
   </flight-recorder>
 
-  <menubar include="Dialogs/c172p-menu.xml"/>
+  <menubar include="gui/dialogs/c172p-menu.xml"/>
   <instrumentation>
     <path>Aircraft/c172p/Systems/instrumentation.xml</path>
   </instrumentation>
@@ -299,18 +309,16 @@ Many files from the original c172p directory are included in this file.
       <file>Aircraft/c172p/Nasal/kma20.nas</file>
       <file>Aircraft/c172p/Nasal/ki266.nas</file>
       <file>Nasal/engine.nas</file>
-	  <file>Aircraft/c172p-detailed/Nasal/shadow.nas</file>
-	  <file>Aircraft/c172p-detailed/Nasal/avionics.nas</file>
-	  <file>Aircraft/c172p-detailed/Nasal/weather.nas</file>
-	  
-	  <!-- DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
-      <file>Aircraft/c172p-detailed/Nasal/physics.nas</file>
-      <file>Aircraft/c172p-detailed/Nasal/c172p-detailed.nas</file>
-	  <!-- END DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
-    </c172p>
+	  <file>Nasal/shadow.nas</file>
+	  <file>Nasal/avionics.nas</file>
+	  <file>Nasal/weather.nas</file>
+	  <!-- Damage Mod -->
+      <file>Nasal/physics.nas</file>
+      <file>Nasal/c172p-detailed.nas</file>
+  </c172p>
 
   <electrical>
-   <file>Aircraft/c172p-detailed/Nasal/electrical.nas</file>
+   <file>Nasal/electrical.nas</file>
   </electrical>
   <kap140>
    <file>Aircraft/Generic/kap140.nas</file>
@@ -320,7 +328,7 @@ Many files from the original c172p directory are included in this file.
   </kr87>
   
   <tyresmoke>
-   <file>Aircraft/c172p-detailed/Nasal/tyresmoke.nas</file>
+   <file>Nasal/tyresmoke.nas</file>
   </tyresmoke>
   
  </nasal>
@@ -418,7 +426,7 @@ Many files from the original c172p directory are included in this file.
     </gear>
   </gear>
   
-  <!-- DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+ <!-- Damage Mod -->
   <fdm>
     <jsbsim>
 		<gear>
@@ -441,12 +449,13 @@ Many files from the original c172p directory are included in this file.
 			</unit>
 		</contact>
 		<crash type="bool">0</crash>
-        <wing>
+		<damage type="bool">0</damage>
+		<wing>
             <broken-one type="double">0</broken-one>
             <broken-both type="double">0</broken-both>
         </wing>
     </jsbsim>
   </fdm>
-  <!-- END DAMAGE MOD XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
+  <!-- End Damage Mod -->
   
 </PropertyList>

@@ -12,7 +12,7 @@ props.globals.initNode("limits/max-negative-g", -5.8, "DOUBLE");
 var g = getprop("/accelerations/pilot-gdamped") or 1;
 var max_positive = getprop("limits/max-positive-g");
 var max_negative = getprop("limits/max-negative-g");
-  
+
 var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
 var lastkit=0;
@@ -21,6 +21,7 @@ var settledelay=0;
 var fairing1 = 0;
 var fairing2 = 0;
 var fairing3 = 0;
+
 
 props.Node.new({ "/sim/rendering/nosedamage":0 });
 props.globals.initNode("/sim/rendering/nosedamage", 0, "INT");

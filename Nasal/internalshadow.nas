@@ -30,6 +30,23 @@ var check_required_version = func (required_version) {
     return 1;
 };
 
+var check_is_eligibility = func {
+	if (check_required_version([3, 5])) {
+	    if (getprop("/sim/rendering/shaders/skydome")) {
+		    return 1;
+	    }
+	    else {
+		    gui.popupTip("Enable ALS for Internal Shadow", 5);
+			return 0;
+	    }
+    }
+    else {
+	    gui.popupTip("ALS Internal-Shadow require version 3.5 or greater", 5);
+		return 0;
+    }
+	
+}
+
 var toggle_internal_shadow = func {
     if (check_required_version([3, 5])) {
 	    if (getprop("/sim/rendering/shaders/skydome")) {

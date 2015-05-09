@@ -10,7 +10,7 @@
  
  <model>
 	<name>Damage</name>
-	<path>Models/Effects/damage/damage.xml</path>
+	<path>Effects/damage/damage.xml</path>
 	<offsets>
 		<x-m>0.0</x-m>
 		<y-m>0.0</y-m>
@@ -21,7 +21,7 @@
  
  <model>
 	<name>Bushkit</name>
-	<path>Models/Effects/bushkit/bushkit.xml</path>
+	<path>Effects/bushkit/bushkit.xml</path>
 	<offsets>
 		<x-m>0.0</x-m>
 		<y-m>0.0</y-m>
@@ -32,9 +32,27 @@
 
  <nasal>
    <load>
-     var livery_update = aircraft.livery_update.new(
-     "Aircraft/c172p/Models/Liveries", 10,
-     func { print("c172p livery update") });
+    var livery_update = aircraft.livery_update.new(
+    "Aircraft/c172p/Models/Liveries", 10,
+    func { print("c172p livery update") });
+
+	# mp damage mod
+	var rplayer = cmdarg();
+	rplayer.getNode("fdm/jsbsim/crash", 1).
+	alias(rplayer.getNode("sim/multiplay/generic/int[3]"));
+	rplayer.getNode("fdm/jsbsim/contact/unit[4]/broken", 1).
+	alias(rplayer.getNode("sim/multiplay/generic/int[4]"));
+	rplayer.getNode("fdm/jsbsim/contact/unit[5]/broken", 1).
+	alias(rplayer.getNode("sim/multiplay/generic/int[5]"));
+	rplayer.getNode("fdm/jsbsim/gear/unit[0]/broken", 1).
+	alias(rplayer.getNode("sim/multiplay/generic/int[6]"));
+	rplayer.getNode("fdm/jsbsim/gear/unit[1]/broken", 1).
+	alias(rplayer.getNode("sim/multiplay/generic/int[7]"));
+	rplayer.getNode("fdm/jsbsim/gear/unit[2]/broken", 1).
+	alias(rplayer.getNode("sim/multiplay/generic/int[8]"));
+	rplayer.getNode("fdm/jsbsim/bushkit", 1).
+	alias(rplayer.getNode("sim/multiplay/generic/int[9]"));
+	
    </load>
 
    <unload>
@@ -394,7 +412,7 @@
 	 
  <!-- interior effects -->
  <effect>
-    <inherits-from>Models/Effects/interior/c172p-interior</inherits-from>
+    <inherits-from>Effects/interior/c172p-interior</inherits-from>
     <object-name>AirVent_leftV</object-name>
     <object-name>AirVent_rightV</object-name>
 	<object-name>ElevatorTrimPosV</object-name>
@@ -455,19 +473,19 @@
  </effect>
 	  
  <effect>
-   <inherits-from>Models/Effects/interior/c172p-interior-glass-shadow</inherits-from>
+   <inherits-from>Effects/interior/c172p-interior-glass-shadow</inherits-from>
    <object-name>glasV</object-name>
    <object-name>leftwindowV</object-name>
    <object-name>rightwindowV</object-name>
  </effect> 
   
  <effect>
-   <inherits-from>Models/Effects/interior/c172p-interior-glass-reflection-front</inherits-from>
+   <inherits-from>Effects/interior/c172p-interior-glass-reflection-front</inherits-from>
    <object-name>glas_interiorV</object-name>
  </effect>
  
  <effect>
-   <inherits-from>Models/Effects/interior/c172p-interior-glass-reflection-side</inherits-from>
+   <inherits-from>Effects/interior/c172p-interior-glass-reflection-side</inherits-from>
    <object-name>leftwindow_interiorV</object-name>
    <object-name>rightwindow_interiorV</object-name>
    <object-name>glas_interior_sidesV</object-name>
@@ -490,7 +508,7 @@
  
  <!-- Damage Mod -->
  <model>
-    <path>Models/Effects/damage/nose_gear.xml</path>
+    <path>Effects/damage/nose_gear.xml</path>
     <offsets>
       <x-m> -.85 </x-m>
       <y-m>  0.0000 </y-m>
@@ -498,7 +516,7 @@
     </offsets>
  </model>
   <model>
-    <path>Models/Effects/damage/left_gear.xml</path>
+    <path>Effects/damage/left_gear.xml</path>
     <offsets>
       <x-m> -0.7 </x-m>
       <y-m> -1.9 </y-m>
@@ -506,7 +524,7 @@
     </offsets>
  </model>
   <model>
-    <path>Models/Effects/damage/right_gear.xml</path>
+    <path>Effects/damage/right_gear.xml</path>
     <offsets>
       <x-m> -0.7 </x-m>
       <y-m> 1.9 </y-m>
@@ -514,7 +532,7 @@
     </offsets>
  </model>
  <model>
-    <path>Models/Effects/damage/tail.xml</path>
+    <path>Effects/damage/tail.xml</path>
     <offsets>
       <x-m>  4.9264 </x-m>
       <y-m>  0.0000 </y-m>
@@ -522,7 +540,7 @@
     </offsets>
  </model>
  <model>
-    <path>Models/Effects/damage/wing-left.xml</path>
+    <path>Effects/damage/wing-left.xml</path>
     <offsets>
       <x-m> .15 </x-m>
       <y-m> -5.6338 </y-m>
@@ -530,7 +548,7 @@
     </offsets>
  </model>
  <model>
-    <path>Models/Effects/damage/wing-right.xml</path>
+    <path>Effects/damage/wing-right.xml</path>
     <offsets>
       <x-m> .15 </x-m>
       <y-m> 5.6338 </y-m>
@@ -559,7 +577,7 @@
  <!-- breakers and avionics switch -->
  <model>
    <name>BreakersAndAvionicsSwitch</name>
-   <path>Models/Interior/Panel/Buttons/breakers/breakers.xml</path>
+   <path>Interior/Panel/Buttons/breakers/breakers.xml</path>
    <offsets>
      <x-m>-0.36873</x-m>
      <y-m>-0.30291</y-m>
@@ -571,7 +589,7 @@
  <!--instrumentation-->
  <model>
    <name>MagCompass</name>
-   <path>Models/Interior/Panel/Instruments/mag-compass/mag-compass.xml</path>
+   <path>Interior/Panel/Instruments/mag-compass/mag-compass.xml</path>
    <offsets>
      <x-m>-0.35</x-m>
      <y-m>0.00</y-m>
@@ -581,7 +599,7 @@
 
  <model>
    <name>AI</name>
-   <path>Models/Interior/Panel/Instruments/AI/AI.xml</path>
+   <path>Interior/Panel/Instruments/AI/AI.xml</path>
    <offsets>
 <!-- MOD: AI Position XYZ
       <x-m>-0.369</x-m>
@@ -597,7 +615,7 @@
 
  <model>
    <name>Altimeter</name>
-   <path>Models/Interior/Panel/Instruments/alt/alt.xml</path>
+   <path>Interior/Panel/Instruments/alt/alt.xml</path>
    <offsets>
 <!-- MOD: ALTIMETER Position XYZ
      <x-m>-0.369</x-m>
@@ -661,7 +679,7 @@
 
  <model>
    <name>Turn</name>
-   <path>Models/Interior/Panel/Instruments/tc/tc.xml</path>
+   <path>Interior/Panel/Instruments/tc/tc.xml</path>
    <offsets>
 <!-- MOD: TC Position XYZ
      <x-m>-0.368</x-m>
@@ -882,7 +900,7 @@
 
  <model>
    <name>fuel</name>
-   <path>Models/Interior/Panel/Instruments/FuelOilAmps/c172fuel.xml</path>
+   <path>Interior/Panel/Instruments/FuelOilAmps/c172fuel.xml</path>
    <offsets>
      <x-m>-0.369</x-m>
      <y-m>-0.405</y-m>
@@ -892,7 +910,7 @@
 
  <model>
    <name>oil</name>
-   <path>Models/Interior/Panel/Instruments/FuelOilAmps/c172oil.xml</path>
+   <path>Interior/Panel/Instruments/FuelOilAmps/c172oil.xml</path>
    <offsets>
      <x-m>-0.369</x-m>
      <y-m>-0.405</y-m>
@@ -942,7 +960,7 @@
 
  <model>
    <name>FlapSwitch</name>
-   <path>Models/Interior/Panel/Flaps/flaps.xml</path>
+   <path>Interior/Panel/Flaps/flaps.xml</path>
    <offsets>
      <x-m>-0.36</x-m>
      <y-m>0.19</y-m>
@@ -985,7 +1003,7 @@
  
   <!-- MOD: Tyre smoke -->
   <model>
-    <path>Models/Effects/tyresmoke/tyre-smoke-nose.xml</path>
+    <path>Effects/tyresmoke/tyre-smoke-nose.xml</path>
 	<object-name>tyre-smoke-n</object-name>
     <offsets>
       <x-m> -1. </x-m>
@@ -995,7 +1013,7 @@
   </model>
 
   <model>
-    <path>Models/Effects/tyresmoke/tyre-smoke-port.xml</path>
+    <path>Effects/tyresmoke/tyre-smoke-port.xml</path>
 	<object-name>tyre-smoke-p</object-name>
     <offsets>
       <x-m> .3 </x-m>
@@ -1005,7 +1023,7 @@
   </model>
 
   <model>
-    <path>Models/Effects/tyresmoke/tyre-smoke-stbd.xml</path>
+    <path>Effects/tyresmoke/tyre-smoke-stbd.xml</path>
 	<object-name>tyre-smoke-s</object-name>
     <offsets>
       <x-m> .3 </x-m>
@@ -1048,7 +1066,7 @@
  <!-- MODEND: Tyre Spray -->
  
    <model>
-   <path>Models/Interior/Panel/Instruments/hobbs/hobbs.xml</path>
+   <path>Interior/Panel/Instruments/hobbs/hobbs.xml</path>
    <offsets>
      <x-m>-0.36</x-m>
      <y-m>0.42</y-m>
@@ -3540,22 +3558,38 @@
    <object-name>landinglightcover</object-name>
    <object-name>landinglight2</object-name>
    <condition>
-    <and>
-	 <equals>
-	  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
-	  <value>0</value>
-	 </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
-	  <value>0</value>
-	 </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
-	</and>
+	<or>
+		<and>
+		 <equals>
+		  <property>/ai/models/multiplayer/fdm/jsbsim/contact/unit[4]/broken</property>
+		  <value>0</value>
+		 </equals>
+		 <equals>
+		  <property>/ai/models/multiplayer/fdm/jsbsim/contact/unit[5]/broken</property>
+		  <value>0</value>
+		 </equals>
+		 <equals>
+		  <property>/ai/models/multiplayer/fdm/jsbsim/crash</property>
+		  <value>0</value>
+		 </equals>
+		</and>
+		<and>
+		 <equals>
+		  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
+		  <value>0</value>
+		 </equals>
+		 <equals>
+		  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
+		  <value>0</value>
+		 </equals>
+		 <equals>
+		  <property>/fdm/jsbsim/crash</property>
+		  <value>0</value>
+		 </equals>
+		</and>
+	</or>
    </condition>
- </animation>
+ </animation> 
  
  <animation>
    <type>select</type>
@@ -3571,10 +3605,13 @@
    <object-name>landinglightcoverCollapse</object-name>
    <object-name>landinglight2Collapse</object-name>
    <condition>
-    <equals>
-	 <property>/fdm/jsbsim/crash</property>
-	 <value>1</value>
-	</equals>
+	<or>
+		<property>/ai/models/multiplayer/fdm/jsbsim/crash</property>
+		<equals>
+			<property>/fdm/jsbsim/crash</property>
+		<value>1</value>
+		</equals>
+	</or>
    </condition>
  </animation>
  
@@ -3592,20 +3629,36 @@
    <object-name>landinglightcoverBD</object-name>
    <object-name>landinglight2BD</object-name>
    <condition>
-    <and>
-	<equals>
-	  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
-	  <value>1</value>
-	</equals>
-	<equals>
-	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
-	  <value>1</value>
-	</equals>
-    <equals>
-	 <property>/fdm/jsbsim/crash</property>
-	 <value>0</value>
-	</equals>
-	</and>
+	<or>
+		<and>
+			<equals>
+			  <property>/ai/models/multiplayer/fdm/jsbsim/contact/unit[4]/broken</property>
+			  <value>1</value>
+			</equals>
+			<equals>
+			  <property>/ai/models/multiplayer/fdm/jsbsim/contact/unit[5]/broken</property>
+			  <value>1</value>
+			</equals>
+			<equals>
+			 <property>/ai/models/multiplayer/fdm/jsbsim/crash</property>
+			 <value>0</value>
+			</equals>
+		</and>
+		<and>
+			<equals>
+			  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
+			  <value>1</value>
+			</equals>
+			<equals>
+			  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
+			  <value>1</value>
+			</equals>
+			<equals>
+			 <property>/fdm/jsbsim/crash</property>
+			 <value>0</value>
+			</equals>
+		</and>
+	</or>
    </condition>
  </animation>
  
@@ -3623,20 +3676,36 @@
    <object-name>landinglightcoverLD</object-name>
    <object-name>landinglight2LD</object-name>
    <condition>
-    <and>
-	 <equals>
-	  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
-	  <value>1</value>
-	 </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
-	  <value>0</value>
-	</equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
-	</and>
+	<or>
+		<and>
+		 <equals>
+		  <property>/ai/models/multiplayer/fdm/jsbsim/contact/unit[4]/broken</property>
+		  <value>1</value>
+		 </equals>
+		 <equals>
+		  <property>/ai/models/multiplayer/fdm/jsbsim/contact/unit[5]/broken</property>
+		  <value>0</value>
+		</equals>
+		 <equals>
+		  <property>/ai/models/multiplayer/fdm/jsbsim/crash</property>
+		  <value>0</value>
+		 </equals>
+		</and>
+		<and>
+		 <equals>
+		  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
+		  <value>1</value>
+		 </equals>
+		 <equals>
+		  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
+		  <value>0</value>
+		</equals>
+		 <equals>
+		  <property>/fdm/jsbsim/crash</property>
+		  <value>0</value>
+		 </equals>
+		</and>
+	</or>
    </condition>
  </animation>
  
@@ -3654,20 +3723,36 @@
    <object-name>landinglightcoverRD</object-name>
    <object-name>landinglight2RD</object-name>
    <condition>
-	<and>
-	 <equals>
-	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
-	  <value>1</value>
-	 </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
-	  <value>0</value>
-	</equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
-	</and>
+	<or>
+		<and>
+		 <equals>
+		  <property>/ai/models/multiplayer/fdm/jsbsim/contact/unit[5]/broken</property>
+		  <value>1</value>
+		 </equals>
+		 <equals>
+		  <property>/ai/models/multiplayer/fdm/jsbsim/contact/unit[4]/broken</property>
+		  <value>0</value>
+		</equals>
+		 <equals>
+		  <property>/ai/models/multiplayer/fdm/jsbsim/crash</property>
+		  <value>0</value>
+		 </equals>
+		</and>
+		<and>
+		 <equals>
+		  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
+		  <value>1</value>
+		 </equals>
+		 <equals>
+		  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
+		  <value>0</value>
+		</equals>
+		 <equals>
+		  <property>/fdm/jsbsim/crash</property>
+		  <value>0</value>
+		 </equals>
+		</and>
+	</or>
    </condition>
  </animation>
  
@@ -3681,7 +3766,18 @@
    <object-name>Propeller</object-name>
    <object-name>Propeller.Fast</object-name>
    <condition>
+	<or>
       <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[0]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>0</value>
+		 </equals>
+	  </and>
+	  <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
 			<value>0</value>
@@ -3691,6 +3787,7 @@
 			<value>0</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3699,6 +3796,17 @@
    <object-name>LeftWheel</object-name> 
    <object-name>LeftWheelStrut</object-name> 
    <condition>
+	<or>
+	  <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[1]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>0</value>
+		 </equals>
+	  </and>
       <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
@@ -3709,6 +3817,7 @@
 			<value>0</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3717,6 +3826,17 @@
    <object-name>RightWheel</object-name>
    <object-name>RightWheelStrut</object-name>   
    <condition>
+	<or>
+	  <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[2]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>0</value>
+		 </equals>
+	  </and>
       <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
@@ -3727,6 +3847,7 @@
 			<value>0</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3740,6 +3861,23 @@
    <object-name>PropellerBK</object-name>
    <object-name>PropellerBK.Fast</object-name>
    <condition>
+	<or>
+	  <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[0]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <or>
+			 <equals>
+				<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+				<value>1</value>
+			 </equals>
+			 <equals>
+				<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+				<value>2</value>
+			 </equals>
+		 </or>
+	  </and>
       <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
@@ -3756,6 +3894,7 @@
 			 </equals>
 		 </or>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3764,6 +3903,17 @@
    <object-name>LeftWheelBKs</object-name>
    <object-name>LeftWheelStrutBKs</object-name>
    <condition>
+	<or>
+	  <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[1]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>1</value>
+		 </equals>
+	  </and>
       <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
@@ -3774,6 +3924,7 @@
 			<value>1</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3782,7 +3933,18 @@
    <object-name>RightWheelBKs</object-name>
    <object-name>RightWheelStrutBKs</object-name>
    <condition>
+    <or>
       <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[2]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>1</value>
+		 </equals>
+	  </and>
+	  <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
 			<value>0</value>
@@ -3792,6 +3954,7 @@
 			<value>1</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3800,7 +3963,18 @@
    <object-name>LeftWheelBK</object-name>
    <object-name>LeftWheelStrutBK</object-name>
    <condition>
+    <or>
       <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[1]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>2</value>
+		 </equals>
+	  </and>
+	  <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
 			<value>0</value>
@@ -3810,6 +3984,7 @@
 			<value>2</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3818,7 +3993,18 @@
    <object-name>RightWheelBK</object-name>
    <object-name>RightWheelStrutBK</object-name>
    <condition>
+    <or>
       <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[2]/broken</property>
+			<value>0</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>2</value>
+		 </equals>
+	  </and>
+	  <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
 			<value>0</value>
@@ -3828,6 +4014,7 @@
 			<value>2</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3840,7 +4027,18 @@
    <object-name>BottomLinkD</object-name>
    <object-name>PropellerD</object-name>
    <condition>
+    <or>
       <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[0]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>0</value>
+		 </equals>
+	  </and>
+	  <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
 			<value>1</value>
@@ -3850,6 +4048,7 @@
 			<value>0</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3858,7 +4057,18 @@
    <object-name>LeftWheelD</object-name>
    <object-name>LeftWheelStrutD</object-name>
    <condition>
+    <or>
       <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[1]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>0</value>
+		 </equals>
+	  </and>
+	  <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
 			<value>1</value>
@@ -3868,6 +4078,7 @@
 			<value>0</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3876,7 +4087,18 @@
    <object-name>RightWheelD</object-name>
    <object-name>RightWheelStrutD</object-name>
    <condition>
+    <or>
       <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[2]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>0</value>
+		 </equals>
+	  </and>
+	  <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
 			<value>1</value>
@@ -3886,6 +4108,7 @@
 			<value>0</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3898,7 +4121,18 @@
    <object-name>BottomLinkBKsD</object-name>
    <object-name>PropellerBKsD</object-name>
    <condition>
+    <or>
       <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[0]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>1</value>
+		 </equals>
+	  </and>
+	  <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
 			<value>1</value>
@@ -3908,6 +4142,7 @@
 			<value>1</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3916,7 +4151,18 @@
    <object-name>LeftWheelBKsD</object-name>
    <object-name>LeftWheelStrutBKsD</object-name>
    <condition>
+	<or>
       <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[1]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>1</value>
+		 </equals>
+	  </and>
+	  <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
 			<value>1</value>
@@ -3926,6 +4172,7 @@
 			<value>1</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3934,7 +4181,18 @@
    <object-name>RightWheelBKsD</object-name>
    <object-name>RightWheelStrutBKsD</object-name>
    <condition>
+    <or>
       <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[2]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>1</value>
+		 </equals>
+	  </and>
+	  <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
 			<value>1</value>
@@ -3944,6 +4202,7 @@
 			<value>1</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3956,7 +4215,18 @@
    <object-name>BottomLinkBKD</object-name>
    <object-name>PropellerBKD</object-name>
    <condition>
+    <or>
       <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[0]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>2</value>
+		 </equals>
+	  </and>
+	  <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
 			<value>1</value>
@@ -3966,6 +4236,7 @@
 			<value>2</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3974,7 +4245,18 @@
    <object-name>LeftWheelBKD</object-name>
    <object-name>LeftWheelStrutBKD</object-name>
    <condition>
+    <or>
       <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[1]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>2</value>
+		 </equals>
+	  </and>
+	  <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
 			<value>1</value>
@@ -3984,6 +4266,7 @@
 			<value>2</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -3992,7 +4275,18 @@
    <object-name>RightWheelBKD</object-name>
    <object-name>RightWheelStrutBKD</object-name>
    <condition>
+    <or>
       <and>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/gear/unit[2]/broken</property>
+			<value>1</value>
+		 </equals>
+		 <equals>
+			<property>/ai/models/multiplayer/fdm/jsbsim/bushkit</property>
+			<value>2</value>
+		 </equals>
+	  </and>
+	  <and>
 		 <equals>
 			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
 			<value>1</value>
@@ -4002,6 +4296,7 @@
 			<value>2</value>
 		 </equals>
 	  </and>
+	</or>
    </condition>
  </animation>
  
@@ -4609,7 +4904,7 @@
    <object-name>doorint_rightV</object-name>
    <property-base>sim/model/liveryinterior/</property-base>
    <texture-prop>texture</texture-prop>
-   <texture>Models/COLOR_interior_test.png</texture>
+   <texture>interior_test.png</texture>
  </animation>
  
   <animation>
@@ -4621,7 +4916,7 @@
 
    <property-base>sim/model/liverypanel/</property-base>
    <texture-prop>texture</texture-prop>
-   <texture>Models/COLOR_panel.png</texture>
+   <texture>panel.png</texture>
  </animation>
  
    <animation>
@@ -4638,17 +4933,17 @@
    <object-name>doorhandleint_rightV</object-name>
    <property-base>sim/model/liveryparts/</property-base>
    <texture-prop>texture</texture-prop>
-   <texture>Models/COLOR_panel_parts.png</texture>
+   <texture>parts.png</texture>
  </animation>
 
  <!--  ALS ground volume shadow  -->
   <model>
-   <path>Models/Effects/shadow/3dshadow.xml</path>
+   <path>Effects/shadow/3dshadow.xml</path>
   </model>
   
   <!--  Non-ALS ground shadow  -->
   <model>
-   <path>Models/Effects/shadow/shadow.xml</path>
+   <path>Effects/shadow/shadow.xml</path>
   </model>
  
    <!-- Pilot, copilot and passengers -->

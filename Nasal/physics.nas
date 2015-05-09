@@ -35,6 +35,8 @@ props.Node.new({ "/sim/rendering/rightwingdamage":0 });
 props.globals.initNode("/sim/rendering/rightwingdamage", 0, "INT");
 props.Node.new({ "/sim/rendering/leftwingdamage":0 });
 props.globals.initNode("/sim/rendering/leftwingdamage", 0, "INT");
+props.Node.new({ "/sim/rendering/bothwingdamage":0 });
+props.globals.initNode("/sim/rendering/bothwingdamage", 0, "INT");
 props.Node.new({ "/sim/rendering/allfix":0 });
 props.globals.initNode("/sim/rendering/allfix", 0, "INT");
 
@@ -55,6 +57,7 @@ var resetalldamage = func
 	setprop("/sim/rendering/rightgeardamage", 0);
 	setprop("/sim/rendering/leftwingdamage", 0);
 	setprop("/sim/rendering/rightwingdamage", 0);
+	setprop("/sim/rendering/bothwingdamage", 0);
 	setprop("/sim/rendering/allfix", 0);
 	lastkit=3;
 }
@@ -171,7 +174,7 @@ var poll_damage = func
 	if (getprop(contact~"unit[5]/compression-ft") > 0.005 or getprop("/sim/rendering/rightwingdamage"))
 		rightwingbroke();
 		
-	if (getprop(contact~"unit[4]/broken") and getprop(contact~"unit[5]/broken"))
+	if ((getprop(contact~"unit[4]/broken") and getprop(contact~"unit[5]/broken")) or getprop("/sim/rendering/bothwingdamage"))
 		bothwingbroke();
 	
 	if (getprop(gears~"unit[0]/broken")	and getprop(gears~"unit[1]/broken")	and getprop(gears~"unit[2]/broken"))

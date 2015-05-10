@@ -22,7 +22,6 @@ var fairing1 = 0;
 var fairing2 = 0;
 var fairing3 = 0;
 
-
 props.Node.new({ "/sim/rendering/nosedamage":0 });
 props.globals.initNode("/sim/rendering/nosedamage", 0, "INT");
 props.Node.new({ "/sim/rendering/leftgeardamage":0 });
@@ -196,6 +195,7 @@ var poll_damage = func
 		bothwingbroke();
 }
 
+#required delay for bush kit change over
 var poll_gear_delay = func
 {
 	if (getprop("/fdm/jsbsim/bushkit") == 0)

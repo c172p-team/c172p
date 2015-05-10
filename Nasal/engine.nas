@@ -150,10 +150,6 @@ var primerTimer = maketimer(5, func {
 # ========== Main loop ======================
 
 var update = func {
-    if (fuel_freeze) {
-        return;
-    }
-
     var leftTankUsable  = getprop("/consumables/fuel/tank[0]/selected") and getprop("/consumables/fuel/tank[0]/level-gal_us") > 0;
     var rightTankUsable = getprop("/consumables/fuel/tank[1]/selected") and getprop("/consumables/fuel/tank[1]/level-gal_us") > 0;
     var outOfFuel = !(leftTankUsable or rightTankUsable);
@@ -234,7 +230,6 @@ var autostart = func {
 
 # =============== Variables ================
 
-var fuel_freeze = nil;
 var gcurrent = nil;
 var gravity = nil;
 
@@ -255,12 +250,7 @@ var L = setlistener("/sim/signals/fdm-initialized", func {
         var clamped_value = clamp(mixture_node.getValue() + delta, 0, 1);
         mixture_node.setValue(clamped_value);
     };
-
     removelistener(L);
-    print( "Initializing Fuel System ..." );
-    setlistener("/sim/freeze/fuel", func(n) { fuel_freeze = n.getBoolValue() }, 1);
-
-    print ("... Fuel system initialized.");
 
     var engine_timer = maketimer(UPDATE_PERIOD, update);
     engine_timer.start();

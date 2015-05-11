@@ -86,7 +86,15 @@ global_system_loop = func{
 #});
 
 var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
-  var c172_timer = maketimer(0.25, func{global_system_loop()});
-  c172_timer.start();
-  removelistener(nasalInit);
+    # These properties are aliased to MP properties in /sim/multiplay/generic/.
+    # This aliasing seems to work in both ways, because the two properties below
+    # appear to receive the random values from the MP properties during initialization.
+    # Therefore, override these random values with the proper values we want.
+    props.globals.getNode("/fdm/jsbsim/crash", 0).setBoolValue(0);
+    props.globals.getNode("/fdm/jsbsim/contact/unit[4]/broken", 0).setBoolValue(0);
+    props.globals.getNode("/fdm/jsbsim/contact/unit[5]/broken", 0).setBoolValue(0);
+
+    var c172_timer = maketimer(0.25, func{global_system_loop()});
+    c172_timer.start();
+    removelistener(nasalInit);
 });

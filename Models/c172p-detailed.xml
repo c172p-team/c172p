@@ -3296,13 +3296,13 @@
    <condition>
     <and>
         <not>
-            <property alias="../../../../../params/wing_left_broken/property"/>
+            <property alias="/params/wing_left_broken/property"/>
         </not>
         <not>
-            <property alias="../../../../../params/wing_right_broken/property"/>
+            <property alias="/params/wing_right_broken/property"/>
         </not>
         <not>
-            <property alias="../../../../../params/crash/property"/>
+            <property alias="/params/crash/property"/>
         </not>
     </and>
    </condition>
@@ -3322,7 +3322,7 @@
    <object-name>landinglightcoverCollapse</object-name>
    <object-name>landinglight2Collapse</object-name>
    <condition>
-		<property alias="../../../params/crash/property"/>
+		<property alias="/params/crash/property"/>
    </condition>
  </animation>
  
@@ -3341,10 +3341,10 @@
    <object-name>landinglight2BD</object-name>
    <condition>
 		<and>
-			<property alias="../../../../params/wing_left_broken/property"/>
-			<property alias="../../../../params/wing_right_broken/property"/>
+			<property alias="/params/wing_left_broken/property"/>
+			<property alias="/params/wing_right_broken/property"/>
 			<not>
-			 <property alias="../../../../../params/crash/property"/>
+			 <property alias="/params/crash/property"/>
 			</not>
 		</and>
    </condition>
@@ -3365,12 +3365,12 @@
    <object-name>landinglight2LD</object-name>
    <condition>
 	<and>
-		 <property alias="../../../../params/wing_left_broken/property"/>
+		 <property alias="/params/wing_left_broken/property"/>
 		 <not>
-		  <property alias="../../../../../params/wing_right_broken/property"/>
+		  <property alias="/params/wing_right_broken/property"/>
 		</not>
 		 <not>
-		  <property alias="../../../../../params/crash/property"/>
+		  <property alias="/params/crash/property"/>
 		 </not>
 	</and>
    </condition>
@@ -3391,12 +3391,12 @@
    <object-name>landinglight2RD</object-name>
    <condition>
 	<and>
-		 <property alias="../../../../params/wing_right_broken/property"/>
+		 <property alias="/params/wing_right_broken/property"/>
 		 <not>
-		  <property alias="../../../../../params/wing_left_broken/property"/>
+		  <property alias="/params/wing_left_broken/property"/>
 		 </not>
 		 <not>
-		  <property alias="../../../../../params/crash/property"/>
+		  <property alias="/params/crash/property"/>
 		 </not>
 	</and>
    </condition>
@@ -3700,7 +3700,6 @@
 	  </and>
    </condition>
  </animation>
- 
  <!-- End Damage Mod-->
 
  <!--Lights-->
@@ -3712,7 +3711,7 @@
    <condition>
      <and>
        <property>/sim/rendering/rembrandt/enabled</property>
-       <property alias="../../../../params/lighting/landing/property"/>
+       <property alias="/params/lighting/landing/property"/>
      </and>
    </condition>
  </animation>
@@ -3723,7 +3722,7 @@
    <condition>
      <and>
        <property>/sim/rendering/rembrandt/enabled</property>
-       <property alias="../../../../params/lighting/taxi/property"/>
+       <property alias="/params/lighting/taxi/property"/>
      </and>
    </condition>
  </animation>
@@ -3743,7 +3742,7 @@
    <object-name>landinglight2Collapse</object-name>
    <condition>
      <and>
-       <property alias="../../../../params/lighting/landing/property"/>
+       <property alias="/params/lighting/landing/property"/>
        <not>
          <property>/sim/rendering/rembrandt/enabled</property>
        </not>
@@ -3758,7 +3757,7 @@
    <object-name>LandingLightCone</object-name>
    <nopreview/>
    <condition>
-     <property alias="../../../params/lighting/landing/property"/>
+     <property alias="/params/lighting/landing/property"/>
    </condition>
    <position>
      <x>-0.078</x>
@@ -3806,7 +3805,7 @@
    <object-name>TaxiLightCone</object-name>
    <nopreview/>
    <condition>
-     <property alias="../../../params/lighting/taxi/property"/>
+     <property alias="/params/lighting/taxi/property"/>
    </condition>
    <position>
      <x>-0.078</x>
@@ -3857,7 +3856,7 @@
    <object-name>landinglightcoverCollapse</object-name>
    <condition>
      <not>
-       <property alias="../../../../params/lighting/landing/property"/>
+       <property alias="/params/lighting/landing/property"/>
      </not>
    </condition>
  </animation>
@@ -3900,15 +3899,15 @@
    <type>select</type>
    <object-name>strobe1</object-name>
    <condition>
-     <property alias="../../../params/lighting/strobes/property"/>
-	 <equals>
-		<property>/fdm/jsbsim/contact/unit[4]/broken</property>
-		<value>0</value>
-     </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <not>
+	           <property alias="/params/wing_left_broken/property"/>
+	       </not>
+		   <not>
+	           <property alias="/params/crash/property"/>
+	       </not>
+	   </and>	
    </condition>
  </animation>
  
@@ -3916,15 +3915,15 @@
    <type>select</type>
    <object-name>strobe2</object-name>
    <condition>
-     <property alias="../../../params/lighting/strobes/property"/>
-	 <equals>
-		<property>/fdm/jsbsim/contact/unit[5]/broken</property>
-		<value>0</value>
-     </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <not>
+	           <property alias="/params/wing_right_broken/property"/>
+	       </not>
+		   <not>
+	           <property alias="/params/crash/property"/>
+	       </not>
+	   </and>	
    </condition>
  </animation>
  
@@ -3932,15 +3931,13 @@
    <type>select</type>
    <object-name>strobe1BD</object-name>
    <condition>
-     <property alias="../../../params/lighting/strobes/property"/>
-	 <equals>
-		<property>/fdm/jsbsim/contact/unit[4]/broken</property>
-		<value>1</value>
-     </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <property alias="/params/wing_left_broken/property"/>
+		   <not>
+	           <property alias="/params/crash/property"/>
+	       </not>
+	   </and>
    </condition>
  </animation>
  
@@ -3948,38 +3945,25 @@
    <type>select</type>
    <object-name>strobe2BD</object-name>
    <condition>
-     <property alias="../../../params/lighting/strobes/property"/>
-	 <equals>
-		<property>/fdm/jsbsim/contact/unit[5]/broken</property>
-		<value>1</value>
-     </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
-   </condition>
- </animation>
- <animation>
-   <type>select</type>
-   <object-name>strobe1Collapse</object-name>
-   <condition>
-     <property alias="../../../params/lighting/strobes/property"/>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>1</value>
-	 </equals>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <property alias="/params/wing_right_broken/property"/>
+		   <not>
+	           <property alias="/params/crash/property"/>
+	       </not>
+	   </and>
    </condition>
  </animation>
  
  <animation>
    <type>select</type>
+   <object-name>strobe1Collapse</object-name>
    <object-name>strobe2Collapse</object-name>
    <condition>
-     <property alias="../../../params/lighting/strobes/property"/>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>1</value>
-	 </equals>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <property alias="/params/crash/property"/>
+	   </and>
    </condition>
  </animation>
  <!-- End Damage Mod -->
@@ -4105,15 +4089,15 @@
    <interpolation>
      <entry>
        <ind>0</ind>
-       <dep alias="../../../../Plane.014Xparams/light-near"/>
+       <dep alias="/Plane.014Xparams/light-near"/>
      </entry>
      <entry>
        <ind>500</ind>
-       <dep alias="../../../../Plane.014Xparams/light-med"/>
+       <dep alias="/Plane.014Xparams/light-med"/>
      </entry>
      <entry>
        <ind>16000</ind>
-       <dep alias="../../../../Plane.014Xparams/light-far"/>
+       <dep alias="/Plane.014Xparams/light-far"/>
      </entry>
    </interpolation>
  </animation>
@@ -4122,7 +4106,7 @@
    <type>select</type>
    <object-name>BeaconOffX</object-name>
    <condition>
-     <property alias="../../../params/lighting/beacon-top/property"/>
+     <property alias="/params/lighting/beacon-top/property"/>
    </condition>
  </animation>
 
@@ -4173,15 +4157,15 @@
    <interpolation>
      <entry>
        <ind>0</ind>
-       <dep alias="../../../../BeaconOffXparams/light-near"/>
+       <dep alias="/BeaconOffXparams/light-near"/>
      </entry>
      <entry>
        <ind>500</ind>
-       <dep alias="../../../../BeaconOffXparams/light-med"/>
+       <dep alias="/BeaconOffXparams/light-med"/>
      </entry>
      <entry>
        <ind>16000</ind>
-       <dep alias="../../../../BeaconOffXparams/light-far"/>
+       <dep alias="/BeaconOffXparams/light-far"/>
      </entry>
    </interpolation>
  </animation>

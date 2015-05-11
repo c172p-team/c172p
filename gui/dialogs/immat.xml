@@ -1,62 +1,84 @@
 <?xml version="1.0"?>
 
 <PropertyList>
+    <name>registration-dialog</name>
+    <layout>vbox</layout>
+    <resizable>false</resizable>
+    <modal>false</modal>
+    <draggable>true</draggable>
 
-  <name>immat-dialog</name>
-  <layout>vbox</layout>
-  <modal>false</modal>
-  <draggable>true</draggable>
-  <default-padding>3</default-padding>
+    <group>
+        <layout>hbox</layout>
 
-  
-  <group>	
-		<layout>hbox</layout>
-		<default-padding>5</default-padding>
-		<empty><stretch>1</stretch></empty>
-		<text>
-			<label>Immatriculation</label>
-		</text>
-		<empty><stretch>true</stretch></empty>
-		<button>
-			<legend></legend>
-			<key>Esc</key>
-			<pref-width>16</pref-width>
-			<pref-height>16</pref-height>
-			<binding>
-				<command>dialog-close</command>
-			</binding>
-		</button>
-	</group>
+        <empty><stretch>true</stretch></empty>
+        <text>
+            <label>Registration</label>
+        </text>
+        <empty><stretch>true</stretch></empty>
 
-  <hrule/>
-	
-  <group>
-    <layout>hbox</layout>
-	<default-padding>5</default-padding>
-	<empty><stretch>1</stretch></empty>
-	<halign>center</halign>
-    <input>
-      <property>/sim/model/immat</property>
-      <type>STRING</type>
-      <width>100</width>
-    </input>
-  </group>
+        <button>
+            <legend/>
+            <key>Esc</key>
+            <pref-width>16</pref-width>
+            <pref-height>16</pref-height>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
 
-  <hrule/>
-	 
-  <group>
-    <layout>hbox</layout>
-    <default-padding>5</default-padding>
-	<empty><stretch>1</stretch></empty>
-    <button>
-      <legend>OK</legend>
-      <equal>true</equal>
-      <default>true</default>
-      <key>Esc</key>
-      <binding><command>dialog-apply</command></binding>
-      <binding><command>dialog-close</command></binding>
-    </button>
-    <empty><stretch>true</stretch></empty>
-  </group>
+    <hrule/>
+
+    <group>
+        <layout>vbox</layout>
+        <padding>6</padding>
+
+        <group>
+            <layout>hbox</layout>
+
+            <text>
+                <label>Registration number:</label>
+                <halign>left</halign>
+            </text>
+
+            <input>
+                <halign>left</halign>
+                <property>/sim/model/immat</property>
+                <type>STRING</type>
+                <width>100</width>
+            </input>
+        </group>
+    </group>
+
+    <hrule/>
+
+    <group>
+        <layout>hbox</layout>
+        <default-padding>6</default-padding>
+
+        <empty><stretch>true</stretch></empty>
+
+        <button>
+            <legend>Apply</legend>
+            <equal>true</equal>
+            <default>false</default>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+
+        <button>
+            <legend>Cancel</legend>
+            <equal>true</equal>
+            <key>Esc</key>
+            <default>true</default>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
 
 </PropertyList>

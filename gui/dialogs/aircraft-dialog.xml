@@ -13,321 +13,241 @@
 -->
 
 <PropertyList>
-	<name>aircraft-dialog</name>
-	<layout>vbox</layout>
-	<resizable>false</resizable>
-	<modal>false</modal>
-	<draggable>true</draggable>
-	<default-padding>3</default-padding>
+    <name>aircraft-dialog</name>
+    <layout>vbox</layout>
+    <resizable>false</resizable>
+    <modal>false</modal>
+    <draggable>true</draggable>
 
-	<nasal>
-		<open>
-			var init = func {
-				#bush kit
-				var p = getprop("fdm/jsbsim/bushkit");
-				setprop("/sim/model/c172p/bushkit_flag_0",0);
-				setprop("/sim/model/ec130/bushkit_flag_1",0);
-				setprop("/sim/model/ec130/bushkit_flag_2",0);
-				if ( p == 0 ) { setprop("/sim/model/c172p/bushkit_flag_0",1); }
-				if ( p == 1 ) { setprop("/sim/model/c172p/bushkit_flag_1",1); }
-				if ( p == 2 ) { setprop("/sim/model/c172p/bushkit_flag_2",1); }
-				
-				#shadow volume
-				var p = getprop("/sim/rendering/shadow-volume");
-				if (p) {
-					if (!c172p.check_eligibility()) {
-						setprop("/sim/rendering/shadow-volume", 0);
-					}
-				}
-				#internal shadow
-				var p = getprop("/sim/rendering/internal-shadow");
-				if (p) {
-					if (!c172p.check_is_eligibility()) {
-						setprop("/sim/rendering/internal-shadow", 0);
-					}
-				}
-			}
+    <nasal>
+        <open>
+            var init = func {
+                # Bush kit
+                var p = getprop("fdm/jsbsim/bushkit");
+                setprop("/sim/model/c172p/bushkit_flag_0",0);
+                setprop("/sim/model/ec130/bushkit_flag_1",0);
+                setprop("/sim/model/ec130/bushkit_flag_2",0);
+                if (p == 0) { setprop("/sim/model/c172p/bushkit_flag_0",1); }
+                if (p == 1) { setprop("/sim/model/c172p/bushkit_flag_1",1); }
+                if (p == 2) { setprop("/sim/model/c172p/bushkit_flag_2",1); }
 
-			init();
-		</open>
-	</nasal>
-	
-	<group>	
-		<layout>hbox</layout>
-		<default-padding>5</default-padding>
-		<empty><stretch>1</stretch></empty>
-		<text>
-			<label>Aircraft Options</label>
-		</text>
-		<empty><stretch>true</stretch></empty>
-		<button>
-			<legend></legend>
-			<key>Esc</key>
-			<pref-width>16</pref-width>
-			<pref-height>16</pref-height>
-			<binding>
-				<command>dialog-close</command>
-			</binding>
-		</button>
-	</group>
-	
-	<hrule/>
-	
-	<group>
-		<layout>hbox</layout>
-		<default-padding>5</default-padding>
-	</group>
-	
-	<group>
-		<layout>hbox</layout>
-		<default-padding>5</default-padding>
-		<empty><stretch>1</stretch></empty>
-		<halign>left</halign>
-		<checkbox>
-			<label> Start with engine running</label>
-			<live>true</live>
-			<binding>
-				<command>nasal</command>
-				<script>#needs tied to start engine code</script>
-			</binding>
-		</checkbox>
-	</group>
-	
-	<group>
-		<layout>hbox</layout>
-		<default-padding>5</default-padding>
-		<empty><stretch>1</stretch></empty>
-		<halign>left</halign>
-		<checkbox>
-			<label> Complex start up procedures</label>
-			<live>true</live>
-			<binding>
-				<command>nasal</command>
-				<script>#needs tied to complex start up procedure code</script>
-			</binding>
-		</checkbox>
-	</group>
-	
-	<text>  
-        <label>--------------------------</label>
-        <halign>center</halign>
-    </text>
-	
-	<group>
-		<layout>table</layout>
-		<default-padding>5</default-padding>
-		<halign>left</halign>
+                # Shadow volume
+                var p = getprop("/sim/rendering/shadow-volume");
+                if (p and !c172p.check_eligibility()) {
+                    setprop("/sim/rendering/shadow-volume", 0);
+                }
+            }
+
+            init();
+        </open>
+    </nasal>
+
+    <group>
+        <layout>hbox</layout>
+
+        <empty><stretch>true</stretch></empty>
+        <text>
+            <label>Aircraft Options</label>
+        </text>
+        <empty><stretch>true</stretch></empty>
+
+        <button>
+            <legend/>
+            <key>Esc</key>
+            <pref-width>16</pref-width>
+            <pref-height>16</pref-height>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+
+    <hrule/>
+
+    <group>
+        <layout>vbox</layout>
+        <padding>6</padding>
+
+        <group>
+            <layout>vbox</layout>
+
+            <checkbox>
+                <halign>left</halign>
+                <label>Start with engine running</label>
+                <property>/fdm/jsbsim/running</property>
+                <live>true</live>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+
+            <checkbox>
+                <halign>left</halign>
+                <label>Complex start up procedures</label>
+                <property>/fdm/jsbsim/complex</property>
+                <live>true</live>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+        </group>
+
+        <hrule/>
+
+        <group>
+            <layout>hbox</layout>
+
+            <checkbox>
+                <halign>left</halign>
+                <label>Damage</label>
+                <property>/fdm/jsbsim/damage</property>
+                <live>true</live>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+
+            <button>
+                <halign>right</halign>
+                <legend>Repair</legend>
+                <pref-width>60</pref-width>
+                <pref-height>28</pref-height>
+                <binding>
+                    <command>nasal</command>
+                    <script>c172p.resetalldamage()</script>
+                </binding>
+            </button>
+        </group>
+
+        <hrule/>
 		
-		<text>
-			<row>0</row>
-			<col>0</col>
-			<label> </label>
-			<halign>left</halign>
-         </text>
-		 	
-		<checkbox>
-			<row>0</row>
-			<col>1</col>
-			<label> Damage</label>
-			<property>/fdm/jsbsim/damage</property>
-			<live>true</live>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-		</checkbox>
-		
-		<text>
-           <row>0</row>
-           <col>2</col>
-           <label>     </label>
-           <halign>left</halign>
-         </text>
-		 
-		<button>
-           <row>0</row>
-           <col>3</col>
-			<legend> Repair </legend>
-			<pref-width>60</pref-width>
-			<pref-height>28</pref-height>
-			<binding>
-				<command>nasal</command>
-				<script>c172p.resetalldamage()</script>
-			</binding>
-		</button>
-	</group>
-	
-	<text>  
-        <label>--------------------------</label>
-        <halign>center</halign>
-    </text>
-	
-	<group>
-		<layout>hbox</layout>
-		<default-padding>5</default-padding>
-		<empty><stretch>1</stretch></empty>
-		<halign>left</halign>
-		<checkbox>
-			<label> Internal shadow</label>
-			<property>/sim/rendering/internal-shadow</property>
-			<live>true</live>
-			<binding>
-				<command>nasal</command>
-				<script>c172p.toggle_internal_shadow()</script>
-			</binding>
-		</checkbox>
-	</group>
-	
-	<text>  
-        <label>--------------------------</label>
-        <halign>center</halign>
-    </text>
-	
-	<group>
-		<layout>hbox</layout>
-		<default-padding>5</default-padding>
-		<empty><stretch>1</stretch></empty>
-		<halign>left</halign>
-		<checkbox>
-			<label> Shadow Volume</label>
-			<property>/sim/rendering/shadow-volume</property>
-			<live>true</live>
-			<binding>
-				<command>nasal</command>
-				<script>c172p.toggle_shadow_volume()</script>
-			</binding>
-		</checkbox>
-	</group>
-	
-	<text>  
-        <label>--------------------------</label>
-        <halign>center</halign>
-    </text>
-	
-	<group>
-		<layout>hbox</layout>
-		<default-padding>5</default-padding>
-		<empty><stretch>1</stretch></empty>
-		<halign>left</halign>
-		<checkbox>
-			<label> Human models</label>
-			<property>/sim/model/occupants</property>
-			<live>true</live>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-		</checkbox>
-	</group>
-	
-	<text>  
-        <label>--------------------------</label>
-        <halign>center</halign>
-    </text>
-	
-	<group>
-		<layout>hbox</layout>
-		<text>
-			<label>Bush Kit Options</label>
-			<halign>center</halign>
-		</text>
-	</group>
+        <group>
+            <layout>vbox</layout>
+			
+			<checkbox>
+				<halign>left</halign>
+				<label>Internal shadow</label>
+				<property>/sim/rendering/internal-shadow</property>
+				<live>true</live>
+				<binding>
+					<command>nasal</command>
+					<script>c172p.toggle_internal_shadow()</script>
+				</binding>
+			</checkbox>
 
-	<group>
-		<layout>table</layout>
-		<default-padding>5</default-padding>
-		<halign>left</halign>
+            <checkbox>
+				<halign>left</halign>
+                <label>Shadow volume</label>
+                <property>/sim/rendering/shadow-volume</property>
+                <live>true</live>
+                <binding>
+                    <command>nasal</command>
+                    <script>c172p.toggle_shadow_volume()</script>
+                </binding>
+            </checkbox>
 
-		<text>
-           <row>0</row>
-           <col>0</col>
-           <label> </label>
-           <halign>left</halign>
-         </text>
-		 
-		<radio>
-			<row>0</row>
-			<col>1</col>
-			<halign>left</halign>
-			<label>Default Tire</label>
-			<property>sim/model/c172p/bushkit_flag_0</property>
-			<live>true</live>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-			<binding>
-				<command>nasal</command>
-				<script>
-					setprop("fdm/jsbsim/bushkit", 0);
-					setprop("sim/model/c172p/bushkit_flag_0",1);
-					setprop("sim/model/c172p/bushkit_flag_1",0);
-					setprop("sim/model/c172p/bushkit_flag_2",0);
-				</script>
-			</binding>
-		</radio>
+            <checkbox>
+				<halign>left</halign>
+                <label>Human models</label>
+                <property>/sim/model/occupants</property>
+                <live>true</live>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+        </group>
 
-		<radio>
-			<row>0</row>
-			<col>2</col>
-			<halign>left</halign>
-			<label>26"</label>
-			<property>sim/model/c172p/bushkit_flag_1</property>
-			<live>true</live>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-			<binding>
-				<command>nasal</command>
-				<script>
-					setprop("fdm/jsbsim/bushkit", 1);
-					setprop("sim/model/c172p/bushkit_flag_0",0);
-					setprop("sim/model/c172p/bushkit_flag_1",1);
-					setprop("sim/model/c172p/bushkit_flag_2",0);
-				</script>
-			</binding>
-		</radio>
+        <hrule/>
 
-		 <radio>
-			<row>0</row>
-			<col>3</col>
-			<halign>left</halign>
-			<label> 36"</label>
-			<property>sim/model/c172p/bushkit_flag_2</property>
-			<live>true</live>
-			<binding>
-				<command>dialog-apply</command>
-			</binding>
-			<binding>
-				<command>nasal</command>
-				<script>
-					setprop("fdm/jsbsim/bushkit", 2);
-					setprop("sim/model/c172p/bushkit_flag_0",0);
-					setprop("sim/model/c172p/bushkit_flag_1",0);
-					setprop("sim/model/c172p/bushkit_flag_2",1);
-				</script>
-			</binding>
-		</radio>
-		 
-	</group>
-	
-	<group>
-		<layout>hbox</layout>
-		<default-padding>5</default-padding>
-	</group>
-	
-	<hrule/>
-	
-	<group>
-		<layout>hbox</layout>
-		<default-padding>5</default-padding>
+        <group>
+            <layout>vbox</layout>
 
-		<button>
-			<legend>Close</legend>
-			<equal>true</equal>
-			<key>Esc</key>
-			<default>true</default>
-			<binding>
-				<command>dialog-close</command>
-			</binding>
-		</button>
-	</group>
+            <text>
+                <label>Bush Kit Options</label>
+                <halign>center</halign>
+            </text>
+
+            <group>
+                <layout>hbox</layout>
+
+                <radio>
+                    <halign>left</halign>
+                    <label>Default tire</label>
+                    <property>sim/model/c172p/bushkit_flag_0</property>
+                    <live>true</live>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                    <binding>
+                        <command>nasal</command>
+                        <script>
+                            setprop("fdm/jsbsim/bushkit", 0);
+                            setprop("sim/model/c172p/bushkit_flag_0",1);
+                            setprop("sim/model/c172p/bushkit_flag_1",0);
+                            setprop("sim/model/c172p/bushkit_flag_2",0);
+                        </script>
+                    </binding>
+                </radio>
+
+                <radio>
+                    <halign>left</halign>
+                    <label>26"</label>
+                    <property>sim/model/c172p/bushkit_flag_1</property>
+                    <live>true</live>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                    <binding>
+                        <command>nasal</command>
+                        <script>
+                            setprop("fdm/jsbsim/bushkit", 1);
+                            setprop("sim/model/c172p/bushkit_flag_0",0);
+                            setprop("sim/model/c172p/bushkit_flag_1",1);
+                            setprop("sim/model/c172p/bushkit_flag_2",0);
+                        </script>
+                    </binding>
+                </radio>
+
+                <radio>
+                    <halign>left</halign>
+                    <label> 36"</label>
+                    <property>sim/model/c172p/bushkit_flag_2</property>
+                    <live>true</live>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                    <binding>
+                        <command>nasal</command>
+                        <script>
+                            setprop("fdm/jsbsim/bushkit", 2);
+                            setprop("sim/model/c172p/bushkit_flag_0",0);
+                            setprop("sim/model/c172p/bushkit_flag_1",0);
+                            setprop("sim/model/c172p/bushkit_flag_2",1);
+                        </script>
+                    </binding>
+                </radio>
+            </group>
+        </group>
+    </group>
+
+    <hrule/>
+
+    <group>
+        <layout>hbox</layout>
+        <default-padding>6</default-padding>
+
+        <empty><stretch>true</stretch></empty>
+
+        <button>
+            <legend>Close</legend>
+            <equal>true</equal>
+            <key>Esc</key>
+            <default>true</default>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+
 </PropertyList>
 

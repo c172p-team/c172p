@@ -38,7 +38,6 @@ props.Node.new({ "/sim/rendering/bothwingdamage":0 });
 props.globals.initNode("/sim/rendering/bothwingdamage", 0, "INT");
 props.Node.new({ "/sim/rendering/allfix":0 });
 props.globals.initNode("/sim/rendering/allfix", 0, "INT");
-
 var resetalldamage = func
 {
 	setprop("/controls/engines/engine/magnetos", 1);

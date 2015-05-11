@@ -65,18 +65,11 @@ var weather_effects_loop = func {
 	if (tempmatch) surfacetempC = cabinairtempC = airtempC;
 	#end debug
 
-	#limit until tied to knobs
-	if (cabinairset > 1) cabinairset=1;
-	if (cabinairset < 0) cabinairset=0;
-	if (cabinheatset > 1) cabinheatset=1;
-	if (cabinheatset < 0) cabinheatset=0;
-	
 	if (cabinheatset > 0) 
 	{
 		cabinairtempC += .04*(cabinheatset*cabinairset);
 		if (cabinairtempC > 32)
 		{
-			cabinairtempC = 32;
 			gui.popupTip("Cabin temperature exceeding 90F/32C!");
 		}
 		if (surfacetempC < cabinairtempC)
@@ -134,6 +127,7 @@ var weather_effects_loop = func {
 	
 	if (cabinairtempC <= 0) 
 	{
+		gui.popupTip("Cabin temperature falling below 32F/0C!");
 		frostlevel = moisture * 3;
 		if (foglevel > 0) foglevel -= moisture;
 		if (foglevel < 0) foglevel = 0;

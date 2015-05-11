@@ -63,7 +63,6 @@ var check_systems_status = func {
 			setprop("/sim/rendering/internal-shadow", 0);
 		} 
 	}
-	
 }
 
 ############################################
@@ -79,7 +78,6 @@ global_system_loop = func{
   c172p.physics_loop();
   c172p.weather_effects_loop();
   check_systems_status();
-  
 }
 
 ##########################################
@@ -106,3 +104,4 @@ var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
     c172_timer.start();
     removelistener(nasalInit);
 });
+

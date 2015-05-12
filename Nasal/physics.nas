@@ -53,11 +53,10 @@ var resetalldamage = func
 	setprop(contact~"unit[4]/broken", 0);
 	setprop(contact~"unit[5]/broken", 0);
 	setprop("/sim/rendering/alldamage", 0);
-	#setprop("/fdm/jsbsim/wing/broken-one", 0);
-	#setprop("/fdm/jsbsim/wing/broken-both", 0);
 	setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
 	setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
 	setprop("/fdm/jsbsim/crash", 0);
+	setprop("/fdm/jsbsim/upsidedown", 0);
 	setprop("/sim/rendering/nosedamage", 0);
 	setprop("/sim/rendering/leftgeardamage", 0);
 	setprop("/sim/rendering/rightgeardamage", 0);
@@ -96,36 +95,6 @@ var rightgearbroke = func
 	setprop(gears~"unit[2]/broken", 1);
 }
 
-#var leftwingbroke = func
-#{
-#	setprop(contact~"unit[4]/broken", 1);
-#	setprop("/fdm/jsbsim/wing/broken-one", -1);
-#
-
-#var rightwingbroke = func
-#{
-#	setprop(contact~"unit[5]/broken", 1);
-#	setprop("/fdm/jsbsim/wing/broken-one", 1);
-#}
-
-#var bothwingbroke = func
-#{
-#	setprop(contact~"unit[4]/broken", 1);
-#	setprop(contact~"unit[5]/broken", 1);
-#	setprop("/fdm/jsbsim/wing/broken-both", 1);
-#}
-
-var bothwingcollapse = func
-{
-	setprop("/fdm/jsbsim/crash", 1);
-	#setprop("/fdm/jsbsim/wing/broken-both", 1);
-}
-
-var killengine = func
-{
-	setprop("/controls/engines/engine/magnetos", 0);
-}
-
 var leftwingbroke = func
 {
 	setprop(contact~"unit[4]/broken", 1);
@@ -136,6 +105,29 @@ var rightwingbroke = func
 {
 	setprop(contact~"unit[5]/broken", 1);
 	setprop("/fdm/jsbsim/wing-damage/right-wing", 1);
+}
+
+var bothwingbroke = func
+{
+	setprop(contact~"unit[4]/broken", 1);
+	setprop(contact~"unit[5]/broken", 1);
+	setprop("/fdm/jsbsim/wing/broken-both", 1);
+}
+
+var bothwingcollapse = func
+{
+	setprop("/fdm/jsbsim/crash", 1);
+	#setprop("/fdm/jsbsim/wing/broken-both", 1);
+}
+
+var upsidedown = func
+{
+	setprop("/fdm/jsbsim/upsidedown", 1)
+}
+
+var killengine = func
+{
+	setprop("/controls/engines/engine/magnetos", 0);
 }
 
 var defaulttires = func
@@ -191,12 +183,15 @@ var poll_damage = func
 		
 	if (getprop(contact~"unit[5]/compression-ft") > 0.005 or getprop("/sim/rendering/rightwingdamage") or getprop("/sim/rendering/bothwingdamage"))
 		rightwingbroke();
-		
-	#if ((getprop(contact~"unit[4]/broken") and getprop(contact~"unit[5]/broken")) or getprop("/sim/rendering/bothwingdamage"))
-	#	bothwingbroke();
+	
+	if(getprop(contact~"unit[4]/broken") and getprop(contact~"unit[5]/broken"))
+		bothwingbroke();
 	
 	if (getprop(gears~"unit[0]/broken")	and getprop(gears~"unit[1]/broken")	and getprop(gears~"unit[2]/broken"))
 		bothwingcollapse();
+	
+	if (getprop(contact~"unit[12]/WOW"))
+		upsidedown();
 	
 	if (getprop("position/altitude-agl-m") < 10 and (getprop("/fdm/jsbsim/crash") or getprop("/fdm/jsbsim/wing-damage/left-wing") or getprop("/fdm/jsbsim/wing-damage/right-wing")))
 		killengine();

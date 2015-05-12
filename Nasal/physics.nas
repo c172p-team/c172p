@@ -122,12 +122,12 @@ var bothwingcollapse = func
 
 var upsidedown = func
 {
-	if (getprop(contact~"unit[4]/broken") 
+	if (getprop(contact~"unit[4]/broken"))
 		setprop(contact~"unit[4]/z-position", 85);
 	else
 		setprop(contact~"unit[4]/z-position", 50);
 	
-	if (getprop(contact~"unit[5]/broken") 
+	if (getprop(contact~"unit[5]/broken"))
 		setprop(contact~"unit[5]/z-position", 85);
 	else
 		setprop(contact~"unit[5]/z-position", 50);

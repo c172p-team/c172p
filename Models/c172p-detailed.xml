@@ -71,6 +71,27 @@
                 <property>sim/multiplay/generic/float[2]</property>
             </baggage>
         </doors>
+		<crash>
+			<property>sim/multiplay/generic/int[3]</property>	
+		</crash>    
+		<wing_left_broken>
+			<property>sim/multiplay/generic/int[4]</property>
+		</wing_left_broken>		
+		<wing_right_broken>
+			<property>sim/multiplay/generic/int[5]</property>
+		</wing_right_broken>		
+		<gear_nose_broken>
+			<property>sim/multiplay/generic/int[6]</property>
+		</gear_nose_broken>
+		<gear_left_broken>
+			<property>sim/multiplay/generic/int[7]</property>
+		</gear_left_broken>
+		<gear_right_broken>
+			<property>sim/multiplay/generic/int[8]</property>
+		</gear_right_broken>
+		<bushkit>
+			<property>sim/multiplay/generic/int[9]</property>
+		</bushkit>
     </params>
 
  <!-- Normal shader effect. Separate effects required for each normal map texture -->
@@ -819,6 +840,17 @@
       <z-m> -1.5 </z-m>
 	</offsets>
   </model>
+	 
+<!--Exhaust-->
+ <model>
+  <object-name>Exhaust</object-name>
+  <path>Models/Effects/exhaust/exhaust.xml</path>
+  <offsets>
+    <x-m>-1.3093</x-m>
+    <y-m>0.324625</y-m>
+    <z-m>-0.782313</z-m>
+  </offsets>
+ </model>
 	 
   <model>
     <path>Aircraft/Generic/Effects/rain-port.xml</path>
@@ -2355,7 +2387,7 @@
      <binding>
        <command>property-adjust</command>
        <property>controls/engines/engine[0]/throttle</property>
-       <factor>0.05</factor>
+       <factor>-0.05</factor>
        <min>0</min>
        <max>1</max>
        <wrap>0</wrap>
@@ -2400,7 +2432,7 @@
      <binding>
        <command>property-adjust</command>
        <property>controls/engines/engine[0]/mixture</property>
-       <factor>0.05</factor>
+       <factor>-0.05</factor>
        <min>0</min>
        <max>1</max>
        <wrap>0</wrap>
@@ -3258,8 +3290,8 @@
  </animation>
 <!-- MODEND: Spin to gears -->
  
- <!-- Damage Mod -->
- <animation>
+   <!-- Damage Mod  -->
+   <animation>
    <type>select</type>
    <object-name>wing_1</object-name>
    <object-name>wing_0</object-name>
@@ -3274,21 +3306,18 @@
    <object-name>landinglight2</object-name>
    <condition>
     <and>
-	 <equals>
-	  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
-	  <value>0</value>
-	 </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
-	  <value>0</value>
-	 </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
-	</and>
+        <not>
+            <property alias="/params/wing_left_broken/property"/>
+        </not>
+        <not>
+            <property alias="/params/wing_right_broken/property"/>
+        </not>
+        <not>
+            <property alias="/params/crash/property"/>
+        </not>
+    </and>
    </condition>
- </animation>
+ </animation> 
  
  <animation>
    <type>select</type>
@@ -3304,10 +3333,7 @@
    <object-name>landinglightcoverCollapse</object-name>
    <object-name>landinglight2Collapse</object-name>
    <condition>
-    <equals>
-	 <property>/fdm/jsbsim/crash</property>
-	 <value>1</value>
-	</equals>
+		<property alias="/params/crash/property"/>
    </condition>
  </animation>
  
@@ -3325,20 +3351,13 @@
    <object-name>landinglightcoverBD</object-name>
    <object-name>landinglight2BD</object-name>
    <condition>
-    <and>
-	<equals>
-	  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
-	  <value>1</value>
-	</equals>
-	<equals>
-	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
-	  <value>1</value>
-	</equals>
-    <equals>
-	 <property>/fdm/jsbsim/crash</property>
-	 <value>0</value>
-	</equals>
-	</and>
+		<and>
+			<property alias="/params/wing_left_broken/property"/>
+			<property alias="/params/wing_right_broken/property"/>
+			<not>
+			 <property alias="/params/crash/property"/>
+			</not>
+		</and>
    </condition>
  </animation>
  
@@ -3357,18 +3376,13 @@
    <object-name>landinglight2LD</object-name>
    <condition>
 	<and>
-	 <equals>
-	  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
-	  <value>1</value>
-	 </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
-	  <value>0</value>
-	</equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
+		 <property alias="/params/wing_left_broken/property"/>
+		 <not>
+		  <property alias="/params/wing_right_broken/property"/>
+		</not>
+		 <not>
+		  <property alias="/params/crash/property"/>
+		 </not>
 	</and>
    </condition>
  </animation>
@@ -3388,18 +3402,13 @@
    <object-name>landinglight2RD</object-name>
    <condition>
 	<and>
-	 <equals>
-	  <property>/fdm/jsbsim/contact/unit[5]/broken</property>
-	  <value>1</value>
-	 </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/contact/unit[4]/broken</property>
-	  <value>0</value>
-	</equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
+		 <property alias="/params/wing_right_broken/property"/>
+		 <not>
+		  <property alias="/params/wing_left_broken/property"/>
+		 </not>
+		 <not>
+		  <property alias="/params/crash/property"/>
+		 </not>
 	</and>
    </condition>
  </animation>
@@ -3415,12 +3424,11 @@
    <object-name>Propeller.Fast</object-name>
    <condition>
       <and>
+		 <not>
+			<property alias="/params/gear_nose_broken/property"/>
+		 </not>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
-			<value>0</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>0</value>
 		 </equals>
 	  </and>
@@ -3432,13 +3440,12 @@
    <object-name>LeftWheel</object-name> 
    <object-name>LeftWheelStrut</object-name> 
    <condition>
-      <and>
+	  <and>
+		 <not>
+			<property alias="/params/gear_left_broken/property"/>
+		 </not>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
-			<value>0</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>0</value>
 		 </equals>
 	  </and>
@@ -3450,13 +3457,12 @@
    <object-name>RightWheel</object-name>
    <object-name>RightWheelStrut</object-name>   
    <condition>
-      <and>
+	  <and>
+		 <not>
+			<property alias="/params/gear_right_broken/property"/>
+		 </not>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
-			<value>0</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>0</value>
 		 </equals>
 	  </and>
@@ -3473,18 +3479,17 @@
    <object-name>PropellerBK</object-name>
    <object-name>PropellerBK.Fast</object-name>
    <condition>
-      <and>
-		 <equals>
-			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
-			<value>0</value>
-		 </equals>
+	  <and>
+		 <not>
+			<property alias="/params/gear_nose_broken/property"/>
+		 </not>
 		 <or>
 			 <equals>
-				<property>/fdm/jsbsim/bushkit</property>
+				<property alias="/params/bushkit/property"/>
 				<value>1</value>
 			 </equals>
 			 <equals>
-				<property>/fdm/jsbsim/bushkit</property>
+				<property alias="/params/bushkit/property"/>
 				<value>2</value>
 			 </equals>
 		 </or>
@@ -3497,13 +3502,12 @@
    <object-name>LeftWheelBKs</object-name>
    <object-name>LeftWheelStrutBKs</object-name>
    <condition>
-      <and>
+	  <and>
+		 <not>
+			<property alias="/params/gear_left_broken/property"/>
+		 </not>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
-			<value>0</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>1</value>
 		 </equals>
 	  </and>
@@ -3516,12 +3520,11 @@
    <object-name>RightWheelStrutBKs</object-name>
    <condition>
       <and>
+		 <not>
+			<property alias="/params/gear_right_broken/property"/>
+		 </not>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
-			<value>0</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>1</value>
 		 </equals>
 	  </and>
@@ -3534,12 +3537,11 @@
    <object-name>LeftWheelStrutBK</object-name>
    <condition>
       <and>
+		 <not>
+			<property alias="/params/gear_left_broken/property"/>
+		 </not>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
-			<value>0</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>2</value>
 		 </equals>
 	  </and>
@@ -3552,12 +3554,11 @@
    <object-name>RightWheelStrutBK</object-name>
    <condition>
       <and>
+		 <not>
+			<property alias="/params/gear_right_broken/property"/>
+		 </not>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
-			<value>0</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>2</value>
 		 </equals>
 	  </and>
@@ -3574,12 +3575,9 @@
    <object-name>PropellerD</object-name>
    <condition>
       <and>
+		 <property alias="/params/gear_nose_broken/property"/>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
-			<value>1</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>0</value>
 		 </equals>
 	  </and>
@@ -3592,12 +3590,9 @@
    <object-name>LeftWheelStrutD</object-name>
    <condition>
       <and>
+		 <property alias="/params/gear_left_broken/property"/>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
-			<value>1</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>0</value>
 		 </equals>
 	  </and>
@@ -3610,12 +3605,9 @@
    <object-name>RightWheelStrutD</object-name>
    <condition>
       <and>
+		 <property alias="/params/gear_right_broken/property"/>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
-			<value>1</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>0</value>
 		 </equals>
 	  </and>
@@ -3632,12 +3624,9 @@
    <object-name>PropellerBKsD</object-name>
    <condition>
       <and>
+		 <property alias="/params/gear_nose_broken/property"/>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
-			<value>1</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>1</value>
 		 </equals>
 	  </and>
@@ -3650,30 +3639,24 @@
    <object-name>LeftWheelStrutBKsD</object-name>
    <condition>
       <and>
+		 <property alias="/params/gear_left_broken/property"/>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
-			<value>1</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>1</value>
 		 </equals>
 	  </and>
    </condition>
  </animation>
- 
+
   <animation>
    <type>select</type>
    <object-name>RightWheelBKsD</object-name>
    <object-name>RightWheelStrutBKsD</object-name>
    <condition>
       <and>
+		 <property alias="/params/gear_right_broken/property"/>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
-			<value>1</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>1</value>
 		 </equals>
 	  </and>
@@ -3690,12 +3673,9 @@
    <object-name>PropellerBKD</object-name>
    <condition>
       <and>
+		 <property alias="/params/gear_nose_broken/property"/>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[0]/broken</property>
-			<value>1</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>2</value>
 		 </equals>
 	  </and>
@@ -3708,12 +3688,9 @@
    <object-name>LeftWheelStrutBKD</object-name>
    <condition>
       <and>
+		 <property alias="/params/gear_left_broken/property"/>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[1]/broken</property>
-			<value>1</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>2</value>
 		 </equals>
 	  </and>
@@ -3726,18 +3703,14 @@
    <object-name>RightWheelStrutBKD</object-name>
    <condition>
       <and>
+		 <property alias="/params/gear_right_broken/property"/>
 		 <equals>
-			<property>/fdm/jsbsim/gear/unit[2]/broken</property>
-			<value>1</value>
-		 </equals>
-		 <equals>
-			<property>/fdm/jsbsim/bushkit</property>
+			<property alias="/params/bushkit/property"/>
 			<value>2</value>
 		 </equals>
 	  </and>
    </condition>
  </animation>
- 
  <!-- End Damage Mod-->
 
  <!--Lights-->
@@ -3749,7 +3722,7 @@
    <condition>
      <and>
        <property>/sim/rendering/rembrandt/enabled</property>
-       <property alias="../../../../params/lighting/landing/property"/>
+       <property alias="/params/lighting/landing/property"/>
      </and>
    </condition>
  </animation>
@@ -3760,7 +3733,7 @@
    <condition>
      <and>
        <property>/sim/rendering/rembrandt/enabled</property>
-       <property alias="../../../../params/lighting/taxi/property"/>
+       <property alias="/params/lighting/taxi/property"/>
      </and>
    </condition>
  </animation>
@@ -3780,7 +3753,7 @@
    <object-name>landinglight2Collapse</object-name>
    <condition>
      <and>
-       <property alias="../../../../params/lighting/landing/property"/>
+       <property alias="/params/lighting/landing/property"/>
        <not>
          <property>/sim/rendering/rembrandt/enabled</property>
        </not>
@@ -3795,7 +3768,7 @@
    <object-name>LandingLightCone</object-name>
    <nopreview/>
    <condition>
-     <property alias="../../../params/lighting/landing/property"/>
+     <property alias="/params/lighting/landing/property"/>
    </condition>
    <position>
      <x>-0.078</x>
@@ -3843,7 +3816,7 @@
    <object-name>TaxiLightCone</object-name>
    <nopreview/>
    <condition>
-     <property alias="../../../params/lighting/taxi/property"/>
+     <property alias="/params/lighting/taxi/property"/>
    </condition>
    <position>
      <x>-0.078</x>
@@ -3894,7 +3867,7 @@
    <object-name>landinglightcoverCollapse</object-name>
    <condition>
      <not>
-       <property alias="../../../../params/lighting/landing/property"/>
+       <property alias="/params/lighting/landing/property"/>
      </not>
    </condition>
  </animation>
@@ -3937,15 +3910,15 @@
    <type>select</type>
    <object-name>strobe1</object-name>
    <condition>
-     <property alias="../../../params/lighting/strobes/property"/>
-	 <equals>
-		<property>/fdm/jsbsim/contact/unit[4]/broken</property>
-		<value>0</value>
-     </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <not>
+	           <property alias="/params/wing_left_broken/property"/>
+	       </not>
+		   <not>
+	           <property alias="/params/crash/property"/>
+	       </not>
+	   </and>	
    </condition>
  </animation>
  
@@ -3953,15 +3926,15 @@
    <type>select</type>
    <object-name>strobe2</object-name>
    <condition>
-     <property alias="../../../params/lighting/strobes/property"/>
-	 <equals>
-		<property>/fdm/jsbsim/contact/unit[5]/broken</property>
-		<value>0</value>
-     </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <not>
+	           <property alias="/params/wing_right_broken/property"/>
+	       </not>
+		   <not>
+	           <property alias="/params/crash/property"/>
+	       </not>
+	   </and>	
    </condition>
  </animation>
  
@@ -3969,15 +3942,13 @@
    <type>select</type>
    <object-name>strobe1BD</object-name>
    <condition>
-     <property alias="../../../params/lighting/strobes/property"/>
-	 <equals>
-		<property>/fdm/jsbsim/contact/unit[4]/broken</property>
-		<value>1</value>
-     </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <property alias="/params/wing_left_broken/property"/>
+		   <not>
+	           <property alias="/params/crash/property"/>
+	       </not>
+	   </and>
    </condition>
  </animation>
  
@@ -3985,38 +3956,25 @@
    <type>select</type>
    <object-name>strobe2BD</object-name>
    <condition>
-     <property alias="../../../params/lighting/strobes/property"/>
-	 <equals>
-		<property>/fdm/jsbsim/contact/unit[5]/broken</property>
-		<value>1</value>
-     </equals>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>0</value>
-	 </equals>
-   </condition>
- </animation>
- <animation>
-   <type>select</type>
-   <object-name>strobe1Collapse</object-name>
-   <condition>
-     <property alias="../../../params/lighting/strobes/property"/>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>1</value>
-	 </equals>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <property alias="/params/wing_right_broken/property"/>
+		   <not>
+	           <property alias="/params/crash/property"/>
+	       </not>
+	   </and>
    </condition>
  </animation>
  
  <animation>
    <type>select</type>
+   <object-name>strobe1Collapse</object-name>
    <object-name>strobe2Collapse</object-name>
    <condition>
-     <property alias="../../../params/lighting/strobes/property"/>
-	 <equals>
-	  <property>/fdm/jsbsim/crash</property>
-	  <value>1</value>
-	 </equals>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <property alias="/params/crash/property"/>
+	   </and>
    </condition>
  </animation>
  <!-- End Damage Mod -->
@@ -4142,15 +4100,15 @@
    <interpolation>
      <entry>
        <ind>0</ind>
-       <dep alias="../../../../Plane.014Xparams/light-near"/>
+       <dep alias="/Plane.014Xparams/light-near"/>
      </entry>
      <entry>
        <ind>500</ind>
-       <dep alias="../../../../Plane.014Xparams/light-med"/>
+       <dep alias="/Plane.014Xparams/light-med"/>
      </entry>
      <entry>
        <ind>16000</ind>
-       <dep alias="../../../../Plane.014Xparams/light-far"/>
+       <dep alias="/Plane.014Xparams/light-far"/>
      </entry>
    </interpolation>
  </animation>
@@ -4159,7 +4117,7 @@
    <type>select</type>
    <object-name>BeaconOffX</object-name>
    <condition>
-     <property alias="../../../params/lighting/beacon-top/property"/>
+     <property alias="/params/lighting/beacon-top/property"/>
    </condition>
  </animation>
 
@@ -4210,15 +4168,15 @@
    <interpolation>
      <entry>
        <ind>0</ind>
-       <dep alias="../../../../BeaconOffXparams/light-near"/>
+       <dep alias="/BeaconOffXparams/light-near"/>
      </entry>
      <entry>
        <ind>500</ind>
-       <dep alias="../../../../BeaconOffXparams/light-med"/>
+       <dep alias="/BeaconOffXparams/light-med"/>
      </entry>
      <entry>
        <ind>16000</ind>
-       <dep alias="../../../../BeaconOffXparams/light-far"/>
+       <dep alias="/BeaconOffXparams/light-far"/>
      </entry>
    </interpolation>
  </animation>

@@ -111,6 +111,11 @@ var bothwingcollapse = func
 	setprop("/fdm/jsbsim/wing/broken-both", 1);
 }
 
+var upsidedown = func
+{
+	setprop("/fdm/jsbsim/upsidedown", 1)
+}
+
 var killengine = func
 {
 	setprop("/controls/engines/engine/magnetos", 0);
@@ -180,6 +185,9 @@ var poll_damage = func
 	
 	if(getprop(gears~"unit[0]/broken")	and getprop(gears~"unit[1]/broken")	and getprop(gears~"unit[2]/broken"))
 		bothwingcollapse();
+	
+	if (getprop(contact~"unit[12]/WOW"))
+		upsidedown();
 	
 	if(getprop("position/altitude-agl-m") < 10 and (getprop("/fdm/jsbsim/crash") or getprop("/fdm/jsbsim/wing/broken-one") or getprop("/fdm/jsbsim/wing/broken-both")))
 		killengine();

@@ -7,8 +7,6 @@
 
 # =============================== DEFINITIONS ===========================================
 
-var clamp = func(v, min=0, max=1) { v < min ? min : v > max ? max : v }
-
 # set the update period
 
 UPDATE_PERIOD = 0.3;
@@ -44,40 +42,6 @@ setlistener("/sim/time/hobbs/engine[0]", func {
     setprop("/instrumentation/hobbs-meter/digits4", math.mod(int(hobbs / 1000), 10));
 }, 1, 0);
 
-# =============================== -ve g cutoff stuff =========================================
-
-# Manages mixture depending on g force
-# 0: normal, 1: low gravity; 2: neg G.
-var negg_state = 0;
-var negGCutoff = func {
-    # TODO: this is working really bad, fix using jsbsim systems
-    return getprop("/controls/engines/engine/mixture-lever");
-
-    var g = gcurrent.getValue();
-    var grav = gravity.getValue();
-    
-    if (g != nil and grav != nil) {
-        g = -g / grav;
-    }
-    else {
-        # we are not able to calculate gravity, just assume 1
-        g = 1;
-    }
-
-    if (g > 0.75) {
-        # Mixture set by lever
-        return getprop("/controls/engines/engine/mixture-lever");
-    }
-    elsif (0 <= g and g <= 0.75) {
-        # Mixture set by - ve g
-        return g * 4/3;
-    }
-    else {
-        # Mixture set by - ve g
-        return 0;
-    }
-};
-
 # ========== primer stuff ======================
 
 # Toggles the state of the primer
@@ -92,38 +56,6 @@ var pumpPrimer = func {
     else {
         setprop("/controls/engines/engine/primer-lever", 1);
     }
-};
-
-# Returns the mixture (0, 1).
-# Warm engine, the mixture is selected using the mixture lever
-# Cold engine, if the engine was primed enough times, mixture = 1. If not, mixture = 0
-var primerMixture = func {
-    var mixture = 0;
-    var primer = arg[0];
-    var throttle = getprop("/controls/engines/engine/throttle") or 0;
-    
-    # warm engine: just use mixture
-    if (getprop("/engines/engine/oil-temperature-degf") > 75 ) {
-        return negGCutoff();
-    }
-    
-    if (primer >2 and primer <7 and throttle > 0.1 and throttle < 0.5) {
-        mixture = 1;
-        print("Primer: ", primer);
-    } elsif ( getprop("/controls/switches/starter", 0) == 1 ) {
-        if (primer <3 ) {
-            print("Use the primer!");
-            gui.popupTip("Use the primer!");
-        } elsif ( primer >6 ) {
-            print("Flooded engine!");
-            gui.popupTip("Flooded engine!");
-        } else {
-            print("Check the throttle!");
-            gui.popupTip("Check the throttle!");
-        }
-    }
-    
-    return mixture;
 };
 
 # Primes the engine automatically. This function takes several seconds
@@ -154,29 +86,31 @@ var update = func {
     var rightTankUsable = getprop("/consumables/fuel/tank[1]/selected") and getprop("/consumables/fuel/tank[1]/level-gal_us") > 0;
     var outOfFuel = !(leftTankUsable or rightTankUsable);
 
-    # we use the mixture to control the engines, so set the mixture
+    # We use the mixture to control the engines, so set the mixture
     var usePrimer = getprop("/controls/engines/engine/use-primer") or 0;
-    var mixture = 0;
 
     if (outOfFuel) {
-        mixture = 0;
         print("Out of fuel!");
         gui.popupTip("Out of fuel!");
     }
-    elsif (usePrimer == 1) {
-         # mixture is controlled by start conditions
-        primer = getprop("/controls/engines/engine/primer") or 0;
-        mixture = ( primerMixture(primer) );
-#        print("Primer controls fuel");
+    elsif (usePrimer and getprop("/engines/engine/oil-temperature-degf") <= 75) {
+        # Mixture is controlled by start conditions
+        var primer = getprop("/controls/engines/engine/primer");
+        if (!getprop("/fdm/jsbsim/fcs/mixture-primer") and getprop("/controls/switches/starter")) {
+            if (primer < 3) {
+                print("Use the primer!");
+                gui.popupTip("Use the primer!");
+            }
+            elsif (primer > 6) {
+                print("Flooded engine!");
+                gui.popupTip("Flooded engine!");
+            }
+            else {
+                print("Check the throttle!");
+                gui.popupTip("Check the throttle!");
+            }
+        }
     }
-    else  {
-        # mixture is controlled by G force and mixture lever
-        mixture = negGCutoff();
-#        print("G-force controls fuel");
-    }
-
-    setprop("/controls/engines/engine/mixture", mixture);
-#    print("Mixture: ", mixture);
 };
 
 # controls.startEngine = func(v = 1) {
@@ -204,7 +138,7 @@ var autostart = func {
 
     setprop("/controls/engines/engine/magnetos", 3);
     setprop("/controls/engines/engine/throttle", 0.2);
-    setprop("/controls/engines/engine/mixture-lever", 1.0);
+    setprop("/controls/engines/engine/mixture", 1.0);
     setprop("/controls/engines/engine/master-bat", 1.0);
     setprop("/controls/engines/engine/master-alt", 1.0);
     setprop("/controls/switches/master-avionics", 1.0);
@@ -230,9 +164,6 @@ var autostart = func {
 
 # =============== Variables ================
 
-var gcurrent = nil;
-var gravity = nil;
-
 # key 's' calls to this function when it is pressed DOWN even if I overwrite the binding in the -set.xml file!
 # fun fact: the key UP event can be overwriten!
 controls.startEngine = func(v = 1) {
@@ -240,19 +171,8 @@ controls.startEngine = func(v = 1) {
     # TODO: I still don't know where "/controls/engines/engine/starter" is set to true...
 };
 
-var L = setlistener("/sim/signals/fdm-initialized", func {
-    gcurrent = props.globals.getNode("accelerations/pilot/z-accel-fps_sec", 1);
-    gravity = props.globals.getNode("fdm/jsbsim/accelerations/gravity-ft_sec2", 1);
-
-    var mixture_node = props.globals.getNode("/controls/engines/engine[0]/mixture-lever", 1);
-    controls.adjMixture = func (speed) {
-        var delta = speed * controls.THROTTLE_RATE * getprop("/sim/time/delta-realtime-sec");
-        var clamped_value = clamp(mixture_node.getValue() + delta, 0, 1);
-        mixture_node.setValue(clamped_value);
-    };
-    removelistener(L);
-
-    var engine_timer = maketimer(UPDATE_PERIOD, update);
+setlistener("/sim/signals/fdm-initialized", func {
+    var engine_timer = maketimer(UPDATE_PERIOD, func { update(); });
     engine_timer.start();
 });
 

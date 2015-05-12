@@ -20,7 +20,7 @@
         <pitch-deg>2.75</pitch-deg>
         <z-m>-.25</z-m>
       </offsets>
-      
+	  
       <animation>
         <object-name>3dshadow</object-name>
         <type>select</type>
@@ -30,10 +30,19 @@
             <property>/sim/rendering/rembrandt/enabled</property>
           </not>
           <property>/sim/rendering/shaders/skydome</property>
-		  <equals>
-            <property>/sim/rendering/shadow-volume</property>
-			<value>1</value>
-		  </equals>
+          <property>/sim/rendering/shadow-volume</property>
+		  <not>
+			<property>/fdm/jsbsim/unit[12]/WOW</property>
+		  </not>
+		  <not>
+			<property>/fdm/jsbsim/crash</property>
+		  </not>
+		  <not>
+			<property>/fdm/jsbsim/wing-damage/left-wing</property>
+		  </not>
+		  <not>
+			<property>/fdm/jsbsim/wing-damage/right-wing</property>
+		  </not>
 		 </and>
         </condition>
       </animation>

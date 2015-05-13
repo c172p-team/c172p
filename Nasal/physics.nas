@@ -200,7 +200,7 @@ var poll_damage = func
 		}
 	}        
 
-	if (getprop("velocities/airspeed-kt") > 180)
+	if (getprop("velocities/airspeed-kt") > (getprop("limits/vne") + 22))
 	{
 		if (roll_moment < -4000 and getprop("/fdm/jsbsim/wing-damage/left-wing") == 0)
 		{

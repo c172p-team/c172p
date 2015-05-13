@@ -4,14 +4,20 @@ props.globals.initNode("/fdm/jsbsim/bushkit", 0, "INT");
 #reference Vne=158, max positive-g=5.8, max negative-g=5.8 
 props.Node.new({ "limits/vne":0 });
 props.globals.initNode("limits/vne", 158, "DOUBLE");
+props.Node.new({ "limits/vne2":0 });
+props.globals.initNode("limits/vne2", 200, "DOUBLE");
 props.Node.new({ "limits/max-positive-g":0 });
-props.globals.initNode("limits/max-positive-g", 5.8, "DOUBLE");
+props.globals.initNode("limits/max-positive-g", 4.4, "DOUBLE");
 props.Node.new({ "limits/max-negative-g":0 });
-props.globals.initNode("limits/max-negative-g", -5.8, "DOUBLE");
+props.globals.initNode("limits/max-negative-g", -1.76, "DOUBLE");
 
-var g = getprop("/accelerations/pilot-gdamped") or 1;
+var g = getprop("/fdm/jsbsim/accelerations/Nz");
 var max_positive = getprop("limits/max-positive-g");
 var max_negative = getprop("limits/max-negative-g");
+
+var aero_coeff = "fdm/jsbsim/aero/coefficient/";
+#roll moment due to (diedra + roll rate + yaw rate + ailerons) ==> asymmetry to break one wing
+var roll_moment = getprop(aero_coeff~"Clb")+getprop(aero_coeff~"Clp")+getprop(aero_coeff~"Clr")+getprop(aero_coeff~"ClDa");
 
 var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
@@ -45,10 +51,8 @@ var resetalldamage = func
 	setprop(gears~"unit[2]/broken", 0);
 	setprop(contact~"unit[4]/broken", 0);
 	setprop(contact~"unit[5]/broken", 0);
-	setprop(contact~"unit[4]/z-position", 50);
-	setprop(contact~"unit[5]/z-position", 50);
-	setprop("/fdm/jsbsim/wing/broken-one", 0);
-	setprop("/fdm/jsbsim/wing/broken-both", 0);
+	setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
+	setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
 	setprop("/fdm/jsbsim/crash", 0);
 	#setprop("/sim/rendering/nosedamage", 0);
 	#setprop("/sim/rendering/leftgeardamage", 0);
@@ -91,26 +95,18 @@ var rightgearbroke = func
 var leftwingbroke = func
 {
 	setprop(contact~"unit[4]/broken", 1);
-	setprop("/fdm/jsbsim/wing/broken-one", -1);
+	setprop("/fdm/jsbsim/wing-damage/left-wing", 1);
 }
 
 var rightwingbroke = func
 {
 	setprop(contact~"unit[5]/broken", 1);
-	setprop("/fdm/jsbsim/wing/broken-one", 1);
-}
-
-var bothwingbroke = func
-{
-	setprop(contact~"unit[4]/broken", 1);
-	setprop(contact~"unit[5]/broken", 1);
-	setprop("/fdm/jsbsim/wing/broken-both", 1);
+	setprop("/fdm/jsbsim/wing-damage/right-wing", 1);
 }
 
 var bothwingcollapse = func
 {
 	setprop("/fdm/jsbsim/crash", 1);
-	setprop("/fdm/jsbsim/wing/broken-both", 1);
 }
 
 var upsidedown = func
@@ -190,9 +186,6 @@ var poll_damage = func
 	if(getprop(contact~"unit[5]/compression-ft") > 0.005)
 		rightwingbroke();
 		
-	if(getprop(contact~"unit[4]/broken") and getprop(contact~"unit[5]/broken"))
-		bothwingbroke();
-	
 	if(getprop(gears~"unit[0]/broken")	and getprop(gears~"unit[1]/broken")	and getprop(gears~"unit[2]/broken"))
 		bothwingcollapse();
 	
@@ -205,16 +198,85 @@ var poll_damage = func
 	if (getprop("/sim/rendering/allfix"))
 		resetalldamage();
 		
-	if ((((max_negative != nil) and (g < max_negative)) or ((getprop("velocities/airspeed-kt") != nil) and (getprop("limits/vne") != nil) and (getprop("velocities/airspeed-kt") > getprop("limits/vne"))) and (getprop("/orientation/roll-deg") < -10)))
-		leftwingbroke();
+	roll_moment = getprop(aero_coeff~"Clb")+getprop(aero_coeff~"Clp")+getprop(aero_coeff~"Clr")+getprop(aero_coeff~"ClDa");
+	#print ("roll-moment=", roll_moment);
+		 
+	if (getprop("velocities/airspeed-kt") > getprop("limits/vne"))
+	{
+		if (roll_moment < -4000 and getprop("/fdm/jsbsim/wing-damage/left-wing") == 0)
+		{
+			setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
+			screen.log.write("Overspeed. Right wing DAMAGED!!");
+		}
+		
+		if (roll_moment > 4000 and getprop("/fdm/jsbsim/wing-damage/right-wing") == 0)
+		{
+			setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
+			screen.log.write("Overspeed. Left wing DAMAGED!!");
+		}
+	}        
 
-	if ((((max_negative != nil) and (g < max_negative)) or ((getprop("velocities/airspeed-kt") != nil) and (getprop("limits/vne") != nil) and (getprop("velocities/airspeed-kt") > getprop("limits/vne"))) and (getprop("/orientation/roll-deg") > 10)))
+	if (getprop("velocities/airspeed-kt") > (getprop("limits/vne") + 22))
+	{
+		if (roll_moment < -4000 and getprop("/fdm/jsbsim/wing-damage/left-wing") == 0)
+		{
+			rightwingbroke();
+			screen.log.write("Overspeed!! Right wing BROKEN ");
+		}
+		
+		if (roll_moment > 4000 and getprop("/fdm/jsbsim/wing-damage/right-wing") == 0)
+		{
+			leftwingbroke();
+			screen.log.write("Overspeed!! Left wing BROKEN");
+		}
+	}
+		
+	if (getprop("velocities/airspeed-kt") > getprop("limits/vne2"))
+	{    
+		if (getprop("/fdm/jsbsim/wing-damage/left-wing") == 0 and getprop("/fdm/jsbsim/wing-damage/right-wing") == 0)
+		{
+			   rightwingbroke();
+			   leftwingbroke();
+			   screen.log.write("Overspeed!! Both wings BROKEN!!");
+		}
+	}
+	
+	g = getprop("/fdm/jsbsim/accelerations/Nz");
+	if (g > max_positive)
+	{
+		if (roll_moment < -4000 and getprop("/fdm/jsbsim/wing-damage/left-wing") == 0)
+		{
+			setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
+			screen.log.write("Over-g Right wing DAMAGED!!");
+		}
+		if (roll_moment > 4000 and getprop("/fdm/jsbsim/wing-damage/right-wing") == 0)
+		{
+			setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
+			screen.log.write("Over-g Left wing DAMAGED!!");
+		}
+	}
+	if (g > 5.5)
+	{
+		if (roll_moment < -4000 and getprop("/fdm/jsbsim/wing-damage/left-wing") != 1)
+		{
+			rightwingbroke();
+			screen.log.write("Over-g Right wing BROKEN!!");
+		}
+		if (roll_moment > 4000 and getprop("/fdm/jsbsim/wing-damage/right-wing") != 1)
+		{
+			leftwingbroke();
+			screen.log.write("Over-g Left wing BROKEN!!");
+		}
+	}
+	if (g > 6.6)
+	{
 		rightwingbroke();
-
-	if ((((max_negative != nil) and (g < max_negative)) or ((getprop("velocities/airspeed-kt") != nil) and (getprop("limits/vne") != nil) and (getprop("velocities/airspeed-kt") > getprop("limits/vne"))) and ((getprop("/orientation/roll-deg") > -10) and getprop("/orientation/roll-deg") < 10)))
-		bothwingbroke();
+		leftwingbroke();
+		screen.log.write("Over-g Both wings BROKEN!!");
+	}	
 }
 
+#required delay for bush kit change over
 var poll_gear_delay = func
 {
 	if(getprop("/fdm/jsbsim/bushkit") == 0)

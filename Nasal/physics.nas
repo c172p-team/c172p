@@ -108,13 +108,6 @@ var rightwingbroke = func
 	setprop("/fdm/jsbsim/wing-damage/right-wing", 1);
 }
 
-var bothwingbroke = func
-{
-	setprop(contact~"unit[4]/broken", 1);
-	setprop(contact~"unit[5]/broken", 1);
-	setprop("/fdm/jsbsim/wing/broken-both", 1);
-}
-
 var bothwingcollapse = func
 {
 	setprop("/fdm/jsbsim/crash", 1);
@@ -191,9 +184,6 @@ var poll_damage = func
 		
 	if (getprop(contact~"unit[5]/compression-ft") > 0.005 or getprop("/sim/rendering/rightwingdamage") or getprop("/sim/rendering/bothwingdamage"))
 		rightwingbroke();
-	
-	if(getprop(contact~"unit[4]/broken") and getprop(contact~"unit[5]/broken"))
-		bothwingbroke();
 	
 	if (getprop(gears~"unit[0]/broken")	and getprop(gears~"unit[1]/broken")	and getprop(gears~"unit[2]/broken"))
 		bothwingcollapse();

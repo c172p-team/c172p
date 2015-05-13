@@ -180,7 +180,7 @@ var poll_damage = func
 	if (getprop(gears~"unit[0]/compression-ft") > 0.75 or getprop("/sim/rendering/nosedamage") or getprop("/sim/rendering/alldamage"))
 		nosegearbroke();
 
-	if (getprop(gears~"unit[1]/compression-ft") > .49 or getprop("/sim/rendering/leftgeardamage") or getprop("/sim/rendering/alldamage"))
+	if (getprop(gears~"unit[1]/compression-ft") > 0.49 or getprop("/sim/rendering/leftgeardamage") or getprop("/sim/rendering/alldamage"))
 		leftgearbroke();
 		
 	if (getprop(gears~"unit[2]/compression-ft") > 0.49 or getprop("/sim/rendering/rightgeardamage") or getprop("/sim/rendering/alldamage"))
@@ -225,7 +225,7 @@ var poll_damage = func
 		}
 	}        
 
-	if (getprop("velocities/airspeed-kt") > 180)
+	if (getprop("velocities/airspeed-kt") > (getprop("limits/vne") + 22))
 	{
 		if (roll_moment < -4000 and getprop("/fdm/jsbsim/wing-damage/left-wing") == 0)
 		{

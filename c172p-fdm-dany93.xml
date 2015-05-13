@@ -585,7 +585,18 @@
                 <property>atmosphere/rho-slugs_ft3</property>
                 <value>0.5</value>
             </product>
-        </function> 
+        </function>
+        
+        <function name="aero/function/total-wing-damage">
+            <description>Total damage on wings</description>
+            <product>
+                <sum>
+                    <property>wing-damage/left-wing</property>
+                    <property>wing-damage/right-wing</property>
+                </sum>
+                <value>0.5</value>
+            </product>
+        </function>
 
         <axis name="DRAG">
             <function name="aero/coefficient/CDo">
@@ -742,7 +753,7 @@
                           </tableData>
                       </table>
                       <table>
-                          <independentVar>wing/broken-both</independentVar>
+                          <independentVar>aero/function/total-wing-damage</independentVar>
                           <tableData>
                               0.0000	1
                               1.0000	0
@@ -921,7 +932,7 @@
                       </tableData>
                     </table>
                     <table>
-                          <independentVar>wing/broken-both</independentVar>
+                          <independentVar>aero/function/total-wing-damage</independentVar>
                           <tableData>
                               0.0000	1
                               1.0000	0
@@ -939,13 +950,23 @@
                     <value>0.0147</value>
                 </product>
             </function>
-            <function name="aero/coefficient/Clbk">
-                <description>Roll_moment_due_to_one_broken wing</description>
+            <function name="aero/coefficient/Cllwdmg">
+                <description>Roll_moment_due_to_damaged_left_wing</description>
                 <product>
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>metrics/bw-ft</property>
-                    <property>wing/broken-one</property>
+                    <property>wing-damage/left-wing</property>
+                    <value>-0.3</value>
+                </product>
+            </function>
+            <function name="aero/coefficient/Clrwdmg">
+                <description>Roll_moment_due_to_damaged_right_wing</description>
+                <product>
+                    <property>aero/qbar-psf</property>
+                    <property>metrics/Sw-sqft</property>
+                    <property>metrics/bw-ft</property>
+                    <property>wing-damage/right-wing</property>
                     <value>0.3</value>
                 </product>
             </function>     
@@ -1111,7 +1132,7 @@
                          -1   0     0         
                          0    0     0         
                          1    0     0         
-                         3    0     0.25      
+                         3    0     0.3      
                          5    0     0        
                          15   0     0       
                       </tableData>
@@ -1131,7 +1152,7 @@
                     <property>fcs/left-aileron-pos-rad</property>
                     <value>-0.016</value>
                     <table>
-                          <independentVar>wing/broken-both</independentVar>
+                          <independentVar>aero/function/total-wing-damage</independentVar>
                           <tableData>
                               0.0000	1
                               1.0000	0

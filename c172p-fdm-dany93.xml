@@ -307,6 +307,7 @@
             <contents unit="LBS"> 100 </contents>
         </tank>
     </propulsion>
+
     <flight_control name="FCS: c172">
         <channel name="Pitch">
             <summer name="Pitch Trim Sum">
@@ -341,6 +342,7 @@
                 <output>fcs/elevator-pos-norm</output>
             </aerosurface_scale>
         </channel>
+
         <channel name="Roll">
             <summer name="Roll Trim Sum">
                 <input>fcs/aileron-cmd-norm</input>
@@ -397,6 +399,7 @@
                 <output>fcs/right-aileron-pos-norm</output>
             </aerosurface_scale>
         </channel>
+
         <channel name="Yaw">
             <summer name="Yaw Trim Sum">
                 <input>fcs/rudder-cmd-norm</input>
@@ -430,6 +433,7 @@
                 <output>fcs/rudder-pos-norm</output>
             </aerosurface_scale>
         </channel>
+
         <channel name="Flaps">
             <kinematic name="Flaps Control">
                 <input>fcs/flap-cmd-norm</input>
@@ -453,20 +457,58 @@
                 </traverse>
                 <output>fcs/flap-pos-deg</output>
             </kinematic>
+
             <aerosurface_scale name="Flap Position Normalizer">
-              <input>fcs/flap-pos-deg</input>
-              <domain>
-                <min>0</min>  <!-- Flaps actual minimum position -->
-                <max>30</max>  <!-- Flaps actual maximum position -->
-              </domain>
-              <range>
-                <min>0</min>  <!-- Flaps normalized minimum position -->
-                <max>1</max>  <!-- Flaps normalized maximum position -->
-              </range>
+                <input>fcs/flap-pos-deg</input>
+                <domain>
+                    <min>0</min>  <!-- Flaps actual minimum position -->
+                    <max>30</max>  <!-- Flaps actual maximum position -->
+                </domain>
+                <range>
+                    <min>0</min>  <!-- Flaps normalized minimum position -->
+                    <max>1</max>  <!-- Flaps normalized maximum position -->
+                </range>
               <output>fcs/flap-pos-norm</output>
             </aerosurface_scale>
         </channel>
+
+        <channel name="Mixture">
+            <!-- If the engine was primed enough times and throttle
+                 is in starter position, then mixture is 1.
+            -->
+            <fcs_function name="fcs/mixture-primer">
+                <function>
+                    <table>
+                        <independentVar lookup="row">/controls/engines/engine/primer</independentVar>
+                        <independentVar lookup="column">/controls/engines/engine/throttle</independentVar>
+                        <tableData>
+                                 0.09    0.1    0.5    0.51
+                            2    0       0      0      0
+                            3    0       1      1      0
+                            4    0       1      1      0
+                            5    0       1      1      0
+                            6    0       1      1      0
+                            7    0       0      0      0
+                        </tableData>
+                    </table>
+                </function>
+            </fcs_function>
+
+            <switch name="fcs/mixture-pos-norm">
+                <default value="fcs/mixture-cmd-norm"/>
+                <output>fcs/mixture-pos-norm</output>
+
+                <!-- Use primer if used and engine is cold. If engine
+                     is warm, then the mixture lever is used.
+                -->
+                <test logic="AND" value="fcs/mixture-primer">
+                    /controls/engines/engine/use-primer eq 1
+                    /engines/engine/oil-temperature-degf le 75
+                </test>
+            </switch>
+        </channel>
     </flight_control>
+
     <aerodynamics>
 
         <alphalimits unit="RAD">

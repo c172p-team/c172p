@@ -103,4 +103,3 @@ var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
     var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();
 });
-

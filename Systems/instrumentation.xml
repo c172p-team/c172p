@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+
+<!--
+**********************************************************************
+instrumentation.xml
+
+c172p instrumentation configuration. This file selects the
+instrumentation modules that should be available.
+
+You can have several instances of the same instrument type.
+The value inside the name tag becomes the node in the property tree.
+If two instruments have the same name you must use the number tag
+to separate them. They become name[number] in the property tree.
+Some instruments have additional configuration tags like static-port
+and pitot-port. The static- and pitot-ports (and any other system that
+an instrument depend on) have to be configured in the systems
+configuration file: generic-systems.xml
+
+The values in this file are the default values. If any configuration
+tags are omitted in an aircraft specific version of this configuration
+file, these values will be used (they are hardcoded).
+
+**********************************************************************
+-->
+
+<PropertyList>
+
+  <adf>
+    <name>adf</name>
+    <number>0</number>
+  </adf>
+
+  <airspeed-indicator>
+    <name>airspeed-indicator</name>
+    <number>0</number>
+    <total-pressure>/systems/pitot/total-pressure-inhg</total-pressure>
+    <static-pressure>/systems/static/pressure-inhg</static-pressure>
+  </airspeed-indicator>
+
+  <altimeter>
+    <name>altimeter</name>
+    <number>0</number>
+    <static-pressure>/systems/static/pressure-inhg</static-pressure>
+    <quantum>0</quantum>
+    <tau>0</tau>
+  </altimeter>
+
+  <attitude-indicator>
+    <name>attitude-indicator</name>
+    <number>0</number>
+    <suction>/systems/vacuum/suction-inhg</suction>
+  </attitude-indicator>
+
+  <clock>
+    <name>clock</name>
+    <number>0</number>
+  </clock>
+
+  <dme>
+    <name>dme</name>
+    <number>0</number>
+  </dme>
+
+  <altimeter>
+    <name>encoder</name>
+    <number>0</number>
+    <static-pressure>/systems/static/pressure-inhg</static-pressure>
+    <quantum>10</quantum>
+    <tau>0.1</tau>
+  </altimeter>
+
+  <marker-beacon>
+    <name>marker-beacon</name>
+    <number>0</number>
+  </marker-beacon>
+
+  <heading-indicator-dg>
+    <name>heading-indicator</name>
+    <number>0</number>
+    <suction>/systems/vacuum/suction-inhg</suction>
+  </heading-indicator-dg>
+
+  <KT-70>
+    <name>kt-70</name>
+    <number>0</number>
+  </KT-70>
+
+  <magnetic-compass>
+    <name>magnetic-compass</name>
+    <number>0</number>
+    <!-- use either deviation property or deviation table for compass deviation -->
+    <!--deviation>/instrumentation/magnetic-compass/deviation-deg</deviation-->
+    <deviation>
+      <table>
+          <entry>
+            <ind>0</ind>
+            <dep>0</dep>
+          </entry>
+          <entry>
+            <ind>30</ind>
+            <dep>2</dep>
+          </entry>
+          <entry>
+            <ind>60</ind>
+            <dep>3</dep>
+          </entry>
+          <entry>
+            <ind>90</ind>
+            <dep>4</dep>
+          </entry>
+          <entry>
+            <ind>120</ind>
+            <dep>3</dep>
+          </entry>
+          <entry>
+            <ind>150</ind>
+            <dep>2</dep>
+          </entry>
+          <entry>
+            <ind>180</ind>
+            <dep>0</dep>
+          </entry>
+          <entry>
+            <ind>210</ind>
+            <dep>-2</dep>
+          </entry>
+          <entry>
+            <ind>240</ind>
+            <dep>-3</dep>
+          </entry>
+          <entry>
+            <ind>270</ind>
+            <dep>-4</dep>
+          </entry>
+          <entry>
+            <ind>300</ind>
+            <dep>-3</dep>
+          </entry>
+          <entry>
+            <ind>330</ind>
+            <dep>-2</dep>
+          </entry>
+      </table>
+    </deviation>
+  </magnetic-compass>
+
+  <comm-radio>
+    <name>comm</name>
+    <number>0</number>
+  </comm-radio>
+
+  <comm-radio>
+    <name>comm</name>
+    <number>1</number>
+  </comm-radio>
+
+  <nav-radio>
+    <name>nav</name>
+    <number>0</number>
+  </nav-radio>
+
+  <nav-radio>
+    <name>nav</name>
+    <number>1</number>
+  </nav-radio>
+
+  <slip-skid-ball>
+    <name>slip-skid-ball</name>
+    <number>0</number>
+  </slip-skid-ball>
+
+  <transponder>
+    <name>transponder</name>
+    <number>0</number>
+    <mode-c-altitude>/instrumentation/encoder/mode-c-alt-ft</mode-c-altitude>
+  </transponder>
+
+  <turn-indicator>
+    <name>turn-indicator</name>
+    <number>0</number>
+  </turn-indicator>
+
+  <vertical-speed-indicator>
+    <name>vertical-speed-indicator</name>
+    <number>0</number>
+    <static-pressure>/systems/static/pressure-inhg</static-pressure>
+  </vertical-speed-indicator>
+
+</PropertyList>

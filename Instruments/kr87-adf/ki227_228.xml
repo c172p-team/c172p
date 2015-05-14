@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<!--
+  ADF based on ki227 by Torsten Dreyer
+-->
+
+<PropertyList>
+
+  <path>ki227_228.ac</path>
+
+  <params>
+    <model>instrumentation/adf[0]/model</model>
+    <rotation-deg>instrumentation/adf[0]/rotation-deg</rotation-deg>
+    <adf-bearing-deg>instrumentation/adf[0]/indicated-bearing-deg</adf-bearing-deg>
+    <vor-bearing-deg>instrumentation/nav[0]/radials/reciprocal-radial-deg</vor-bearing-deg>
+    <indicated-heading>instrumentation/heading-indicator/indicated-heading-deg</indicated-heading>
+  </params>
+
+  <animation>
+    <type>noshadow</type>
+  </animation>
+
+  <animation>
+    <type>range</type>
+    <min-m>0</min-m>
+    <max-m>10</max-m>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>CompassRose</object-name>
+    <object-name>KI227.ADFNeedle</object-name>
+  
+    
+    <object-name>Marker</object-name>
+    <object-name>HDGSelector</object-name>
+    <emission>
+      <red>1.0</red>
+      <green>0.2</green>
+      <blue>0.0</blue>
+      <factor-prop>sim/model/material/instruments/factor</factor-prop>
+    </emission>
+  </animation>
+
+  
+
+  <animation>
+    <type>select</type>
+    <object-name>KI227.ADFNeedle</object-name>
+    <object-name>HDGSelector</object-name>
+    <object-name>HDGSelectorPick.L</object-name>
+    <object-name>HDGSelectorPick.R</object-name>
+    <condition>
+      <not>
+        <equals>
+          <property alias="../../../../../params/model"/>
+          <value>ki228</value>
+        </equals>
+      </not>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>CompassRose</object-name>
+    <property alias="../../params/rotation-deg"/>
+    <condition>
+      <not>
+        <equals>
+          <property alias="../../../../../params/model"/>
+          <value>ki228</value>
+        </equals>
+      </not>
+    </condition>
+    <factor>-1</factor>
+    <axis>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>CompassRose</object-name>
+    <property alias="../../params/indicated-heading"/>
+    <condition>
+      <equals>
+        <property alias="../../../../params/model"/>
+        <value>ki228</value>
+      </equals>
+    </condition>
+    <factor>-1</factor>
+    <axis>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  
+
+  
+
+  
+
+  <animation>
+    <type>rotate</type>
+    <object-name>KI227.ADFNeedle</object-name>
+    <property alias="../../params/adf-bearing-deg"/>
+    <axis>
+      <x>-1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>HDGSelectorPick.L</object-name>
+    <object-name>HDGSelectorPick.R</object-name>
+    <visible>false</visible>
+  </animation>
+    
+
+  <animation>
+    <type>knob</type>
+    <object-name>HDGSelector</object-name>
+
+    <property alias="../../params/rotation-deg"/>
+    <factor>8.0</factor>
+    <axis>
+      <x>1.0</x>
+      <y>0.0</y>
+      <z>0.0</z>
+    </axis>
+    <center>
+      <x-m>0</x-m>
+      <y-m>-0.0318072</y-m>
+      <z-m>-0.0327009</z-m>
+    </center>
+    
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="../../../../params/rotation-deg"/>
+        <factor>1</factor>
+        <min>0</min>
+        <max>360</max>
+        <wrap>1</wrap>
+      </binding>
+    </action>
+
+    <hovered>
+     <binding>
+       <command>set-tooltip</command>
+       <tooltip-id>adf-hdg</tooltip-id>
+       <label>ADF Heading: %3d</label>
+       <property alias="../../../../params/rotation-deg"/>
+    </binding>
+    </hovered>
+  </animation>
+
+
+</PropertyList>

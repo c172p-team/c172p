@@ -1,0 +1,315 @@
+<?xml version="1.0" ?>
+<!--
+    This is the ki266 3d instrument.
+    Modeled after King KI266 DME Indicator
+
+    This instrument needs the file
+    Aircraft/Instruments-3d/ki266/ki266.nas
+    to be included in your -set.xml nasal section
+    like this:
+
+    <nasal>
+      <YourAircraft>
+        <file>Aircraft/Instruments-3d/ki266/ki266.nas</file>
+      </YourAircraft>
+    </nasal>
+
+    and at least one instance of the ki266 class to be created
+    in your aircraft nasal code like this:
+    ki266.new(0); # for your first dme at /instrumentation/dme[0]
+    ki266.new(1); # if you have another at /instrumentation/dme[1]
+    Maintainer: Torsten Dreyer
+-->
+<PropertyList>
+  <params>
+    <in-range>instrumentation/dme[0]/in-range</in-range>
+    <right-display>instrumentation/dme[0]/min-kts-display</right-display>
+    <left-display>instrumentation/dme[0]/miles-display</left-display>
+    <left-display-dot>instrumentation/dme[0]/left-dot</left-display-dot>
+    <power-btn>instrumentation/dme[0]/power-btn</power-btn>
+    <serviceable>instrumentation/dme[0]/serviceable</serviceable>
+    <dimming>instrumentation/dme[0]/dimming-norm</dimming>
+
+    <min-kts>instrumentation/dme[0]/switch-min-kts</min-kts>
+    <electrical>systems/electrical/outputs/dme</electrical>
+  </params>
+
+  <path>ki266.ac</path>
+
+  <!-- turn it off, when u/s or switched off -->
+  <animation>
+    <type>select</type>
+    <object-name>Indicators</object-name>
+    <condition>
+      <and>
+        <property alias="../../../../params/serviceable"/>
+        <property alias="../../../../params/power-btn"/>
+        <property alias="../../../../params/electrical"/>
+      </and>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>ModeSwitch</object-name>
+    <emission>
+      <red>0.2</red>
+      <green>0.04</green>
+      <blue>0</blue>
+      <factor-prop>sim/model/material/instruments/factor</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>Frame</object-name>
+    <emission>
+      <red>0.1</red>
+      <green>0.02</green>
+      <blue>0.00001</blue>
+      <factor-prop>sim/model/material/instruments/factor</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>Indicators</object-name>
+    <emission>
+      <red>-1.0</red>
+      <green>-1.0</green>
+      <blue>-1.0</blue>
+      <factor-prop alias="../../../params/dimming"/>
+      <offset>1</offset>
+    </emission>
+  </animation>
+
+  <!-- the mode switch do display min/kts -->
+  <animation>
+    <type>select</type>
+    <object-name>Min</object-name>
+    <condition>
+      <not>
+        <property alias="../../../../params/min-kts"/>
+      </not>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>Kts</object-name>
+    <condition>
+      <property alias="../../../params/min-kts"/>
+    </condition>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>ModeSwitch</object-name>
+    <factor>-0.003</factor>
+    <property alias="../../params/min-kts"/>
+    <axis>
+      <x>1.0</x>
+      <y>0.0</y>
+      <z>0.0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>ModeSwitch</object-name>
+    <object-name>Min</object-name>
+    <object-name>Kts</object-name>
+    <visible>true</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-toggle</command>
+        <property alias="../../../../params/min-kts"/>
+      </binding>
+    </action>
+  </animation>
+
+  <!-- distance display, allways on. 
+            Shows nn.n when distance is less than 100NM and
+            shows nnn when distance is greater than or equal to 100NM
+    -->
+  <animation>
+    <name>LeftDecimalDot</name>
+    <type>select</type>
+    <object-name>Left.Dot1</object-name>
+    <condition>
+      <property alias="../../../params/left-display-dot"/>
+    </condition>
+  </animation>
+
+  <!-- blank leading zeros -->
+  <animation>
+    <name>miles_100_blank</name>
+    <type>select</type>
+    <object-name>Left.100</object-name>
+    <condition>
+      <greater-than-equals>
+        <property alias="../../../../params/left-display"/>
+        <value>100.0</value>
+      </greater-than-equals>
+    </condition>
+  </animation>
+
+  <animation>
+    <name>miles_10_blank</name>
+    <type>select</type>
+    <object-name>Left.10</object-name>
+    <condition>
+      <or>
+        <greater-than-equals>
+          <property alias="../../../../../params/left-display"/>
+          <value>10.0</value>
+        </greater-than-equals>
+        <and>
+          <property alias="../../../../../params/left-display-dot"/>
+          <greater-than-equals>
+            <property alias="../../../../../../params/left-display"/>
+            <value>1.0</value>
+          </greater-than-equals>
+        </and>
+      </or>
+    </condition>
+  </animation>
+
+  <animation>
+    <name>miles_1_blank</name>
+    <type>select</type>
+    <object-name>Left.1</object-name>
+    <condition>
+      <greater-than-equals>
+        <property alias="../../../../params/left-display"/>
+        <value>1.0</value>
+      </greater-than-equals>
+    </condition>
+  </animation>
+
+  <!-- left display, left digit -->
+  <animation>
+    <name>miles_100_lo</name>
+    <type>textranslate</type>
+    <object-name>Left.100</object-name>
+    <property alias="../../params/left-display"/>
+    <step>100</step>
+    <factor>0.001</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- left display, center digit -->
+  <animation>
+    <name>miles_10_lo</name>
+    <type>textranslate</type>
+    <object-name>Left.10</object-name>
+    <property alias="../../params/left-display"/>
+    <step>10</step>
+    <factor>0.01</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!-- left display, right digit -->
+  <animation>
+    <name>miles_1_lo</name>
+    <type>textranslate</type>
+    <object-name>Left.1</object-name>
+    <property alias="../../params/left-display"/>
+    <step>1</step>
+    <factor>0.1</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--
+        Right display, showing either kts or min, handled by dme.nas
+    -->
+  <animation>
+    <condition>
+      <greater-than-equals>
+        <property alias="../../../../params/right-display"/>
+        <value>100</value>
+      </greater-than-equals>
+    </condition>
+    <name>kts_100_select</name>
+    <type>select</type>
+    <object-name>Right.100</object-name>
+  </animation>
+
+  <animation>
+    <condition>
+      <greater-than-equals>
+        <property alias="../../../../params/right-display"/>
+        <value>10</value>
+      </greater-than-equals>
+    </condition>
+    <name>kts_10_select</name>
+    <type>select</type>
+    <object-name>Right.10</object-name>
+  </animation>
+
+  <animation>
+    <condition>
+      <property alias="../../../params/in-range"/>
+    </condition>
+    <name>kts_1_select</name>
+    <type>select</type>
+    <object-name>Right.1</object-name>
+  </animation>
+
+  <animation>
+    <name>kts_100</name>
+    <type>textranslate</type>
+    <object-name>Right.100</object-name>
+    <property alias="../../params/right-display"/>
+    <step>100</step>
+    <factor>0.001</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <name>kts_10</name>
+    <type>textranslate</type>
+    <object-name>Right.10</object-name>
+    <property alias="../../params/right-display"/>
+    <step>10</step>
+    <factor>0.01</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <name>kts_1</name>
+    <type>textranslate</type>
+    <object-name>Right.1</object-name>
+    <property alias="../../params/right-display"/>
+    <step>1</step>
+    <factor>0.1</factor>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+</PropertyList>

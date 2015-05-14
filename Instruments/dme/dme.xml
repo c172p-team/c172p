@@ -1,0 +1,249 @@
+<?xml version="1.0" ?>
+<!--
+    Maintainer: Torsten Dreyer
+-->
+<PropertyList>
+    <params>
+        <power-btn>instrumentation/dme[0]/power-btn</power-btn>
+        <serviceable>instrumentation/dme[0]/serviceable</serviceable>
+    </params>
+
+    <path>dme.ac</path>
+
+    <model>
+      <path>Aircraft/c172p/Instruments/dme/ki266.xml</path>
+      <name>ki266</name>
+      <offsets>
+        <x-m>0.00140005</x-m>
+        <y-m>0.0274714</y-m>
+        <z-m>0.0</z-m>
+      </offsets>
+    </model>
+
+ <animation>
+  <type>material</type>
+  <object-name>on</object-name>
+  <object-name>off</object-name>
+  <object-name>Label3</object-name>
+  <object-name>n1</object-name>
+  <object-name>hld</object-name>
+  <object-name>n2</object-name>
+  <object-name>SourceSelectorKnob</object-name>
+  <emission>
+   <red>0.4</red>
+   <green>0.08</green>
+   <blue>0.00004</blue>
+   <factor-prop>sim/model/material/instruments/factor</factor-prop>
+  </emission>
+ </animation>
+
+ <animation>
+  <type>material</type>
+  <object-name>PowerSwitch.Lever</object-name>
+  <object-name>PowerSwitch.Base</object-name>
+  <object-name>Plane</object-name>
+  <emission>
+   <red>0.1</red>
+   <green>0.02</green>
+   <blue>0.00001</blue>
+   <factor-prop>sim/model/material/instruments/factor</factor-prop>
+  </emission>
+ </animation>
+
+    <!-- the power switch -->
+    <animation>
+        <type>rotate</type>
+        <object-name>PowerSwitch.Lever</object-name>
+        <property alias="../../params/power-btn"/>
+        <factor>-60</factor>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0.000862624</x-m>
+            <y-m>-0.0328855</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>on</object-name>
+        <visible>true</visible>
+        <action>
+          <button>0</button>
+          <repeatable>false</repeatable>
+          <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/power-btn"/>
+            <value>1</value>
+          </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>off</object-name>
+        <visible>true</visible>
+        <action>
+          <button>0</button>
+          <repeatable>false</repeatable>
+          <binding>
+            <command>property-assign</command>
+            <property alias="../../../../params/power-btn"/>
+            <value>0</value>
+          </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>PowerSwitch</object-name>
+        <visible>true</visible>
+        <action>
+          <button>0</button>
+          <repeatable>false</repeatable>
+          <binding>
+            <command>property-toggle</command>
+            <property alias="../../../../params/power-btn"/>
+          </binding>
+        </action>
+    </animation>
+
+    <!-- the source switch -->
+    <animation>
+        <type>rotate</type>
+        <object-name>SourceSelectorKnob</object-name>
+        <property>instrumentation/dme/switch-position</property>
+        <factor>-30</factor>
+        <min-deg>-60</min-deg>
+        <max-deg>0</max-deg>
+        <offset-deg>30</offset-deg>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0.005</x-m>
+            <y-m>-0.0589436</y-m>
+            <z-m>0</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>SourceSelectorPick.R</object-name>
+        <visible>false</visible>
+        <action>
+          <button>0</button>
+          <repeatable>false</repeatable>
+          <binding>
+              <command>property-adjust</command>
+              <property>instrumentation/dme/switch-position</property>
+              <step>1</step>
+              <min>1</min>
+              <max>3</max>
+              <wrap>0</wrap>
+          </binding>
+          <binding>
+              <condition>
+                  <equals>
+                      <property>instrumentation/dme/switch-position</property>
+                      <value type="int">1</value>
+                  </equals>
+              </condition>
+              <command>property-assign</command>
+              <property>instrumentation/dme/frequencies/source</property>
+              <value>instrumentation/nav[0]/frequencies/selected-mhz</value>
+          </binding>
+          <binding>
+              <condition>
+                  <equals>
+                      <property>instrumentation/dme/switch-position</property>
+                      <value type="int">2</value>
+                  </equals>
+              </condition>
+              <command>property-assign</command>
+              <property>instrumentation/dme/frequencies/source</property>
+              <value>instrumentation/dme/frequencies/selected-mhz</value>
+          </binding>
+          <binding>
+              <condition>
+                  <equals>
+                      <property>instrumentation/dme/switch-position</property>
+                      <value type="int">2</value>
+                  </equals>
+              </condition>
+              <command>property-assign</command>
+              <property>instrumentation/dme/frequencies/selected-mhz</property>
+              <property>instrumentation/nav[0]/frequencies/selected-mhz</property>
+          </binding>
+          <binding>
+              <condition>
+                  <equals>
+                      <property>instrumentation/dme/switch-position</property>
+                      <value type="int">3</value>
+                  </equals>
+              </condition>
+              <command>property-assign</command>
+              <property>instrumentation/dme/frequencies/source</property>
+              <value>instrumentation/nav[1]/frequencies/selected-mhz</value>
+          </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>SourceSelectorPick.L</object-name>
+        <visible>false</visible>
+        <action>
+          <button>0</button>
+          <repeatable>false</repeatable>
+          <binding>
+              <command>property-adjust</command>
+              <property>instrumentation/dme/switch-position</property>
+              <step>-1</step>
+              <min>1</min>
+              <max>3</max>
+              <wrap>0</wrap>
+          </binding>
+          <binding>
+              <condition>
+                  <equals>
+                      <property>instrumentation/dme/switch-position</property>
+                      <value type="int">1</value>
+                  </equals>
+              </condition>
+              <command>property-assign</command>
+              <property>instrumentation/dme/frequencies/source</property>
+              <value>instrumentation/nav[0]/frequencies/selected-mhz</value>
+          </binding>
+          <binding>
+              <condition>
+                  <equals>
+                      <property>instrumentation/dme/switch-position</property>
+                      <value type="int">2</value>
+                  </equals>
+              </condition>
+              <command>property-assign</command>
+              <property>instrumentation/dme/frequencies/source</property>
+              <value>instrumentation/dme/frequencies/selected-mhz</value>
+          </binding>
+          <binding>
+              <condition>
+                  <equals>
+                      <property>instrumentation/dme/switch-position</property>
+                      <value type="int">2</value>
+                  </equals>
+              </condition>
+              <command>property-assign</command>
+              <property>instrumentation/dme/frequencies/selected-mhz</property>
+              <property>instrumentation/nav[1]/frequencies/selected-mhz</property>
+          </binding>
+        </action>
+    </animation>
+
+</PropertyList>

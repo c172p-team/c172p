@@ -51,6 +51,8 @@ var resetalldamage = func
 	setprop(gears~"unit[2]/broken", 0);
 	setprop(contact~"unit[4]/broken", 0);
 	setprop(contact~"unit[5]/broken", 0);
+	setprop(contact~"unit[4]/z-position", 50);
+	setprop(contact~"unit[5]/z-position", 50);
 	setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
 	setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
 	setprop("/fdm/jsbsim/crash", 0);
@@ -59,6 +61,7 @@ var resetalldamage = func
 	#setprop("/sim/rendering/rightgeardamage", 0);
 	#setprop("/sim/rendering/leftwingdamage", 0);
 	#setprop("/sim/rendering/rightwingdamage", 0);
+	#setprop("/sim/rendering/bothwingdamage", 0);
 	#setprop("/sim/rendering/alldamage", 0);
 	#setprop("/sim/rendering/allfix", 0);
 	lastkit=3;
@@ -178,11 +181,11 @@ var poll_damage = func
 	if(getprop(gears~"unit[2]/compression-ft") > 0.49)
 		rightgearbroke();
 	
-	# or getprop("/sim/rendering/leftwingdamage")
+	# or getprop("/sim/rendering/leftwingdamage") or getprop("/sim/rendering/bothwingdamage")
 	if(getprop(contact~"unit[4]/compression-ft") > 0.005)
 		leftwingbroke();
 	
-	# or getprop("/sim/rendering/rightwingdamage")
+	# or getprop("/sim/rendering/rightwingdamage") or getprop("/sim/rendering/bothwingdamage")
 	if(getprop(contact~"unit[5]/compression-ft") > 0.005)
 		rightwingbroke();
 		
@@ -192,7 +195,7 @@ var poll_damage = func
 	if (getprop(contact~"unit[12]/WOW"))
 		upsidedown();
 	
-	if(getprop("position/altitude-agl-m") < 10 and (getprop("/fdm/jsbsim/crash") or getprop("/fdm/jsbsim/wing/broken-one") or getprop("/fdm/jsbsim/wing/broken-both")))
+	if(getprop("position/altitude-agl-m") < 10 and (getprop("/fdm/jsbsim/crash") or getprop("/fdm/jsbsim/wing-damage/left-wing") or getprop("/fdm/jsbsim/wing-damage/right-wing")))
 		killengine();
 	
 	if (getprop("/sim/rendering/allfix"))

@@ -12,4 +12,10 @@ For the repository containing the texture files for the liveries and instruments
 
 This aircraft was created in a joint effort by the following people:
 
-Gilberto Agostinho (gsagostinho): textures and bug hunting/reporting
+Gilberto Agostinho (gsagostinho): texturing and bug hunting/reporting
+(thevirtualfer): 3D modelling and texturing
+(ludomotico)
+(wlbragg)
+(onox)
+(Dany93)
+(tigert)

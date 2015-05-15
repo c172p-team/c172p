@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+ 
+<!--
+***********************************************************************************
+c172p-detailed, May 2015 
+Fuel system for JSBSim FDM
+***********************************************************************************
+ -->
+
+<system name="fuel">
+
+<!-- *********************************************************************************** -->
+<!-- ****** Collector Tank 2 works like a constant-level carburetor float chamber ****** -->
+<!-- ************ From Tank 0 and / or Tank 1 (for Tank 2 level maintenance)  ********** -->
+<!-- *********************************************************************************** -->
+
+    <channel name="Constant level carburetor">
+        <!-- from Tank0 (to Collector Tank 2) Fuel Flow Rate in pps -->
+        <switch name="from tank0">
+            <default value="0"/>
+            <test logic="AND" value="-0.1">
+                propulsion/tank[0]/priority EQ 1 
+                propulsion/tank[0]/contents-lbs GT 0
+                /consumables/fuel/tank[2]/level-lbs LT 0.05
+                propulsion/tank[2]/priority EQ 1
+                accelerations/Nz GE 0
+            </test>            
+            <output>propulsion/tank[0]/external-flow-rate-pps</output>
+        </switch>
+
+        <!-- from Tank 1 (to Collector Tank 2) Fuel Flow Rate in pps -->
+        <switch name="from tank1">
+            <default value="0"/>
+            <test logic="AND" value="-0.1">
+                propulsion/tank[1]/priority EQ 1 
+                propulsion/tank[1]/contents-lbs GT 0
+                /consumables/fuel/tank[2]/level-lbs LT 0.05
+                propulsion/tank[2]/priority EQ 1
+                accelerations/Nz GE 0
+            </test>            
+            <output>propulsion/tank[1]/external-flow-rate-pps</output>
+        </switch>
+    </channel>
+
+<!-- *********************************************************************************** -->
+<!-- ************ Totalfrom Tank 0 and Tank 1 to Collector Tank 2  ********************* -->
+<!-- *********************************************************************************** -->
+
+    <channel name="Total flow rate into tank 2">
+        <summer name="to tank2">
+            <input>-propulsion/tank[0]/external-flow-rate-pps</input>
+            <input>-propulsion/tank[1]/external-flow-rate-pps</input>
+            <output>propulsion/tank[2]/external-flow-rate-pps</output>
+        </summer>
+    </channel>
+ 
+</system>

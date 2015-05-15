@@ -20,7 +20,7 @@ var refresh_immat = func {
 }
 
 var immat_dialog = gui.Dialog.new("/sim/gui/dialogs/c172p/status/dialog",
-				  "Aircraft/c172p/Dialogs/immat.xml");
+				  "Aircraft/c172p-detailed/gui/dialogs/immat.xml");
 
 var refresh_immat_listener = nil;
 

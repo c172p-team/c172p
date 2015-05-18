@@ -124,6 +124,7 @@ var rightwingbroke = func
 
 var bothwingcollapse = func
 {
+	setprop(contact~"unit[5]/z-position", -8);
 	setprop("/fdm/jsbsim/crash", 1);
 }
 

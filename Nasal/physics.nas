@@ -160,13 +160,6 @@ var largebushtires = func
 	setprop(contact~"unit[8]/z-position", 0);
 }
 
-var removefairings = func
-{
-	setprop("/sim/model/c172p/fairing1", 0);
-	setprop("/sim/model/c172p/fairing2", 0);
-	setprop("/sim/model/c172p/fairing3", 0);
-}
-
 var poll_damage = func
 {
 	# or getprop("/sim/rendering/nosedamage") or getprop("/sim/rendering/alldamage")
@@ -291,12 +284,6 @@ var poll_gear_delay = func
 		largebushtires();
 }
 
-var poll_gear = func
-{
-	if (getprop("/fdm/jsbsim/bushkit") == 1 or getprop("/fdm/jsbsim/bushkit") == 2 or getprop(gears~"unit[0]/broken") or getprop(gears~"unit[1]/broken") or getprop(gears~"unit[2]/broken"))
-		removefairings();
-}
-
 var physics_loop = func
 {
 	if (lastkit == getprop("/fdm/jsbsim/bushkit"))
@@ -313,5 +300,4 @@ var physics_loop = func
 			lastkit = getprop("/fdm/jsbsim/bushkit");
 		}
 	}
-	poll_gear();
 }

@@ -69,9 +69,14 @@ var resetalldamage = func
 
 var nosegearbroke = func
 {
-	setprop(contact~"unit[6]/z-position", -10);
-	setprop(contact~"unit[7]/z-position", -9.5);
-	setprop(contact~"unit[8]/z-position", -8);
+	if(getprop("/fdm/jsbsim/bushkit") == 0)
+		setprop(contact~"unit[6]/z-position", -10);
+	else 
+    if(getprop("/fdm/jsbsim/bushkit") == 1)
+		setprop(contact~"unit[6]/z-position", -18.5);
+	else
+		setprop(contact~"unit[6]/z-position", -17.7);
+	
 	setprop(gears~"unit[0]/z-position", 0);
 	setprop("/controls/engines/engine/magnetos", 0);
 	setprop(gears~"unit[0]/broken", 1);
@@ -79,18 +84,28 @@ var nosegearbroke = func
 
 var leftgearbroke = func
 {
-	setprop(contact~"unit[6]/z-position", -18.5);
-	setprop(contact~"unit[7]/z-position", -14.5);
-	setprop(contact~"unit[8]/z-position", -15.5);
+	if(getprop("/fdm/jsbsim/bushkit") == 0)
+		setprop(contact~"unit[7]/z-position", -9.5);
+	else 
+    if(getprop("/fdm/jsbsim/bushkit") == 1)
+		setprop(contact~"unit[7]/z-position", -14.5);
+	else
+		setprop(contact~"unit[7]/z-position", -16);
+		
 	setprop(gears~"unit[1]/z-position", 0);
 	setprop(gears~"unit[1]/broken", 1);
 }
 
 var rightgearbroke = func
 {
-	setprop(contact~"unit[6]/z-position", -17.7);
-	setprop(contact~"unit[7]/z-position", -16);
-	setprop(contact~"unit[8]/z-position", -17.4);
+	if(getprop("/fdm/jsbsim/bushkit") == 0)
+		setprop(contact~"unit[8]/z-position", -8);
+	else 
+    if(getprop("/fdm/jsbsim/bushkit") == 1)
+		setprop(contact~"unit[8]/z-position", -15.5);
+	else
+		setprop(contact~"unit[8]/z-position", -17.4);
+		
 	setprop(gears~"unit[2]/z-position", 0);
 	setprop(gears~"unit[2]/broken", 1);
 }
@@ -163,15 +178,15 @@ var largebushtires = func
 var poll_damage = func
 {
 	# or getprop("/sim/rendering/nosedamage") or getprop("/sim/rendering/alldamage")
-	if(getprop(gears~"unit[0]/compression-ft") > 0.75)
+	if(getprop(gears~"unit[0]/compression-ft") > 0.75 or getprop(gears~"unit[0]/broken"))
 		nosegearbroke();
 	
 	# or getprop("/sim/rendering/leftgeardamage") or getprop("/sim/rendering/alldamage")
-	if(getprop(gears~"unit[1]/compression-ft") > 0.49)
+	if(getprop(gears~"unit[1]/compression-ft") > 0.49 or getprop(gears~"unit[1]/broken"))
 		leftgearbroke();
 	
 	# or getprop("/sim/rendering/rightgeardamage") or getprop("/sim/rendering/alldamage")	
-	if(getprop(gears~"unit[2]/compression-ft") > 0.49)
+	if(getprop(gears~"unit[2]/compression-ft") > 0.49 or getprop(gears~"unit[2]/broken"))
 		rightgearbroke();
 	
 	# or getprop("/sim/rendering/leftwingdamage") or getprop("/sim/rendering/bothwingdamage")

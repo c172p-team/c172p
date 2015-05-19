@@ -3,9 +3,9 @@
   <description>
 Before you go flying, you'll need to learn how to start the engines.
 
-This tutorial will take you through the pre-startup checklist and starting the Cessna 172p.
+This tutorial will take you through starting the Cessna 172p.
   </description>
-  <audio-dir>Aircraft/c172p/Tutorials/startup</audio-dir>
+  <audio-dir>Tutorials/startup</audio-dir>
   <timeofday>morning</timeofday>
 
   <presets>
@@ -55,13 +55,31 @@ This tutorial will take you through the pre-startup checklist and starting the C
       <property>/controls/flight/elevator-trim</property>
       <value>0.17</value>
     </set>
+    <set>
+      <property>/consumables/fuel/tank[0]/selected</property>
+      <value>true</value>
+    </set>
+    <set>
+      <property>/consumables/fuel/tank[1]/selected</property>
+      <value>true</value>
+    </set>
+    <set>
+      <property>/controls/anti-ice/engine/carb-heat</property>
+      <value>false</value>
+    </set>
+    <!--
+    <set>
+      <property>/controls/switches/master-avionics</property>
+      <value>0.0</value>
+    </set>-->
   </init>
-
   <step>
-    <message>Welcome to Livermore Municipal Airport. In this lesson we'll go through the pre-startup checks and start the aircraft.</message>
+    <message>Welcome to Livermore Municipal Airport. In this lesson we'll go through starting the aircraft.</message>
     <wait>10</wait>
   </step>
 
+<!-- Removed this - we could actually implement pre-flight checks now but that would be a separate
+     tutorial. - alge
   <step>
     <message>Before we start up, we need to brief what we'll do in case of an engine fire on startup. As
       this isn't our aircraft, and we're fully insured, we'll simply open the door and run away.</message>
@@ -73,9 +91,10 @@ This tutorial will take you through the pre-startup checklist and starting the C
       sometimes cause the seat to slip backwards, often just as you take off, so make sure it is secure.</message>
     <wait>10</wait>
   </step>
+-->
 
   <step>
-    <message>The fuel selector is set to BOTH, the Mixture control is fully rich, and the carb heat is off.</message>
+    <message>The fuel selector is set to BOTH and the carb heat is off.</message>
     <view>
       <heading-offset-deg>344.0</heading-offset-deg>
       <pitch-offset-deg>-48.7</pitch-offset-deg>
@@ -83,21 +102,59 @@ This tutorial will take you through the pre-startup checklist and starting the C
       <x-offset-m>-0.2</x-offset-m>
       <y-offset-m>0.235</y-offset-m>
       <z-offset-m>0.36</z-offset-m>
-      <field-of-view>37.0</field-of-view>
+      <field-of-view>50.0</field-of-view>
     </view>
+  </step>
+
+  <step>
+    <message>Make sure fuel mixture is set to fully rich.</message>
+    <view>
+        <heading-offset-deg>346.8</heading-offset-deg>
+        <pitch-offset-deg>-25.8</pitch-offset-deg>
+        <roll-offset-deg>0.0</roll-offset-deg>
+        <x-offset-m>-0.2</x-offset-m>
+        <y-offset-m>0.2</y-offset-m>
+        <z-offset-m>0.4</z-offset-m>
+        <field-of-view>62.3</field-of-view>
+    </view>
+
+    <marker>
+        <x-m>-0.3000</x-m>
+        <y-m>0.0800</y-m>
+        <z-m>-0.2050</z-m>
+        <scale>3.0000</scale>
+    </marker>
+
+    <error>
+      <message>Use the m key or mouse to select fuller mixture.</message>
+      <condition>
+        <less-than>
+          <property>/controls/engines/engine/mixture</property>
+          <value>0.85</value>
+        </less-than>
+      </condition>
+    </error>
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine/mixture</property>
+          <value>0.85</value>
+        </greater-than>
+      </condition>
+    </exit>
   </step>
 
   <step>
     <message>Open the throttle slightly. Use your joystick throttle control,
       or PgUp to increase throttle to about 10%.</message>
     <view>
-      <heading-offset-deg>347.2</heading-offset-deg>
-      <pitch-offset-deg>-21.8</pitch-offset-deg>
-      <roll-offset-deg>0.0</roll-offset-deg>
-      <x-offset-m>-0.2</x-offset-m>
-      <y-offset-m>0.3</y-offset-m>
-      <z-offset-m>0.4</z-offset-m>
-      <field-of-view>55.0</field-of-view>
+        <heading-offset-deg>346.8</heading-offset-deg>
+        <pitch-offset-deg>-25.8</pitch-offset-deg>
+        <roll-offset-deg>0.0</roll-offset-deg>
+        <x-offset-m>-0.2</x-offset-m>
+        <y-offset-m>0.2</y-offset-m>
+        <z-offset-m>0.4</z-offset-m>
+        <field-of-view>62.3</field-of-view>
     </view>
     <marker>
       <x-m>-0.3342</x-m>
@@ -142,6 +199,45 @@ This tutorial will take you through the pre-startup checklist and starting the C
   </step>
 
   <step>
+    <message>Prime the engine for start.
+    You'll have to pull the primer lever all the way towards you and then push it in, several times.</message>
+    <view>
+      <heading-offset-deg>12.2</heading-offset-deg>
+      <pitch-offset-deg>-35.2</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>35.0</field-of-view>
+    </view>
+    <marker>
+        <x-m>-0.3000</x-m>
+        <y-m>-0.4258</y-m>
+        <z-m>-0.2417</z-m>
+        <scale>2.6500</scale>
+    </marker>
+
+    <error>
+      <message>Pull and push the primer lever</message>
+      <condition>
+        <less-than>
+          <property>/controls/engines/engine/primer</property>
+          <value>3</value>
+        </less-than>
+      </condition>
+    </error>
+
+    <exit>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/engine/primer</property>
+          <value>2</value>
+        </greater-than>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
     <message>Now, we'll check no-one is about to walk into our propeller.</message>
     <wait>2</wait>
     <view>
@@ -170,6 +266,49 @@ This tutorial will take you through the pre-startup checklist and starting the C
   </step>
 
   <step>
+    <message>Turn the master switch on.</message>
+    <view>
+      <heading-offset-deg>12.2</heading-offset-deg>
+      <pitch-offset-deg>-35.2</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>35.0</field-of-view>
+    </view>
+    <marker>
+        <x-m>-0.3000</x-m>
+        <y-m>-0.3858</y-m>
+        <z-m>-0.1917</z-m>
+        <scale>1.9333</scale>
+    </marker>
+
+    <set>
+      <property>/sim/model/hide-yoke</property>
+      <value>true</value>
+    </set>
+
+    <error>
+      <message>Click the battery master switch to turn it on.</message>
+      <condition>
+        <equals>
+          <property>/controls/engines/engine/master-bat</property>
+          <value>0</value>
+        </equals>
+      </condition>
+    </error>
+
+    <exit>
+      <condition>
+        <equals>
+          <property>/controls/engines/engine/master-bat</property>
+          <value>1</value>
+        </equals>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
     <message>We need to switch on the magnetos.
       Click the middle hotspot three times, or use your mouse scroll wheel, so the key is set to BOTH.</message>
     <view>
@@ -179,22 +318,16 @@ This tutorial will take you through the pre-startup checklist and starting the C
       <x-offset-m>-0.2</x-offset-m>
       <y-offset-m>0.3</y-offset-m>
       <z-offset-m>0.4</z-offset-m>
-      <field-of-view>27.6</field-of-view>
+      <field-of-view>35.0</field-of-view>
     </view>
+
     <marker>
-      <x-m>-0.3689</x-m>
-      <y-m>-0.4138</y-m>
-      <z-m>-0.2493</z-m>
-      <scale>3.0000</scale>
+        <x-m>-0.3689</x-m>
+        <y-m>-0.3663</y-m>
+        <z-m>-0.2985</z-m>
+        <scale>3.0000</scale>
     </marker>
-    <set>
-      <property>/sim/panel-hotspots</property>
-      <value>true</value>
-    </set>
-    <set>
-      <property>/sim/model/hide-yoke</property>
-      <value>true</value>
-    </set>
+
     <error>
       <message>Click the middle hotspot three times, so both magnetos are on and the key
         is set to BOTH.</message>
@@ -225,13 +358,13 @@ This tutorial will take you through the pre-startup checklist and starting the C
       <x-offset-m>-0.2</x-offset-m>
       <y-offset-m>0.3</y-offset-m>
       <z-offset-m>0.4</z-offset-m>
-      <field-of-view>27.6</field-of-view>
+      <field-of-view>35.0</field-of-view>
     </view>
     <marker>
-      <x-m>-0.3689</x-m>
-      <y-m>-0.4138</y-m>
-      <z-m>-0.2493</z-m>
-      <scale>3.0000</scale>
+        <x-m>-0.3689</x-m>
+        <y-m>-0.3663</y-m>
+        <z-m>-0.2985</z-m>
+        <scale>3.0000</scale>
     </marker>
     <error>
       <message>Wrong way - set the magnetos back to BOTH.</message>
@@ -256,14 +389,15 @@ This tutorial will take you through the pre-startup checklist and starting the C
   <step>
     <message>Great, the engine is running. Adjust the throttle so we're running at between 800 and 1000 RPM.</message>
     <view>
-      <heading-offset-deg>360.0</heading-offset-deg>
-      <pitch-offset-deg>-12.0</pitch-offset-deg>
-      <roll-offset-deg>0.0</roll-offset-deg>
-      <x-offset-m>-0.2</x-offset-m>
-      <y-offset-m>0.3</y-offset-m>
-      <z-offset-m>0.4</z-offset-m>
-      <field-of-view>55.0</field-of-view>
+        <heading-offset-deg>360.0</heading-offset-deg>
+        <pitch-offset-deg>-23.0</pitch-offset-deg>
+        <roll-offset-deg>0.0</roll-offset-deg>
+        <x-offset-m>-0.2</x-offset-m>
+        <y-offset-m>0.2</y-offset-m>
+        <z-offset-m>0.4</z-offset-m>
+        <field-of-view>60.0</field-of-view>
     </view>
+
     <marker>
       <x-m>-0.3791</x-m>
       <y-m>-0.3089</y-m>
@@ -272,10 +406,6 @@ This tutorial will take you through the pre-startup checklist and starting the C
     </marker>
     <set>
       <property>/sim/panel-hotspots</property>
-      <value>false</value>
-    </set>
-    <set>
-      <property>/sim/model/hide-yoke</property>
       <value>false</value>
     </set>
     <error>
@@ -321,7 +451,102 @@ This tutorial will take you through the pre-startup checklist and starting the C
     </exit>
   </step>
 
+  <step>
+    <message>Now turn the master alternator switch on.</message>
+    <view>
+      <heading-offset-deg>12.2</heading-offset-deg>
+      <pitch-offset-deg>-35.2</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>35.0</field-of-view>
+    </view>
+    <marker>
+        <x-m>-0.3375</x-m>
+        <y-m>-0.4142</y-m>
+        <z-m>-0.2242</z-m>
+        <scale>1.6333</scale>
+    </marker>
+
+    <set>
+      <property>/sim/model/hide-yoke</property>
+      <value>true</value>
+    </set>
+
+    <error>
+      <message>Click the alternator master switch to turn it on.</message>
+      <condition>
+        <equals>
+          <property>/controls/engines/engine/master-alt</property>
+          <value>0</value>
+        </equals>
+      </condition>
+    </error>
+
+    <exit>
+      <condition>
+        <equals>
+          <property>/controls/engines/engine/master-alt</property>
+          <value>1</value>
+        </equals>
+      </condition>
+    </exit>
+  </step>
+
+  <step>
+    <message>Finally, switch on the master avionics.</message>
+    <view>
+      <heading-offset-deg>12.2</heading-offset-deg>
+      <pitch-offset-deg>-35.2</pitch-offset-deg>
+      <roll-offset-deg>0.0</roll-offset-deg>
+      <x-offset-m>-0.2</x-offset-m>
+      <y-offset-m>0.3</y-offset-m>
+      <z-offset-m>0.4</z-offset-m>
+      <field-of-view>35.0</field-of-view>
+    </view>
+
+    <marker>
+        <x-m>-0.3500</x-m>
+        <y-m>-0.3233</y-m>
+        <z-m>-0.2583</z-m>
+        <scale>1.6333</scale>
+    </marker>
+
+    <error>
+      <message>Flip the master avionics switch.</message>
+      <condition>
+        <equals>
+          <property>/controls/switches/master-avionics</property>
+          <value>0</value>
+        </equals>
+      </condition>
+    </error>
+
+    <exit>
+      <condition>
+        <equals>
+          <property>/controls/switches/master-avionics</property>
+          <value>1</value>
+        </equals>
+      </condition>
+    </exit>
+  </step>
+
   <end>
     <message>Great, our lesson is complete. We're now ready to taxi to the runway.</message>
+    <set>
+      <property>/sim/model/hide-yoke</property>
+      <value>false</value>
+    </set>
+    <view>
+        <heading-offset-deg>360.0</heading-offset-deg>
+        <pitch-offset-deg>-10.0</pitch-offset-deg>
+        <roll-offset-deg>0.0</roll-offset-deg>
+        <x-offset-m>-0.2</x-offset-m>
+        <y-offset-m>0.2</y-offset-m>
+        <z-offset-m>0.4</z-offset-m>
+        <field-of-view>60.0</field-of-view>
+    </view>
   </end>
 </PropertyList>

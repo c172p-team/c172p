@@ -7,11 +7,44 @@
    <pitch-deg>-3.0</pitch-deg>
    <z-m> -0.065 </z-m>
  </offsets>
+ 
+ <model>
+	<name>Damage</name>
+	<path>Effects/damage/damage.xml</path>
+	<offsets>
+		<x-m>0.0</x-m>
+		<y-m>0.0</y-m>
+		<z-m>0.0</z-m>
+		<pitch-deg>0</pitch-deg>
+	</offsets>
+ </model>
+ 
+ <model>
+	<name>Bushkit</name>
+	<path>Effects/bushkit/bushkit.xml</path>
+	<offsets>
+		<x-m>0.0</x-m>
+		<y-m>0.0</y-m>
+		<z-m>0.0</z-m>
+		<pitch-deg>0</pitch-deg>
+	</offsets>
+ </model>
+ 
+ <model>
+	<name>Pontoon</name>
+	<path>Effects/pontoon/pontoon.xml</path>
+	<offsets>
+		<x-m>0.0</x-m>
+		<y-m>0.0</y-m>
+		<z-m>0.0</z-m>
+		<pitch-deg>0</pitch-deg>
+	</offsets>
+ </model>
 
  <nasal>
    <load>
      var livery_update = aircraft.livery_update.new(
-     "Aircraft/c172p/Models/Liveries", 10,
+     "Models/Liveries", 10,
      func { print("c172p livery update") });
    </load>
 
@@ -49,21 +82,41 @@
                 <property>sim/multiplay/generic/float[2]</property>
             </baggage>
         </doors>
+		<crash>
+			<property>sim/multiplay/generic/int[3]</property>	
+		</crash>    
+		<wing_left_broken>
+			<property>sim/multiplay/generic/int[4]</property>
+		</wing_left_broken>		
+		<wing_right_broken>
+			<property>sim/multiplay/generic/int[5]</property>
+		</wing_right_broken>		
+		<gear_nose_broken>
+			<property>sim/multiplay/generic/int[6]</property>
+		</gear_nose_broken>
+		<gear_left_broken>
+			<property>sim/multiplay/generic/int[7]</property>
+		</gear_left_broken>
+		<gear_right_broken>
+			<property>sim/multiplay/generic/int[8]</property>
+		</gear_right_broken>
+		<bushkit>
+			<property>sim/multiplay/generic/int[9]</property>
+		</bushkit>
     </params>
 
  <!-- Normal shader effect. Separate effects required for each normal map texture -->
 
  <effect>
-    <inherits-from>Aircraft/c172p/Models/Effects/bumpspec-wing</inherits-from>
+    <inherits-from>Effects/bumpspec-wing</inherits-from>
     <object-name>flaps</object-name>
     <object-name>leftaileron</object-name>
     <object-name>rightaileron</object-name>
     <object-name>wing_1</object-name>
-
  </effect>
 
  <effect>
-    <inherits-from>Aircraft/c172p/Models/Effects/bumpspec-fuselage</inherits-from>
+    <inherits-from>Effects/bumpspec-fuselage</inherits-from>
     <object-name>LeftWheelStrut</object-name>
     <object-name>RightWheelStrut</object-name>
     <object-name>baggagedoor</object-name>
@@ -81,7 +134,7 @@
  </effect>
 
   <effect>
-    <inherits-from>Aircraft/c172p/Models/Effects/bumpspec-tail</inherits-from>
+    <inherits-from>Effects/bumpspec-tail</inherits-from>
     <object-name>elevatorleft</object-name>
     <object-name>elevatorright</object-name>
     <object-name>hstab</object-name>
@@ -93,7 +146,7 @@
  <animation>
 	 <type>material</type>
 	 <object-name>LeftWheelStrut</object-name>
-	 <object-name>RightWheelStrut</object-name>
+     <object-name>RightWheelStrut</object-name>
 	 <object-name>baggagedoor</object-name>
 	 <object-name>charniere1</object-name>
 	 <object-name>charniere2</object-name>
@@ -117,6 +170,33 @@
 	 <object-name>wing_1</object-name>
 	 <object-name>doorhandleint_right</object-name>
      <object-name>Spinner</object-name>
+	 <!-- damage mod -->
+	 <object-name>LeftWheelStrutD</object-name>
+	 <object-name>LeftWheelStrutBKsD</object-name>
+	 <object-name>LeftWheelStrutBKD</object-name>
+	 <object-name>RightWheelStrutD</object-name>
+	 <object-name>RightWheelStrutBKsD</object-name>
+	 <object-name>RightWheelStrutBKD</object-name>
+	 <object-name>flapsRD</object-name>
+	 <object-name>flapsLD</object-name>
+	 <object-name>leftaileronRD</object-name>
+	 <object-name>leftaileronLD</object-name>
+	 <object-name>rightaileronRD</object-name>
+	 <object-name>rightaileronLD</object-name>
+	 <object-name>wing_1RD</object-name>
+	 <object-name>wing_1LD</object-name>
+	  <object-name>fairing1D</object-name>
+	 <object-name>fairing2D</object-name>
+	 <object-name>fairing3D</object-name>
+	 <!-- bushkit mod -->
+	 <object-name>LeftWheelStrutBK</object-name>
+	 <object-name>LeftWheelStrutBKs</object-name>
+	 <object-name>RightWheelStrutBK</object-name>
+	 <object-name>RightWheelStrutBKs</object-name>
+	 <!-- pontoons -->
+	 <object-name>Floats</object-name>
+	 <object-name>RHrudder</object-name>
+	 <object-name>LHrudder</object-name>
 	 <shininess>128</shininess>
 	 <specular>
 		 <r>1</r>
@@ -130,7 +210,7 @@
 	 </ambient>
  </animation>
 
- <!-- Transparent Surfaces for Rembrandt rendering -->
+  <!-- Transparent Surfaces for Rembrandt rendering -->
  <!-- MOD: Transparent effect -->
  <effect>
      <inherits-from>Effects/model-transparent</inherits-from>
@@ -141,13 +221,26 @@
      <object-name>strobe2</object-name>
      <object-name>navlight_back</object-name>
      <object-name>BeaconOffX</object-name>
+	 <!-- damage mod -->
+	 <object-name>navlight_leftU</object-name>
+	 <object-name>navlight_leftD</object-name>
+	 <object-name>navlight_leftBD</object-name>
+	 <object-name>navlight_leftCollapse</object-name>
+	 <object-name>navlight_rightU</object-name>
+	 <object-name>navlight_rightD</object-name>
+	 <object-name>navlight_rightBD</object-name>
+	 <object-name>navlight_rightCollapse</object-name>
+	 <object-name>strobe1BD</object-name>
+     <object-name>strobe2BD</object-name>
+	 <object-name>strobe1Collapse</object-name>
+     <object-name>strobe2Collapse</object-name>
  </effect>
  <!-- MODEND: Transparent effect -->
  
  <!-- interior effects -->
  <effect>
-   <inherits-from>Aircraft/c172p-detailed/Models/Effects/interior/c172p-interior</inherits-from>
-   <object-name>AirVent_left</object-name>
+    <inherits-from>Effects/interior/c172p-interior</inherits-from>
+    <object-name>AirVent_left</object-name>
     <object-name>AirVent_right</object-name>
 	<object-name>ElevatorTrimPos</object-name>
 	<object-name>FuelSelectorFace</object-name>
@@ -166,8 +259,10 @@
     <object-name>chassis</object-name>
     <object-name>pilotseat_left</object-name>
     <object-name>pilotseat_right</object-name>
-	<object-name>AircondControl</object-name>
-	<object-name>BeaconSwitch</object-name>
+    <object-name>CabinAirMounts</object-name>
+    <object-name>CabinAir</object-name>
+    <object-name>CabinHeat</object-name>
+    <object-name>BeaconSwitch</object-name>
     <object-name>CarbHeat</object-name>
     <object-name>CarbHeatMount</object-name>
 	<object-name>GenSwitch</object-name>
@@ -205,37 +300,94 @@
  </effect>
  
  <effect>
-   <inherits-from>Aircraft/c172p-detailed/Models/Effects/interior/c172p-interior-glass-shadow</inherits-from>
+   <inherits-from>Effects/interior/c172p-interior-glass-shadow</inherits-from>
    <object-name>glas</object-name>
    <object-name>leftwindow</object-name>
    <object-name>rightwindow</object-name>
  </effect> 
   
  <effect>
-   <inherits-from>Aircraft/c172p-detailed/Models/Effects/interior/c172p-interior-glass-reflection-front</inherits-from>
+   <inherits-from>Effects/interior/c172p-interior-glass-reflection-front</inherits-from>
    <object-name>glas_interior</object-name>
  </effect>
  
  <effect>
-   <inherits-from>Aircraft/c172p-detailed/Models/Effects/interior/c172p-interior-glass-reflection-side</inherits-from>
+   <inherits-from>Effects/interior/c172p-interior-glass-reflection-side</inherits-from>
    <object-name>leftwindow_interior</object-name>
    <object-name>rightwindow_interior</object-name>
    <object-name>glas_interior_sides</object-name>
  </effect>   
  
  <effect>
-   <inherits-from>Aircraft/c172p/Models/Effects/glass</inherits-from>
+   <inherits-from>Effects/glass</inherits-from>
    <object-name>landinglightcover</object-name>
+   <object-name>landinglightcoverLD</object-name>
+   <object-name>landinglightcoverRD</object-name>
+   <object-name>landinglightcoverBD</object-name>
+   <object-name>landinglightcoverCollapse</object-name>
  </effect>
 
  <effect>
-   <inherits-from>/Effects/model-transparent</inherits-from>
+   <inherits-from>Effects/model-transparent</inherits-from>
    <object-name>Propeller.Fast</object-name>
+   <object-name>PropellerBK.Fast</object-name>
+   <object-name>PropellerF.Fast</object-name>
  </effect>
+ 
+  <!-- Damage Mod -->
+ <model>
+    <path>Effects/damage/nose_gear.xml</path>
+    <offsets>
+      <x-m> -.85 </x-m>
+      <y-m>  0.0000 </y-m>
+      <z-m> -.98 </z-m>
+    </offsets>
+ </model>
+  <model>
+    <path>Effects/damage/left_gear.xml</path>
+    <offsets>
+      <x-m> -0.7 </x-m>
+      <y-m> -1.9 </y-m>
+      <z-m> -0.95 </z-m>
+    </offsets>
+ </model>
+  <model>
+    <path>Effects/damage/right_gear.xml</path>
+    <offsets>
+      <x-m> -0.7 </x-m>
+      <y-m> 1.9 </y-m>
+      <z-m> -0.95 </z-m>
+    </offsets>
+ </model>
+ <model>
+    <path>Effects/damage/tail.xml</path>
+    <offsets>
+      <x-m>  4.9264 </x-m>
+      <y-m>  0.0000 </y-m>
+      <z-m> -0.6</z-m>
+    </offsets>
+ </model>
+ <model>
+    <path>Effects/damage/wing-left.xml</path>
+    <offsets>
+      <x-m> .15 </x-m>
+      <y-m> -5.6338 </y-m>
+	  <z-m> 0.49 </z-m>
+    </offsets>
+ </model>
+ <model>
+    <path>Effects/damage/wing-right.xml</path>
+    <offsets>
+      <x-m> .15 </x-m>
+      <y-m> 5.6338 </y-m>
+	  <z-m> 0.49 </z-m>
+    </offsets>
+ </model>
+ <!-- End Damage Mod -->
 
 <!-- Immatriculation -->
  <model>
-   <path>Aircraft/c172p/Models/Immat/immat.xml</path>
+   <path>Immat/immat.xml</path>
    <offsets>
      <x-m> 0.0 </x-m>
      <y-m> 0.0 </y-m>
@@ -253,7 +405,7 @@
  <!-- breakers and avionics switch -->
  <model>
    <name>BreakersAndAvionicsSwitch</name>
-   <path>Aircraft/c172p-detailed/Models/Interior/Panel/Buttons/breakers/breakers.xml</path>
+   <path>Interior/Panel/Buttons/breakers/breakers.xml</path>
    <offsets>
      <x-m>-0.36873</x-m>
      <y-m>-0.30291</y-m>
@@ -265,7 +417,7 @@
  <!--instrumentation-->
  <model>
    <name>MagCompass</name>
-   <path>Aircraft/c172p-detailed/Models/Interior/Panel/Instruments/mag-compass/mag-compass.xml</path>
+   <path>Interior/Panel/Instruments/mag-compass/mag-compass.xml</path>
    <offsets>
      <x-m>-0.35</x-m>
      <y-m>0.00</y-m>
@@ -275,7 +427,7 @@
 
  <model>
    <name>AI</name>
-   <path>Aircraft/c172p-detailed/Models/Interior/Panel/Instruments/AI/AI.xml</path>
+   <path>Interior/Panel/Instruments/AI/AI.xml</path>
    <offsets>
 <!-- MOD: AI Position XYZ
       <x-m>-0.369</x-m>
@@ -291,7 +443,7 @@
 
  <model>
    <name>Altimeter</name>
-   <path>Aircraft/c172p-detailed/Models/Interior/Panel/Instruments/alt/alt.xml</path>
+   <path>Interior/Panel/Instruments/alt/alt.xml</path>
    <offsets>
 <!-- MOD: ALTIMETER Position XYZ
      <x-m>-0.369</x-m>
@@ -307,7 +459,7 @@
 
  <model>
    <name>BatteryGauge</name>
-   <path>Aircraft/c172p/Instruments/BatteryGauge/BatteryGauge.xml</path>
+   <path>Interior/Panel/Instruments/BatteryGauge/BatteryGauge.xml</path>
    <offsets>
      <x-m>-0.367</x-m>
      <y-m>-0.410</y-m>
@@ -317,7 +469,7 @@
 
  <model>
    <name>Kap140</name>
-   <path>Aircraft/c172p/Instruments/kap140/KAP140TwoAxisAlt.xml</path>
+   <path>Interior/Panel/Instruments/kap140/KAP140TwoAxisAlt.xml</path>
    <offsets>
      <x-m>-0.357879</x-m>
      <y-m>0.116</y-m>
@@ -328,7 +480,7 @@
 
  <model>
    <name>dme</name>
-   <path>Aircraft/c172p/Instruments/dme/dme.xml</path>
+   <path>Interior/Panel/Instruments/dme/dme.xml</path>
    <offsets>
      <x-m>-0.357</x-m>
      <y-m>0.116</y-m>
@@ -339,7 +491,7 @@
 
  <model>
    <name>asi</name>
-   <path>Aircraft/c172p/Instruments/asi/asi.xml</path>
+   <path>Interior/Panel/Instruments/asi/asi.xml</path>
    <offsets>
 <!-- MOD: ASI Position XYZ
      <x-m>-0.368</x-m>
@@ -355,7 +507,7 @@
 
  <model>
    <name>Turn</name>
-   <path>Aircraft/c172p-detailed/Models/Interior/Panel/Instruments/tc/tc.xml</path>
+   <path>Interior/Panel/Instruments/tc/tc.xml</path>
    <offsets>
 <!-- MOD: TC Position XYZ
      <x-m>-0.368</x-m>
@@ -371,39 +523,27 @@
 
  <model>
    <name>VSI</name>
-   <path>Aircraft/c172p/Instruments/VSI/VSI.xml</path>
+   <path>Interior/Panel/Instruments/VSI/VSI.xml</path>
    <offsets>
-<!-- MOD: VSI Position XYZ
-     <x-m>-0.368</x-m>
-     <y-m>-0.131</y-m>
-     <z-m>-0.036</z-m>
--->
      <x-m>-0.369</x-m>
      <y-m>-0.13245</y-m>
      <z-m>-0.03574</z-m>
-<!-- MODEND: VSI Position XYZ -->
    </offsets>
  </model>
 
  <model>
    <name>RPM</name>
-   <path>Aircraft/c172p/Instruments/RPM/RPM.xml</path>
+   <path>Interior/Panel/Instruments/RPM/RPM.xml</path>
    <offsets>
-<!-- MOD: RPM Position XYZ
-     <x-m>-0.369</x-m>
-     <y-m>-0.31185</y-m>
-     <z-m>-0.142</z-m>
--->
-     <x-m>-0.369</x-m>
+     <x-m>-0.36</x-m>
      <y-m>-0.31190</y-m>
      <z-m>-0.14063</z-m>
-<!-- MODEND: RPM Position XYZ -->
    </offsets>
  </model>
 
  <model>
    <name>EGT</name>
-   <path>Aircraft/c172p/Instruments/EGT/EGT.xml</path>
+   <path>Interior/Panel/Instruments/EGT/EGT.xml</path>
    <offsets>
      <x-m>-0.368</x-m>
      <y-m>-0.1326</y-m>
@@ -455,7 +595,7 @@
 
  <model>
    <name>adf</name>
-   <path>Aircraft/c172p/Instruments/kr87-adf/ki227_228.xml</path>
+   <path>Interior/Panel/Instruments/kr87-adf/ki227_228.xml</path>
    <offsets>
 <!-- MOD: ADF Position xyz
      <x-m>-0.368</x-m>
@@ -509,7 +649,7 @@
 
  <model>
    <name>kma20</name>
-   <path>Aircraft/c172p/Instruments/kma20/kma20.xml</path>
+   <path>Interior/Panel/Instruments/kma20/kma20.xml</path>
    <offsets>
      <x-m>-0.364</x-m>
      <y-m>0.113</y-m>
@@ -519,7 +659,7 @@
 
  <model>
    <name>kr87</name>
-   <path>Aircraft/c172p/Instruments/kr87-adf/kr87.xml</path>
+   <path>Interior/Panel/Instruments/kr87-adf/kr87.xml</path>
    <offsets>
      <x-m>-0.364</x-m>
      <y-m>0.113</y-m>
@@ -550,7 +690,7 @@
 
  <model>
    <name>clock</name>
-   <path>Aircraft/c172p/Instruments/clock/clock.xml</path>
+   <path>Interior/Panel/Instruments/clock/clock.xml</path>
    <offsets>
      <x-m>-0.364</x-m>
      <y-m>-0.389</y-m>
@@ -576,9 +716,9 @@
 
  <model>
    <name>fuel</name>
-   <path>Aircraft/c172p-detailed/Models/Interior/Panel/Instruments/FuelOilAmps/c172fuel.xml</path>
+   <path>Interior/Panel/Instruments/FuelOilAmps/c172fuel.xml</path>
    <offsets>
-     <x-m>-0.369</x-m>
+     <x-m>-0.362</x-m>
      <y-m>-0.405</y-m>
      <z-m>-0.013</z-m>
    </offsets>
@@ -586,17 +726,17 @@
 
  <model>
    <name>oil</name>
-   <path>Aircraft/c172p-detailed/Models/Interior/Panel/Instruments/FuelOilAmps/c172oil.xml</path>
+   <path>Interior/Panel/Instruments/FuelOilAmps/c172oil.xml</path>
    <offsets>
-     <x-m>-0.369</x-m>
+     <x-m>-0.362</x-m>
      <y-m>-0.405</y-m>
-     <z-m>-0.060</z-m>
+     <z-m>-0.058</z-m>
    </offsets>
  </model>
 
  <model>
    <name>mag_sw</name>
-   <path>Aircraft/Instruments-3d/magneto-switch/mags.xml</path>
+   <path>Interior/Panel/Instruments/magneto-switch/magneto-switch.xml</path>
    <offsets>
      <x-m>-0.369</x-m>
      <y-m>-0.364</y-m>
@@ -606,7 +746,7 @@
 
  <model>
    <name>PanelLight</name>
-   <path>Aircraft/c172p/Instruments/light/light_control.xml</path>
+   <path>Interior/Panel/Instruments/light/light_control.xml</path>
    <offsets>
      <x-m>-0.36</x-m>
      <y-m>-0.035</y-m>
@@ -636,7 +776,7 @@
 
  <model>
    <name>FlapSwitch</name>
-   <path>Aircraft/c172p-detailed/Models/Interior/Panel/Flaps/flaps.xml</path>
+   <path>Interior/Panel/Flaps/flaps.xml</path>
    <offsets>
      <x-m>-0.36</x-m>
      <y-m>0.19</y-m>
@@ -659,7 +799,7 @@
  <!-- Pedals -->
  <model>
    <name>PilotPedals</name>
-   <path>Aircraft/c172p/Models/Pedals/pedals.xml</path>
+   <path>Pedals/pedals.xml</path>
    <offsets>
      <x-m>-0.56</x-m>
      <y-m>-0.24</y-m>
@@ -669,7 +809,7 @@
 
  <model>
    <name>CoPilotPedals</name>
-   <path>Aircraft/c172p/Models/Pedals/pedals.xml</path>
+   <path>Pedals/pedals.xml</path>
    <offsets>
      <x-m>-0.56</x-m>
      <y-m>0.24</y-m>
@@ -677,9 +817,20 @@
    </offsets>
  </model>
  
+ <!--Exhaust-->
+ <model>
+  <object-name>Exhaust</object-name>
+  <path>Effects/exhaust/exhaust.xml</path>
+  <offsets>
+    <x-m>-1.3093</x-m>
+    <y-m>0.324625</y-m>
+    <z-m>-0.782313</z-m>
+  </offsets>
+ </model>
+ 
   <!-- MOD: Tyre smoke -->
   <model>
-    <path>Aircraft/c172p-detailed/Models/Effects/tyresmoke/tyre-smoke-nose.xml</path>
+    <path>Effects/tyresmoke/tyre-smoke-nose.xml</path>
 	<object-name>tyre-smoke-n</object-name>
     <offsets>
       <x-m> -1. </x-m>
@@ -689,7 +840,7 @@
   </model>
 
   <model>
-    <path>Aircraft/c172p-detailed/Models/Effects/tyresmoke/tyre-smoke-port.xml</path>
+    <path>Effects/tyresmoke/tyre-smoke-port.xml</path>
 	<object-name>tyre-smoke-p</object-name>
     <offsets>
       <x-m> .3 </x-m>
@@ -699,7 +850,7 @@
   </model>
 
   <model>
-    <path>Aircraft/c172p-detailed/Models/Effects/tyresmoke/tyre-smoke-stbd.xml</path>
+    <path>Effects/tyresmoke/tyre-smoke-stbd.xml</path>
 	<object-name>tyre-smoke-s</object-name>
     <offsets>
       <x-m> .3 </x-m>
@@ -719,7 +870,7 @@
       <z-m> -1.5 </z-m>
 	</offsets>
   </model>
-	 
+	  
   <model>
     <path>Aircraft/Generic/Effects/rain-port.xml</path>
     <name>rain-port</name>
@@ -741,8 +892,30 @@
   </model>
  <!-- MODEND: Tyre Spray -->
  
+ <!-- MOD: Floats Spray-->
+  <model>
+    <path>Effects/pontoon/left-spray.xml</path>
+    <name>spray-left</name>
+    <offsets>
+      <x-m>-1.0</x-m>
+      <y-m>-1.5</y-m>
+      <z-m>-2.0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Effects/pontoon/right-spray.xml</path>
+    <name>spray-right</name>
+    <offsets>
+      <x-m>-1.0</x-m>
+      <y-m>1.5</y-m>
+      <z-m>-2.0</z-m>
+    </offsets>
+  </model>
+  <!-- MODEND: Floats Spray-->
+  
    <model>
-   <path>Aircraft/c172p-detailed/Models/Interior/Panel/Instruments/hobbs/hobbs.xml</path>
+   <path>Interior/Panel/Instruments/hobbs/hobbs.xml</path>
    <offsets>
      <x-m>-0.36</x-m>
      <y-m>0.42</y-m>
@@ -1654,6 +1827,83 @@
      <z>0.0</z>
    </axis>
  </animation>
+ 
+    <!-- Cabin heat and Air -->
+    <animation>
+        <type>slider</type>
+        <object-name>CabinHeat</object-name>
+        <visible>true</visible>
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/environment/aircraft-effects/cabin-heat-set</property>
+                <factor>0.1</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Cabin Heat: %3d%%</label>
+                <measure-text>Cabin Heat: 100%</measure-text>
+                <tooltip-id>cabinheat</tooltip-id>
+                <mapping>percent</mapping>
+                <property>/environment/aircraft-effects/cabin-heat-set</property>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>CabinHeat</object-name>
+        <property>/environment/aircraft-effects/cabin-heat-set</property>
+        <factor>0.03</factor>
+        <axis>
+        <x>1.0</x>
+        <y>0.0</y>
+        <z>0.0</z>
+        </axis>
+    </animation>
+    
+    <animation>
+        <type>slider</type>
+        <object-name>CabinAir</object-name>
+        <visible>true</visible>
+        <drag-direction>vertical</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/environment/aircraft-effects/cabin-air-set</property>
+                <factor>0.1</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Cabin Air: %3d%%</label>
+                <measure-text>Cabin Air: 100%</measure-text>
+                <tooltip-id>cabinair</tooltip-id>
+                <mapping>percent</mapping>
+                <property>/environment/aircraft-effects/cabin-air-set</property>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>CabinAir</object-name>
+        <property>/environment/aircraft-effects/cabin-air-set</property>
+        <factor>0.03</factor>
+        <axis>
+        <x>1.0</x>
+        <y>0.0</y>
+        <z>0.0</z>
+        </axis>
+    </animation>
 
 <!--pick animation for the doors-->
  <animation>
@@ -1734,7 +1984,8 @@
    <object-name>doorhandleint_right</object-name>
    <object-name>windlocket_right</object-name>
 <!-- MOD: Added an interior window-->
-   <object-name>rightwindow_int</object-name>
+   <!--object-name>rightwindow_int</object-name-->
+   <object-name>rightwindow_interior</object-name>
 <!-- MODEND: Added an interior window -->
    <property alias="../../params/doors/right/property"/>
    <interpolation>
@@ -1803,6 +2054,7 @@
    <object-name>windlocket_left</object-name>
 <!-- MOD: Added an interior window-->
    <object-name>leftwindow_int</object-name>
+   <object-name>leftwindow_interior</object-name>
 <!-- MODEND: Added an interior window -->
    <property alias="../../params/doors/left/property"/>
    <interpolation>
@@ -1899,14 +2151,7 @@
       <label>Landing Lights: %s</label>
       <mapping>on-off</mapping>
       <property>controls/lighting/landing-lights</property>
-   </binding>
-     <!-- MOD: Clone from GIT to v3.2 -->
-     <binding>
-       <command>property-assign</command>
-       <property>sim/rendering/als-secondary-lights/use-landing-light</property>
-       <property>controls/lighting/landing-lights</property>
-     </binding>
-     <!-- MODEND: Clone from GIT to v3.2 -->
+    </binding>
    </hovered>
  </animation>
 
@@ -2183,7 +2428,7 @@
      <binding>
        <command>property-adjust</command>
        <property>controls/engines/engine[0]/throttle</property>
-       <factor>0.05</factor>
+       <factor>-0.05</factor>
        <min>0</min>
        <max>1</max>
        <wrap>0</wrap>
@@ -2206,7 +2451,7 @@
  <animation>
    <type>translate</type>
    <object-name>Mixture</object-name>
-   <property>controls/engines/engine[0]/mixture-lever</property>
+   <property>controls/engines/engine[0]/mixture</property>
    <factor>-0.08</factor>
    <axis>
      <x>1.0</x>
@@ -2227,8 +2472,8 @@
    <action>
      <binding>
        <command>property-adjust</command>
-       <property>controls/engines/engine[0]/mixture-lever</property>
-       <factor>0.05</factor>
+       <property>controls/engines/engine[0]/mixture</property>
+       <factor>-0.05</factor>
        <min>0</min>
        <max>1</max>
        <wrap>0</wrap>
@@ -2242,7 +2487,7 @@
         <measure-text>Mixture: 100%</measure-text>
         <tooltip-id>mixture</tooltip-id>
         <mapping>percent</mapping>
-        <property>controls/engines/engine[0]/mixture-lever</property>
+        <property>controls/engines/engine[0]/mixture</property>
      </binding>
      </hovered>
 
@@ -2607,6 +2852,10 @@
  <animation>
    <type>select</type>
    <object-name>Propeller</object-name>
+   <!-- Bushkit Mod -->
+   <object-name>PropellerBK</object-name>
+   <!-- Floats Mod -->
+  <object-name>PropellerF</object-name>
    <condition>
      <less-than>
        <property>engines/engine[0]/rpm</property>
@@ -2618,6 +2867,10 @@
  <animation>
   <type>select</type>
   <object-name>Propeller.Fast</object-name>
+  <!-- Bushkit Mod -->
+  <object-name>PropellerBK.Fast</object-name>
+  <!-- Floats Mod -->
+  <object-name>PropellerF.Fast</object-name>
   <condition>
    <greater-than>
     <property>engines/engine[0]/rpm</property>
@@ -2629,6 +2882,10 @@
  <animation>
    <type>blend</type>
    <object-name>Propeller.Fast</object-name>
+   <!-- Bushkit Mod -->
+   <object-name>PropellerBK.Fast</object-name>
+   <!-- Floats Mod -->
+  <object-name>PropellerF.Fast</object-name>
    <property>engines/engine[0]/rpm</property>
    <factor>0.0004</factor>
    <max>1.0</max>
@@ -2640,6 +2897,15 @@
    <object-name>navlight_left</object-name>
    <object-name>navlight_right</object-name>
    <object-name>navlight_back</object-name>
+   <!-- Damage Mod -->
+   <object-name>navlight_leftU</object-name>
+   <object-name>navlight_leftD</object-name>
+   <object-name>navlight_leftBD</object-name>
+   <object-name>navlight_leftCollapse</object-name>
+   <object-name>navlight_rightU</object-name>
+   <object-name>navlight_rightD</object-name>
+   <object-name>navlight_rightBD</object-name>
+   <object-name>navlight_rightCollapse</object-name>
    <condition>
      <property alias="../../../params/lighting/navigation/property"/>
    </condition>
@@ -2648,6 +2914,11 @@
  <animation>
    <type>spin</type>
    <object-name>Propeller</object-name>
+   <object-name>Spinner</object-name>
+   <!-- Bushkit Mod -->
+   <object-name>PropellerBK</object-name>
+   <!-- Floats Mod -->
+   <object-name>PropellerF</object-name>
    <property>engines/engine[0]/rpm</property>
    <factor>-1</factor>
    <center>
@@ -2665,6 +2936,11 @@
  <animation>
    <type>spin</type>
    <object-name>Propeller.Fast</object-name>
+   <object-name>Spinner</object-name>
+   <!-- Bushkit Mod -->
+   <object-name>PropellerBK.Fast</object-name>
+   <!-- Floats Mod -->
+   <object-name>PropellerF.Fast</object-name>
    <property>engines/engine[0]/rpm</property>
    <factor>-0.001</factor>
    <center>
@@ -2679,12 +2955,25 @@
    </axis>
  </animation>
 
-
-
  <animation>
    <type>rotate</type>
    <object-name>leftaileron</object-name>
+   <!-- Damage Mod -->
+   <object-name>leftaileronRD</object-name>
+   <object-name>leftaileronLD</object-name>
+   <object-name>leftaileronBD</object-name>
+   <object-name>leftaileronCollapse</object-name>
    <property>surface-positions/left-aileron-pos-norm</property>
+   <condition>
+       <and>
+           <not>
+               <property alias="/params/wing_left_broken/property"/>
+           </not>
+	       <not>
+			     <property alias="/params/crash/property"/>
+	       </not>
+	   </and>
+   </condition>
    <interpolation>
      <entry>
        <ind>-1.0</ind>
@@ -2712,7 +3001,22 @@
  <animation>
    <type>rotate</type>
    <object-name>rightaileron</object-name>
+   <!-- Damage Mod -->
+   <object-name>rightaileronRD</object-name>
+   <object-name>rightaileronLD</object-name>
+   <object-name>rightaileronBD</object-name>
+   <object-name>rightaileronCollapse</object-name>
    <property>surface-positions/right-aileron-pos-norm</property>
+   <condition>
+	   <and>
+           <not>
+               <property alias="/params/wing_right_broken/property"/>
+           </not>
+	       <not>
+			     <property alias="/params/crash/property"/>
+	       </not>
+	   </and>
+   </condition>
    <interpolation>
      <entry>
        <ind>-1.0</ind>
@@ -2740,6 +3044,11 @@
  <animation>
    <type>translate</type>
    <object-name>flaps</object-name>
+   <!-- Damage Mod -->
+   <object-name>flapsRD</object-name>
+   <object-name>flapsLD</object-name>
+   <object-name>flapsBD</object-name>
+   <object-name>flapsCollapse</object-name>
    <property>surface-positions/flap-pos-norm</property>
    <factor>0.07</factor>
    <axis>
@@ -2752,6 +3061,11 @@
  <animation>
    <type>rotate</type>
    <object-name>flaps</object-name>
+   <!-- Damage Mod -->
+   <object-name>flapsRD</object-name>
+   <object-name>flapsLD</object-name>
+   <object-name>flapsBD</object-name>
+   <object-name>flapsCollapse</object-name>
    <property>surface-positions/flap-pos-norm</property>
    <factor>30</factor>
    <center>
@@ -2773,7 +3087,7 @@
    <interpolation>
      <entry>
        <ind>-1.0</ind>
-       <dep>-28</dep>
+       <dep>28</dep>
      </entry>
      <entry>
        <ind>0</ind>
@@ -2781,16 +3095,16 @@
      </entry>
      <entry>
        <ind>1.0</ind>
-       <dep>23</dep>
+       <dep>-23</dep>
      </entry>
    </interpolation>
    <axis>
-     <x1-m>5.088</x1-m>
-     <y1-m>-0.813</y1-m>
-     <z1-m>-0.457</z1-m>
-     <x2-m>5.108</x2-m>
-     <y2-m>-0.059</y2-m>
-     <z2-m>-0.513</z2-m>
+     <x1-m>4.87869</x1-m>
+     <y1-m>-0.1350</y1-m>
+     <z1-m>-0.42222</z1-m>
+     <x2-m>4.7439</x2-m>
+     <y2-m>-1.7279</y2-m>
+     <z2-m>-0.4222</z2-m>
    </axis>
  </animation>
 
@@ -2801,7 +3115,7 @@
    <interpolation>
      <entry>
        <ind>-1.0</ind>
-       <dep>-28</dep>
+       <dep>28</dep>
      </entry>
      <entry>
        <ind>0</ind>
@@ -2809,16 +3123,16 @@
      </entry>
      <entry>
        <ind>1.0</ind>
-       <dep>23</dep>
+       <dep>-23</dep>
      </entry>
    </interpolation>
    <axis>
-     <x1-m>5.108</x1-m>
-     <y1-m>0.059</y1-m>
-     <z1-m>-0.513</z1-m>
-     <x2-m>5.088</x2-m>
-     <y2-m>0.813</y2-m>
-     <z2-m>-0.457</z2-m>
+     <x1-m>4.7439</x1-m>
+     <y1-m>1.7279</y1-m>
+     <z1-m>-0.4222</z1-m>
+     <x2-m>4.87869</x2-m>
+     <y2-m>0.1350</y2-m>
+     <z2-m>-0.42222</z2-m>
    </axis>
  </animation>
 
@@ -2846,7 +3160,7 @@
    <object-name>navlight_back</object-name>
    <object-name>RearNavLightOff</object-name>
    <property>surface-positions/rudder-pos-norm</property>
-   <factor>17.5</factor>
+   <factor>13</factor>
    <axis>
      <x1-m>4.918</x1-m>
      <y1-m>0</y1-m>
@@ -2865,6 +3179,12 @@
    <object-name>TopLink</object-name>
    <object-name>BottomLink</object-name>
    <object-name>Axle.001</object-name>
+   <!-- Bushkit Mod -->
+   <object-name>NoseWheelBK</object-name>
+   <object-name>NoseWheelStrutBK</object-name>
+   <object-name>TopLinkBK</object-name>
+   <object-name>BottomLinkBK</object-name>
+   <object-name>AxleBK.001</object-name>
    <property>surface-positions/rudder-pos-norm</property>
    <factor>30</factor>
    <axis>
@@ -2880,10 +3200,15 @@
  <animation>
    <type>translate</type>
    <object-name>fairing1</object-name>
-   <object-name>NoseWheel</object-name>
-   <object-name>NoseWheelStrut</object-name>
+   <object-name>NoseWheel</object-name>  
+   <object-name>NoseWheelStrut</object-name>  
    <object-name>BottomLink</object-name>
    <object-name>Axle.001</object-name>
+   <!-- Bushkit Mod -->
+   <object-name>NoseWheelBK</object-name>
+   <object-name>NoseWheelStrutBK</object-name>
+   <object-name>BottomLinkBK</object-name>
+   <object-name>AxleBK.001</object-name>
    <property>gear/gear[0]/compression-norm</property>
    <factor>0.30</factor>
    <axis>
@@ -2896,6 +3221,8 @@
  <animation>
    <type>rotate</type>
    <object-name>TopLink</object-name>
+   <!-- Bushkit Mod -->
+   <object-name>TopLinkBK</object-name>
    <property>gear/gear[0]/compression-norm</property>
    <center>
      <x-m>-0.95412</x-m>
@@ -2913,6 +3240,8 @@
  <animation>
    <type>rotate</type>
    <object-name>BottomLink</object-name>
+   <!-- Bushkit Mod -->
+   <object-name>BottomLinkBK</object-name>
    <property>gear/gear[0]/compression-norm</property>
    <center>
      <x-m>-1.02349</x-m>
@@ -2932,6 +3261,11 @@
    <object-name>fairing3</object-name>
    <object-name>RightWheelStrut</object-name>
    <object-name>RightWheel</object-name>
+   <!-- Bushkit Mod -->
+   <object-name>RightWheelStrutBK</object-name>
+   <object-name>RightWheelStrutBKs</object-name>
+   <object-name>RightWheelBK</object-name>
+   <object-name>RightWheelBKs</object-name>
    <property>gear/gear[2]/compression-norm</property>
    <center>
      <x-m>0.711</x-m>
@@ -2948,9 +3282,14 @@
 
  <animation>
    <type>rotate</type>
-   <object-name>fairing2</object-name>
+  <object-name>fairing2</object-name>
    <object-name>LeftWheelStrut</object-name>
    <object-name>LeftWheel</object-name>
+   <!-- Bushkit Mod -->
+   <object-name>LeftWheelStrutBK</object-name>
+   <object-name>LeftWheelStrutBKs</object-name>
+   <object-name>LeftWheelBK</object-name>
+   <object-name>LeftWheelBKs</object-name>
    <property>gear/gear[1]/compression-norm</property>
    <center>
      <x-m>0.711</x-m>
@@ -2964,6 +3303,505 @@
    </axis>
    <interpolation include="MainRotationInterpolation.xml"/>
  </animation>
+ 
+ <!-- MOD: Spin to gears -->
+ <animation>
+	<type>spin</type>
+	<object-name>RightWheel</object-name>
+	<!-- Bushkit Mod -->
+	<object-name>RightWheelBK</object-name>
+	<object-name>RightWheelBKs</object-name>
+	<property>gear/gear[1]/rollspeed-ms</property>
+	<factor>13</factor>
+	<axis>
+		<x>0</x>
+		<y>-1</y>
+		<z>0</z>
+	</axis>
+	<center>
+		<x-m>0.53015</x-m>
+		<y-m>1.127</y-m>
+		<z-m>-1.14693</z-m>
+	</center>
+ </animation>
+ <animation>
+	<type>spin</type>
+	<object-name>LeftWheel</object-name>
+	<!-- Bushkit Mod -->
+	<object-name>LeftWheelBK</object-name>
+	<object-name>LeftWheelBKs</object-name>
+	<property>gear/gear[1]/rollspeed-ms</property>
+	<factor>13</factor>
+	<axis>
+		<x>0</x>
+		<y>-1</y>
+		<z>0</z>
+	</axis>
+	<center>
+		<x-m>0.53015</x-m>
+		<y-m>-1.127</y-m>
+		<z-m>-1.14693</z-m>
+	</center>
+ </animation>
+ <animation>
+	<type>spin</type>
+	<object-name>NoseWheel</object-name>
+	<!-- Bushkit Mod -->
+	<object-name>NoseWheelBK</object-name>
+	<property>gear/gear[0]/rollspeed-ms</property>
+	<factor>13</factor>
+	<axis>
+		<x>0</x>
+		<y>-1</y>
+		<z>0</z>
+	</axis>
+	<center>
+		<x-m>-1.11403</x-m>
+		<y-m>0.00000</y-m>
+		<z-m>-1.18615</z-m>
+	</center>
+ </animation>
+<!-- MODEND: Spin to gears -->
+ 
+   <!-- Damage Mod  -->
+   <animation>
+   <type>select</type>
+   <object-name>wing_1</object-name>
+   <object-name>wing_0</object-name>
+   <object-name>rightaileron</object-name>
+   <object-name>leftaileron</object-name>
+   <object-name>flaps</object-name>
+   <object-name>RightNavLight</object-name>
+   <object-name>navlight_right</object-name>
+   <object-name>LeftNavLight</object-name>
+   <object-name>navlight_left</object-name>
+   <object-name>landinglightcover</object-name>
+   <object-name>landinglight2</object-name>
+   <condition>
+    <and>
+        <not>
+            <property alias="/params/wing_left_broken/property"/>
+        </not>
+        <not>
+            <property alias="/params/wing_right_broken/property"/>
+        </not>
+        <not>
+            <property alias="/params/crash/property"/>
+        </not>
+    </and>
+   </condition>
+ </animation> 
+ 
+ <animation>
+   <type>select</type>
+   <object-name>wing_1Collapse</object-name>
+   <object-name>wing_0Collapse</object-name>
+   <object-name>rightaileronCollapse</object-name>
+   <object-name>leftaileronCollapse</object-name>
+   <object-name>flapsCollapse</object-name>
+   <object-name>RightNavLightCollapse</object-name>
+   <object-name>navlight_rightCollapse</object-name>
+   <object-name>LeftNavLightCollapse</object-name>
+   <object-name>navlight_leftCollapse</object-name>
+   <object-name>landinglightcoverCollapse</object-name>
+   <object-name>landinglight2Collapse</object-name>
+   <condition>
+		<property alias="/params/crash/property"/>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>wing_0BD</object-name>
+   <object-name>wing_1BD</object-name>
+   <object-name>rightaileronBD</object-name>
+   <object-name>leftaileronBD</object-name>
+   <object-name>flapsBD</object-name>
+   <object-name>RightNavLightBD</object-name>
+   <object-name>navlight_rightBD</object-name>
+   <object-name>LeftNavLightBD</object-name>
+   <object-name>navlight_leftBD</object-name>
+   <object-name>landinglightcoverBD</object-name>
+   <object-name>landinglight2BD</object-name>
+   <condition>
+		<and>
+			<property alias="/params/wing_left_broken/property"/>
+			<property alias="/params/wing_right_broken/property"/>
+			<not>
+			 <property alias="/params/crash/property"/>
+			</not>
+		</and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>wing_0LD</object-name>
+   <object-name>wing_1LD</object-name>
+   <object-name>rightaileronLD</object-name>
+   <object-name>leftaileronLD</object-name>
+   <object-name>flapsLD</object-name>
+   <object-name>LeftNavLightD</object-name>
+   <object-name>navlight_leftD</object-name>
+   <object-name>RightNavLightU</object-name>
+   <object-name>navlight_rightU</object-name>
+   <object-name>landinglightcoverLD</object-name>
+   <object-name>landinglight2LD</object-name>
+   <condition>
+	<and>
+		 <property alias="/params/wing_left_broken/property"/>
+		 <not>
+		  <property alias="/params/wing_right_broken/property"/>
+		</not>
+		 <not>
+		  <property alias="/params/crash/property"/>
+		 </not>
+	</and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>wing_0RD</object-name>
+   <object-name>wing_1RD</object-name>
+   <object-name>rightaileronRD</object-name>
+   <object-name>leftaileronRD</object-name>
+   <object-name>flapsRD</object-name>
+   <object-name>RightNavLightD</object-name>
+   <object-name>navlight_rightD</object-name>
+   <object-name>LeftNavLightU</object-name>
+   <object-name>navlight_leftU</object-name>
+   <object-name>landinglightcoverRD</object-name>
+   <object-name>landinglight2RD</object-name>
+   <condition>
+	<and>
+		 <property alias="/params/wing_right_broken/property"/>
+		 <not>
+		  <property alias="/params/wing_left_broken/property"/>
+		 </not>
+		 <not>
+		  <property alias="/params/crash/property"/>
+		 </not>
+	</and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+    <!-- pontoons -->
+   <object-name>Floats</object-name>
+   <object-name>RHrudder</object-name>
+   <object-name>LHrudder</object-name>
+   <object-name>PropellerF</object-name>
+   <object-name>PropellerF.Fast</object-name>
+   <condition>
+		<equals>
+			<property alias="/params/bushkit/property"/>
+			<value>3</value>
+		 </equals>
+   </condition>
+ </animation>
+
+ 
+ <animation>
+   <type>select</type>
+   <object-name>NoseWheel</object-name>
+   <object-name>Axle.001</object-name>
+   <object-name>NoseWheelStrut</object-name>
+   <object-name>TopLink</object-name>
+   <object-name>BottomLink</object-name>
+   <object-name>Propeller</object-name>
+   <object-name>Propeller.Fast</object-name>
+   <condition>
+      <and>
+		 <not>
+			<property alias="/params/gear_nose_broken/property"/>
+		 </not>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>0</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>LeftWheel</object-name> 
+   <object-name>LeftWheelStrut</object-name> 
+   <condition>
+	  <and>
+		 <not>
+			<property alias="/params/gear_left_broken/property"/>
+		 </not>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>0</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>RightWheel</object-name>
+   <object-name>RightWheelStrut</object-name>   
+   <condition>
+	  <and>
+		 <not>
+			<property alias="/params/gear_right_broken/property"/>
+		 </not>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>0</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>NoseWheelBK</object-name>
+   <object-name>AxleBK.001</object-name>
+   <object-name>NoseWheelStrutBK</object-name>
+   <object-name>TopLinkBK</object-name>
+   <object-name>BottomLinkBK</object-name>
+   <object-name>PropellerBK</object-name>
+   <object-name>PropellerBK.Fast</object-name>
+   <condition>
+	  <and>
+		 <not>
+			<property alias="/params/gear_nose_broken/property"/>
+		 </not>
+		 <or>
+			 <equals>
+				<property alias="/params/bushkit/property"/>
+				<value>1</value>
+			 </equals>
+			 <equals>
+				<property alias="/params/bushkit/property"/>
+				<value>2</value>
+			 </equals>
+		 </or>
+	  </and>
+   </condition>
+ </animation>
+ 
+  <animation>
+   <type>select</type>
+   <object-name>LeftWheelBKs</object-name>
+   <object-name>LeftWheelStrutBKs</object-name>
+   <condition>
+	  <and>
+		 <not>
+			<property alias="/params/gear_left_broken/property"/>
+		 </not>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+  <animation>
+   <type>select</type>
+   <object-name>RightWheelBKs</object-name>
+   <object-name>RightWheelStrutBKs</object-name>
+   <condition>
+      <and>
+		 <not>
+			<property alias="/params/gear_right_broken/property"/>
+		 </not>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+   <animation>
+   <type>select</type>
+   <object-name>LeftWheelBK</object-name>
+   <object-name>LeftWheelStrutBK</object-name>
+   <condition>
+      <and>
+		 <not>
+			<property alias="/params/gear_left_broken/property"/>
+		 </not>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>2</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+  <animation>
+   <type>select</type>
+   <object-name>RightWheelBK</object-name>
+   <object-name>RightWheelStrutBK</object-name>
+   <condition>
+      <and>
+		 <not>
+			<property alias="/params/gear_right_broken/property"/>
+		 </not>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>2</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>NoseWheelD</object-name>
+   <object-name>AxleD.001</object-name>
+   <object-name>NoseWheelStrutD</object-name>
+   <object-name>TopLinkD</object-name>
+   <object-name>BottomLinkD</object-name>
+   <object-name>PropellerD</object-name>
+   <condition>
+      <and>
+		 <property alias="/params/gear_nose_broken/property"/>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>0</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>LeftWheelD</object-name>
+   <object-name>LeftWheelStrutD</object-name>
+   <condition>
+      <and>
+		 <property alias="/params/gear_left_broken/property"/>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>0</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+  <animation>
+   <type>select</type>
+   <object-name>RightWheelD</object-name>
+   <object-name>RightWheelStrutD</object-name>
+   <condition>
+      <and>
+		 <property alias="/params/gear_right_broken/property"/>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>0</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>NoseWheelBKsD</object-name>
+   <object-name>AxleBKsD.001</object-name>
+   <object-name>NoseWheelStrutBKsD</object-name>
+   <object-name>TopLinkBKsD</object-name>
+   <object-name>BottomLinkBKsD</object-name>
+   <object-name>PropellerBKsD</object-name>
+   <condition>
+      <and>
+		 <property alias="/params/gear_nose_broken/property"/>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>LeftWheelBKsD</object-name>
+   <object-name>LeftWheelStrutBKsD</object-name>
+   <condition>
+      <and>
+		 <property alias="/params/gear_left_broken/property"/>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+
+  <animation>
+   <type>select</type>
+   <object-name>RightWheelBKsD</object-name>
+   <object-name>RightWheelStrutBKsD</object-name>
+   <condition>
+      <and>
+		 <property alias="/params/gear_right_broken/property"/>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>1</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+  <animation>
+   <type>select</type>
+   <object-name>NoseWheelBKD</object-name>
+   <object-name>AxleBKD.001</object-name>
+   <object-name>NoseWheelStrutBKD</object-name>
+   <object-name>TopLinkBKD</object-name>
+   <object-name>BottomLinkBKD</object-name>
+   <object-name>PropellerBKD</object-name>
+   <condition>
+      <and>
+		 <property alias="/params/gear_nose_broken/property"/>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>2</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>LeftWheelBKD</object-name>
+   <object-name>LeftWheelStrutBKD</object-name>
+   <condition>
+      <and>
+		 <property alias="/params/gear_left_broken/property"/>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>2</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ 
+  <animation>
+   <type>select</type>
+   <object-name>RightWheelBKD</object-name>
+   <object-name>RightWheelStrutBKD</object-name>
+   <condition>
+      <and>
+		 <property alias="/params/gear_right_broken/property"/>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>2</value>
+		 </equals>
+	  </and>
+   </condition>
+ </animation>
+ <!-- End Damage Mod-->
 
  <!--Lights-->
 
@@ -2974,7 +3812,7 @@
    <condition>
      <and>
        <property>/sim/rendering/rembrandt/enabled</property>
-       <property alias="../../../../params/lighting/landing/property"/>
+       <property alias="/params/lighting/landing/property"/>
      </and>
    </condition>
  </animation>
@@ -2985,7 +3823,7 @@
    <condition>
      <and>
        <property>/sim/rendering/rembrandt/enabled</property>
-       <property alias="../../../../params/lighting/taxi/property"/>
+       <property alias="/params/lighting/taxi/property"/>
      </and>
    </condition>
  </animation>
@@ -2996,9 +3834,16 @@
    <type>select</type>
    <object-name>landinglight</object-name>
    <object-name>landinglight2</object-name>
+   <!-- Damage Mod -->
+   <object-name>landinglightBD</object-name>
+   <object-name>landinglightCollapse</object-name>
+   <object-name>landinglight2BD</object-name>
+   <object-name>landinglight2LD</object-name>
+   <object-name>landinglight2RD</object-name>
+   <object-name>landinglight2Collapse</object-name>
    <condition>
      <and>
-       <property alias="../../../../params/lighting/landing/property"/>
+       <property alias="/params/lighting/landing/property"/>
        <not>
          <property>/sim/rendering/rembrandt/enabled</property>
        </not>
@@ -3013,7 +3858,7 @@
    <object-name>LandingLightCone</object-name>
    <nopreview/>
    <condition>
-     <property alias="../../../params/lighting/landing/property"/>
+     <property alias="/params/lighting/landing/property"/>
    </condition>
    <position>
      <x>-0.078</x>
@@ -3061,7 +3906,7 @@
    <object-name>TaxiLightCone</object-name>
    <nopreview/>
    <condition>
-     <property alias="../../../params/lighting/taxi/property"/>
+     <property alias="/params/lighting/taxi/property"/>
    </condition>
    <position>
      <x>-0.078</x>
@@ -3102,27 +3947,35 @@
    <far-m>150</far-m>
  </animation>
 
-
  <animation>
    <type>select</type>
    <object-name>landinglightcover</object-name>
+   <!-- Damage Mod -->
+   <object-name>landinglightcoverBD</object-name>
+   <object-name>landinglightcoverLD</object-name>
+   <object-name>landinglightcoverRD</object-name>
+   <object-name>landinglightcoverCollapse</object-name>
    <condition>
      <not>
-       <property alias="../../../../params/lighting/landing/property"/>
+       <property alias="/params/lighting/landing/property"/>
      </not>
    </condition>
  </animation>
 
-
-
  <animation>
    <type>noshadow</type>
    <object-name>landinglight</object-name>
+   <!-- Damage Mod -->
+   <object-name>landinglightBD</object-name>
+   <object-name>landinglightCollapse</object-name>
  </animation>
 
  <animation>
    <type>flash</type>
    <object-name>landinglight</object-name>
+   <!-- Damage Mod -->
+   <object-name>landinglightBD</object-name>
+   <object-name>landinglightCollapse</object-name>
    <center>
      <x-m>-0.117</x-m>
      <y-m>-2.872</y-m>
@@ -3142,14 +3995,79 @@
  </animation>
 
  <!--strobe-->
+ <!-- Damage Mod -->
  <animation>
    <type>select</type>
    <object-name>strobe1</object-name>
-   <object-name>strobe2</object-name>
    <condition>
-     <property alias="../../../params/lighting/strobes/property"/>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <not>
+	           <property alias="/params/wing_left_broken/property"/>
+	       </not>
+		   <not>
+	           <property alias="/params/crash/property"/>
+	       </not>
+	   </and>	
    </condition>
  </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>strobe2</object-name>
+   <condition>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <not>
+	           <property alias="/params/wing_right_broken/property"/>
+	       </not>
+		   <not>
+	           <property alias="/params/crash/property"/>
+	       </not>
+	   </and>	
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>strobe1BD</object-name>
+   <condition>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <property alias="/params/wing_left_broken/property"/>
+		   <not>
+	           <property alias="/params/crash/property"/>
+	       </not>
+	   </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>strobe2BD</object-name>
+   <condition>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <property alias="/params/wing_right_broken/property"/>
+		   <not>
+	           <property alias="/params/crash/property"/>
+	       </not>
+	   </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>strobe1Collapse</object-name>
+   <object-name>strobe2Collapse</object-name>
+   <condition>
+       <and>
+           <property alias="/params/lighting/strobes/property"/>
+	       <property alias="/params/crash/property"/>
+	   </and>
+   </condition>
+ </animation>
+ <!-- End Damage Mod -->
 
  <animation>
    <type>range</type>
@@ -3167,8 +4085,12 @@
    <name>Plane.014XGroup</name>
    <object-name>strobe1</object-name>
    <object-name>strobe2</object-name>
+   <!-- Damage Mod -->
+   <object-name>strobe1BD</object-name>
+   <object-name>strobe2BD</object-name>
+   <object-name>strobe1Collapse</object-name>
+   <object-name>strobe2Collapse</object-name>
  </animation>
-
 
  <animation>
    <type>alpha-test</type>
@@ -3197,53 +4119,86 @@
      <z>0.564638</z>
    </axis>
  </animation>
-
+ 
+ <!-- Damage Mod -->
  <animation>
+   <type>translate</type>
+   <object-name>strobe1BD</object-name>
+   <offset-m>5.760493</offset-m>
+   <axis>
+     <x>0.293912</x>
+     <y>-5.227128</y>
+     <z>0.999938</z>
+   </axis>
+ </animation>
+ 
+ <animation>
+   <type>translate</type>
+   <object-name>strobe2BD</object-name>
+   <offset-m>5.742337</offset-m>
+   <axis>
+     <x>0.383912</x>
+     <y>5.708865</y>
+     <z>0.999938</z>
+   </axis>
+ </animation>
+ 
+ <animation>
+   <type>translate</type>
+   <object-name>strobe1Collapse</object-name>
+   <offset-m>5.460493</offset-m>
+   <axis>
+     <x>0.153912</x>
+     <y>-5.327128</y>
+     <z>-0.799938</z>
+   </axis>
+ </animation>
+ 
+ <animation>
+   <type>translate</type>
+   <object-name>strobe2Collapse</object-name>
+   <offset-m>5.342337</offset-m>
+   <axis>
+     <x>0.283912</x>
+     <y>5.308865</y>
+     <z>-0.799938</z>
+   </axis>
+ </animation>
+ <!-- End Damage Mod -->
+ 
+<animation>
    <type>billboard</type>
    <object-name>strobe1</object-name>
-   <spherical type="bool">true</spherical>
- </animation>
-
- <animation>
-   <type>billboard</type>
    <object-name>strobe2</object-name>
+   <!-- Damage Mod -->
+   <object-name>strobe1BD</object-name>
+   <object-name>strobe2BD</object-name>
+   <object-name>strobe1Collapse</object-name>
+   <object-name>strobe2Collapse</object-name>
    <spherical type="bool">true</spherical>
  </animation>
 
  <animation>
    <type>dist-scale</type>
    <object-name>strobe1</object-name>
-   <interpolation>
-     <entry>
-       <ind>0</ind>
-       <dep alias="../../../../Plane.014Xparams/light-near"/>
-     </entry>
-     <entry>
-       <ind>500</ind>
-       <dep alias="../../../../Plane.014Xparams/light-med"/>
-     </entry>
-     <entry>
-       <ind>16000</ind>
-       <dep alias="../../../../Plane.014Xparams/light-far"/>
-     </entry>
-   </interpolation>
- </animation>
-
- <animation>
-   <type>dist-scale</type>
    <object-name>strobe2</object-name>
+   <!-- Damage Mod -->
+   <object-name>strobe1BD</object-name>
+   <object-name>strobe2BD</object-name>
+   <object-name>strobe1Collapse</object-name>
+   <object-name>strobe2Collapse</object-name>
    <interpolation>
      <entry>
        <ind>0</ind>
-       <dep alias="../../../../Plane.014Xparams/light-near"/>
+       <dep alias="/Plane.014Xparams/light-near"/>
      </entry>
      <entry>
        <ind>500</ind>
-       <dep alias="../../../../Plane.014Xparams/light-med"/>
+       <dep alias="/Plane.014Xparams/light-med"/>
      </entry>
      <entry>
        <ind>16000</ind>
-       <dep alias="../../../../Plane.014Xparams/light-far"/>
+       <dep alias="/Plane.014Xparams/light-far"/>
      </entry>
    </interpolation>
  </animation>
@@ -3252,7 +4207,7 @@
    <type>select</type>
    <object-name>BeaconOffX</object-name>
    <condition>
-     <property alias="../../../params/lighting/beacon-top/property"/>
+     <property alias="/params/lighting/beacon-top/property"/>
    </condition>
  </animation>
 
@@ -3267,7 +4222,6 @@
    <light-med>0.8</light-med>
    <light-far>10</light-far>
  </BeaconOffXparams>
-
 
  <animation>
    <type>alpha-test</type>
@@ -3304,15 +4258,15 @@
    <interpolation>
      <entry>
        <ind>0</ind>
-       <dep alias="../../../../BeaconOffXparams/light-near"/>
+       <dep alias="/BeaconOffXparams/light-near"/>
      </entry>
      <entry>
        <ind>500</ind>
-       <dep alias="../../../../BeaconOffXparams/light-med"/>
+       <dep alias="/BeaconOffXparams/light-med"/>
      </entry>
      <entry>
        <ind>16000</ind>
-       <dep alias="../../../../BeaconOffXparams/light-far"/>
+       <dep alias="/BeaconOffXparams/light-far"/>
      </entry>
    </interpolation>
  </animation>
@@ -3321,7 +4275,15 @@
    <type>select</type>
    <object-name>fairing1</object-name>
    <condition>
-     <property>sim/model/c172p/fairing1</property>
+     <and>
+       <property>sim/model/c172p/fairing1</property>
+	   <not>
+	     <property alias="/params/gear_nose_broken/property"/>
+	   </not>
+	   <not>
+	     <property alias="/params/bushkit/property"/>
+	   </not>
+	 </and>
    </condition>
  </animation>
 
@@ -3329,7 +4291,15 @@
    <type>select</type>
    <object-name>fairing2</object-name>
    <condition>
-     <property>sim/model/c172p/fairing2</property>
+     <and>
+       <property>sim/model/c172p/fairing2</property>
+	   <not>
+	     <property alias="/params/gear_left_broken/property"/>
+	   </not>
+	   <not>
+	     <property alias="/params/bushkit/property"/>
+	   </not>
+	 </and>
    </condition>
  </animation>
 
@@ -3337,11 +4307,62 @@
    <type>select</type>
    <object-name>fairing3</object-name>
    <condition>
-     <property>sim/model/c172p/fairing3</property>
+     <and>
+       <property>sim/model/c172p/fairing3</property>
+	   <not>
+	     <property alias="/params/gear_right_broken/property"/>
+	   </not>
+	   <not>
+	     <property alias="/params/bushkit/property"/>
+	   </not>
+	 </and>
+   </condition>
+ </animation>
+ 
+ <!-- damage Mod -->
+ <animation>
+   <type>select</type>
+   <object-name>fairing1D</object-name>
+   <condition>
+     <and>
+       <property>sim/model/c172p/fairing1</property>
+	   <property alias="/params/gear_nose_broken/property"/>
+	   <not>
+	     <property alias="/params/bushkit/property"/>
+	   </not>
+	 </and>
    </condition>
  </animation>
 
  <animation>
+   <type>select</type>
+   <object-name>fairing2D</object-name>
+   <condition>
+     <and>
+       <property>sim/model/c172p/fairing2</property>
+	   <property alias="/params/gear_left_broken/property"/>
+	   <not>
+	     <property alias="/params/bushkit/property"/>
+	   </not>
+	 </and>
+   </condition>
+ </animation>
+
+ <animation>
+   <type>select</type>
+   <object-name>fairing3D</object-name>
+   <condition>
+     <and>
+       <property>sim/model/c172p/fairing3</property>
+	   <property alias="/params/gear_right_broken/property"/>
+	   <not>
+	     <property alias="/params/bushkit/property"/>
+	   </not>
+	 </and>
+   </condition>
+ </animation>
+
+  <animation>
    <type>material</type>
    <!--global type="bool">true</global-->
    <object-name>RightWheelStrut</object-name>
@@ -3359,18 +4380,64 @@
    <object-name>rightdoor</object-name>
    <object-name>baggagedoor</object-name>
    <object-name>Spinner</object-name>
+   <object-name>Propeller</object-name>
+   <object-name>LeftNavLight</object-name>
+   <object-name>RightNavLight</object-name>
+   <!-- damage mod -->
+   <object-name>RightWheelStrutD</object-name>
+   <object-name>RightWheelStrutBKsD</object-name>
+   <object-name>RightWheelStrutBKD</object-name>
+   <object-name>LeftWheelStrutD</object-name>
+   <object-name>LeftWheelStrutBKsD</object-name>
+   <object-name>LeftWheelStrutBKD</object-name>
+   <object-name>RightNavLightCollapse</object-name>
+   <object-name>LeftNavLightCollapse</object-name>
+   <object-name>RightNavLightBD</object-name>
+   <object-name>LeftNavLightBD</object-name>
+   <object-name>LeftNavLightD</object-name>
+   <object-name>RightNavLightD</object-name>
+   <object-name>LeftNavLightU</object-name>
+   <object-name>RightNavLightU</object-name>
+   <object-name>fairing1D</object-name>
+   <object-name>fairing2D</object-name>
+   <object-name>fairing3D</object-name>
+   <!-- bushkit mod -->
+   <object-name>RightWheelStrutBK</object-name>
+   <object-name>RightWheelStrutBKs</object-name>
+   <object-name>LeftWheelStrutBK</object-name>
+   <object-name>LeftWheelStrutBks</object-name>
+   <object-name>PropellerBK</object-name>
+   <!-- Floats Mod -->
+   <object-name>PropellerF</object-name>
    <property-base>sim/model/livery/</property-base>
    <texture-prop>texture</texture-prop>
-   <texture>fuselage.deeqa.png </texture>
+   <texture>fuselage.png </texture>
  </animation>
 
- <animation>
+<animation>
    <type>material</type>
    <!--global type="bool">true</global-->
    <object-name>wing</object-name>
    <object-name>flaps</object-name>
    <object-name>rightaileron</object-name>
    <object-name>leftaileron</object-name>
+   <!-- damage mod -->
+   <object-name>wingRD</object-name>
+   <object-name>wingLD</object-name>
+   <object-name>wingBD</object-name>
+   <object-name>wingCollapse</object-name>
+   <object-name>flapsRD</object-name>
+   <object-name>flapsLD</object-name>
+   <object-name>flapsBD</object-name>
+   <object-name>flapsCollapse</object-name>
+   <object-name>rightaileronRD</object-name>
+   <object-name>rightaileronLD</object-name>
+   <object-name>rightaileronBD</object-name>
+   <object-name>rightaileronCollapse</object-name>
+   <object-name>leftaileronRD</object-name>
+   <object-name>leftaileronLD</object-name>
+   <object-name>leftaileronBD</object-name>
+   <object-name>leftaileronCollapse</object-name>
    <property-base>sim/model/liverywing/</property-base>
    <texture-prop>texture</texture-prop>
    <texture>wing.png</texture>
@@ -3401,7 +4468,7 @@
    <object-name>doorint_right</object-name>
    <property-base>sim/model/liveryinterior/</property-base>
    <texture-prop>texture</texture-prop>
-   <texture>Aircraft/c172p-detailed/Models/COLOR_interior_test.png</texture>
+   <texture>interior.png</texture>
  </animation>
  
   <animation>
@@ -3413,7 +4480,7 @@
 
    <property-base>sim/model/liverypanel/</property-base>
    <texture-prop>texture</texture-prop>
-   <texture>Aircraft/c172p-detailed/Models/COLOR_panel.png</texture>
+   <texture>panel.png</texture>
  </animation>
  
    <animation>
@@ -3428,17 +4495,17 @@
    <object-name>doorhandleint_right</object-name>
    <property-base>sim/model/liveryparts/</property-base>
    <texture-prop>texture</texture-prop>
-   <texture>Aircraft/c172p-detailed/Models/COLOR_panel_parts.png</texture>
+   <texture>panel_parts.png</texture>
  </animation>
 
  <!--  ALS ground volume shadow  -->
   <model>
-   <path>Aircraft/c172p-detailed/Models/Effects/shadow/3dshadow.xml</path>
+   <path>Effects/shadow/3dshadow.xml</path>
   </model>
   
   <!--  Non-ALS ground shadow  -->
   <model>
-   <path>Aircraft/c172p-detailed/Models/Effects/shadow/shadow.xml</path>
+   <path>Effects/shadow/shadow.xml</path>
   </model>
  
    <!-- Pilot, copilot and passengers -->
@@ -3496,6 +4563,10 @@
           <property>sim/current-view/name</property>
           <value>Walker Orbit View</value>
         </not-equals>
+		<not-equals>
+          <property>sim/model/occupants</property>
+          <value>false</value>
+        </not-equals>
       </and>
     </condition>
   </animation>
@@ -3504,82 +4575,49 @@
     <type>select</type>
     <object-name>Copilot</object-name>
     <condition>
-        <greater-than>
-	  <property>payload/weight[1]/weight-lb</property>
-          <value>100</value>
-        </greater-than>
+		<and>
+			<greater-than>
+				<property>payload/weight[1]/weight-lb</property>
+				<value>100</value>
+			</greater-than>
+			<equals>
+			  <property>sim/model/occupants</property>
+			  <value>true</value>
+			</equals>
+		</and>
     </condition>
   </animation>
   <animation>
     <type>select</type>
     <object-name>LeftPassenger</object-name>
     <condition>
-        <greater-than>
-	  <property>payload/weight[2]/weight-lb</property>
-          <value>100</value>
-        </greater-than>
+		<and>
+			<greater-than>
+				<property>payload/weight[2]/weight-lb</property>
+				<value>100</value>
+			</greater-than>
+			<equals>
+				<property>sim/model/occupants</property>
+				<value>true</value>
+			</equals>
+		</and>
     </condition>
   </animation>
   <animation>
     <type>select</type>
     <object-name>RightPassenger</object-name>
     <condition>
-        <greater-than>
-	  <property>payload/weight[3]/weight-lb</property>
-          <value>100</value>
-        </greater-than>
+		<and>
+			<greater-than>
+				<property>payload/weight[3]/weight-lb</property>
+				<value>100</value>
+			</greater-than>
+			<equals>
+				<property>sim/model/occupants</property>
+				<value>true</value>
+			</equals>
+		</and>
     </condition>
   </animation>
-
-<!-- MOD: Spin to gears -->
- <animation>
-        <type>spin</type>
-        <object-name>RightWheel</object-name>
-        <property>gear/gear[1]/rollspeed-ms</property>
-        <factor>13</factor>
-        <axis>
-            <x>0</x>
-            <y>-1</y>
-            <z>0</z>
-        </axis>
-        <center>
-            <x-m>0.53015</x-m>
-            <y-m>1.127</y-m>
-            <z-m>-1.14693</z-m>
-        </center>
- </animation>
- <animation>
-        <type>spin</type>
-        <object-name>LeftWheel</object-name>
-        <property>gear/gear[1]/rollspeed-ms</property>
-        <factor>13</factor>
-        <axis>
-            <x>0</x>
-            <y>-1</y>
-            <z>0</z>
-        </axis>
-        <center>
-            <x-m>0.53015</x-m>
-            <y-m>-1.127</y-m>
-            <z-m>-1.14693</z-m>
-        </center>
- </animation>
- <animation>
-        <type>spin</type>
-        <object-name>NoseWheel</object-name>
-        <property>gear/gear[0]/rollspeed-ms</property>
-        <factor>13</factor>
-        <axis>
-            <x>0</x>
-            <y>-1</y>
-            <z>0</z>
-        </axis>
-        <center>
-            <x-m>-1.11403</x-m>
-            <y-m>0.00000</y-m>
-            <z-m>-1.18615</z-m>
-        </center>
- </animation>
-<!-- MODEND: Spin to gears -->
 
 </PropertyList>

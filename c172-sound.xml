@@ -1,0 +1,272 @@
+<?xml version="1.0"?>
+ 
+<PropertyList>
+
+ <fx>
+ 
+  <crank>
+   <name>engstart</name>
+   <path>Sounds/engstart.wav</path>
+   <property>engines/engine/cranking</property>
+   <position>
+    <x>-1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
+   <volume>
+    <offset>0.4</offset>
+   </volume>
+  </crank>
+
+  <crank>
+   <name>crank</name>
+   <mode>looped</mode>
+   <path>Sounds/cranking.wav</path>
+   <condition>
+    <property>engines/engine/cranking</property>
+    <not>
+     <property>engines/engine/running</property>
+    </not>
+   </condition>
+   <position>
+    <x>-1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
+   <volume>
+    <offset>0.5</offset>
+   </volume>
+  </crank>
+
+  <crank>
+   <name>cough</name>
+   <path>Sounds/coughing.wav</path>
+   <property>engines/engine/running</property>
+   <position>
+    <x>-1.0</x>
+    <y>0.0</y>
+    <z>0.0</z>
+   </position>
+   <volume>
+    <offset>0.3</offset>
+   </volume>
+  </crank>
+
+  <engine>
+    <name>engine</name>
+    <mode>looped</mode>
+    <path>Sounds/wasp.wav</path>
+    <property>/engines/engine/running</property>
+    <volume>
+      <property>/engines/engine/mp-osi</property>
+      <factor>0.027777</factor>
+      <!-- these values of min and max are unlikely to be relevant,
+           because the MAP is unlikely to go below 5" or above 28".
+           Also note that propeller noise is additional to engine
+           noise, rather like an <offset>.
+             -->
+      <max>1.0</max>
+      <min>0.10</min>
+    </volume>
+    <pitch>
+      <property>/engines/engine/rpm</property>
+      <factor>0.0004</factor>
+      <min>0.0</min>
+      <max>2.0</max>
+      <offset>0.01</offset>
+    </pitch>
+  </engine>
+
+  <propeller>
+    <name>propeller</name>
+    <mode>looped</mode>
+    <path>Sounds/wasp.wav</path>
+    <condition>
+      <greater-than>
+        <property>/engines/engine/rpm</property>
+        <value>10</value>
+      </greater-than>
+    </condition>
+    <volume>
+      <property>/engines/engine/rpm</property>
+      <factor>0.0001</factor>
+      <max>0.25</max>
+    </volume>
+    <pitch>
+      <property>/engines/engine/rpm</property>
+      <factor>0.0004</factor>
+      <min>0.0</min>
+      <max>2.0</max>
+      <offset>0.01</offset>
+    </pitch>
+  </propeller>
+
+  <rumble>
+   <name>rumble</name>
+   <mode>looped</mode>
+   <path>Sounds/rumble.wav</path>
+   <condition>
+    <or>
+     <property>gear/gear[0]/wow</property>
+     <property>gear/gear[1]/wow</property>
+     <property>gear/gear[2]/wow</property>
+    </or>
+    <!-- <property>sim/current-view/internal</property> -->
+   </condition>
+   <position>
+    <x>1.0</x>
+    <y>0.0</y>
+    <z>-1.5</z>
+   </position>
+   <volume>
+    <property>velocities/groundspeed-kt</property>
+    <type>log</type>
+    <factor>0.25</factor>
+   </volume>
+  </rumble>
+
+<!-- the c172 doesn't have a retractable landing gear
+  <gear>
+   <name>gear</name>
+   <mode>in-transit</mode>
+   <path>Sounds/gear.wav</path>
+   <property>gear/gear[0]/position-norm</property>
+  </gear>
+
+  <gear>
+   <name>gear-lock</name>
+   <path>Sounds/gear-lck.wav</path>
+   <condition>
+    <greater-than>
+     <property>gear/gear[0]/position-norm</property>
+     <value>0.9</value>
+    </greater-than>
+   </condition>
+  </gear>
+-->
+
+  <squeal>
+   <name>squeal</name>
+   <path>Sounds/squeal.wav</path>
+   <condition>
+    <and>
+     <or>
+      <property>gear/gear[0]/wow</property>
+      <property>gear/gear[1]/wow</property>
+      <property>gear/gear[2]/wow</property>
+     </or>
+     <less-than>
+      <property>velocities/vertical-speed-fps</property>
+      <value>-0.05</value>
+     </less-than>
+    </and>
+   </condition>
+   <position>
+    <x>1.0</x>
+    <y>0.0</y>
+    <z>-1.5</z>
+   </position>
+   <volume>
+    <property>velocities/groundspeed-kt</property>
+    <factor>0.01</factor>
+    <max>1.0</max>
+   </volume>
+   <volume>
+    <internal>dt_stop</internal>
+    <factor>0.1</factor>
+    <max>1.0</max>
+   </volume>
+   <pitch>
+    <property>velocities/groundspeed-kt</property>
+    <factor>0.0025</factor>
+    <offset>1.2</offset>
+   </pitch>
+  </squeal>
+ 
+  <flap>
+   <name>flaps</name>
+   <mode>in-transit</mode>
+   <path>Sounds/flaps.wav</path>
+   <property>surface-positions/flap-pos-norm</property>
+   <position>
+    <x>0.5</x>
+    <y>0.0</y>
+    <z>0.5</z>
+   </position>
+   <volume>
+    <factor>0.8</factor>
+   </volume>
+   <reference-dist>10.0</reference-dist>
+   <max-dist>20.0</max-dist>
+  </flap>
+
+  <wind>
+   <name>wind</name>
+   <mode>looped</mode>
+   <path>Sounds/wind.wav</path>
+   <condition>
+    <and>
+     <property>velocities/airspeed-kt</property>
+     <property>sim/current-view/internal</property>
+    </and>
+   </condition>
+   <volume>
+    <property>position/altitude-ft</property>
+    <factor>-0.000015</factor>
+    <offset>1.0</offset>
+    <min>0.1</min>
+    <max>1.0</max>
+   </volume>
+   <volume>
+     <property>velocities/airspeed-kt</property>
+     <factor>0.0015</factor>
+     <min>0.03</min>
+     <max>0.25</max>
+   </volume>
+   <pitch>
+    <property>velocities/airspeed-kt</property>
+    <factor>0.0035</factor>
+    <offset>1.25</offset>
+   </pitch>
+  </wind>
+ 
+  <stall>
+   <name>stall</name>
+   <mode>looped</mode>
+   <type>avionics</type>
+   <path>Sounds/stall.wav</path>
+   <condition>
+    <and>
+     <property>sim/alarms/stall-warning</property>
+     <greater-than>
+       <property>velocities/airspeed-kt</property>
+       <value>10</value>
+     </greater-than>
+     <not>
+       <property>gear/gear[0]/wow</property>
+       <property>gear/gear[1]/wow</property>
+       <property>gear/gear[2]/wow</property>
+     </not>
+    </and>
+   </condition>
+   <volume>
+    <property>sim/alarms/stall-warning</property>
+    <max>1.0</max>
+   </volume>
+   <reference-dist>10.0</reference-dist>
+   <max-dist>20.0</max-dist>
+  </stall>
+ 
+  <kap140beep>
+   <name>KAP140Beep</name>
+   <type>avionics</type>
+   <mode>looped</mode>
+   <path>Sounds/stall.wav</path>
+   <condition>
+    <property>autopilot/KAP140/annunciators/beep/state</property>
+   </condition>
+  </kap140beep>
+
+</fx>
+ 
+</PropertyList>

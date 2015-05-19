@@ -1,0 +1,58 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<PropertyList>
+
+  <filter>
+    <name>CDI0 lowpass</name>
+    <debug>false</debug>
+    <type>exponential</type>
+    <filter-time>2.0</filter-time>
+    <input>instrumentation/nav[0]/heading-needle-deflection</input>
+    <output>instrumentation/nav[0]/filtered-cdiNAV0-deflection</output>
+  </filter>
+
+  <filter>
+    <name>CDI1 lowpass</name>
+    <debug>false</debug>
+    <type>exponential</type>
+    <filter-time>2.0</filter-time>
+    <input>instrumentation/nav[1]/heading-needle-deflection</input>
+    <output>instrumentation/nav[1]/filtered-cdiNAV1-deflection</output>
+  </filter>
+
+  <filter>
+    <name>GS0 lowpass</name>
+    <debug>false</debug>
+    <type>exponential</type>
+    <filter-time>2.0</filter-time>
+    <input>instrumentation/nav[0]/gs-needle-deflection-norm</input>
+    <output>instrumentation/nav[0]/filtered-gsNAV0-deflection</output>
+  </filter>
+
+  <filter>
+    <name>GS1 lowpass</name>
+    <debug>false</debug>
+    <type>exponential</type>
+    <filter-time>2.0</filter-time>
+    <input>instrumentation/nav[1]/gs-needle-deflection-norm</input>
+    <output>instrumentation/nav[1]/filtered-gsNAV1-deflection</output>
+  </filter>
+
+  <filter>
+    <name>EGT lowpass</name>
+    <debug>false</debug>
+    <type>exponential</type>
+    <filter-time>4.0</filter-time>
+    <input>
+      <property>engines/engine[0]/egt-degf</property>
+      <!-- 1200 * scale + offset = 0.0
+           1700 * scale + offset = 1.0 -->
+      <scale>0.002</scale> 
+      <offset>-2.4</offset>
+    </input>
+    <output>engines/engine[0]/egt-norm</output>
+    <min>0.0</min>
+    <max>1.0</max>
+  </filter>
+
+</PropertyList>
+

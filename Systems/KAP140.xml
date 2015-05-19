@@ -1,0 +1,308 @@
+<?xml version="1.0"?>
+<!-- KAP 140 Autopilot Configuration -->
+<!-- Each component is evaluated in the order specified.  You can make up -->
+<!-- property names to pass the result of one component on to a subsequent -->
+<!-- component. -->
+<PropertyList>
+
+  <filter>
+    <name>heading bug error computer/normalizer</name>
+    <debug>false</debug>
+    <type>gain</type>
+    <input>
+      <property>autopilot/settings/heading-bug-deg</property>
+      <offset>
+        <property>instrumentation/heading-indicator/indicated-heading-deg</property>
+        <scale>-1.0</scale>
+      </offset>
+    </input>
+    <output>autopilot/internal/heading-bug-error-deg</output>
+    <period>
+      <min>-180</min>
+      <max>180</max>
+    </period>
+    <gain>1.0</gain>
+  </filter>
+
+
+  <!-- =============================================================== -->
+  <!-- Roll Axis Modes                                                 -->
+  <!-- =============================================================== -->
+
+  <!-- Nav hold (NAV) Mode-->
+
+  <pid-controller>
+    <name>Nav hold (NAV) Mode</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/KAP140/locks/nav-hold</prop>
+      <value type="bool">true</value>
+    </enable>
+    <input>
+      <prop>/instrumentation/nav/heading-needle-deflection</prop>
+    </input>
+    <reference>
+      <value>0.0</value>
+    </reference>
+    <output>
+      <prop>/autopilot/KAP140/settings/target-intercept-angle</prop>
+    </output>
+    <config>
+      <Kp>2.0</Kp>        <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>15.0</Ti>       <!-- integrator time -->
+      <Td>0.0</Td>    <!-- derivator time -->
+      <u_min>-45.0</u_min> <!-- minimum output clamp -->
+      <u_max>45.0</u_max>  <!-- maximum output clamp -->
+    </config>
+  </pid-controller>
+
+  <!-- Approach hold (APR) Mode-->
+  <pid-controller>
+    <name>Approach hold (APR) Mode</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/KAP140/locks/apr-hold</prop>
+      <value type="bool">true</value>
+    </enable>
+    <input>
+      <prop>/instrumentation/nav/heading-needle-deflection</prop>
+    </input>
+    <reference>
+      <value>0.0</value>
+    </reference>
+    <output>
+      <prop>/autopilot/KAP140/settings/target-intercept-angle</prop>
+    </output>
+    <config>
+      <Kp>2.0</Kp>        <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>15.0</Ti>       <!-- integrator time -->
+      <Td>0.001</Td>    <!-- derivator time -->
+      <u_min>-45.0</u_min> <!-- minimum output clamp -->
+      <u_max>45.0</u_max>  <!-- maximum output clamp -->
+    </config>
+  </pid-controller>
+
+  <!-- Backcourse hold (REV) Mode-->
+  <pid-controller>
+    <name>Backcourse hold (REV) Mode</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/KAP140/locks/rev-hold</prop>
+      <value type="bool">true</value>
+    </enable>
+    <input>
+      <prop>/instrumentation/nav/heading-needle-deflection</prop>
+      <scale>-1.0</scale>
+    </input>
+    <reference>
+      <value>0.0</value>
+    </reference>
+    <output>
+      <prop>/autopilot/KAP140/settings/target-intercept-angle</prop>
+    </output>
+    <config>
+      <Kp>2.0</Kp>        <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>15.0</Ti>       <!-- integrator time -->
+      <Td>0.0</Td>    <!-- derivator time -->
+      <u_min>-45.0</u_min> <!-- minimum output clamp -->
+      <u_max>45.0</u_max>  <!-- maximum output clamp -->
+    </config>
+  </pid-controller>
+
+  <!-- Heading Select (HDG) Mode -->
+
+  <pid-controller>
+    <name>Heading Select (HDG) Mode</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/KAP140/locks/hdg-hold</prop>
+      <value type="bool">true</value>
+    </enable>
+    <input>
+      <prop>/autopilot/internal/heading-bug-error-deg</prop>
+<!--      <prop>/instrumentation/gps/true-bug-error-deg</prop> -->
+    </input>
+    <reference>
+      <prop>/autopilot/KAP140/settings/target-intercept-angle</prop>
+    </reference>
+    <output>
+      <prop>/autopilot/KAP140/settings/target-turn-rate</prop>
+    </output>
+    <config>
+      <Kp>-0.05</Kp>        <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>15.0</Ti>       <!-- integrator time -->
+      <Td>0.0</Td>    <!-- derivator time -->
+      <u_min>-1.0</u_min> <!-- minimum output clamp -->
+      <u_max>1.0</u_max>  <!-- maximum output clamp -->
+    </config>
+  </pid-controller>
+
+  <!-- Wing leveler (ROL) Mode --> 
+
+  <pid-controller>
+    <name>Wing Leveler (ROL) Mode</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/KAP140/locks/roll-axis</prop>
+      <value type="bool">true</value>
+    </enable>
+    <input>
+      <prop>/instrumentation/turn-indicator/indicated-turn-rate</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/KAP140/settings/target-turn-rate</prop>
+    </reference>
+    <output>
+      <prop>/controls/flight/aileron</prop>
+    </output>
+    <config>
+      <Kp>0.15</Kp>        <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>15.0</Ti>       <!-- integrator time -->
+      <Td>0.0</Td>    <!-- derivator time -->
+      <u_min>-0.25</u_min> <!-- minimum output clamp -->
+      <u_max>0.25</u_max>  <!-- maximum output clamp -->
+    </config>
+  </pid-controller>
+
+  <!-- =============================================================== -->
+  <!-- Pitch Axis Modes                                                -->
+  <!-- =============================================================== -->
+
+  <!-- Altitude Hold (ALT) Mode --> 
+  <pid-controller>
+    <name>Altitude Hold (ALT) Mode</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/KAP140/locks/alt-hold</prop>
+      <value type="bool">true</value>
+    </enable>
+    <input>
+      <prop>/systems/static[0]/pressure-inhg[0]</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/KAP140/settings/target-alt-pressure</prop>
+    </reference>
+    <output>
+      <prop>/autopilot/KAP140/settings/target-pressure-rate</prop>
+    </output>
+    <config>
+      <Kp>0.125</Kp>      <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>12.0</Ti>        <!-- integrator time -->
+      <Td>0.0</Td>    <!-- derivator time -->
+      <u_min>-0.007</u_min> <!-- minimum output clamp -->
+      <u_max>0.007</u_max>  <!-- maximum output clamp -->
+    </config>
+   </pid-controller>
+
+   <!-- Glideslope Hold (GS) Mode --> 
+  <pid-controller>
+    <name>Glideslope Hold (GS) Mode</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/KAP140/locks/gs-hold</prop>
+      <value type="bool">true</value>
+    </enable>
+    <input>
+      <prop>/instrumentation/nav/gs-needle-deflection-norm</prop>
+    </input>
+    <reference>
+      <value>0.0</value>
+    </reference>
+    <output>
+      <prop>/autopilot/KAP140/settings/target-pressure-rate</prop>
+    </output>
+    <config>
+      <Kp>0.025</Kp>      <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>15.0</Ti>        <!-- integrator time -->
+      <Td>0.0</Td>    <!-- derivator time -->
+      <u_min>-0.001</u_min> <!-- minimum output clamp -->
+      <u_max>0.017</u_max>  <!-- maximum output clamp -->
+    </config>
+   </pid-controller>
+
+  <filter>
+    <name>static port pressure rate computer</name>
+    <debug>false</debug>
+    <type>derivative</type>
+    <input>systems/static[0]/pressure-inhg</input>
+    <output>autopilot/internal/pressure-rate</output>
+    <filter-time>1.0</filter-time>
+  </filter>
+
+   <filter>
+    <name>pressure-rate-filter</name>
+    <debug>false</debug>
+    <type>double-exponential</type>
+    <input>/autopilot/internal/pressure-rate</input>
+    <output>/autopilot/internal/filtered-pressure-rate</output>
+    <filter-time>0.1</filter-time>
+   </filter>
+
+   <filter>
+    <name>conversion to fpm</name>
+    <debug>false</debug>
+    <type>gain</type>
+    <input>/autopilot/KAP140/settings/target-pressure-rate</input>
+    <output>/autopilot/KAP140/settings/target-pressure-rate-fpm</output>
+    <gain>-58000</gain>
+   </filter>
+
+  <!-- Vertical Speed (VS) Mode --> 
+  <pid-controller>
+    <name>Vertical Speed (VS) Mode</name>
+    <debug>false</debug>
+    <enable>
+      <prop>/autopilot/KAP140/locks/pitch-axis</prop>
+      <value type="bool">true</value>
+    </enable>
+    <input>
+      <prop>/autopilot/internal/filtered-pressure-rate</prop>
+    </input>
+    <reference>
+      <prop>/autopilot/KAP140/settings/target-pressure-rate</prop>
+    </reference>
+    <output>
+      <prop>/controls/flight/elevator</prop>
+    </output>
+    <config>
+      <Kp>5.0</Kp>      <!-- proportional gain -->
+      <beta>1.0</beta>    <!-- input value weighing factor -->
+      <alpha>0.1</alpha>  <!-- low pass filter weighing factor -->
+      <gamma>0.0</gamma>  <!-- input value weighing factor for -->
+                          <!-- unfiltered derivative error -->
+      <Ti>4.0</Ti>        <!-- integrator time -->
+      <Td>0.0</Td>    <!-- derivator time -->
+      <u_min>-0.5</u_min> <!-- minimum output clamp -->
+      <u_max>0.5</u_max>  <!-- maximum output clamp -->
+    </config>
+   </pid-controller>
+
+</PropertyList>

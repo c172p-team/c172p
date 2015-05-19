@@ -13,7 +13,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# Volume shadow
+#ALS shadow
+props.Node.new({ "/sim/rendering/shadow":0 });
+props.globals.initNode("/sim/rendering/shadow", 0, "INT");
+
+#ALS Volume shadow
 props.Node.new({ "/sim/rendering/shadow-volume":0 });
 props.globals.initNode("/sim/rendering/shadow-volume", 0, "INT");
 
@@ -50,6 +54,8 @@ var check_eligibility = func {
 var toggle_shadow_volume = func {
     if (check_required_version([3, 5])) {
 	    if (getprop("/sim/rendering/shaders/skydome")) {
+			if (getprop("/sim/rendering/shadow"))
+				setprop("/sim/rendering/shadow", !getprop("/sim/rendering/shadow"));
 		    setprop("/sim/rendering/shadow-volume", !getprop("/sim/rendering/shadow-volume"));
 	    }
 	    else {
@@ -58,5 +64,21 @@ var toggle_shadow_volume = func {
     }
     else {
 	    gui.popupTip("ALS Shadow Volumes require version 3.5 or greater", 5);
+    }
+};
+
+var toggle_shadow = func {
+    if (check_required_version([3, 4])) {
+	    if (getprop("/sim/rendering/shaders/skydome")) {
+			if (getprop("/sim/rendering/shadow-volume"))
+				setprop("/sim/rendering/shadow-volume", !getprop("/sim/rendering/shadow-volume"));
+		    setprop("/sim/rendering/shadow", !getprop("/sim/rendering/shadow"));
+	    }
+	    else {
+		    gui.popupTip("Enable ALS for ALS Shadow", 5);
+	    }
+    }
+    else {
+	    gui.popupTip("ALS Shadow require version 3.4 or greater", 5);
     }
 };

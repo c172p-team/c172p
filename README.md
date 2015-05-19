@@ -17,6 +17,6 @@ Gilberto Agostinho (gsagostinho): texturing and bug hunting/reporting
 (ludomotico)
 Wayne Bragg (wlbragg): effects - damage, rain\fog\ice, internal\external shadows, bushkit. Special thanks to Thorsten Renk for all the work involved in giving us the base for these effects.
 (onox)
-(Dany93)
+Daniel Dubreuil (Dany93): [FDM] stall and spin + a few improvements, in-flight damages on wings, fuel float chamber.
 (tigert)
 (wkitty42): bug hunting/reporting

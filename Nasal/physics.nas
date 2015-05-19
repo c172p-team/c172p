@@ -64,7 +64,7 @@ var resetalldamage = func
 	#setprop("/sim/rendering/bothwingdamage", 0);
 	#setprop("/sim/rendering/alldamage", 0);
 	#setprop("/sim/rendering/allfix", 0);
-	lastkit=3;
+	lastkit=4;
 }
 
 var nosegearbroke = func
@@ -148,6 +148,10 @@ var killengine = func
 
 var defaulttires = func
 {
+	setprop(contact~"unit[13]/z-position", 0);
+	setprop(contact~"unit[14]/z-position", 0);
+	setprop(contact~"unit[15]/z-position", 0);
+	setprop(contact~"unit[16]/z-position", 0);
 	setprop(gears~"unit[0]/z-position", -19.5);
 	setprop(gears~"unit[1]/z-position", -15.5);
 	setprop(gears~"unit[2]/z-position", -15.5);
@@ -158,6 +162,10 @@ var defaulttires = func
 
 var medbushtires = func
 {
+	setprop(contact~"unit[13]/z-position", 0);
+	setprop(contact~"unit[14]/z-position", 0);
+	setprop(contact~"unit[15]/z-position", 0);
+	setprop(contact~"unit[16]/z-position", 0);
 	setprop(gears~"unit[0]/z-position", -22);
 	setprop(gears~"unit[1]/z-position", -20);
 	setprop(gears~"unit[2]/z-position", -20);
@@ -168,12 +176,32 @@ var medbushtires = func
 
 var largebushtires = func
 {
+	setprop(contact~"unit[13]/z-position", 0);
+	setprop(contact~"unit[14]/z-position", 0);
+	setprop(contact~"unit[15]/z-position", 0);
+	setprop(contact~"unit[16]/z-position", 0);
 	setprop(gears~"unit[0]/z-position", -22);
 	setprop(gears~"unit[1]/z-position", -22);
 	setprop(gears~"unit[2]/z-position", -22);
 	setprop(contact~"unit[6]/z-position", 0);
 	setprop(contact~"unit[7]/z-position", 0);
 	setprop(contact~"unit[8]/z-position", 0);
+}
+
+var pontoons = func
+{
+	setprop(gears~"unit[0]/z-position", 0);
+	setprop(gears~"unit[1]/z-position", 0);
+	setprop(gears~"unit[2]/z-position", 0);
+	setprop(contact~"unit[6]/z-position", 0);
+	setprop(contact~"unit[7]/z-position", 0);
+	setprop(contact~"unit[8]/z-position", 0);
+	setprop(contact~"unit[13]/z-position", -50);
+	setprop(contact~"unit[14]/z-position", -50);
+	setprop(contact~"unit[15]/z-position", -25);
+	setprop(contact~"unit[16]/z-position", -25);
+	
+	
 }
 
 var poll_damage = func
@@ -297,7 +325,11 @@ var poll_gear_delay = func
     if(getprop("/fdm/jsbsim/bushkit") == 1)
 		medbushtires();
 	else
+	if(getprop("/fdm/jsbsim/bushkit") == 2)
 		largebushtires();
+	else
+	if(getprop("/fdm/jsbsim/bushkit") == 3)
+		pontoons();
 }
 
 var physics_loop = func

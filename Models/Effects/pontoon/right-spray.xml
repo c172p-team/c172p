@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <particlesystem>
+        <name>right-float</name>
+        <texture>spray.png</texture>
+        <emissive>false</emissive>
+        <lighting>false</lighting>
+
+        <offsets>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </offsets>
+
+        <condition>
+            <and>
+				<not>
+					<property>fdm/jsbsim/ground/solid</property>
+				</not>
+                <greater-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>10</value>
+                </greater-than>
+				<or>
+				    <greater-than>
+                        <property>fdm/jsbsim/contact/unit[14]/compression-ft</property>
+                        <value>0</value>
+                    </greater-than>
+					<greater-than>
+                        <property>fdm/jsbsim/contact/unit[16]/compression-ft</property>
+                        <value>0</value>
+                    </greater-than>
+				</or>
+            </and>
+        </condition>
+
+        <attach>world</attach>
+
+        <placer>
+            <type>point</type>
+        </placer>
+
+        <shooter>
+            <theta-min-deg>45</theta-min-deg>
+            <theta-max-deg>85</theta-max-deg>
+            <phi-min-deg>-60</phi-min-deg>
+            <phi-max-deg>60</phi-max-deg>
+            <speed-mps>
+                <value>0</value>
+                <spread>5</spread>
+            </speed-mps>
+            <rotation-speed>
+                <x-max-deg-sec>15</x-max-deg-sec>
+                <x-min-deg-sec>-15</x-min-deg-sec>
+                <y-max-deg-sec>15</y-max-deg-sec>
+                <y-min-deg-sec>-15</y-min-deg-sec>
+                <z-max-deg-sec>15</z-max-deg-sec>
+                <z-min-deg-sec>-15</z-min-deg-sec>
+            </rotation-speed>
+        </shooter>
+
+        <counter>
+            <particles-per-sec>
+                <value>30</value>
+                <spread>100</spread>
+            </particles-per-sec>
+        </counter>
+
+        <align>billboard</align>
+
+        <particle>
+            <start>
+                <color>
+                    <red>
+                        <value>0.95</value>
+                    </red>
+                    <green>
+                        <value>0.95</value>
+                    </green>
+                    <blue>
+                        <value>0.95</value>
+                    </blue>
+                    <alpha>
+                        <value>0.5</value>
+                    </alpha>
+                </color>
+                <size>
+                    <value>0.5</value>
+                </size>
+            </start>
+            <end>
+                <color>
+                    <red>
+                        <value>1</value>
+                    </red>
+                    <green>
+                        <value>1</value>
+                    </green>
+                    <blue>
+                        <value>1</value>
+                    </blue>
+                    <alpha>
+                        <value>0.001</value>
+                    </alpha>
+                </color>
+                <size>
+                    <value>5</value>
+                </size>
+            </end>
+            <life-sec>
+                <value>1.5</value>
+            </life-sec>
+            <mass-kg>0.15</mass-kg>
+            <radius-m>0.175</radius-m>
+        </particle>
+
+        <program>
+            <fluid>air</fluid>
+            <gravity>true</gravity>
+            <wind>false</wind>
+        </program>
+
+    </particlesystem>
+
+</PropertyList>

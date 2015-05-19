@@ -26,11 +26,13 @@
                 # Bush kit
                 var p = getprop("fdm/jsbsim/bushkit");
                 setprop("/sim/model/c172p/bushkit_flag_0",0);
-                setprop("/sim/model/ec130/bushkit_flag_1",0);
-                setprop("/sim/model/ec130/bushkit_flag_2",0);
+                setprop("/sim/model/c172p/bushkit_flag_1",0);
+                setprop("/sim/model/c172p/bushkit_flag_2",0);
+				setprop("/sim/model/c172p/bushkit_flag_3",0);
                 if (p == 0) { setprop("/sim/model/c172p/bushkit_flag_0",1); }
                 if (p == 1) { setprop("/sim/model/c172p/bushkit_flag_1",1); }
                 if (p == 2) { setprop("/sim/model/c172p/bushkit_flag_2",1); }
+				if (p == 3) { setprop("/sim/model/c172p/bushkit_flag_3",1); }
 
                 # Shadow volume
                 var p = getprop("/sim/rendering/shadow-volume");
@@ -126,8 +128,19 @@
             <layout>vbox</layout>
 
             <checkbox>
-            <halign>left</halign>
-                <label>Shadow volume</label>
+                <halign>left</halign>
+                <label>ALS Shadow</label>
+                <property>/sim/rendering/shadow</property>
+                <live>true</live>
+                <binding>
+                    <command>nasal</command>
+                    <script>c172p.toggle_shadow()</script>
+                </binding>
+            </checkbox>
+
+            <checkbox>
+                <halign>left</halign>
+                <label>ALS Shadow volume</label>
                 <property>/sim/rendering/shadow-volume</property>
                 <live>true</live>
                 <binding>
@@ -153,7 +166,7 @@
             <layout>vbox</layout>
 
             <text>
-                <label>Bush Kit Options</label>
+                <label>Landing Gear Options</label>
                 <halign>center</halign>
             </text>
 
@@ -162,7 +175,7 @@
 
                 <radio>
                     <halign>left</halign>
-                    <label>Default tire</label>
+                    <label>Default</label>
                     <property>sim/model/c172p/bushkit_flag_0</property>
                     <live>true</live>
                     <binding>
@@ -175,6 +188,7 @@
                             setprop("sim/model/c172p/bushkit_flag_0",1);
                             setprop("sim/model/c172p/bushkit_flag_1",0);
                             setprop("sim/model/c172p/bushkit_flag_2",0);
+                            setprop("sim/model/c172p/bushkit_flag_3",0);
                         </script>
                     </binding>
                 </radio>
@@ -194,13 +208,14 @@
                             setprop("sim/model/c172p/bushkit_flag_0",0);
                             setprop("sim/model/c172p/bushkit_flag_1",1);
                             setprop("sim/model/c172p/bushkit_flag_2",0);
+                            setprop("sim/model/c172p/bushkit_flag_3",0);
                         </script>
                     </binding>
                 </radio>
 
                 <radio>
                     <halign>left</halign>
-                    <label> 36"</label>
+                    <label>36"</label>
                     <property>sim/model/c172p/bushkit_flag_2</property>
                     <live>true</live>
                     <binding>
@@ -213,6 +228,27 @@
                             setprop("sim/model/c172p/bushkit_flag_0",0);
                             setprop("sim/model/c172p/bushkit_flag_1",0);
                             setprop("sim/model/c172p/bushkit_flag_2",1);
+                            setprop("sim/model/c172p/bushkit_flag_3",0);
+                        </script>
+                    </binding>
+                </radio>
+
+				<radio>
+                    <halign>left</halign>
+                    <label>Floats"</label>
+                    <property>sim/model/c172p/bushkit_flag_3</property>
+                    <live>true</live>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                    <binding>
+                        <command>nasal</command>
+                        <script>
+                            setprop("fdm/jsbsim/bushkit", 3);
+                            setprop("sim/model/c172p/bushkit_flag_0",0);
+                            setprop("sim/model/c172p/bushkit_flag_1",0);
+                            setprop("sim/model/c172p/bushkit_flag_2",0);
+                            setprop("sim/model/c172p/bushkit_flag_3",1);
                         </script>
                     </binding>
                 </radio>

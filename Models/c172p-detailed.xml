@@ -29,6 +29,17 @@
 		<pitch-deg>0</pitch-deg>
 	</offsets>
  </model>
+ 
+ <model>
+	<name>Pontoon</name>
+	<path>Effects/pontoon/pontoon.xml</path>
+	<offsets>
+		<x-m>0.0</x-m>
+		<y-m>0.0</y-m>
+		<z-m>0.0</z-m>
+		<pitch-deg>0</pitch-deg>
+	</offsets>
+ </model>
 
  <nasal>
    <load>
@@ -181,7 +192,9 @@
 	 <object-name>LeftWheelStrutBK</object-name>
 	 <object-name>LeftWheelStrutBKs</object-name>
 	 <object-name>RightWheelStrutBK</object-name>
-	 <object-name>RightWheelStrutBKs</object-name> 
+	 <object-name>RightWheelStrutBKs</object-name>
+	 <!-- pontoons -->
+	 <object-name>Floats</object-name>
 	 <shininess>128</shininess>
 	 <specular>
 		 <r>1</r>
@@ -316,6 +329,7 @@
    <inherits-from>Effects/model-transparent</inherits-from>
    <object-name>Propeller.Fast</object-name>
    <object-name>PropellerBK.Fast</object-name>
+   <object-name>PropellerF.Fast</object-name>
  </effect>
  
   <!-- Damage Mod -->
@@ -801,6 +815,17 @@
    </offsets>
  </model>
  
+ <!--Exhaust-->
+ <model>
+  <object-name>Exhaust</object-name>
+  <path>Effects/exhaust/exhaust.xml</path>
+  <offsets>
+    <x-m>-1.3093</x-m>
+    <y-m>0.324625</y-m>
+    <z-m>-0.782313</z-m>
+  </offsets>
+ </model>
+ 
   <!-- MOD: Tyre smoke -->
   <model>
     <path>Effects/tyresmoke/tyre-smoke-nose.xml</path>
@@ -843,18 +868,7 @@
       <z-m> -1.5 </z-m>
 	</offsets>
   </model>
-	 
-<!--Exhaust-->
- <model>
-  <object-name>Exhaust</object-name>
-  <path>Effects/exhaust/exhaust.xml</path>
-  <offsets>
-    <x-m>-1.3093</x-m>
-    <y-m>0.324625</y-m>
-    <z-m>-0.782313</z-m>
-  </offsets>
- </model>
-	 
+	  
   <model>
     <path>Aircraft/Generic/Effects/rain-port.xml</path>
     <name>rain-port</name>
@@ -876,6 +890,28 @@
   </model>
  <!-- MODEND: Tyre Spray -->
  
+ <!-- MOD: Floats Spray-->
+  <model>
+    <path>Effects/pontoon/left-spray.xml</path>
+    <name>spray-left</name>
+    <offsets>
+      <x-m>-1.0</x-m>
+      <y-m>-1.5</y-m>
+      <z-m>-2.0</z-m>
+    </offsets>
+  </model>
+
+  <model>
+    <path>Effects/pontoon/right-spray.xml</path>
+    <name>spray-right</name>
+    <offsets>
+      <x-m>-1.0</x-m>
+      <y-m>1.5</y-m>
+      <z-m>-2.0</z-m>
+    </offsets>
+  </model>
+  <!-- MODEND: Floats Spray-->
+  
    <model>
    <path>Interior/Panel/Instruments/hobbs/hobbs.xml</path>
    <offsets>
@@ -2816,6 +2852,8 @@
    <object-name>Propeller</object-name>
    <!-- Bushkit Mod -->
    <object-name>PropellerBK</object-name>
+   <!-- Floats Mod -->
+  <object-name>PropellerF</object-name>
    <condition>
      <less-than>
        <property>engines/engine[0]/rpm</property>
@@ -2829,6 +2867,8 @@
   <object-name>Propeller.Fast</object-name>
   <!-- Bushkit Mod -->
   <object-name>PropellerBK.Fast</object-name>
+  <!-- Floats Mod -->
+  <object-name>PropellerF.Fast</object-name>
   <condition>
    <greater-than>
     <property>engines/engine[0]/rpm</property>
@@ -2842,6 +2882,8 @@
    <object-name>Propeller.Fast</object-name>
    <!-- Bushkit Mod -->
    <object-name>PropellerBK.Fast</object-name>
+   <!-- Floats Mod -->
+  <object-name>PropellerF.Fast</object-name>
    <property>engines/engine[0]/rpm</property>
    <factor>0.0004</factor>
    <max>1.0</max>
@@ -2873,6 +2915,8 @@
    <object-name>Spinner</object-name>
    <!-- Bushkit Mod -->
    <object-name>PropellerBK</object-name>
+   <!-- Floats Mod -->
+   <object-name>PropellerF</object-name>
    <property>engines/engine[0]/rpm</property>
    <factor>-1</factor>
    <center>
@@ -2893,6 +2937,8 @@
    <object-name>Spinner</object-name>
    <!-- Bushkit Mod -->
    <object-name>PropellerBK.Fast</object-name>
+   <!-- Floats Mod -->
+   <object-name>PropellerF.Fast</object-name>
    <property>engines/engine[0]/rpm</property>
    <factor>-0.001</factor>
    <center>
@@ -3437,6 +3483,21 @@
 	</and>
    </condition>
  </animation>
+ 
+ <animation>
+   <type>select</type>
+    <!-- pontoons -->
+   <object-name>Floats</object-name>
+   <object-name>PropellerF</object-name>
+   <object-name>PropellerF.Fast</object-name>
+   <condition>
+		<equals>
+			<property alias="/params/bushkit/property"/>
+			<value>3</value>
+		 </equals>
+   </condition>
+ </animation>
+
  
  <animation>
    <type>select</type>
@@ -4325,7 +4386,15 @@
    <object-name>LeftWheelStrutD</object-name>
    <object-name>LeftWheelStrutBKsD</object-name>
    <object-name>LeftWheelStrutBKD</object-name>
-    <object-name>fairing1D</object-name>
+   <object-name>RightNavLightCollapse</object-name>
+   <object-name>LeftNavLightCollapse</object-name>
+   <object-name>RightNavLightBD</object-name>
+   <object-name>LeftNavLightBD</object-name>
+   <object-name>LeftNavLightD</object-name>
+   <object-name>RightNavLightD</object-name>
+   <object-name>LeftNavLightU</object-name>
+   <object-name>RightNavLightU</object-name>
+   <object-name>fairing1D</object-name>
    <object-name>fairing2D</object-name>
    <object-name>fairing3D</object-name>
    <!-- bushkit mod -->
@@ -4333,6 +4402,9 @@
    <object-name>RightWheelStrutBKs</object-name>
    <object-name>LeftWheelStrutBK</object-name>
    <object-name>LeftWheelStrutBks</object-name>
+   <object-name>PropellerBK</object-name>
+   <!-- Floats Mod -->
+   <object-name>PropellerF</object-name>
    <property-base>sim/model/livery/</property-base>
    <texture-prop>texture</texture-prop>
    <texture>fuselage.png </texture>

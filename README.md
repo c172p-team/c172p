@@ -19,4 +19,4 @@ Wayne Bragg (wlbragg): effects - damage, rain\fog\ice, internal\external shadows
 (onox)
 (Dany93)
 (tigert)
-(wkitty42)
+(wkitty42): bug hunting/reporting

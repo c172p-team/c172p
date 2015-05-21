@@ -154,6 +154,10 @@ var defaulttires = func
 	setprop(contact~"unit[14]/z-position", 0);
 	setprop(contact~"unit[15]/z-position", 0);
 	setprop(contact~"unit[16]/z-position", 0);
+	setprop(contact~"unit[17]/z-position", 0);
+	setprop(contact~"unit[18]/z-position", 0);
+	setprop(contact~"unit[19]/z-position", 0);
+	setprop(contact~"unit[20]/z-position", 0);
 	setprop(gears~"unit[0]/z-position", -19.5);
 	setprop(gears~"unit[1]/z-position", -15.5);
 	setprop(gears~"unit[2]/z-position", -15.5);
@@ -168,6 +172,10 @@ var medbushtires = func
 	setprop(contact~"unit[14]/z-position", 0);
 	setprop(contact~"unit[15]/z-position", 0);
 	setprop(contact~"unit[16]/z-position", 0);
+	setprop(contact~"unit[17]/z-position", 0);
+	setprop(contact~"unit[18]/z-position", 0);
+	setprop(contact~"unit[19]/z-position", 0);
+	setprop(contact~"unit[20]/z-position", 0);
 	setprop(gears~"unit[0]/z-position", -22);
 	setprop(gears~"unit[1]/z-position", -20);
 	setprop(gears~"unit[2]/z-position", -20);
@@ -182,6 +190,10 @@ var largebushtires = func
 	setprop(contact~"unit[14]/z-position", 0);
 	setprop(contact~"unit[15]/z-position", 0);
 	setprop(contact~"unit[16]/z-position", 0);
+	setprop(contact~"unit[17]/z-position", 0);
+	setprop(contact~"unit[18]/z-position", 0);
+	setprop(contact~"unit[19]/z-position", 0);
+	setprop(contact~"unit[20]/z-position", 0);
 	setprop(gears~"unit[0]/z-position", -22);
 	setprop(gears~"unit[1]/z-position", -22);
 	setprop(gears~"unit[2]/z-position", -22);

@@ -58,6 +58,39 @@ var check_systems_status = func {
 		
 }
 
+var reset_system = func {
+    # These properties are aliased to MP properties in /sim/multiplay/generic/.
+    # This aliasing seems to work in both ways, because the two properties below
+    # appear to receive the random values from the MP properties during initialization.
+    # Therefore, override these random values with the proper values we want.
+    props.globals.getNode("/fdm/jsbsim/crash", 0).setBoolValue(0);
+    props.globals.getNode("/fdm/jsbsim/contact/unit[4]/broken", 0).setBoolValue(0);
+    props.globals.getNode("/fdm/jsbsim/contact/unit[5]/broken", 0).setBoolValue(0);
+    props.globals.getNode("/fdm/jsbsim/gear/unit[0]/broken", 0).setBoolValue(0);
+    props.globals.getNode("/fdm/jsbsim/gear/unit[1]/broken", 0).setBoolValue(0);
+    props.globals.getNode("/fdm/jsbsim/gear/unit[2]/broken", 0).setBoolValue(0);
+    props.globals.getNode("/fdm/jsbsim/wing-damage/left-wing", 0).setBoolValue(0);
+    props.globals.getNode("/fdm/jsbsim/wing-damage/right-wing", 0).setBoolValue(0);
+
+	setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 1);
+	setprop("/fdm/jsbsim/contact/unit[4]/z-position", 50);
+	setprop("/fdm/jsbsim/contact/unit[5]/z-position", 50);
+	if (getprop("/fdm/jsbsim/bushkit") == 3)
+	{
+		setprop("/fdm/jsbsim/contact/unit[13]/z-position", -60);
+		setprop("/fdm/jsbsim/contact/unit[14]/z-position", -60);
+		setprop("/fdm/jsbsim/contact/unit[15]/z-position", -25);
+		setprop("/fdm/jsbsim/contact/unit[16]/z-position", -25);
+	}
+	else
+	{
+		setprop("/fdm/jsbsim/contact/unit[13]/z-position", 0);
+		setprop("/fdm/jsbsim/contact/unit[14]/z-position", 0);
+		setprop("/fdm/jsbsim/contact/unit[15]/z-position", 0);
+		setprop("/fdm/jsbsim/contact/unit[16]/z-position", 0);
+	}
+}
+
 ############################################
 # Global loop function
 # If you need to run nasal as loop, add it in this function
@@ -86,14 +119,7 @@ global_system_loop = func{
 #});
 
 var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
-    # These properties are aliased to MP properties in /sim/multiplay/generic/.
-    # This aliasing seems to work in both ways, because the two properties below
-    # appear to receive the random values from the MP properties during initialization.
-    # Therefore, override these random values with the proper values we want.
-    props.globals.getNode("/fdm/jsbsim/crash", 0).setBoolValue(0);
-    props.globals.getNode("/fdm/jsbsim/contact/unit[4]/broken", 0).setBoolValue(0);
-    props.globals.getNode("/fdm/jsbsim/contact/unit[5]/broken", 0).setBoolValue(0);
-
+    reset_system();
     var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();
 });

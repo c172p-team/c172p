@@ -198,12 +198,10 @@ var pontoons = func
 	setprop(contact~"unit[6]/z-position", 0);
 	setprop(contact~"unit[7]/z-position", 0);
 	setprop(contact~"unit[8]/z-position", 0);
-	setprop(contact~"unit[13]/z-position", -50);
-	setprop(contact~"unit[14]/z-position", -50);
+	setprop(contact~"unit[13]/z-position", -60);
+	setprop(contact~"unit[14]/z-position", -60);
 	setprop(contact~"unit[15]/z-position", -25);
 	setprop(contact~"unit[16]/z-position", -25);
-	
-	
 }
 
 var poll_damage = func
@@ -328,6 +326,53 @@ var poll_damage = func
 	}	
 }
 
+#check if on water
+var poll_surface = func{
+	if (getprop(contact~"unit[13]/solid"))
+	{
+		setprop(contact~"unit[13]/z-position", 0);
+		setprop(contact~"unit[17]/z-position", -65);
+	}
+	else
+	{
+		setprop(contact~"unit[13]/z-position", -60);
+		setprop(contact~"unit[17]/z-position", 0);
+	}
+
+	if (getprop(contact~"unit[14]/solid"))
+	{
+		setprop(contact~"unit[14]/z-position", 0);
+		setprop(contact~"unit[18]/z-position", -65);
+	}
+	else
+	{
+		setprop(contact~"unit[14]/z-position", -60);
+		setprop(contact~"unit[18]/z-position", 0);
+	}
+
+	if (getprop(contact~"unit[15]/solid"))
+	{
+		setprop(contact~"unit[15]/z-position", 0);
+		setprop(contact~"unit[19]/z-position", -40);
+	}
+	else
+	{
+		setprop(contact~"unit[15]/z-position", -25);
+		setprop(contact~"unit[19]/z-position", 0);
+	}
+
+	if (getprop(contact~"unit[16]/solid"))
+	{
+		setprop(contact~"unit[16]/z-position", 0);
+		setprop(contact~"unit[20]/z-position", -40);
+	}
+	else
+	{
+		setprop(contact~"unit[16]/z-position", -25);
+		setprop(contact~"unit[20]/z-position", 0);
+	}
+}
+
 #required delay for bush kit change over
 var poll_gear_delay = func
 {
@@ -349,6 +394,8 @@ var physics_loop = func
 	if (lastkit == getprop("/fdm/jsbsim/bushkit"))
 	{
 		settledelay = 0;
+		if(getprop("/fdm/jsbsim/bushkit") == 3)
+			poll_surface();
 		if (getprop("/fdm/jsbsim/damage"))
 			poll_damage();
 	}

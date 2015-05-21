@@ -198,8 +198,8 @@ var pontoons = func
 	setprop(contact~"unit[6]/z-position", 0);
 	setprop(contact~"unit[7]/z-position", 0);
 	setprop(contact~"unit[8]/z-position", 0);
-	setprop(contact~"unit[13]/z-position", -60);
-	setprop(contact~"unit[14]/z-position", -60);
+	setprop(contact~"unit[13]/z-position", -55);
+	setprop(contact~"unit[14]/z-position", -55);
 	setprop(contact~"unit[15]/z-position", -25);
 	setprop(contact~"unit[16]/z-position", -25);
 }
@@ -335,7 +335,7 @@ var poll_surface = func{
 	}
 	else
 	{
-		setprop(contact~"unit[13]/z-position", -60);
+		setprop(contact~"unit[13]/z-position", -55);
 		setprop(contact~"unit[17]/z-position", 0);
 	}
 
@@ -346,7 +346,7 @@ var poll_surface = func{
 	}
 	else
 	{
-		setprop(contact~"unit[14]/z-position", -60);
+		setprop(contact~"unit[14]/z-position", -55);
 		setprop(contact~"unit[18]/z-position", 0);
 	}
 

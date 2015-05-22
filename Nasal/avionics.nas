@@ -16,9 +16,9 @@
 ki266.new(0);
 aircraft.data.add("engines/engine[0]/egt-bug-norm");
 
-headingNeedleDeflection = "/instrumentation/nav/heading-needle-deflection";
-gsNeedleDeflection = "/instrumentation/nav/gs-needle-deflection-norm";
-staticPressure = "systems/static/pressure-inhg";
+var headingNeedleDeflection = "/instrumentation/nav/heading-needle-deflection";
+var gsNeedleDeflection = "/instrumentation/nav/gs-needle-deflection-norm";
+var staticPressure = "systems/static/pressure-inhg";
 
 # Save the state of the avionics Radio control panel (according to its
 # documentation)

@@ -27,7 +27,7 @@ var DELAY_SECS = 3;
 # Initialize the electrical system
 #
 
-init_electrical = func {
+var init_electrical = func {
     battery = BatteryClass.new();
     alternator = AlternatorClass.new();
     
@@ -66,7 +66,7 @@ init_electrical = func {
 # Battery model class.
 #
 
-BatteryClass = {};
+var BatteryClass = {};
 
 BatteryClass.new = func {
     var obj = { parents : [BatteryClass],
@@ -135,7 +135,7 @@ BatteryClass.get_output_amps = func {
 # Alternator model class.
 #
 
-AlternatorClass = {};
+var AlternatorClass = {};
 
 AlternatorClass.new = func {
     var obj = { parents : [AlternatorClass],
@@ -205,7 +205,7 @@ AlternatorClass.get_output_amps = func {
 # This is the main electrical system update function.
 #
 
-update_electrical = func {
+var update_electrical = func {
     var time = getprop("/sim/time/elapsed-sec");
     var dt = time - last_time;
     last_time = time;
@@ -222,7 +222,7 @@ update_electrical = func {
 # alternator, starter, master/alt switches, external power supply.
 #
 
-update_virtual_bus = func( dt ) {
+var update_virtual_bus = func( dt ) {
     var serviceable = getprop("/systems/electrical/serviceable");
     var external_volts = 0.0;
     var load = 0.0;
@@ -302,7 +302,7 @@ update_virtual_bus = func( dt ) {
 }
 
 
-electrical_bus_1 = func() {
+var electrical_bus_1 = func() {
     var bus_volts = 0.0;
     var load = 0.0;
     
@@ -449,7 +449,7 @@ electrical_bus_1 = func() {
     return load;
 }
 
-avionics_bus_1 = func() {
+var avionics_bus_1 = func() {
     var bus_volts = 0.0;
     var load = 0.0;
 

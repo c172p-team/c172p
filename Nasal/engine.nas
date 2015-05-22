@@ -9,7 +9,7 @@
 
 # set the update period
 
-UPDATE_PERIOD = 0.3;
+var UPDATE_PERIOD = 0.3;
 
 # =============================== Hobbs meter =======================================
 
@@ -28,7 +28,7 @@ setlistener("/engines/engine[0]/running", func {
 
 setlistener("/sim/time/hobbs/engine[0]", func {
     # in seconds
-    hobbs = getprop("/sim/time/hobbs/engine[0]") or 0.0;
+    var hobbs = getprop("/sim/time/hobbs/engine[0]") or 0.0;
     # This uses minutes, for testing
     #hobbs = hobbs / 60.0;
     # in hours
@@ -117,7 +117,7 @@ var update = func {
 
 # controls.startEngine = func(v = 1) {
 setlistener("/controls/switches/starter", func {
-    v = getprop("/controls/switches/starter") or 0;
+    var v = getprop("/controls/switches/starter") or 0;
     if (v == 0) {
         print("Starter off");
         # notice the starter will be reset after 5 seconds

@@ -345,10 +345,13 @@ var poll_surface = func
 	if (getprop(contact~"unit[13]/solid"))
 	{
 		setprop(contact~"unit[13]/z-position", 0);
-		if (getprop("/fdm/jsbsim/gear/gear-pos-norm") == 1)
-		    setprop(contact~"unit[17]/z-position", -0);
+		if (getprop("/fdm/jsbsim/bushkit") == 3)
+			setprop(contact~"unit[17]/z-position", -65);
 		else
-		    setprop(contact~"unit[17]/z-position", -65);
+			if (getprop("/fdm/jsbsim/gear/gear-pos-norm") == 1)
+				setprop(contact~"unit[17]/z-position", -0);
+			else
+				setprop(contact~"unit[17]/z-position", -65);
 	}
 	else
 	{
@@ -361,10 +364,13 @@ var poll_surface = func
 	if (getprop(contact~"unit[14]/solid"))
 	{
 		setprop(contact~"unit[14]/z-position", 0);
-		if (getprop("/fdm/jsbsim/gear/gear-pos-norm") == 1)
-		    setprop(contact~"unit[18]/z-position", -0);
+		if (getprop("/fdm/jsbsim/bushkit") == 3)
+			setprop(contact~"unit[18]/z-position", -65);
 		else
-		    setprop(contact~"unit[18]/z-position", -65);
+			if (getprop("/fdm/jsbsim/gear/gear-pos-norm") == 1)
+				setprop(contact~"unit[18]/z-position", -0);
+			else
+				setprop(contact~"unit[18]/z-position", -65);
 	}
 	else
 	{
@@ -377,10 +383,13 @@ var poll_surface = func
 	if (getprop(contact~"unit[15]/solid"))
 	{
 		setprop(contact~"unit[15]/z-position", 0);
-		if (getprop("/fdm/jsbsim/gear/gear-pos-norm") == 1)
-		    setprop(contact~"unit[19]/z-position", -0);
+		if (getprop("/fdm/jsbsim/bushkit") == 3)
+			setprop(contact~"unit[19]/z-position", -40);
 		else
-		    setprop(contact~"unit[19]/z-position", -40);
+			if (getprop("/fdm/jsbsim/gear/gear-pos-norm") == 1)
+				setprop(contact~"unit[19]/z-position", -0);
+			else
+				setprop(contact~"unit[19]/z-position", -40);
 	}
 	else
 	{
@@ -393,10 +402,13 @@ var poll_surface = func
 	if (getprop(contact~"unit[16]/solid"))
 	{
 		setprop(contact~"unit[16]/z-position", 0);
-		if (getprop("/fdm/jsbsim/gear/gear-pos-norm") == 1)
-		    setprop(contact~"unit[20]/z-position", -0);
+		if (getprop("/fdm/jsbsim/bushkit") == 3)
+			setprop(contact~"unit[20]/z-position", -40);
 		else
-		    setprop(contact~"unit[20]/z-position", -40);
+			if (getprop("/fdm/jsbsim/gear/gear-pos-norm") == 1)
+				setprop(contact~"unit[20]/z-position", -0);
+			else
+				setprop(contact~"unit[20]/z-position", -40);
 	}
 	else
 	{

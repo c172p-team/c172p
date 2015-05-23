@@ -169,6 +169,7 @@
 	 <object-name>vstab</object-name>
 	 <object-name>wing_1</object-name>
 	 <object-name>doorhandleint_right</object-name>
+	 <object-name>Propeller</object-name>
      <object-name>Spinner</object-name>
 	 <shininess>128</shininess>
 	 <specular>
@@ -303,8 +304,6 @@
  <effect>
    <inherits-from>Effects/model-transparent</inherits-from>
    <object-name>Propeller.Fast</object-name>
-   <object-name>PropellerBK.Fast</object-name>
-   <object-name>PropellerF.Fast</object-name>
  </effect>
  
   <!-- Damage Mod -->
@@ -2844,10 +2843,6 @@
  <animation>
    <type>select</type>
    <object-name>Propeller</object-name>
-   <!-- Bushkit Mod -->
-   <object-name>PropellerBK</object-name>
-   <!-- Floats Mod -->
-  <object-name>PropellerF</object-name>
    <condition>
      <less-than>
        <property>engines/engine[0]/rpm</property>
@@ -2859,10 +2854,6 @@
  <animation>
   <type>select</type>
   <object-name>Propeller.Fast</object-name>
-  <!-- Bushkit Mod -->
-  <object-name>PropellerBK.Fast</object-name>
-  <!-- Floats Mod -->
-  <object-name>PropellerF.Fast</object-name>
   <condition>
    <greater-than>
     <property>engines/engine[0]/rpm</property>
@@ -2874,10 +2865,6 @@
  <animation>
    <type>blend</type>
    <object-name>Propeller.Fast</object-name>
-   <!-- Bushkit Mod -->
-   <object-name>PropellerBK.Fast</object-name>
-   <!-- Floats Mod -->
-  <object-name>PropellerF.Fast</object-name>
    <property>engines/engine[0]/rpm</property>
    <factor>0.0004</factor>
    <max>1.0</max>
@@ -2907,10 +2894,6 @@
    <type>spin</type>
    <object-name>Propeller</object-name>
    <object-name>Spinner</object-name>
-   <!-- Bushkit Mod -->
-   <object-name>PropellerBK</object-name>
-   <!-- Floats Mod -->
-   <object-name>PropellerF</object-name>
    <property>engines/engine[0]/rpm</property>
    <factor>-1</factor>
    <center>
@@ -2929,10 +2912,6 @@
    <type>spin</type>
    <object-name>Propeller.Fast</object-name>
    <object-name>Spinner</object-name>
-   <!-- Bushkit Mod -->
-   <object-name>PropellerBK.Fast</object-name>
-   <!-- Floats Mod -->
-   <object-name>PropellerF.Fast</object-name>
    <property>engines/engine[0]/rpm</property>
    <factor>-0.001</factor>
    <center>
@@ -3509,6 +3488,65 @@
 		 </equals>
    </condition>
  </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>Propeller</object-name>
+   <object-name>Propeller.Fast</object-name>
+   <condition>
+     <and>
+	  <not>
+		<property alias="/params/gear_nose_broken/property"/>
+	  </not>
+	  <or>
+	    <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>0</value>
+		</equals>
+		<equals>
+			<property alias="/params/bushkit/property"/>
+			<value>1</value>
+		</equals>
+		<equals>
+			<property alias="/params/bushkit/property"/>
+			<value>2</value>
+		</equals>
+		<equals>
+			<property alias="/params/bushkit/property"/>
+			<value>3</value>
+		 </equals>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>4</value>
+		 </equals>
+	  </or>	 
+	 </and>
+   </condition>
+ </animation>
+ 
+ <animation>
+   <type>select</type>
+   <object-name>PropellerD</object-name>
+   <condition>
+      <and>
+		 <property alias="/params/gear_nose_broken/property"/>
+		 <or>
+			 <equals>
+				<property alias="/params/bushkit/property"/>
+				<value>0</value>
+			 </equals>
+			 <equals>
+				<property alias="/params/bushkit/property"/>
+				<value>1</value>
+			 </equals>
+			 <equals>
+				<property alias="/params/bushkit/property"/>
+				<value>2</value>
+			 </equals>
+		 </or>
+	  </and>
+   </condition>
+ </animation>
 
  <animation>
    <type>select</type>
@@ -3516,8 +3554,6 @@
    <object-name>RHrudder</object-name>
    <object-name>RuddWires</object-name>
    <object-name>FloatStruts</object-name>
-   <object-name>PropellerF</object-name>
-   <object-name>PropellerF.Fast</object-name>
    <condition>
 	  <or>
 		<equals>
@@ -3539,8 +3575,6 @@
    <object-name>NoseWheelStrut</object-name>
    <object-name>TopLink</object-name>
    <object-name>BottomLink</object-name>
-   <object-name>Propeller</object-name>
-   <object-name>Propeller.Fast</object-name>
    <condition>
       <and>
 		 <not>
@@ -3595,8 +3629,6 @@
    <object-name>NoseWheelStrutBK</object-name>
    <object-name>TopLinkBK</object-name>
    <object-name>BottomLinkBK</object-name>
-   <object-name>PropellerBK</object-name>
-   <object-name>PropellerBK.Fast</object-name>
    <condition>
 	  <and>
 		 <not>
@@ -3691,7 +3723,6 @@
    <object-name>NoseWheelStrutD</object-name>
    <object-name>TopLinkD</object-name>
    <object-name>BottomLinkD</object-name>
-   <object-name>PropellerD</object-name>
    <condition>
       <and>
 		 <property alias="/params/gear_nose_broken/property"/>
@@ -3739,8 +3770,6 @@
    <object-name>AxleBKsD.001</object-name>
    <object-name>NoseWheelStrutBKsD</object-name>
    <object-name>TopLinkBKsD</object-name>
-   <object-name>BottomLinkBKsD</object-name>
-   <object-name>PropellerBKsD</object-name>
    <condition>
       <and>
 		 <property alias="/params/gear_nose_broken/property"/>
@@ -3788,8 +3817,6 @@
    <object-name>AxleBKD.001</object-name>
    <object-name>NoseWheelStrutBKD</object-name>
    <object-name>TopLinkBKD</object-name>
-   <object-name>BottomLinkBKD</object-name>
-   <object-name>PropellerBKD</object-name>
    <condition>
       <and>
 		 <property alias="/params/gear_nose_broken/property"/>
@@ -4430,14 +4457,12 @@
    <object-name>fairing1D</object-name>
    <object-name>fairing2D</object-name>
    <object-name>fairing3D</object-name>
+   <object-name>PropellerD</object-name>
    <!-- bushkit mod -->
    <object-name>RightWheelStrutBK</object-name>
    <object-name>RightWheelStrutBKs</object-name>
    <object-name>LeftWheelStrutBK</object-name>
    <object-name>LeftWheelStrutBks</object-name>
-   <object-name>PropellerBK</object-name>
-   <!-- Floats Mod -->
-   <object-name>PropellerF</object-name>
    <property-base>sim/model/livery/</property-base>
    <texture-prop>texture</texture-prop>
    <texture>fuselage.png </texture>

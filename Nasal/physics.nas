@@ -340,7 +340,8 @@ var poll_damage = func
 }
 
 #check if on water
-var poll_surface = func{
+var poll_surface = func
+{
 	if (getprop(contact~"unit[13]/solid"))
 	{
 		setprop(contact~"unit[13]/z-position", 0);
@@ -353,6 +354,8 @@ var poll_surface = func{
 	{
 		setprop(contact~"unit[13]/z-position", -55);
 		setprop(contact~"unit[17]/z-position", 0);
+		if (getprop(contact~"unit[13]/compression-ft"))
+			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
 	}
 
 	if (getprop(contact~"unit[14]/solid"))
@@ -367,6 +370,8 @@ var poll_surface = func{
 	{
 		setprop(contact~"unit[14]/z-position", -55);
 		setprop(contact~"unit[18]/z-position", 0);
+		if (getprop(contact~"unit[14]/compression-ft"))
+			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
 	}
 
 	if (getprop(contact~"unit[15]/solid"))
@@ -381,6 +386,8 @@ var poll_surface = func{
 	{
 		setprop(contact~"unit[15]/z-position", -25);
 		setprop(contact~"unit[19]/z-position", 0);
+		if (getprop(contact~"unit[15]/compression-ft"))
+			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
 	}
 
 	if (getprop(contact~"unit[16]/solid"))
@@ -395,7 +402,12 @@ var poll_surface = func{
 	{
 		setprop(contact~"unit[16]/z-position", -25);
 		setprop(contact~"unit[20]/z-position", 0);
+		if (getprop(contact~"unit[16]/compression-ft"))
+			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
 	}
+
+	if (getprop("position/altitude-agl-m") > 2)
+		setprop("/environment/aircraft-effects/ground-splash-norm", 0);
 }
 
 #required delay for bush kit change over

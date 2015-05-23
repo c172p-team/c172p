@@ -40,7 +40,7 @@
 		<pitch-deg>0</pitch-deg>
 	</offsets>
  </model>
-
+ 
  <nasal>
    <load>
      var livery_update = aircraft.livery_update.new(
@@ -170,36 +170,6 @@
 	 <object-name>wing_1</object-name>
 	 <object-name>doorhandleint_right</object-name>
      <object-name>Spinner</object-name>
-	 <!-- damage mod -->
-	 <object-name>LeftWheelStrutD</object-name>
-	 <object-name>LeftWheelStrutBKsD</object-name>
-	 <object-name>LeftWheelStrutBKD</object-name>
-	 <object-name>RightWheelStrutD</object-name>
-	 <object-name>RightWheelStrutBKsD</object-name>
-	 <object-name>RightWheelStrutBKD</object-name>
-	 <object-name>flapsRD</object-name>
-	 <object-name>flapsLD</object-name>
-	 <object-name>leftaileronRD</object-name>
-	 <object-name>leftaileronLD</object-name>
-	 <object-name>rightaileronRD</object-name>
-	 <object-name>rightaileronLD</object-name>
-	 <object-name>wing_1RD</object-name>
-	 <object-name>wing_1LD</object-name>
-	  <object-name>fairing1D</object-name>
-	 <object-name>fairing2D</object-name>
-	 <object-name>fairing3D</object-name>
-	 <!-- bushkit mod -->
-	 <object-name>LeftWheelStrutBK</object-name>
-	 <object-name>LeftWheelStrutBKs</object-name>
-	 <object-name>RightWheelStrutBK</object-name>
-	 <object-name>RightWheelStrutBKs</object-name>
-	 <!-- pontoons -->
-	 <object-name>L-Float</object-name>
-	 <object-name>R-Float</object-name>
-	 <object-name>LHrudder</object-name>
-	 <object-name>RHrudder</object-name>
-	 <object-name>RuddWires</object-name>
-	 <object-name>FloatStruts</object-name>
 	 <shininess>128</shininess>
 	 <specular>
 		 <r>1</r>
@@ -3510,18 +3480,8 @@
  
  <animation>
    <type>select</type>
-    <!-- pontoons -->
-   <!--object-name>Floats</object-name>
-   <object-name>RHrudder</object-name>
-   <object-name>LHrudder</object-name-->
-   <object-name>L-Float</object-name>
-   <object-name>R-Float</object-name>
-   <object-name>LHrudder</object-name>
-   <object-name>RHrudder</object-name>
-   <object-name>RuddWires</object-name>
-   <object-name>FloatStruts</object-name>
-   <object-name>PropellerF</object-name>
-   <object-name>PropellerF.Fast</object-name>
+   <object-name>L-FloatC</object-name>
+   <object-name>R-FloatC</object-name>
    <condition>
 		<equals>
 			<property alias="/params/bushkit/property"/>
@@ -3530,6 +3490,47 @@
    </condition>
  </animation>
 
+ <animation>
+   <type>select</type>
+   <object-name>L-Float</object-name>
+   <object-name>R-Float</object-name>
+   <object-name>LRwheel</object-name>
+   <object-name>Ldamper</object-name>
+   <object-name>Lstrut.001</object-name>
+   <object-name>Lstrut.002</object-name>
+   <object-name>RRwheel</object-name>
+   <object-name>Rdamper</object-name>
+   <object-name>Rstrut.001</object-name>
+   <object-name>Rstrut.002</object-name>
+   <condition>
+		<equals>
+			<property alias="/params/bushkit/property"/>
+			<value>4</value>
+		 </equals>
+   </condition>
+ </animation>
+
+ <animation>
+   <type>select</type>
+   <object-name>LHrudder</object-name>
+   <object-name>RHrudder</object-name>
+   <object-name>RuddWires</object-name>
+   <object-name>FloatStruts</object-name>
+   <object-name>PropellerF</object-name>
+   <object-name>PropellerF.Fast</object-name>
+   <condition>
+	  <or>
+		<equals>
+			<property alias="/params/bushkit/property"/>
+			<value>3</value>
+		 </equals>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>4</value>
+		 </equals>
+	  </or>
+   </condition>
+ </animation>
  
  <animation>
    <type>select</type>
@@ -4442,7 +4443,7 @@
    <texture>fuselage.png </texture>
  </animation>
 
-<animation>
+ <animation>
    <type>material</type>
    <!--global type="bool">true</global-->
    <object-name>wing</object-name>
@@ -4488,6 +4489,8 @@
    <type>material</type>
    <object-name>L-Float</object-name>
    <object-name>R-Float</object-name>
+   <object-name>L-FloatC</object-name>
+   <object-name>R-FloatC</object-name>
    <object-name>LHrudder</object-name>
    <object-name>RHrudder</object-name>
    <!--object-name>RuddWires</object-name-->
@@ -4496,7 +4499,7 @@
    <texture-prop>texture</texture-prop>
    <texture>floats.png</texture>
  </animation>
- 
+
   <animation>
    <type>material</type>
    <!--global type="bool">true</global-->
@@ -4660,5 +4663,292 @@
 		</and>
     </condition>
   </animation>
+
+
+  <!-- MOD: Pontoon Gear -->
+  <animation>
+    <name>LeftFrontGear</name>
+    <object-name>Lstrut.001</object-name>
+    <object-name>Ldamper</object-name>
+    <object-name>LFwheel</object-name>
+  </animation>
+
+  <animation>
+    <name>RightFrontGear</name>
+    <object-name>Rstrut.001</object-name>
+    <object-name>Rdamper</object-name>
+    <object-name>RFwheel</object-name>
+  </animation>
+
+  <!--    Retractable Gear    -->
+  <animation>
+    <type>rotate</type>
+    <object-name>Ldamper</object-name>
+    <property>gear/gear[21]/compression-norm</property>
+    <factor>91.5</factor>
+    <center>
+      <x-m>-3.599</x-m>
+      <y-m>1.434</y-m>
+      <z-m>-2.189</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>-1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>LeftFrontGear</object-name>
+    <property>gear/gear[21]/position-norm</property>
+    <interpolation>
+	  <entry>
+        <ind>0.0</ind>
+        <dep>0.220</dep>
+      </entry>
+      <entry>
+        <ind>1.0</ind>
+        <dep>0.0</dep>
+      </entry>
+    </interpolation>
+    <center>
+      <x-m>-3.553</x-m>
+      <y-m>1.430</y-m>
+      <z-m>-1.901</z-m>
+    </center>
+    <axis>
+      <x>0.342</x>
+      <y>0</y>
+      <z>0.940</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>Lstrut.002</object-name>
+    <property>gear/gear[21]/position-norm</property>
+    <interpolation>
+      <entry>
+        <ind>0.0</ind>
+        <dep>0.115</dep>
+      </entry>
+      <entry>
+        <ind>1.0</ind>
+        <dep>0.0</dep>
+      </entry>
+    </interpolation>
+    <center>
+      <x-m>-3.553</x-m>
+      <y-m>1.430</y-m>
+      <z-m>-1.901</z-m>
+    </center>
+    <axis>
+      <x>0.342</x>
+      <y>0</y>
+      <z>0.940</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>Rdamper</object-name>
+    <property>gear/gear[22]/compression-norm</property>
+    <factor>91.5</factor>
+    <center>
+      <x-m>-3.599</x-m>
+      <y-m>-1.434</y-m>
+      <z-m>-2.189</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>-1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>RightFrontGear</object-name>
+    <property>gear/gear[22]/position-norm</property>
+    <interpolation>
+	  <entry>
+        <ind>0.0</ind>
+        <dep>0.220</dep>
+      </entry>
+      <entry>
+        <ind>1.0</ind>
+        <dep>0.0</dep>
+      </entry>
+    </interpolation>
+    <center>
+      <x-m>-3.553</x-m>
+      <y-m>-1.430</y-m>
+      <z-m>-1.901</z-m>
+    </center>
+    <axis>
+      <x>0.342</x>
+      <y>0</y>
+      <z>0.940</z>
+    </axis>
+  </animation>
+
+  <animation>
+    <type>translate</type>
+    <object-name>Rstrut.002</object-name>
+    <property>gear/gear[22]/position-norm</property>
+    <interpolation>
+      <entry>
+        <ind>0.0</ind>
+        <dep>0.115</dep>
+      </entry>
+      <entry>
+        <ind>1.0</ind>
+        <dep>0.0</dep>
+      </entry>
+    </interpolation>
+    <center>
+      <x-m>-3.553</x-m>
+      <y-m>-1.430</y-m>
+      <z-m>-1.901</z-m>
+    </center>
+    <axis>
+      <x>0.342</x>
+      <y>0</y>
+      <z>0.940</z>
+    </axis>
+  </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>LRwheel</object-name>
+        <expression>
+            <sum>
+                <product>
+                    <property>gear/gear[23]/compression-norm</property>
+                    <value>39</value>
+                </product>
+                <product>
+                    <table>
+                        <property>gear/gear[23]/position-norm</property>
+                        <entry><ind>1</ind><dep>0</dep></entry>
+                        <entry><ind>0</ind><dep>20</dep></entry>
+                    </table>
+                </product>
+            </sum>
+        </expression>
+        <center>
+            <x-m>-0.223</x-m>
+            <y-m>-1.434</y-m>
+            <z-m>-2.163</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>RRwheel</object-name>
+        <expression>
+            <sum>
+                <product>
+                    <property>gear/gear[24]/compression-norm</property>
+                    <value>39</value>
+                </product>
+                <product>
+                    <table>
+                        <property>gear/gear[24]/position-norm</property>
+                        <entry><ind>1</ind><dep>0</dep></entry>
+                        <entry><ind>0</ind><dep>20</dep></entry>
+                    </table>
+                </product>
+            </sum>
+        </expression>
+        <center>
+            <x-m>-0.223</x-m>
+            <y-m>1.434</y-m>
+            <z-m>-2.163</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+
+  <!--animation>
+    <type>rotate</type>
+    <object-name>RHrudder</object-name>
+    <object-name>RHrudderArm</object-name>
+    <property>controls/gear/steering</property>
+    <factor>-30</factor>
+    <center>
+      <x-m>3.47</x-m>
+      <y-m>1.434</y-m>
+      <z-m>-1.49</z-m>
+    </center>
+    <axis>
+      <x>-0.087</x>
+      <y>0</y>
+      <z>0.996</z>
+    </axis>
+  </animation-->
+
+  <animation>
+    <type>rotate</type>
+    <object-name>RHrudder</object-name>
+    <property>controls/gear/water-rudder-down</property>
+    <factor>90</factor>
+    <center>
+      <x-m>3.47</x-m>
+      <y-m>1.434</y-m>
+	  <z-m>-1.49</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+
+  <!--animation>
+    <type>rotate</type>
+    <object-name>LHrudder</object-name>
+    <object-name>LHrudderArm</object-name>
+    <property>controls/gear/steering</property>
+    <factor>-30</factor>
+    <center>
+      <x-m>3.360</x-m>
+      <y-m>-1.434</y-m>
+      <z-m>-1.632</z-m>
+    </center>
+    <axis>
+      <x>-0.087</x>
+      <y>0</y>
+      <z>0.996</z>
+    </axis>
+  </animation-->
+
+  <animation>
+    <type>rotate</type>
+    <object-name>LHrudder</object-name>
+    <property>controls/gear/water-rudder-down</property>
+    <factor>90</factor>
+    <center>
+      <x-m>3.47</x-m>
+      <y-m>-1.434</y-m>
+	  <z-m>-1.49</z-m>
+    </center>
+    <axis>
+      <x>0</x>
+      <y>1</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <!-- END MOD: Pontoon Gear -->
 
 </PropertyList>

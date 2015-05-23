@@ -165,6 +165,11 @@
     </mass_balance>
 
     <ground_reactions>
+        <documentation>
+          The hydrodynamic interactions of the floats are modelled by
+          external forces.
+        </documentation>
+
         <contact type="BOGEY" name="NOSE">
             <location unit="IN">
                 <x> -6.8 </x>
@@ -325,6 +330,7 @@
 		  <damping_coeff unit="LBS/FT/SEC">   366.03 </damping_coeff>
 		</contact>
 		<!-- contact 13, 14, 15, 16 -->
+        <!--
 		<contact type="STRUCTURE" name="LFfloat">
           <location unit="IN">
             <x>-107.598</x>
@@ -369,8 +375,10 @@
           <spring_coeff unit="LBS/FT">10000.00 </spring_coeff>
           <damping_coeff unit="LBS/FT/SEC">2500.00 </damping_coeff>
         </contact>
+        -->
 		<!-- contact 17, 18, 19, 20 -->
-		<contact type="STRUCTURE" name="LFfloatFriction">
+	<!--
+	<contact type="STRUCTURE" name="LFfloatF">
           <location unit="IN">
             <x>-107.598</x>
             <y>-56.889</y>
@@ -414,6 +422,7 @@
           <spring_coeff unit="LBS/FT">10000.00</spring_coeff>
           <damping_coeff unit="LBS/FT/SEC">2500.00</damping_coeff>
         </contact>
+        -->
         <!-- contact 21, 22, 23, 24 -->
 	    <contact type="BOGEY" name="LFFloatGear">
 	      <location unit="IN">
@@ -540,6 +549,8 @@
     <system file="bushkit"/>
 	
     <flight_control name="FCS: c172">
+        <property>/controls/engines/engine/primer</property>
+        <property>/controls/engines/engine/throttle</property>
         <channel name="Pitch">
             <summer name="Pitch Trim Sum">
                 <input>fcs/elevator-cmd-norm</input>
@@ -1447,7 +1458,164 @@
                 </product>
             </function>
         </axis>
-    </aerodynamics>
+      </aerodynamics>
+
+ <external_reactions>
+
+  <force name="hydro-X" frame="LOCAL">
+   <location unit="IN">
+    <x> 32.6 </x>
+    <y> 0 </y>
+    <z> 38.5 </z>
+   </location>
+   <direction>
+    <x> 1.0 </x>
+    <y> 0.0 </y>
+    <z> 0.0 </z>
+   </direction>
+  </force>
+  <force name="hydro-Y" frame="LOCAL">
+   <location unit="IN">
+    <x> 32.6 </x>
+    <y> 0 </y>
+    <z> 38.5 </z>
+   </location>
+   <direction>
+    <x> 0.0 </x>
+    <y> 1.0 </y>
+    <z> 0.0 </z>
+   </direction>
+  </force>
+  <force name="hydro-Z" frame="LOCAL">
+   <location unit="IN">
+    <x> 32.6 </x>
+    <y> 0 </y>
+    <z> 38.5 </z>
+   </location>
+   <direction>
+    <x> 0.0 </x>
+    <y> 0.0 </y>
+    <z>-1.0 </z>
+   </direction>
+  </force>
+
+  <force name="hydro-pitch[0]" frame="LOCAL">
+   <location unit="IN">
+    <x> 20.6 </x>
+    <y> 0 </y>
+    <z> 38.5 </z>
+   </location>
+   <direction>
+    <x> 0.0 </x>
+    <y> 0.0 </y>
+    <z>-1.0 </z>
+   </direction>
+  </force>
+  <force name="hydro-pitch[1]" frame="LOCAL">
+   <location unit="IN">
+    <x> 44.6 </x>
+    <y> 0 </y>
+    <z> 38.5 </z>
+   </location>
+   <direction>
+    <x> 0.0 </x>
+    <y> 0.0 </y>
+    <z>-1.0 </z>
+   </direction>
+  </force>
+
+  <force name="hydro-yaw[0]" frame="BODY">
+   <location unit="IN">
+    <x> 32.6 </x>
+    <y>-12.0 </y>
+    <z> 38.5 </z>
+   </location>
+   <direction>
+    <x> 1.0 </x>
+    <y> 0.0 </y>
+    <z> 0.0 </z>
+   </direction>
+  </force>
+  <force name="hydro-yaw[1]" frame="BODY">
+   <location unit="IN">
+    <x> 32.6 </x>
+    <y> 12.0 </y>
+    <z> 38.5 </z>
+   </location>
+   <direction>
+    <x> 1.0 </x>
+    <y> 0.0 </y>
+    <z> 0.0 </z>
+   </direction>
+  </force>
+
+  <force name="hydro-roll[0]" frame="LOCAL">
+   <location unit="IN">
+    <x> 32.6 </x>
+    <y>-12.0 </y>
+    <z> 38.5 </z>
+   </location>
+   <direction>
+    <x> 0.0 </x>
+    <y> 0.0 </y>
+    <z>-1.0 </z>
+   </direction>
+  </force>
+  <force name="hydro-roll[1]" frame="LOCAL">
+   <location unit="IN">
+    <x> 32.6 </x>
+    <y> 12.0 </y>
+    <z> 38.5 </z>
+   </location>
+   <direction>
+    <x> 0.0 </x>
+    <y> 0.0 </y>
+    <z>-1.0 </z>
+   </direction>
+  </force>
+
+  <!-- force name="mooring-north" frame="LOCAL">
+   <location unit="IN">
+    <x> 0.0 </x>
+    <y> 0.0 </y>
+    <z> 0.0 </z>
+   </location>
+   <direction>
+    <x> 1.0 </x>
+    <y> 0.0 </y>
+    <z> 0.0 </z>
+   </direction>
+  </force>
+  <force name="mooring-east" frame="LOCAL">
+   <location unit="IN">
+    <x> 0.0 </x>
+    <y> 0.0 </y>
+    <z> 0.0 </z>
+   </location>
+   <direction>
+    <x> 0.0 </x>
+    <y> 1.0 </y>
+    <z> 0.0 </z>
+   </direction>
+  </force>
+  <force name="mooring-down" frame="LOCAL">
+   <location unit="IN">
+     <x> 0.0 </x>
+     <y> 0.0 </y>
+     <z> 0.0 </z>
+   </location>
+   <direction>
+    <x> 0.0 </x>
+    <y> 0.0 </y>
+    <z>-1.0 </z>
+   </direction>
+  </force -->
+
+ </external_reactions>
+
+ <system file="hydrodynamics"/>
+ <system file="c172p-hydrodynamics"/>
+
 <!--
     <output name="JSBout172C.csv" type="CSV" rate="60">
       <property> aero/qbar-psf </property>

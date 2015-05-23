@@ -89,6 +89,18 @@ var reset_system = func {
 		setprop("/fdm/jsbsim/contact/unit[15]/z-position", 0);
 		setprop("/fdm/jsbsim/contact/unit[16]/z-position", 0);
 	}
+
+	var p = getprop("fdm/jsbsim/bushkit");
+	setprop("/sim/model/c172p/bushkit_flag_0",0);
+	setprop("/sim/model/c172p/bushkit_flag_1",0);
+	setprop("/sim/model/c172p/bushkit_flag_2",0);
+	setprop("/sim/model/c172p/bushkit_flag_3",0);
+	setprop("/sim/model/c172p/bushkit_flag_4",0);
+	if (p == 0) { setprop("/sim/model/c172p/bushkit_flag_0",1); }
+	if (p == 1) { setprop("/sim/model/c172p/bushkit_flag_1",1); }
+	if (p == 2) { setprop("/sim/model/c172p/bushkit_flag_2",1); }
+	if (p == 3) { setprop("/sim/model/c172p/bushkit_flag_3",1); }
+	if (p == 4) { setprop("/sim/model/c172p/bushkit_flag_4",1); }
 }
 
 ############################################

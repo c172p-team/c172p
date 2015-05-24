@@ -27,6 +27,9 @@
  <!-- Model parameters -->
 
  <!-- HRP location -->
+ <!--   NOTE: The HRP has been moved forward by 10 in to improve the
+        static/idling attitude. It is still not good, however.
+ -->
  <property value="32.6">metrics/hydro-rp-x-in</property>
  <property value="0.0">metrics/hydro-rp-y-in</property>
  <property value="38.5">metrics/hydro-rp-z-in</property>
@@ -89,6 +92,26 @@
    </function>
   </fcs_function>
 
+  <fcs_function name="hydro/active-norm">
+   <description>
+    A property that is 0 when no part of the hull is in the water.
+    The maximum value is 1.
+   </description>
+   <function>
+    <product>
+     <value>0.001</value>
+     <sum>
+      <property>hydro/buoyancy-lbs</property>
+      <property>hydro/planing-lift-lbs</property>
+     </sum>
+    </product>
+   </function>
+    <clipto>
+     <min>0.0</min>
+     <max>1.0</max>
+    </clipto>
+  </fcs_function>
+
  </channel>
 
  <channel name="Displacement wave making">
@@ -111,7 +134,7 @@
    <description>The amplitude of the transverse wave. Guessed.</description>
    <function>
     <product>
-     <value>0.25</value>
+     <value>1.0</value>
      <table>
       <independentVar lookup="row">hydro/speed-length-ratio</independentVar>
       <tableData>
@@ -279,6 +302,19 @@
    </function>
   </fcs_function>
 
+  <fcs_function name="hydro/float/pitch-rad">
+   <description>
+    The float pitch with the trim change due to waves and
+    the displacement wave applied.
+   </description>
+   <function>
+    <product>
+     <value>0.017453293</value>
+     <property>hydro/float/pitch-deg</property>
+    </product>
+   </function>
+  </fcs_function>
+
   <fcs_function name="hydro/float/roll-deg">
    <description>
     The float roll with the trim change due to waves applied.
@@ -308,7 +344,7 @@
    <function>
     <description>Drag due to displacement of float</description>
     <product>
-     <value>1.0</value>
+     <value>0.0030</value> <!-- Base Cd. -->
      <property>hydro/qbar-psf</property>
      <property>hydro/float-beam-ft2</property>
      <property>hydro/drag-tweak-factor</property>
@@ -317,12 +353,12 @@
        <property>hydro/buoyancy-lbs</property>
        <property>inertia/weight-lbs</property>
       </quotient>
-      <value>0.20</value>
+      <value>1.0</value>
      </max>
      <sum>
-      <value>0.035</value>
+      <value>1.0</value>
       <product>  <!-- Increase drag with beta. -->
-       <value>0.5</value>
+       <value>10.0</value>
        <abs><sin><property>hydro/beta-rad</property></sin></abs>
       </product>
      </sum>
@@ -334,7 +370,7 @@
    <function>
     <description>Drag due to planing</description> <!-- Guess -->
     <product>
-     <value>0.50</value>
+     <value>1.0</value>
      <!-- Assumption: Lift ~ sin(2*pitch) and Drag ~ 1+sin(2*pitch-pi/2). -->
      <quotient>
       <sum>
@@ -343,7 +379,7 @@
         <sum>
          <product>
           <value>2.0</value>
-          <abs><property>attitude/pitch-rad</property></abs>
+          <abs><property>hydro/float/pitch-rad</property></abs>
          </product>
          <value>-1.5707963</value>
         </sum>
@@ -352,11 +388,18 @@
       <sin>
        <product>
         <value>2.0</value>
-        <abs><property>attitude/pitch-rad</property></abs>
+        <abs><property>hydro/float/pitch-rad</property></abs>
        </product>
       </sin>
      </quotient>
      <property>hydro/planing-lift-lbs</property>
+     <sum>
+      <value>1.0</value>
+      <product>  <!-- Increase drag with beta. -->
+       <value>10.0</value>
+       <abs><sin><property>hydro/beta-rad</property></sin></abs>
+      </product>
+     </sum>
     </product>
    </function>
   </fcs_function>
@@ -366,6 +409,7 @@
     <product>
      <value>1.0</value>
      <property>floats-enabled-norm</property>
+     <property>hydro/active-norm</property>
      <sum>
       <property>hydro/displacement-drag-lbs</property>
       <property>hydro/planing-drag-lbs</property>
@@ -397,6 +441,7 @@
     <product>
      <value>1.0</value>
      <property>floats-enabled-norm</property>
+     <property>hydro/active-norm</property>
      <sum>
       <property>hydro/floats-side-lbs</property>
      </sum>
@@ -505,9 +550,15 @@
     <max>
      <value>0.0</value>
      <product>
-      <value>0.0075</value>
+      <value>0.0050</value>
       <property>hydro/qbar-u-psf</property>
       <property>hydro/buoyancy-lbs</property>
+      <sin>
+       <product>
+        <value>2.0</value>
+        <property>hydro/float/pitch-rad</property>
+       </product>
+      </sin>
      </product>
     </max>
    </function>
@@ -528,6 +579,7 @@
     <product>
      <value>1.0</value>
      <property>floats-enabled-norm</property>
+     <property>hydro/active-norm</property>
      <sum>
       <property>hydro/buoyancy-lbs</property>
       <property>hydro/planing-lift-lbs</property>
@@ -593,6 +645,7 @@
     <product>
      <value>1.0</value>
      <property>floats-enabled-norm</property>
+     <property>hydro/active-norm</property>
      <sum>
       <property>hydro/float-yaw-moment-lbsft</property>
       <property>hydro/rudder-yaw-moment-lbsft</property>
@@ -723,6 +776,7 @@
     <product>
      <value>1.0</value>
      <property>floats-enabled-norm</property>
+     <property>hydro/active-norm</property>
      <sum>
       <property>hydro/buoyancy-pitch-moment-lbsft</property>
       <property>hydro/planing-pitch-moment-lbsft</property>
@@ -839,27 +893,11 @@
    </function>
   </fcs_function>
 
-  <fcs_function name="hydro/rudder-roll-moment-lbsft">
-   <documentation>
-    Guessestimated roll moment due to rudder.
-   </documentation>
-   <function>
-    <description>Hydrodynamic roll moment due to rudder</description>
-    <product>
-     <value>0.0</value>
-     <property>hydro/qbar-u-psf</property>
-     <property>hydro/float-beam-ft3</property>
-     <property>fcs/rudder-pos-norm</property>
-     <value>-0.003125</value>
-    </product>
-   </function>
-  </fcs_function>
-
   <fcs_function name="hydro/damping-roll-moment-lbsft">
    <function>
     <product>
      <value>1.0</value>
-     <value>-1000.0</value> <!-- Guess -->
+     <value>-8000.0</value> <!-- Guess -->
      <property>velocities/phidot-rad_sec</property>
     </product>
    </function>
@@ -870,6 +908,7 @@
     <product>
      <value>1.0</value>
      <property>floats-enabled-norm</property>
+     <property>hydro/active-norm</property>
      <sum>
       <property>hydro/buoyancy-roll-moment-lbsft</property>
       <property>hydro/planing-roll-moment-lbsft</property>

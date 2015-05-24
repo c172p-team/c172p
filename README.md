@@ -18,5 +18,5 @@ Gilberto Agostinho (gsagostinho): texturing and bug hunting/reporting
 Wayne Bragg (wlbragg): effects - damage, rain\fog\ice, internal\external shadows, bushkit. Special thanks to Thorsten Renk for all the work involved in giving us the base for these effects.
 (onox)
 Daniel Dubreuil (Dany93): [FDM] stall and spin + a few improvements, in-flight damages on wings, fuel float chamber.
-(tigert)
+Tuomas Kuosmanen (tigert): Reference photos of the aircraft and of the OH-CTL livery. Feedback and testing of the Aircraft Systems and operation.
 (wkitty42): bug hunting/reporting

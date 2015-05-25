@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<PropertyList>
+
+  <particlesystem>
+    <name>right-wake</name>
+
+    <texture>wake.png</texture>
+
+    <emissive>false</emissive>
+    <lighting>true</lighting>
+
+	<condition>
+		<and>
+			<not>
+				<property>fdm/jsbsim/ground/solid</property>
+			</not>
+			<greater-than>
+				<property>velocities/groundspeed-kt</property>
+				<value>10</value>
+			</greater-than>
+			<or>
+				<greater-than>
+					<property>fdm/jsbsim/contact/unit[14]/compression-ft</property>
+					<value>0</value>
+				</greater-than>
+				<greater-than>
+					<property>fdm/jsbsim/contact/unit[16]/compression-ft</property>
+					<value>0</value>
+				</greater-than>
+			</or>
+		</and>
+	</condition>
+
+    <attach>world</attach>
+
+    <placer>
+      <type>point</type>
+    </placer>
+
+    <shooter>
+     <theta-min-deg>90</theta-min-deg>
+      <theta-max-deg>98</theta-max-deg>
+      <phi-min-deg>-1.5</phi-min-deg>
+      <phi-max-deg>1.5</phi-max-deg>
+      <speed-mps>
+        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        <value>10</value>
+        <spread>2.5</spread>
+      </speed-mps>
+      <rotation-speed>
+        <x-min-deg-sec>5</x-min-deg-sec>
+        <y-min-deg-sec>5</y-min-deg-sec>
+        <z-min-deg-sec>5</z-min-deg-sec>
+        <x-max-deg-sec>25</x-max-deg-sec>
+        <y-max-deg-sec>25</y-max-deg-sec>
+        <z-max-deg-sec>25</z-max-deg-sec>
+      </rotation-speed>
+    </shooter>
+
+    <counter>
+      <particles-per-sec>
+        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        <factor>2</factor>
+        <spread>0</spread>
+      </particles-per-sec>
+    </counter>
+
+    <align>billboard</align>
+
+   <particle>
+      <start>
+        <color>
+          <red><value>0.95</value></red>
+		  <green><value>0.95</value></green>
+		  <blue><value>0.95</value></blue>
+	      <alpha><value>0.5</value></alpha>
+        </color>
+        <size>
+          <value>0.4</value>
+        </size>
+      </start>
+      <end>
+        <color>
+          <red><value>1</value></red>
+          <green><value>1</value></green>
+          <blue><value>1</value></blue>
+          <alpha><value>0.001</value></alpha>
+        </color>
+        <size>
+          <value>3.5</value>
+        </size>
+      </end>
+      <life-sec>
+        <value>6.0</value>
+      </life-sec>
+      <mass-kg>25</mass-kg>
+      <radius-m>0.2</radius-m>
+    </particle>
+
+    <program>
+      <fluid>water</fluid>
+      <gravity>true</gravity>
+      <wind>false</wind>
+    </program>
+
+  </particlesystem>
+
+</PropertyList>
+

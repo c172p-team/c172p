@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+ 
+<!--
+***********************************************************************************
+c172p-detailed, May 2015 
+Extra weight and drag due to bush wheels or floats
+***********************************************************************************
+ -->
+
+<system name="bushkits">
+
+    <channel name="extra-weight">
+       
+        <switch name="extra-weight-26-in">
+            <default value="0"/>
+            <test logic="AND" value="20">
+                /fdm/jsbsim/bushkit EQ 1
+            </test>            
+            <output>/payload/weight[5]/weight-lb</output>
+        </switch>
+
+        <switch name="extra-weight-36-in">
+            <default value="0"/>
+            <test logic="AND" value="30">
+                /fdm/jsbsim/bushkit EQ 2
+            </test>            
+            <output>/payload/weight[6]/weight-lb</output>
+        </switch>
+
+        <switch name="extra-weight-Floats">
+            <default value="0"/>
+            <test logic="AND" value="132">
+                /fdm/jsbsim/bushkit EQ 3
+            </test>            
+            <output>/payload/weight[7]/weight-lb</output>
+        </switch>
+
+        <switch name="extra-weight-Amphibious">
+            <default value="0"/>
+            <test logic="AND" value="276">
+                /fdm/jsbsim/bushkit EQ 4
+            </test>            
+            <output>/payload/weight[8]/weight-lb</output>
+        </switch>
+
+    </channel>
+
+    <channel name="extra-drag">
+
+        <switch name="drag-26-in">
+            <default value="1"/>
+            <test logic="AND" value="1.10">
+                /fdm/jsbsim/bushkit EQ 1
+            </test>            
+            <output>/fdm/jsbsim/gear/drag-coef[1]</output>
+        </switch>
+
+        <switch name="drag-36-in">
+            <default value="1"/>
+            <test logic="AND" value="1.15">
+                /fdm/jsbsim/bushkit EQ 2
+            </test>            
+            <output>/fdm/jsbsim/gear/drag-coef[2]</output>
+        </switch>
+       
+        <switch name="drag-Floats">
+            <default value="1"/>
+            <test logic="AND" value="1.30">
+                /fdm/jsbsim/bushkit EQ 3
+            </test>            
+            <output>/fdm/jsbsim/gear/drag-coef[3]</output>
+        </switch>
+
+        <switch name="drag-Amphibious">
+            <default value="1"/>
+            <test logic="AND" value="1.35">
+                /fdm/jsbsim/bushkit EQ 4
+            </test>            
+            <output>/fdm/jsbsim/gear/drag-coef[4]</output>
+        </switch>
+
+    </channel>
+
+</system>

@@ -89,6 +89,41 @@
                 <z> 24 </z>
             </location>
         </pointmass>
+        
+        <!-- Bushkits 1 to 4, pointmass [5] to [8] -->
+        <!-- Weight and drag are managed by Systems/bushkit.xml -->
+        <pointmass name="Bush wheels 26 inches">
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> 58.2 </x>
+                <y>  0 </y>
+                <z> -15.5 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Bush wheels 36 inches">
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> 58.2 </x>
+                <y>  0 </y>
+                <z> -15.5 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Floats">
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> 41 </x>
+                <y>  0 </y>
+                <z> -25 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Amphibious">
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> 41 </x>
+                <y>  0 </y>
+                <z> -25 </z>
+            </location>
+        </pointmass>
     </mass_balance>
 
     <ground_reactions>
@@ -464,6 +499,7 @@
     </propulsion>
     
     <system file="fuel"/>
+    <system file="bushkit"/>
 	
     <flight_control name="FCS: c172">
         <channel name="Pitch">
@@ -793,6 +829,10 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <value>0.027</value>
+                    <property>gear/drag-coef[1]</property> <!-- bush wheels 26" -->
+                    <property>gear/drag-coef[2]</property> <!-- bush wheels 36" -->
+                    <property>gear/drag-coef[3]</property> <!-- Floats -->
+                    <property>gear/drag-coef[4]</property> <!-- Amphibious -->
                 </product>
             </function>
             <function name="aero/coefficient/CDDf">
@@ -851,6 +891,10 @@
                               0.3491	0.1097	0.1512	0.1744	0.1866
                           </tableData>
                       </table>
+                    <property>gear/drag-coef[1]</property>
+                    <property>gear/drag-coef[2]</property>
+                    <property>gear/drag-coef[3]</property>
+                    <property>gear/drag-coef[4]</property>
                 </product>
             </function>
             <function name="aero/coefficient/CDDe">
@@ -869,6 +913,10 @@
                     <property>metrics/Sw-sqft</property>
                     <property>aero/mag-beta-rad</property>
                     <value>0.1700</value>
+                    <property>gear/drag-coef[1]</property>
+                    <property>gear/drag-coef[2]</property>
+                    <property>gear/drag-coef[3]</property>
+                    <property>gear/drag-coef[4]</property>
                 </product>
             </function>
         </axis>

@@ -47,7 +47,7 @@ var terrain_survol_loop = func {
 # monitoring and possesses no loop of its own
 ############################################
 var check_systems_status = func {
-	
+
 	#check for volume shadow version and ALS requirements 
 	var p = getprop("/sim/rendering/shadow-volume");
 	if (p) {
@@ -55,7 +55,6 @@ var check_systems_status = func {
 			setprop("/sim/rendering/shadow-volume", 0);
 		} 
 	}
-		
 }
 
 var reset_system = func {
@@ -71,6 +70,10 @@ var reset_system = func {
     props.globals.getNode("/fdm/jsbsim/gear/unit[2]/broken", 0).setBoolValue(0);
     props.globals.getNode("/fdm/jsbsim/wing-damage/left-wing", 0).setBoolValue(0);
     props.globals.getNode("/fdm/jsbsim/wing-damage/right-wing", 0).setBoolValue(0);
+	props.globals.getNode("/fdm/jsbsim/left-pontoon/damaged", 0).setBoolValue(0);
+    props.globals.getNode("/fdm/jsbsim/left-pontoon/broken", 0).setBoolValue(0);
+	props.globals.getNode("/fdm/jsbsim/right-pontoon/damaged", 0).setBoolValue(0);
+    props.globals.getNode("/fdm/jsbsim/right-pontoon/broken", 0).setBoolValue(0);
 
 	setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 1);
 	setprop("/fdm/jsbsim/contact/unit[4]/z-position", 50);

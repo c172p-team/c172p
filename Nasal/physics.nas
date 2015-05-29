@@ -249,8 +249,8 @@ var pontoons = func
 	resetcontacts();
 	setprop(contact~"unit[13]/z-position", -55);
 	setprop(contact~"unit[14]/z-position", -55);
-	setprop(contact~"unit[15]/z-position", -25);
-	setprop(contact~"unit[16]/z-position", -25);
+	setprop(contact~"unit[15]/z-position", -22);
+	setprop(contact~"unit[16]/z-position", -22);
 }
 
 var amphibious = func
@@ -259,8 +259,8 @@ var amphibious = func
 	resetalldamage();
 	setprop(contact~"unit[13]/z-position", -55);
 	setprop(contact~"unit[14]/z-position", -55);
-	setprop(contact~"unit[15]/z-position", -25);
-	setprop(contact~"unit[16]/z-position", -25);
+	setprop(contact~"unit[15]/z-position", -22);
+	setprop(contact~"unit[16]/z-position", -22);
 	setprop(gears~"unit[21]/z-position", -54);
 	setprop(gears~"unit[22]/z-position", -54);
 	setprop(gears~"unit[23]/z-position", -48.5);
@@ -455,7 +455,7 @@ var poll_surface = func
 	}
 	else
 	{
-		setprop(contact~"unit[15]/z-position", -25);
+		setprop(contact~"unit[15]/z-position", -22);
 		setprop(contact~"unit[19]/z-position", 0);
 		if (getprop(contact~"unit[15]/compression-ft"))
 			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
@@ -474,7 +474,7 @@ var poll_surface = func
 	}
 	else
 	{
-		setprop(contact~"unit[16]/z-position", -25);
+		setprop(contact~"unit[16]/z-position", -22);
 		setprop(contact~"unit[20]/z-position", 0);
 		if (getprop(contact~"unit[16]/compression-ft"))
 			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));

@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+
+<!--
+Cessna 172 Skyhawk panel.
+October 2000
+John Check <j4strngs@rockfish.net>
+_______________________________________________________________________
+
+This is a panel configuration file for the open-source flight
+simulator FlightGear (www.flightgear.org).  The file is an XML-encoded
+FlightGear property list defining the panel's background texture and
+the location (and optionally, size) of the instruments that will
+appear on the panel.
+
+Each instrument is, itself, defined in an XML-encoded property list
+in a separate file.
+
+Co-ordinates are relative to the *bottom* left corner of the screen
+(as in OpenGL).  The total FlightGear window is always considered to
+be 1024x768, whatever its actual display size on the screen.  All
+paths are relative to $FG_ROOT.
+
+Note that the name of the element defining each instrument must be
+different, or else instrument definitions will be overwritten:
+that's not particularly XML-ish, but that's how property lists
+work in FlightGear right now.
+
+Each instrument has its own preferred width and height, but you can
+override those by providing <w>Aircraft</w> and <h>..</h> properties with the
+<x>Aircraft.</x> and <y>...</y> properties.
+-->
+
+<!DOCTYPE PropertyList SYSTEM "panel.dtd">
+
+<PropertyList>
+
+ <name>Generic mini panel</name>
+ <background>Aircraft/Generic/Panels/Textures/panel-trans-mini-bg.rgb</background>
+ <w>1024</w>
+ <h>154</h>
+ <y-offset>0</y-offset>
+ <view-height>768</view-height>
+
+ <instruments>
+
+<!-- engine controls cluster --> 
+ 
+  <instrument include="../../Instruments/rpm.xml">
+   <name>RPM Gauge</name>
+   <x>885</x>
+   <y>70</y>
+   <w>120</w>
+   <h>120</h>
+  </instrument>
+
+  <instrument include="../../Instruments/mixture-knob.xml">
+   <name>Fuel Mixture Knob</name>
+   <x>980</x>
+   <y>115</y>
+   <w>45</w>
+   <h>55</h>
+  </instrument>
+  
+<!--  end engine controls cluster -->
+  
+<!-- controls visual feedback cluster --> 
+
+  <instrument include="../../Instruments/flap.xml">
+   <name>Flaps Control</name>
+   <x>980</x>
+   <y>55</y>
+   <w>40</w>
+   <h>70</h>
+  </instrument>
+
+  <instrument include="../../Instruments/brakes.xml">
+   <name>Brake Indicator Light</name>
+   <x>410</x>
+   <y>120</y>
+  </instrument>
+
+  <instrument include="../../Instruments/controls.xml">
+   <name>Control Position Indicators</name>
+   <x>410</x>
+   <y>60</y>
+   <w>90</w>
+   <h>90</h>
+  </instrument>
+
+<!-- end controls visual feedback cluster -->
+
+<!-- sacred six -->
+
+  <instrument include="../../Instruments/asi-160-knot.xml">
+   <name>Airspeed Indicator</name>
+   <x>65</x>
+   <y>70</y>
+   <w>120</w>
+   <h>120</h>
+  </instrument>
+
+  <instrument include="../../Instruments/attitude-indicator.xml">
+   <name>Attitude Gyro</name>
+   <x>305</x>
+   <y>70</y>
+   <w>120</w>
+   <h>120</h>
+  </instrument>
+
+  <instrument include="../../Instruments/altimeter.xml">
+   <name>Altimeter</name>
+   <x>638</x>
+   <y>70</y>
+   <w>120</w>
+   <h>120</h>
+  </instrument>
+
+  <instrument include="../../Instruments/turn.xml">
+   <name>Turn Coordinator</name>
+   <x>185</x>
+   <y>70</y>
+   <w>120</w>
+   <h>120</h>
+  </instrument>
+
+  <instrument include="../../Instruments/gyro.xml">
+   <name>Directional Gyro</name>
+   <x>515</x>
+   <y>70</y>
+   <w>120</w>
+   <h>120</h>
+  </instrument>
+
+  <instrument include="../../Instruments/vertical.xml">
+   <name>Vertical Velocity Indicator</name>
+   <x>761</x>
+   <y>70</y>
+   <w>120</w>
+   <h>120</h>
+  </instrument>
+
+<!-- end sacred six -->
+
+
+  <instrument include="../../Instruments/magcompass.xml">
+   <name>Magnetic Compass</name>
+   <x>768</x>
+   <y>170</y>
+  </instrument>
+ </instruments>
+
+</PropertyList>
+

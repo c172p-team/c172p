@@ -1,0 +1,355 @@
+<?xml version="1.0"?>
+<!--
+************************************************************************
+JSBSim Cessna 172P with 3D cockpit.
+
+Started October 23 2001 by John Check, fgpanels@rockfish.net
+************************************************************************
+-->
+
+<PropertyList>
+
+ <sim>
+
+  <description>Cessna 172P - Canvas Demo</description>
+  <author>David Megginson</author>
+  <status>early production</status>
+  <rating>
+    <FDM type="int">3</FDM>
+    <systems type="int">4</systems>
+    <model type="int">5</model>
+    <cockpit type="int">4</cockpit>
+  </rating>
+
+
+  <flight-model archive="y">jsb</flight-model>
+  <aero archive="y">c172p</aero>
+
+  <allow-toggle-cockpit type="bool">true</allow-toggle-cockpit>
+  <model>
+    <path archive="y">Aircraft/c172p/Models/c172p-canvas.xml</path>
+
+    <livery>
+      <file type="string">n301dp</file>
+      <index type="int">0</index>
+    </livery>
+
+    <liverytail>
+      <file type="string">n301dp</file>
+      <index type="int">0</index>
+    </liverytail>
+
+    <liverywing>
+      <file type="string">n301dp</file>
+      <index type="int">0</index>
+    </liverywing>
+
+    <c172p>
+      <immat type="bool">false</immat>
+      <fairing1 type="bool">true</fairing1>
+      <fairing2 type="bool">false</fairing2>
+      <fairing3 type="bool">false</fairing3>
+    </c172p>
+
+    <hide-yoke type="bool">false</hide-yoke>
+  </model>
+
+  <startup>
+    <splash-texture>Aircraft/c172p/splash.png</splash-texture>
+  </startup>
+
+  <!-- hide the 2D panel -->
+ 
+  <panel>
+   <visibility type="bool" archive="y">false</visibility>
+  </panel>
+
+  <!-- position the pilot viewpoint and angle -->
+ 
+  <view>
+   <internal type="bool" archive="y">true</internal>
+   <config>
+     <x-offset-m archive="y" type="double">-0.21</x-offset-m>
+     <y-offset-m archive="y" type="double">0.235</y-offset-m>
+     <z-offset-m archive="y" type="double">0.36</z-offset-m>
+     <pitch-offset-deg type="double">-12</pitch-offset-deg>
+   </config>
+  </view>
+
+  <systems>
+    <autopilot>
+      <path>Aircraft/c172p/Systems/KAP140.xml</path>
+    </autopilot>
+    <property-rule n="100">
+      <name>FiltersOnly</name>
+      <path>Aircraft/c172p/Systems/NAVandGSfilters.xml</path>
+    </property-rule>
+    <electrical>
+      <!-- null electrical system path here so we can use a nasal based -->
+      <!-- model defined later in the nasal section of this file. -->
+      <path></path>
+    </electrical>
+  </systems>
+
+  <sound>
+   <path archive="y">Aircraft/c172p/c172-sound.xml</path>
+  </sound>
+
+  <help include="c172-help.xml"/>
+
+  <tutorials include="Tutorials/c172-tutorials.xml"/>
+
+  <dimensions>
+    <radius-m type="double">5</radius-m>
+  </dimensions>
+  <aircraft-class type="string">ga</aircraft-class>
+  <aircraft-operator type="string">NONE</aircraft-operator>
+
+  <multiplay>
+      <chat_display>1</chat_display>
+      <generic>
+        <float n="0" alias="/sim/model/door-positions/rightDoor/position-norm"/>
+        <float n="1" alias="/sim/model/door-positions/leftDoor/position-norm"/>
+        <float n="2" alias="/sim/model/door-positions/baggageDoor/position-norm"/>
+        <int type="int">0</int>
+        <int type="int">0</int>
+        <int type="int">0</int>
+        <int type="int">0</int>
+        <int type="int">0</int>
+        <int type="int">0</int>
+      </generic>
+  </multiplay>
+
+  <flight-recorder>
+    <replay-config type="int">0</replay-config>
+    <config n="0" include="/Aircraft/Generic/flightrecorder/generic-piston-propeller-1.xml">
+      <name type="string">C172p Flight Recorder</name>
+    </config>
+  </flight-recorder>
+
+  <menubar include="Dialogs/c172p-menu.xml"/>
+  <instrumentation n="0">
+    <path>Aircraft/c172p/Systems/instrumentation.xml</path>
+  </instrumentation>
+ </sim>
+
+ <!-- trim for level cruise -->
+
+ <controls>
+  <flight>
+   <aileron-trim type="double">0.027</aileron-trim>
+   <rudder-trim type="double">0.0</rudder-trim>
+  </flight>
+  <engines>
+   <engine n="0">
+    <magnetos type="int">3</magnetos>
+    <master-bat type="bool">true</master-bat>
+    <master-alt type="bool">true</master-alt>
+   </engine>
+  </engines>
+  <lighting>
+   <landing-lights type="bool">false</landing-lights>
+   <taxi-light type="bool">false</taxi-light>
+   <strobe type="bool">false</strobe>
+   <beacon type="bool">false</beacon>
+   <nav-lights type="bool">false</nav-lights>
+  </lighting>
+  <switches>
+   <master-avionics type="bool">true</master-avionics>
+   <starter type="bool">false</starter>
+  </switches>
+  <engines>
+    <engine>
+      <master-bat type="bool">true</master-bat>
+      <master-alt type="bool">true</master-alt>
+   </engine>
+  </engines>
+ </controls>
+
+ <autopilot>
+  <KAP140>
+   <settings>
+    <auto-pitch-trim type="bool">true</auto-pitch-trim>
+   </settings>
+  </KAP140>
+ </autopilot>
+
+ <consumables>
+  <fuel>
+   <tank n="0">
+    <level-gal_us type="double">20</level-gal_us>
+    <selected type="bool">true</selected>
+   </tank>
+   <tank n="1">
+    <level-gal_us type="double">20</level-gal_us>
+    <selected type="bool">true</selected>
+   </tank>
+  </fuel>
+ </consumables>
+
+ <instrumentation>
+  <kma20 include="Aircraft/Instruments-3d/kma20/kma20init.xml"/>
+  <attitude-indicator>
+   <config>
+    <tumble-flag archive="y" type="bool">true</tumble-flag>
+   </config>
+  </attitude-indicator>
+  <encoder>
+   <serviceable type="bool">true</serviceable>
+  </encoder>
+  <adf n="0">
+    <ident-audible type="bool">false</ident-audible>
+    <volume type="double">0.7</volume>
+  </adf>
+  <comm n="0">
+    <power-btn type="bool">1</power-btn>
+  </comm>
+  <nav n="0">
+    <volume type="double">0.7</volume>
+  </nav>
+  <comm n="1">
+    <power-btn type="bool">1</power-btn>
+  </comm>
+  <nav n="1">
+    <volume type="double">0.7</volume>
+  </nav>
+  <magnetic-compass>
+    <pitch-offset-deg type="double">-2.7</pitch-offset-deg>
+  </magnetic-compass>
+ </instrumentation>
+
+ <engines>
+  <engine>
+     <rpm type="double">0</rpm>
+     <magnetos type="int">0</magnetos>
+     <mixture type="double">0</mixture>
+     <running type="bool">false</running>
+  </engine>
+ </engines>
+
+ <nasal>
+ 
+    <c172p>
+      <file>Aircraft/c172p/Nasal/liveries.nas</file>
+      <file>Aircraft/c172p/Nasal/immat.nas</file>
+      <file>Aircraft/c172p/Nasal/doors.nas</file>
+      <file>Aircraft/c172p/Nasal/light.nas</file>
+      <file>Aircraft/c172p/Nasal/tanks.nas</file>
+      <file>Aircraft/c172p/Nasal/kma20.nas</file>
+      <file>Aircraft/c172p/Nasal/ki266.nas</file>
+      <script><![CDATA[
+        ki266.new(0);
+        aircraft.data.add( "engines/engine[0]/egt-bug-norm" );
+      ]]></script>
+    </c172p>
+
+  <electrical>
+   <file>Aircraft/c172p/Nasal/c172-electrical.nas</file>
+  </electrical>
+  <kap140>
+   <file>Aircraft/Generic/kap140.nas</file>
+   <!-- We can set some variables that might be
+        aircraft specific. We must do it after the file
+        to override the ones that are in the .nas file.-->
+   <script><![CDATA[
+                    headingNeedleDeflection = "/instrumentation/nav/heading-needle-deflection";
+                    gsNeedleDeflection = "/instrumentation/nav/gs-needle-deflection-norm";
+                    staticPressure = "systems/static/pressure-inhg";
+    ]]>
+   </script>
+  </kap140>
+  <kr87>
+            <file>Aircraft/c172p/Nasal/kr87.nas</file>
+        </kr87>
+  <canvas_demo>
+    <file>Aircraft/Instruments-3d/canvas-test/canvas-test.nas</file>
+  </canvas_demo>
+ </nasal>
+ <payload>
+  <weight>
+   <name type="string">Pilot</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[0]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">300.0</max-lb>
+  </weight>
+  <weight>
+   <name type="string">Co-Pilot</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">300.0</max-lb>
+  </weight>
+  <weight>
+   <name type="string">Left Passenger</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[2]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">300.0</max-lb>
+  </weight>
+  <weight>
+   <name type="string">Right Passenger</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[3]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">300.0</max-lb>
+  </weight>
+  <weight>
+   <name type="string">Baggage</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[4]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">150.0</max-lb> <!-- WARNING: Max baggage "by the book" is 120lbs or less! -->
+  </weight>
+ </payload>
+ <limits>
+  <mass-and-balance>
+   <maximum-ramp-mass-lbs>2407</maximum-ramp-mass-lbs>
+   <maximum-takeoff-mass-lbs>2400</maximum-takeoff-mass-lbs>
+   <maximum-landing-mass-lbs>2400</maximum-landing-mass-lbs>
+  </mass-and-balance>
+ </limits>
+
+ <input>
+  <keyboard>
+   <key n="76">
+    <name>L</name>
+    <desc>Decrease Panel lighting</desc>
+    <repeatable type="bool">true</repeatable>
+    <binding>
+     <command>property-adjust</command>
+     <property>controls/lighting/instruments-norm</property>
+     <step>-0.1</step>
+     <min>0</min>
+     <max>1.0</max>
+     <wrap>0</wrap>
+    </binding>
+   </key>
+   <key n="108">
+    <name>l</name>
+    <desc>Increase Panel lighting</desc>
+    <repeatable type="bool">true</repeatable>
+    <binding>
+     <command>property-adjust</command>
+     <property>controls/lighting/instruments-norm</property>
+     <step>0.1</step>
+     <min>0</min>
+     <max>1.0</max>
+     <wrap>0</wrap>
+    </binding>
+   </key>
+   <key n="115">
+   <name>s</name>
+   <desc>Toggle Starter Switch</desc>
+   <binding>
+    <command>property-assign</command>
+    <property>/controls/switches/starter</property>
+    <value >1</value>
+   </binding>
+   <mod-up>
+    <binding>
+     <command>property-assign</command>
+     <property>/controls/switches/starter</property>
+     <value>0</value>
+    </binding>
+   </mod-up>
+  </key>
+  </keyboard> 
+ </input>
+
+</PropertyList>

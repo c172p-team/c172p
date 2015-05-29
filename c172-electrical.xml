@@ -1,0 +1,513 @@
+<?xml version="1.0"?>
+ 
+<!-- 28 Volt electrical system -->
+
+<PropertyList>
+
+  <!-- Supplier list -->
+
+  <supplier>
+    <name>Battery 1</name>
+    <prop>/systems/electrical/suppliers/battery[0]</prop>
+    <kind>battery</kind>
+    <volts>28</volts> <!-- needs to be > 24.5, but this is a guess -->
+    <amps>60</amps>   <!-- I have no idea! -->
+  </supplier>
+
+  <supplier>
+    <name>Alternator 1</name>
+    <prop>/systems/electrical/suppliers/alternator[0]</prop>
+    <kind>alternator</kind>
+    <rpm-source>/engines/engine[0]/rpm</rpm-source>
+    <volts>28</volts> <!-- stubbed in -->
+    <amps>60</amps>   <!-- from the 172S Skyhawk Information Manual -->
+  </supplier>
+
+  <supplier>
+    <name>External 1</name>
+    <prop>/systems/electrical/suppliers/external[0]</prop>
+    <kind>external</kind>
+    <volts>0</volts> <!-- by default not connected -->
+    <amps>0</amps>
+  </supplier>
+
+  <!-- Bus list -->
+
+  <bus>
+    <name>Electrical Bus 1</name>
+    <prop>/systems/electrical/outputs/bus[0]</prop>
+  </bus>
+
+  <bus>
+    <name>Electrical Bus 2</name>
+    <prop>/systems/electrical/outputs/bus[1]</prop>
+  </bus>
+
+  <bus>
+    <name>Essential/Cross Feed Bus</name>
+    <prop>/systems/electrical/outputs/bus-essential</prop>
+  </bus>
+
+  <bus>
+    <name>Avionics Bus 1</name>
+    <prop>/systems/electrical/outputs/bus-avionics[0]</prop>
+ </bus>
+
+  <bus>
+    <name>Avionics Bus 2</name>
+    <prop>/systems/electrical/outputs/bus-avionics[1]</prop>
+  </bus>
+
+  <bus>
+    <!-- this is a fictitious entity replacing a more complex arrangement of relays -->
+    <name>Virtual Bus 1</name>
+  </bus>
+
+  <!-- Specific Outputs -->
+
+  <output>
+    <name>Starter 1 Power</name>
+    <prop>/systems/electrical/outputs/starter[0]</prop>
+  </output>
+
+  <!-- Electrical Bus 1 Outputs -->
+
+  <output>
+    <name>Cabin Lights Power</name>
+    <prop>/systems/electrical/outputs/cabin-lights</prop>
+  </output>
+
+  <output>
+    <name>Instrument Power</name>
+    <prop>/systems/electrical/outputs/instr-ignition-switch</prop>
+  </output>
+
+  <output>
+    <name>Fuel Pump Power</name>
+    <prop>/systems/electrical/outputs/fuel-pump</prop>
+  </output>
+
+  <output>
+    <name>Landing Light Power</name>
+    <prop>/systems/electrical/outputs/landing-lights</prop>
+  </output>
+
+  <output>
+    <name>Beacon Power</name>
+    <prop>/systems/electrical/outputs/beacon</prop>
+  </output>
+
+  <output>
+    <name>Flaps Power</name>
+    <prop>/systems/electrical/outputs/flaps</prop>
+  </output>
+
+  <!-- Electrical Bus 2 Outputs -->
+
+  <output>
+    <name>Directional Gyro</name>
+    <prop>/systems/electrical/outputs/DG</prop>
+  </output>
+
+  <output>
+    <name>Turn Coordinator Power</name>
+    <prop>/systems/electrical/outputs/turn-coordinator</prop>
+  </output>
+
+  <output>
+    <name>Nav Lights Power</name>
+    <prop>/systems/electrical/outputs/nav-lights</prop>
+  </output>
+
+  <output>
+    <name>Instrument Lights Power</name>
+    <prop>/systems/electrical/outputs/instrument-lights</prop>
+  </output>
+
+  <output>
+    <name>Strobe Lights Power</name>
+    <prop>/systems/electrical/outputs/strobe</prop>
+  </output>
+
+  <output>
+    <name>Taxi Lights Power</name>
+    <prop>/systems/electrical/outputs/taxi-light</prop>
+  </output>
+
+  <output>
+    <name>Pitot Heat Power</name>
+    <prop>/systems/electrical/outputs/pitot-heat</prop>
+  </output>
+
+  <!-- Essential/Cross Feed Bus Outputs -->
+
+  <output>
+    <name>Annunciator Power</name>
+    <prop>/systems/electrical/outputs/annunciators</prop>
+  </output>
+
+  <!-- <output> -->
+  <!--   <name>Master Switch Power</name> -->
+  <!--   <prop>/systems/electrical/outputs/master-switch</prop> -->
+  <!-- </output> -->
+
+  <!-- Avionics Bus 1 -->
+
+  <output>
+    <name>Avionics Fan Power</name>
+    <prop>/systems/electrical/outputs/avionics-fan</prop>
+  </output>
+
+  <output>
+    <name>GPS Power</name>
+    <prop>/systems/electrical/outputs/gps</prop>
+  </output>
+
+  <output>
+    <name>HSI Power</name>
+    <prop>/systems/electrical/outputs/hsi</prop>
+  </output>
+
+  <output>
+    <name>NavCom 1 Power</name>
+    <prop>/systems/electrical/outputs/nav[0]</prop>
+  </output>
+
+  <output>
+    <name>DME Power</name>
+    <prop>/systems/electrical/outputs/dme</prop>
+  </output>
+
+  <output>
+    <name>Audio Panel 1 Power</name>
+    <prop>/systems/electrical/outputs/audio-panel[0]</prop>
+  </output>
+
+  <!-- Avionics Bus 2 -->
+
+  <output>
+    <name>NavCom 2 Power</name>
+    <prop>/systems/electrical/outputs/nav[1]</prop>
+  </output>
+
+  <output>
+    <name>Audio Panel 2 Power</name>
+    <prop>/systems/electrical/outputs/audio-panel[1]</prop>
+  </output>
+
+  <output>
+    <name>Transponder Power</name>
+    <prop>/systems/electrical/outputs/transponder</prop>
+  </output>
+
+  <output>
+    <name>Autopilot Power</name>
+    <prop>/systems/electrical/outputs/autopilot</prop>
+  </output>
+
+  <output>
+    <name>ADF Power</name>
+    <prop>/systems/electrical/outputs/adf</prop>
+  </output>
+
+  <!-- connect in power sources -->
+
+  <connector>
+    <input>Alternator 1</input>
+    <output>Virtual Bus 1</output>
+    <switch>
+      <prop>/controls/engines/engine[0]/master-alt</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>External 1</input>
+    <output>Virtual Bus 1</output>
+  </connector>
+
+  <connector>
+    <input>Battery 1</input>
+    <output>Virtual Bus 1</output>
+    <switch>
+      <prop>/controls/engines/engine[0]/master-bat</prop>
+    </switch>
+  </connector>
+
+  <!-- connect starter output -->
+
+  <connector>
+    <input>Virtual Bus 1</input>
+    <output>Starter 1 Power</output>
+    <switch>
+      <prop>/controls/engines/engine[0]/starter</prop>
+      <initial-state>off</initial-state>
+    </switch>
+  </connector>
+
+  <!-- connect bus 1 & 2 -->
+
+  <connector>
+    <input>Virtual Bus 1</input>
+    <output>Electrical Bus 1</output>
+    <switch>
+      <prop>/controls/circuit-breakers/bus1</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Virtual Bus 1</input>
+    <output>Electrical Bus 2</output>
+    <switch>
+      <prop>/controls/circuit-breakers/bus2</prop>
+    </switch>
+  </connector>
+
+  <!-- connect the essential / cross feed bus -->
+
+  <connector>
+    <input>Electrical Bus 1</input>
+    <input>Electrical Bus 2</input>
+    <output>Essential/Cross Feed Bus</output>
+  </connector>
+
+  <!-- connect avionics bus 1 & 2 -->
+
+  <connector>
+    <input>Electrical Bus 1</input>
+    <output>Avionics Bus 1</output>
+    <switch>
+      <prop>/controls/circuit-breakers/avn-bus-1</prop>
+    </switch>
+    <switch>
+      <prop>/controls/switches/master-avionics</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Electrical Bus 2</input>
+    <output>Avionics Bus 2</output>
+    <switch>
+      <prop>/controls/circuit-breakers/avn-bus-2</prop>
+    </switch>
+    <switch>
+      <prop>/controls/switches/master-avionics</prop>
+    </switch>
+  </connector>
+
+  <!-- connect bus 1 outputs -->
+
+  <connector>
+    <input>Electrical Bus 1</input>
+    <output>Cabin Lights Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/cabin-lights-pwr</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Electrical Bus 1</input>
+    <output>Instrument Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/instr-ignition-switch</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Electrical Bus 1</input>
+    <output>Fuel Pump Power</output>
+    <switch>
+      <prop>/controls/engines/engine[0]/fuel-pump</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Electrical Bus 1</input>
+    <output>Landing Light Power</output>
+    <switch>
+      <prop>/controls/lighting/landing-lights</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Electrical Bus 1</input>
+    <output>Beacon Power</output>
+    <switch>
+      <prop>/controls/lighting/beacon</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Electrical Bus 1</input>
+    <output>Flaps Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/flaps</prop>
+    </switch>
+  </connector>
+
+  <!-- connect bus 2 outputs -->
+
+  <connector>
+    <input>Electrical Bus 2</input>
+    <output>Directional Gyro</output>
+    <switch>
+      <prop>/controls/circuit-breakers/directional-gyro</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Electrical Bus 2</input>
+    <output>Turn Coordinator Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/turn-coordinator</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Electrical Bus 2</input>
+    <output>Map Lights Power</output>
+    <switch>
+      <prop>/controls/lighting/nav-lights</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Electrical Bus 2</input>
+    <output>Instrument Lights Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/instrument-lights</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Electrical Bus 2</input>
+    <output>Strobe Lights Power</output>
+    <switch>
+      <prop>/controls/lighting/strobe</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Electrical Bus 2</input>
+    <output>Taxi Lights Power</output>
+    <switch>
+      <prop>/controls/lighting/taxi-light</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Electrical Bus 2</input>
+    <output>Pitot Heat Power</output>
+    <switch>
+      <prop>/controls/anti-ice/pitot-heat</prop>
+    </switch>
+  </connector>
+
+  <!-- connect Essential/Crossfeed Bus outputs -->
+
+  <connector>
+    <input>Essential/Cross Feed Bus</input>
+    <output>Annunciator Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/warn</prop>
+    </switch>
+  </connector>
+
+  <!-- <connector> -->
+  <!--   <input>Essential/Cross Feed Bus</input> -->
+  <!--   <output>Master Switch Power</output> -->
+  <!--   <switch>      <prop>/controls/circuit-breakers/alt-fld</prop>    </switch> -->
+  <!-- </connector> -->
+
+  <!-- connect Avionics Bus 1 outputs -->
+
+  <connector>
+    <input>Avionics Bus 1</input>
+    <output>Avionics Fan Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/avn-fan</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Avionics Bus 1</input>
+    <output>GPS Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/gps</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Avionics Bus 1</input>
+    <output>HSI Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/gyro</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Avionics Bus 1</input>
+    <output>NavCom 1 Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/nav-com-1</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Avionics Bus 1</input>
+    <output>DME Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/dme</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Avionics Bus 1</input>
+    <output>Audio Panel 1 Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/nav-com-audio-1</prop>
+    </switch>
+  </connector>
+
+  <!-- Avionics Bus 2 -->
+
+  <connector>
+    <input>Avionics Bus 2</input>
+    <output>NavCom 2 Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/nav-com-2</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Avionics Bus 2</input>
+    <output>Audio Panel 2 Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/nav-com-audio-2</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Avionics Bus 2</input>
+    <output>Transponder Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/xpndr</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Avionics Bus 2</input>
+    <output>Autopilot Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/autopilot</prop>
+    </switch>
+  </connector>
+
+  <connector>
+    <input>Avionics Bus 2</input>
+    <output>ADF Power</output>
+    <switch>
+      <prop>/controls/circuit-breakers/adf</prop>
+    </switch>
+  </connector>
+
+</PropertyList>

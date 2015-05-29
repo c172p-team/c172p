@@ -1,0 +1,833 @@
+<?xml version="1.0"?>
+<!--
+_______________________________________________________________________________
+KAP140 Two Axis with Altitude Preselect autopilot instrument.
+
+3D version started 2007 by Ron Jensen, wino@jentronics.com.
+Based on 2D version started 2004 by Roy Vegard Ovesen, rvovesen@tiscali.no.
+
+This is an instrument configuration file for the open-source flight
+simulator FlightGear (www.flightgear.org).  The file is an XML-encoded
+FlightGear property list defining the instrument's animations and actions.
+
+Actions are hotspots on the instrument that will respond to a mouse
+click.  Actions always modify the values of properties, either by
+adjusting them, toggling them, or swaping them with other
+properties' values.
+-->
+<PropertyList>
+  <name>KAP140TwoAxisAlt</name>
+  <path>kap140.ac</path>
+
+  <animation>
+    <type>material</type>
+    <object-name>knob-outer</object-name>
+    <object-name>knob-inner</object-name>
+    <object-name>base</object-name>
+    <object-name>buttons</object-name>
+    <emission>
+      <red>0.75</red>
+      <green>0.25</green>
+      <blue>0.10</blue>
+      <factor-prop>/controls/lighting/panel-norm</factor-prop>
+    </emission>
+  </animation>
+
+<!-- Annunciators -->
+  <animation>
+    <type>select</type>
+    <object-name>pitch-axis-fail</object-name>
+    <name>Pitch Axis Failure</name>
+    <condition>
+      <property>/autopilot/KAP140/annunciators/pitchfail</property>
+      <value type="bool">true</value>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>roll-axis-fail</object-name>
+    <name>Roll Axis Failure</name>
+    <condition>
+      <property>/autopilot/KAP140/annunciators/rollfail</property>
+      <value type="bool">true</value>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>ap-ann</object-name>
+    <name>AP Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/ap/state</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>rol-ann</object-name>
+    <name>ROL Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/rol</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>hdg-ann</object-name>
+    <name>HDG Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/hdg/state</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>nav-ann</object-name>
+    <name>NAV Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/nav</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>nav-arm-ann</object-name>
+    <name>NAV ARM Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/nav-arm</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>apr-ann</object-name>
+    <name>APR Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/apr</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>apr-arm-ann</object-name>
+    <name>APR-ARM Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/apr-arm</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>rev-ann</object-name>
+    <name>REV Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/rev</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>rev-arm-ann</object-name>
+    <name>REV-ARM Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/rev-arm</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>vs-ann</object-name>
+    <name>VS Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/vs</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>alt-ann</object-name>
+    <name>ALT Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/alt</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>alt-arm-ann</object-name>
+    <name>ALT-ARM Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/alt-arm</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>alert-ann</object-name>
+    <name>ALERT Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/alt-alert/state</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>gs-ann</object-name>
+    <name>GS Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/gs</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>gs-arm-ann</object-name>
+    <name>GS-ARM Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/gs-arm</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>pt-ann</object-name>
+    <name>Pitch trim annunciator</name>
+    <condition>
+      <or>
+        <and>
+          <equals>
+            <property>/autopilot/KAP140/annunciators/pt-up</property>
+            <value type="bool">true</value>
+          </equals>
+        </and>
+        <and>
+          <equals>
+            <property>/autopilot/KAP140/annunciators/pt-dn</property>
+            <value type="bool">true</value>
+          </equals>
+        </and>
+      </or>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>pt-up-ann</object-name>
+    <name>Pitch trim up annunciator</name>
+    <condition>
+      <and>
+        <equals>
+          <property>/autopilot/KAP140/annunciators/pt-up</property>
+          <value type="bool">true</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>pt-down-ann</object-name>
+    <name>Pitch trim down annunciator</name>
+    <condition>
+      <and>
+        <equals>
+          <property>/autopilot/KAP140/annunciators/pt-dn</property>
+          <value type="bool">true</value>
+        </equals>
+      </and>
+    </condition>
+  </animation>
+<!-- vs-setting -->
+  <animation>
+    <type>select</type>
+    <object-name>fpm-ann</object-name>
+    <name>FPM Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/vs-number</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>vs-minus</object-name>
+    <object-name>vs-digit2-minus</object-name>
+    <object-name>vs-digit3-minus</object-name>
+    <object-name>vs-digit4-minus</object-name>
+    <object-name>vs-digit5-minus</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>/autopilot/KAP140/annunciators/vs-number</property>
+          <value type="bool">true</value>
+        </equals>
+        <less-than>
+          <property>/autopilot/KAP140/settings/target-pressure-rate-fpm</property>
+          <value>-1.0</value>
+        </less-than>
+      </and>
+    </condition>
+  </animation>
+  <animation>
+    <type>select</type>
+    <object-name>vs-digit2</object-name>
+    <object-name>vs-digit3</object-name>
+    <object-name>vs-digit4</object-name>
+    <object-name>vs-digit5</object-name>
+    <condition>
+      <and>
+        <equals>
+          <property>/autopilot/KAP140/annunciators/vs-number</property>
+          <value type="bool">true</value>
+        </equals>
+        <greater-than-equals>
+          <property>/autopilot/KAP140/settings/target-pressure-rate-fpm</property>
+          <value>-1.0</value>
+        </greater-than-equals>
+      </and>
+    </condition>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>vs-digit5</object-name>
+    <property>/autopilot/KAP140/settings/target-pressure-rate-fpm</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <bias>0.5</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>vs-digit4</object-name>
+    <property>/autopilot/KAP140/settings/target-pressure-rate-fpm</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <bias>0.5</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>vs-digit3</object-name>
+    <property>/autopilot/KAP140/settings/target-pressure-rate-fpm</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <bias>0.5</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>vs-digit2</object-name>
+    <property>/autopilot/KAP140/settings/target-pressure-rate-fpm</property>
+    <factor>0.0001</factor>
+    <step>1000</step>
+    <bias>0.5</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>vs-digit5-minus</object-name>
+    <property>/autopilot/KAP140/settings/target-pressure-rate-fpm</property>
+    <factor>-0.1</factor>
+    <step>1</step>
+    <bias>0.5</bias>    
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>vs-digit4-minus</object-name>
+    <property>/autopilot/KAP140/settings/target-pressure-rate-fpm</property>
+    <factor>-0.01</factor>
+    <step>10</step>
+    <bias>9.5</bias>    
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>vs-digit3-minus</object-name>
+    <property>/autopilot/KAP140/settings/target-pressure-rate-fpm</property>
+    <factor>-0.001</factor>
+    <step>100</step>
+    <bias>99.5</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>vs-digit2-minus</object-name>
+    <property>/autopilot/KAP140/settings/target-pressure-rate-fpm</property>
+    <factor>-0.0001</factor>
+    <step>1000</step>
+    <bias>999.5</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+<!-- alt-setting -->
+  <animation>
+    <type>select</type>
+    <object-name>alt-digits</object-name>
+    <object-name>ft-ann</object-name>
+    <name>FT Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/alt-number</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>alt-digit1</object-name>
+    <property>/autopilot/KAP140/settings/target-alt-ft</property>
+    <factor>0.00001</factor>
+    <step>10000</step>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>alt-digit2</object-name>
+    <property>/autopilot/KAP140/settings/target-alt-ft</property>
+    <factor>0.0001</factor>
+    <step>1000</step>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>alt-digit3</object-name>
+    <property>/autopilot/KAP140/settings/target-alt-ft</property>
+    <factor>0.001</factor>
+    <step>100</step>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>alt-digit4</object-name>
+    <property>/autopilot/KAP140/settings/target-alt-ft</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>alt-digit5</object-name>
+    <property>/autopilot/KAP140/settings/target-alt-ft</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+<!-- baro-setting-hpa -->
+  <animation>
+    <type>select</type>
+    <object-name>hpa-digits</object-name>
+    <object-name>hpa-ann</object-name>
+    <name>hPa Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/bs-hpa-number</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>hpa-digit2</object-name>
+    <property>/autopilot/KAP140/settings/baro-setting-hpa</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <bias>0.0005</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>hpa-digit3</object-name>
+    <property>/autopilot/KAP140/settings/baro-setting-hpa</property>
+    <factor>1</factor>
+    <step>0.1</step>
+    <bias>0.0005</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>hpa-digit3</object-name>
+    <property>/autopilot/KAP140/settings/baro-setting-hpa</property>
+    <factor>10</factor>
+    <step>0.01</step>
+    <bias>0.0005</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>hpa-digit4</object-name>
+    <property>/autopilot/KAP140/settings/baro-setting-hpa</property>
+    <factor>100</factor>
+    <step>0.001</step>
+    <bias>0.0005</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+<!--
+    <name>Baro Setting hPa number</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/bs-hpa-number</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+    <chunk>
+      <type>number-value</type>
+      <property>/autopilot/KAP140/settings/baro-setting-hpa</property>
+      <scale>1</scale>
+      <format>%01.3f</format>
+    </chunk>
+-->
+<!-- baro-setting-inhg -->
+  <animation>
+    <type>select</type>
+    <object-name>inhg-digits</object-name>
+    <object-name>hg-ann</object-name>
+    <object-name>in-ann</object-name>
+    <name>IN HG Anunciator</name>
+    <condition>
+      <equals>
+        <property>/autopilot/KAP140/annunciators/bs-inhg-number</property>
+        <value type="bool">true</value>
+      </equals>
+    </condition>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>inhg-digit2</object-name>
+    <property>/autopilot/KAP140/settings/baro-setting-inhg</property>
+    <factor>0.01</factor>
+    <step>10</step>
+    <bias>0.005</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>inhg-digit3</object-name>
+    <property>/autopilot/KAP140/settings/baro-setting-inhg</property>
+    <factor>0.1</factor>
+    <step>1</step>
+    <bias>0.005</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>inhg-digit4</object-name>
+    <property>/autopilot/KAP140/settings/baro-setting-inhg</property>
+    <factor>1</factor>
+    <step>0.1</step>
+    <bias>0.005</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+  <animation>
+    <type>textranslate</type>
+    <object-name>inhg-digit5</object-name>
+    <property>/autopilot/KAP140/settings/baro-setting-inhg</property>
+    <factor>10</factor>
+    <step>0.01</step>
+    <bias>0.005</bias>
+    <axis>
+      <x>1</x>
+      <y>0</y>
+      <z>0</z>
+    </axis>
+  </animation>
+<!-- Actions -->
+  <animation>
+    <type>pick</type>
+    <object-name>ap-btn</object-name>
+    <action>
+      <name>AP Button</name>
+      <button>0</button>
+      <binding>
+        <command>nasal</command>
+        <script>
+      kap140.apButton();
+     </script>
+      </binding>
+    </action>
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>kap140-ap-btn</tooltip-id>
+        <label>Autopilot Arm/Disarm</label>
+      </binding>
+    </hovered>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>hdg-btn</object-name>
+    <action>
+      <name>HDG Button</name>
+      <button>0</button>
+      <binding>
+        <command>nasal</command>
+        <script>
+      kap140.hdgButton();
+     </script>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>nav-btn</object-name>
+    <action>
+      <name>NAV Button</name>
+      <button>0</button>
+      <binding>
+        <command>nasal</command>
+        <script>
+      kap140.navButton();
+     </script>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>apr-btn</object-name>
+    <action>
+      <name>APR Button</name>
+      <button>0</button>
+      <binding>
+        <command>nasal</command>
+        <script>
+      kap140.aprButton();
+     </script>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>alt-btn</object-name>
+    <action>
+      <name>ALT Button</name>
+      <button>0</button>
+      <binding>
+        <command>nasal</command>
+        <script>
+      kap140.altButton();
+     </script>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>rev-btn</object-name>
+    <action>
+      <name>REV Button</name>
+      <button>0</button>
+      <binding>
+        <command>nasal</command>
+        <script>
+      kap140.revButton();
+     </script>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>dn-btn</object-name>
+    <action>
+      <name>DN Button</name>
+      <button>0</button>
+      <binding>
+        <command>nasal</command>
+        <script>
+      kap140.downButton();
+     </script>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>up-btn</object-name>
+    <action>
+      <name>UP Button</name>
+      <button>0</button>
+      <binding>
+        <command>nasal</command>
+        <script>
+      kap140.upButton();
+     </script>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>arm-btn</object-name>
+    <action>
+      <name>ARM Button</name>
+      <button>0</button>
+      <binding>
+        <command>nasal</command>
+        <script>
+      kap140.armButton();
+     </script>
+      </binding>
+    </action>
+  </animation>
+  <animation>
+    <type>pick</type>
+    <object-name>baro-btn</object-name>
+    <action>
+      <name>BARO Button</name>
+      <button>0</button>
+      <repeatable type="bool">false</repeatable>
+      <binding>
+        <command>nasal</command>
+        <script>
+      kap140.baroButtonPress();
+     </script>
+      </binding>
+      <mod-up>
+        <binding>
+          <command>nasal</command>
+          <script>
+       kap140.baroButtonRelease();
+      </script>
+        </binding>
+      </mod-up>
+    </action>
+  </animation>
+  
+  <animation>
+      <object-name>knob-inner</object-name>
+      <object-name>knob-outer</object-name>
+      <type>knob</type>
+      <increase>
+          <binding>
+            <command>nasal</command>
+            <script>kap140.knobSmallUp();</script>
+          </binding>
+      </increase>
+      <decrease>
+          <binding>
+            <command>nasal</command>
+            <script>kap140.knobSmallDown();</script>
+          </binding>
+      </decrease>
+      
+      <shift-increase>
+          <binding>
+            <command>nasal</command>
+            <script>kap140.knobLargeUp();</script>
+          </binding>
+      </shift-increase>
+      <shift-decrease>
+          <binding>
+            <command>nasal</command>
+            <script>kap140.knobLargeDown();</script>
+          </binding>
+      </shift-decrease>
+ </animation>
+  
+
+
+ 
+</PropertyList>

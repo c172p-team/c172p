@@ -1,0 +1,2921 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+ <path>c172p.ac</path>
+ <offsets>
+   <pitch-deg>-3.0</pitch-deg>
+   <z-m> -0.065 </z-m>
+ </offsets>
+
+ <nasal>
+   <load>
+     var rplayer = cmdarg();
+     rplayer.getNode("sim/model/door-positions/rightDoor/position-norm", 1).alias(rplayer.getNode("sim/multiplay/generic/float[0]"));
+     rplayer.getNode("sim/model/door-positions/leftDoor/position-norm", 1).alias(rplayer.getNode("sim/multiplay/generic/float[1]"));
+     rplayer.getNode("sim/model/door-positions/baggageDoor/position-norm", 1).alias(rplayer.getNode("sim/multiplay/generic/float[2]"));
+
+     var livery_update = aircraft.livery_update.new(
+     "Aircraft/c172p/Models/Liveries", 10,
+     func { print("c172p livery update") });
+   </load>
+
+   <unload>
+     livery_update.stop();
+   </unload>
+ </nasal>
+
+ <!-- Normal shader effect. Separate effects required for each normal map texture -->
+
+ <effect>
+    <inherits-from>Aircraft/c172p/Models/Effects/bumpspec-wing</inherits-from>
+    <object-name>flaps</object-name>
+    <object-name>leftaileron</object-name>
+    <object-name>rightaileron</object-name>
+    <object-name>wing_1</object-name>
+
+ </effect>
+
+ <effect>
+    <inherits-from>Aircraft/c172p/Models/Effects/bumpspec-fuselage</inherits-from>
+    <object-name>LeftWheelStrut</object-name>
+    <object-name>RightWheelStrut</object-name>
+    <object-name>baggagedoor</object-name>
+    <object-name>charniere1</object-name>
+    <object-name>charniere2</object-name>
+    <object-name>charniere3</object-name>
+    <object-name>charniere4</object-name>
+    <object-name>fairing1</object-name>
+    <object-name>fairing2</object-name>
+    <object-name>fairing3</object-name>
+    <object-name>fuselage_1</object-name>
+    <object-name>leftdoor</object-name>
+    <object-name>rightdoor</object-name>
+ </effect>
+
+  <effect>
+    <inherits-from>Aircraft/c172p/Models/Effects/bumpspec-tail</inherits-from>
+    <object-name>elevatorleft</object-name>
+    <object-name>elevatorright</object-name>
+    <object-name>hstab</object-name>
+    <object-name>rudder_1</object-name>
+    <object-name>vstab</object-name>
+ </effect>
+
+ <!--  Specularity fix -->
+ <animation>
+     <type>material</type>
+     <object-name>LeftWheelStrut</object-name>
+     <object-name>RightWheelStrut</object-name>
+     <object-name>baggagedoor</object-name>
+     <object-name>charniere1</object-name>
+     <object-name>charniere2</object-name>
+     <object-name>charniere3</object-name>
+     <object-name>charniere4</object-name>
+     <object-name>elevatorleft</object-name>
+     <object-name>elevatorright</object-name>
+     <object-name>fairing1</object-name>
+     <object-name>fairing2</object-name>
+     <object-name>fairing3</object-name>
+     <object-name>flaps</object-name>
+     <object-name>fuselage_0</object-name>
+     <object-name>fuselage_1</object-name>
+     <object-name>hstab</object-name>
+     <object-name>leftaileron</object-name>
+     <object-name>leftdoor</object-name>
+     <object-name>rightaileron</object-name>
+     <object-name>rightdoor</object-name>
+     <object-name>rudder_1</object-name>
+     <object-name>vstab</object-name>
+     <object-name>wing_1</object-name>
+     <shininess>128</shininess>
+     <specular>
+         <r>1</r>
+         <g>1</g>
+         <b>1</b>
+     </specular>
+     <ambient>
+         <r>1</r>
+         <g>1</g>
+         <b>1</b>
+     </ambient>
+ </animation>
+
+   <!-- Transparent Surfaces for Rembrandt rendering -->
+   <effect>
+       <inherits-from>Aircraft/c172p/Models/Effects/glass</inherits-from>
+       <object-name>glas</object-name>
+       <object-name>rightwindow</object-name>
+       <object-name>leftwindow</object-name>
+       <object-name>landinglightcover</object-name>
+   </effect>
+
+   <effect>
+       <inherits-from>Effects/model-transparent</inherits-from>
+       <object-name>Propeller.Fast</object-name>
+   </effect>
+
+<!-- Immatriculation -->
+ <model>
+   <path>Aircraft/c172p/Models/Immat/immat.xml</path>
+   <offsets>
+     <x-m> 0.0 </x-m>
+     <y-m> 0.0 </y-m>
+     <z-m> 0.0 </z-m>
+     <roll-deg>    0.0 </roll-deg>
+     <pitch-deg>   0.0 </pitch-deg>
+     <heading-deg> 0.0 </heading-deg>
+   </offsets>
+ </model>
+
+ <model>
+   <path>Models/Aircraft/marker.xml</path>
+ </model>
+
+ <!--instrumentation-->
+ <model>
+   <name>MagCompass</name>
+   <path>Aircraft/Instruments-3d/mag-compass.xml</path>
+   <offsets>
+     <x-m>-0.35</x-m>
+     <y-m>0.00</y-m>
+     <z-m>0.18</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>AI</name>
+   <path>Aircraft/c172p/Instruments/AI/AI.xml</path>
+   <offsets>
+     <x-m>-0.369</x-m>
+     <y-m>-0.222</y-m>
+     <z-m>0.069</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>Altimeter</name>
+   <path>Aircraft/Instruments-3d/alt/alt.xml</path>
+   <offsets>
+     <x-m>-0.369</x-m>
+     <y-m>-0.133</y-m>
+     <z-m>0.069</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>BatteryGauge</name>
+   <path>Aircraft/c172p/Instruments/BatteryGauge/BatteryGauge.xml</path>
+   <offsets>
+     <x-m>-0.367</x-m>
+     <y-m>-0.410</y-m>
+     <z-m>-0.171</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>Kap140</name>
+   <path>Aircraft/c172p/Instruments/kap140/KAP140TwoAxisAlt.xml</path>
+   <offsets>
+     <x-m>-0.357879</x-m>
+     <y-m>0.116</y-m>
+     <z-m>-0.092</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>dme</name>
+   <path>Aircraft/c172p/Instruments/dme/dme.xml</path>
+   <offsets>
+     <x-m>-0.357</x-m>
+     <y-m>0.116</y-m>
+     <z-m>-0.142</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>asi</name>
+   <path>Aircraft/c172p/Instruments/asi/asi.xml</path>
+   <offsets>
+     <x-m>-0.368</x-m>
+     <y-m>-0.311</y-m>
+     <z-m>0.068</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>Turn</name>
+   <path>Aircraft/Instruments-3d/tc/tc.xml</path>
+   <offsets>
+     <x-m>-0.368</x-m>
+     <y-m>-0.311</y-m>
+     <z-m>-0.037</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>VSI</name>
+   <path>Aircraft/c172p/Instruments/VSI/VSI.xml</path>
+   <offsets>
+     <x-m>-0.368</x-m>
+     <y-m>-0.131</y-m>
+     <z-m>-0.036</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>RPM</name>
+   <path>Aircraft/c172p/Instruments/RPM/RPM.xml</path>
+   <offsets>
+     <x-m>-0.368</x-m>
+     <y-m>-0.311</y-m>
+     <z-m>-0.142</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>EGT</name>
+   <path>Aircraft/c172p/Instruments/EGT/EGT.xml</path>
+   <offsets>
+     <x-m>-0.368</x-m>
+     <y-m>-0.1326</y-m>
+     <z-m>-0.1405</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>hi</name>
+   <path>Aircraft/c172p/Instruments/hi/hi.xml</path>
+   <offsets>
+     <x-m>-0.368</x-m>
+     <y-m>-0.222</y-m>
+     <z-m>-0.036</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>vor</name>
+   <path>Aircraft/Instruments-3d/vor/vor.xml</path>
+   <offsets>
+     <x-m>-0.368</x-m>
+     <y-m>-0.041</y-m>
+     <z-m>0.069</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>vor2</name>
+   <path>Aircraft/Instruments-3d/vor/vor2.xml</path>
+   <offsets>
+     <x-m>-0.368</x-m>
+     <y-m>-0.041</y-m>
+     <z-m>-0.036</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>adf</name>
+   <path>Aircraft/c172p/Instruments/kr87-adf/ki227_228.xml</path>
+   <offsets>
+     <x-m>-0.368</x-m>
+     <y-m>-0.041</y-m>
+     <z-m>-0.141</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>kx165-1</name>
+   <path>Aircraft/Instruments-3d/kx165/kx165-1.xml</path>
+   <overlay>
+     <params>
+       <dimming>sim/model/material/instruments/factor</dimming>
+       <red>0.6</red>
+       <green>0.1</green>
+       <blue>0.0</blue>
+     </params>
+   </overlay>
+   <offsets>
+     <x-m>-0.364</x-m>
+     <y-m>0.113</y-m>
+     <z-m>0.017</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>kx165-2</name>
+   <path>Aircraft/Instruments-3d/kx165/kx165-2.xml</path>
+   <overlay>
+     <params>
+       <dimming>sim/model/material/instruments/factor</dimming>
+       <red>0.6</red>
+       <green>0.1</green>
+       <blue>0.0</blue>
+     </params>
+   </overlay>
+   <offsets>
+     <x-m>-0.364</x-m>
+     <y-m>0.113</y-m>
+     <z-m>-0.036</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>kma20</name>
+   <path>Aircraft/c172p/Instruments/kma20/kma20.xml</path>
+   <offsets>
+     <x-m>-0.364</x-m>
+     <y-m>0.113</y-m>
+     <z-m>0.100</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>kr87</name>
+   <path>Aircraft/c172p/Instruments/kr87-adf/kr87.xml</path>
+   <offsets>
+     <x-m>-0.364</x-m>
+     <y-m>0.113</y-m>
+     <z-m>0.061</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>clock</name>
+   <path>Aircraft/c172p/Instruments/clock/clock.xml</path>
+   <offsets>
+     <x-m>-0.364</x-m>
+     <y-m>-0.389</y-m>
+     <z-m>0.049</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>vac</name>
+   <path>Aircraft/c172p/Instruments/vac/vac.xml</path>
+   <offsets>
+     <x-m>-0.365</x-m>
+     <y-m>-0.432</y-m>
+     <z-m>0.0228</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>fuel</name>
+   <path>Aircraft/c172p/Instruments/c172FuelOilAmps/c172fuel.xml</path>
+   <offsets>
+     <x-m>-0.369</x-m>
+     <y-m>-0.405</y-m>
+     <z-m>-0.013</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>oil</name>
+   <path>Aircraft/c172p/Instruments/c172FuelOilAmps/c172oil.xml</path>
+   <offsets>
+     <x-m>-0.369</x-m>
+     <y-m>-0.405</y-m>
+     <z-m>-0.060</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>mag_sw</name>
+   <path>Aircraft/Instruments-3d/magneto-switch/mags.xml</path>
+   <offsets>
+     <x-m>-0.369</x-m>
+     <y-m>-0.414</y-m>
+     <z-m>-0.250</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>PanelLight</name>
+   <path>Aircraft/c172p/Instruments/light/light_control.xml</path>
+   <offsets>
+     <x-m>-0.36</x-m>
+     <y-m>-0.035</y-m>
+     <z-m>-0.273</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>LeftYoke</name>
+   <path>Aircraft/c172p/Models/Yoke/yoke.xml</path>
+   <offsets>
+     <x-m>-0.36</x-m>
+     <y-m>-0.219</y-m>
+     <z-m>-0.130</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>RightYoke</name>
+   <path>Aircraft/c172p/Models/Yoke/yoke.xml</path>
+   <offsets>
+     <x-m>-0.36</x-m>
+     <y-m> 0.239</y-m>
+     <z-m>-0.130</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>FlapSwitch</name>
+   <path>Aircraft/Instruments-3d/flaps/flaps.xml</path>
+   <offsets>
+     <x-m>-0.36</x-m>
+     <y-m>0.19</y-m>
+     <z-m>-0.25</z-m>
+   </offsets>
+ </model>
+
+ <!-- Pedals -->
+ <model>
+   <name>PilotPedals</name>
+   <path>Aircraft/c172p/Models/Pedals/pedals.xml</path>
+   <offsets>
+     <x-m>-0.56</x-m>
+     <y-m>-0.24</y-m>
+     <z-m>-0.65</z-m>
+   </offsets>
+ </model>
+
+ <model>
+   <name>CoPilotPedals</name>
+   <path>Aircraft/c172p/Models/Pedals/pedals.xml</path>
+   <offsets>
+     <x-m>-0.56</x-m>
+     <y-m>0.24</y-m>
+     <z-m>-0.65</z-m>
+   </offsets>
+ </model>
+
+<text>
+    <name>Registration</name>
+    <type type="string">text-value</type>
+    <property type="string">/sim/multiplay/callsign</property>
+    <format type="string">%s</format>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.5</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>0.25</y-m>
+        <z-m>0.01</z-m>
+    </offsets>
+</text>
+
+
+<!-- Labels activated by hotspots -->
+<text>
+    <name>LabelASI</name>
+    <type type="string">literal</type>
+    <text type="string">Airspeed Indicator</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.311</y-m>
+        <z-m>0.068</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelAI</name>
+    <type type="string">literal</type>
+    <text type="string">Attitude Indicator</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.222</y-m>
+        <z-m>0.069</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelMagCompass</name>
+    <type type="string">literal</type>
+    <text type="string">Magnetic Compass</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.3</x-m>
+        <y-m>0.00</y-m>
+        <z-m>0.18</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelAltimeter</name>
+    <type type="string">literal</type>
+    <text type="string">Altimeter (ft)</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.133</y-m>
+        <z-m>0.069</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelBatteryGauge</name>
+    <type type="string">literal</type>
+    <text type="string">Battery Gauge</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.410</y-m>
+        <z-m>-0.171</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelAutopilot</name>
+    <type type="string">literal</type>
+    <text type="string">Autopilot</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.15</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>0.116</y-m>
+        <z-m>-0.085</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelDME</name>
+    <type type="string">literal</type>
+    <text type="string">DME</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>0.116</y-m>
+        <z-m>-0.142</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelTurn</name>
+    <type type="string">literal</type>
+    <text type="string">Turn &amp; Bank</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.311</y-m>
+        <z-m>-0.037</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelVSI</name>
+    <type type="string">literal</type>
+    <text type="string">Vertical Speed Indicator</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.131</y-m>
+        <z-m>-0.036</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelRPM</name>
+    <type type="string">literal</type>
+    <text type="string">Tachometer</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.311</y-m>
+        <z-m>-0.142</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelHI</name>
+    <type type="string">literal</type>
+    <text type="string">Heading Indicator</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.222</y-m>
+        <z-m>-0.036</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelVOR1</name>
+    <type type="string">literal</type>
+    <text type="string">NAV 1 display</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.041</y-m>
+        <z-m>0.069</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelVOR2</name>
+    <type type="string">literal</type>
+    <text type="string">NAV 2 display</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.041</y-m>
+        <z-m>-0.036</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelADF</name>
+    <type type="string">literal</type>
+    <text type="string">ADF display</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.15</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.041</y-m>
+        <z-m>-0.141</z-m>
+    </offsets>
+</text>
+<!--  ALREADY DISPLAYED BY KX165
+<text>
+    <name>LabelRadio1</name>
+    <type type="string">literal</type>
+    <text type="string">NAV/COM 1</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>0.113</y-m>
+        <z-m>0.025</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelRadio2</name>
+    <type type="string">literal</type>
+    <text type="string">NAV/COM 2</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>0.113</y-m>
+        <z-m>-0.02</z-m>
+    </offsets>
+</text>
+-->
+<text>
+    <name>LabelKMA</name>
+    <type type="string">literal</type>
+    <text type="string">Audio Panel</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.15</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>0.113</y-m>
+        <z-m>0.100</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelKR87</name>
+    <type type="string">literal</type>
+    <text type="string">ADF Receiver</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.15</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>0.113</y-m>
+        <z-m>0.061</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelClock</name>
+    <type type="string">literal</type>
+    <text type="string">Clock</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.389</y-m>
+        <z-m>0.049</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelVac</name>
+    <type type="string">literal</type>
+    <text type="string">Vacuum Gauge</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.432</y-m>
+        <z-m>0.0228</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelFuel</name>
+    <type type="string">literal</type>
+    <text type="string">Fuel Gauge</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.405</y-m>
+        <z-m>-0.013</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelOil</name>
+    <type type="string">literal</type>
+    <text type="string">Oil Gauge</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.405</y-m>
+        <z-m>-0.060</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelMags</name>
+    <type type="string">literal</type>
+    <text type="string">Magneto &amp; Starter</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.414</y-m>
+        <z-m>-0.250</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelLights</name>
+    <type type="string">literal</type>
+    <text type="string">Panel Lights</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.035</y-m>
+        <z-m>-0.273</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelFlaps</name>
+    <type type="string">literal</type>
+    <text type="string">Flaps</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>0.19</y-m>
+        <z-m>-0.25</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelParkingBrake</name>
+    <type type="string">literal</type>
+    <text type="string">Parking Brake</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.15</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.20</y-m>
+        <z-m>-0.29</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelCarbHeat</name>
+    <type type="string">literal</type>
+    <text type="string">Carburetor Heat</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.15</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.08</y-m>
+        <z-m>-0.19</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelThrottle</name>
+    <type type="string">literal</type>
+    <text type="string">Throttle</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m>-0.02</y-m>
+        <z-m>-0.18</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelMixture</name>
+    <type type="string">literal</type>
+    <text type="string">Mixture</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.34</x-m>
+        <y-m> 0.07</y-m>
+        <z-m>-0.18</z-m>
+    </offsets>
+</text>
+
+<text>
+    <name>LabelTrim</name>
+    <type type="string">literal</type>
+    <text type="string">Elevator Trim</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.012</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.2</max-height>
+    <max-width>0.07</max-width>
+    <font-resolution>
+        <width type="int">32</width>
+        <height type="int">32</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+        <x-m>-0.24</x-m>
+        <y-m>-0.10</y-m>
+        <z-m>-0.38</z-m>
+    </offsets>
+</text>
+
+<animation>
+    <type>material</type>
+    <object-name>LabelASI</object-name>
+    <object-name>LabelAI</object-name>
+    <object-name>LabelMagCompass</object-name>
+    <object-name>LabelAltimeter</object-name>
+    <object-name>LabelBatteryGauge</object-name>
+    <object-name>LabelAutopilot</object-name>
+    <object-name>LabelDME</object-name>
+    <object-name>LabelTurn</object-name>
+    <object-name>LabelVSI</object-name>
+    <object-name>LabelRPM</object-name>
+    <object-name>LabelHI</object-name>
+    <object-name>LabelVOR1</object-name>
+    <object-name>LabelVOR2</object-name>
+    <object-name>LabelADF</object-name>
+    <object-name>LabelRadio1</object-name>
+    <object-name>LabelRadio2</object-name>
+    <object-name>LabelKMA</object-name>
+    <object-name>LabelKR87</object-name>
+    <object-name>LabelClock</object-name>
+    <object-name>LabelVac</object-name>
+    <object-name>LabelFuel</object-name>
+    <object-name>LabelOil</object-name>
+    <object-name>LabelMags</object-name>
+    <object-name>LabelLights</object-name>
+    <object-name>LabelFlaps</object-name>
+    <object-name>LabelParkingBrake</object-name>
+    <object-name>LabelCarbHeat</object-name>
+    <object-name>LabelThrottle</object-name>
+    <object-name>LabelMixture</object-name>
+    <object-name>LabelTrim</object-name>
+    <emission>
+        <red>1.0</red>
+        <green>0.8</green>
+        <blue>0.0</blue>
+    </emission>
+</animation>
+
+<animation>
+    <type>select</type>
+    <object-name>LabelASI</object-name>
+    <object-name>LabelAI</object-name>
+    <object-name>LabelMagCompass</object-name>
+    <object-name>LabelAltimeter</object-name>
+    <object-name>LabelBatteryGauge</object-name>
+    <object-name>LabelAutopilot</object-name>
+    <object-name>LabelDME</object-name>
+    <object-name>LabelTurn</object-name>
+    <object-name>LabelVSI</object-name>
+    <object-name>LabelRPM</object-name>
+    <object-name>LabelHI</object-name>
+    <object-name>LabelVOR1</object-name>
+    <object-name>LabelVOR2</object-name>
+    <object-name>LabelADF</object-name>
+    <object-name>LabelRadio1</object-name>
+    <object-name>LabelRadio2</object-name>
+    <object-name>LabelKMA</object-name>
+    <object-name>LabelKR87</object-name>
+    <object-name>LabelClock</object-name>
+    <object-name>LabelVac</object-name>
+    <object-name>LabelFuel</object-name>
+    <object-name>LabelOil</object-name>
+    <object-name>LabelMags</object-name>
+    <object-name>LabelLights</object-name>
+    <object-name>LabelFlaps</object-name>
+    <object-name>LabelParkingBrake</object-name>
+    <object-name>LabelCarbHeat</object-name>
+    <object-name>LabelThrottle</object-name>
+    <object-name>LabelMixture</object-name>
+    <object-name>LabelTrim</object-name>
+    <object-name>LabelPanelLight</object-name>
+    <condition>
+        <property>sim/panel-hotspots</property>
+    </condition>
+</animation>
+
+<!-- Controls -->
+ <animation>
+   <name>CarbHeatGroup</name>
+   <object-name>CarbHeat</object-name>
+   <object-name>CarbHeatBack</object-name>
+   <object-name>CarbHeatRod</object-name>
+ </animation>
+
+ <animation>
+   <name>ElectronicsGroup</name>
+   <object-name>TaxiLightSwitch</object-name>
+   <object-name>LandingLightSwitch</object-name>
+   <object-name>PitotHeatSwitch</object-name>
+   <object-name>NavLightSwitch</object-name>
+   <object-name>BeaconSwitch</object-name>
+   <object-name>StrobeSwitch</object-name>
+   <object-name>PanelLight</object-name>
+<!--
+   <object-name>ElectronicsLabels</object-name>
+   <object-name>ElectronicsLabels2</object-name>
+-->
+ </animation>
+
+<!-- <animation>
+   <name>ControlsGroup</name>
+   <object-name>PanelInstruments</object-name>
+   <object-name>ElectronicsGroup</object-name>
+   <object-name>LeftYoke</object-name>
+   <object-name>RightYoke</object-name>
+   <object-name>CarbHeatGroup</object-name>
+   <object-name>Throttle</object-name>
+   <object-name>Mixture</object-name>
+   <object-name>FlapSwitchGroup</object-name>
+   <object-name>TrimWheel</object-name>
+ </animation> -->
+
+<!-- <animation>
+   <type>range</type>
+   <object-name>ControlsGroup</object-name>
+   <min-m>0</min-m>
+   <max-m>10.0</max-m>
+ </animation> -->
+
+<!--pick animation for the doors-->
+ <animation>
+   <type>pick</type>
+   <object-name>doorhandleext_right</object-name>
+   <object-name>doorhandleint_right</object-name>
+   <visible>true</visible>
+   <action>
+     <button>0</button>
+     <repeatable>false</repeatable>
+     <binding>
+        <command>nasal</command>
+        <script>c172p.rightDoor.toggle();</script>
+     </binding>
+   </action>
+
+   <hovered>
+       <binding>
+         <command>set-tooltip</command>
+         <tooltip-id>door-handle-r</tooltip-id>
+         <label>Right Door Open/Close</label>
+    </binding>
+   </hovered>
+ </animation>
+
+ <animation>
+   <type>pick</type>
+   <object-name>doorhandleext_left</object-name>
+   <object-name>doorhandle_intle</object-name>
+   <visible>true</visible>
+   <action>
+     <button>0</button>
+     <repeatable>false</repeatable>
+     <binding>
+       <command>nasal</command>
+       <script>c172p.leftDoor.toggle();</script>
+     </binding>
+   </action>
+
+   <hovered>
+       <binding>
+         <command>set-tooltip</command>
+         <tooltip-id>door-handle-l</tooltip-id>
+         <label>Left Door Open/Close</label>
+    </binding>
+   </hovered>
+ </animation>
+
+ <animation>
+   <type>pick</type>
+   <object-name>baggagedoorhandle</object-name>
+   <visible>true</visible>
+   <action>
+     <button>0</button>
+     <repeatable>false</repeatable>
+     <binding>
+       <command>nasal</command>
+       <script>c172p.baggageDoor.toggle();</script>
+     </binding>
+   </action>
+
+   <hovered>
+       <binding>
+         <command>set-tooltip</command>
+         <tooltip-id>door-handle-baggage</tooltip-id>
+         <label>Baggage Door Open/Close</label>
+    </binding>
+   </hovered>
+ </animation>
+
+<!--door animation-->
+ <animation>
+   <type>rotate</type>
+   <object-name>rightdoor</object-name>
+   <object-name>rightwindow</object-name>
+   <object-name>doorhandleext_right</object-name>
+   <object-name>doorint_right</object-name>
+   <object-name>doorhandleint_right</object-name>
+   <object-name>windlocket</object-name>
+   <property>sim/model/door-positions/rightDoor/position-norm</property>
+   <interpolation>
+     <entry>
+       <ind>0.0</ind>
+       <dep>0.0</dep>
+     </entry>
+     <entry>
+       <ind>0.5</ind>
+       <dep>0</dep>
+     </entry>
+     <entry>
+       <ind>1</ind>
+       <dep>70.0</dep>
+     </entry>
+   </interpolation>
+
+   <axis>
+     <x1-m>-0.117</x1-m>
+     <y1-m>0.530</y1-m>
+     <z1-m>-0.376</z1-m>
+     <x2-m>-0.054</x2-m>
+     <y2-m>0.535</y2-m>
+     <z2-m>-0.117</z2-m>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>doorhandleint_right</object-name>
+   <property>sim/model/door-positions/rightDoor/position-norm</property>
+   <interpolation>
+     <entry>
+       <ind>0.0</ind>
+       <dep>0.0</dep>
+     </entry>
+     <entry>
+       <ind>0.5</ind>
+       <dep>70.0</dep>
+     </entry>
+     <entry>
+       <ind>1</ind>
+       <dep>70.0</dep>
+     </entry>
+   </interpolation>
+   <center>
+     <x-m>0.166</x-m>
+     <y-m>0.482</y-m>
+     <z-m>-0.263</z-m>
+   </center>
+   <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>leftdoor</object-name>
+   <object-name>leftwindow</object-name>
+   <object-name>doorhandleext_left</object-name>
+   <object-name>doorint_left</object-name>
+   <object-name>doorhandle_intle</object-name>
+   <object-name>windlocket.002</object-name>
+   <property>sim/model/door-positions/leftDoor/position-norm</property>
+   <interpolation>
+     <entry>
+       <ind>0.0</ind>
+       <dep>0.0</dep>
+     </entry>
+     <entry>
+       <ind>0.5</ind>
+       <dep>0</dep>
+     </entry>
+     <entry>
+       <ind>1</ind>
+       <dep>-70.0</dep>
+     </entry>
+   </interpolation>
+   <axis>
+     <x1-m>-0.117</x1-m>
+     <y1-m>-0.530</y1-m>
+     <z1-m>-0.376</z1-m>
+     <x2-m>-0.054</x2-m>
+     <y2-m>-0.535</y2-m>
+     <z2-m>-0.117</z2-m>
+   </axis>
+ </animation>
+ <animation>
+   <type>rotate</type>
+   <object-name>doorhandle_intle</object-name>
+   <property>sim/model/door-positions/leftDoor/position-norm</property>
+   <interpolation>
+     <entry>
+       <ind>0.0</ind>
+       <dep>0.0</dep>
+     </entry>
+     <entry>
+       <ind>0.5</ind>
+       <dep>70.0</dep>
+     </entry>
+     <entry>
+       <ind>1</ind>
+       <dep>70.0</dep>
+     </entry>
+   </interpolation>
+   <center>
+     <x-m>0.166</x-m>
+     <y-m>-0.482</y-m>
+     <z-m>-0.263</z-m>
+   </center>
+   <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+   </axis>
+ </animation>
+
+
+ <animation>
+   <type>rotate</type>
+   <object-name>baggagedoor</object-name>
+   <object-name>baggagedoor.002</object-name>
+   <object-name>baggagedoorhandle</object-name>
+   <property>sim/model/door-positions/baggageDoor/position-norm</property>
+   <factor>-90</factor>
+   <axis>
+     <x1-m>1.373</x1-m>
+     <y1-m>-0.445</y1-m>
+     <z1-m>-0.656</z1-m>
+     <x2-m>1.424</x2-m>
+     <y2-m>-0.445</y2-m>
+     <z2-m>-0.204</z2-m>
+   </axis>
+ </animation>
+
+
+<!--pick animation for switches-->
+ <animation>
+   <type>pick</type>
+   <object-name>LandingLightSwitch</object-name>
+   <visible>true</visible>
+   <action>
+     <button>0</button>
+     <repeatable>false</repeatable>
+     <binding>
+       <command>property-toggle</command>
+       <property>controls/lighting/landing-lights</property>
+     </binding>
+     <binding>
+       <command>property-assign</command>
+       <property>sim/rendering/als-secondary-lights/use-landing-light</property>
+       <property>controls/lighting/landing-lights</property>
+     </binding>
+   </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>landing-light-switch</tooltip-id>
+      <label>Landing Lights: %s</label>
+      <mapping>on-off</mapping>
+      <property>controls/lighting/landing-lights</property>
+   </binding>
+   </hovered>
+ </animation>
+
+ <animation>
+   <type>pick</type>
+   <object-name>TaxiLightSwitch</object-name>
+   <visible>true</visible>
+   <action>
+     <button>0</button>
+     <repeatable>false</repeatable>
+     <binding>
+       <command>property-toggle</command>
+       <property>controls/lighting/taxi-light</property>
+     </binding>
+   </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>taxi-light-switch</tooltip-id>
+      <label>Taxi Light: %s</label>
+      <mapping>on-off</mapping>
+      <property>controls/lighting/taxi-light</property>
+   </binding>
+   </hovered>
+ </animation>
+
+ <animation>
+   <type>pick</type>
+   <object-name>StrobeSwitch</object-name>
+   <visible>true</visible>
+   <action>
+     <button>0</button>
+     <repeatable>false</repeatable>
+     <binding>
+       <command>property-toggle</command>
+       <property>controls/lighting/strobe</property>
+     </binding>
+   </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>strobe-switch</tooltip-id>
+      <label>Strobe: %s</label>
+      <mapping>on-off</mapping>
+      <property>controls/lighting/strobe</property>
+   </binding>
+   </hovered>
+ </animation>
+
+ <animation>
+   <type>pick</type>
+   <object-name>BeaconSwitch</object-name>
+   <visible>true</visible>
+   <action>
+     <button>0</button>
+     <repeatable>false</repeatable>
+     <binding>
+       <command>property-toggle</command>
+       <property>controls/lighting/beacon</property>
+     </binding>
+   </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>beacon-switch</tooltip-id>
+      <label>Beacon: %s</label>
+      <mapping>on-off</mapping>
+      <property>controls/lighting/beacon</property>
+   </binding>
+   </hovered>
+ </animation>
+
+ <animation>
+   <type>pick</type>
+   <object-name>NavLightSwitch</object-name>
+   <visible>true</visible>
+   <action>
+     <button>0</button>
+     <repeatable>false</repeatable>
+     <binding>
+       <command>property-toggle</command>
+       <property>controls/lighting/nav-lights</property>
+     </binding>
+   </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>nav-light-switch</tooltip-id>
+      <label>Navigation Lights: %s</label>
+      <mapping>on-off</mapping>
+      <property>controls/lighting/nav-lights</property>
+   </binding>
+   </hovered>
+ </animation>
+
+ <animation>
+   <type>pick</type>
+   <object-name>PitotHeatSwitch</object-name>
+   <visible>true</visible>
+   <action>
+     <button>0</button>
+     <repeatable>false</repeatable>
+     <binding>
+       <command>property-toggle</command>
+       <property>controls/anti-ice/pitot-heat</property>
+     </binding>
+   </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>pitot-heat</tooltip-id>
+      <label>Pitot Heat: %s</label>
+      <mapping>on-off</mapping>
+      <property>controls/anti-ice/pitot-heat</property>
+   </binding>
+   </hovered>
+ </animation>
+
+ <!-- Parking Brake -->
+ <animation>
+   <type>translate</type>
+   <object-name>ParkingBrake</object-name>
+   <property>/controls/gear/brake-parking</property>
+   <factor>0.04</factor>
+   <axis>
+     <x>1.0</x>
+     <y>0.0</y>
+     <z>0.0</z>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>ParkingBrake</object-name>
+   <property>/controls/gear/brake-parking</property>
+   <factor>90</factor>
+   <axis>
+     <x>1.0</x>
+     <y>0.0</y>
+     <z>0.0</z>
+   </axis>
+   <center>
+     <x-m>-0.36</x-m>
+     <y-m>-0.20</y-m>
+     <z-m>-0.33</z-m>
+   </center>
+ </animation>
+
+ <animation>
+   <type>pick</type>
+   <object-name>ParkingBrake</object-name>
+   <visible>true</visible>
+   <action>
+     <name>Select</name>
+     <button>0</button>
+     <binding>
+       <command>property-toggle</command>
+       <property>/controls/gear/brake-parking</property>
+     </binding>
+   </action>
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <label>Parking brake: %s</label>
+      <property>/controls/gear/brake-parking</property>
+      <tooltip-id>parking-brake</tooltip-id>
+      <mapping>on-off</mapping>
+   </binding>
+   </hovered>
+ </animation>
+
+ <!-- Carb Heat -->
+ <animation>
+   <type>translate</type>
+   <object-name>CarbHeatGroup</object-name>
+   <property>controls/anti-ice/engine[0]/carb-heat</property>
+   <factor>0.04</factor>
+   <axis>
+     <x>1.0</x>
+     <y>0.0</y>
+     <z>0.0</z>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>pick</type>
+   <object-name>CarbHeatGroup</object-name>
+   <visible>true</visible>
+   <action>
+     <button>0</button>
+     <repeatable>false</repeatable>
+     <binding>
+       <command>property-toggle</command>
+       <property>controls/anti-ice/engine[0]/carb-heat</property>
+     </binding>
+   </action>
+ </animation>
+
+ <animation>
+   <type>translate</type>
+   <object-name>Throttle</object-name>
+   <property>controls/engines/engine[0]/throttle</property>
+   <factor>-0.08</factor>
+   <axis>
+     <x>1.0</x>
+     <y>0.0</y>
+     <z>0.0</z>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>slider</type>
+   <object-name>Throttle</object-name>
+   <object-name>ThrottleMount</object-name>
+   <visible>true</visible>
+
+   <drag-direction>vertical</drag-direction>
+   <!-- no translation, we handle that seperately -->
+
+   <action>
+     <binding>
+       <command>property-adjust</command>
+       <property>controls/engines/engine[0]/throttle</property>
+       <factor>0.05</factor>
+       <min>0</min>
+       <max>1</max>
+       <wrap>0</wrap>
+     </binding>
+   </action>
+
+     <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <label>Throttle: %3d%%</label>
+        <measure-text>Throttle: 100%</measure-text>
+        <tooltip-id>throttle</tooltip-id>
+        <mapping>percent</mapping>
+        <property>controls/engines/engine[0]/throttle</property>
+     </binding>
+
+     </hovered>
+ </animation>
+
+ <animation>
+   <type>translate</type>
+   <object-name>Mixture</object-name>
+   <property>controls/engines/engine[0]/mixture</property>
+   <factor>-0.08</factor>
+   <axis>
+     <x>1.0</x>
+     <y>0.0</y>
+     <z>0.0</z>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>slider</type>
+   <object-name>Mixture</object-name>
+   <object-name>MixtureMount</object-name>
+   <visible>true</visible>
+
+   <!-- no translation, we handle that seperately -->
+   <drag-direction>vertical</drag-direction>
+
+   <action>
+     <binding>
+       <command>property-adjust</command>
+       <property>controls/engines/engine[0]/mixture</property>
+       <factor>0.05</factor>
+       <min>0</min>
+       <max>1</max>
+       <wrap>0</wrap>
+     </binding>
+   </action>
+
+     <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <label>Mixture: %3d%%</label>
+        <measure-text>Mixture: 100%</measure-text>
+        <tooltip-id>mixture</tooltip-id>
+        <mapping>percent</mapping>
+        <property>controls/engines/engine[0]/mixture</property>
+     </binding>
+     </hovered>
+
+ </animation>
+
+ <!-- Elevator Trim -->
+ <animation>
+   <type>knob</type>
+   <object-name>TrimWheel</object-name>
+   <property>controls/flight/elevator-trim</property>
+   <factor>-360</factor>
+   <drag-direction>vertical</drag-direction>
+
+   <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+   </axis>
+   <center>
+     <x-m>-0.406</x-m>
+     <y-m>-0.20</y-m>
+     <z-m>-0.48</z-m>
+   </center>
+
+   <action>
+     <binding>
+       <command>property-adjust</command>
+       <property>controls/flight/elevator-trim</property>
+       <factor>0.01</factor>
+       <min>-1</min>
+       <max>1</max>
+       <wrap>0</wrap>
+     </binding>
+   </action>
+
+   <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <label>Elevator trim: %3f</label>
+      <tooltip-id>pitch-trim</tooltip-id>
+      <property>controls/flight/elevator-trim</property>
+   </binding>
+   </hovered>
+ </animation>
+
+
+ <animation>
+   <type>rotate</type>
+   <object-name>ElevatorTrimPos</object-name>
+   <property>controls/flight/elevator-trim</property>
+   <factor>-12</factor>
+   <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+   </axis>
+   <center>
+     <x-m>-0.406</x-m>
+     <y-m>-0.20</y-m>
+     <z-m>-0.48</z-m>
+   </center>
+ </animation>
+
+<!-- Fuel Selector -->
+
+<animation>
+  <type>select</type>
+  <object-name>FuelSelectorOff</object-name>
+  <condition>
+    <and>
+      <not>
+        <property>consumables/fuel/tank[0]/selected</property>
+      </not>
+      <not>
+        <property>consumables/fuel/tank[1]/selected</property>
+      </not>
+    </and>
+  </condition>
+</animation>
+
+<animation>
+  <type>select</type>
+  <object-name>FuelSelectorLeft</object-name>
+  <condition>
+    <and>
+      <property>consumables/fuel/tank[0]/selected</property>
+      <not>
+        <property>consumables/fuel/tank[1]/selected</property>
+      </not>
+    </and>
+  </condition>
+</animation>
+
+<animation>
+  <type>select</type>
+  <object-name>FuelSelectorRight</object-name>
+  <condition>
+    <and>
+      <not>
+        <property>consumables/fuel/tank[0]/selected</property>
+      </not>
+      <property>consumables/fuel/tank[1]/selected</property>
+    </and>
+  </condition>
+</animation>
+
+<animation>
+  <type>select</type>
+  <object-name>FuelSelectorBoth</object-name>
+  <condition>
+    <and>
+      <property>consumables/fuel/tank[0]/selected</property>
+      <property>consumables/fuel/tank[1]/selected</property>
+    </and>
+  </condition>
+</animation>
+
+<animation>
+  <type>pick</type>
+  <object-name>FuelHotspotOff</object-name>
+  <visible>true</visible>
+  <action>
+    <button>0</button>
+    <repeatable>false</repeatable>
+    <binding>
+      <command>property-assign</command>
+      <property>consumables/fuel/tank[0]/selected</property>
+      <value>false</value>
+    </binding>
+    <binding>
+      <command>property-assign</command>
+      <property>consumables/fuel/tank[1]/selected</property>
+      <value>false</value>
+    </binding>
+  </action>
+</animation>
+
+<animation>
+  <type>pick</type>
+  <object-name>FuelHotspotLeft</object-name>
+  <visible>true</visible>
+  <action>
+    <button>0</button>
+    <repeatable>false</repeatable>
+    <binding>
+      <command>property-assign</command>
+      <property>consumables/fuel/tank[0]/selected</property>
+      <value>true</value>
+    </binding>
+    <binding>
+      <command>property-assign</command>
+      <property>consumables/fuel/tank[1]/selected</property>
+      <value>false</value>
+    </binding>
+  </action>
+</animation>
+
+<animation>
+  <type>pick</type>
+  <object-name>FuelHotspotRight</object-name>
+  <visible>true</visible>
+  <action>
+    <button>0</button>
+    <repeatable>false</repeatable>
+    <binding>
+      <command>property-assign</command>
+      <property>consumables/fuel/tank[0]/selected</property>
+      <value>false</value>
+    </binding>
+    <binding>
+      <command>property-assign</command>
+      <property>consumables/fuel/tank[1]/selected</property>
+      <value>true</value>
+    </binding>
+  </action>
+</animation>
+
+<animation>
+  <type>pick</type>
+  <object-name>FuelHotspotBoth</object-name>
+  <visible>true</visible>
+  <action>
+    <button>0</button>
+    <repeatable>false</repeatable>
+    <binding>
+      <command>property-assign</command>
+      <property>consumables/fuel/tank[0]/selected</property>
+      <value>true</value>
+    </binding>
+    <binding>
+      <command>property-assign</command>
+      <property>consumables/fuel/tank[1]/selected</property>
+      <value>true</value>
+    </binding>
+  </action>
+</animation>
+
+<!-- Switches -->
+
+ <animation>
+   <type>rotate</type>
+   <object-name>TaxiLightSwitch</object-name>
+   <property>controls/lighting/taxi-light</property>
+   <factor>-55</factor>
+   <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+   </axis>
+   <center>
+     <x-m>-0.363</x-m>
+     <y-m>0</y-m>
+     <z-m>-0.221</z-m>
+   </center>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>LandingLightSwitch</object-name>
+   <property>controls/lighting/landing-lights</property>
+   <factor>-55</factor>
+   <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+   </axis>
+   <center>
+     <x-m>-0.363</x-m>
+     <y-m>0</y-m>
+     <z-m>-0.221</z-m>
+   </center>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>PitotHeatSwitch</object-name>
+   <property>controls/anti-ice/pitot-heat</property>
+   <factor>-55</factor>
+   <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+   </axis>
+   <center>
+     <x-m>-0.363</x-m>
+     <y-m>0</y-m>
+     <z-m>-0.269</z-m>
+   </center>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>NavLightSwitch</object-name>
+   <property>controls/lighting/nav-lights</property>
+   <factor>-55</factor>
+   <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+   </axis>
+   <center>
+     <x-m>-0.363</x-m>
+     <y-m>0</y-m>
+     <z-m>-0.269</z-m>
+   </center>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>BeaconSwitch</object-name>
+   <property>controls/lighting/beacon</property>
+   <factor>-55</factor>
+   <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+   </axis>
+   <center>
+     <x-m>-0.363</x-m>
+     <y-m>0</y-m>
+     <z-m>-0.269</z-m>
+   </center>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>StrobeSwitch</object-name>
+   <property>controls/lighting/strobe</property>
+   <factor>-55</factor>
+   <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+   </axis>
+   <center>
+     <x-m>-0.363</x-m>
+     <y-m>0</y-m>
+     <z-m>-0.269</z-m>
+   </center>
+ </animation>
+
+ <!-- Interior -->
+
+ <animation>
+   <name>InteriorGroup</name>
+   <object-name>Cabin</object-name>
+   <object-name>Panel</object-name>
+   <object-name>PilotSeat</object-name>
+   <object-name>CopilotSeat</object-name>
+   <object-name>BackSeat</object-name>
+   <object-name>MagCompass</object-name>
+ </animation>
+
+ <animation>
+   <type>range</type>
+   <object-name>InteriorGroup</object-name>
+   <min-m>0</min-m>
+   <max-m>50</max-m>
+ </animation>
+
+ <!-- Airframe -->
+
+ <animation>
+   <type>select</type>
+   <object-name>Propeller</object-name>
+   <condition>
+     <less-than>
+       <property>engines/engine[0]/rpm</property>
+       <value>500</value>
+     </less-than>
+   </condition>
+ </animation>
+
+ <animation>
+  <type>select</type>
+  <object-name>Propeller.Fast</object-name>
+  <condition>
+   <greater-than>
+    <property>engines/engine[0]/rpm</property>
+    <value>400</value>
+   </greater-than>
+  </condition>
+ </animation>
+
+ <animation>
+   <type>blend</type>
+   <object-name>Propeller.Fast</object-name>
+   <property>engines/engine[0]/rpm</property>
+   <factor>0.0004</factor>
+   <max>1.0</max>
+   <min>0.0</min>
+ </animation>
+
+ <animation>
+   <type>select</type>
+   <object-name>navlight_left</object-name>
+   <object-name>navlight_right</object-name>
+   <object-name>navlight_back</object-name>
+   <condition>
+     <property>systems/electrical/outputs/nav-lights</property>
+   </condition>
+ </animation>
+
+ <animation>
+   <type>select</type>
+   <object-name>BeaconOffX</object-name>
+   <condition>
+     <property>controls/lighting/beacon</property>
+   </condition>
+ </animation>
+
+ <animation>
+   <type>spin</type>
+   <object-name>Propeller</object-name>
+   <property>engines/engine[0]/rpm</property>
+   <factor>-1</factor>
+   <center>
+     <x-m>-1.79</x-m>
+     <y-m>0</y-m>
+     <z-m>-0.05</z-m>
+   </center>
+   <axis>
+     <x>1.0</x>
+     <y>0.0</y>
+     <z>-0.05240773494</z>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>spin</type>
+   <object-name>Propeller.Fast</object-name>
+   <property>engines/engine[0]/rpm</property>
+   <factor>-0.001</factor>
+   <center>
+     <x-m>-1.79</x-m>
+     <y-m>0</y-m>
+     <z-m>-0.05</z-m>
+   </center>
+   <axis>
+     <x>1.0</x>
+     <y>0.0</y>
+     <z>-0.05240773494</z>
+   </axis>
+ </animation>
+
+
+
+ <animation>
+   <type>rotate</type>
+   <object-name>leftaileron</object-name>
+   <property>surface-positions/left-aileron-pos-norm</property>
+   <interpolation>
+     <entry>
+       <ind>-1.0</ind>
+       <dep>-15</dep>
+     </entry>
+     <entry>
+       <ind>0.0</ind>
+       <dep>0</dep>
+     </entry>
+     <entry>
+       <ind>1.0</ind>
+       <dep>20</dep>
+     </entry>
+   </interpolation>
+   <axis>
+     <x1-m>0.862</x1-m>
+     <y1-m>-5.464</y1-m>
+     <z1-m>0.459</z1-m>
+     <x2-m>1.158</x2-m>
+     <y2-m>-2.616</y2-m>
+     <z2-m>0.337</z2-m>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>rightaileron</object-name>
+   <property>surface-positions/right-aileron-pos-norm</property>
+   <interpolation>
+     <entry>
+       <ind>-1.0</ind>
+       <dep>20</dep>
+     </entry>
+     <entry>
+       <ind>0.0</ind>
+       <dep>0</dep>
+     </entry>
+     <entry>
+       <ind>1.0</ind>
+       <dep>-15</dep>
+     </entry>
+   </interpolation>
+   <axis>
+     <x1-m>1.158</x1-m>
+     <y1-m>2.616</y1-m>
+     <z1-m>0.337</z1-m>
+     <x2-m>0.862</x2-m>
+     <y2-m>5.464</y2-m>
+     <z2-m>0.459</z2-m>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>translate</type>
+   <object-name>flaps</object-name>
+   <property>surface-positions/flap-pos-norm</property>
+   <factor>0.07</factor>
+   <axis>
+     <x>1.0</x>
+     <y>0.0</y>
+     <z>0.0</z>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>flaps</object-name>
+   <property>surface-positions/flap-pos-norm</property>
+   <factor>30</factor>
+   <center>
+     <x-m>1.152</x-m>
+     <y-m>-0.53</y-m>
+     <z-m>0.32</z-m>
+   </center>
+   <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>elevatorleft</object-name>
+   <property>surface-positions/elevator-pos-norm</property>
+   <interpolation>
+     <entry>
+       <ind>-1.0</ind>
+       <dep>-28</dep>
+     </entry>
+     <entry>
+       <ind>0</ind>
+       <dep>0</dep>
+     </entry>
+     <entry>
+       <ind>1.0</ind>
+       <dep>23</dep>
+     </entry>
+   </interpolation>
+   <axis>
+     <x1-m>5.088</x1-m>
+     <y1-m>-0.813</y1-m>
+     <z1-m>-0.457</z1-m>
+     <x2-m>5.108</x2-m>
+     <y2-m>-0.059</y2-m>
+     <z2-m>-0.513</z2-m>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>elevatorright</object-name>
+   <property>surface-positions/elevator-pos-norm</property>
+   <interpolation>
+     <entry>
+       <ind>-1.0</ind>
+       <dep>-28</dep>
+     </entry>
+     <entry>
+       <ind>0</ind>
+       <dep>0</dep>
+     </entry>
+     <entry>
+       <ind>1.0</ind>
+       <dep>23</dep>
+     </entry>
+   </interpolation>
+   <axis>
+     <x1-m>5.108</x1-m>
+     <y1-m>0.059</y1-m>
+     <z1-m>-0.513</z1-m>
+     <x2-m>5.088</x2-m>
+     <y2-m>0.813</y2-m>
+     <z2-m>-0.457</z2-m>
+   </axis>
+ </animation>
+
+ <!--<animation>
+  <type>rotate</type>
+  <object-name>ElevatorTrimTab</object-name>
+  <property>controls/flight/elevator-trim</property>
+  <factor>25</factor>
+  <center>
+   <x-m>5.06</x-m>
+   <y-m>1.12</y-m>
+   <z-m>-0.18</z-m>
+  </center>
+  <axis>
+   <x>0.17</x>
+   <y>-0.82</y>
+   <z>0.0</z>
+  </axis>
+ </animation>-->
+
+ <animation>
+   <type>rotate</type>
+   <object-name>rudder</object-name>
+   <object-name>rudder_1</object-name>
+   <object-name>navlight_back</object-name>
+   <object-name>RearNavLightOff</object-name>
+   <property>surface-positions/rudder-pos-norm</property>
+   <factor>17.5</factor>
+   <axis>
+     <x1-m>4.918</x1-m>
+     <y1-m>0</y1-m>
+     <z1-m>-0.310</z1-m>
+     <x2-m>5.805</x2-m>
+     <y2-m>-0.013</y2-m>
+     <z2-m>1.007</z2-m>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>fairing1</object-name>
+   <object-name>NoseWheel</object-name>
+   <object-name>NoseWheelStrut</object-name>
+   <object-name>TopLink</object-name>
+   <object-name>BottomLink</object-name>
+   <object-name>Axle.001</object-name>
+   <property>surface-positions/rudder-pos-norm</property>
+   <factor>30</factor>
+   <axis>
+     <x1-m>-0.975</x1-m>
+     <y1-m>0</y1-m>
+     <z1-m>-0.6781</z1-m>
+     <x2-m>-1.123</x2-m>
+     <y2-m>0.0</y2-m>
+     <z2-m>-1.172</z2-m>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>translate</type>
+   <object-name>fairing1</object-name>
+   <object-name>NoseWheel</object-name>
+   <object-name>NoseWheelStrut</object-name>
+   <object-name>BottomLink</object-name>
+   <object-name>Axle.001</object-name>
+   <property>gear/gear[0]/compression-norm</property>
+   <factor>0.30</factor>
+   <axis>
+     <x>0.3</x>
+     <y>0</y>
+     <z>1.0</z>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>TopLink</object-name>
+   <property>gear/gear[0]/compression-norm</property>
+   <center>
+     <x-m>-0.95412</x-m>
+     <y-m>0.0</y-m>
+     <z-m>-0.72408</z-m>
+   </center>
+   <axis>
+     <x>0.0</x>
+     <y>-1.0</y>
+     <z>0.0</z>
+   </axis>
+   <interpolation include="GearScissorInterpolation.xml"/>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>BottomLink</object-name>
+   <property>gear/gear[0]/compression-norm</property>
+   <center>
+     <x-m>-1.02349</x-m>
+     <y-m>0.0</y-m>
+     <z-m>-0.95449</z-m>
+   </center>
+   <axis>
+     <x>0.0</x>
+     <y>1.0</y>
+     <z>0.0</z>
+   </axis>
+   <interpolation include="GearScissorInterpolation.xml"/>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>fairing3</object-name>
+   <object-name>RightWheelStrut</object-name>
+   <object-name>RightWheel</object-name>
+   <property>gear/gear[2]/compression-norm</property>
+   <center>
+     <x-m>0.711</x-m>
+     <y-m>0.4518</y-m>
+     <z-m>-0.70</z-m>
+   </center>
+   <axis>
+     <x>1.0</x>
+     <y>0.0</y>
+     <z>0.0</z>
+   </axis>
+   <interpolation include="MainRotationInterpolation.xml"/>
+ </animation>
+
+ <animation>
+   <type>rotate</type>
+   <object-name>fairing2</object-name>
+   <object-name>LeftWheelStrut</object-name>
+   <object-name>LeftWheel</object-name>
+   <property>gear/gear[1]/compression-norm</property>
+   <center>
+     <x-m>0.711</x-m>
+     <y-m>-0.4518</y-m>
+     <z-m>-0.70</z-m>
+   </center>
+   <axis>
+     <x>-1.0</x>
+     <y>0.0</y>
+     <z>0.0</z>
+   </axis>
+   <interpolation include="MainRotationInterpolation.xml"/>
+ </animation>
+
+ <!--Lights-->
+
+<!-- Disable/enable different light types depending on rembrandt -->
+ <animation>
+   <type>select</type>
+   <object-name>LandingLightCone</object-name>
+   <condition>
+     <and>
+       <property>/sim/rendering/rembrandt/enabled</property>
+       <property>systems/electrical/outputs/landing-lights</property>
+     </and>
+   </condition>
+ </animation>
+
+ <animation>
+   <type>select</type>
+   <object-name>TaxiLightCone</object-name>
+   <condition>
+     <and>
+       <property>/sim/rendering/rembrandt/enabled</property>
+       <property>systems/electrical/outputs/taxi-light</property>
+     </and>
+   </condition>
+ </animation>
+
+
+ <!--landinglight-->
+ <animation>
+   <type>select</type>
+   <object-name>landinglight</object-name>
+   <object-name>landinglight2</object-name>
+   <condition>
+     <and>
+       <property>systems/electrical/outputs/landing-lights</property>
+       <not>
+         <property>/sim/rendering/rembrandt/enabled</property>
+       </not>
+      </and>
+   </condition>
+ </animation>
+
+ <animation>
+   <type>light</type>
+   <light-type>spot</light-type>
+   <name>LandingLight</name>
+   <object-name>LandingLightCone</object-name>
+   <nopreview/>
+   <condition>
+     <property>controls/lighting/landing-lights</property>
+   </condition>
+   <position>
+     <x>-0.078</x>
+     <y>-3.086</y>
+     <z>0.536</z>
+   </position>
+   <direction>
+     <x>-1</x>
+     <y>0</y>
+     <z>-0.1</z>
+   </direction>
+   <ambient>
+     <r>0.5</r>
+     <g>0.5</g>
+     <b>0.55</b>
+     <a>1.0</a>
+   </ambient>
+   <diffuse>
+     <r>0.95</r>
+     <g>0.95</g>
+     <b>0.8</b>
+     <a>1.0</a>
+   </diffuse>
+   <specular>
+     <r>0.95</r>
+     <g>0.95</g>
+     <b>0.8</b>
+     <a>1.0</a>
+   </specular>
+   <attenuation>
+     <c>1.0</c>
+     <l>0.0</l>
+     <q>0.00015</q>
+   </attenuation>
+   <exponent>25</exponent>
+   <cutoff>85</cutoff>
+   <near-m>2</near-m>
+   <far-m>250</far-m>
+ </animation>
+
+ <animation>
+   <type>light</type>
+   <light-type>spot</light-type>
+   <name>TaxiLight</name>
+   <object-name>TaxiLightCone</object-name>
+   <nopreview/>
+   <condition>
+     <property>systems/electrical/outputs/taxi-light</property>
+   </condition>
+   <position>
+     <x>-0.078</x>
+     <y>-3.086</y>
+     <z>0.536</z>
+   </position>
+   <direction>
+     <x>-1</x>
+     <y>0</y>
+     <z>-0.3</z>
+   </direction>
+   <ambient>
+     <r>0.5</r>
+     <g>0.5</g>
+     <b>0.55</b>
+     <a>1.0</a>
+   </ambient>
+   <diffuse>
+     <r>0.85</r>
+     <g>0.85</g>
+     <b>0.65</b>
+     <a>1.0</a>
+   </diffuse>
+   <specular>
+     <r>0.85</r>
+     <g>0.85</g>
+     <b>0.7</b>
+     <a>1.0</a>
+   </specular>
+   <attenuation>
+     <c>1.0</c>
+     <l>0.0</l>
+     <q>0.0018</q>
+   </attenuation>
+   <exponent>4.5</exponent>
+   <cutoff>160</cutoff>
+   <near-m>2</near-m>
+   <far-m>150</far-m>
+ </animation>
+
+
+ <animation>
+   <type>select</type>
+   <object-name>landinglightcover</object-name>
+   <condition>
+     <not>
+       <property>systems/electrical/outputs/landing-lights</property>
+     </not>
+   </condition>
+ </animation>
+
+
+
+ <animation>
+   <type>noshadow</type>
+   <object-name>landinglight</object-name>
+ </animation>
+
+ <animation>
+   <type>flash</type>
+   <object-name>landinglight</object-name>
+   <center>
+     <x-m>-0.117</x-m>
+     <y-m>-2.872</y-m>
+     <z-m>0.528</z-m>
+   </center>
+   <axis>
+     <x>-1</x>
+     <y>0</y>
+     <z>0</z>
+   </axis>
+   <power>0.5</power>
+   <factor>1</factor>
+   <offset>0</offset>
+   <two-sides type="bool">false</two-sides>
+   <min>0.01</min>
+   <max>1</max>
+ </animation>
+
+ <!--strobe-->
+ <animation>
+   <type>select</type>
+   <object-name>strobe1</object-name>
+   <object-name>strobe2</object-name>
+   <condition>
+     <property>/sim/model/c172p/lighting/strobes/state</property>
+   </condition>
+ </animation>
+
+ <animation>
+   <type>range</type>
+   <min-m>0</min-m>
+   <max-m>25000</max-m>
+ </animation>
+
+ <Plane.014Xparams>
+   <light-near>0.8</light-near>
+   <light-med>3.2</light-med>
+   <light-far>160</light-far>
+ </Plane.014Xparams>
+
+ <animation>
+   <name>Plane.014XGroup</name>
+   <object-name>strobe1</object-name>
+   <object-name>strobe2</object-name>
+ </animation>
+
+
+ <animation>
+   <type>alpha-test</type>
+   <object-name>Plane.014XGroup</object-name>
+   <alpha-factor>0.001</alpha-factor>
+ </animation>
+
+ <animation>
+   <type>translate</type>
+   <object-name>strobe1</object-name>
+   <offset-m>5.760493</offset-m>
+   <axis>
+     <x>0.253912</x>
+     <y>-5.727128</y>
+     <z>0.564638</z>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>translate</type>
+   <object-name>strobe2</object-name>
+   <offset-m>5.742337</offset-m>
+   <axis>
+     <x>0.253912</x>
+     <y>5.708865</y>
+     <z>0.564638</z>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>billboard</type>
+   <object-name>strobe1</object-name>
+   <spherical type="bool">true</spherical>
+ </animation>
+
+ <animation>
+   <type>billboard</type>
+   <object-name>strobe2</object-name>
+   <spherical type="bool">true</spherical>
+ </animation>
+
+ <animation>
+   <type>dist-scale</type>
+   <object-name>strobe1</object-name>
+   <interpolation>
+     <entry>
+       <ind>0</ind>
+       <dep alias="../../../../Plane.014Xparams/light-near"/>
+     </entry>
+     <entry>
+       <ind>500</ind>
+       <dep alias="../../../../Plane.014Xparams/light-med"/>
+     </entry>
+     <entry>
+       <ind>16000</ind>
+       <dep alias="../../../../Plane.014Xparams/light-far"/>
+     </entry>
+   </interpolation>
+ </animation>
+
+ <animation>
+   <type>dist-scale</type>
+   <object-name>strobe2</object-name>
+   <interpolation>
+     <entry>
+       <ind>0</ind>
+       <dep alias="../../../../Plane.014Xparams/light-near"/>
+     </entry>
+     <entry>
+       <ind>500</ind>
+       <dep alias="../../../../Plane.014Xparams/light-med"/>
+     </entry>
+     <entry>
+       <ind>16000</ind>
+       <dep alias="../../../../Plane.014Xparams/light-far"/>
+     </entry>
+   </interpolation>
+ </animation>
+
+ <animation>
+   <type>select</type>
+   <object-name>BeaconOffX</object-name>
+   <condition>
+     <property>/sim/model/c172p/lighting/beacon-top/state</property>
+   </condition>
+ </animation>
+
+ <animation>
+   <type>range</type>
+   <min-m>0</min-m>
+   <max-m>25000</max-m>
+ </animation>
+
+ <BeaconOffXparams>
+   <light-near>0.4</light-near>
+   <light-med>0.8</light-med>
+   <light-far>10</light-far>
+ </BeaconOffXparams>
+
+
+ <animation>
+   <type>alpha-test</type>
+   <object-name>BeaconOffX</object-name>
+   <alpha-factor>0.001</alpha-factor>
+ </animation>
+
+ <animation>
+   <type>translate</type>
+   <object-name>BeaconOffX</object-name>
+   <offset-m>5.588312</offset-m>
+   <axis>
+     <x>5.466914</x>
+     <y>0</y>
+     <z>1.15848</z>
+   </axis>
+ </animation>
+
+ <animation>
+   <type>billboard</type>
+   <object-name>BeaconOffX</object-name>
+   <spherical type="bool">true</spherical>
+ </animation>
+
+ <animation>
+   <type>dist-scale</type>
+   <object-name>BeaconOffX</object-name>
+   <interpolation>
+     <entry>
+       <ind>0</ind>
+       <dep alias="../../../../BeaconOffXparams/light-near"/>
+     </entry>
+     <entry>
+       <ind>500</ind>
+       <dep alias="../../../../BeaconOffXparams/light-med"/>
+     </entry>
+     <entry>
+       <ind>16000</ind>
+       <dep alias="../../../../BeaconOffXparams/light-far"/>
+     </entry>
+   </interpolation>
+ </animation>
+
+ <animation>
+   <type>select</type>
+   <object-name>fairing1</object-name>
+   <condition>
+     <property>sim/model/c172p/fairing1</property>
+   </condition>
+ </animation>
+
+ <animation>
+   <type>select</type>
+   <object-name>fairing2</object-name>
+   <condition>
+     <property>sim/model/c172p/fairing2</property>
+   </condition>
+ </animation>
+
+ <animation>
+   <type>select</type>
+   <object-name>fairing3</object-name>
+   <condition>
+     <property>sim/model/c172p/fairing3</property>
+   </condition>
+ </animation>
+
+ <animation>
+   <type>material</type>
+   <!--global type="bool">true</global-->
+   <object-name>RightWheelStrut</object-name>
+   <object-name>LeftWheelStrut</object-name>
+   <object-name>fairing1</object-name>
+   <object-name>fairing2</object-name>
+   <object-name>fairing3</object-name>
+   <object-name>fuselage_0</object-name>
+   <object-name>fuselage_1</object-name>
+   <object-name>charniere1</object-name>
+   <object-name>charniere2</object-name>
+   <object-name>charniere3</object-name>
+   <object-name>charniere4</object-name>
+   <object-name>leftdoor</object-name>
+   <object-name>rightdoor</object-name>
+   <object-name>baggagedoor</object-name>
+   <property-base>sim/model/livery/</property-base>
+   <texture-prop>texture</texture-prop>
+   <texture>fuselage-n301dp.png</texture>
+ </animation>
+
+ <animation>
+   <type>material</type>
+   <!--global type="bool">true</global-->
+   <object-name>wing</object-name>
+   <object-name>flaps</object-name>
+   <object-name>rightaileron</object-name>
+   <object-name>leftaileron</object-name>
+   <property-base>sim/model/liverywing/</property-base>
+   <texture-prop>texture</texture-prop>
+   <texture>wing.png</texture>
+ </animation>
+
+ <animation>
+   <type>material</type>
+   <!--global type="bool">true</global-->
+   <object-name>vstab</object-name>
+   <object-name>hstab</object-name>
+   <object-name>rudder</object-name>
+   <object-name>elevatorleft</object-name>
+   <object-name>elevatorright</object-name>
+   <property-base>sim/model/liverytail/</property-base>
+   <texture-prop>texture</texture-prop>
+   <texture>tail.png</texture>
+ </animation>
+
+</PropertyList>

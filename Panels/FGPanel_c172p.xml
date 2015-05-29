@@ -1,0 +1,42 @@
+<PropertyList>
+<!--
+    FGPanel for the C172p Mini Cockpit
+    Thorsten Brehm, October 2011
+-->
+ <comment>
+  <![CDATA[
+    Usage:
+    * To display the panel:
+      fgpanel --fg-root=... --panel=Aircraft/c172p/Panels
+    # To send the data to the panel:
+      fgfs --generic=socket,out,<hz>,<host>,34200,udp,../Aircraft/c172p/Panels/FGPanel_Protocol_c172p
+  ]]>
+ </comment>
+
+  <game-mode type="bool">true</game-mode>
+
+  <panel include="FGPanel_instruments.xml"/>
+
+  <sim>
+    <panel>
+      <flip-x type="bool">false</flip-x>
+      <flip-y type="bool">true</flip-y>
+    </panel>
+    <frame-rate-throttle-hz>30</frame-rate-throttle-hz>
+    <instrument-options>
+      <omit-knobs type="bool">true</omit-knobs>
+    </instrument-options>
+  </sim>
+
+  <communication>
+    <listen>
+      <host>0.0.0.0</host>
+      <port>34200</port>
+      <style>udp</style>
+    </listen>
+
+    <protocol include="FGPanel_Protocol_c172p.xml"/>
+
+  </communication>
+
+</PropertyList>

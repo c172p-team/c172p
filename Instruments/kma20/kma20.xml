@@ -1,0 +1,571 @@
+<?xml version="1.0" ?>
+<PropertyList>
+
+  <!--
+  Bendix/King KMA20 Marker/Audio panel
+
+  Created by Torsten Dreyer, December 2008
+
+  You might want to use the following code in your aircraft's nasal
+  init function to keep the settings of the device persistent between
+  flightgear sessions
+
+  aircraft.data.add(
+    "instrumentation/kma20/test",
+    "instrumentation/kma20/auto",
+    "instrumentation/kma20/com1",
+    "instrumentation/kma20/com2",
+    "instrumentation/kma20/nav1",
+    "instrumentation/kma20/nav2",
+    "instrumentation/kma20/adf",
+    "instrumentation/kma20/dme",
+    "instrumentation/kma20/mkr",
+    "instrumentation/kma20/sens",
+    "instrumentation/kma20/knob"
+  );
+  -->
+
+  <params>
+    <outer>instrumentation/marker-beacon/outer</outer>
+    <middle>instrumentation/marker-beacon/middle</middle>
+    <inner>instrumentation/marker-beacon/inner</inner>
+    <test>instrumentation/kma20/test</test>
+
+    <auto>instrumentation/kma20/auto</auto>
+    <com1>instrumentation/kma20/com1</com1>
+    <com2>instrumentation/kma20/com2</com2>
+    <nav1>instrumentation/kma20/nav1</nav1>
+    <nav2>instrumentation/kma20/nav2</nav2>
+    <adf>instrumentation/kma20/adf</adf>
+    <dme>instrumentation/kma20/dme</dme>
+    <mkr>instrumentation/kma20/mkr</mkr>
+    <sens>instrumentation/kma20/sens</sens>
+    <knob>instrumentation/kma20/knob</knob>
+  </params>
+
+  <path>kma20.ac</path>
+
+  <animation>
+    <type>material</type>
+    <object-name>Chassis</object-name>
+    <object-name>Knob</object-name>
+    <emission>
+      <red>0.5</red>
+      <green>0.1</green>
+      <blue>0.00005</blue>
+      <factor-prop>sim/model/material/instruments/factor</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>AUTO</object-name>
+    <object-name>COM1</object-name>
+    <object-name>COM2</object-name>
+    <object-name>NAV1</object-name>
+    <object-name>NAV2</object-name>
+    <object-name>ADF</object-name>
+    <object-name>DME</object-name>
+    <object-name>MKR</object-name>
+    <object-name>SENS</object-name>
+    <emission>
+      <red>0.2</red>
+      <green>0.04</green>
+      <blue>0.00002</blue>
+      <factor-prop>sim/model/material/instruments/factor</factor-prop>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>O</object-name>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+      <factor-prop alias="../../../params/outer"/>
+      <offset-prop alias="../../../params/test"/>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>M</object-name>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+      <factor-prop alias="../../../params/middle"/>
+      <offset-prop alias="../../../params/test"/>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>material</type>
+    <object-name>A</object-name>
+    <emission>
+      <red>1.0</red>
+      <green>1.0</green>
+      <blue>1.0</blue>
+      <factor-prop alias="../../../params/inner"/>
+      <offset-prop alias="../../../params/test"/>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>knob</type>
+    <drag-direction>vertical</drag-direction>
+    <drag-scale-px>30</drag-scale-px>
+    <object-name>AUTO</object-name>
+    
+    <proxy-name>AUTOUp</proxy-name>
+    <proxy-name>AUTODown</proxy-name>
+    
+    <property alias="../../params/auto"/>
+    <factor>30</factor>
+    <axis>
+      <y>1</y>
+    </axis>
+    <center>
+      <x-m>0.0131629</x-m>
+      <z-m>0.00714385</z-m>
+    </center>
+    
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="../../../../params/auto"/>
+        <factor>-1</factor>
+        <min>-1</min>
+        <max>1</max>
+        <wrap>0</wrap>
+      </binding>
+    </action>
+    
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>kma20-auto</tooltip-id>
+        <label>Auto: %s</label>
+        <mapping>nasal</mapping>
+        <script>(arg[0] == -1) ? "SPEAKER" : (arg[0]==1) ? "HEADSET" : "OFF"</script>
+        <property alias="../../../../params/auto"/>
+      </binding>
+    </hovered>
+    
+  </animation>
+
+  <animation>
+    <type>knob</type>
+    <object-name>COM1</object-name>
+    <proxy-name>COM1Up</proxy-name>
+    <proxy-name>COM1Down</proxy-name>
+    
+    <drag-direction>vertical</drag-direction>
+    <drag-scale-px>30</drag-scale-px>
+    <property alias="../../params/com1"/>
+    <factor>30</factor>
+    <axis>
+      <y>1</y>
+    </axis>
+    <center>
+      <x-m>0.0131629</x-m>
+      <z-m>0.00714385</z-m>
+    </center>
+    
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="../../../../params/com1"/>
+        <factor>-1</factor>
+        <min>-1</min>
+        <max>1</max>
+        <wrap>0</wrap>
+      </binding>
+    </action>
+    
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>kma20-com1</tooltip-id>
+        <property alias="../../../../params/com1"/>
+        <label>COM1: %s</label>
+        <mapping>nasal</mapping>
+        <script>(arg[0] == -1) ? "SPEAKER" : (arg[0]==1) ? "HEADSET" : "OFF"</script>
+      </binding>
+    </hovered>
+  </animation>
+
+
+  <animation>
+    <type>knob</type>
+    <object-name>COM2</object-name>
+    <proxy-name>COM2Up</proxy-name>
+    <proxy-name>COM2Down</proxy-name>
+    <drag-direction>vertical</drag-direction>
+    <drag-scale-px>30</drag-scale-px>
+    <property alias="../../params/com2"/>
+    <factor>30</factor>
+    <axis>
+      <y>1</y>
+    </axis>
+    <center>
+      <x-m>0.0131629</x-m>
+      <z-m>0.00714385</z-m>
+    </center>
+    
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="../../../../params/com2"/>
+        <factor>-1</factor>
+        <min>-1</min>
+        <max>1</max>
+        <wrap>0</wrap>
+      </binding>
+    </action>
+    
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>kma20-com2</tooltip-id>
+        <label>COM2: %s</label>
+        <property alias="../../../../params/com2"/>
+        <mapping>nasal</mapping>
+        <script>(arg[0] == -1) ? "SPEAKER" : (arg[0]==1) ? "HEADSET" : "OFF"</script>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>knob</type>
+    <object-name>NAV1</object-name>
+    <proxy-name>NAV1Up</proxy-name>
+    <proxy-name>NAV1Down</proxy-name>
+    
+    <drag-direction>vertical</drag-direction>
+    <drag-scale-px>30</drag-scale-px>
+    <property alias="../../params/nav1"/>
+    <factor>30</factor>
+    <axis>
+      <y>1</y>
+    </axis>
+    <center>
+      <x-m>0.0131629</x-m>
+      <z-m>0.00714385</z-m>
+    </center>
+    
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="../../../../params/nav1"/>
+        <factor>-1</factor>
+        <min>-1</min>
+        <max>1</max>
+        <wrap>0</wrap>
+      </binding>
+    </action>
+    
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>kma20-nav1</tooltip-id>
+        <label>NAV1: %s</label>
+        <property alias="../../../../params/nav1"/>
+        <mapping>nasal</mapping>
+        <script>(arg[0] == -1) ? "SPEAKER" : (arg[0]==1) ? "HEADSET" : "OFF"</script>
+      </binding>
+    </hovered>
+  </animation>
+
+
+  <animation>
+    <type>knob</type>
+    <object-name>NAV2</object-name>
+    <proxy-name>NAV2Up</proxy-name>
+    <proxy-name>NAV2Down</proxy-name>
+    
+    <drag-direction>vertical</drag-direction>
+    <drag-scale-px>30</drag-scale-px>
+    <property alias="../../params/nav2"/>
+    <factor>30</factor>
+    <axis>
+      <y>1</y>
+    </axis>
+    <center>
+      <x-m>0.0131629</x-m>
+      <z-m>0.00714385</z-m>
+    </center>
+    
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="../../../../params/nav2"/>
+        <factor>-1</factor>
+        <min>-1</min>
+        <max>1</max>
+        <wrap>0</wrap>
+      </binding>
+    </action>
+    
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>kma20-nav2</tooltip-id>
+        <label>NAV2: %s</label>
+        <property alias="../../../../params/nav2"/>
+        <mapping>nasal</mapping>
+        <script>(arg[0] == -1) ? "SPEAKER" : (arg[0]==1) ? "HEADSET" : "OFF"</script>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>knob</type>
+    <object-name>ADF</object-name>
+    <proxy-name>ADFUp</proxy-name>
+    <proxy-name>ADFDown</proxy-name>
+    
+    <drag-direction>vertical</drag-direction>
+    <drag-scale-px>30</drag-scale-px>
+    <property alias="../../params/adf"/>
+    <factor>30</factor>
+    <axis>
+      <y>1</y>
+    </axis>
+    <center>
+      <x-m>0.0131629</x-m>
+      <z-m>0.00714385</z-m>
+    </center>
+    
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="../../../../params/adf"/>
+        <factor>-1</factor>
+        <min>-1</min>
+        <max>1</max>
+        <wrap>0</wrap>
+      </binding>
+    </action>
+    
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>kma20-adf</tooltip-id>
+        <label>ADF: %s</label>
+        <property alias="../../../../params/adf"/>
+        <mapping>nasal</mapping>
+        <script>(arg[0] == -1) ? "SPEAKER" : (arg[0]==1) ? "HEADSET" : "OFF"</script>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>knob</type>
+    <object-name>DME</object-name>
+    <proxy-name>DMEUp</proxy-name>
+    <proxy-name>DMEDown</proxy-name>
+    <drag-direction>vertical</drag-direction>
+    <drag-scale-px>30</drag-scale-px>
+    
+    <property alias="../../params/dme"/>
+    <factor>30</factor>
+    <axis>
+      <y>1</y>
+    </axis>
+    <center>
+      <x-m>0.0131629</x-m>
+      <z-m>0.00714385</z-m>
+    </center>
+    
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="../../../../params/dme"/>
+        <factor>-1</factor>
+        <min>-1</min>
+        <max>1</max>
+        <wrap>0</wrap>
+      </binding>
+    </action>
+    
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>kma20-dme</tooltip-id>
+        <label>DME: %s</label>
+        <property alias="../../../../params/dme"/>
+        <mapping>nasal</mapping>
+        <script>(arg[0] == -1) ? "SPEAKER" : (arg[0]==1) ? "HEADSET" : "OFF"</script>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>knob</type>
+    <object-name>MKR</object-name>
+    <proxy-name>MKRUp</proxy-name>
+    <proxy-name>MKRDown</proxy-name>
+    <drag-direction>vertical</drag-direction>
+    <drag-scale-px>30</drag-scale-px>
+    
+    <property alias="../../params/mkr"/>
+    <factor>30</factor>
+    <axis>
+      <y>1</y>
+    </axis>
+    <center>
+      <x-m>0.0131629</x-m>
+      <z-m>0.00714385</z-m>
+    </center>
+    
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="../../../../params/mkr"/>
+        <factor>-1</factor>
+        <min>-1</min>
+        <max>1</max>
+        <wrap>0</wrap>
+      </binding>
+    </action>
+    
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>kma20-mkr</tooltip-id>
+        <label>Marker Beacon: %s</label>
+        <property alias="../../../../params/mkr"/>
+        <mapping>nasal</mapping>
+        <script>(arg[0] == -1) ? "SPEAKER" : (arg[0]==1) ? "HEADSET" : "OFF"</script>
+      </binding>
+    </hovered>
+  </animation>
+
+  <animation>
+    <type>rotate</type>
+    <object-name>SENS</object-name>
+    <property alias="../../params/sens"/>
+    <factor>30</factor>
+    <axis>
+      <y>1</y>
+    </axis>
+    <center>
+      <x-m>0.0131629</x-m>
+      <z-m>0.00714385</z-m>
+    </center>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>SENSUp</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="../../../../params/sens"/>
+        <step>-1</step>
+        <min>-1</min>
+        <max>1</max>
+        <wrap>0</wrap>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>pick</type>
+    <object-name>SENSDown</object-name>
+    <visible>false</visible>
+    <action>
+      <button>0</button>
+      <repeatable>false</repeatable>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="../../../../params/sens"/>
+        <step>1</step>
+        <min>-1</min>
+        <max>1</max>
+        <wrap>0</wrap>
+      </binding>
+      <mod-up>
+        <binding>
+          <condition>
+            <equals>
+              <property alias="../../../../../../../params/sens"/>
+              <value>1</value>
+            </equals>
+          </condition>
+          <command>property-assign</command>
+          <property alias="../../../../../params/sens"/>
+          <value>0</value>
+        </binding>
+        <binding>
+          <condition>
+            <equals>
+              <property alias="../../../../../../../params/sens"/>
+              <value>0</value>
+            </equals>
+          </condition>
+          <command>property-assign</command>
+          <property alias="../../../../../params/test"/>
+          <value>0</value>
+        </binding>
+      </mod-up>
+      <binding>
+        <condition>
+          <greater-than>
+            <property alias="../../../../../../params/sens"/>
+            <value>-1</value>
+          </greater-than>
+        </condition>
+        <command>property-assign</command>
+        <property alias="../../../../params/test"/>
+        <property alias="../../../../params/sens"/>
+      </binding>
+    </action>
+  </animation>
+
+  <animation>
+    <type>knob</type>
+    <object-name>Knob</object-name>
+    <proxy-name>MICLeft</proxy-name>
+    <proxy-name>MICRight</proxy-name>
+    
+    <property alias="../../params/knob"/>
+    <factor>-30</factor>
+    <axis>
+      <x>1</x>
+    </axis>
+    <center>
+      <y-m>-0.0605381</y-m>
+      <z-m>0.00559147</z-m>
+    </center>
+    
+    <action>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="../../../../params/knob"/>
+        <min>-1</min>
+        <max>1</max>
+        <wrap>0</wrap>
+      </binding>
+    </action>
+    
+    <hovered>
+      <binding>
+        <command>set-tooltip</command>
+        <tooltip-id>kma20-mic</tooltip-id>
+        <label>Microphone: %s</label>
+        <property alias="../../../../params/knob"/>
+        <mapping>nasal</mapping>
+        <script>(arg[0] == -1) ? "COM1" : (arg[0]==1) ? "External" : "COM2"</script>
+      </binding>
+    </hovered>
+    
+  </animation>
+
+
+</PropertyList>

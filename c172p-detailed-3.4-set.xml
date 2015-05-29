@@ -1,0 +1,532 @@
+<?xml version="1.0"  encoding="UTF-8" ?>
+<!--
+************************************************************************
+JSBSim Cessna 172P with 3D cockpit.
+
+Started October 23 2001 by John Check, fgpanels@rockfish.net
+
+Detailed version January, 2015
+http://forum.flightgear.org/viewtopic.php?f=4&t=25157
+
+- Main model based on the original c172p by Jon Check
+- Enhanced model by thevirtualfer
+- Small details and systems by ludomotico (Juan Vera) and gsagostinho 
+
+Notice this version relays heavily on the original c172p!
+Many files from the original c172p directory are included in this file.
+
+************************************************************************
+-->
+
+<PropertyList include="Aircraft/Generic/Human/Include/walker-include.xml" >
+
+ <sim>
+
+  <description>Cessna 172P Skyhawk (1981 model, detailed 3.4 version)</description>
+  <long-description>The Cessna 172 Skyhawk is a four-seat, single-engine, high-wing fixed-wing aircraft. 
+      First flown in 1955 and still in production, more Cessna 172s have been built than any other aircraft.
+      This version has more detailed textures, instruments and models than the default version.
+  </long-description>
+  
+  <fr>
+      <long-description>Le Cessna 172 Skyhawk est un avion quadriplace, monomoteur à aile haute. 
+        Il effectua son premier vol en 1955 et est toujours en production, plus de Cessna 172 ont été construits que tout autres avions.
+        Cette version a des textures, des instruments et des modèles plus détaillés que la version originale.
+        </long-description>
+  </fr>
+  
+  <es>
+    <long-description>La Cessna 172 Skyhawk es un avión de cuatro plazas, monomotor y de ala alta.
+      Se empezó a producir en 1955 y, con equipos modernizados, aún sigue en producción.
+      La Cessna 172 es el avión del que unidades se han construido en la historia.
+      Esta version tiene texturas mas detalladas, mas instrumentos y modelos que la version por defecto.
+      </long-description>
+  </es>
+  
+  <tags>
+      <tag>ga</tag>
+      <tag>cessna</tag>
+      <tag>piston</tag>
+      <tag>single-engine</tag>
+      <tag>fixed-gear</tag>
+  </tags>
+  
+  <author>David Megginson</author>
+  <status>early production</status>
+  <rating>
+    <FDM type="int">3</FDM>
+    <systems type="int">4</systems>
+    <model type="int">5</model>
+    <cockpit type="int">4</cockpit>
+  </rating>
+
+  <!--variant-of>c172p</variant-of-->
+  
+  <flight-model archive="y">jsb</flight-model>
+  <aero archive="y">c172p</aero>
+
+  <allow-toggle-cockpit type="bool">true</allow-toggle-cockpit>
+
+  <model>
+    <path archive="y">Aircraft/c172p-detailed/Models/c172p-detailed-3.4.xml</path>
+
+    <livery>
+      <file type="string">D-EEQA</file>
+      <index type="int">0</index>
+    </livery>
+
+    <liverytail>
+      <file type="string">D-EEQA</file>
+      <index type="int">0</index>
+    </liverytail>
+
+    <liverywing>
+      <file type="string">D-EEQA</file>
+      <index type="int">0</index>
+    </liverywing>
+	
+	<liveryfloat>
+      <file type="string">D-EEQA</file>
+      <index type="int">0</index>
+    </liveryfloat>
+
+    <c172p>
+      <immat type="bool">false</immat>
+      <fairing1 type="bool">true</fairing1>
+      <fairing2 type="bool">false</fairing2>
+      <fairing3 type="bool">false</fairing3>
+    </c172p>
+    <hide-yoke type="bool">false</hide-yoke>
+    
+    <crew>
+      <pilot n="0">
+		<pose include = "Models/Human/pose-pilot.xml"></pose>
+		<character>0</character>
+		<outfit>0</outfit>
+		<equipment>0</equipment>
+	  </pilot>
+	  <pilot n="1">
+		<pose include = "Models/Human/pose-copilot.xml"></pose>
+		<character>0</character>
+		<outfit>0</outfit>
+		<equipment>0</equipment>
+      </pilot>
+    </crew>
+	
+	<!-- human models persistent menu choice -->
+	<occupants type="bool">0</occupants>
+  
+    <!-- an exit for the walker -->
+    <map>
+      <default_exit>
+        <x-offset-m type="float">-0.35</x-offset-m>
+        <y-offset-m type="float">-0.84</y-offset-m>
+      </default_exit>
+    </map>
+  </model>
+  
+  <aircraft-data>
+    <path>/sim/rendering/shadow</path>
+    <path>/sim/rendering/shadow-volume</path>
+    <path>/sim/model/occupants</path>
+    <path>/fdm/jsbsim/damage</path>
+    <path>/fdm/jsbsim/bushkit</path>
+    <path>/environment/aircraft-effects/cabin-heat-set</path>
+    <path>/environment/aircraft-effects/cabin-air-set</path>
+    <path>/fdm/jsbsim/running</path>
+    <path>/fdm/jsbsim/complex</path>
+  </aircraft-data>
+
+  <startup>
+	  <splash-texture>Aircraft/c172p-detailed/splash.png</splash-texture>
+  </startup>
+
+  <!-- hide the 2D panel -->
+ 
+  <panel>
+   <visibility type="bool" archive="y">false</visibility>
+  </panel>
+
+  <!-- position the pilot viewpoint and angle -->
+ 
+  <view>
+   <internal type="bool" archive="y">true</internal>
+   <config>
+     <x-offset-m archive="y" type="double">-0.21</x-offset-m>
+     <y-offset-m archive="y" type="double">0.19</y-offset-m>
+     <z-offset-m archive="y" type="double">0.36</z-offset-m>
+     <pitch-offset-deg type="double">-12</pitch-offset-deg>
+     <default-field-of-view-deg>73.6</default-field-of-view-deg>
+   </config>
+  </view>
+
+  <systems>
+    <autopilot>
+      <path>Systems/KAP140.xml</path>
+    </autopilot>
+    <property-rule n="100">
+      <name>FiltersOnly</name>
+      <path>Systems/NAVandGSfilters.xml</path>
+    </property-rule>
+    <electrical>
+      <!-- null electrical system path here so we can use a nasal based -->
+      <!-- model defined later in the nasal section of this file. -->
+      <path></path>
+    </electrical>
+     
+    <!-- needed by shadows in ALS: http://forum.flightgear.org/viewtopic.php?f=4&t=25157&start=75#p232120 -->
+    <property-rule n="101">
+      <path>Aircraft/c172p-detailed/Systems/gearAGL.xml</path>
+    </property-rule>
+
+    <property-rule n="102">
+      <path>Aircraft/c172p-detailed/Systems/als-lights.xml</path>
+    </property-rule>
+  </systems>
+
+  <sound>
+   <path archive="y">c172-sound.xml</path>
+  </sound>
+
+  <help include="c172-help.xml"/>
+  
+  <checklists include="c172-checklists.xml"/>
+
+  <tutorials include="Tutorials/c172-tutorials.xml"/>
+  
+  <dimensions>
+    <radius-m type="double">5</radius-m>
+  </dimensions>
+  <aircraft-class type="string">ga</aircraft-class>
+  <aircraft-operator type="string">NONE</aircraft-operator>
+
+  <multiplay>
+      <chat_display>1</chat_display>
+      <generic>
+        <float n="0" alias="/sim/model/door-positions/rightDoor/position-norm"/>
+        <float n="1" alias="/sim/model/door-positions/leftDoor/position-norm"/>
+        <float n="2" alias="/sim/model/door-positions/baggageDoor/position-norm"/>
+
+        <int n="1" alias="/sim/model/c172p/lighting/beacon-top/state"/>
+        <int n="2" alias="/sim/model/c172p/lighting/strobes/state"/>
+		
+		<int n="3" alias="/fdm/jsbsim/crash"/>
+		<int n="4" alias="/fdm/jsbsim/contact/unit[4]/broken"/>
+		<int n="5" alias="/fdm/jsbsim/contact/unit[5]/broken"/>
+		<int n="6" alias="/fdm/jsbsim/gear/unit[0]/broken"/>
+		<int n="7" alias="/fdm/jsbsim/gear/unit[1]/broken"/>
+		<int n="8" alias="/fdm/jsbsim/gear/unit[2]/broken"/>
+		<int n="9" alias="/fdm/jsbsim/bushkit"/>
+		<int n="10" alias="/fdm/jsbsim/left-pontoon/damaged"/>
+		<int n="11" alias="/fdm/jsbsim/left-pontoon/broken"/>
+		<int n="12" alias="/fdm/jsbsim/right-pontoon/damaged"/>
+		<int n="13" alias="/fdm/jsbsim/right-pontoon/broken"/>
+
+        <float n="3" alias="/systems/electrical/outputs/nav-lights"/>
+        <float n="4" alias="/systems/electrical/outputs/taxi-light"/>
+        <float n="5" alias="/systems/electrical/outputs/landing-lights"/>
+      </generic>
+  </multiplay>
+
+  <flight-recorder>
+    <replay-config type="int">0</replay-config>
+    <config n="0" include="Aircraft/Generic/flightrecorder/generic-piston-propeller-1.xml">
+      <name type="string">C172p Flight Recorder</name>
+    </config>
+  </flight-recorder>
+
+  <menubar include="gui/dialogs/c172p-menu-3.4.xml"/>
+  <instrumentation>
+    <path>Systems/instrumentation.xml</path>
+  </instrumentation>
+ </sim>
+
+ <controls>
+  <flight>
+   <aileron-trim type="double">0.027</aileron-trim>
+   <rudder-trim type="double">0.0</rudder-trim>
+  </flight>
+  <engines>
+   <engine n="0">
+    <throttle type="double">0</throttle>
+    <primer type="double">0</primer>
+    <primer-lever type="double">0</primer-lever>
+    <use-primer type="bool">false</use-primer>
+    <master-alt type="bool">false</master-alt>
+    <master-bat type="bool">false</master-bat>
+   </engine>
+  </engines>
+  <switches>
+    <master-avionics type="bool">false</master-avionics>
+  </switches>
+
+  <gear>
+      <water-rudder type="bool">0</water-rudder>
+      <water-rudder-down type="double">0</water-rudder-down>
+  </gear>
+
+ </controls>
+
+ <autopilot>
+  <KAP140>
+   <settings>
+    <auto-pitch-trim type="bool">true</auto-pitch-trim>
+   </settings>
+  </KAP140>
+ </autopilot>
+
+ <consumables>
+  <fuel>
+   <tank n="0">
+    <name>LeftTank</name>
+    <level-gal_us type="double">20</level-gal_us>
+    <selected type="bool">true</selected>
+   </tank>
+   <tank n="1">
+    <name>RightTank</name>
+    <level-gal_us type="double">20</level-gal_us>
+    <selected type="bool">true</selected>
+   </tank>
+   <tank n="2">
+    <name>Float chamber</name>
+    <capacity unit="LBS"> 0.1 </capacity>
+    <selected type="bool">true</selected>
+   </tank>
+  </fuel>
+ </consumables>
+
+ <instrumentation>
+  <kma20 include="Aircraft/Instruments-3d/kma20/kma20init.xml"/>
+  <attitude-indicator>
+   <config>
+    <tumble-flag archive="y" type="bool">true</tumble-flag>
+   </config>
+  </attitude-indicator>
+  <encoder>
+   <serviceable type="bool">true</serviceable>
+  </encoder>
+  <adf n="0">
+    <ident-audible type="bool">false</ident-audible>
+    <volume type="double">0.7</volume>
+  </adf>
+  <comm n="0">
+    <power-btn type="bool">1</power-btn>
+  </comm>
+  <nav n="0">
+    <volume type="double">0.7</volume>
+  </nav>
+  <comm n="1">
+    <power-btn type="bool">1</power-btn>
+  </comm>
+  <nav n="1">
+    <volume type="double">0.7</volume>
+  </nav>
+  <magnetic-compass>
+    <pitch-offset-deg type="double">-2.7</pitch-offset-deg>
+  </magnetic-compass>
+ </instrumentation>
+
+ <engines>
+  <engine>
+   <rpm type="double">0</rpm>
+   <magnetos type="int">0</magnetos>
+   <mixture type="double">0</mixture>
+   <running type="bool">false</running>
+  </engine>
+ </engines>
+
+ <nasal>
+ 
+    <c172p>
+      <file>Nasal/liveries.nas</file>
+      <file>Nasal/immat.nas</file>
+      <file>Nasal/doors.nas</file>
+      <file>Nasal/light.nas</file>
+      <file>Nasal/tanks.nas</file>
+      <file>Nasal/kma20.nas</file>
+      <file>Nasal/ki266.nas</file>
+      <file>Nasal/engine.nas</file>
+	  <file>Nasal/shadow.nas</file>
+	  <file>Nasal/avionics.nas</file>
+	  <file>Nasal/weather.nas</file>
+	  <!-- Damage Mod -->
+      <file>Nasal/physics.nas</file>
+      <file>Nasal/c172p.nas</file>
+  </c172p>
+
+  <electrical>
+   <file>Nasal/electrical.nas</file>
+  </electrical>
+  <kap140>
+   <file>Aircraft/Generic/kap140.nas</file>
+  </kap140>
+  <kr87>
+    <file>Nasal/kr87.nas</file>
+  </kr87>
+  
+  <tyresmoke>
+   <file>Nasal/tyresmoke.nas</file>
+  </tyresmoke>
+  
+ </nasal>
+ 
+ <payload>
+  <weight>
+   <name type="string">Pilot</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[0]"/>
+   <arm-in alias="/fdm/jsbsim/inertia/pointmass-location-X-inches[0]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">300.0</max-lb>
+  </weight>
+  <weight>
+   <name type="string">Co-Pilot</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[1]"/>
+   <arm-in alias="/fdm/jsbsim/inertia/pointmass-location-X-inches[0]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">300.0</max-lb>
+  </weight>
+  <weight>
+   <name type="string">Left Passenger</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[2]"/>
+   <arm-in alias="/fdm/jsbsim/inertia/pointmass-location-X-inches[0]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">300.0</max-lb>
+  </weight>
+  <weight>
+   <name type="string">Right Passenger</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[3]"/>
+   <arm-in alias="/fdm/jsbsim/inertia/pointmass-location-X-inches[0]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">300.0</max-lb>
+  </weight>
+  <weight>
+   <name type="string">Baggage</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[4]"/>
+   <arm-in alias="/fdm/jsbsim/inertia/pointmass-location-X-inches[0]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">150.0</max-lb> <!-- WARNING: Max baggage "by the book" is 120lbs or less! -->
+  </weight>
+  <weight>
+   <name type="string">wheels 26"</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[5]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">100</max-lb>
+  </weight>
+  <weight>
+   <name type="string">wheels 36"</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[6]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">100</max-lb>
+  </weight>
+    <weight>
+   <name type="string">Floats</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[7]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">400</max-lb>
+  </weight>
+  <weight>
+   <name type="string">Amphibious</name>
+   <weight-lb alias="/fdm/jsbsim/inertia/pointmass-weight-lbs[8]"/>
+   <min-lb type="double">0.0</min-lb>
+   <max-lb type="double">400</max-lb>
+  </weight>
+ </payload>
+
+ <limits>
+  <mass-and-balance>
+   <maximum-ramp-mass-lbs>2407</maximum-ramp-mass-lbs>
+   <maximum-takeoff-mass-lbs>2400</maximum-takeoff-mass-lbs>
+   <maximum-landing-mass-lbs>2400</maximum-landing-mass-lbs>
+   <cg>
+    <dimension type="string">in</dimension>
+    <limit>
+     <entry>
+      <position type="double">35.0</position>
+      <mass-lbs type="double">1450</mass-lbs>
+     </entry>
+     <entry>
+      <position type="double">35.0</position>
+      <mass-lbs type="double">1950</mass-lbs>
+     </entry>
+     <entry>
+      <position type="double">41</position>
+      <mass-lbs type="double">2550</mass-lbs>
+     </entry>
+     <entry>
+      <position type="double">47.2</position>
+      <mass-lbs type="double">2550</mass-lbs>
+     </entry>
+     <entry>
+      <position type="double">47.2</position>
+      <mass-lbs type="double">1450</mass-lbs>
+     </entry>
+    </limit>
+   </cg>
+  </mass-and-balance>
+ </limits>
+
+ <input>
+  <keyboard include="c172p-keyboard.xml"/>
+ </input>
+
+ <gear>
+	<gear n="0">
+      <tyre-smoke type="int">0</tyre-smoke>
+      <sprayspeed-ms type="double">0</sprayspeed-ms>
+      <spray-density type="double">0</spray-density>
+    </gear>
+    <gear n="1">
+      <tyre-smoke type="int">0</tyre-smoke>
+      <sprayspeed-ms type="double">0</sprayspeed-ms>
+      <spray-density type="double">0</spray-density>
+    </gear>
+    <gear n="2">
+      <tyre-smoke type="int">0</tyre-smoke>
+      <sprayspeed-ms type="double">0</sprayspeed-ms>
+      <spray-density type="double">0</spray-density>
+    </gear>
+  </gear>
+  
+ <!-- Damage Mod -->
+  <fdm>
+    <jsbsim>
+		<gear>
+			<unit n="0">
+			  <broken type="bool">0</broken>
+			</unit>
+			<unit n="1">
+			  <broken type="bool">0</broken>
+			</unit>
+			<unit n="2">
+			  <broken type="bool">0</broken>
+			</unit>	
+		</gear>
+		<contact>
+			<unit n="4">
+			  <broken type="bool">0</broken>
+			</unit>
+			<unit n="5">
+			  <broken type="bool">0</broken>
+			</unit>
+		</contact>
+		<crash type="bool">0</crash>
+		<damage type="bool">0</damage>
+		<running type="bool">0</running>
+		<complex type="bool">0</complex>
+		<wing-damage>
+            <left-wing type="double">0</left-wing>
+            <right-wing type="double">0</right-wing>
+        </wing-damage>
+		<left-pontoon>
+			<damaged type="bool">0</damaged>
+			<broken type="bool">0</broken>
+		</left-pontoon>
+		<right-pontoon>
+			<damaged type="bool">0</damaged>
+			<broken type="bool">0</broken>
+		</right-pontoon>
+    </jsbsim>
+  </fdm>
+  <!-- End Damage Mod -->
+  
+</PropertyList>

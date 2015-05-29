@@ -68,7 +68,7 @@ var toggle_shadow_volume = func {
 };
 
 var toggle_shadow = func {
-    if (check_required_version([3, 4])) {
+    if (check_required_version([3, 2])) {
 	    if (getprop("/sim/rendering/shaders/skydome")) {
 			if (getprop("/sim/rendering/shadow-volume"))
 				setprop("/sim/rendering/shadow-volume", !getprop("/sim/rendering/shadow-volume"));
@@ -79,6 +79,6 @@ var toggle_shadow = func {
 	    }
     }
     else {
-	    gui.popupTip("ALS Shadow require version 3.4 or greater", 5);
+	    gui.popupTip("ALS Shadow require version 3.2 or greater", 5);
     }
 };

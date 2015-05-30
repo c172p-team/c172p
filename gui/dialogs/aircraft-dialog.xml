@@ -16,6 +16,8 @@
 
     <name>aircraft-dialog</name>
     <layout>vbox</layout>
+    <x>1424</x>
+    <y>680</y>
     <resizable>false</resizable>
     <modal>false</modal>
     <draggable>true</draggable>
@@ -84,6 +86,17 @@
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>
+                        #c172p.autostart();
+                        #c172p.controls.startEngine();
+                        #var engine_start_timer = maketimer(0.025, func{c172p.hold_s_key_down()});
+                        #var stop_engine_start_timer = setlistener("/engines/engine/running", func{
+                        #    engine_start_timer.stop();
+                        #});
+                    </script>
+                </binding>
             </checkbox>
 
             <checkbox>
@@ -94,6 +107,27 @@
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
+				<binding>
+                        <command>nasal</command>
+                        <script>
+                            if (getprop("/fdm/jsbsim/complex"))
+                            {
+                                setprop("/controls/engines/engine/magnetos", 0);
+                                setprop("/controls/engines/engine/throttle", 0);
+                                setprop("/controls/engines/engine/mixture", 0);
+                                setprop("/controls/engines/engine/master-bat", 0);
+                                setprop("/controls/engines/engine/master-alt", 0);
+                                setprop("/controls/switches/master-avionics", 0);
+                                setprop("/controls/lighting/nav-lights", 0);
+                                setprop("/controls/lighting/strobe", 0);
+                                setprop("/controls/lighting/beacon", 0);
+                                setprop("/consumables/fuel/tank[0]/selected", 0);
+                                setprop("/consumables/fuel/tank[1]/selected", 0);
+                            }
+                            else
+                                c172p.autostart();
+                        </script>
+                    </binding>
             </checkbox>
         </group>
 

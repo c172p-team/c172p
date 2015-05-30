@@ -58,6 +58,24 @@ var check_systems_status = func {
 }
 
 var reset_system = func {
+
+    if (getprop("/fdm/jsbsim/complex"))
+    {
+        setprop("/controls/engines/engine/magnetos", 0);
+        setprop("/controls/engines/engine/throttle", 0);
+        setprop("/controls/engines/engine/mixture", 0);
+        setprop("/controls/engines/engine/master-bat", 0);
+        setprop("/controls/engines/engine/master-alt", 0);
+        setprop("/controls/switches/master-avionics", 0);
+        setprop("/controls/lighting/nav-lights", 0);
+        setprop("/controls/lighting/strobe", 0);
+        setprop("/controls/lighting/beacon", 0);
+        setprop("/consumables/fuel/tank[0]/selected", 0);
+        setprop("/consumables/fuel/tank[1]/selected", 0);
+    }
+    else
+        c172p.autostart();
+
     # These properties are aliased to MP properties in /sim/multiplay/generic/.
     # This aliasing seems to work in both ways, because the two properties below
     # appear to receive the random values from the MP properties during initialization.

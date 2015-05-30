@@ -33,8 +33,8 @@ then
 fi
 cd ${BASEDIR}
 
-for roll in -4 -2 0 2 4; do
-  for pitch in -8 -4 -2 0 2 4 8; do
+for roll in -8 -4 -2 0 2 4 8; do
+  for pitch in -8 -4 -2 0 2 4 8 12; do
     dir=${BASE}_r${roll}_p${pitch}
     mkdir ${dir}
     transform --tx=$XOFFSET --tz=$ZOFFSET < ../floats.gts.base | transform --ry ${pitch} | transform --rx ${roll} -v > ${dir}/floats.gts

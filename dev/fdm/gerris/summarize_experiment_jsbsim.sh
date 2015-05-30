@@ -17,10 +17,10 @@ BASE=$1
 #    F/(Rho*G) and M/(Rho*G)
 
 echo "Z Force (pitch, roll)"
-echo "   -4.0  -2.0   0.0   2.0   4.0"
-for pitch in -8 -4 -2 0 2 4 8; do
+echo "   -8.0  -4.0  -2.0   0.0   2.0   4.0   8.0"
+for pitch in -8 -4 -2 0 2 4 8 12; do
   ROW=${pitch}
-  for roll in -4 -2 0 2 4; do
+  for roll in -8 -4 -2 0 2 4 8; do
     dir=${BASE}_r${roll}_p${pitch}
     ROW=${ROW}`awk 'BEGIN {
             U = 10.0*3.2808399; Rho = 1.0; G = 1.0;
@@ -33,10 +33,10 @@ done;
 echo;
 
 echo "Y Moment (pitch, roll) (~pitch moment)"
-echo "   -4.0  -2.0   0.0   2.0   4.0"
-for pitch in -8 -4 -2 0 2 4 8; do
+echo "   -8.0  -4.0  -2.0   0.0   2.0   4.0   8.0"
+for pitch in -8 -4 -2 0 2 4 8 12; do
   ROW=${pitch}
-  for roll in -4 -2 0 2 4; do
+  for roll in -8 -4 -2 0 2 4 8; do
     dir=${BASE}_r${roll}_p${pitch}
     ROW=${ROW}`awk 'BEGIN {
              U = 10.0*3.2808399; Rho = 1.0; G = 1.0;
@@ -49,10 +49,10 @@ done;
 echo;
 
 echo "X Moment (pitch, roll) (~roll moment)"
-echo "   -4.0  -2.0   0.0   2.0   4.0"
-for pitch in -8 -4 -2 0 2 4 8; do
+echo "   -8.0  -4.0  -2.0   0.0   2.0   4.0   8.0"
+for pitch in -8 -4 -2 0 2 4 8 12; do
   ROW=${pitch}
-  for roll in -4 -2 0 2 4; do
+  for roll in -8 -4 -2 0 2 4 8; do
     dir=${BASE}_r${roll}_p${pitch}
     ROW=${ROW}`awk 'BEGIN {
              U = 10.0*3.2808399; Rho = 1.0; G = 1.0;

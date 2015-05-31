@@ -90,11 +90,9 @@ var check_systems_status = func {
 
 var reset_system = func {
 
-    if (!getprop("/fdm/jsbsim/complex") or getprop("/fdm/jsbsim/running"))
-		c172p.autostart();
-
 	if (getprop("/fdm/jsbsim/running"))
 	{
+		c172p.autostart(0);
 	    setprop("/controls/switches/starter", 1);
 		var engineRunning = setlistener("/engines/engine[0]/running", func{
 			if (getprop("/engines/engine[0]/running"))

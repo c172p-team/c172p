@@ -171,7 +171,13 @@ var autostart = func (msg=1) {
 # key 's' calls to this function when it is pressed DOWN even if I overwrite the binding in the -set.xml file!
 # fun fact: the key UP event can be overwriten!
 controls.startEngine = func(v = 1) {
-    setprop("/controls/switches/starter", v);
+    if (getprop("/engines/engine/running"))
+	{
+        setprop("/controls/switches/starter", 0);
+		return;
+	}
+	else
+		setprop("/controls/switches/starter", v);
     # TODO: I still don't know where "/controls/engines/engine/starter" is set to true...
 };
 

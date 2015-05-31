@@ -1,4 +1,35 @@
 ##########################################
+# Brakes
+##########################################
+
+controls.applyBrakes = func (v, which = 0) {
+    if (which <= 0 and !getprop("/fdm/jsbsim/gear/unit[1]/broken")) {
+        interpolate("/controls/gear/brake-left", v, controls.fullBrakeTime);
+    }
+    if (which >= 0 and !getprop("/fdm/jsbsim/gear/unit[2]/broken")) {
+        interpolate("/controls/gear/brake-right", v, controls.fullBrakeTime);
+    }
+};
+
+controls.applyParkingBrake = func (v) {
+    if (!v) {
+        return;
+    }
+
+    var left_broken = getprop("/fdm/jsbsim/gear/unit[1]/broken");
+    var right_broken =getprop("/fdm/jsbsim/gear/unit[2]/broken");
+    var p = "/controls/gear/brake-parking";
+    var orig_p = getprop(p);
+
+    # We assume one non-broken gear is enough to apply the parking brake
+    if (orig_p or !left_broken or !right_broken) {
+        setprop(p, var i = !orig_p);
+        return i;
+    }
+    return orig_p;
+};
+
+##########################################
 # Ground Detection
 ##########################################
 

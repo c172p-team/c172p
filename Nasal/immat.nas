@@ -3,6 +3,7 @@
 # ===========================
 
 var refresh_immat = func {
+    var glyph = nil;
     var immat = props.globals.getNode("/sim/model/immat",1).getValue();
     var immat_size = size(immat);
     if (immat_size != 0) immat = string.uc(immat);

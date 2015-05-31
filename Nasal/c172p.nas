@@ -159,7 +159,7 @@ var reset_system = func {
 # Global loop function
 # If you need to run nasal as loop, add it in this function
 ############################################
-global_system_loop = func{
+var global_system_loop = func{
 
   # terrain_survol_loop was incorporated during damage system creation. 
   # "Unimplemented" crash detection system requires this self terrain modelling (I think)

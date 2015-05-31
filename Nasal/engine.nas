@@ -116,7 +116,7 @@ var update = func {
 # controls.startEngine = func(v = 1) {
 setlistener("/controls/switches/starter", func {
 	if (!getprop("/fdm/jsbsim/complex"))
-	    autostart();
+	    autostart(0);
     v = getprop("/controls/switches/starter") or 0;
     if (v == 0) {
         print("Starter off");
@@ -132,9 +132,10 @@ setlistener("/controls/switches/starter", func {
     }
 }, 1, 1);
 
-var autostart = func {
+var autostart = func (msg=1) {
     if (getprop("/engines/engine/running")) {
-		gui.popupTip("Engine already running.", 5);
+		if (msg)
+            gui.popupTip("Engine already running.", 5);
         return;
     }
 
@@ -157,7 +158,8 @@ var autostart = func {
 
     #c172p.autoPrime();
     setprop("/controls/engines/engine/primer", 3);
-	gui.popupTip("Hold down \"s\" to start the engine. After that, release brakes (press \"B\")", 5);
+	if (msg)
+	    gui.popupTip("Hold down \"s\" to start the engine. After that, release brakes (press \"B\")", 5);
 };
 
 # ================================ Initalize ====================================== 

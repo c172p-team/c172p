@@ -89,7 +89,9 @@ var update = func {
     # We use the mixture to control the engines, so set the mixture
     var usePrimer = getprop("/controls/engines/engine/use-primer") or 0;
 
-    if (outOfFuel) {
+    var engine_running = getprop("/engines/engine/running");
+
+    if (outOfFuel and (engine_running or usePrimer)) {
         print("Out of fuel!");
         gui.popupTip("Out of fuel!");
     }

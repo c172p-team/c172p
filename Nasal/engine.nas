@@ -115,25 +115,6 @@ var update = func {
     }
 };
 
-# controls.startEngine = func(v = 1) {
-setlistener("/controls/switches/starter", func {
-	if (!getprop("/fdm/jsbsim/complex"))
-	    autostart(0);
-    var v = getprop("/controls/switches/starter") or 0;
-    if (v == 0) {
-        print("Starter off");
-        # notice the starter will be reset after 5 seconds
-        primerTimer.restart(5);
-    }
-    else {
-        print("Starter on");
-        setprop("/controls/engines/engine/use-primer", 1);
-        if (primerTimer.isRunning) {
-            primerTimer.stop();
-        }
-    }
-}, 1, 1);
-
 var autostart = func (msg=1) {
     if (getprop("/engines/engine/running")) {
 		if (msg)
@@ -163,6 +144,24 @@ var autostart = func (msg=1) {
 	if (msg)
 	    gui.popupTip("Hold down \"s\" to start the engine. After that, release brakes (press \"B\")", 5);
 };
+
+setlistener("/controls/switches/starter", func {
+	if (!getprop("/fdm/jsbsim/complex"))
+	    autostart(0);
+    var v = getprop("/controls/switches/starter") or 0;
+    if (v == 0) {
+        print("Starter off");
+        # notice the starter will be reset after 5 seconds
+        primerTimer.restart(5);
+    }
+    else {
+        print("Starter on");
+        setprop("/controls/engines/engine/use-primer", 1);
+        if (primerTimer.isRunning) {
+            primerTimer.stop();
+        }
+    }
+}, 1, 1);
 
 # ================================ Initalize ====================================== 
 # Make sure all needed properties are present and accounted 

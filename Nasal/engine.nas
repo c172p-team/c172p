@@ -117,6 +117,8 @@ var update = func {
 
 # controls.startEngine = func(v = 1) {
 setlistener("/controls/switches/starter", func {
+	if (!getprop("/fdm/jsbsim/complex"))
+	    autostart(0);
     var v = getprop("/controls/switches/starter") or 0;
     if (v == 0) {
         print("Starter off");
@@ -132,9 +134,10 @@ setlistener("/controls/switches/starter", func {
     }
 }, 1, 1);
 
-var autostart = func {
+var autostart = func (msg=1) {
     if (getprop("/engines/engine/running")) {
-        gui.popupTip("Engine already running.", 5);
+		if (msg)
+            gui.popupTip("Engine already running.", 5);
         return;
     }
 
@@ -157,7 +160,8 @@ var autostart = func {
 
     #c172p.autoPrime();
     setprop("/controls/engines/engine/primer", 3);
-    gui.popupTip("Hold down \"s\" to start the engine. After that, release brakes (press \"B\")", 5);
+	if (msg)
+	    gui.popupTip("Hold down \"s\" to start the engine. After that, release brakes (press \"B\")", 5);
 };
 
 # ================================ Initalize ====================================== 
@@ -169,7 +173,13 @@ var autostart = func {
 # key 's' calls to this function when it is pressed DOWN even if I overwrite the binding in the -set.xml file!
 # fun fact: the key UP event can be overwriten!
 controls.startEngine = func(v = 1) {
-    setprop("/controls/switches/starter", v);
+    if (getprop("/engines/engine/running"))
+	{
+        setprop("/controls/switches/starter", 0);
+		return;
+	}
+	else
+		setprop("/controls/switches/starter", v);
     # TODO: I still don't know where "/controls/engines/engine/starter" is set to true...
 };
 

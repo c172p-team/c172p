@@ -1,7 +1,7 @@
-c172p (It was c172p-detailed)
-=============================
+c172p (detailed)
+================
 
-A high detailed version of the C172P aircraft for FLightGear
+A high detailed version of the Cessna 172P aircraft for FlightGear.
 
 Development thread: http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 

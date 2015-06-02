@@ -65,13 +65,18 @@ var weather_effects_loop = func {
 	#if (tempmatch) surfacetempC = cabinairtempC = airtempC;
 	#end debug
 
+	#cabinheat only pushes heat into cabin if a cabinair is open.
+	#cabinair is the flow of air into cabin(it will contian heat if cabinheat is open),
+	#otherwise it is just outside airtemp
 	if (cabinheatset > 0) 
 	{
 		cabinairtempC += .04*(cabinheatset*cabinairset);
 		if (cabinairtempC > 32)
 		{
-			gui.popupTip("Cabin temperature exceeding 90F/32C!");
+			if (!getprop("/fdm/jsbsim/weather"))
+				gui.popupTip("Cabin temperature exceeding 90F/32C!");
 		}
+		#surfacetemp is slowely changed by cabinairtemp
 		if (surfacetempC < cabinairtempC)
 			surfacetempC += .03*(cabinheatset*cabinairset);
 		if (surfacetempC > cabinairtempC)
@@ -80,6 +85,7 @@ var weather_effects_loop = func {
 	else
 	if (cabinairset > 0)
 	{
+		#if no cabinheat then we incrementally adjust cabintemp with outside airtemp
 		if (cabinairtempC < airtempC)
 			cabinairtempC += .03*cabinairset;
 		if (cabinairtempC > airtempC) 
@@ -90,6 +96,8 @@ var weather_effects_loop = func {
 			surfacetempC -= .02*cabinairset; 
 	} 
 
+	#regardless of whether or not vents are open we
+	#incremetally adjust cabintemp with outside airtemp
 	if (cabinairtempC < airtempC)
 		cabinairtempC += .01;
 	if (cabinairtempC > airtempC) 
@@ -103,6 +111,9 @@ var weather_effects_loop = func {
 	if (surfacetempC > cabinairtempC)
 		surfacetempC -= .01;
 
+	#if cabinairtemp is less than dewpointtemp at startup we start out
+	#with fog. If it is also freezing we switch to frost.
+	#Otherwise we start calculating moisture level in the air
 	if (cabinairtempC <= cabinairdewpointC) 
 	{
 		if (start == 1) {
@@ -125,9 +136,12 @@ var weather_effects_loop = func {
 		start = 0;
 	}
 	
+	#we can't get frost unless temp is freezing
+	#if it is not freezing then we get fog instead
 	if (cabinairtempC <= 0) 
 	{
-		gui.popupTip("Cabin temperature falling below 32F/0C!");
+		if (!getprop("/fdm/jsbsim/weather"))
+			gui.popupTip("Cabin temperature falling below 32F/0C!");
 		frostlevel = moisture * 3;
 		if (foglevel > 0) foglevel -= moisture;
 		if (foglevel < 0) foglevel = 0;
@@ -141,8 +155,16 @@ var weather_effects_loop = func {
 		if (foglevel > 1) foglevel = 1;
 	}
 	
-	setprop("/environment/aircraft-effects/frost-level", frostlevel);
-	setprop("/environment/aircraft-effects/fog-level", foglevel);
+	if (!getprop("/fdm/jsbsim/weather"))
+	{
+		setprop("/environment/aircraft-effects/frost-level", frostlevel);
+		setprop("/environment/aircraft-effects/fog-level", foglevel);
+	}
+	else
+	{
+		setprop("/environment/aircraft-effects/frost-level", 0);
+		setprop("/environment/aircraft-effects/fog-level", 0);
+	}
 		
 	#debug
 	#if (cabinairtempC > 0)

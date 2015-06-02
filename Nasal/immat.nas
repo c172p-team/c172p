@@ -3,6 +3,7 @@
 # ===========================
 
 var refresh_immat = func {
+    var glyph = nil;
     var immat = props.globals.getNode("/sim/model/immat",1).getValue();
     var immat_size = size(immat);
     if (immat_size != 0) immat = string.uc(immat);
@@ -20,7 +21,7 @@ var refresh_immat = func {
 }
 
 var immat_dialog = gui.Dialog.new("/sim/gui/dialogs/c172p/status/dialog",
-				  "Aircraft/c172p-detailed/gui/dialogs/immat.xml");
+				  "Aircraft/c172p/gui/dialogs/immat.xml");
 
 var refresh_immat_listener = nil;
 

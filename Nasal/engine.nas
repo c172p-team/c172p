@@ -9,7 +9,7 @@
 
 # set the update period
 
-UPDATE_PERIOD = 0.3;
+var UPDATE_PERIOD = 0.3;
 
 # =============================== Hobbs meter =======================================
 
@@ -28,7 +28,7 @@ setlistener("/engines/engine[0]/running", func {
 
 setlistener("/sim/time/hobbs/engine[0]", func {
     # in seconds
-    hobbs = getprop("/sim/time/hobbs/engine[0]") or 0.0;
+    var hobbs = getprop("/sim/time/hobbs/engine[0]") or 0.0;
     # This uses minutes, for testing
     #hobbs = hobbs / 60.0;
     # in hours
@@ -89,7 +89,9 @@ var update = func {
     # We use the mixture to control the engines, so set the mixture
     var usePrimer = getprop("/controls/engines/engine/use-primer") or 0;
 
-    if (outOfFuel) {
+    var engine_running = getprop("/engines/engine/running");
+
+    if (outOfFuel and (engine_running or usePrimer)) {
         print("Out of fuel!");
         gui.popupTip("Out of fuel!");
     }
@@ -113,26 +115,10 @@ var update = func {
     }
 };
 
-# controls.startEngine = func(v = 1) {
-setlistener("/controls/switches/starter", func {
-    v = getprop("/controls/switches/starter") or 0;
-    if (v == 0) {
-        print("Starter off");
-        # notice the starter will be reset after 5 seconds
-        primerTimer.restart(5);
-    }
-    else {
-        print("Starter on");
-        setprop("/controls/engines/engine/use-primer", 1);
-        if (primerTimer.isRunning) {
-            primerTimer.stop();
-        }
-    }
-}, 1, 1);
-
-var autostart = func {
+var autostart = func (msg=1) {
     if (getprop("/engines/engine/running")) {
-        gui.popupTip("Engine already running.", 5);
+		if (msg)
+            gui.popupTip("Engine already running.", 5);
         return;
     }
 
@@ -155,8 +141,27 @@ var autostart = func {
 
     #c172p.autoPrime();
     setprop("/controls/engines/engine/primer", 3);
-    gui.popupTip("Hold down \"s\" to start the engine. After that, release brakes (press \"B\")", 5);
+	if (msg)
+	    gui.popupTip("Hold down \"s\" to start the engine. After that, release brakes (press \"B\")", 5);
 };
+
+setlistener("/controls/switches/starter", func {
+	if (!getprop("/fdm/jsbsim/complex"))
+	    autostart(0);
+    var v = getprop("/controls/switches/starter") or 0;
+    if (v == 0) {
+        print("Starter off");
+        # notice the starter will be reset after 5 seconds
+        primerTimer.restart(5);
+    }
+    else {
+        print("Starter on");
+        setprop("/controls/engines/engine/use-primer", 1);
+        if (primerTimer.isRunning) {
+            primerTimer.stop();
+        }
+    }
+}, 1, 1);
 
 # ================================ Initalize ====================================== 
 # Make sure all needed properties are present and accounted 
@@ -167,7 +172,13 @@ var autostart = func {
 # key 's' calls to this function when it is pressed DOWN even if I overwrite the binding in the -set.xml file!
 # fun fact: the key UP event can be overwriten!
 controls.startEngine = func(v = 1) {
-    setprop("/controls/switches/starter", v);
+    if (getprop("/engines/engine/running"))
+	{
+        setprop("/controls/switches/starter", 0);
+		return;
+	}
+	else
+		setprop("/controls/switches/starter", v);
     # TODO: I still don't know where "/controls/engines/engine/starter" is set to true...
 };
 

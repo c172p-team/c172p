@@ -1,4 +1,35 @@
 ##########################################
+# Brakes
+##########################################
+
+controls.applyBrakes = func (v, which = 0) {
+    if (which <= 0 and !getprop("/fdm/jsbsim/gear/unit[1]/broken")) {
+        interpolate("/controls/gear/brake-left", v, controls.fullBrakeTime);
+    }
+    if (which >= 0 and !getprop("/fdm/jsbsim/gear/unit[2]/broken")) {
+        interpolate("/controls/gear/brake-right", v, controls.fullBrakeTime);
+    }
+};
+
+controls.applyParkingBrake = func (v) {
+    if (!v) {
+        return;
+    }
+
+    var left_broken = getprop("/fdm/jsbsim/gear/unit[1]/broken");
+    var right_broken =getprop("/fdm/jsbsim/gear/unit[2]/broken");
+    var p = "/controls/gear/brake-parking";
+    var orig_p = getprop(p);
+
+    # We assume one non-broken gear is enough to apply the parking brake
+    if (orig_p or !left_broken or !right_broken) {
+        setprop(p, var i = !orig_p);
+        return i;
+    }
+    return orig_p;
+};
+
+##########################################
 # Ground Detection
 ##########################################
 
@@ -59,22 +90,18 @@ var check_systems_status = func {
 
 var reset_system = func {
 
-    if (getprop("/fdm/jsbsim/complex"))
-    {
-        setprop("/controls/engines/engine/magnetos", 0);
-        setprop("/controls/engines/engine/throttle", 0);
-        setprop("/controls/engines/engine/mixture", 0);
-        setprop("/controls/engines/engine/master-bat", 0);
-        setprop("/controls/engines/engine/master-alt", 0);
-        setprop("/controls/switches/master-avionics", 0);
-        setprop("/controls/lighting/nav-lights", 0);
-        setprop("/controls/lighting/strobe", 0);
-        setprop("/controls/lighting/beacon", 0);
-        setprop("/consumables/fuel/tank[0]/selected", 0);
-        setprop("/consumables/fuel/tank[1]/selected", 0);
-    }
-    else
-        c172p.autostart();
+	if (getprop("/fdm/jsbsim/running"))
+	{
+		c172p.autostart(0);
+	    setprop("/controls/switches/starter", 1);
+		var engineRunning = setlistener("/engines/engine[0]/running", func{
+			if (getprop("/engines/engine[0]/running"))
+			{
+				setprop("/controls/switches/starter", 0);
+				removelistener(engineRunning);
+			}
+		});
+	}
 
     # These properties are aliased to MP properties in /sim/multiplay/generic/.
     # This aliasing seems to work in both ways, because the two properties below
@@ -128,7 +155,7 @@ var reset_system = func {
 # Global loop function
 # If you need to run nasal as loop, add it in this function
 ############################################
-global_system_loop = func{
+var global_system_loop = func{
 
   # terrain_survol_loop was incorporated during damage system creation. 
   # "Unimplemented" crash detection system requires this self terrain modelling (I think)

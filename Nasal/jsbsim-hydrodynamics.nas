@@ -64,7 +64,7 @@ var enableOSD = func {
     left.add("/fdm/jsbsim/hydro/roll-moment-lbsft");
     #left.add("/fdm/jsbsim/hydro/transverse-wave/wave-length-ft");
     #left.add("/fdm/jsbsim/hydro/transverse-wave/wave-amplitude-ft");
-    #left.add("/fdm/jsbsim/hydro/transverse-wave/squat-ft");
+    left.add("/fdm/jsbsim/hydro/transverse-wave/squat-ft");
     #left.add("/fdm/jsbsim/hydro/transverse-wave/pitch-trim-change-deg");
     #left.add("/fdm/jsbsim/hydro/environment/wave/relative-heading-rad");
     #left.add("/fdm/jsbsim/hydro/orientation/wave-pitch-trim-change-deg");
@@ -88,7 +88,4 @@ var enableOSD = func {
 
 # Debug settings.
 enableOSD();
-settimer(func {
-            setprop("/fdm/jsbsim/floats-enabled-norm", 1.0);
-         }, 1.0);
 ###############################################################################

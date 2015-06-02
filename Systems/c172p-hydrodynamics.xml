@@ -60,6 +60,38 @@
  <property value="0.0">hydro/fbx-lbs</property>
  <property value="0.0">hydro/fby-lbs</property>
 
+ <channel name="Enable/disable">
+
+  <fcs_function name="hydro/active-norm">
+   <description>
+    A property that is 0 when no part of the hull is in the water.
+    The maximum value is 1.
+   </description>
+   <function>
+    <product>
+     <value>0.001</value>
+     <lt>
+      <value>-60.0</value>
+      <property>hydro/float/roll-deg</property>
+     </lt>
+     <lt>
+      <property>hydro/float/roll-deg</property>
+      <value>60.0</value>
+     </lt>
+     <sum>
+      <property>hydro/buoyancy-lbs</property>
+      <property>hydro/planing-lift-lbs</property>
+     </sum>
+    </product>
+   </function>
+    <clipto>
+     <min>0.0</min>
+     <max>1.0</max>
+    </clipto>
+  </fcs_function>
+
+ </channel>
+
  <channel name="Common coefficients">
 
   <fcs_function name="hydro/speed-length-ratio">
@@ -90,26 +122,6 @@
      </pow>
     </quotient>
    </function>
-  </fcs_function>
-
-  <fcs_function name="hydro/active-norm">
-   <description>
-    A property that is 0 when no part of the hull is in the water.
-    The maximum value is 1.
-   </description>
-   <function>
-    <product>
-     <value>0.001</value>
-     <sum>
-      <property>hydro/buoyancy-lbs</property>
-      <property>hydro/planing-lift-lbs</property>
-     </sum>
-    </product>
-   </function>
-    <clipto>
-     <min>0.0</min>
-     <max>1.0</max>
-    </clipto>
   </fcs_function>
 
  </channel>
@@ -260,10 +272,10 @@
       </max>
      </product>
      <max>
-      <value>-0.0</value>
+      <value>-5.0</value>
       <min>
        <property>hydro/transverse-wave/squat-ft</property>
-       <value>0.0</value>
+       <value>5.0</value>
       </min>
      </max>
     </sum>

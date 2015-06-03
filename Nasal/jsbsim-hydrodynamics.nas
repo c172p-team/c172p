@@ -83,7 +83,8 @@ var enableOSD = func {
     right.add("/fdm/jsbsim/hydro/qbar-u-psf");
     right.add("/fdm/jsbsim/hydro/Frode-number");
     right.add("/fdm/jsbsim/hydro/speed-length-ratio");
-    #right.add("/fdm/jsbsim/");
+    right.add("/fdm/jsbsim/left-pontoon/leaked-water-lbs");
+    right.add("/fdm/jsbsim/right-pontoon/leaked-water-lbs");
 }
 
 # Debug settings.

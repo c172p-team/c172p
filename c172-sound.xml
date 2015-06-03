@@ -2,6 +2,13 @@
  
 <PropertyList>
 
+    <params>
+        <doors>
+            <left>sim/multiplay/generic/float[1]</left>
+            <right>sim/multiplay/generic/float[0]</right>
+        </doors>
+    </params>
+
  <fx>
  
   <crank>
@@ -232,8 +239,7 @@
  
   <stall>
    <name>stall</name>
-   <mode>once</mode>
-   <type>avionics</type>
+   <mode>looped</mode>
    <path>Sounds/stall2.wav</path>
    <condition>
     <and>
@@ -247,14 +253,30 @@
        <property>gear/gear[1]/wow</property>
        <property>gear/gear[2]/wow</property>
      </not>
+     <or>
+         <property>/sim/current-view/internal</property>
+         <greater-than>
+             <property alias="/params/doors/left"/>
+             <value>0.5</value>
+         </greater-than>
+         <greater-than>
+             <property alias="/params/doors/right"/>
+             <value>0.5</value>
+         </greater-than>
+     </or>
     </and>
    </condition>
+   <position>
+    <x>0.4</x>
+    <y>0.0</y>
+    <z>0.4</z>
+   </position>
    <volume>
     <property>sim/alarms/stall-warning</property>
     <max>1.0</max>
    </volume>
-   <reference-dist>10.0</reference-dist>
-   <max-dist>20.0</max-dist>
+   <reference-dist>0.5</reference-dist>
+   <max-dist>50.0</max-dist>
   </stall>
  
   <kap140beep>

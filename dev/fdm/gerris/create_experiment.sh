@@ -17,8 +17,10 @@ HRPZ=0
 #HAGL=1.524  # 5ft
 #HAGL=1.8288 # 6ft
 #HAGL=2.1336 # 7ft
-#HAGL=2.4384 # 8ft
-HAGL=2.7432   # 9ft
+HAGL=2.4384 # 8ft
+# floats out of water except at extreme pitch.
+#HAGL=2.7432 # 9ft
+#HAGL=3.048  # 10ft
 
 # Compute actual model offsets.
 XOFFSET=`echo -$HRPX | bc`

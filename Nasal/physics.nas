@@ -231,18 +231,10 @@ var resetcontacts = func
 	setprop(contact~"unit[6]/z-position", 0);
 	setprop(contact~"unit[7]/z-position", 0);
 	setprop(contact~"unit[8]/z-position", 0);
-	setprop(contact~"unit[13]/z-position", 0);
-	setprop(contact~"unit[14]/z-position", 0);
-	setprop(contact~"unit[15]/z-position", 0);
-	setprop(contact~"unit[16]/z-position", 0);
-	setprop(contact~"unit[17]/z-position", 0);
-	setprop(contact~"unit[18]/z-position", 0);
-	setprop(contact~"unit[19]/z-position", 0);
-	setprop(contact~"unit[20]/z-position", 0);
-	setprop(gears~"unit[21]/z-position", 0);
-	setprop(gears~"unit[22]/z-position", 0);
-	setprop(gears~"unit[23]/z-position", 0);
-	setprop(gears~"unit[24]/z-position", 0);
+	setprop(gears~"unit[13]/z-position", 0);
+	setprop(gears~"unit[14]/z-position", 0);
+	setprop(gears~"unit[15]/z-position", 0);
+	setprop(gears~"unit[16]/z-position", 0);
 }
 
 var defaulttires = func
@@ -276,24 +268,16 @@ var pontoons = func
 {
 	resetalldamage();
 	resetcontacts();
-	setprop(contact~"unit[13]/z-position", -55);
-	setprop(contact~"unit[14]/z-position", -55);
-	setprop(contact~"unit[15]/z-position", -22);
-	setprop(contact~"unit[16]/z-position", -22);
 }
 
 var amphibious = func
 {
 	resetcontacts();
 	resetalldamage();
-	setprop(contact~"unit[13]/z-position", -55);
-	setprop(contact~"unit[14]/z-position", -55);
-	setprop(contact~"unit[15]/z-position", -22);
-	setprop(contact~"unit[16]/z-position", -22);
-	setprop(gears~"unit[21]/z-position", -62);
-	setprop(gears~"unit[22]/z-position", -62);
-	setprop(gears~"unit[23]/z-position", -50.5);
-	setprop(gears~"unit[24]/z-position", -50.5);
+	setprop(gears~"unit[13]/z-position", -62);
+	setprop(gears~"unit[14]/z-position", -62);
+	setprop(gears~"unit[15]/z-position", -50.5);
+	setprop(gears~"unit[16]/z-position", -50.5);
 }
 
 var poll_damage = func
@@ -451,100 +435,17 @@ var poll_damage = func
 #check if on water
 var poll_surface = func
 {
-	if (getprop(contact~"unit[13]/solid"))
+	if (getprop("/fdm/jsbsim/ground/solid"))
 	{
-		setprop(contact~"unit[13]/z-position", 0);
-		if (getprop("/fdm/jsbsim/bushkit") == 3)
-			setprop(contact~"unit[17]/z-position", -65);
-		else
-			if (getprop("/fdm/jsbsim/gear/gear-pos-norm") == 1)
-				setprop(contact~"unit[17]/z-position", -0);
-			else
-				setprop(contact~"unit[17]/z-position", -65);
+		# FIXME: Should rest on the floats' keels.
 	}
 	else
 	{
-		setprop(contact~"unit[13]/z-position", -55);
-		setprop(contact~"unit[17]/z-position", 0);
-		if (getprop(contact~"unit[13]/compression-ft"))
-		{
-			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
-				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
-			else
-				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
-		}
+		# FIXME: Reimplement for JSBSim hydrodynamics.
 	}
 
-	if (getprop(contact~"unit[14]/solid"))
-	{
-		setprop(contact~"unit[14]/z-position", 0);
-		if (getprop("/fdm/jsbsim/bushkit") == 3)
-			setprop(contact~"unit[18]/z-position", -65);
-		else
-			if (getprop("/fdm/jsbsim/gear/gear-pos-norm") == 1)
-				setprop(contact~"unit[18]/z-position", -0);
-			else
-				setprop(contact~"unit[18]/z-position", -65);
-	}
-	else
-	{
-		setprop(contact~"unit[14]/z-position", -55);
-		setprop(contact~"unit[18]/z-position", 0);
-		if (getprop(contact~"unit[14]/compression-ft"))
-		{
-			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
-				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
-			else
-				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
-		}
-	}
-
-	if (getprop(contact~"unit[15]/solid"))
-	{
-		setprop(contact~"unit[15]/z-position", 0);
-		if (getprop("/fdm/jsbsim/bushkit") == 3)
-			setprop(contact~"unit[19]/z-position", -40);
-		else
-			if (getprop("/fdm/jsbsim/gear/gear-pos-norm") == 1)
-				setprop(contact~"unit[19]/z-position", -0);
-			else
-				setprop(contact~"unit[19]/z-position", -40);
-	}
-	else
-	{
-		setprop(contact~"unit[15]/z-position", -22);
-		setprop(contact~"unit[19]/z-position", 0);
-		if (getprop(contact~"unit[15]/compression-ft"))
-		{
-			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
-				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
-			else
-				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
-		}
-	}
-
-	if (getprop(contact~"unit[16]/solid"))
-	{
-		setprop(contact~"unit[16]/z-position", 0);
-		if (getprop("/fdm/jsbsim/bushkit") == 3)
-			setprop(contact~"unit[20]/z-position", -40);
-		else
-			if (getprop("/fdm/jsbsim/gear/gear-pos-norm") == 1)
-				setprop(contact~"unit[20]/z-position", -0);
-			else
-				setprop(contact~"unit[20]/z-position", -40);
-	}
-	else
-	{
-		setprop(contact~"unit[16]/z-position", -22);
-		setprop(contact~"unit[20]/z-position", 0);
-		if (getprop(contact~"unit[16]/compression-ft"))
-		{
-			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
-				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
-			else
-				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
-		}
+	if (getprop("/fdm/jsbsim/hydro/active-norm") > 0)
+		setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
 	}
 
 	if (getprop("position/altitude-agl-m") > 2)
@@ -557,7 +458,7 @@ var poll_gear_delay = func
 	if(getprop("/fdm/jsbsim/bushkit") == 0)
 		defaulttires();
 	else
-    if(getprop("/fdm/jsbsim/bushkit") == 1)
+	if(getprop("/fdm/jsbsim/bushkit") == 1)
 		medbushtires();
 	else
 	if(getprop("/fdm/jsbsim/bushkit") == 2)

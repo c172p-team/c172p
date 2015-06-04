@@ -20,6 +20,18 @@ var aero_coeff = "fdm/jsbsim/aero/coefficient/";
 #Roll moment due to (diedra + roll rate + yaw rate + ailerons) ==> asymmetry to break one wing
 var roll_moment = getprop(aero_coeff~"Clb")+getprop(aero_coeff~"Clp")+getprop(aero_coeff~"Clr")+getprop(aero_coeff~"ClDa");
 
+# Force-on-gear = (compression-ft) x (spring_coeff) + (compression-velocity-fps) x (damping_coeff)
+var compr0 = getprop("/fdm/jsbsim/gear/unit[0]/compression-ft");
+var compr_vel0 = getprop("/fdm/jsbsim/gear/unit[0]/compression-velocity-fps");
+var force0 = 1800 * compr0 + 600 * compr_vel0; # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for NOSE
+var compr1 = getprop("/fdm/jsbsim/gear/unit[1]/compression-ft");
+var compr_vel1 = getprop("/fdm/jsbsim/gear/unit[1]/compression-velocity-fps");
+var force1 = 5400 * compr1 + 400 * compr_vel1; # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for LEFT gear
+var compr2 = getprop("/fdm/jsbsim/gear/unit[2]/compression-ft");
+var compr_vel2 = getprop("/fdm/jsbsim/gear/unit[2]/compression-velocity-fps");
+var force2 = 5400 * compr2 + 400 * compr_vel2; # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for RIGHT gear
+var gear_side_force = getprop("/fdm/jsbsim/forces/fby-gear-lbs");
+
 var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
 var lastkit=0;
@@ -190,7 +202,6 @@ var upsidedown = func
 
 var killengine = func
 {
-	#setprop("/controls/engines/engine/magnetos", 0);
 	setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 0);
 }
 
@@ -268,17 +279,38 @@ var amphibious = func
 }
 
 var poll_damage = func
+
+# GROUND DAMAGES
+
 {
-	# or getprop("/sim/rendering/nosedamage") or getprop("/sim/rendering/alldamage")
-	if(getprop(gears~"unit[0]/compression-ft") > 0.75 or getprop(gears~"unit[0]/broken"))
+
+    compr0 = getprop("/fdm/jsbsim/gear/unit[0]/compression-ft");
+    compr_vel0 = getprop("/fdm/jsbsim/gear/unit[0]/compression-velocity-fps");
+    force0 = 1800 * compr0 + 600 * compr_vel0; # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for NOSE
+     
+    compr1 = getprop("/fdm/jsbsim/gear/unit[1]/compression-ft");
+    compr_vel1 = getprop("/fdm/jsbsim/gear/unit[1]/compression-velocity-fps");
+    force1 = 5400 * compr1 + 400 * compr_vel1; # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for LEFT gear
+    
+    compr2 = getprop("/fdm/jsbsim/gear/unit[2]/compression-ft");
+    compr_vel2 = getprop("/fdm/jsbsim/gear/unit[2]/compression-velocity-fps");
+    force2 = 5400 * compr2 + 400 * compr_vel2; # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for RIGHT gear
+    
+    gear_side_force = getprop("/fdm/jsbsim/forces/fby-gear-lbs");
+    
+#    # For tests: forces (LBS) exerted on gears (along Z and Y)
+#    if(force0 > 1000) print("force0 =", force0); #future breaking forces for gears
+#    if(force1 > 1500) print("force1 =", force1); #1500 - 2000 lb seems plausible. Mind full load and cross wind landing
+#    if(force2 >1500)  print("force2 =", force2);
+#    if(abs(gear_side_force) > 500) print ("side-force =", gear_side_force);
+
+	if(force0 > 1400)
 		nosegearbroke();
 
-	# or getprop("/sim/rendering/leftgeardamage") or getprop("/sim/rendering/alldamage")
-	if(getprop(gears~"unit[1]/compression-ft") > 0.49 or getprop(gears~"unit[1]/broken"))
+	if(force1 > 2000 or gear_side_force > 1500)
 		leftgearbroke();
 
-	# or getprop("/sim/rendering/rightgeardamage") or getprop("/sim/rendering/alldamage")	
-	if(getprop(gears~"unit[2]/compression-ft") > 0.49 or getprop(gears~"unit[2]/broken"))
+	if(force2 > 2000 or gear_side_force < -1500)
 		rightgearbroke();
 
 	if(getprop(contact~"unit[17]/compression-ft") > 0.75)

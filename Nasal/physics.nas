@@ -285,14 +285,6 @@ var poll_damage = func
 
 # GROUND DAMAGES
 
-    get_gear_force = func (index, spring_coeff, damping_coeff) {
-        # Force-on-gear = (compression-ft) x (spring_coeff) + (compression-velocity-fps) x (damping_coeff)
-    
-        compr = getprop("/fdm/jsbsim/gear/unit", index, "compression-ft");
-        compr_vel = getprop("/fdm/jsbsim/gear/unit", index, "compression-velocity-fps");
-        return spring_coeff * compr + damping_coeff * compr_vel;
-    };
-
     force0 = get_gear_force(0, 1800, 600); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for NOSE
     force1 = get_gear_force(1, 5400, 400); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for LEFT gear
     force2 = get_gear_force(2, 5400, 400); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for RIGHT gear

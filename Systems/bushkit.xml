@@ -147,13 +147,89 @@ Extra weight and drag due to bush wheels or floats
 
     <channel name="JSBSim hydrodynamics integration">
 
-        <switch name="tmp/floats-enabled-norm">
+        <fcs_function name="tmp/floats-enabled-norm">
             <default value="0"/>
-            <test logic="AND" value="1">
+            <function>
+                <product>
+                    <value>1.0</value>
+                    <le>
+                      <value>3.0</value>
+                      <property>bushkit</property>
+                    </le>
+                    <le>
+                      <property>bushkit</property>
+                      <value>4.0</value>
+                    </le>
+                    <difference>
+                        <value>1.0</value>
+                        <product>
+                            <property>contact/unit[13]/solid</property>
+                            <property>contact/unit[14]/solid</property>
+                            <property>contact/unit[15]/solid</property>
+                            <property>contact/unit[16]/solid</property>
+                            <property>contact/unit[17]/solid</property>
+                            <property>contact/unit[18]/solid</property>
+                        </product>
+                    </difference>
+                </product>
+            </function>
+            <output>floats-enabled-norm</output>
+        </fcs_function>
+
+        <switch name="left-pontoon/contact-z-pos-in[0]">
+            <default value="0"/>
+            <test logic="AND" value="-48.1">
                 bushkit GE 3
                 bushkit LE 4
-            </test>            
-            <output>floats-enabled-norm</output>
+                contact/unit[13]/solid GT 0
+            </test>
+            <output>contact/unit[13]/z-position</output>
+        </switch>
+        <switch name="left-pontoon/contact-z-pos-in[1]">
+            <default value="0"/>
+            <test logic="AND" value="-44.2">
+                bushkit GE 3
+                bushkit LE 4
+                contact/unit[15]/solid GT 0
+            </test>
+            <output>contact/unit[15]/z-position</output>
+        </switch>
+        <switch name="left-pontoon/contact-z-pos-in[2]">
+            <default value="0"/>
+            <test logic="AND" value="-24.5">
+                bushkit GE 3
+                bushkit LE 4
+                contact/unit[17]/solid GT 0
+            </test>
+            <output>contact/unit[17]/z-position</output>
+        </switch>
+
+        <switch name="right-pontoon/contact-z-pos-in[0]">
+            <default value="0"/>
+            <test logic="AND" value="-48.1">
+                bushkit GE 3
+                bushkit LE 4
+                contact/unit[14]/solid GT 0
+            </test>
+            <output>contact/unit[14]/z-position</output>
+        </switch>
+        <switch name="right-pontoon/contact-z-pos-in[1]">
+            <default value="0"/>
+            <test logic="AND" value="-44.2">
+                bushkit GE 3
+                bushkit LE 4
+                contact/unit[16]/solid GT 0
+            </test>
+            <output>contact/unit[16]/z-position</output>
+        </switch>
+        <switch name="right-pontoon/contact-z-pos-in[2]">
+            <default value="0"/>
+            <test logic="AND" value="-24.5">
+                bushkit GE 3
+                bushkit LE 4
+                contact/unit[18]/solid GT 0
+            </test>
+            <output>contact/unit[18]/z-position</output>
         </switch>
 
         <fcs_function name="left-pontoon/leakage-lbs_sec">

@@ -231,10 +231,10 @@ var resetcontacts = func
 	setprop(contact~"unit[6]/z-position", 0);
 	setprop(contact~"unit[7]/z-position", 0);
 	setprop(contact~"unit[8]/z-position", 0);
-	setprop(gears~"unit[13]/z-position", 0);
-	setprop(gears~"unit[14]/z-position", 0);
-	setprop(gears~"unit[15]/z-position", 0);
-	setprop(gears~"unit[16]/z-position", 0);
+	setprop(gears~"unit[19]/z-position", 0);
+	setprop(gears~"unit[20]/z-position", 0);
+	setprop(gears~"unit[21]/z-position", 0);
+	setprop(gears~"unit[22]/z-position", 0);
 }
 
 var defaulttires = func
@@ -274,10 +274,10 @@ var amphibious = func
 {
 	resetcontacts();
 	resetalldamage();
-	setprop(gears~"unit[13]/z-position", -62);
-	setprop(gears~"unit[14]/z-position", -62);
-	setprop(gears~"unit[15]/z-position", -50.5);
-	setprop(gears~"unit[16]/z-position", -50.5);
+	setprop(gears~"unit[19]/z-position", -62);
+	setprop(gears~"unit[20]/z-position", -62);
+	setprop(gears~"unit[21]/z-position", -50.5);
+	setprop(gears~"unit[22]/z-position", -50.5);
 }
 
 var poll_damage = func

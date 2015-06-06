@@ -123,20 +123,6 @@ var reset_system = func {
 	setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 1);
 	setprop("/fdm/jsbsim/contact/unit[4]/z-position", 50);
 	setprop("/fdm/jsbsim/contact/unit[5]/z-position", 50);
-	if (getprop("/fdm/jsbsim/bushkit") == 3)
-	{
-		setprop("/fdm/jsbsim/contact/unit[13]/z-position", -60);
-		setprop("/fdm/jsbsim/contact/unit[14]/z-position", -60);
-		setprop("/fdm/jsbsim/contact/unit[15]/z-position", -25);
-		setprop("/fdm/jsbsim/contact/unit[16]/z-position", -25);
-	}
-	else
-	{
-		setprop("/fdm/jsbsim/contact/unit[13]/z-position", 0);
-		setprop("/fdm/jsbsim/contact/unit[14]/z-position", 0);
-		setprop("/fdm/jsbsim/contact/unit[15]/z-position", 0);
-		setprop("/fdm/jsbsim/contact/unit[16]/z-position", 0);
-	}
 
     # Note: these separate flags exist because PUI's <radio> element
     #       only accepts booleans.

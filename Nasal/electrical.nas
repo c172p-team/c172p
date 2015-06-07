@@ -387,7 +387,7 @@ var electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/instrument-lights", bus_volts);
         load += bus_volts / 57;
     } else {
-        setprop("/systems/electrical/outputs/istrument-lights", 0.0);
+        setprop("/systems/electrical/outputs/instrument-lights", 0.0);
     }    
 
     # Landing Light Power

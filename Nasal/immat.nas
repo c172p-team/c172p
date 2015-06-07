@@ -16,7 +16,7 @@ var refresh_immat = func {
 	    glyph = immat[i] - `0` + 26;
 	else
 	   glyph = 36;
-	props.globals.getNode("/sim/multiplay/generic/int["~i~"]", 1).setValue(glyph+1);
+	props.globals.getNode("/sim/multiplay/generic/int["~(i+14)~"]", 1).setValue(glyph+1);
     }
 }
 

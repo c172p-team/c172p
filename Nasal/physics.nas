@@ -71,6 +71,7 @@ var resetalldamage = func
 	setprop(contact~"unit[5]/z-position", 50);
 	setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
 	setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
+	setprop("/fdm/jsbsim/wing-both/broken", 0);
 	setprop("/fdm/jsbsim/crash", 0);
 	setprop("/fdm/jsbsim/left-pontoon/damaged", 0);
 	setprop("/fdm/jsbsim/left-pontoon/broken", 0);
@@ -187,6 +188,15 @@ var bothwingcollapse = func
 {
 	setprop(contact~"unit[5]/z-position", -8);
 	setprop("/fdm/jsbsim/crash", 1);
+}
+
+var bothwingsbroke = func
+{
+	setprop(contact~"unit[4]/broken", 1);
+	setprop(contact~"unit[5]/broken", 1);
+	setprop("/fdm/jsbsim/wing-damage/left-wing", 1);
+	setprop("/fdm/jsbsim/wing-damage/right-wing", 1);
+	setprop("/fdm/jsbsim/wing-both/broken", 1);
 }
 
 var upsidedown = func
@@ -384,8 +394,9 @@ var poll_damage = func
 	{    
 		if (getprop("/fdm/jsbsim/wing-damage/left-wing") < 1 and getprop("/fdm/jsbsim/wing-damage/right-wing") < 1)
 		{
-			   rightwingbroke();
-			   leftwingbroke();
+			   #rightwingbroke();
+			   #leftwingbroke();
+			   bothwingsbroke();
                gui.popupTip("Overspeed!! Both wings BROKEN", 5);
 		}
 	}
@@ -420,8 +431,9 @@ var poll_damage = func
 	}
 	if (g > (max_positive * 1.5))
 	{
-		rightwingbroke();
-		leftwingbroke();
+		#rightwingbroke();
+		#leftwingbroke();
+		bothwingsbroke();
         gui.popupTip("Over-g Both wings BROKEN!!", 5);
 	}	
 }
@@ -445,7 +457,12 @@ var poll_surface = func
 		setprop(contact~"unit[13]/z-position", -55);
 		setprop(contact~"unit[17]/z-position", 0);
 		if (getprop(contact~"unit[13]/compression-ft"))
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		{
+			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+			else
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		}
 	}
 
 	if (getprop(contact~"unit[14]/solid"))
@@ -464,7 +481,12 @@ var poll_surface = func
 		setprop(contact~"unit[14]/z-position", -55);
 		setprop(contact~"unit[18]/z-position", 0);
 		if (getprop(contact~"unit[14]/compression-ft"))
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		{
+			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+			else
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		}
 	}
 
 	if (getprop(contact~"unit[15]/solid"))
@@ -483,7 +505,12 @@ var poll_surface = func
 		setprop(contact~"unit[15]/z-position", -22);
 		setprop(contact~"unit[19]/z-position", 0);
 		if (getprop(contact~"unit[15]/compression-ft"))
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		{
+			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+			else
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		}
 	}
 
 	if (getprop(contact~"unit[16]/solid"))
@@ -502,7 +529,12 @@ var poll_surface = func
 		setprop(contact~"unit[16]/z-position", -22);
 		setprop(contact~"unit[20]/z-position", 0);
 		if (getprop(contact~"unit[16]/compression-ft"))
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		{
+			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+			else
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		}
 	}
 
 	if (getprop("position/altitude-agl-m") > 2)

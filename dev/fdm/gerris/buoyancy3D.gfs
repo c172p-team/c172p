@@ -21,13 +21,7 @@
     #   F_r = F_s * U^3 * Rho * G
     #   M_r = M_s * U^4 * Rho * G
 
-    # We don't care about Reynolds number here.
-    # The Reynolds number is
-    #   Re = fluid velocity * characteristic length / kinematic fluid viscosity
-    # Set model viscosity to get the right Re
-    #   model viscosity = model velocity * real viscosity /
-    #                     real velocity * scaling factor
-    #   kinematic viscosity = dynamic viscosity / density
+    # We don't care about Reynolds number or viscosity for this scenario.
 
     # We are interested in the static situation for buoyancy computation.
     Time { iend = 1 }
@@ -52,8 +46,10 @@
     # Viscosity is uninteresting for buoyancy.
     #GfsSourceViscosity 1e-3
 
-    # Make sure moments and rotations are around HYDRORP
-    Solid floats.gts { scale=0.10 tx=0.0 }
+    # FIXME: Make sure moments and rotations are around HYDRORP.
+    #        Is it really ok to set the position and orientation of the solid
+    #        by moving its origin?
+    Solid floats.gts { scale=0.10 }
     RefineSolid 9
 
     # Output pressure force and moment on the object

@@ -1,0 +1,71 @@
+Setup for computing buoyancy forces and moments of a 3d shape using the
+Gerris Flow Solver, http://gfs.sourceforge.net/wiki/index.php/Main_Page
+
+1. The hull of the vessel needs to be described by a 3d model.
+   The hull model must be a manifold
+   It is preferable if the origin of the 3d model is the same as the
+   origin of the FDM structural frame.
+
+2. Convert the hull 3d model to GTS format for use with Gerris.
+   Example with the model originally in blender:
+   1. Export the model in STL format.
+   2. Convert the STL model to GTS format with the stl2gts tool (from the gts
+      library). For unknown reasons the normals have to be reverted in this
+      step.
+      % gts2stl --revert < floats.stl > floats.gts.base
+   3. Check the model with gtscheck
+      % gtscheck -v < floats.gts.base
+      If there are any problems, such as incompatible faces or non-manifold
+      edges, the model is very likely not to work in the latter stages.
+      Make a cleaned up version for the buoyancy computation.
+
+   The model.gts.base will be the original for the various cases/configurations
+   described below.
+
+3. Edit the reference length and solid model scaling in the buoyancy3D.gfs
+   file.
+
+4. Prepare the cases/configurations of interest. A case/configuration is one
+   position and orientation of the 3d model with respect to the water surface.
+   Each case becomes a separate gerris3D run.
+   The create_experiment.sh script can be used to create a set of cases.
+   The script needs to be edited to set the location of the hydrodynamic
+   reference point, HRP, (which should be close to the CG), the desired set
+   of data points in roll and pitch, and finally the distance between the HRP
+   and the water surface. The last parameter currently has to be manually
+   entered in the script file for each set of cases.
+   Example:
+      (Uncomment the distance line "HAGL=1.2192 # 4ft")
+      % ./create_experiment.sh 20150529 p4ft
+      (Uncomment the distance line "HAGL=HAGL=1.524  # 5ft")
+      % ./create_experiment.sh 20150529 p5ft
+      ...
+   This creates a base directory 20150529 with a multitude of p4ft_* and
+   p5ft_* etc. subdirectories, each one being a case.
+
+5. Run the cases.
+      % ./run_experiment.sh <base dir> <name base>
+   Example:
+      % ./run_experiment.sh 20150529 p4ft
+   You can also leave out the second argument to run all cases in 20150529.
+   Do consider running a suitable number of cases in parallel
+   ./run_experiment.sh calls to speed up this step. E.g. as many as you have
+   CPU cores if you don't run out of memory.
+
+6. Summarize the case results into tables that can be copied into a JSBSim
+   hydrodynamics configuration.
+      % ./summarize_experiment.sh <base dir>/<name base>
+      Will summarize the cases (roll and pitch) for one distance between the
+      HRP and the water surface.
+   This script must be edited to set the roll and pitch range and the
+   scaling factors used.
+   The resulting "coefficients" are scaled for imperial units and expressed
+   as F/(Rho*G) and M/(Rho*G).
+
+   Example:
+      % ./summarize_experiment.sh 20150529/p4ft
+
+      See Systems/c172p-hydrodynamics.xml to see where the tables for buoyancy
+      lift force and pitch and roll moment "coefficients" go and how the
+      "coefficients" are transformed back into forces and moments.
+      (Search for 'breakPoint="4.0"'.)

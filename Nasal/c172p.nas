@@ -30,6 +30,23 @@ controls.applyParkingBrake = func (v) {
 };
 
 ##########################################
+# Click Sounds
+##########################################
+
+var click = func (number) {
+    var sound_prop = "/sim/model/c172p/sound/click" ~ number;
+
+    # Play the sound
+    setprop(sound_prop, 1);
+
+    # Reset the property after 0.2 seconds so that the sound can be
+    # played again.
+    settimer(func {
+        setprop(sound_prop, 0);
+    }, 0.1);
+};
+
+##########################################
 # Ground Detection
 ##########################################
 

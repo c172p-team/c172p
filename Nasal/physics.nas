@@ -457,7 +457,12 @@ var poll_surface = func
 		setprop(contact~"unit[13]/z-position", -55);
 		setprop(contact~"unit[17]/z-position", 0);
 		if (getprop(contact~"unit[13]/compression-ft"))
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		{
+			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+			else
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		}
 	}
 
 	if (getprop(contact~"unit[14]/solid"))
@@ -476,7 +481,12 @@ var poll_surface = func
 		setprop(contact~"unit[14]/z-position", -55);
 		setprop(contact~"unit[18]/z-position", 0);
 		if (getprop(contact~"unit[14]/compression-ft"))
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		{
+			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+			else
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		}
 	}
 
 	if (getprop(contact~"unit[15]/solid"))
@@ -495,7 +505,12 @@ var poll_surface = func
 		setprop(contact~"unit[15]/z-position", -22);
 		setprop(contact~"unit[19]/z-position", 0);
 		if (getprop(contact~"unit[15]/compression-ft"))
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		{
+			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+			else
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		}
 	}
 
 	if (getprop(contact~"unit[16]/solid"))
@@ -514,7 +529,12 @@ var poll_surface = func
 		setprop(contact~"unit[16]/z-position", -22);
 		setprop(contact~"unit[20]/z-position", 0);
 		if (getprop(contact~"unit[16]/compression-ft"))
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		{
+			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+			else
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		}
 	}
 
 	if (getprop("position/altitude-agl-m") > 2)

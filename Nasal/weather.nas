@@ -10,10 +10,6 @@ var frostlevel = 0;
 var dewpointC = getprop("/environment/dewpoint-degc");
 var airtempC = getprop("/environment/temperature-degc");
 
-var cabinairtempC = getprop("/environment/aircraft-effects/cabinairtempC");
-var surfacetempC = getprop("/environment/aircraft-effects/surfacetempC");
-var cabinairdewpointC = getprop("/environment/aircraft-effects/cabinairdewpointC");
-
 var cabinheatset = 0; #double flow 0 - 1 
 var cabinairset = 0;  #double flow 0 - 1 
 var cabindewpointset = -7; #19.4 degF
@@ -32,11 +28,15 @@ props.globals.initNode("/environment/aircraft-effects/cabin-dew-setC", cabindewp
 
 #added for flight recorder
 props.Node.new({ "/environment/aircraft-effects/cabinairtempC":0 });
-props.globals.initNode("/environment/aircraft-effects/cabinairtempC", cabinairtempC, "DOUBLE");
+props.globals.initNode("/environment/aircraft-effects/cabinairtempC", airtempC, "DOUBLE");
 props.Node.new({ "/environment/aircraft-effects/surfacetempC":0 });
-props.globals.initNode("/environment/aircraft-effects/surfacetempC", surfacetempC, "DOUBLE");
+props.globals.initNode("/environment/aircraft-effects/surfacetempC", airtempC, "DOUBLE");
 props.Node.new({ "/environment/aircraft-effects/cabinairdewpointC":0 });
-props.globals.initNode("/environment/aircraft-effects/cabinairdewpointC", cabinairdewpointC, "DOUBLE");
+props.globals.initNode("/environment/aircraft-effects/cabinairdewpointC", dewpointC, "DOUBLE");
+
+var cabinairtempC = getprop("/environment/aircraft-effects/cabinairtempC");
+var surfacetempC = getprop("/environment/aircraft-effects/surfacetempC");
+var cabinairdewpointC = getprop("/environment/aircraft-effects/cabinairdewpointC");
 
 var weather_effects_loop = func {
 

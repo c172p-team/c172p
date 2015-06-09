@@ -13,25 +13,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-#ALS flashlight
-
+# ALS flashlight
 var toggle_flashlight = func {
     if (check_required_version([3, 5])) {
-	    if (getprop("/sim/rendering/shaders/skydome")) {
-			if (!getprop("/sim/rendering/als-secondary-lights/use-flashlight"))
-				setprop("/sim/rendering/als-secondary-lights/use-flashlight", 1);
-			else
-			if (getprop("/sim/rendering/als-secondary-lights/use-flashlight") == 1)
-				setprop("/sim/rendering/als-secondary-lights/use-flashlight", 2);
-			else
-			if (getprop("/sim/rendering/als-secondary-lights/use-flashlight") == 2)
-				setprop("/sim/rendering/als-secondary-lights/use-flashlight", 0);
-	    }
-	    else {
-		    gui.popupTip("Enable ALS for ALS Flashlight", 5);
-	    }
+        if (getprop("/sim/rendering/shaders/skydome")) {
+            var old_value = getprop("/sim/rendering/als-secondary-lights/use-flashlight");
+            var new_value = math.mod(old_value + 1, 3);
+            setprop("/sim/rendering/als-secondary-lights/use-flashlight", new_value);
+        }
+        else {
+            gui.popupTip("Enable ALS for ALS Flashlight", 5);
+        }
     }
     else {
-	    gui.popupTip("ALS Flashlight require version 3.5 or greater", 5);
+        gui.popupTip("ALS Flashlight require version 3.5 or greater", 5);
     }
 };

@@ -337,7 +337,7 @@ var poll_damage = func
 		rightwingbroke();
 
 	if(getprop(gears~"unit[0]/broken")	and getprop(gears~"unit[1]/broken")	and getprop(gears~"unit[2]/broken"))
-		if(!getprop("/fdm/jsbsim/wing-both/broken"))
+		if(!getprop("/fdm/jsbsim/wing-both/broken") and getprop("/fdm/jsbsim/wing-damage/left-wing") < 1 and getprop("/fdm/jsbsim/wing-damage/right-wing") < 1)
 			bothwingcollapse();
 
 	if (getprop(contact~"unit[12]/WOW"))

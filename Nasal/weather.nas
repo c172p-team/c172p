@@ -9,10 +9,6 @@ var frostlevel = 0;
 
 var dewpointC = getprop("/environment/dewpoint-degc");
 var airtempC = getprop("/environment/temperature-degc");
-	
-var surfacetempC = getprop("/environment/temperature-degc");
-var cabinairtempC = getprop("/environment/temperature-degc");
-var cabinairdewpointC = getprop("/environment/dewpoint-degc");
 
 var cabinheatset = 0; #double flow 0 - 1 
 var cabinairset = 0;  #double flow 0 - 1 
@@ -30,14 +26,25 @@ props.globals.initNode("/environment/aircraft-effects/cabin-air-set", cabinairse
 props.Node.new({ "/environment/aircraft-effects/cabin-dew-setC":0 });
 props.globals.initNode("/environment/aircraft-effects/cabin-dew-setC", cabindewpointset, "DOUBLE");
 
+#added for flight recorder
+props.Node.new({ "/environment/aircraft-effects/cabinairtempC":0 });
+props.globals.initNode("/environment/aircraft-effects/cabinairtempC", airtempC, "DOUBLE");
+props.Node.new({ "/environment/aircraft-effects/surfacetempC":0 });
+props.globals.initNode("/environment/aircraft-effects/surfacetempC", airtempC, "DOUBLE");
+props.Node.new({ "/environment/aircraft-effects/cabinairdewpointC":0 });
+props.globals.initNode("/environment/aircraft-effects/cabinairdewpointC", dewpointC, "DOUBLE");
+
 var weather_effects_loop = func {
+    var cabinairtempC = getprop("/environment/aircraft-effects/cabinairtempC");
+    var surfacetempC = getprop("/environment/aircraft-effects/surfacetempC");
+    var cabinairdewpointC = getprop("/environment/aircraft-effects/cabinairdewpointC");
 
 	############################################## rain
 	
 	var airspeed = getprop("/velocities/airspeed-kt");
 
 	# c172p
-	var airspeed_max = 120;
+	var airspeed_max = 140;
 
 	if (airspeed > airspeed_max) {airspeed = airspeed_max;}
 
@@ -159,13 +166,27 @@ var weather_effects_loop = func {
 	{
 		setprop("/environment/aircraft-effects/frost-level", frostlevel);
 		setprop("/environment/aircraft-effects/fog-level", foglevel);
+		#added for flight recorder
+		if(!getprop("/sim/freeze/replay-state"))
+		{
+			setprop("/environment/aircraft-effects/cabinairtempC", cabinairtempC);
+			setprop("/environment/aircraft-effects/surfacetempC", surfacetempC);
+			setprop("/environment/aircraft-effects/cabinairdewpointC", cabinairdewpointC);
+		}
 	}
 	else
 	{
 		setprop("/environment/aircraft-effects/frost-level", 0);
 		setprop("/environment/aircraft-effects/fog-level", 0);
+		#added for flight recorder
+		if(!getprop("/sim/freeze/replay-state"))
+		{
+			setprop("/environment/aircraft-effects/cabinairtempC", getprop("/environment/temperature-degc"));
+			setprop("/environment/aircraft-effects/surfacetempC", getprop("/environment/temperature-degc"));
+			setprop("/environment/aircraft-effects/cabinairdewpointC", getprop("/environment/dewpoint-degc"));
+		}
 	}
-		
+
 	#debug
 	#if (cabinairtempC > 0)
 	#{

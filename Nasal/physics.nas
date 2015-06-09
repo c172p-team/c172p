@@ -202,11 +202,17 @@ var bothwingsbroke = func
 var upsidedown = func
 {
 	if (getprop(contact~"unit[4]/broken"))
+		setprop(contact~"unit[4]/z-position", 40);
+	else
+	if(getprop("/fdm/jsbsim/wing-damage/left-wing") > 1)
 		setprop(contact~"unit[4]/z-position", 85);
 	else
 		setprop(contact~"unit[4]/z-position", 50);
-	
+
 	if (getprop(contact~"unit[5]/broken"))
+		setprop(contact~"unit[5]/z-position", 40);
+	else
+	if(getprop("/fdm/jsbsim/wing-damage/right-wing") > 1)
 		setprop(contact~"unit[5]/z-position", 85);
 	else
 		setprop(contact~"unit[5]/z-position", 50);
@@ -338,7 +344,8 @@ var poll_damage = func
 		rightwingbroke();
 
 	if(getprop(gears~"unit[0]/broken")	and getprop(gears~"unit[1]/broken")	and getprop(gears~"unit[2]/broken"))
-		bothwingcollapse();
+		if(!getprop("/fdm/jsbsim/wing-both/broken") and getprop("/fdm/jsbsim/wing-damage/left-wing") < 1 and getprop("/fdm/jsbsim/wing-damage/right-wing") < 1)
+			bothwingcollapse();
 
 	if (getprop(contact~"unit[12]/WOW"))
 		upsidedown();
@@ -395,10 +402,11 @@ var poll_damage = func
 	{    
 		if (getprop("/fdm/jsbsim/wing-damage/left-wing") < 1 and getprop("/fdm/jsbsim/wing-damage/right-wing") < 1)
 		{
-			   #rightwingbroke();
-			   #leftwingbroke();
-			   bothwingsbroke();
-               gui.popupTip("Overspeed!! Both wings BROKEN", 5);
+				if (!getprop("/fdm/jsbsim/crash"))
+				{
+					bothwingsbroke();
+					gui.popupTip("Overspeed!! Both wings BROKEN", 5);
+				}
 		}
 	}
 	
@@ -432,10 +440,11 @@ var poll_damage = func
 	}
 	if (g > (max_positive * 1.5))
 	{
-		#rightwingbroke();
-		#leftwingbroke();
-		bothwingsbroke();
-        gui.popupTip("Over-g Both wings BROKEN!!", 5);
+		if (!getprop("/fdm/jsbsim/crash"))
+		{
+			bothwingsbroke();
+			gui.popupTip("Over-g Both wings BROKEN!!", 5);
+		}
 	}	
 }
 
@@ -563,6 +572,7 @@ var poll_gear_delay = func
 
 var physics_loop = func
 {
+	if(getprop("/sim/freeze/replay-state")) return;
 	if (lastkit == getprop("/fdm/jsbsim/bushkit"))
 	{
 		settledelay = 0;

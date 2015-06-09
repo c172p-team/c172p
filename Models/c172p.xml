@@ -162,6 +162,18 @@
     <object-name>leftdoor</object-name>
     <object-name>rightdoor</object-name>
     <object-name>Spinner</object-name>
+	<object-name>L-Float</object-name>
+	<object-name>R-Float</object-name>
+	<object-name>L-FloatC</object-name>
+	<object-name>R-FloatC</object-name>
+	<object-name>Ldamper</object-name>
+	<object-name>Rdamper</object-name>
+	<object-name>Lstrut.001</object-name>
+	<object-name>Lstrut.002</object-name>
+	<object-name>Rstrut.001</object-name>
+	<object-name>Rstrut.002</object-name>
+	<object-name>LHrudder</object-name>
+	<object-name>RHrudder</object-name>
  </effect>
  <effect>
     <inherits-from>Effects/bumpspec-tail</inherits-from>
@@ -201,6 +213,18 @@
 	 <object-name>doorhandleint_right</object-name>
 	 <object-name>Propeller</object-name>
      <object-name>Spinner</object-name>
+	 <object-name>L-Float</object-name>
+	 <object-name>R-Float</object-name>
+	 <object-name>L-FloatC</object-name>
+	 <object-name>R-FloatC</object-name>
+	 <object-name>Ldamper</object-name>
+	 <object-name>Rdamper</object-name>
+	 <object-name>Lstrut.001</object-name>
+	 <object-name>Lstrut.002</object-name>
+	 <object-name>Rstrut.001</object-name>
+	 <object-name>Rstrut.002</object-name>
+	 <object-name>LHrudder</object-name>
+	 <object-name>RHrudder</object-name>
 	 <shininess>128</shininess>
 	 <specular>
 		 <r>1</r>
@@ -3058,10 +3082,6 @@
    <object-name>flaps</object-name>
    <!-- Damage Mod -->
    <object-name>flapsD</object-name>
-   <!--object-name>flapsRD</object-name>
-   <object-name>flapsLD</object-name>
-   <object-name>flapsBD</object-name>
-   <object-name>flapsCollapse</object-name-->
    <property>surface-positions/flap-pos-norm</property>
    <factor>0.07</factor>
    <axis>
@@ -3076,10 +3096,6 @@
    <object-name>flaps</object-name>
    <!-- Damage Mod -->
    <object-name>flapsD</object-name>
-   <!--object-name>flapsRD</object-name>
-   <object-name>flapsLD</object-name>
-   <object-name>flapsBD</object-name>
-   <object-name>flapsCollapse</object-name-->
    <property>surface-positions/flap-pos-norm</property>
    <factor>30</factor>
    <center>
@@ -3429,7 +3445,6 @@
    <object-name>wing_0Collapse</object-name>
    <object-name>rightaileronCollapse</object-name>
    <object-name>leftaileronCollapse</object-name>
-   <!--object-name>flapsCollapse</object-name-->
    <object-name>RightNavLightCollapse</object-name>
    <object-name>navlight_rightCollapse</object-name>
    <object-name>LeftNavLightCollapse</object-name>
@@ -3437,12 +3452,7 @@
    <object-name>landinglightcoverCollapse</object-name>
    <object-name>landinglight2Collapse</object-name>
    <condition>
-      <and>
 		<property alias="/params/crash/property"/>
-		<not>
-		    <property alias="/params/wing_both_broken/property"/>
-		</not>
-	  </and>
    </condition>
  </animation>
 
@@ -3473,7 +3483,6 @@
    <object-name>wing_1BD</object-name>
    <object-name>rightaileronBD</object-name>
    <object-name>leftaileronBD</object-name>
-   <!--object-name>flapsBD</object-name-->
    <object-name>RightNavLightBD</object-name>
    <object-name>navlight_rightBD</object-name>
    <object-name>LeftNavLightBD</object-name>
@@ -3507,7 +3516,6 @@
    <object-name>wing_1LD</object-name>
    <object-name>rightaileronLD</object-name>
    <object-name>leftaileronLD</object-name>
-   <!--object-name>flapsLD</object-name-->
    <object-name>LeftNavLightD</object-name>
    <object-name>navlight_leftD</object-name>
    <object-name>RightNavLightU</object-name>
@@ -3543,7 +3551,6 @@
    <object-name>wing_1RD</object-name>
    <object-name>rightaileronRD</object-name>
    <object-name>leftaileronRD</object-name>
-   <!--object-name>flapsRD</object-name-->
    <object-name>RightNavLightD</object-name>
    <object-name>navlight_rightD</object-name>
    <object-name>LeftNavLightU</object-name>
@@ -3877,16 +3884,13 @@
    <condition>
 	  <and>
 	    <property alias="/params/pontoon_left_damaged/property"/>
-		<or>
-		  <equals>
-		    <property alias="/params/bushkit/property"/>
-		    <value>3</value>
-		  </equals>
-		  <equals>
-		    <property alias="/params/bushkit/property"/>
-		    <value>4</value>
-		  </equals>
-		</or>
+		<not>
+		  <property alias="/params/pontoon_left_broken/property"/>
+		</not>
+		<equals>
+		  <property alias="/params/bushkit/property"/>
+		  <value>3</value>
+		</equals>
 	  </and>
    </condition>
  </animation>
@@ -3899,16 +3903,13 @@
    <condition>
 	  <and>
 	    <property alias="/params/pontoon_right_damaged/property"/>
-		<or>
-		  <equals>
-		    <property alias="/params/bushkit/property"/>
-		    <value>3</value>
-		  </equals>
-		  <equals>
-		    <property alias="/params/bushkit/property"/>
-		    <value>4</value>
-		  </equals>
-		</or>
+		<not>
+		  <property alias="/params/pontoon_right_broken/property"/>
+		</not>
+		<equals>
+		  <property alias="/params/bushkit/property"/>
+		  <value>3</value>
+		</equals>
 	  </and>
    </condition>
  </animation>
@@ -3921,16 +3922,10 @@
    <condition>
       <and>
 	    <property alias="/params/pontoon_left_broken/property"/>
-		<or>
-		  <equals>
-		    <property alias="/params/bushkit/property"/>
-		    <value>3</value>
-		  </equals>
-		  <equals>
-		    <property alias="/params/bushkit/property"/>
-		    <value>4</value>
-		  </equals>
-		</or>
+		<equals>
+		  <property alias="/params/bushkit/property"/>
+		  <value>3</value>
+	    </equals>
 	  </and>
    </condition>
  </animation>
@@ -3943,16 +3938,96 @@
    <condition>
 	  <and>
 	    <property alias="/params/pontoon_right_broken/property"/>
-		<or>
-		  <equals>
-		    <property alias="/params/bushkit/property"/>
-		    <value>3</value>
-		  </equals>
-		  <equals>
-		    <property alias="/params/bushkit/property"/>
-		    <value>4</value>
-		  </equals>
-		</or>
+		<equals>
+		  <property alias="/params/bushkit/property"/>
+		  <value>3</value>
+		</equals>
+	  </and>
+   </condition>
+ </animation>
+
+ <!-- Left Amphibious Damaged -->
+ <animation>
+   <type>select</type>
+   <object-name>L-FloatOD</object-name>
+   <object-name>LRwheelOD</object-name>
+   <object-name>LdamperOD</object-name>
+   <object-name>LstrutOD.001</object-name>
+   <object-name>LstrutOD.002</object-name>
+   <object-name>LHrudderD</object-name>
+   <condition>
+	  <and>
+	    <property alias="/params/pontoon_left_damaged/property"/>
+		<not>
+		  <property alias="/params/pontoon_left_broken/property"/>
+		</not>
+		<equals>
+		  <property alias="/params/bushkit/property"/>
+		  <value>4</value>
+		</equals>
+	  </and>
+   </condition>
+ </animation>
+
+ <!--Right Amphibious Damaged -->
+ <animation>
+   <type>select</type>
+   <object-name>R-FloatOD</object-name>
+   <object-name>RRwheelOD</object-name>
+   <object-name>RdamperOD</object-name>
+   <object-name>RstrutOD.001</object-name>
+   <object-name>RstrutOD.002</object-name>
+   <object-name>RHrudderD</object-name>
+   <condition>
+	  <and>
+	    <property alias="/params/pontoon_right_damaged/property"/>
+		<not>
+		  <property alias="/params/pontoon_right_broken/property"/>
+		</not>
+		<equals>
+		  <property alias="/params/bushkit/property"/>
+		  <value>4</value>
+		</equals>
+	  </and>
+   </condition>
+ </animation>
+
+ <!--Left Amphibious Broken -->
+ <animation>
+   <type>select</type>
+   <object-name>L-FloatOB</object-name>
+   <object-name>LRwheelOB</object-name>
+   <object-name>LdamperOB</object-name>
+   <object-name>LstrutOB.001</object-name>
+   <object-name>LstrutOB.002</object-name>
+   <object-name>LHrudderB</object-name>
+   <condition>
+      <and>
+	    <property alias="/params/pontoon_left_broken/property"/>
+		<equals>
+		  <property alias="/params/bushkit/property"/>
+		  <value>4</value>
+		</equals>
+	  </and>
+   </condition>
+ </animation>
+
+ <!--Right Amphibious Broken -->
+ <animation>
+   <type>select</type>
+   <object-name>R-FloatOB</object-name>
+   <object-name>RRwheelOB</object-name>
+   <object-name>RdamperOB</object-name>
+   <object-name>RstrutOB.001</object-name>
+   <object-name>RstrutOB.002</object-name>
+   <object-name>RHrudderB</object-name>
+   <condition>
+	  <and>
+	    <property alias="/params/pontoon_right_broken/property"/>
+		<equals>
+		  <property alias="/params/bushkit/property"/>
+		  <value>4</value>
+		</equals>
 	  </and>
    </condition>
  </animation>
@@ -5022,10 +5097,6 @@
    <object-name>wingLB</object-name>
    <object-name>wingRB</object-name>
    <object-name>wingCollapse</object-name>
-   <!--object-name>flapsRD</object-name>
-   <object-name>flapsLD</object-name>
-   <object-name>flapsBD</object-name>
-   <object-name>flapsCollapse</object-name-->
    <object-name>flapsD</object-name>
    <object-name>rightaileronRD</object-name>
    <object-name>rightaileronLD</object-name>
@@ -5072,6 +5143,10 @@
    <object-name>R-FloatCD</object-name>
    <object-name>L-FloatCB</object-name>
    <object-name>R-FloatCB</object-name>
+   <object-name>L-FloatOD</object-name>
+   <object-name>R-FloatOD</object-name>
+   <object-name>L-FloatOB</object-name>
+   <object-name>R-FloatOB</object-name>
    <object-name>LHrudderD</object-name>
    <object-name>RHrudderD</object-name>
    <object-name>LHrudderB</object-name>

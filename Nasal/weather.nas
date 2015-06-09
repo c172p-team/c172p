@@ -9,10 +9,10 @@ var frostlevel = 0;
 
 var dewpointC = getprop("/environment/dewpoint-degc");
 var airtempC = getprop("/environment/temperature-degc");
-	
-var surfacetempC = getprop("/environment/temperature-degc");
-var cabinairtempC = getprop("/environment/temperature-degc");
-var cabinairdewpointC = getprop("/environment/dewpoint-degc");
+
+var cabinairtempC = getprop("/environment/aircraft-effects/cabinairtempC");
+var surfacetempC = getprop("/environment/aircraft-effects/surfacetempC");
+var cabinairdewpointC = getprop("/environment/aircraft-effects/cabinairdewpointC");
 
 var cabinheatset = 0; #double flow 0 - 1 
 var cabinairset = 0;  #double flow 0 - 1 
@@ -168,18 +168,24 @@ var weather_effects_loop = func {
 		setprop("/environment/aircraft-effects/frost-level", frostlevel);
 		setprop("/environment/aircraft-effects/fog-level", foglevel);
 		#added for flight recorder
-		setprop("/environment/aircraft-effects/cabinairtempC", cabinairtempC);
-	    setprop("/environment/aircraft-effects/surfacetempC", surfacetempC);
-        setprop("/environment/aircraft-effects/cabinairdewpointC", cabinairdewpointC);
+		if(!getprop("/sim/freeze/replay-state"))
+		{
+			setprop("/environment/aircraft-effects/cabinairtempC", cabinairtempC);
+			setprop("/environment/aircraft-effects/surfacetempC", surfacetempC);
+			setprop("/environment/aircraft-effects/cabinairdewpointC", cabinairdewpointC);
+		}
 	}
 	else
 	{
 		setprop("/environment/aircraft-effects/frost-level", 0);
 		setprop("/environment/aircraft-effects/fog-level", 0);
 		#added for flight recorder
-		setprop("/environment/aircraft-effects/cabinairtempC", getprop("/environment/temperature-degc"));
-	    setprop("/environment/aircraft-effects/surfacetempC", getprop("/environment/temperature-degc"));
-        setprop("/environment/aircraft-effects/cabinairdewpointC", getprop("/environment/dewpoint-degc"));
+		if(!getprop("/sim/freeze/replay-state"))
+		{
+			setprop("/environment/aircraft-effects/cabinairtempC", getprop("/environment/temperature-degc"));
+			setprop("/environment/aircraft-effects/surfacetempC", getprop("/environment/temperature-degc"));
+			setprop("/environment/aircraft-effects/cabinairdewpointC", getprop("/environment/dewpoint-degc"));
+		}
 	}
 
 	#debug

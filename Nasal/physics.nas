@@ -20,6 +20,20 @@ var aero_coeff = "fdm/jsbsim/aero/coefficient/";
 #Roll moment due to (diedra + roll rate + yaw rate + ailerons) ==> asymmetry to break one wing
 var roll_moment = getprop(aero_coeff~"Clb")+getprop(aero_coeff~"Clp")+getprop(aero_coeff~"Clr")+getprop(aero_coeff~"ClDa");
 
+var get_gear_force = func (index, spring_coeff, damping_coeff) {
+    # Force-on-gear = (compression-ft) x (spring_coeff) + (compression-velocity-fps) x (damping_coeff)
+
+    var compr = getprop("/fdm/jsbsim/gear/unit", index, "compression-ft");
+    var compr_vel = getprop("/fdm/jsbsim/gear/unit", index, "compression-velocity-fps");
+    return spring_coeff * compr + damping_coeff * compr_vel;
+};
+
+var force0 = get_gear_force(0, 1800, 600); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for NOSE
+var force1 = get_gear_force(1, 5400, 400); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for LEFT gear
+var force2 = get_gear_force(2, 5400, 400); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for RIGHT gear
+
+var gear_side_force = getprop("/fdm/jsbsim/forces/fby-gear-lbs");
+
 var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
 var lastkit=0;
@@ -57,6 +71,7 @@ var resetalldamage = func
 	setprop(contact~"unit[5]/z-position", 50);
 	setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
 	setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
+	setprop("/fdm/jsbsim/wing-both/broken", 0);
 	setprop("/fdm/jsbsim/crash", 0);
 	setprop("/fdm/jsbsim/left-pontoon/damaged", 0);
 	setprop("/fdm/jsbsim/left-pontoon/broken", 0);
@@ -175,6 +190,15 @@ var bothwingcollapse = func
 	setprop("/fdm/jsbsim/crash", 1);
 }
 
+var bothwingsbroke = func
+{
+	setprop(contact~"unit[4]/broken", 1);
+	setprop(contact~"unit[5]/broken", 1);
+	setprop("/fdm/jsbsim/wing-damage/left-wing", 1);
+	setprop("/fdm/jsbsim/wing-damage/right-wing", 1);
+	setprop("/fdm/jsbsim/wing-both/broken", 1);
+}
+
 var upsidedown = func
 {
 	if (getprop(contact~"unit[4]/broken"))
@@ -190,7 +214,6 @@ var upsidedown = func
 
 var killengine = func
 {
-	#setprop("/controls/engines/engine/magnetos", 0);
 	setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 0);
 }
 
@@ -269,16 +292,28 @@ var amphibious = func
 
 var poll_damage = func
 {
-	# or getprop("/sim/rendering/nosedamage") or getprop("/sim/rendering/alldamage")
-	if(getprop(gears~"unit[0]/compression-ft") > 0.75 or getprop(gears~"unit[0]/broken"))
+
+# GROUND DAMAGES
+
+    force0 = get_gear_force(0, 1800, 600); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for NOSE
+    force1 = get_gear_force(1, 5400, 400); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for LEFT gear
+    force2 = get_gear_force(2, 5400, 400); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for RIGHT gear
+
+    gear_side_force = getprop("/fdm/jsbsim/forces/fby-gear-lbs");
+    
+#    # For tests: forces (LBS) exerted on gears (along Z and Y)
+#    if(force0 > 1000) print("force0 =", force0); #future breaking forces for gears
+#    if(force1 > 1500) print("force1 =", force1); #1500 - 2000 lb seems plausible. Mind full load and cross wind landing
+#    if(force2 >1500)  print("force2 =", force2);
+#    if(abs(gear_side_force) > 500) print ("side-force =", gear_side_force);
+
+	if(force0 > 1400)
 		nosegearbroke();
 
-	# or getprop("/sim/rendering/leftgeardamage") or getprop("/sim/rendering/alldamage")
-	if(getprop(gears~"unit[1]/compression-ft") > 0.49 or getprop(gears~"unit[1]/broken"))
+	if(force1 > 2000 or gear_side_force > 1500)
 		leftgearbroke();
 
-	# or getprop("/sim/rendering/rightgeardamage") or getprop("/sim/rendering/alldamage")	
-	if(getprop(gears~"unit[2]/compression-ft") > 0.49 or getprop(gears~"unit[2]/broken"))
+	if(force2 > 2000 or gear_side_force < -1500)
 		rightgearbroke();
 
 	if(getprop(contact~"unit[17]/compression-ft") > 0.75)
@@ -359,8 +394,9 @@ var poll_damage = func
 	{    
 		if (getprop("/fdm/jsbsim/wing-damage/left-wing") < 1 and getprop("/fdm/jsbsim/wing-damage/right-wing") < 1)
 		{
-			   rightwingbroke();
-			   leftwingbroke();
+			   #rightwingbroke();
+			   #leftwingbroke();
+			   bothwingsbroke();
                gui.popupTip("Overspeed!! Both wings BROKEN", 5);
 		}
 	}
@@ -395,8 +431,9 @@ var poll_damage = func
 	}
 	if (g > (max_positive * 1.5))
 	{
-		rightwingbroke();
-		leftwingbroke();
+		#rightwingbroke();
+		#leftwingbroke();
+		bothwingsbroke();
         gui.popupTip("Over-g Both wings BROKEN!!", 5);
 	}	
 }
@@ -420,7 +457,12 @@ var poll_surface = func
 		setprop(contact~"unit[13]/z-position", -55);
 		setprop(contact~"unit[17]/z-position", 0);
 		if (getprop(contact~"unit[13]/compression-ft"))
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		{
+			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+			else
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		}
 	}
 
 	if (getprop(contact~"unit[14]/solid"))
@@ -439,7 +481,12 @@ var poll_surface = func
 		setprop(contact~"unit[14]/z-position", -55);
 		setprop(contact~"unit[18]/z-position", 0);
 		if (getprop(contact~"unit[14]/compression-ft"))
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		{
+			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+			else
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		}
 	}
 
 	if (getprop(contact~"unit[15]/solid"))
@@ -458,7 +505,12 @@ var poll_surface = func
 		setprop(contact~"unit[15]/z-position", -22);
 		setprop(contact~"unit[19]/z-position", 0);
 		if (getprop(contact~"unit[15]/compression-ft"))
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		{
+			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+			else
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		}
 	}
 
 	if (getprop(contact~"unit[16]/solid"))
@@ -477,7 +529,12 @@ var poll_surface = func
 		setprop(contact~"unit[16]/z-position", -22);
 		setprop(contact~"unit[20]/z-position", 0);
 		if (getprop(contact~"unit[16]/compression-ft"))
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		{
+			if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+			else
+				setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		}
 	}
 
 	if (getprop("position/altitude-agl-m") > 2)

@@ -82,7 +82,6 @@ aircraft.data.add(
     "/controls/lighting/instruments-norm",
     "/controls/lighting/landing-lights",
     "/controls/lighting/nav-lights",
-    "/controls/lighting/panel-norm",
     "/controls/lighting/strobe",
     "/controls/lighting/taxi-light"
 );

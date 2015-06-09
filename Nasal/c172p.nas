@@ -181,6 +181,11 @@ var global_system_loop = func{
 #});
 
 var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
+    # Use Nasal to make some properties persistent. <aircraft-data> does
+    # not work reliably.
+    aircraft.data.add("/sim/model/c172p/immat-on-panel");
+    aircraft.data.load();
+
     reset_system();
     var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();

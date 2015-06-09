@@ -202,11 +202,17 @@ var bothwingsbroke = func
 var upsidedown = func
 {
 	if (getprop(contact~"unit[4]/broken"))
+		setprop(contact~"unit[4]/z-position", 40);
+	else
+	if(getprop("/fdm/jsbsim/wing-damage/left-wing") > 1)
 		setprop(contact~"unit[4]/z-position", 85);
 	else
 		setprop(contact~"unit[4]/z-position", 50);
-	
+
 	if (getprop(contact~"unit[5]/broken"))
+		setprop(contact~"unit[5]/z-position", 40);
+	else
+	if(getprop("/fdm/jsbsim/wing-damage/right-wing") > 1)
 		setprop(contact~"unit[5]/z-position", 85);
 	else
 		setprop(contact~"unit[5]/z-position", 50);

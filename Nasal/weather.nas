@@ -34,11 +34,10 @@ props.globals.initNode("/environment/aircraft-effects/surfacetempC", airtempC, "
 props.Node.new({ "/environment/aircraft-effects/cabinairdewpointC":0 });
 props.globals.initNode("/environment/aircraft-effects/cabinairdewpointC", dewpointC, "DOUBLE");
 
-var cabinairtempC = getprop("/environment/aircraft-effects/cabinairtempC");
-var surfacetempC = getprop("/environment/aircraft-effects/surfacetempC");
-var cabinairdewpointC = getprop("/environment/aircraft-effects/cabinairdewpointC");
-
 var weather_effects_loop = func {
+    var cabinairtempC = getprop("/environment/aircraft-effects/cabinairtempC");
+    var surfacetempC = getprop("/environment/aircraft-effects/surfacetempC");
+    var cabinairdewpointC = getprop("/environment/aircraft-effects/cabinairdewpointC");
 
 	############################################## rain
 	

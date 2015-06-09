@@ -161,7 +161,7 @@ setlistener("/controls/switches/starter", func {
             primerTimer.stop();
         }
     }
-}, 1, 1);
+}, 1, 0);
 
 # ================================ Initalize ====================================== 
 # Make sure all needed properties are present and accounted 

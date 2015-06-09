@@ -37,7 +37,7 @@ var weather_effects_loop = func {
 	var airspeed = getprop("/velocities/airspeed-kt");
 
 	# c172p
-	var airspeed_max = 120;
+	var airspeed_max = 140;
 
 	if (airspeed > airspeed_max) {airspeed = airspeed_max;}
 

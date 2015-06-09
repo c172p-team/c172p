@@ -30,6 +30,14 @@ props.globals.initNode("/environment/aircraft-effects/cabin-air-set", cabinairse
 props.Node.new({ "/environment/aircraft-effects/cabin-dew-setC":0 });
 props.globals.initNode("/environment/aircraft-effects/cabin-dew-setC", cabindewpointset, "DOUBLE");
 
+#added for flight recorder
+props.Node.new({ "/environment/aircraft-effects/cabinairtempC":0 });
+props.globals.initNode("/environment/aircraft-effects/cabinairtempC", cabinairtempC, "DOUBLE");
+props.Node.new({ "/environment/aircraft-effects/surfacetempC":0 });
+props.globals.initNode("/environment/aircraft-effects/surfacetempC", surfacetempC, "DOUBLE");
+props.Node.new({ "/environment/aircraft-effects/cabinairdewpointC":0 });
+props.globals.initNode("/environment/aircraft-effects/cabinairdewpointC", cabinairdewpointC, "DOUBLE");
+
 var weather_effects_loop = func {
 
 	############################################## rain
@@ -159,13 +167,21 @@ var weather_effects_loop = func {
 	{
 		setprop("/environment/aircraft-effects/frost-level", frostlevel);
 		setprop("/environment/aircraft-effects/fog-level", foglevel);
+		#added for flight recorder
+		setprop("/environment/aircraft-effects/cabinairtempC", cabinairtempC);
+	    setprop("/environment/aircraft-effects/surfacetempC", surfacetempC);
+        setprop("/environment/aircraft-effects/cabinairdewpointC", cabinairdewpointC);
 	}
 	else
 	{
 		setprop("/environment/aircraft-effects/frost-level", 0);
 		setprop("/environment/aircraft-effects/fog-level", 0);
+		#added for flight recorder
+		setprop("/environment/aircraft-effects/cabinairtempC", getprop("/environment/temperature-degc"));
+	    setprop("/environment/aircraft-effects/surfacetempC", getprop("/environment/temperature-degc"));
+        setprop("/environment/aircraft-effects/cabinairdewpointC", getprop("/environment/dewpoint-degc"));
 	}
-		
+
 	#debug
 	#if (cabinairtempC > 0)
 	#{

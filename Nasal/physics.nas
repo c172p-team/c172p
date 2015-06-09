@@ -565,6 +565,9 @@ var poll_gear_delay = func
 
 var physics_loop = func
 {
+	var nasalInit = setlistener("/sim/freeze/replay-state", func{
+	   if(getprop("/sim/freeze/replay-state")) return;
+	});
 	if (lastkit == getprop("/fdm/jsbsim/bushkit"))
 	{
 		settledelay = 0;

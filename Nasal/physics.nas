@@ -284,10 +284,10 @@ var amphibious = func
 	setprop(contact~"unit[14]/z-position", -55);
 	setprop(contact~"unit[15]/z-position", -22);
 	setprop(contact~"unit[16]/z-position", -22);
-	setprop(gears~"unit[21]/z-position", -54);
-	setprop(gears~"unit[22]/z-position", -54);
-	setprop(gears~"unit[23]/z-position", -48.5);
-	setprop(gears~"unit[24]/z-position", -48.5);
+	setprop(gears~"unit[21]/z-position", -62);
+	setprop(gears~"unit[22]/z-position", -62);
+	setprop(gears~"unit[23]/z-position", -50.5);
+	setprop(gears~"unit[24]/z-position", -50.5);
 }
 
 var poll_damage = func
@@ -301,11 +301,12 @@ var poll_damage = func
 
     gear_side_force = getprop("/fdm/jsbsim/forces/fby-gear-lbs");
     
-#    # For tests: forces (LBS) exerted on gears (along Z and Y)
-#    if(force0 > 1000) print("force0 =", force0); #future breaking forces for gears
-#    if(force1 > 1500) print("force1 =", force1); #1500 - 2000 lb seems plausible. Mind full load and cross wind landing
-#    if(force2 >1500)  print("force2 =", force2);
-#    if(abs(gear_side_force) > 500) print ("side-force =", gear_side_force);
+#    # For tests: forces (LBS) exerted on gears (along Z and Y), uncomment these lines.
+#    if(force0 > 1000) print("Nose Z-force =", force0); #future breaking forces for gears
+#    if(force1 > 1200) print("Left Z-force =", force1); #1500 - 2000 lb seems plausible. Mind full load and cross wind landing
+#    if(force2 >1200)  print("Right Z-force =", force2);
+#    if(gear_side_force > 500) print ("left side-force =", gear_side_force);
+#    if(gear_side_force < -500) print ("right side-force =", abs(gear_side_force));
 
 	if(force0 > 1400)
 		nosegearbroke();

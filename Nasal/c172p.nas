@@ -34,7 +34,7 @@ controls.applyParkingBrake = func (v) {
 ##########################################
 
 var click = func (number) {
-    var sound_prop = "/sim/model/c172p/sound/click" ~ number;
+    var sound_prop = "/sim/model/c172p/sound/click-" ~ number;
 
     # Play the sound
     setprop(sound_prop, 1);

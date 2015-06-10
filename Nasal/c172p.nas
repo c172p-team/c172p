@@ -138,6 +138,8 @@ var reset_system = func {
 		setprop("/fdm/jsbsim/contact/unit[16]/z-position", 0);
 	}
 
+    # Note: these separate flags exist because PUI's <radio> element
+    #       only accepts booleans.
 	var p = getprop("fdm/jsbsim/bushkit");
 	setprop("/sim/model/c172p/bushkit_flag_0",0);
 	setprop("/sim/model/c172p/bushkit_flag_1",0);

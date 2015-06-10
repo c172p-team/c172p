@@ -437,7 +437,7 @@ var poll_surface = func
 {
 	if (getprop("/fdm/jsbsim/ground/solid"))
 	{
-		# FIXME: Should rest on the floats' keels.
+		# FIXME: Do what?
 	}
 	else
 	{
@@ -446,7 +446,6 @@ var poll_surface = func
 
 	if (getprop("/fdm/jsbsim/hydro/active-norm") > 0)
 		setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
-	}
 
 	if (getprop("position/altitude-agl-m") > 2)
 		setprop("/environment/aircraft-effects/ground-splash-norm", 0);

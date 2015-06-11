@@ -435,17 +435,11 @@ var poll_damage = func
 #check if on water
 var poll_surface = func
 {
-	if (getprop("/fdm/jsbsim/ground/solid"))
-	{
-		# FIXME: Do what?
-	}
-	else
-	{
-		# FIXME: Reimplement for JSBSim hydrodynamics.
-	}
-
 	if (getprop("/fdm/jsbsim/hydro/active-norm") > 0)
-		setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+		else
+			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
 
 	if (getprop("position/altitude-agl-m") > 2)
 		setprop("/environment/aircraft-effects/ground-splash-norm", 0);

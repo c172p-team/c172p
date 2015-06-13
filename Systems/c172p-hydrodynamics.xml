@@ -274,11 +274,14 @@
        </min>
       </max>
      </product>
+     <!-- Squat is disabled as it currently misbehaves in near at rest
+          conditions leading to strange bobbing on the water.
+     -->
      <max>
-      <value>-5.0</value>
+      <value>-0.0</value>
       <min>
        <property>hydro/transverse-wave/squat-ft</property>
-       <value>5.0</value>
+       <value>0.0</value>
       </min>
      </max>
     </sum>
@@ -610,12 +613,12 @@
 
   <fcs_function name="hydro/rudder-yaw-moment-lbsft">
    <documentation>
-    Guessestimated yaw moment due to rudder.
+    Guessestimated yaw moment due to water rudder.
    </documentation>
    <function>
     <description>Hydrodynamic yaw moment due to rudder</description>
     <product>
-     <value>0.0</value>
+     <property>/controls/gear/water-rudder-down</property>
      <property>hydro/qbar-u-psf</property>
      <property>hydro/float-beam-ft3</property>
      <property>fcs/rudder-pos-norm</property>
@@ -630,8 +633,8 @@
    </documentation>
    <function>
     <product>
-     <value>0.0</value>
-     <value>-12500.0</value> <!-- Guess -->
+     <value>1.0</value>
+     <value>-2000.0</value> <!-- Guess -->
      <property>hydro/yaw-tweak-factor</property>
      <property>velocities/psidot-rad_sec</property>
     </product>
@@ -746,8 +749,8 @@
   <fcs_function name="hydro/damping-pitch-moment-lbsft">
    <function>
     <product>
-     <value>0.5</value>
-     <value>-25000.0</value> <!-- Guess -->
+     <value>1.0</value>
+     <value>-12000.0</value> <!-- Guess -->
      <property>velocities/thetadot-rad_sec</property>
     </product>
    </function>

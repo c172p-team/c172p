@@ -307,16 +307,20 @@ var poll_damage = func
 	if(force2 > 2000 or gear_side_force < -1500)
 		rightgearbroke();
 
-	if(getprop(contact~"unit[13]/compression-ft") > 0.75)
+	if(getprop(contact~"unit[13]/compression-ft") > 0.75 or getprop(contact~"unit[15]/compression-ft")  > 0.75 or getprop(contact~"unit[17]/compression-ft") > 0.75 or
+		getprop(gears~"unit[19]/compression-ft") > 0.75 or getprop(gears~"unit[21]/compression-ft")   > 0.75)
 		leftpontoondamaged();
 
-	if(getprop(contact~"unit[15]/compression-ft") > 0.49 or getprop(contact~"unit[17]/compression-ft") > 0.95)
+	if(getprop(contact~"unit[13]/compression-ft") > 0.95 or getprop(contact~"unit[15]/compression-ft")  > 0.95 or getprop(contact~"unit[17]/compression-ft") > 0.95 or
+		getprop(gears~"unit[19]/compression-ft") > 0.95 or getprop(gears~"unit[21]/compression-ft")   > 0.95)
 		leftpontoonbroke();
 
-	if(getprop(contact~"unit[14]/compression-ft") > 0.75)
+	if(getprop(contact~"unit[14]/compression-ft") > 0.75 or getprop(contact~"unit[16]/compression-ft")  > 0.75 or getprop(contact~"unit[18]/compression-ft") > 0.75 or
+		getprop(gears~"unit[20]/compression-ft") > 0.75 or getprop(gears~"unit[22]/compression-ft")   > 0.75)
 		rightpontoondamaged();
 
-	if(getprop(contact~"unit[16]/compression-ft") > 0.49 or getprop(contact~"unit[18]/compression-ft") > 0.95)
+	if(getprop(contact~"unit[14]/compression-ft") > 0.95 or getprop(contact~"unit[16]/compression-ft")  > 0.95 or getprop(contact~"unit[18]/compression-ft") > 0.95 or
+		getprop(gears~"unit[20]/compression-ft") > 0.95 or getprop(gears~"unit[22]/compression-ft")   > 0.95)
 		rightpontoonbroke();
 
 	# or getprop("/sim/rendering/leftwingdamage") or getprop("/sim/rendering/bothwingdamage")

@@ -2,6 +2,13 @@
 
 <PropertyList>
 
+	<params>
+        <!-- IMPORTANT: int properties 14 to 19, both included, are reserved for the immat system. Do not use them! -->
+		<sprake_wake_speed_kt>
+			<property>sim/multiplay/generic/float[6]</property>
+		</sprake_wake_speed_kt>
+    </params>
+
   <particlesystem>
     <name>middle-wake</name>
 
@@ -11,19 +18,10 @@
     <lighting>true</lighting>
 
 	<condition>
-		<and>
-			<not>
-				<property>fdm/jsbsim/ground/solid</property>
-			</not>
-			<greater-than>
-				<property>velocities/groundspeed-kt</property>
-				<value>15</value>
-			</greater-than>
-		  <greater-than>
-                    <property>/fdm/jsbsim/hydro/active-norm</property>
-                    <value>0</value>
-		  </greater-than>
-		</and>
+		<greater-than>
+			<property alias="/params/sprake_wake_speed_kt/property"/>
+			<value>15</value>
+		</greater-than>
 	</condition>
 
     <attach>world</attach>
@@ -38,7 +36,7 @@
       <phi-min-deg>-10</phi-min-deg>
       <phi-max-deg>10</phi-max-deg>
       <speed-mps>
-        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        <property alias="/params/sprake_wake_speed_kt/property"/>
         <value>10</value>
         <spread>2.5</spread>
       </speed-mps>
@@ -54,7 +52,7 @@
 
     <counter>
       <particles-per-sec>
-        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        <property alias="/params/sprake_wake_speed_kt/property"/>
         <factor>15</factor>
         <spread>0</spread>
       </particles-per-sec>

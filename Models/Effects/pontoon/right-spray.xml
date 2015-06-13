@@ -2,27 +2,25 @@
 
 <PropertyList>
 
+	<params>
+        <!-- IMPORTANT: int properties 14 to 19, both included, are reserved for the immat system. Do not use them! -->
+		<sprake_wake_speed_kt>
+			<property>sim/multiplay/generic/float[6]</property>
+		</sprake_wake_speed_kt>
+    </params>
+
     <particlesystem>
         <name>right-float</name>
         <texture>spray.png</texture>
         <emissive>false</emissive>
         <lighting>false</lighting>
 
-        <condition>
-            <and>
-				<not>
-					<property>fdm/jsbsim/ground/solid</property>
-				</not>
-                <greater-than>
-                    <property>velocities/groundspeed-kt</property>
-                    <value>6</value>
-                </greater-than>
+	<condition>
 		<greater-than>
-                    <property>/fdm/jsbsim/hydro/active-norm</property>
-                    <value>0</value>
+			<property alias="/params/sprake_wake_speed_kt/property"/>
+			<value>6</value>
 		</greater-than>
-            </and>
-        </condition>
+	</condition>
 
         <attach>world</attach>
 

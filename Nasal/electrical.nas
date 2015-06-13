@@ -61,6 +61,9 @@ var init_electrical = func {
     print("Electrical system initialized");
 }
 
+var reset_battery = func {
+    battery.reset_to_full_charge();
+}
 
 ##
 # Battery model class.
@@ -130,6 +133,13 @@ BatteryClass.get_output_amps = func {
     return me.ideal_amps * factor;
 }
 
+##
+# Set the current charge instantly to 100 %.
+#
+
+BatteryClass.reset_to_full_charge = func {
+    me.apply_load(-(1.0 - me.charge_percent) * me.amp_hours, 3600);
+}
 
 ##
 # Alternator model class.

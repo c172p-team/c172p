@@ -20,4 +20,5 @@ Wayne Bragg (wlbragg): effects - damage, rain\fog\ice, internal\external shadows
 (onox)
 Daniel Dubreuil (Dany93): [FDM] stall and spin + a few improvements, in-flight damages on wings, fuel float chamber.
 Tuomas Kuosmanen (tigert): Reference photos of the aircraft and of the OH-CTL livery. Feedback and testing of the Aircraft Systems and operation.
+Anders Gidenstam (AndersG): Hydrodynamics for the pontoon/float and amphibious variants.
 (wkitty42): bug hunting/reporting

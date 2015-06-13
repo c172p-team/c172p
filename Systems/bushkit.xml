@@ -43,37 +43,69 @@ Extra weight and drag due to bush wheels or floats
             <output>/fdm/jsbsim/inertia/pointmass-weight-lbs[8]</output>
         </switch>
 
-        <switch name="extra-weight-left-float">
-            <default value="0"/>
-            <test logic="AND" value="66">
-                bushkit EQ 3
-            </test>            
-            <output>/fdm/jsbsim/inertia/pointmass-weight-lbs[9]</output>
-        </switch>
+        <fcs_function name="extra-weight-left-float">
+            <function>
+               <product>
+                   <eq>
+                       <property>bushkit</property>
+                       <value>3</value>
+                   </eq>
+                   <sum>
+                       <value>66.0</value>
+                       <property>left-pontoon/leaked-water-lbs</property>
+                   </sum>
+               </product>
+            </function>
+            <output>inertia/pointmass-weight-lbs[9]</output>
+        </fcs_function>
 
-        <switch name="extra-weight-right-float">
-            <default value="0"/>
-            <test logic="AND" value="66">
-                bushkit EQ 3
-            </test>            
-            <output>/fdm/jsbsim/inertia/pointmass-weight-lbs[10]</output>
-        </switch>
+        <fcs_function name="extra-weight-right-float">
+            <function>
+               <product>
+                   <eq>
+                       <property>bushkit</property>
+                       <value>3</value>
+                   </eq>
+                   <sum>
+                       <value>66.0</value>
+                       <property>right-pontoon/leaked-water-lbs</property>
+                   </sum>
+               </product>
+            </function>
+            <output>inertia/pointmass-weight-lbs[10]</output>
+        </fcs_function>
 
-        <switch name="extra-weight-left-amphibious">
-            <default value="0"/>
-            <test logic="AND" value="138">
-                bushkit EQ 4
-            </test>            
-            <output>/fdm/jsbsim/inertia/pointmass-weight-lbs[11]</output>
-        </switch>
+        <fcs_function name="extra-weight-left-amphibious">
+            <function>
+               <product>
+                   <eq>
+                       <property>bushkit</property>
+                       <value>4</value>
+                   </eq>
+                   <sum>
+                       <value>138.0</value>
+                       <property>left-pontoon/leaked-water-lbs</property>
+                   </sum>
+               </product>
+            </function>
+            <output>inertia/pointmass-weight-lbs[11]</output>
+        </fcs_function>
 
-        <switch name="extra-weight-right-amphibious">
-            <default value="0"/>
-            <test logic="AND" value="138">
-                bushkit EQ 4
-            </test>            
-            <output>/fdm/jsbsim/inertia/pointmass-weight-lbs[12]</output>
-        </switch>
+        <fcs_function name="extra-weight-right-amphibious">
+            <function>
+               <product>
+                   <eq>
+                       <property>bushkit</property>
+                       <value>4</value>
+                   </eq>
+                   <sum>
+                       <value>138.0</value>
+                       <property>right-pontoon/leaked-water-lbs</property>
+                   </sum>
+               </product>
+            </function>
+            <output>inertia/pointmass-weight-lbs[12]</output>
+        </fcs_function>
 
     </channel>
 
@@ -110,6 +142,156 @@ Extra weight and drag due to bush wheels or floats
             </test>            
             <output>gear/drag-coef[4]</output>
         </switch>
+
+    </channel>
+
+    <channel name="JSBSim hydrodynamics integration">
+
+        <fcs_function name="tmp/floats-enabled-norm">
+            <function>
+                <product>
+                    <value>1.0</value>
+                    <le>
+                      <value>3.0</value>
+                      <property>bushkit</property>
+                    </le>
+                    <le>
+                      <property>bushkit</property>
+                      <value>4.0</value>
+                    </le>
+                    <not>
+                        <and>
+                            <property>contact/unit[13]/solid</property>
+                            <property>contact/unit[14]/solid</property>
+                            <property>contact/unit[15]/solid</property>
+                            <property>contact/unit[16]/solid</property>
+                            <property>contact/unit[17]/solid</property>
+                            <property>contact/unit[18]/solid</property>
+                        </and>
+                    </not>
+                </product>
+            </function>
+            <output>floats-enabled-norm</output>
+        </fcs_function>
+
+        <!-- FIXME: The delayed activation isn't pretty but, apparently,
+                    the solid property isn't reliable at the begining. -->
+        <switch name="left-pontoon/contact-z-pos-in[0]">
+            <default value="38.5"/>
+            <test logic="AND" value="-50.0">
+                simulation/sim-time-sec GT 0.25
+                bushkit GE 3
+                bushkit LE 4
+                contact/unit[13]/solid NE 0
+            </test>
+            <output>contact/unit[13]/z-position</output>
+        </switch>
+        <switch name="left-pontoon/contact-z-pos-in[1]">
+            <default value="38.5"/>
+            <test logic="AND" value="-44.2">
+                simulation/sim-time-sec GT 0.25
+                bushkit GE 3
+                bushkit LE 4
+                contact/unit[15]/solid NE 0
+            </test>
+            <output>contact/unit[15]/z-position</output>
+        </switch>
+        <switch name="left-pontoon/contact-z-pos-in[2]">
+            <default value="38.5"/>
+            <test logic="AND" value="-24.5">
+                simulation/sim-time-sec GT 0.25
+                bushkit GE 3
+                bushkit LE 4
+                contact/unit[17]/solid NE 0
+            </test>
+            <output>contact/unit[17]/z-position</output>
+        </switch>
+
+        <switch name="right-pontoon/contact-z-pos-in[0]">
+            <default value="38.5"/>
+            <test logic="AND" value="-50.0">
+                simulation/sim-time-sec GT 0.25
+                bushkit GE 3
+                bushkit LE 4
+                contact/unit[14]/solid NE 0
+            </test>
+            <output>contact/unit[14]/z-position</output>
+        </switch>
+        <switch name="right-pontoon/contact-z-pos-in[1]">
+            <default value="38.5"/>
+            <test logic="AND" value="-44.2">
+                bushkit GE 3
+                bushkit LE 4
+                contact/unit[16]/solid NE 0
+            </test>
+            <output>contact/unit[16]/z-position</output>
+        </switch>
+        <switch name="right-pontoon/contact-z-pos-in[2]">
+            <default value="38.5"/>
+            <test logic="AND" value="-24.5">
+                simulation/sim-time-sec GT 0.25
+                bushkit GE 3
+                bushkit LE 4
+                contact/unit[18]/solid NE 0
+            </test>
+            <output>contact/unit[18]/z-position</output>
+        </switch>
+
+        <fcs_function name="left-pontoon/leakage-lbs_sec">
+            <function>
+                <product>
+                    <value>5.0</value>
+                    <property>hydro/active-norm</property>
+                    <sum>
+                        <property>left-pontoon/damaged</property>
+                        <product>
+                            <value>50.0</value>
+                            <property>left-pontoon/broken</property>
+                        </product>
+                    </sum>
+                </product>
+            </function>
+        </fcs_function>
+
+        <!-- FIXME: How to reset this to 0 on repair? -->
+        <pid name="left-pontoon/leaked-water-lbs">
+            <input>left-pontoon/leakage-lbs_sec</input>
+            <kp>0.0</kp>
+            <ki>1.0</ki>
+            <kd>0.0</kd>
+            <clipto>
+                <min>0.0</min>
+                <max>2500.0</max> <!-- FIXME: Too much? Or too little? -->
+            </clipto>
+        </pid>
+
+        <fcs_function name="right-pontoon/leakage-lbs_sec">
+            <function>
+                <product>
+                    <value>5.0</value>
+                    <property>hydro/active-norm</property>
+                    <sum>
+                        <property>right-pontoon/damaged</property>
+                        <product>
+                            <value>50.0</value>
+                            <property>right-pontoon/broken</property>
+                        </product>
+                    </sum>
+                </product>
+            </function>
+        </fcs_function>
+
+        <!-- FIXME: How to reset this to 0 on repair? -->
+        <pid name="right-pontoon/leaked-water-lbs">
+            <input>right-pontoon/leakage-lbs_sec</input>
+            <kp>0.0</kp>
+            <ki>1.0</ki>
+            <kd>0.0</kd>
+            <clipto>
+                <min>0.0</min>
+                <max>2500.0</max> <!-- FIXME: Too much? Or too little? -->
+            </clipto>
+        </pid>
 
     </channel>
 

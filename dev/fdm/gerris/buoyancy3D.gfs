@@ -1,0 +1,82 @@
+1 0 GfsSimulation GfsBox GfsGEdge {} {
+
+    # One object immersed in a fluid.
+
+    # Coordinate system
+    #   X-axis goes towards the back.
+    #   Y-axis goes to the left looking back.
+    #   Z-axis goes up.
+    #   Origo is located in the center of the domain 0.5 units behind the
+    #   the initial boundary face.
+    # Simulation scaling parameters
+    #   Reference length (GfsBox side) L = 10 m
+    #   Reference speed U = 0 m/s
+    #   Reference density Rho = 1000 kg/m^3
+    #   Reference gravity G = 9.81 m/s^2
+    #
+    #   length scale 1/L = 0.10
+    #   time scale   L/U = inf
+
+    # Force and moment scaling.
+    #   F_r = F_s * U^3 * Rho * G
+    #   M_r = M_s * U^4 * Rho * G
+
+    # We don't care about Reynolds number or viscosity for this scenario.
+
+    # We are interested in the static situation for buoyancy computation.
+    Time { iend = 1 }
+
+    Global {
+      #define VAR(T,min,max) (min + CLAMP(T,0,1)*(max - min))
+      #define RATIO (1.2/1000.)
+    }
+
+    ApproxProjectionParams { tolerance = 1e-12 }
+    ProjectionParams { tolerance = 1e-12 }
+
+    # Keep the domain simple.
+    Refine 3
+
+    # Fluid density.
+    Init {} { rho = 1.0 }
+
+    # Gravity.
+    Source W -rho
+
+    # Viscosity is uninteresting for buoyancy.
+    #GfsSourceViscosity 1e-3
+
+    # FIXME: Make sure moments and rotations are around HYDRORP.
+    #        Is it really ok to set the position and orientation of the solid
+    #        by moving its origin?
+    Solid floats.gts { scale=0.10 }
+    RefineSolid 9
+
+    # Output pressure force and moment on the object
+    OutputSolidForce { istart = 1 istep = 1 } f
+
+    # Refine the water surface to four levels
+    RefineSurface { return 4; } (1e-4 - z)
+
+    VariableTracerVOF T
+    # For high-density ratios we cannot use the volume fraction field
+    # directly to define the density. We need a smoother version.
+    VariableFiltered T1 T 1
+
+    # Initialise the water surface at z = 1e-4 (i.e. pretty much in the middle)
+    InitFraction T (1e-4 - z)
+
+    # air/water density ratio
+    PhysicalParams { alpha = 1./VAR(T1,RATIO,1.) }
+
+    OutputTime { istep = 1 } stderr
+    OutputBalance { istep = 1 } stderr
+    OutputProjectionStats { istep = 1 } stderr
+    OutputTiming { istep = 10 } stderr
+
+    # Output and compress the saved simulation files
+    OutputSimulation { start = 0 step = 1.0 } sim-%g.gfs
+    EventScript { start = 0 step = 1 } { gzip -f -q sim-*.gfs }
+}
+GfsBox {}
+

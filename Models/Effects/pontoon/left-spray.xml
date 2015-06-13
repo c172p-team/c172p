@@ -4,15 +4,9 @@
 
 	<params>
         <!-- IMPORTANT: int properties 14 to 19, both included, are reserved for the immat system. Do not use them! -->
-		<ground_solid>
-			<property>sim/multiplay/generic/int[23]</property>
-		</ground_solid>
-		<groundspeed_kt>
+		<sprake_wake_speed_kt>
 			<property>sim/multiplay/generic/float[6]</property>
-		</groundspeed_kt>
-		<hydro_active_norm>
-			<property>sim/multiplay/generic/float[7]</property>
-		</hydro_active_norm>
+		</sprake_wake_speed_kt>
     </params>
 
     <particlesystem>
@@ -22,19 +16,10 @@
         <lighting>false</lighting>
 
 	<condition>
-		<and>
-			<not>
-				<property alias="/params/ground_solid/property"/>
-			</not>
-			<greater-than>
-				<property alias="/params/hydro_active_norm/property"/>
-				<value>0</value>
-			</greater-than>
-			<greater-than>
-				<property alias="/params/groundspeed_kt/property"/>
-				<value>6</value>
-			</greater-than>
-		</and>
+		<greater-than>
+			<property alias="/params/sprake_wake_speed_kt/property"/>
+			<value>6</value>
+		</greater-than>
 	</condition>
 
         <attach>world</attach>

@@ -2,6 +2,19 @@
 
 <PropertyList>
 
+	<params>
+        <!-- IMPORTANT: int properties 14 to 19, both included, are reserved for the immat system. Do not use them! -->
+		<ground_solid>
+			<property>sim/multiplay/generic/int[23]</property>
+		</ground_solid>
+		<groundspeed_kt>
+			<property>sim/multiplay/generic/float[6]</property>
+		</groundspeed_kt>
+		<hydro_active_norm>
+			<property>sim/multiplay/generic/float[7]</property>
+		</hydro_active_norm>
+    </params>
+
   <particlesystem>
     <name>right-wake</name>
 
@@ -9,28 +22,28 @@
 
     <emissive>false</emissive>
     <lighting>true</lighting>
-	
-    <condition>
-            <and>
-				<not>
-					<property>fdm/jsbsim/ground/solid</property>
-				</not>
-                <greater-than>
-                    <property>velocities/groundspeed-kt</property>
-                    <value>10</value>
-                </greater-than>
-				<not>
-                  <greater-than>
-                    <property>velocities/groundspeed-kt</property>
-                    <value>20</value>
-                  </greater-than>
-				</not>
-		<greater-than>
-                    <property>/fdm/jsbsim/hydro/active-norm</property>
-                    <value>0</value>
-		</greater-than>
-            </and>
-        </condition>
+
+	<condition>
+		<and>
+			<not>
+				<property alias="/params/ground_solid/property"/>
+			</not>
+			<greater-than>
+				<property alias="/params/hydro_active_norm/property"/>
+				<value>0</value>
+			</greater-than>
+			<greater-than>
+				<property alias="/params/groundspeed_kt/property"/>
+				<value>10</value>
+			</greater-than>
+			<not>
+			  <greater-than>
+				<property alias="/params/groundspeed_kt/property"/>
+				<value>20</value>
+			  </greater-than>
+			</not>
+		</and>
+	</condition>
 
     <attach>world</attach>
 

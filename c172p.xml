@@ -13,6 +13,16 @@
         <!-- Source: http://forum.flightgear.org/viewtopic.php?f=25&t=21664&start=45 -->
         <!-- this file with comments for stall and spin to help -->
 		<!-- further modifications for c172p-detailed 2015 -->
+        
+        <!-- FOR TESTS, Two-engine and Propeller choice, dany june 2015-->
+        <!-- 
+        For 180 hp, engine[1]:
+        **Manually** set Internal Properties /controls/engines/engine[1]/magnetos = 3
+        better to set original magnetos to 0 (key)
+        do not use "s" (would start engine[0], 160 hp)
+        start with controls/engines/engine[1]/starter = 1 then back to 0, or Ctrl-click on "starter = ", twice to stop starter
+         -->
+        
         <description> Cessna C-172 </description>
     </fileheader>
 
@@ -472,8 +482,36 @@
                 <pitch> 0 </pitch>
                 <yaw> 0 </yaw>
             </orient>
-            <feed>2</feed> <!-- from intermediate tank (float chamber) -->
+            <feed>2</feed> <!-- from intermediate tank (float chamber 2) -->
             <thruster file="prop_75in2f">
+                <location unit="IN">
+                    <x> -37.7 </x>
+                    <y> 0 </y>
+                    <z> 26.6 </z>
+                </location>
+                <orient unit="DEG">
+                    <roll> 0.0 </roll>
+                    <pitch> 0.0 </pitch>
+                    <yaw> 0.0 </yaw>
+                </orient>
+                <sense> 1 </sense>
+                <p_factor> 5 </p_factor>
+            </thruster>
+        </engine>
+        <engine file="eng_io360">
+            <location unit="IN">
+                <x> -19.7 </x>
+                <y> 0 </y>
+                <z> 26.6 </z>
+            </location>
+            <orient unit="DEG">
+                <roll> 0.0 </roll>
+                <pitch> 0 </pitch>
+                <yaw> 0 </yaw>
+            </orient>
+            <feed>3</feed> <!-- from intermediate tank (float chamber 3) -->
+            <!-- <thruster file="prop_76in2f_NACA_15-25deg"> -->
+            <thruster file="prop_76in2f_NACA_20deg">
                 <location unit="IN">
                     <x> -37.7 </x>
                     <y> 0 </y>
@@ -507,6 +545,16 @@
             <contents unit="LBS"> 100 </contents>
         </tank>
         <tank type="FUEL">    <!-- Tank number 2, Float chamber  -->
+            <location unit="IN">
+                <x> 56 </x>
+                <y> 0 </y>
+                <z> 59.4 </z>
+            </location>
+            <capacity unit="LBS"> 0.1 </capacity>
+            <contents unit="LBS"> 0 </contents>
+            <priority>1</priority>
+        </tank>
+        <tank type="FUEL">    <!-- Tank number 3, Float chamber  -->
             <location unit="IN">
                 <x> 56 </x>
                 <y> 0 </y>

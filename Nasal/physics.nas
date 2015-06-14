@@ -445,8 +445,9 @@ var poll_surface = func
 		else
 			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
 
-	if (getprop("position/altitude-agl-m") > 2)
-		setprop("/environment/aircraft-effects/ground-splash-norm", 0);
+	if (getprop("position/altitude-agl-m") > 2 or getprop("/fdm/jsbsim/hydro/active-norm") == 0)
+	    if (getprop("/environment/aircraft-effects/ground-splash-norm") > 0)
+		    setprop("/environment/aircraft-effects/ground-splash-norm", getprop("/environment/aircraft-effects/ground-splash-norm") - .005);
 }
 
 #required delay for bush kit change over

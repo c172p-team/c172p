@@ -28,6 +28,13 @@
 
 <PropertyList>
 
+  <params>
+    <!-- IMPORTANT: int properties 14 to 19, both included, are reserved for the immat system. Do not use them! -->
+    <right_gear_ground_effect_speed_kt>
+      <property>sim/multiplay/generic/float[14]</property>
+    </right_gear_ground_effect_speed_kt>
+  </params>
+
   <particlesystem>
    <name>tyre-burn-p</name>
     <texture>tyreburn.png</texture>
@@ -40,7 +47,13 @@
       <z-m> 0.0 </z-m>
     </offsets>
 
-    <condition>
+	<condition>
+	    <greater-than>
+            <property alias="/params/right_gear_ground_effect_speed_kt/property"/>
+            <value>8</value>
+        </greater-than>
+    </condition>
+    <!--condition>
       <and>
         <property>fdm/jsbsim/contact/unit[8]/WOW</property>
         <greater-than>
@@ -48,7 +61,7 @@
           <value>8</value>
         </greater-than>
       </and>
-    </condition>
+    </condition-->
 
     <align>billboard</align>
 

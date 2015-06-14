@@ -26,10 +26,17 @@ Copied from Cap10C by PAF team  - http://equipe-flightgear.forumactif.com
 
 <PropertyList>
 
+  <params>
+    <!-- IMPORTANT: int properties 14 to 19, both included, are reserved for the immat system. Do not use them! -->
+    <nose_gear_ground_effect_speed_kt>
+	    <property>sim/multiplay/generic/float[12]</property>
+	</nose_gear_ground_effect_speed_kt>
+  </params>
+
   <particlesystem>
 
-    <name>spark</name>
-    <type>normal</type>
+        <name>spark</name>
+        <type>normal</type>
 
     <offsets>
       <x-m> 0.0 </x-m>
@@ -37,7 +44,13 @@ Copied from Cap10C by PAF team  - http://equipe-flightgear.forumactif.com
       <z-m> 0.0 </z-m>
     </offsets>
 
-    <condition>
+	<condition>
+	    <greater-than>
+            <property alias="/params/nose_gear_ground_effect_speed_kt/property"/>
+            <value>8</value>
+        </greater-than>
+    </condition>
+    <!--condition>
       <and>
         <property>fdm/jsbsim/contact/unit[6]/WOW</property>
         <greater-than>
@@ -45,7 +58,7 @@ Copied from Cap10C by PAF team  - http://equipe-flightgear.forumactif.com
           <value>8</value>
         </greater-than>
       </and>
-    </condition>
+    </condition-->
 
     <texture>spark.png</texture>
     <emissive>true</emissive>

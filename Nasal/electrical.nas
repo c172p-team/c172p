@@ -559,4 +559,7 @@ controls.flapsDown = func(v){
   var volts = getprop("systems/electrical/outputs/flaps");
   print("Flap Volts: ",volts);
   flapsDown(volts > 16 ? v : 0);
+  if (volts > 16) {
+    c172p.click("flaps");
+  }
 }

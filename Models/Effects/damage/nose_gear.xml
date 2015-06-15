@@ -26,10 +26,16 @@ Copied from Cap10C by PAF team  - http://equipe-flightgear.forumactif.com
 
 <PropertyList>
 
+  <params>
+    <nose_gear_ground_effect_speed_kt>
+	    <property>sim/multiplay/generic/float[12]</property>
+	</nose_gear_ground_effect_speed_kt>
+  </params>
+
   <particlesystem>
 
-    <name>spark</name>
-    <type>normal</type>
+        <name>spark</name>
+        <type>normal</type>
 
     <offsets>
       <x-m> 0.0 </x-m>
@@ -37,14 +43,11 @@ Copied from Cap10C by PAF team  - http://equipe-flightgear.forumactif.com
       <z-m> 0.0 </z-m>
     </offsets>
 
-    <condition>
-      <and>
-        <property>fdm/jsbsim/contact/unit[6]/WOW</property>
-        <greater-than>
-          <property>velocities/groundspeed-kt</property>
-          <value>8</value>
+	<condition>
+	    <greater-than>
+            <property alias="/params/nose_gear_ground_effect_speed_kt/property"/>
+            <value>8</value>
         </greater-than>
-      </and>
     </condition>
 
     <texture>spark.png</texture>

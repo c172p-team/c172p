@@ -2,6 +2,12 @@
 
 <PropertyList>
 
+  <params>
+    <right_tyre_smoke_ground_effect_speed_kt>
+      <property>sim/multiplay/generic/float[17]</property>
+    </right_tyre_smoke_ground_effect_speed_kt>
+  </params>
+
   <particlesystem>
     <name>tyre-smoke-s</name>
     <texture>tyresmoke.png</texture>
@@ -9,25 +15,8 @@
     <lighting>false</lighting>
 
     <condition>
-		<or>
-			<property>gear/gear[2]/tyre-smoke</property>
-			<value>1</value>
-			<and>
-				<greater-than>
-					<property>fdm/jsbsim/ground/rolling_friction-factor</property>
-					<value type="double">1</value>
-				</greater-than>
-				<equals>
-					<property>gear/gear[2]/wow</property>
-					<value type="bool">true</value>
-				</equals>
-				<greater-than>
-					<property>velocities/groundspeed-kt</property>
-					<value type="double">20.0</value>
-				</greater-than>
-			</and>
-		</or>
-	</condition>
+	    <property alias="/params/right_tyre_smoke_ground_effect_speed_kt/property"/>
+    </condition>
 
     <attach>world</attach>
 

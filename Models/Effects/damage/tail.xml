@@ -28,6 +28,13 @@
 
 <PropertyList>
 
+  <params>
+    <!-- IMPORTANT: int properties 14 to 19, both included, are reserved for the immat system. Do not use them! -->
+    <tail_ground_effect_speed_kt>
+      <property>sim/multiplay/generic/float[9]</property>
+    </tail_ground_effect_speed_kt>
+  </params>
+
   <particlesystem>
 
     <name>spark</name>
@@ -40,6 +47,12 @@
     </offsets>
 
     <condition>
+	    <greater-than>
+            <property alias="/params/tail_ground_effect_speed_kt/property"/>
+            <value>8</value>
+        </greater-than>
+    </condition>
+    <!--condition>
       <and>
         <property>fdm/jsbsim/contact/unit[3]/WOW</property>
         <greater-than>
@@ -47,7 +60,7 @@
           <value>8</value>
         </greater-than>
       </and>
-    </condition>
+    </condition-->
 
     <texture>spark.png</texture>
     <emissive>true</emissive>

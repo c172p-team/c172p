@@ -2,6 +2,11 @@
 
 <PropertyList>
 
+    <params>
+        <tyre_spray_speed_ms>gear/gear[0]/sprayspeed-ms</tyre_spray_speed_ms>
+        <tyre_spray_density>gear/gear[0]/spray-density</tyre_spray_density>
+    </params>
+
 	<particlesystem>
 		<name>rain-s</name>
 		<texture>smoke.png</texture>
@@ -15,8 +20,10 @@
 		</offsets>
 
 		<condition>
-			<property>gear/gear[0]/spray</property>
-			<value>1</value>
+            <greater-than>
+			    <property alias="/params/tyre_spray_density"/>
+                <value>0.0</value>
+            </greater-than>
 		</condition>
 
 		<attach>world</attach>
@@ -46,7 +53,7 @@
 			<phi-min-deg>-5</phi-min-deg>
 			<phi-max-deg>5</phi-max-deg>
 			<speed-mps>
-				<property>gear/gear[0]/sprayspeed-ms</property>
+			    <property alias="/params/tyre_spray_speed_ms"/>
 				<spread>20</spread>
 				<!--<factor>6</factor>-->
 			</speed-mps>
@@ -62,11 +69,12 @@
 
 		<counter>
 			<particles-per-sec>
-				<property>gear/gear[0]/spray-density</property>
+			    <property alias="/params/tyre_spray_density"/>
 				<factor>2.5</factor>
 				<!--<value>250</value>-->
 				<spread>100</spread>
-			</particles-per-sec>		</counter>
+			</particles-per-sec>
+        </counter>
 
 		<align>billboard</align>
 

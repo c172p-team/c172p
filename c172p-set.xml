@@ -384,11 +384,28 @@ Many files from the original c172p directory are included in this file.
  </instrumentation>
 
  <engines>
-  <engine>
+  <engine n="0">
    <rpm type="double">0</rpm>
    <magnetos type="int">0</magnetos>
    <mixture type="double">0</mixture>
    <running type="bool">false</running>
+  </engine>
+
+  <!-- Following properties are part of a static list of properties
+       that FlightGear transmits during multiplay. Because the number
+       of properties in /sim/multiplay/generic/ is quite limited and
+       the properties in /engines/ are unused, we can use them instead
+       to get FlightGear to transmit all the required properties.
+  -->
+  <engine n="8">
+    <rpm alias="/gear/gear[0]/sprayspeed-ms"/>
+    <n1 alias="/gear/gear[1]/sprayspeed-ms"/>
+    <n2 alias="/gear/gear[2]/sprayspeed-ms"/>
+  </engine>
+  <engine n="9">
+    <rpm alias="/gear/gear[0]/spray-density"/>
+    <n1 alias="/gear/gear[1]/spray-density"/>
+    <n2 alias="/gear/gear[2]/spray-density"/>
   </engine>
  </engines>
 

@@ -73,7 +73,6 @@
  </nasal>
 
     <params>
-        <!-- IMPORTANT: int properties 14 to 19, both included, are reserved for the immat system. Do not use them! -->
         <lighting>
             <navigation>
                 <property>sim/multiplay/generic/float[3]</property>
@@ -144,6 +143,19 @@
 		<wing_right_damaged>
 			<property>sim/multiplay/generic/int[16]</property>
 		</wing_right_damaged>
+        <gear-amphibious>
+            <front-left-compression-ft>engines/engine[4]/n1</front-left-compression-ft>
+            <front-left-position-norm>engines/engine[4]/n2</front-left-position-norm>
+
+            <front-right-compression-ft>engines/engine[5]/n1</front-right-compression-ft>
+            <front-right-position-norm>engines/engine[5]/n2</front-right-position-norm>
+
+            <rear-left-compression-ft>engines/engine[6]/n1</rear-left-compression-ft>
+            <rear-left-position-norm>engines/engine[6]/n2</rear-left-position-norm>
+
+            <rear-right-compression-ft>engines/engine[7]/n1</rear-right-compression-ft>
+            <rear-right-position-norm>engines/engine[7]/n2</rear-right-position-norm>
+        </gear-amphibious>
     </params>
 
  <!-- Normal shader effect. Separate effects required for each normal map texture -->
@@ -5428,7 +5440,7 @@
   <animation>
     <type>rotate</type>
     <object-name>Ldamper</object-name>
-    <property>gear/gear[19]/compression-ft</property>
+    <property alias="/params/gear-amphibious/front-left-compression-ft"/>
     <factor>8</factor>
     <center>
       <x-m>-3.599</x-m>
@@ -5445,7 +5457,7 @@
   <animation>
     <type>translate</type>
     <object-name>LeftFrontGear</object-name>
-    <property>gear/gear[19]/position-norm</property>
+    <property alias="/params/gear-amphibious/front-left-position-norm"/>
     <interpolation>
 	  <entry>
         <ind>0.0</ind>
@@ -5471,7 +5483,7 @@
   <animation>
     <type>translate</type>
     <object-name>Lstrut.002</object-name>
-    <property>gear/gear[19]/position-norm</property>
+    <property alias="/params/gear-amphibious/front-left-position-norm"/>
     <interpolation>
       <entry>
         <ind>0.0</ind>
@@ -5497,7 +5509,7 @@
   <animation>
     <type>rotate</type>
     <object-name>Rdamper</object-name>
-    <property>gear/gear[20]/compression-ft</property>
+    <property alias="/params/gear-amphibious/front-right-compression-ft"/>
     <factor>8</factor>
     <center>
       <x-m>-3.599</x-m>
@@ -5514,7 +5526,7 @@
   <animation>
     <type>translate</type>
     <object-name>RightFrontGear</object-name>
-    <property>gear/gear[20]/position-norm</property>
+    <property alias="/params/gear-amphibious/front-right-position-norm"/>
     <interpolation>
 	  <entry>
         <ind>0.0</ind>
@@ -5540,7 +5552,7 @@
   <animation>
     <type>translate</type>
     <object-name>Rstrut.002</object-name>
-    <property>gear/gear[20]/position-norm</property>
+    <property alias="/params/gear-amphibious/front-right-position-norm"/>
     <interpolation>
       <entry>
         <ind>0.0</ind>
@@ -5571,13 +5583,13 @@
                 <product>
                     <sum>
                         <value>0.07</value>
-                        <property>gear/gear[21]/compression-ft</property>
+                        <property alias="/params/gear-amphibious/rear-left-compression-ft"/>
                     </sum>
                     <value>15</value>
                 </product>
                 <product>
                     <table>
-                        <property>gear/gear[21]/position-norm</property>
+                        <property alias="/params/gear-amphibious/rear-left-position-norm"/>
                         <entry><ind>1</ind><dep>0</dep></entry>
                         <entry><ind>0</ind><dep>15</dep></entry>
                     </table>
@@ -5604,13 +5616,13 @@
                 <product>
                     <sum>
                         <value>0.07</value>
-                        <property>gear/gear[22]/compression-ft</property>
+                        <property alias="/params/gear-amphibious/rear-right-compression-ft"/>
                     </sum>
                     <value>15</value>
                 </product>
                 <product>
                     <table>
-                        <property>gear/gear[22]/position-norm</property>
+                        <property alias="/params/gear-amphibious/rear-right-position-norm"/>
                         <entry><ind>1</ind><dep>0</dep></entry>
                         <entry><ind>0</ind><dep>15</dep></entry>
                     </table>

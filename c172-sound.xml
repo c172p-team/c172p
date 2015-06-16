@@ -7,6 +7,9 @@
             <left>sim/multiplay/generic/float[1]</left>
             <right>sim/multiplay/generic/float[0]</right>
         </doors>
+	<spray_wake_speed_kt>
+	    <property>sim/multiplay/generic/float[6]</property>
+	</spray_wake_speed_kt>
     </params>
 
  <fx>
@@ -968,6 +971,211 @@
         <reference-dist>0.2</reference-dist>
         <max-dist>50.0</max-dist>
     </baggage-door-closing>
+
+  <left-pontoon-outside>
+   <name>left-pontoon-outside</name>
+   <mode>looped</mode>
+   <path>Sounds/water-fast.wav</path>
+   <condition>
+    <and>
+     <greater-than>
+      <property alias="/params/spray_wake_speed_kt/property"/>
+      <value>5</value>
+     </greater-than>
+     <not>
+      <property>/sim/current-view/internal</property>
+     </not>
+    </and>
+   </condition>
+   <position>
+    <x>0.0</x>
+    <y>1.1</y>
+    <z>-2.0</z>
+   </position>
+   <reference-dist>10.0</reference-dist>
+   <max-dist>50.0</max-dist>
+   <volume>
+    <property alias="/params/spray_wake_speed_kt/property"/>
+    <factor>0.04</factor>
+    <offset>0.1</offset>
+    <min>0.1</min>
+    <max>2.0</max>
+   </volume>
+  </left-pontoon-outside>
+  <left-pontoon-inside>
+   <name>left-pontoon-inside</name>
+   <mode>looped</mode>
+   <path>Sounds/water-fast.wav</path>
+   <condition>
+    <and>
+     <greater-than>
+      <property alias="/params/spray_wake_speed_kt/property"/>
+      <value>5</value>
+     </greater-than>
+     <property>/sim/current-view/internal</property>
+    </and>
+   </condition>
+   <position>
+    <x>0.0</x>
+    <y>1.1</y>
+    <z>-2.0</z>
+   </position>
+   <reference-dist>10.0</reference-dist>
+   <max-dist>50.0</max-dist>
+   <volume>
+    <property alias="/params/spray_wake_speed_kt/property"/>
+    <factor>0.04</factor>
+    <offset>0.1</offset>
+    <min>0.1</min>
+    <max>2.0</max>
+   </volume>
+   <volume>
+    <offset>-0.5</offset>
+   </volume>
+   <volume>
+    <property alias="/params/doors/left"/>
+    <factor>0.25</factor>
+    <offset>0.0</offset>
+   </volume>
+   <volume>
+    <property alias="/params/doors/right"/>
+    <factor>0.25</factor>
+    <offset>0.0</offset>
+   </volume>
+  </left-pontoon-inside>
+
+  <right-pontoon-outside>
+   <name>right-pontoon-outside</name>
+   <mode>looped</mode>
+   <path>Sounds/water-fast.wav</path>
+   <condition>
+    <and>
+     <greater-than>
+      <property alias="/params/spray_wake_speed_kt/property"/>
+      <value>5</value>
+     </greater-than>
+     <not>
+      <property>/sim/current-view/internal</property>
+     </not>
+    </and>
+   </condition>
+   <position>
+    <x>0.0</x>
+    <y>-1.1</y>
+    <z>-2.0</z>
+   </position>
+   <reference-dist>10.0</reference-dist>
+   <max-dist>50.0</max-dist>
+   <volume>
+    <property alias="/params/spray_wake_speed_kt/property"/>
+    <factor>0.04</factor>
+    <offset>0.1</offset>
+    <min>0.1</min>
+    <max>2.0</max>
+   </volume>
+  </right-pontoon-outside>
+  <right-pontoon-inside>
+   <name>right-pontoon-inside</name>
+   <mode>looped</mode>
+   <path>Sounds/water-fast.wav</path>
+   <condition>
+    <and>
+     <greater-than>
+      <property alias="/params/spray_wake_speed_kt/property"/>
+      <value>5</value>
+     </greater-than>
+     <property>/sim/current-view/internal</property>
+    </and>
+   </condition>
+   <position>
+    <x>0.0</x>
+    <y>-1.1</y>
+    <z>-2.0</z>
+   </position>
+   <reference-dist>10.0</reference-dist>
+   <max-dist>50.0</max-dist>
+   <volume>
+    <property alias="/params/spray_wake_speed_kt/property"/>
+    <factor>0.04</factor>
+    <offset>0.1</offset>
+    <min>0.1</min>
+    <max>2.0</max>
+   </volume>
+   <volume>
+    <offset>-0.5</offset>
+   </volume>
+   <volume>
+    <property alias="/params/doors/left"/>
+    <factor>0.25</factor>
+    <offset>0.0</offset>
+   </volume>
+   <volume>
+    <property alias="/params/doors/right"/>
+    <factor>0.25</factor>
+    <offset>0.0</offset>
+   </volume>
+  </right-pontoon-inside>
+
+  <pontoons-in-water-outside>
+   <name>pontoons-in-water-outside</name>
+   <mode>looped</mode>
+   <path>Sounds/water-still.wav</path>
+   <condition>
+    <and>
+     <greater-than>
+      <property alias="/params/spray_wake_speed_kt/property"/>
+      <value>0</value>
+     </greater-than>
+     <not>
+      <property>/sim/current-view/internal</property>
+     </not>
+    </and>
+   </condition>
+   <position>
+    <x>0.0</x>
+    <y>0.0</y>
+    <z>-2.0</z>
+   </position>
+   <reference-dist>5.0</reference-dist>
+   <max-dist>25.0</max-dist>
+   <volume>
+    <offset>0.3</offset>
+   </volume>
+  </pontoons-in-water-outside>
+  <pontoons-in-water-inside>
+   <name>pontoons-in-water-inside</name>
+   <mode>looped</mode>
+   <path>Sounds/water-still.wav</path>
+   <condition>
+    <and>
+     <greater-than>
+      <property alias="/params/spray_wake_speed_kt/property"/>
+      <value>0</value>
+     </greater-than>
+     <property>/sim/current-view/internal</property>
+    </and>
+   </condition>
+   <position>
+    <x>0.0</x>
+    <y>0.0</y>
+    <z>-2.0</z>
+   </position>
+   <reference-dist>5.0</reference-dist>
+   <max-dist>25.0</max-dist>
+   <volume>
+    <offset>0.2</offset>
+   </volume>
+   <volume>
+    <property alias="/params/doors/left"/>
+    <factor>0.2</factor>
+    <offset>0.0</offset>
+   </volume>
+   <volume>
+    <property alias="/params/doors/right"/>
+    <factor>0.2</factor>
+    <offset>0.0</offset>
+   </volume>
+  </pontoons-in-water-inside>
 
 </fx>
  

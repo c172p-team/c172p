@@ -69,6 +69,10 @@ var resetalldamage = func
 	setprop(contact~"unit[5]/broken", 0);
 	setprop(contact~"unit[4]/z-position", 50);
 	setprop(contact~"unit[5]/z-position", 50);
+	setprop(contact~"unit[9]/z-position", 35);
+	setprop(contact~"unit[10]/z-position", 8);
+	setprop(contact~"unit[11]/z-position", 60);
+	setprop(contact~"unit[12]/z-position", 90);
 	setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
 	setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
 	setprop("/fdm/jsbsim/wing-both/broken", 0);
@@ -201,6 +205,7 @@ var bothwingsbroke = func
 
 var upsidedown = func
 {
+	setprop(contact~"unit[12]/z-position", 90);
 	if (getprop(contact~"unit[4]/broken"))
 		setprop(contact~"unit[4]/z-position", 40);
 	else
@@ -448,6 +453,36 @@ var poll_surface = func
 	if (getprop("position/altitude-agl-m") > 2 or getprop("/fdm/jsbsim/hydro/active-norm") == 0)
 	    if (getprop("/environment/aircraft-effects/ground-splash-norm") > 0)
 		    setprop("/environment/aircraft-effects/ground-splash-norm", getprop("/environment/aircraft-effects/ground-splash-norm") - .005);
+
+	if (!getprop(contact~"unit[12]/solid"))
+		setprop(contact~"unit[12]/z-position", 160);
+	else
+		setprop(contact~"unit[12]/z-position", 90);
+
+	if (!getprop(contact~"unit[4]/solid"))
+		setprop(contact~"unit[4]/z-position", -10);
+	else
+		setprop(contact~"unit[4]/z-position", 50);
+
+	if (!getprop(contact~"unit[5]/solid"))
+		setprop(contact~"unit[5]/z-position", -10);
+	else
+		setprop(contact~"unit[5]/z-position", 50);
+
+	if (!getprop(contact~"unit[9]/solid"))
+		setprop(contact~"unit[9]/z-position", -25);
+	else
+		setprop(contact~"unit[9]/z-position", 35);
+
+	if (!getprop(contact~"unit[10]/solid"))
+		setprop(contact~"unit[10]/z-position", -25);
+	else
+		setprop(contact~"unit[10]/z-position", 8);
+
+	if (!getprop(contact~"unit[11]/solid"))
+		setprop(contact~"unit[11]/z-position", -25);
+	else
+		setprop(contact~"unit[11]/z-position", 60);
 }
 
 #required delay for bush kit change over

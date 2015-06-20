@@ -190,7 +190,7 @@ controls.incThrottle = func {
     else
     {
         var old_value = getprop("/controls/engines/current-engine/throttle");
-        var new_value = std.max(-1.0, std.min(old_value + arg[0], 1.0));
+        var new_value = std.max(0.0, std.min(old_value + arg[0], 1.0));
         setprop("/controls/engines/current-engine/throttle", new_value)
     }
 }

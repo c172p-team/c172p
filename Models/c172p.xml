@@ -191,6 +191,16 @@
     <object-name>leftdoor</object-name>
     <object-name>rightdoor</object-name>
     <object-name>Spinner</object-name>
+	<object-name>LRwheel</object-name>
+	<object-name>RRwheel</object-name>
+	<object-name>LRAxle</object-name>
+	<object-name>RRAxle</object-name>
+	<object-name>LFrontWheel</object-name>
+	<object-name>RFrontWheel</object-name>
+	<object-name>LAxle</object-name>
+	<object-name>RAxle</object-name>
+	<object-name>LRtarm</object-name>
+	<object-name>RRtarm</object-name>
 	<object-name>L-Float</object-name>
 	<object-name>R-Float</object-name>
 	<object-name>L-FloatC</object-name>
@@ -246,6 +256,16 @@
 	 <object-name>R-Float</object-name>
 	 <object-name>L-FloatC</object-name>
 	 <object-name>R-FloatC</object-name>
+	 <object-name>LRwheel</object-name>
+	 <object-name>RRwheel</object-name>
+	 <object-name>LRAxle</object-name>
+	 <object-name>RRAxle</object-name>
+	 <object-name>LFrontWheel</object-name>
+	 <object-name>RFrontWheel</object-name>
+	 <object-name>LAxle</object-name>
+	 <object-name>RAxle</object-name>
+	 <object-name>LRtarm</object-name>
+	 <object-name>RRtarm</object-name>
 	 <object-name>Ldamper</object-name>
 	 <object-name>Rdamper</object-name>
 	 <object-name>Lstrut.001</object-name>
@@ -3981,7 +4001,6 @@
  <animation>
    <type>select</type>
    <object-name>L-FloatCD</object-name>
-   <object-name>LHrudderD</object-name>
    <condition>
 	  <and>
 	    <property alias="/params/pontoon_left_damaged/property"/>
@@ -4000,7 +4019,6 @@
  <animation>
    <type>select</type>
    <object-name>R-FloatCD</object-name>
-   <object-name>RHrudderD</object-name>
    <condition>
 	  <and>
 	    <property alias="/params/pontoon_right_damaged/property"/>
@@ -4019,7 +4037,6 @@
  <animation>
    <type>select</type>
    <object-name>L-FloatCB</object-name>
-   <object-name>LHrudderB</object-name>
    <condition>
       <and>
 	    <property alias="/params/pontoon_left_broken/property"/>
@@ -4035,7 +4052,6 @@
  <animation>
    <type>select</type>
    <object-name>R-FloatCB</object-name>
-   <object-name>RHrudderB</object-name>
    <condition>
 	  <and>
 	    <property alias="/params/pontoon_right_broken/property"/>
@@ -4055,7 +4071,6 @@
    <object-name>LdamperOD</object-name>
    <object-name>LstrutOD.001</object-name>
    <object-name>LstrutOD.002</object-name>
-   <object-name>LHrudderD</object-name>
    <condition>
 	  <and>
 	    <property alias="/params/pontoon_left_damaged/property"/>
@@ -4078,7 +4093,6 @@
    <object-name>RdamperOD</object-name>
    <object-name>RstrutOD.001</object-name>
    <object-name>RstrutOD.002</object-name>
-   <object-name>RHrudderD</object-name>
    <condition>
 	  <and>
 	    <property alias="/params/pontoon_right_damaged/property"/>
@@ -4101,7 +4115,6 @@
    <object-name>LdamperOB</object-name>
    <object-name>LstrutOB.001</object-name>
    <object-name>LstrutOB.002</object-name>
-   <object-name>LHrudderB</object-name>
    <condition>
       <and>
 	    <property alias="/params/pontoon_left_broken/property"/>
@@ -4121,7 +4134,6 @@
    <object-name>RdamperOB</object-name>
    <object-name>RstrutOB.001</object-name>
    <object-name>RstrutOB.002</object-name>
-   <object-name>RHrudderB</object-name>
    <condition>
 	  <and>
 	    <property alias="/params/pontoon_right_broken/property"/>
@@ -4129,6 +4141,96 @@
 		  <property alias="/params/bushkit/property"/>
 		  <value>4</value>
 		</equals>
+	  </and>
+   </condition>
+ </animation>
+
+ <!--Left Float Damaged -->
+ <animation>
+   <type>select</type>
+   <object-name>LHrudderD</object-name>
+   <condition>
+	  <and>
+	    <property alias="/params/pontoon_left_damaged/property"/>
+		<not>
+		  <property alias="/params/pontoon_left_broken/property"/>
+		</not>
+		<or>
+		    <equals>
+		      <property alias="/params/bushkit/property"/>
+		      <value>3</value>
+		    </equals>
+			<equals>
+		      <property alias="/params/bushkit/property"/>
+		      <value>4</value>
+		    </equals>
+		</or>
+	  </and>
+   </condition>
+ </animation>
+
+ <!--Left Float Broken -->
+ <animation>
+   <type>select</type>
+   <object-name>LHrudderB</object-name>
+   <condition>
+	  <and>
+	    <property alias="/params/pontoon_left_broken/property"/>
+		<or>
+		    <equals>
+		      <property alias="/params/bushkit/property"/>
+		      <value>3</value>
+		    </equals>
+			<equals>
+		      <property alias="/params/bushkit/property"/>
+		      <value>4</value>
+		    </equals>
+		</or>
+	  </and>
+   </condition>
+ </animation>
+
+ <!--Right Float Damaged -->
+ <animation>
+   <type>select</type>
+   <object-name>RHrudderD</object-name>
+   <condition>
+	  <and>
+	    <property alias="/params/pontoon_right_damaged/property"/>
+		<not>
+		  <property alias="/params/pontoon_right_broken/property"/>
+		</not>
+		<or>
+		    <equals>
+		      <property alias="/params/bushkit/property"/>
+		      <value>3</value>
+		    </equals>
+			<equals>
+		      <property alias="/params/bushkit/property"/>
+		      <value>4</value>
+		    </equals>
+		</or>
+	  </and>
+   </condition>
+ </animation>
+
+ <!--Right Float Broken -->
+ <animation>
+   <type>select</type>
+   <object-name>RHrudderB</object-name>
+   <condition>
+	  <and>
+	    <property alias="/params/pontoon_right_broken/property"/>
+		<or>
+		    <equals>
+		      <property alias="/params/bushkit/property"/>
+		      <value>3</value>
+		    </equals>
+			<equals>
+		      <property alias="/params/bushkit/property"/>
+		      <value>4</value>
+		    </equals>
+		</or>
 	  </and>
    </condition>
  </animation>

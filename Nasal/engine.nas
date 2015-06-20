@@ -14,25 +14,32 @@ var UPDATE_PERIOD = 0.3;
 # =============================== Hobbs meter =======================================
 
 # this property is saved by aircraft.timer
-var hobbsmeter_engine = aircraft.timer.new("/sim/time/hobbs/engine[0]", 60, 1);
+var hobbsmeter_engine_160hp = aircraft.timer.new("/sim/time/hobbs/engine[0]", 60, 1);
+var hobbsmeter_engine_180hp = aircraft.timer.new("/sim/time/hobbs/engine[1]", 60, 1);
 
-setlistener("/engines/engine[0]/running", func {
-    if ( getprop("/engines/engine[0]/running") or 0 ) {
-        hobbsmeter_engine.start();
-        print("Hobbs system started");
-    } else {
-        hobbsmeter_engine.stop();
-        print("Hobbs system stopped");
-    }
-}, 1, 0);
+var init_hobbs_meter = func(index, meter) {
+    setlistener("/engines/engine[" ~ index ~ "]/running", func {
+        if (getprop("/engines/engine[" ~ index ~ "]/running")) {
+            meter.start();
+            print("Hobbs system started");
+        } else {
+            meter.stop();
+            print("Hobbs system stopped");
+        }
+    }, 1, 0);
+};
+
+init_hobbs_meter(0, hobbsmeter_engine_160hp);
+init_hobbs_meter(1, hobbsmeter_engine_180hp);
 
 setlistener("/sim/time/hobbs/engine[0]", func {
     # in seconds
-    var hobbs = getprop("/sim/time/hobbs/engine[0]") or 0.0;
+    var hobbs_160hp = getprop("/sim/time/hobbs/engine[0]") or 0.0;
+    var hobbs_180hp = getprop("/sim/time/hobbs/engine[1]") or 0.0;
     # This uses minutes, for testing
     #hobbs = hobbs / 60.0;
     # in hours
-    hobbs = hobbs / 3600.0;
+    hobbs = (hobbs_160hp + hobbs_180hp) / 3600.0;
     # tenths of hour
     setprop("/instrumentation/hobbs-meter/digits0", math.mod(int(hobbs * 10), 10));
     # rest of digits
@@ -89,7 +96,7 @@ var update = func {
     # We use the mixture to control the engines, so set the mixture
     var usePrimer = getprop("/controls/engines/engine/use-primer") or 0;
 
-    var engine_running = getprop("/engines/engine/running");
+    var engine_running = getprop("/engines/current-engine/running");
 
     if (outOfFuel and (engine_running or usePrimer)) {
         print("Out of fuel!");
@@ -116,7 +123,7 @@ var update = func {
 };
 
 var autostart = func (msg=1) {
-    if (getprop("/engines/engine/running")) {
+    if (getprop("/engines/current-engine/running")) {
 		if (msg)
             gui.popupTip("Engine already running.", 5);
         return;
@@ -124,7 +131,7 @@ var autostart = func (msg=1) {
 
     setprop("/controls/switches/magnetos", 3);
     setprop("/controls/engines/current-engine/throttle", 0.2);
-    setprop("/controls/engines/engine/mixture", 1.0);
+    setprop("/controls/engines/current-engine/mixture", 1.0);
     setprop("/controls/switches/master-bat", 1);
     setprop("/controls/switches/master-alt", 1);
     setprop("/controls/switches/master-avionics", 1);
@@ -198,7 +205,7 @@ controls.incThrottle = func {
 # key 's' calls to this function when it is pressed DOWN even if I overwrite the binding in the -set.xml file!
 # fun fact: the key UP event can be overwriten!
 controls.startEngine = func(v = 1) {
-    if (getprop("/engines/engine/running"))
+    if (getprop("/engines/current-engine/running"))
 	{
         setprop("/controls/switches/starter", 0);
 		return;

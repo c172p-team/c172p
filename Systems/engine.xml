@@ -93,7 +93,7 @@
             <and>
                 <property>/engines/active-engine/rpm</property>
                 <greater-than>
-                    <property>/controls/engines/engine/mixture</property>
+                    <property>/controls/engines/current-engine/mixture</property>
                     <value>0.0</value>
                 </greater-than>
                 <not>
@@ -292,7 +292,7 @@
     </logic>
 
     <!-- ============================================================== -->
-    <!-- Throttle And Mixture                                           -->
+    <!-- Throttle                                                       -->
     <!-- ============================================================== -->
 
     <filter>
@@ -332,6 +332,50 @@
         </input>
         <output>
             <property>/controls/engines/engine[1]/throttle</property>
+        </output>
+    </filter>
+
+    <!-- ============================================================== -->
+    <!-- Mixture                                                        -->
+    <!-- ============================================================== -->
+
+    <filter>
+        <name>Engine 160 HP Mixture</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property>/controls/engines/current-engine/mixture</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/engines/engine[0]/mixture</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Engine 180 HP Mixture</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/controls/engines/current-engine/mixture</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/engines/engine[1]/mixture</property>
         </output>
     </filter>
 

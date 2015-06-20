@@ -63,7 +63,7 @@
     </filter>
 
     <logic>
-        <name>Engine Exhaust</name>
+        <name>Engine Running</name>
         <input>
             <condition>
                 <equals>
@@ -71,31 +71,71 @@
                     <value>1</value>
                 </equals>
             </condition>
-            <and>
-                <property>/engines/active-engine/rpm</property>
-                <greater-than>
-                    <property>/controls/engines/engine[1]/mixture</property>
-                    <value>0.0</value>
-                </greater-than>
-                <not>
-                    <property>/engines/engine[1]/running</property>
-                </not>
-            </and>
+            <property>/engines/engine[1]/running</property>
         </input>
+        <input>
+            <property>/engines/engine[0]/running</property>
+        </input>
+        <output>
+            <property>/engines/active-engine/running</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Engine Exhaust</name>
         <input>
             <and>
                 <property>/engines/active-engine/rpm</property>
                 <greater-than>
-                    <property>/controls/engines/engine[0]/mixture</property>
+                    <property>/controls/engines/engine/mixture</property>
                     <value>0.0</value>
                 </greater-than>
                 <not>
-                    <property>/engines/engine[0]/running</property>
+                    <property>/engines/active-engine/running</property>
                 </not>
             </and>
         </input>
         <output>
             <property>/engines/active-engine/exhaust</property>
+        </output>
+    </logic>
+
+    <filter>
+        <name>Engine MP-OSI</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/engines/engine[1]/mp-osi</property>
+        </input>
+        <input>
+            <property>/engines/engine[0]/mp-osi</property>
+        </input>
+        <output>
+            <property>/engines/active-engine/mp-osi</property>
+        </output>
+    </filter>
+
+    <logic>
+        <name>Engine Cranking</name>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/engines/engine[1]/cranking</property>
+        </input>
+        <input>
+            <property>/engines/engine[0]/cranking</property>
+        </input>
+        <output>
+            <property>/engines/active-engine/cranking</property>
         </output>
     </logic>
 

@@ -179,7 +179,6 @@ controls.startEngine = func(v = 1) {
 	}
 	else
 		setprop("/controls/switches/starter", v);
-    # TODO: I still don't know where "/controls/engines/engine/starter" is set to true...
 };
 
 setlistener("/sim/signals/fdm-initialized", func {

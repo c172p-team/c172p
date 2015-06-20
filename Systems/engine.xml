@@ -19,6 +19,90 @@
 
 <PropertyList>
 
+    <!-- ============================================================== -->
+    <!-- Read-Only Properties                                           -->
+    <!-- ============================================================== -->
+
+    <logic>
+        <name>Engine Starter</name>
+        <input>
+            <and>
+                <less-than>
+                    <property>/systems/electrical/outputs/starter</property>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property>/systems/electrical/outputs/starter</property>
+                    <value>20.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/controls/engines/current-engine/starter</property>
+        </output>
+    </logic>
+
+    <filter>
+        <name>Engine RPM</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/engines/engine[1]/rpm</property>
+        </input>
+        <input>
+            <property>/engines/engine[0]/rpm</property>
+        </input>
+        <output>
+            <property>/engines/active-engine/rpm</property>
+        </output>
+    </filter>
+
+    <logic>
+        <name>Engine Exhaust</name>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <and>
+                <property>/engines/active-engine/rpm</property>
+                <greater-than>
+                    <property>/controls/engines/engine[1]/mixture</property>
+                    <value>0.0</value>
+                </greater-than>
+                <not>
+                    <property>/engines/engine[1]/running</property>
+                </not>
+            </and>
+        </input>
+        <input>
+            <and>
+                <property>/engines/active-engine/rpm</property>
+                <greater-than>
+                    <property>/controls/engines/engine[0]/mixture</property>
+                    <value>0.0</value>
+                </greater-than>
+                <not>
+                    <property>/engines/engine[0]/running</property>
+                </not>
+            </and>
+        </input>
+        <output>
+            <property>/engines/active-engine/exhaust</property>
+        </output>
+    </logic>
+
+    <!-- ============================================================== -->
+    <!-- Magnetos                                                       -->
+    <!-- ============================================================== -->
+
     <filter>
         <name>Engine 160 HP Magnetos</name>
         <type>gain</type>
@@ -58,5 +142,41 @@
             <property>/controls/engines/engine[1]/magnetos</property>
         </output>
     </filter>
+
+    <!-- ============================================================== -->
+    <!-- Starter                                                        -->
+    <!-- ============================================================== -->
+
+    <logic>
+        <name>Engine 160 HP Starter</name>
+        <input>
+            <and>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>0</value>
+                </equals>
+                <property>/controls/engines/current-engine/starter</property>
+            </and>
+        </input>
+        <output>
+            <property>/controls/engines/engine[0]/starter</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Engine 180 HP Starter</name>
+        <input>
+            <and>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>1</value>
+                </equals>
+                <property>/controls/engines/current-engine/starter</property>
+            </and>
+        </input>
+        <output>
+            <property>/controls/engines/engine[1]/starter</property>
+        </output>
+    </logic>
 
 </PropertyList>

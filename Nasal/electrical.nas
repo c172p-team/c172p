@@ -380,11 +380,10 @@ var electrical_bus_1 = func() {
         if ( bus_volts > 12 ) {
             # starter
             if ( getprop("controls/switches/starter") ) {
-                setprop("systems/electrical/outputs/starter[0]", bus_volts);
-                setprop("controls/engines/engine[0]/starter", 1);
+                setprop("systems/electrical/outputs/starter", bus_volts);
                 load += 12;
             } else {
-                setprop("controls/engines/engine[0]/starter", 0);
+                setprop("systems/electrical/outputs/starter", 0.0);
             }
             # fuel
             interpolate("consumables/fuel/tank[0]/indicated-level-gal_us", getprop("consumables/fuel/tank[0]/level-gal_us"), DELAY_SECS);
@@ -394,8 +393,7 @@ var electrical_bus_1 = func() {
             interpolate("engines/engine[0]/indicated-oil-pressure-psi", getprop("engines/engine[0]/oil-pressure-psi"), DELAY_SECS);
             load += bus_volts / 57;
         } else {
-            setprop("systems/electrical/outputs/starter[0]", 0.0);
-            setprop("controls/engines/engine[0]/starter", 0);
+            setprop("systems/electrical/outputs/starter", 0.0);
             interpolate("consumables/fuel/tank[0]/indicated-level-gal_us", 0, DELAY_SECS);
             interpolate("consumables/fuel/tank[1]/indicated-level-gal_us", 0, DELAY_SECS);
             interpolate("engines/engine[0]/indicated-oil-temperature-degf", 0, DELAY_SECS);
@@ -403,8 +401,7 @@ var electrical_bus_1 = func() {
         }
     } else {
         setprop("/systems/electrical/outputs/instr-ignition-switch", 0.0);
-        setprop("/systems/electrical/outputs/starter[0]", 0.0);
-        setprop("controls/engines/engine[0]/starter", 0);
+        setprop("/systems/electrical/outputs/starter", 0.0);
         interpolate("consumables/fuel/tank[0]/indicated-level-gal_us", 0, DELAY_SECS);
         interpolate("consumables/fuel/tank[1]/indicated-level-gal_us", 0, DELAY_SECS);
         interpolate("engines/engine[0]/indicated-oil-temperature-degf", 0, DELAY_SECS);

@@ -263,8 +263,8 @@ var update_virtual_bus = func( dt ) {
     }
 
     # switch state
-    var master_bat = getprop("/controls/engines/engine[0]/master-bat");
-    var master_alt = getprop("/controls/engines/engine[0]/master-alt");
+    var master_bat = getprop("/controls/switches/master-bat");
+    var master_alt = getprop("/controls/switches/master-alt");
     if (getprop("/controls/electric/external-power"))
     {
         external_volts = 28;

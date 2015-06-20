@@ -125,9 +125,9 @@ var autostart = func (msg=1) {
     setprop("/controls/engines/engine/magnetos", 3);
     setprop("/controls/engines/engine/throttle", 0.2);
     setprop("/controls/engines/engine/mixture", 1.0);
-    setprop("/controls/engines/engine/master-bat", 1.0);
-    setprop("/controls/engines/engine/master-alt", 1.0);
-    setprop("/controls/switches/master-avionics", 1.0);
+    setprop("/controls/switches/master-bat", 1);
+    setprop("/controls/switches/master-alt", 1);
+    setprop("/controls/switches/master-avionics", 1);
 
     setprop("/controls/lighting/nav-lights", 1);
     setprop("/controls/lighting/strobe", 1);

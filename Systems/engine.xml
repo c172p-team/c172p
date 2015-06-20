@@ -65,16 +65,22 @@
     <logic>
         <name>Engine Running</name>
         <input>
-            <condition>
-                <equals>
-                    <property>/controls/engines/active-engine</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <property>/engines/engine[1]/running</property>
-        </input>
-        <input>
-            <property>/engines/engine[0]/running</property>
+            <or>
+                <and>
+                    <equals>
+                        <property>/controls/engines/active-engine</property>
+                        <value>0</value>
+                    </equals>
+                    <property>/engines/engine[0]/running</property>
+                </and>
+                <and>
+                    <equals>
+                        <property>/controls/engines/active-engine</property>
+                        <value>1</value>
+                    </equals>
+                    <property>/engines/engine[1]/running</property>
+                </and>
+            </or>
         </input>
         <output>
             <property>/engines/active-engine/running</property>
@@ -123,16 +129,22 @@
     <logic>
         <name>Engine Cranking</name>
         <input>
-            <condition>
-                <equals>
-                    <property>/controls/engines/active-engine</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <property>/engines/engine[1]/cranking</property>
-        </input>
-        <input>
-            <property>/engines/engine[0]/cranking</property>
+            <or>
+                <and>
+                    <equals>
+                        <property>/controls/engines/active-engine</property>
+                        <value>0</value>
+                    </equals>
+                    <property>/engines/engine[0]/cranking</property>
+                </and>
+                <and>
+                    <equals>
+                        <property>/controls/engines/active-engine</property>
+                        <value>1</value>
+                    </equals>
+                    <property>/engines/engine[1]/cranking</property>
+                </and>
+            </or>
         </input>
         <output>
             <property>/engines/active-engine/cranking</property>

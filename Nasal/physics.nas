@@ -61,7 +61,8 @@ var fairing3 = 0;
 
 var resetalldamage = func
 {
-    setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 1);
+    setprop("/engines/active-engine/killed", 0);
+
 	setprop(gears~"unit[0]/broken", 0);
 	setprop(gears~"unit[1]/broken", 0);
 	setprop(gears~"unit[2]/broken", 0);
@@ -104,7 +105,7 @@ var nosegearbroke = func
 		setprop(contact~"unit[6]/z-position", -17.7);
 
 	setprop(gears~"unit[0]/z-position", 0);
-    setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 0);
+    killengine();
 	setprop(gears~"unit[0]/broken", 1);
 }
 
@@ -144,7 +145,7 @@ var leftpontoondamaged = func
 		if(!getprop("/fdm/jsbsim/left-pontoon/broken"))
 			setprop("/fdm/jsbsim/left-pontoon/damaged", 1);
 
-    setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 0);
+    killengine();
 }
 
 var leftpontoonbroke = func
@@ -154,7 +155,7 @@ var leftpontoonbroke = func
 		setprop("/fdm/jsbsim/left-pontoon/damaged", 0);
 		setprop("/fdm/jsbsim/left-pontoon/broken", 1);
 	}
-	setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 0);
+    killengine();
 }
 
 var rightpontoondamaged = func
@@ -163,7 +164,7 @@ var rightpontoondamaged = func
 		if(!getprop("/fdm/jsbsim/right-pontoon/broken"))
 			setprop("/fdm/jsbsim/right-pontoon/damaged", 1);
 
-	setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 0);
+    killengine();
 }
 
 var rightpontoonbroke = func
@@ -173,7 +174,7 @@ var rightpontoonbroke = func
 		setprop("/fdm/jsbsim/right-pontoon/damaged", 0);
 		setprop("/fdm/jsbsim/right-pontoon/broken", 1);
 	}
-	setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 0);
+    killengine();
 }
 
 var leftwingbroke = func
@@ -225,7 +226,7 @@ var upsidedown = func
 
 var killengine = func
 {
-	setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 0);
+	setprop("/engines/active-engine/killed", 1);
 }
 
 var resetcontacts = func

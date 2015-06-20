@@ -137,7 +137,7 @@ var reset_system = func {
 	props.globals.getNode("/fdm/jsbsim/right-pontoon/damaged", 0).setBoolValue(0);
     props.globals.getNode("/fdm/jsbsim/right-pontoon/broken", 0).setBoolValue(0);
 
-	setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 1);
+	setprop("/engines/active-engine/killed", 0);
 	setprop("/fdm/jsbsim/contact/unit[4]/z-position", 50);
 	setprop("/fdm/jsbsim/contact/unit[5]/z-position", 50);
 

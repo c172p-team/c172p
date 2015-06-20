@@ -16,6 +16,28 @@ Fuel system for 2 different engines at choice, JSBSim FDM
 <!-- Fuel Flow Rates in pounds per second                                                -->
 <!-- *********************************************************************************** -->
 
+    <channel name="Float Chamber Selection">
+        <!-- Give tank[2] priority if 160 HP engine is used -->
+        <switch>
+            <output>propulsion/tank[2]/priority</output>
+            <default value="0"/>
+            <test logic="AND" value="1">
+                /controls/engines/active-engine EQ 0
+                /engines/active-engine/killed EQ 0
+            </test>
+        </switch>
+
+        <!-- Give tank[3] priority if 180 HP engine is used -->
+        <switch>
+            <output>propulsion/tank[3]/priority</output>
+            <default value="0"/>
+            <test logic="AND" value="1">
+                /controls/engines/active-engine EQ 1
+                /engines/active-engine/killed EQ 0
+            </test>
+        </switch>
+    </channel>
+
 <!-- ****************************************************** -->
 <!-- Collector Tank 2 level-maintenance                               -->
 <!-- ****************************************************** -->

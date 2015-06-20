@@ -123,7 +123,7 @@ var autostart = func (msg=1) {
     }
 
     setprop("/controls/switches/magnetos", 3);
-    setprop("/controls/engines/engine/throttle", 0.2);
+    setprop("/controls/engines/current-engine/throttle", 0.2);
     setprop("/controls/engines/engine/mixture", 1.0);
     setprop("/controls/switches/master-bat", 1);
     setprop("/controls/switches/master-alt", 1);

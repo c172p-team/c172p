@@ -755,16 +755,31 @@
                 </function>
             </fcs_function>
 
+            <!-- Primer logic for 160 HP engine -->
             <switch>
-                <default value="fcs/mixture-cmd-norm"/>
-                <output>fcs/mixture-pos-norm</output>
+                <default value="fcs/mixture-cmd-norm[0]"/>
+                <output>fcs/mixture-pos-norm[0]</output>
 
                 <!-- Use primer if used and engine is cold. If engine
                      is warm, then the mixture lever is used.
                 -->
                 <test logic="AND" value="fcs/mixture-primer">
                     /controls/engines/engine/use-primer eq 1
-                    /engines/active-engine/oil-temperature-degf le 75
+                    /engines/engine[0]/oil-temperature-degf le 75
+                </test>
+            </switch>
+
+            <!-- Primer logic for 180 HP engine -->
+            <switch>
+                <default value="fcs/mixture-cmd-norm[1]"/>
+                <output>fcs/mixture-pos-norm[1]</output>
+
+                <!-- Use primer if used and engine is cold. If engine
+                     is warm, then the mixture lever is used.
+                -->
+                <test logic="AND" value="fcs/mixture-primer">
+                    /controls/engines/engine/use-primer eq 1
+                    /engines/engine[1]/oil-temperature-degf le 75
                 </test>
             </switch>
         </channel>

@@ -291,4 +291,48 @@
         </output>
     </logic>
 
+    <!-- ============================================================== -->
+    <!-- Throttle And Mixture                                           -->
+    <!-- ============================================================== -->
+
+    <filter>
+        <name>Engine 160 HP Throttle</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property>/controls/engines/current-engine/throttle</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/engines/engine[0]/throttle</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Engine 180 HP Throttle</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/controls/engines/current-engine/throttle</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/engines/engine[1]/throttle</property>
+        </output>
+    </filter>
+
 </PropertyList>

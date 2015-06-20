@@ -169,6 +169,32 @@ setlistener("/controls/switches/starter", func {
 
 # =============== Variables ================
 
+##
+# arg[0] is the throttle increment
+# arg[1] is the auto-throttle target speed increment
+controls.incThrottle = func {
+    var passive = getprop("/autopilot/locks/passive-mode");
+    var locked = getprop("/autopilot/locks/speed");
+    # Note: passive/locked may be nil on aircraft without A/P
+    if ((passive == 0) and (locked))
+    {
+        var node = props.globals.getNode("/autopilot/settings/target-speed-kt", 1);
+        if (node.getValue() == nil) {
+            node.setValue(0.0);
+        }
+        node.setValue(node.getValue() + arg[1]);
+        if (node.getValue() < 0.0) {
+            node.setValue(0.0);
+        }
+    }
+    else
+    {
+        var old_value = getprop("/controls/engines/current-engine/throttle");
+        var new_value = std.max(-1.0, std.min(old_value + arg[0], 1.0));
+        setprop("/controls/engines/current-engine/throttle", new_value)
+    }
+}
+
 # key 's' calls to this function when it is pressed DOWN even if I overwrite the binding in the -set.xml file!
 # fun fact: the key UP event can be overwriten!
 controls.startEngine = func(v = 1) {

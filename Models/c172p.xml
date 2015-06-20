@@ -168,6 +168,11 @@
         <engine>
             <rpm>engines/engine[2]/rpm</rpm>
         </engine>
+
+        <!-- TODO To be made MP properties in the future when we get passengers or dual-control -->
+        <controls>
+            <throttle>/controls/engines/current-engine/throttle</throttle>
+        </controls>
     </params>
 
  <!-- Normal shader effect. Separate effects required for each normal map texture -->
@@ -2557,7 +2562,7 @@
  <animation>
    <type>translate</type>
    <object-name>Throttle</object-name>
-   <property>controls/engines/engine[0]/throttle</property>
+   <property alias="/params/controls/throttle"/>
    <factor>-0.08</factor>
    <axis>
      <x>1.0</x>
@@ -2579,7 +2584,7 @@
    <action>
      <binding>
        <command>property-adjust</command>
-       <property>controls/engines/engine[0]/throttle</property>
+       <property>/controls/engines/current-engine/throttle</property>
        <factor>-0.05</factor>
        <min>0</min>
        <max>1</max>
@@ -2594,7 +2599,7 @@
         <measure-text>Throttle: 100%</measure-text>
         <tooltip-id>throttle</tooltip-id>
         <mapping>percent</mapping>
-        <property>controls/engines/engine[0]/throttle</property>
+        <property>/controls/engines/current-engine/throttle</property>
      </binding>
      
      </hovered>

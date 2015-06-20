@@ -25,16 +25,18 @@
             var init = func {
                 # Bush kit
                 var p = getprop("fdm/jsbsim/bushkit");
-                setprop("/sim/model/c172p/bushkit_flag_0",0);
-                setprop("/sim/model/c172p/bushkit_flag_1",0);
-                setprop("/sim/model/c172p/bushkit_flag_2",0);
-                setprop("/sim/model/c172p/bushkit_flag_3",0);
-                setprop("/sim/model/c172p/bushkit_flag_4",0);
-                if (p == 0) { setprop("/sim/model/c172p/bushkit_flag_0",1); }
-                if (p == 1) { setprop("/sim/model/c172p/bushkit_flag_1",1); }
-                if (p == 2) { setprop("/sim/model/c172p/bushkit_flag_2",1); }
-                if (p == 3) { setprop("/sim/model/c172p/bushkit_flag_3",1); }
-                if (p == 4) { setprop("/sim/model/c172p/bushkit_flag_4",1); }
+                setprop("/sim/model/c172p/bushkit_flag_0", 0);
+                setprop("/sim/model/c172p/bushkit_flag_1", 0);
+                setprop("/sim/model/c172p/bushkit_flag_2", 0);
+                setprop("/sim/model/c172p/bushkit_flag_3", 0);
+                setprop("/sim/model/c172p/bushkit_flag_4", 0);
+                setprop("/sim/model/c172p/bushkit_flag_" ~ p, 1);
+
+                # Engine power
+                var p = getprop("/controls/engines/active-engine");
+                setprop("sim/model/c172p/engine_flag_0", 0);
+                setprop("sim/model/c172p/engine_flag_1", 0);
+                setprop("sim/model/c172p/engine_flag_" ~ p, 1);
 
                 # Shadow volume
                 var p = getprop("/sim/rendering/shadow-volume");
@@ -188,6 +190,57 @@
             <layout>vbox</layout>
 
             <text>
+                <label>Engine power options</label>
+                <halign>center</halign>
+            </text>
+
+            <group>
+                <layout>hbox</layout>
+
+                <radio>
+                    <halign>left</halign>
+                    <label>160 HP</label>
+                    <property>sim/model/c172p/engine_flag_0</property>
+                    <live>true</live>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                    <binding>
+                        <command>nasal</command>
+                        <script>
+                            setprop("/controls/engines/active-engine", 0);
+                            setprop("sim/model/c172p/engine_flag_0", 1);
+                            setprop("sim/model/c172p/engine_flag_1", 0);
+                        </script>
+                    </binding>
+                </radio>
+
+                <radio>
+                    <halign>left</halign>
+                    <label>180 HP</label>
+                    <property>sim/model/c172p/engine_flag_1</property>
+                    <live>true</live>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                    <binding>
+                        <command>nasal</command>
+                        <script>
+                            setprop("/controls/engines/active-engine", 1);
+                            setprop("sim/model/c172p/engine_flag_0", 0);
+                            setprop("sim/model/c172p/engine_flag_1", 1);
+                        </script>
+                    </binding>
+                </radio>
+            </group>
+        </group>
+
+        <hrule/>
+
+        <group>
+            <layout>vbox</layout>
+
+            <text>
                 <label>Landing gear options</label>
                 <halign>center</halign>
             </text>
@@ -212,6 +265,11 @@
                             setprop("sim/model/c172p/bushkit_flag_2",0);
                             setprop("sim/model/c172p/bushkit_flag_3",0);
                             setprop("sim/model/c172p/bushkit_flag_4",0);
+
+                            # Select 160 HP engine
+                            setprop("/controls/engines/active-engine", 0);
+                            setprop("sim/model/c172p/engine_flag_0", 1);
+                            setprop("sim/model/c172p/engine_flag_1", 0);
                         </script>
                     </binding>
                 </radio>
@@ -233,6 +291,11 @@
                             setprop("sim/model/c172p/bushkit_flag_2",0);
                             setprop("sim/model/c172p/bushkit_flag_3",0);
                             setprop("sim/model/c172p/bushkit_flag_4",0);
+
+                            # Select 160 HP engine
+                            setprop("/controls/engines/active-engine", 0);
+                            setprop("sim/model/c172p/engine_flag_0", 1);
+                            setprop("sim/model/c172p/engine_flag_1", 0);
                         </script>
                     </binding>
                 </radio>
@@ -254,6 +317,11 @@
                             setprop("sim/model/c172p/bushkit_flag_2",1);
                             setprop("sim/model/c172p/bushkit_flag_3",0);
                             setprop("sim/model/c172p/bushkit_flag_4",0);
+
+                            # Select 160 HP engine
+                            setprop("/controls/engines/active-engine", 0);
+                            setprop("sim/model/c172p/engine_flag_0", 1);
+                            setprop("sim/model/c172p/engine_flag_1", 0);
                         </script>
                     </binding>
                 </radio>
@@ -279,6 +347,11 @@
                             setprop("sim/model/c172p/bushkit_flag_2",0);
                             setprop("sim/model/c172p/bushkit_flag_3",1);
                             setprop("sim/model/c172p/bushkit_flag_4",0);
+
+                            # Select 180 HP engine
+                            setprop("/controls/engines/active-engine", 1);
+                            setprop("sim/model/c172p/engine_flag_0", 0);
+                            setprop("sim/model/c172p/engine_flag_1", 1);
                         </script>
                     </binding>
                 </radio>
@@ -300,6 +373,11 @@
                             setprop("sim/model/c172p/bushkit_flag_2",0);
                             setprop("sim/model/c172p/bushkit_flag_3",0);
                             setprop("sim/model/c172p/bushkit_flag_4",1);
+
+                            # Select 180 HP engine
+                            setprop("/controls/engines/active-engine", 1);
+                            setprop("sim/model/c172p/engine_flag_0", 0);
+                            setprop("sim/model/c172p/engine_flag_1", 1);
                         </script>
                     </binding>
                 </radio>

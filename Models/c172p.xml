@@ -143,18 +143,27 @@
 		<wing_right_damaged>
 			<property>sim/multiplay/generic/int[16]</property>
 		</wing_right_damaged>
+        <gear>
+            <left-rollspeed-ms>engines/engine[7]/n1</left-rollspeed-ms>
+            <right-rollspeed-ms>engines/engine[7]/n2</right-rollspeed-ms>
+            <nose-rollspeed-ms>engines/engine[7]/rpm</nose-rollspeed-ms>
+        </gear>
         <gear-amphibious>
-            <front-left-compression-ft>engines/engine[4]/n1</front-left-compression-ft>
-            <front-left-position-norm>engines/engine[4]/n2</front-left-position-norm>
+            <front-left-compression-ft>engines/engine[3]/n1</front-left-compression-ft>
+            <front-left-position-norm>engines/engine[3]/n2</front-left-position-norm>
+            <front-left-rollspeed-ms>engines/engine[3]/rpm</front-left-rollspeed-ms>
 
-            <front-right-compression-ft>engines/engine[5]/n1</front-right-compression-ft>
-            <front-right-position-norm>engines/engine[5]/n2</front-right-position-norm>
+            <front-right-compression-ft>engines/engine[4]/n1</front-right-compression-ft>
+            <front-right-position-norm>engines/engine[4]/n2</front-right-position-norm>
+            <front-right-rollspeed-ms>engines/engine[4]/rpm</front-right-rollspeed-ms>
 
-            <rear-left-compression-ft>engines/engine[6]/n1</rear-left-compression-ft>
-            <rear-left-position-norm>engines/engine[6]/n2</rear-left-position-norm>
+            <rear-left-compression-ft>engines/engine[5]/n1</rear-left-compression-ft>
+            <rear-left-position-norm>engines/engine[5]/n2</rear-left-position-norm>
+            <rear-left-rollspeed-ms>engines/engine[5]/rpm</rear-left-rollspeed-ms>
 
-            <rear-right-compression-ft>engines/engine[7]/n1</rear-right-compression-ft>
-            <rear-right-position-norm>engines/engine[7]/n2</rear-right-position-norm>
+            <rear-right-compression-ft>engines/engine[6]/n1</rear-right-compression-ft>
+            <rear-right-position-norm>engines/engine[6]/n2</rear-right-position-norm>
+            <rear-right-rollspeed-ms>engines/engine[6]/rpm</rear-right-rollspeed-ms>
         </gear-amphibious>
     </params>
 
@@ -3414,7 +3423,7 @@
 	<!-- Bushkit Mod -->
 	<object-name>RightWheelBK</object-name>
 	<object-name>RightWheelBKs</object-name>
-	<property>gear/gear[1]/rollspeed-ms</property>
+    <property alias="/params/gear/right-rollspeed-ms"/>
 	<factor>13</factor>
 	<axis>
 		<x>0</x>
@@ -3433,7 +3442,7 @@
 	<!-- Bushkit Mod -->
 	<object-name>LeftWheelBK</object-name>
 	<object-name>LeftWheelBKs</object-name>
-	<property>gear/gear[1]/rollspeed-ms</property>
+    <property alias="/params/gear/left-rollspeed-ms"/>
 	<factor>13</factor>
 	<axis>
 		<x>0</x>
@@ -3451,7 +3460,7 @@
 	<object-name>NoseWheel</object-name>
 	<!-- Bushkit Mod -->
 	<object-name>NoseWheelBK</object-name>
-	<property>gear/gear[0]/rollspeed-ms</property>
+    <property alias="/params/gear/nose-rollspeed-ms"/>
 	<factor>13</factor>
 	<axis>
 		<x>0</x>
@@ -3464,7 +3473,7 @@
 		<z-m>-1.18615</z-m>
 	</center>
  </animation>
-<!-- MODEND: Spin to gears -->
+ <!-- MODEND: Spin to gears -->
 
  <!-- Damage Mod  -->
 
@@ -3814,6 +3823,10 @@
    <type>select</type>
    <object-name>L-Float</object-name>
    <object-name>LRwheel</object-name>
+   <object-name>LRAxle</object-name>
+   <object-name>LFrontWheel</object-name>
+   <object-name>LAxle</object-name>
+   <object-name>LRtarm</object-name>
    <object-name>Ldamper</object-name>
    <object-name>Lstrut.001</object-name>
    <object-name>Lstrut.002</object-name>
@@ -3838,6 +3851,10 @@
    <type>select</type>
    <object-name>R-Float</object-name>
    <object-name>RRwheel</object-name>
+   <object-name>RRAxle</object-name>
+   <object-name>RFrontWheel</object-name>
+   <object-name>RAxle</object-name>
+   <object-name>RRtarm</object-name>
    <object-name>Rdamper</object-name>
    <object-name>Rstrut.001</object-name>
    <object-name>Rstrut.002</object-name>
@@ -5426,20 +5443,24 @@
     <name>LeftFrontGear</name>
     <object-name>Lstrut.001</object-name>
     <object-name>Ldamper</object-name>
-    <object-name>LFwheel</object-name>
+	<object-name>LAxle</object-name>
+    <object-name>LFrontWheel</object-name>
   </animation>
 
   <animation>
     <name>RightFrontGear</name>
     <object-name>Rstrut.001</object-name>
     <object-name>Rdamper</object-name>
-    <object-name>RFwheel</object-name>
+	<object-name>RAxle</object-name>
+    <object-name>RFrontWheel</object-name>
   </animation>
 
   <!--    Retractable Gear    -->
   <animation>
     <type>rotate</type>
     <object-name>Ldamper</object-name>
+	<object-name>LAxle</object-name>
+    <object-name>LFrontWheel</object-name>
     <property alias="/params/gear-amphibious/front-left-compression-ft"/>
     <factor>8</factor>
     <center>
@@ -5509,6 +5530,8 @@
   <animation>
     <type>rotate</type>
     <object-name>Rdamper</object-name>
+	<object-name>RAxle</object-name>
+    <object-name>RFrontWheel</object-name>
     <property alias="/params/gear-amphibious/front-right-compression-ft"/>
     <factor>8</factor>
     <center>
@@ -5575,9 +5598,49 @@
     </axis>
   </animation>
 
+ <!-- MOD: Spin to amphibious gears -->
+ <animation>
+	<type>spin</type>
+	<object-name>LFrontWheel</object-name>
+    <property alias="/params/gear-amphibious/front-left-rollspeed-ms"/>
+	<factor>13</factor>
+	<axis>
+		<x>0</x>
+		<y>-1</y>
+		<z>0</z>
+	</axis>
+	<center>
+		<x-m>-2.0435</x-m>
+		<y-m>-1.1492</y-m>
+		<z-m>-2.1462</z-m>
+	</center>
+ </animation>
+
+ <animation>
+	<type>spin</type>
+	<object-name>RFrontWheel</object-name>
+    <property alias="/params/gear-amphibious/front-right-rollspeed-ms"/>
+	<factor>13</factor>
+	<axis>
+		<x>0</x>
+		<y>-1</y>
+		<z>0</z>
+	</axis>
+	<center>
+		<x-m>-2.0435</x-m>
+		<y-m>1.1656</y-m>
+		<z-m>-2.1462</z-m>
+	</center>
+ </animation>
+
+
+ <!-- MODEND: Spin to amphibious gears -->
+
     <animation>
         <type>rotate</type>
-        <object-name>LRwheel</object-name>
+        <object-name>LRtarm</object-name>
+		<object-name>LRAxle</object-name>
+		<object-name>LRwheel</object-name>
         <expression>
             <sum>
                 <product>
@@ -5591,15 +5654,15 @@
                     <table>
                         <property alias="/params/gear-amphibious/rear-left-position-norm"/>
                         <entry><ind>1</ind><dep>0</dep></entry>
-                        <entry><ind>0</ind><dep>15</dep></entry>
+                        <entry><ind>0</ind><dep>10</dep></entry>
                     </table>
                 </product>
             </sum>
         </expression>
         <center>
-            <x-m>-0.223</x-m>
-            <y-m>-1.434</y-m>
-            <z-m>-2.163</z-m>
+            <x-m>-0.6019</x-m>
+            <y-m>-1.1513</y-m>
+            <z-m>-1.8621</z-m>
         </center>
         <axis>
             <x>0</x>
@@ -5610,6 +5673,8 @@
 
     <animation>
         <type>rotate</type>
+		<object-name>RRtarm</object-name>
+		<object-name>RRAxle</object-name>
         <object-name>RRwheel</object-name>
         <expression>
             <sum>
@@ -5624,15 +5689,15 @@
                     <table>
                         <property alias="/params/gear-amphibious/rear-right-position-norm"/>
                         <entry><ind>1</ind><dep>0</dep></entry>
-                        <entry><ind>0</ind><dep>15</dep></entry>
+                        <entry><ind>0</ind><dep>10</dep></entry>
                     </table>
                 </product>
             </sum>
         </expression>
         <center>
-            <x-m>-0.223</x-m>
-            <y-m>1.434</y-m>
-            <z-m>-2.163</z-m>
+            <x-m>-0.6019</x-m>
+            <y-m>1.1676</y-m>
+            <z-m>-1.8621</z-m>
         </center>
         <axis>
             <x>0</x>
@@ -5641,6 +5706,38 @@
         </axis>
     </animation>
 
+ <animation>
+	<type>spin</type>
+	<object-name>LRwheel</object-name>
+    <property alias="/params/gear-amphibious/rear-left-rollspeed-ms"/>
+	<factor>13</factor>
+	<axis>
+		<x>0</x>
+		<y>-1</y>
+		<z>0</z>
+	</axis>
+	<center>
+		<x-m>0.9511</x-m>
+		<y-m>-1.1513</y-m>
+		<z-m>-2.0838</z-m>
+	</center>
+ </animation>
+ <animation>
+	<type>spin</type>
+	<object-name>RRwheel</object-name>
+    <property alias="/params/gear-amphibious/rear-right-rollspeed-ms"/>
+	<factor>13</factor>
+	<axis>
+		<x>0</x>
+		<y>-1</y>
+		<z>0</z>
+	</axis>
+	<center>
+		<x-m>0.9511</x-m>
+		<y-m>1.1676</y-m>
+		<z-m>-2.0838</z-m>
+	</center>
+ </animation>
 
   <!--animation>
     <type>rotate</type>

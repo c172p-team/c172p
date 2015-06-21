@@ -183,6 +183,35 @@ var global_system_loop = func{
 #  setprop("/environment/terrain-rolling-friction",0.02);
 #});
 
+setlistener("/controls/engines/active-engine", func (node) {
+    if (node.getValue() == 1) {
+        var limits = props.globals.getNode("/limits/mass-and-balance-180hp");
+    }
+    else {
+        var limits = props.globals.getNode("/limits/mass-and-balance-160hp");
+    }
+    var ac_limits = props.globals.getNode("/limits/mass-and-balance");
+
+    # Get the mass limits of the current engine
+    var ramp_mass = limits.getNode("maximum-ramp-mass-lbs");
+    var takeoff_mass = limits.getNode("maximum-takeoff-mass-lbs");
+    var landing_mass = limits.getNode("maximum-landing-mass-lbs");
+
+    # Get the actual mass limit nodes of the aircraft
+    var ac_ramp_mass = ac_limits.getNode("maximum-ramp-mass-lbs");
+    var ac_takeoff_mass = ac_limits.getNode("maximum-takeoff-mass-lbs");
+    var ac_landing_mass = ac_limits.getNode("maximum-landing-mass-lbs");
+
+    # Set the mass limits of the aircraft
+    ac_ramp_mass.unalias();
+    ac_takeoff_mass.unalias();
+    ac_landing_mass.unalias();
+
+    ac_ramp_mass.alias(ramp_mass);
+    ac_takeoff_mass.alias(takeoff_mass);
+    ac_landing_mass.alias(landing_mass);
+}, 1, 0);
+
 var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.

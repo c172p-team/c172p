@@ -63,6 +63,31 @@
     </filter>
 
     <logic>
+        <name>Engine Cranking</name>
+        <input>
+            <or>
+                <and>
+                    <equals>
+                        <property>/controls/engines/active-engine</property>
+                        <value>0</value>
+                    </equals>
+                    <property>/engines/engine[0]/cranking</property>
+                </and>
+                <and>
+                    <equals>
+                        <property>/controls/engines/active-engine</property>
+                        <value>1</value>
+                    </equals>
+                    <property>/engines/engine[1]/cranking</property>
+                </and>
+            </or>
+        </input>
+        <output>
+            <property>/engines/active-engine/cranking</property>
+        </output>
+    </logic>
+
+    <logic>
         <name>Engine Running</name>
         <input>
             <or>
@@ -91,14 +116,18 @@
         <name>Engine Exhaust</name>
         <input>
             <and>
-                <property>/engines/active-engine/rpm</property>
+                <property>/engines/active-engine/cranking</property>
+                <not>
+                    <property>/engines/active-engine/running</property>
+                </not>
+                <greater-than>
+                    <property>/engines/active-engine/rpm</property>
+                    <value>0.0</value>
+                </greater-than>
                 <greater-than>
                     <property>/controls/engines/current-engine/mixture</property>
                     <value>0.0</value>
                 </greater-than>
-                <not>
-                    <property>/engines/active-engine/running</property>
-                </not>
             </and>
         </input>
         <output>
@@ -185,31 +214,6 @@
             <property>/engines/active-engine/indicated-oil-pressure-psi</property>
         </output>
     </filter>
-
-    <logic>
-        <name>Engine Cranking</name>
-        <input>
-            <or>
-                <and>
-                    <equals>
-                        <property>/controls/engines/active-engine</property>
-                        <value>0</value>
-                    </equals>
-                    <property>/engines/engine[0]/cranking</property>
-                </and>
-                <and>
-                    <equals>
-                        <property>/controls/engines/active-engine</property>
-                        <value>1</value>
-                    </equals>
-                    <property>/engines/engine[1]/cranking</property>
-                </and>
-            </or>
-        </input>
-        <output>
-            <property>/engines/active-engine/cranking</property>
-        </output>
-    </logic>
 
     <!-- ============================================================== -->
     <!-- Magnetos                                                       -->

@@ -183,7 +183,7 @@ var global_system_loop = func{
 #  setprop("/environment/terrain-rolling-friction",0.02);
 #});
 
-setlistener("/controls/engines/active-engine", func (node) {
+var set_limits = func (node) {
     if (node.getValue() == 1) {
         var limits = props.globals.getNode("/limits/mass-and-balance-180hp");
     }
@@ -210,13 +210,24 @@ setlistener("/controls/engines/active-engine", func (node) {
     ac_ramp_mass.alias(ramp_mass);
     ac_takeoff_mass.alias(takeoff_mass);
     ac_landing_mass.alias(landing_mass);
-}, 1, 0);
+};
+
+setlistener("/controls/engines/active-engine", func (node) {
+    # Set new mass limits for Fuel and Payload Settings dialog
+    set_limits(node);
+
+    # Emit a sound because the engine has been replaced
+    click("engine-repair", 6.0);
+}, 0, 0);
 
 var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.
     aircraft.data.add("/sim/model/c172p/immat-on-panel");
     aircraft.data.load();
+
+    # Initialize mass limits
+    set_limits(props.globals.getNode("/controls/engines/active-engine"));
 
     reset_system();
     var c172_timer = maketimer(0.25, func{global_system_loop()});

@@ -3497,6 +3497,93 @@
 
  <!-- Damage Mod  -->
 
+ <!--Props Not Damaged -->
+ <animation>
+   <type>select</type>
+   <object-name>Propeller</object-name>
+   <object-name>Propeller.Fast</object-name>
+   <condition>
+     <and>
+	  <not>
+		<property alias="/params/gear_nose_broken/property"/>
+	  </not>
+	  <not>
+		<property alias="/params/pontoon_left_damaged/property"/>
+	  </not>
+	  <not>
+		<property alias="/params/pontoon_left_broken/property"/>
+	  </not>
+      <not>
+		<property alias="/params/pontoon_right_damaged/property"/>
+	  </not>
+	  <not>
+		<property alias="/params/pontoon_right_broken/property"/>
+	  </not>
+	  <or>
+	    <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>0</value>
+		</equals>
+		<equals>
+			<property alias="/params/bushkit/property"/>
+			<value>1</value>
+		</equals>
+		<equals>
+			<property alias="/params/bushkit/property"/>
+			<value>2</value>
+		</equals>
+		<equals>
+			<property alias="/params/bushkit/property"/>
+			<value>3</value>
+		 </equals>
+		 <equals>
+			<property alias="/params/bushkit/property"/>
+			<value>4</value>
+		 </equals>
+	  </or>
+	 </and>
+   </condition>
+ </animation>
+
+ <!--Prop Damaged -->
+ <animation>
+   <type>select</type>
+   <object-name>PropellerD</object-name>
+   <condition>
+      <and>
+	    <or>
+		    <property alias="/params/gear_nose_broken/property"/>
+		    <property alias="/params/pontoon_left_damaged/property"/>
+		    <property alias="/params/pontoon_left_broken/property"/>
+		    <property alias="/params/pontoon_right_damaged/property"/>
+		    <property alias="/params/pontoon_right_broken/property"/>
+		</or>
+		<or>
+			<equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>0</value>
+			</equals>
+			<equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>1</value>
+			</equals>
+			<equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>2</value>
+			</equals>
+			<equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>3</value>
+			</equals>
+			<equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>4</value>
+			</equals>
+		</or>
+	  </and>
+   </condition>
+ </animation>
+
  <!-- Wing flaps damage -->
  <animation>
    <type>select</type>
@@ -3894,55 +3981,59 @@
    </condition>
  </animation>
 
- <!--Props Not Damaged -->
+ <!-- Left Float Not Damaged -->
  <animation>
    <type>select</type>
-   <object-name>Propeller</object-name>
-   <object-name>Propeller.Fast</object-name>
+   <object-name>LHrudder</object-name>
    <condition>
-     <and>
-	  <not>
-		<property alias="/params/gear_nose_broken/property"/>
-	  </not>
-	  <not>
-		<property alias="/params/pontoon_left_damaged/property"/>
-	  </not>
-	  <not>
-		<property alias="/params/pontoon_left_broken/property"/>
-	  </not>
-      <not>
-		<property alias="/params/pontoon_right_damaged/property"/>
-	  </not>
-	  <not>
-		<property alias="/params/pontoon_right_broken/property"/>
-	  </not>
-	  <or>
-	    <equals>
-			<property alias="/params/bushkit/property"/>
-			<value>0</value>
-		</equals>
-		<equals>
-			<property alias="/params/bushkit/property"/>
-			<value>1</value>
-		</equals>
-		<equals>
-			<property alias="/params/bushkit/property"/>
-			<value>2</value>
-		</equals>
-		<equals>
-			<property alias="/params/bushkit/property"/>
-			<value>3</value>
-		 </equals>
-		 <equals>
-			<property alias="/params/bushkit/property"/>
-			<value>4</value>
-		 </equals>
-	  </or>	 
-	 </and>
+	  <and>
+		<not>
+		  <property alias="/params/pontoon_left_damaged/property"/>
+		</not>
+		<not>
+		  <property alias="/params/pontoon_left_broken/property"/>
+		</not>
+		<or>
+			<equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>3</value>
+			</equals>
+			<equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>4</value>
+			</equals>
+		</or>
+	  </and>
    </condition>
  </animation>
 
- <!-- Pontoon and Amphibious Not Damaged -->
+ <!--Right Float Not Damaged -->
+ <animation>
+   <type>select</type>
+   <object-name>RHrudder</object-name>
+   <condition>
+	  <and>
+	    <not>
+		  <property alias="/params/pontoon_right_damaged/property"/>
+		</not>
+		<not>
+		  <property alias="/params/pontoon_right_broken/property"/>
+		</not>
+		<or>
+			<equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>3</value>
+			</equals>
+			<equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>4</value>
+			</equals>
+		</or>
+	  </and>
+   </condition>
+ </animation>
+
+ <!-- Pontoon and Amphibious -->
  <animation>
    <type>select</type>
    <object-name>RuddWires</object-name>
@@ -3958,42 +4049,6 @@
 			<value>4</value>
 		 </equals>
 	  </or>
-   </condition>
- </animation>
-
- <!-- Pontoon and Amphibious Not Damaged -->
- <animation>
-   <type>select</type>
-   <object-name>LHrudder</object-name>
-   <object-name>RHrudder</object-name>
-   <condition>
-      <and>
-		<not>
-		  <property alias="/params/gear_nose_broken/property"/>
-	    </not>
-	    <not>
-		  <property alias="/params/pontoon_left_damaged/property"/>
-	    </not>
-	    <not>
-		  <property alias="/params/pontoon_left_broken/property"/>
-	    </not>
-        <not>
-		  <property alias="/params/pontoon_right_damaged/property"/>
-	    </not>
-	    <not>
-		  <property alias="/params/pontoon_right_broken/property"/>
-	    </not>
-		<or>
-		  <equals>
-			<property alias="/params/bushkit/property"/>
-			<value>3</value>
-		  </equals>
-		  <equals>
-			<property alias="/params/bushkit/property"/>
-			<value>4</value>
-		  </equals>
-		</or>
-	  </and>
    </condition>
  </animation>
 
@@ -4145,7 +4200,7 @@
    </condition>
  </animation>
 
- <!--Left Float Damaged -->
+ <!-- Left Float Damaged -->
  <animation>
    <type>select</type>
    <object-name>LHrudderD</object-name>
@@ -4156,35 +4211,14 @@
 		  <property alias="/params/pontoon_left_broken/property"/>
 		</not>
 		<or>
-		    <equals>
-		      <property alias="/params/bushkit/property"/>
-		      <value>3</value>
-		    </equals>
 			<equals>
-		      <property alias="/params/bushkit/property"/>
-		      <value>4</value>
-		    </equals>
-		</or>
-	  </and>
-   </condition>
- </animation>
-
- <!--Left Float Broken -->
- <animation>
-   <type>select</type>
-   <object-name>LHrudderB</object-name>
-   <condition>
-	  <and>
-	    <property alias="/params/pontoon_left_broken/property"/>
-		<or>
-		    <equals>
-		      <property alias="/params/bushkit/property"/>
-		      <value>3</value>
-		    </equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>3</value>
+			</equals>
 			<equals>
-		      <property alias="/params/bushkit/property"/>
-		      <value>4</value>
-		    </equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>4</value>
+			</equals>
 		</or>
 	  </and>
    </condition>
@@ -4201,14 +4235,35 @@
 		  <property alias="/params/pontoon_right_broken/property"/>
 		</not>
 		<or>
-		    <equals>
-		      <property alias="/params/bushkit/property"/>
-		      <value>3</value>
-		    </equals>
 			<equals>
-		      <property alias="/params/bushkit/property"/>
-		      <value>4</value>
-		    </equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>3</value>
+			</equals>
+			<equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>4</value>
+			</equals>
+		</or>
+	  </and>
+   </condition>
+ </animation>
+
+ <!--Left Float Broken -->
+ <animation>
+   <type>select</type>
+   <object-name>LHrudderB</object-name>
+   <condition>
+      <and>
+	    <property alias="/params/pontoon_left_broken/property"/>
+		<or>
+			<equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>3</value>
+			</equals>
+			<equals>
+			  <property alias="/params/bushkit/property"/>
+			  <value>4</value>
+			</equals>
 		</or>
 	  </and>
    </condition>
@@ -4222,45 +4277,6 @@
 	  <and>
 	    <property alias="/params/pontoon_right_broken/property"/>
 		<or>
-		    <equals>
-		      <property alias="/params/bushkit/property"/>
-		      <value>3</value>
-		    </equals>
-			<equals>
-		      <property alias="/params/bushkit/property"/>
-		      <value>4</value>
-		    </equals>
-		</or>
-	  </and>
-   </condition>
- </animation>
-
- <!--Prop Damaged -->
- <animation>
-   <type>select</type>
-   <object-name>PropellerD</object-name>
-   <condition>
-      <and>
-	    <or>
-		    <property alias="/params/gear_nose_broken/property"/>
-		    <property alias="/params/pontoon_left_damaged/property"/>
-		    <property alias="/params/pontoon_left_broken/property"/>
-		    <property alias="/params/pontoon_right_damaged/property"/>
-		    <property alias="/params/pontoon_right_broken/property"/>
-		</or>
-		<or>
-			<equals>
-			  <property alias="/params/bushkit/property"/>
-			  <value>0</value>
-			</equals>
-			<equals>
-			  <property alias="/params/bushkit/property"/>
-			  <value>1</value>
-			</equals>
-			<equals>
-			  <property alias="/params/bushkit/property"/>
-			  <value>2</value>
-			</equals>
 			<equals>
 			  <property alias="/params/bushkit/property"/>
 			  <value>3</value>

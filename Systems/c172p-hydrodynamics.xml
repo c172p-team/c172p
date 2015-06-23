@@ -431,7 +431,7 @@
     <description>Drag due to planing</description> <!-- Guess -->
     <product>
      <value>1.0</value>
-     <!-- Assumption: Lift ~ sin(2*pitch) and Drag ~ 1+sin(2*pitch-pi/2). -->
+     <!-- Assumption: Lift ~ sin(2*pitch) and Drag ~ 1+sin(2*pitch-pi/2) = 1-cos(2*pitch). -->
      <quotient>
       <sum>
        <value>1.0</value>
@@ -490,7 +490,7 @@
      <property>hydro/float-beam-ft2</property>
      <property>hydro/side-tweak-factor</property>
      <sin><property>hydro/beta-rad</property></sin>
-     <value>0.20</value>
+     <value>1</value>
     </product>
    </function>
   </fcs_function>
@@ -780,9 +780,23 @@
    </documentation>
    <function>
     <product>
-     <value>0.01</value>
+     <value>0.004</value>
      <property>hydro/qbar-u-psf</property>
      <property>hydro/buoyancy-pitch-moment-lbsft</property>
+     
+    <table>
+      <independentVar lookup="row">hydro/float/pitch-deg</independentVar>
+      <tableData>
+        -90  0  
+        -45  0.7
+        -8   1                
+        0.0  1
+        12   1
+        45   0.7
+        90   0
+      </tableData>
+     </table>
+     
     </product>
    </function>
   </fcs_function>
@@ -896,9 +910,23 @@
    </documentation>
    <function>
     <product>
-     <value>0.01</value>
+     <value>0.004</value>
      <property>hydro/qbar-u-psf</property>
      <property>hydro/buoyancy-roll-moment-lbsft</property>
+
+    <table>
+      <independentVar lookup="row">hydro/float/roll-deg</independentVar>
+      <tableData>
+        -90  0  
+        -45  0.7
+        -8   1                
+        0.0  1
+        8    1
+        45   0.7
+        90   0
+      </tableData>
+     </table>
+
     </product>
    </function>
   </fcs_function>

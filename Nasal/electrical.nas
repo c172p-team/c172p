@@ -61,6 +61,28 @@ var init_electrical = func {
     print("Electrical system initialized");
 }
 
+var reset_battery_and_circuit_breakers = func {
+    # Charge battery to 100 %
+    battery.reset_to_full_charge();
+
+    # Reset circuit breakers
+    setprop("/controls/circuit-breakers/master", 1);
+    setprop("/controls/circuit-breakers/flaps", 1);
+    setprop("/controls/circuit-breakers/pitot-heat", 1);
+    setprop("/controls/circuit-breakers/instr", 1);
+    setprop("/controls/circuit-breakers/intlt", 1);
+    setprop("/controls/circuit-breakers/navlt", 1);
+    setprop("/controls/circuit-breakers/landing", 1);
+    setprop("/controls/circuit-breakers/bcnlt", 1);
+    setprop("/controls/circuit-breakers/strobe", 1);
+    setprop("/controls/circuit-breakers/turn-coordinator", 1);
+    setprop("/controls/circuit-breakers/radio1", 1);
+    setprop("/controls/circuit-breakers/radio2", 1);
+    setprop("/controls/circuit-breakers/radio3", 1);
+    setprop("/controls/circuit-breakers/radio4", 1);
+    setprop("/controls/circuit-breakers/radio5", 1);
+    setprop("/controls/circuit-breakers/autopilot", 1);
+}
 
 ##
 # Battery model class.
@@ -130,6 +152,13 @@ BatteryClass.get_output_amps = func {
     return me.ideal_amps * factor;
 }
 
+##
+# Set the current charge instantly to 100 %.
+#
+
+BatteryClass.reset_to_full_charge = func {
+    me.apply_load(-(1.0 - me.charge_percent) * me.amp_hours, 3600);
+}
 
 ##
 # Alternator model class.
@@ -530,4 +559,7 @@ controls.flapsDown = func(v){
   var volts = getprop("systems/electrical/outputs/flaps");
   print("Flap Volts: ",volts);
   flapsDown(volts > 16 ? v : 0);
+  if (volts > 16) {
+    c172p.click("flaps");
+  }
 }

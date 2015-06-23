@@ -88,5 +88,5 @@ var enableOSD = func {
 }
 
 # Debug settings.
-enableOSD();
+#enableOSD();
 ###############################################################################

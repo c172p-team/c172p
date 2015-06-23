@@ -2,6 +2,13 @@
 
 <PropertyList>
 
+	<params>
+        <!-- IMPORTANT: int properties 14 to 19, both included, are reserved for the immat system. Do not use them! -->
+		<spray_wake_speed_kt>
+			<property>sim/multiplay/generic/float[6]</property>
+		</spray_wake_speed_kt>
+    </params>
+
   <particlesystem>
     <name>right-wake</name>
 
@@ -9,23 +16,17 @@
 
     <emissive>false</emissive>
     <lighting>true</lighting>
-	
-    <condition>
+
+	<condition>
 		<and>
-			<not>
-				<property>fdm/jsbsim/ground/solid</property>
-			</not>
 			<greater-than>
-				<property>velocities/groundspeed-kt</property>
+				<property alias="/params/spray_wake_speed_kt/property"/>
 				<value>10</value>
 			</greater-than>
-			<not>
-			  <greater-than>
-				<property>velocities/groundspeed-kt</property>
-				<value>20</value>
-			  </greater-than>
-			</not>
-			<property>fdm/jsbsim/hydro/active-norm</property>
+			<less-than>
+				<property alias="/params/spray_wake_speed_kt/property"/>
+			    <value>20</value>
+			</less-than>
 		</and>
 	</condition>
 
@@ -41,7 +42,7 @@
       <phi-min-deg>-1.5</phi-min-deg>
       <phi-max-deg>1.5</phi-max-deg>
       <speed-mps>
-        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        <property alias="/params/spray_wake_speed_kt/property"/>
         <value>10</value>
         <spread>2.5</spread>
       </speed-mps>
@@ -57,7 +58,7 @@
 
     <counter>
       <particles-per-sec>
-        <property>instrumentation/airspeed-indicator/indicated-speed-kt</property>
+        <property alias="/params/spray_wake_speed_kt/property"/>
         <factor>15</factor>
         <spread>0</spread>
       </particles-per-sec>

@@ -28,6 +28,12 @@
 
 <PropertyList>
 
+  <params>
+    <left_wing_ground_effect_speed_kt>
+	    <property>sim/multiplay/generic/float[10]</property>
+	</left_wing_ground_effect_speed_kt>
+  </params>
+
   <particlesystem>
 
     <name>spark</name>
@@ -40,22 +46,10 @@
     </offsets>
 
     <condition>
-      <and>
-        <property>fdm/jsbsim/contact/unit[4]/WOW</property>
-        <greater-than>
-          <property>velocities/groundspeed-kt</property>
-          <value>2</value>
+	    <greater-than>
+            <property alias="/params/left_wing_ground_effect_speed_kt/property"/>
+            <value>2</value>
         </greater-than>
-		<not>
-		  <property>fdm/jsbsim/wing-both/broken</property>
-		</not>
-		<not>
-		  <property>fdm/jsbsim/contact/unit[4]/broken</property>
-		</not>
-		<not>
-		  <property>fdm/jsbsim/wing-damage/left-wing</property>
-		</not>
-      </and>
     </condition>
 
     <texture>spark.png</texture>

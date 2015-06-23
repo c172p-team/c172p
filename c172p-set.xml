@@ -53,6 +53,7 @@ Many files from the original c172p directory are included in this file.
   
   <author>Original by David Megginson, gsagostinho (Gilberto Agostinho), wlbragg (Wayne Bragg), Juanvvc (Juan Vera del Campo), onox, thevirtualfer, Dany93 (Daniel Dubreuil), dg-505 (Jonathan Schellhase), IHAM-COL (Israel Hernandez), tigert (Tuomas Kuosmanen), AndersG (Anders Gidenstam), wkitty42 (Waldo Kitty), algefaen</author>
   <status>advanced production</status>
+  <aircraft-version>3.6</aircraft-version>
   <rating>
     <FDM type="int">4</FDM>
     <systems type="int">5</systems>
@@ -71,31 +72,64 @@ Many files from the original c172p directory are included in this file.
     <path archive="y">Aircraft/c172p/Models/c172p.xml</path>
 
     <livery>
-      <file type="string">D-EEQA</file>
+      <file type="string">4X-CHV_HD_livery</file>
       <index type="int">0</index>
     </livery>
 
     <liverytail>
-      <file type="string">D-EEQA</file>
+      <file type="string">4X-CHV_HD_livery</file>
       <index type="int">0</index>
     </liverytail>
 
     <liverywing>
-      <file type="string">D-EEQA</file>
+      <file type="string">4X-CHV_HD_livery</file>
       <index type="int">0</index>
     </liverywing>
 	
 	<liveryfloat>
-      <file type="string">D-EEQA</file>
+      <file type="string">4X-CHV_HD_livery</file>
       <index type="int">0</index>
     </liveryfloat>
 
     <c172p>
-      <immat type="bool">false</immat>
+      <regnum1 type="int">0</regnum1>
+      <regnum2 type="int">0</regnum2>
+      <regnum3 type="int">0</regnum3>
+      <regnum4 type="int">0</regnum4>
+      <regnum5 type="int">0</regnum5>
+      <regnum6 type="int">0</regnum6>
       <immat-on-panel type="bool">true</immat-on-panel>
       <fairing1 type="bool">true</fairing1>
       <fairing2 type="bool">false</fairing2>
       <fairing3 type="bool">false</fairing3>
+      <sound>
+        <click-light type="bool">false</click-light>
+        <click-master type="bool">false</click-master>
+        <click-avionics type="bool">false</click-avionics>
+        <click-cb type="bool">false</click-cb>
+        <click-parking type="bool">false</click-parking>
+        <click-magneto-forward type="bool">false</click-magneto-forward>
+        <click-magneto-back type="bool">false</click-magneto-back>
+        <click-flaps type="bool">false</click-flaps>
+
+        <!-- Radio stack -->
+        <click-dme-mode type="bool">false</click-dme-mode>
+        <click-dme-power type="bool">false</click-dme-power>
+        <click-dme-source type="bool">false</click-dme-source>
+        <click-kap140 type="bool">false</click-kap140>
+        <click-kap140-dial type="bool">false</click-kap140-dial>
+        <click-kma20 type="bool">false</click-kma20>
+        <click-kma20-dial type="bool">false</click-kma20-dial>
+        <click-kr87-adf type="bool">false</click-kr87-adf>
+        <click-kr87-adf-dial type="bool">false</click-kr87-adf-dial>
+        <click-kt76a-mode type="bool">false</click-kt76a-mode>
+        <click-kt76a-ident type="bool">false</click-kt76a-ident>
+        <click-kt76a-dial type="bool">false</click-kt76a-dial>
+        <click-kx165-1 type="bool">false</click-kx165-1>
+        <click-kx165-2 type="bool">false</click-kx165-2>
+        <click-kx165-1-dial type="bool">false</click-kx165-1-dial>
+        <click-kx165-2-dial type="bool">false</click-kx165-2-dial>
+      </sound>
     </c172p>
     <hide-yoke type="bool">false</hide-yoke>
     
@@ -181,8 +215,9 @@ Many files from the original c172p directory are included in this file.
     </electrical>
      
     <!-- needed by shadows in ALS: http://forum.flightgear.org/viewtopic.php?f=4&t=25157&start=75#p232120 -->
+	<!-- and other ground effects -->
     <property-rule n="101">
-      <path>Aircraft/c172p/Systems/gearAGL.xml</path>
+      <path>Aircraft/c172p/Systems/ground-effects.xml</path>
     </property-rule>
 
     <property-rule n="102">
@@ -212,10 +247,24 @@ Many files from the original c172p directory are included in this file.
         <float n="0" alias="/sim/model/door-positions/rightDoor/position-norm"/>
         <float n="1" alias="/sim/model/door-positions/leftDoor/position-norm"/>
         <float n="2" alias="/sim/model/door-positions/baggageDoor/position-norm"/>
+		<float n="3" alias="/systems/electrical/outputs/nav-lights"/>
+        <float n="4" alias="/systems/electrical/outputs/taxi-light"/>
+        <float n="5" alias="/systems/electrical/outputs/landing-lights"/>
+		<float n="6" alias="/fdm/jsbsim/hydro/spray-wake-speed-kt-actual"/>
+		<float n="7" alias="/fdm/jsbsim/hydro/left-ground-effect-speed-kt-actual"/>
+		<float n="8" alias="/fdm/jsbsim/hydro/right-ground-effect-speed-kt-actual"/>	
+		<float n="9" alias="/fdm/jsbsim/ground/tail-ground-effect-speed-kt-actual"/>
+		<float n="10" alias="/fdm/jsbsim/ground/left-wing-ground-effect-speed-kt-actual"/>
+		<float n="11" alias="/fdm/jsbsim/ground/right-wing-ground-effect-speed-kt-actual"/>
+		<float n="12" alias="/fdm/jsbsim/ground/nose-gear-ground-effect-speed-kt-actual"/>
+		<float n="13" alias="/fdm/jsbsim/ground/left-gear-ground-effect-speed-kt-actual"/>
+		<float n="14" alias="/fdm/jsbsim/ground/right-gear-ground-effect-speed-kt-actual"/>
+		<float n="15" alias="/fdm/jsbsim/ground/nose-tyre-smoke-ground-effect-speed-kt-actual"/>
+		<float n="16" alias="/fdm/jsbsim/ground/left-tyre-smoke-ground-effect-speed-kt-actual"/>
+		<float n="17" alias="/fdm/jsbsim/ground/right-tyre-smoke-ground-effect-speed-kt-actual"/>
 
         <int n="1" alias="/sim/model/c172p/lighting/beacon-top/state"/>
         <int n="2" alias="/sim/model/c172p/lighting/strobes/state"/>
-        
         <int n="3" alias="/fdm/jsbsim/crash"/>
         <int n="4" alias="/fdm/jsbsim/contact/unit[4]/broken"/>
         <int n="5" alias="/fdm/jsbsim/contact/unit[5]/broken"/>
@@ -227,14 +276,12 @@ Many files from the original c172p directory are included in this file.
         <int n="11" alias="/fdm/jsbsim/left-pontoon/broken"/>
         <int n="12" alias="/fdm/jsbsim/right-pontoon/damaged"/>
         <int n="13" alias="/fdm/jsbsim/right-pontoon/broken"/>
-        <!-- 14 to 19, both included, are used by the immat system. There is not any alias for these properties -->
-		<int n="20" alias="/fdm/jsbsim/wing-both/broken"/>
-		<int n="21" alias="/fdm/jsbsim/wing-damage/left-wing"/>
-		<int n="22" alias="/fdm/jsbsim/wing-damage/right-wing"/>
+		<int n="14" alias="/fdm/jsbsim/wing-both/broken"/>
+		<int n="15" alias="/fdm/jsbsim/wing-damage/left-wing"/>
+		<int n="16" alias="/fdm/jsbsim/wing-damage/right-wing"/>
 
-        <float n="3" alias="/systems/electrical/outputs/nav-lights"/>
-        <float n="4" alias="/systems/electrical/outputs/taxi-light"/>
-        <float n="5" alias="/systems/electrical/outputs/landing-lights"/>
+        <!-- Registration number over MP -->
+        <string n="0" alias="/sim/model/immat"/>
       </generic>
   </multiplay>
 
@@ -338,11 +385,65 @@ Many files from the original c172p directory are included in this file.
  </instrumentation>
 
  <engines>
-  <engine>
+  <engine n="0">
    <rpm type="double">0</rpm>
    <magnetos type="int">0</magnetos>
    <mixture type="double">0</mixture>
    <running type="bool">false</running>
+  </engine>
+
+  <!-- Following properties are part of a static list of properties
+       that FlightGear transmits during multiplay. Because the number
+       of properties in /sim/multiplay/generic/ is quite limited and
+       the properties in /engines/ are unused, we can use them instead
+       to get FlightGear to transmit all the required properties.
+  -->
+
+  <!-- Amphibious front left -->
+  <engine n="3">
+    <n1 alias="/gear/gear[19]/compression-ft"/>
+    <n2 alias="/gear/gear[19]/position-norm"/>
+    <rpm alias="/gear/gear[19]/rollspeed-ms"/>
+  </engine>
+
+  <!-- Amphibious front right -->
+  <engine n="4">
+    <n1 alias="/gear/gear[20]/compression-ft"/>
+    <n2 alias="/gear/gear[20]/position-norm"/>
+    <rpm alias="/gear/gear[20]/rollspeed-ms"/>
+  </engine>
+
+  <!-- Amphibious rear left -->
+  <engine n="5">
+    <n1 alias="/gear/gear[21]/compression-ft"/>
+    <n2 alias="/gear/gear[21]/position-norm"/>
+    <rpm alias="/gear/gear[21]/rollspeed-ms"/>
+  </engine>
+
+  <!-- Amphibious rear right -->
+  <engine n="6">
+    <n1 alias="/gear/gear[22]/compression-ft"/>
+    <n2 alias="/gear/gear[22]/position-norm"/>
+    <rpm alias="/gear/gear[22]/rollspeed-ms"/>
+  </engine>
+
+  <!-- Rotation of default/26"/36" tires -->
+  <engine n="7">
+    <rpm alias="/gear/gear[0]/rollspeed-ms"/>
+    <n1 alias="/gear/gear[1]/rollspeed-ms"/>
+    <n2 alias="/gear/gear[2]/rollspeed-ms"/>
+  </engine>
+
+  <!-- Rain spray for default/26"/36" tires -->
+  <engine n="8">
+    <rpm alias="/gear/gear[0]/sprayspeed-ms"/>
+    <n1 alias="/gear/gear[1]/sprayspeed-ms"/>
+    <n2 alias="/gear/gear[2]/sprayspeed-ms"/>
+  </engine>
+  <engine n="9">
+    <rpm alias="/gear/gear[0]/spray-density"/>
+    <n1 alias="/gear/gear[1]/spray-density"/>
+    <n2 alias="/gear/gear[2]/spray-density"/>
   </engine>
  </engines>
 

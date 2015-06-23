@@ -28,6 +28,13 @@
 
 <PropertyList>
 
+     <params>
+        <!-- IMPORTANT: int properties 14 to 19, both included, are reserved for the immat system. Do not use them! -->
+		<right_ground_effect_speed_kt>
+			<property>sim/multiplay/generic/float[8]</property>
+		</right_ground_effect_speed_kt>
+    </params>
+
   <particlesystem>
   
    <name>pontoon-burn-p</name>
@@ -41,18 +48,12 @@
       <z-m> 0.0 </z-m>
     </offsets>
 
-    <condition>
-      <and>
-	      <or>
-              <property>fdm/jsbsim/contact/unit[18]/WOW</property>
-		      <property>fdm/jsbsim/contact/unit[20]/WOW</property>
-		  </or>
-        <greater-than>
-          <property>velocities/groundspeed-kt</property>
-          <value>8</value>
-        </greater-than>
-      </and>
-    </condition>
+	<condition>
+		<greater-than>
+			  <property alias="/params/right_ground_effect_speed_kt/property"/>
+			  <value>8</value>
+		 </greater-than>
+	</condition>
 
     <align>billboard</align>
 
@@ -133,18 +134,12 @@
       <z-m> 0.0 </z-m>
     </offsets>
 
-    <condition>
-        <and>
-	        <or>
-                <property>fdm/jsbsim/contact/unit[18]/WOW</property>
-		        <property>fdm/jsbsim/contact/unit[20]/WOW</property>
-            </or>
-            <greater-than>
-                <property>velocities/groundspeed-kt</property>
-                <value>8</value>
-            </greater-than>
-        </and>
-    </condition>
+	<condition>
+		<greater-than>
+			  <property alias="/params/right_ground_effect_speed_kt/property"/>
+			  <value>8</value>
+		 </greater-than>
+	</condition>
 
     <texture>spark.png</texture>
     <emissive>true</emissive>

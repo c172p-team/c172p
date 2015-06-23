@@ -28,8 +28,14 @@
 
 <PropertyList>
 
+  <params>
+    <left_gear_ground_effect_speed_kt>
+      <property>sim/multiplay/generic/float[13]</property>
+    </left_gear_ground_effect_speed_kt>
+  </params>
+
   <particlesystem>
-   <name>tyre-burn-s</name>
+    <name>tyre-burn-s</name>
     <texture>tyreburn.png</texture>
     <emissive>false</emissive>
     <lighting>false</lighting>
@@ -40,14 +46,11 @@
       <z-m> 0.0 </z-m>
     </offsets>
 
-    <condition>
-      <and>
-        <property>fdm/jsbsim/contact/unit[7]/WOW</property>
-        <greater-than>
-          <property>velocities/groundspeed-kt</property>
-          <value>8</value>
+	<condition>
+	    <greater-than>
+            <property alias="/params/left_gear_ground_effect_speed_kt/property"/>
+            <value>8</value>
         </greater-than>
-      </and>
     </condition>
 
     <align>billboard</align>

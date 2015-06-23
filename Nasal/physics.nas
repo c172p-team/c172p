@@ -69,6 +69,10 @@ var resetalldamage = func
 	setprop(contact~"unit[5]/broken", 0);
 	setprop(contact~"unit[4]/z-position", 50);
 	setprop(contact~"unit[5]/z-position", 50);
+	setprop(contact~"unit[9]/z-position", 35);
+	setprop(contact~"unit[10]/z-position", 8);
+	setprop(contact~"unit[11]/z-position", 60);
+	setprop(contact~"unit[12]/z-position", 90);
 	setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
 	setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
 	setprop("/fdm/jsbsim/wing-both/broken", 0);
@@ -201,6 +205,7 @@ var bothwingsbroke = func
 
 var upsidedown = func
 {
+	setprop(contact~"unit[12]/z-position", 90);
 	if (getprop(contact~"unit[4]/broken"))
 		setprop(contact~"unit[4]/z-position", 40);
 	else
@@ -307,16 +312,20 @@ var poll_damage = func
 	if(force2 > 2000 or gear_side_force < -1500)
 		rightgearbroke();
 
-	if(getprop(contact~"unit[13]/compression-ft") > 0.75)
+	if(getprop(contact~"unit[13]/compression-ft") > 0.75 or getprop(contact~"unit[15]/compression-ft")  > 0.75 or getprop(contact~"unit[17]/compression-ft") > 0.75 or
+		getprop(gears~"unit[19]/compression-ft") > 0.75 or getprop(gears~"unit[21]/compression-ft")   > 0.75)
 		leftpontoondamaged();
 
-	if(getprop(contact~"unit[15]/compression-ft") > 0.49 or getprop(contact~"unit[17]/compression-ft") > 0.95)
+	if(getprop(contact~"unit[13]/compression-ft") > 0.95 or getprop(contact~"unit[15]/compression-ft")  > 0.95 or getprop(contact~"unit[17]/compression-ft") > 0.95 or
+		getprop(gears~"unit[19]/compression-ft") > 0.95 or getprop(gears~"unit[21]/compression-ft")   > 0.95)
 		leftpontoonbroke();
 
-	if(getprop(contact~"unit[14]/compression-ft") > 0.75)
+	if(getprop(contact~"unit[14]/compression-ft") > 0.75 or getprop(contact~"unit[16]/compression-ft")  > 0.75 or getprop(contact~"unit[18]/compression-ft") > 0.75 or
+		getprop(gears~"unit[20]/compression-ft") > 0.75 or getprop(gears~"unit[22]/compression-ft")   > 0.75)
 		rightpontoondamaged();
 
-	if(getprop(contact~"unit[16]/compression-ft") > 0.49 or getprop(contact~"unit[18]/compression-ft") > 0.95)
+	if(getprop(contact~"unit[14]/compression-ft") > 0.95 or getprop(contact~"unit[16]/compression-ft")  > 0.95 or getprop(contact~"unit[18]/compression-ft") > 0.95 or
+		getprop(gears~"unit[20]/compression-ft") > 0.95 or getprop(gears~"unit[22]/compression-ft")   > 0.95)
 		rightpontoonbroke();
 
 	# or getprop("/sim/rendering/leftwingdamage") or getprop("/sim/rendering/bothwingdamage")
@@ -435,20 +444,45 @@ var poll_damage = func
 #check if on water
 var poll_surface = func
 {
-	if (getprop("/fdm/jsbsim/ground/solid"))
-	{
-		# FIXME: Do what?
-	}
-	else
-	{
-		# FIXME: Reimplement for JSBSim hydrodynamics.
-	}
-
 	if (getprop("/fdm/jsbsim/hydro/active-norm") > 0)
-		setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+		if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
+			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
+		else
+			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
 
-	if (getprop("position/altitude-agl-m") > 2)
-		setprop("/environment/aircraft-effects/ground-splash-norm", 0);
+	if (getprop("position/altitude-agl-m") > 2 or getprop("/fdm/jsbsim/hydro/active-norm") == 0)
+	    if (getprop("/environment/aircraft-effects/ground-splash-norm") > 0)
+		    setprop("/environment/aircraft-effects/ground-splash-norm", getprop("/environment/aircraft-effects/ground-splash-norm") - .005);
+
+	if (!getprop(contact~"unit[12]/solid"))
+		setprop(contact~"unit[12]/z-position", 160);
+	else
+		setprop(contact~"unit[12]/z-position", 90);
+
+	if (!getprop(contact~"unit[4]/solid"))
+		setprop(contact~"unit[4]/z-position", -10);
+	else
+		setprop(contact~"unit[4]/z-position", 50);
+
+	if (!getprop(contact~"unit[5]/solid"))
+		setprop(contact~"unit[5]/z-position", -10);
+	else
+		setprop(contact~"unit[5]/z-position", 50);
+
+	if (!getprop(contact~"unit[9]/solid"))
+		setprop(contact~"unit[9]/z-position", -25);
+	else
+		setprop(contact~"unit[9]/z-position", 35);
+
+	if (!getprop(contact~"unit[10]/solid"))
+		setprop(contact~"unit[10]/z-position", -25);
+	else
+		setprop(contact~"unit[10]/z-position", 8);
+
+	if (!getprop(contact~"unit[11]/solid"))
+		setprop(contact~"unit[11]/z-position", -25);
+	else
+		setprop(contact~"unit[11]/z-position", 60);
 }
 
 #required delay for bush kit change over

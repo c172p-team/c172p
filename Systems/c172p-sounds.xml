@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright (c) 2015 onox
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<system name="c172p sounds">
+
+    <channel name="sounds">
+
+        <fcs_function name="sounds/stall-horn-volume">
+            <function>
+                <log10>
+                    <product>
+                        <sum>
+                            <property>aero/alpha-deg</property>
+                            <table>
+                                <independentVar>fcs/flap-pos-deg</independentVar>
+                                <!-- 85 % of max alpha at 0 deg flap -->
+                                <tableData>
+                                     0.0    -13.6364
+                                    10.0    -14.1364
+                                    20.0    -14.6364
+                                    30.0    -15.1364
+                                </tableData>
+                            </table>
+                            <value>0.5</value>
+                        </sum>
+                        <value>2.0</value>
+                    </product>
+                </log10>
+            </function>
+            <clipto>
+                <min>0.0</min>
+                <max>1.5</max>
+            </clipto>
+        </fcs_function>
+
+        <fcs_function name="sounds/stall-horn-pitch">
+            <function>
+                <sum>
+                    <product>
+                        <table>
+                            <independentVar lookup="row">aero/alpha-deg</independentVar>
+                            <independentVar lookup="column">fcs/flap-pos-deg</independentVar>
+
+                            <!-- Normalized pitch range. 0.0 is minimum,
+                                 1.0 is maximum.
+                            -->
+                            <tableData>
+                                           0.0    10.0   20.0   30.0
+                                15.0000    0.0    0.0    0.0    0.0
+                                15.0428    0.5    0.0    0.0    0.0
+                                15.5000    0.5    0.0    0.0    0.0
+                                15.5428    0.5    0.5    0.0    0.0
+                                16.0000    0.5    0.5    0.0    0.0
+                                16.0428    1.0    0.5    0.5    0.0
+                                16.5000    1.0    0.5    0.5    0.0
+                                16.5428    1.0    1.0    0.5    0.5
+                                17.0000    1.0    1.0    0.5    0.5
+                                17.0428    1.0    1.0    1.0    0.5
+                                17.5000    1.0    1.0    1.0    0.5
+                                17.5428    1.0    1.0    1.0    1.0
+                            </tableData>
+                        </table>
+
+                        <!-- Difference between maximum and minimum -->
+                        <difference>
+                            <value>1.1</value>
+                            <value>0.9</value>
+                        </difference>
+                    </product>
+
+                    <!-- Minimum pitch -->
+                    <value>0.9</value>
+                </sum>
+            </function>
+            <clipto>
+                <min>0.9</min>
+                <max>1.1</max>
+            </clipto>
+        </fcs_function>
+
+    </channel>
+
+</system>

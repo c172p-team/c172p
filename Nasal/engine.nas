@@ -193,10 +193,22 @@ controls.throttleMouse = func {
     setprop("/controls/engines/current-engine/throttle", new_value);
 };
 
+controls.throttleAxis = func {
+    var value = (1 - cmdarg().getNode("setting").getValue()) / 2;
+    var new_value = std.max(0.0, std.min(value, 1.0));
+    setprop("/controls/engines/current-engine/throttle", new_value);
+};
+
 controls.adjMixture = func {
     var delta = arg[0] * controls.THROTTLE_RATE * getprop("/sim/time/delta-realtime-sec");
     var old_value = getprop("/controls/engines/current-engine/mixture");
     var new_value = std.max(0.0, std.min(old_value + delta, 1.0));
+    setprop("/controls/engines/current-engine/mixture", new_value);
+};
+
+controls.mixtureAxis = func {
+    var value = (1 - cmdarg().getNode("setting").getValue()) / 2;
+    var new_value = std.max(0.0, std.min(value, 1.0));
     setprop("/controls/engines/current-engine/mixture", new_value);
 };
 

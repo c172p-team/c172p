@@ -38,7 +38,7 @@
   </filter>
 
   <filter>
-    <name>EGT lowpass</name>
+    <name>EGT 160 HP lowpass</name>
     <debug>false</debug>
     <type>exponential</type>
     <filter-time>4.0</filter-time>
@@ -46,10 +46,27 @@
       <property>engines/engine[0]/egt-degf</property>
       <!-- 1200 * scale + offset = 0.0
            1700 * scale + offset = 1.0 -->
-      <scale>0.002</scale> 
+      <scale>0.002</scale>
       <offset>-2.4</offset>
     </input>
     <output>engines/engine[0]/egt-norm</output>
+    <min>0.0</min>
+    <max>1.0</max>
+  </filter>
+
+  <filter>
+    <name>EGT 180 HP lowpass</name>
+    <debug>false</debug>
+    <type>exponential</type>
+    <filter-time>4.0</filter-time>
+    <input>
+      <property>engines/engine[1]/egt-degf</property>
+      <!-- 1200 * scale + offset = 0.0
+           1700 * scale + offset = 1.0 -->
+      <scale>0.002</scale>
+      <offset>-2.4</offset>
+    </input>
+    <output>engines/engine[1]/egt-norm</output>
     <min>0.0</min>
     <max>1.0</max>
   </filter>

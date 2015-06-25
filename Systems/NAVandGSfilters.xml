@@ -71,5 +71,89 @@
     <max>1.0</max>
   </filter>
 
+    <filter>
+        <name>Tank 0 Indicated Level</name>
+        <type>exponential</type>
+        <filter-time>3.0</filter-time>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/outputs/instr-ignition-switch</property>
+                    <value>12.0</value>
+                </greater-than>
+            </condition>
+            <property>/consumables/fuel/tank[0]/level-gal_us</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/consumables/fuel/tank[0]/indicated-level-gal_us</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Tank 1 Indicated Level</name>
+        <type>exponential</type>
+        <filter-time>3.0</filter-time>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/outputs/instr-ignition-switch</property>
+                    <value>12.0</value>
+                </greater-than>
+            </condition>
+            <property>/consumables/fuel/tank[1]/level-gal_us</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/consumables/fuel/tank[1]/indicated-level-gal_us</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Engine Indicated Oil Temperature</name>
+        <type>exponential</type>
+        <filter-time>3.0</filter-time>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/outputs/instr-ignition-switch</property>
+                    <value>12.0</value>
+                </greater-than>
+            </condition>
+            <property>/engines/active-engine/oil-temperature-degf</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/engines/active-engine/indicated-oil-temperature-degf</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Engine Indicated Oil Pressure</name>
+        <type>exponential</type>
+        <filter-time>3.0</filter-time>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/systems/electrical/outputs/instr-ignition-switch</property>
+                    <value>12.0</value>
+                </greater-than>
+            </condition>
+            <property>/engines/active-engine/oil-pressure-psi</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/engines/active-engine/indicated-oil-pressure-psi</property>
+        </output>
+    </filter>
+
 </PropertyList>
 

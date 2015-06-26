@@ -22,30 +22,20 @@
 
     <nasal>
         <open>
-            var init = func {
-                # Bush kit
-                var p = getprop("fdm/jsbsim/bushkit");
-                setprop("/sim/model/c172p/bushkit_flag_0", 0);
-                setprop("/sim/model/c172p/bushkit_flag_1", 0);
-                setprop("/sim/model/c172p/bushkit_flag_2", 0);
-                setprop("/sim/model/c172p/bushkit_flag_3", 0);
-                setprop("/sim/model/c172p/bushkit_flag_4", 0);
-                setprop("/sim/model/c172p/bushkit_flag_" ~ p, 1);
+            # Bush kit
+            var p = getprop("fdm/jsbsim/bushkit");
+            setprop("/sim/model/c172p/bushkit_flag_0", 0);
+            setprop("/sim/model/c172p/bushkit_flag_1", 0);
+            setprop("/sim/model/c172p/bushkit_flag_2", 0);
+            setprop("/sim/model/c172p/bushkit_flag_3", 0);
+            setprop("/sim/model/c172p/bushkit_flag_4", 0);
+            setprop("/sim/model/c172p/bushkit_flag_" ~ p, 1);
 
-                # Engine power
-                var p = getprop("/controls/engines/active-engine");
-                setprop("sim/model/c172p/engine_flag_0", 0);
-                setprop("sim/model/c172p/engine_flag_1", 0);
-                setprop("sim/model/c172p/engine_flag_" ~ p, 1);
-
-                # Shadow volume
-                var p = getprop("/sim/rendering/shadow-volume");
-                if (p and !c172p.check_eligibility()) {
-                    setprop("/sim/rendering/shadow-volume", 0);
-                }
-            }
-
-            init();
+            # Engine power
+            var p = getprop("/controls/engines/active-engine");
+            setprop("sim/model/c172p/engine_flag_0", 0);
+            setprop("sim/model/c172p/engine_flag_1", 0);
+            setprop("sim/model/c172p/engine_flag_" ~ p, 1);
         </open>
     </nasal>
 
@@ -130,28 +120,6 @@
 
         <group>
             <layout>vbox</layout>
-
-            <checkbox>
-                <halign>left</halign>
-                <label>2D shadow</label>
-                <property>/sim/rendering/shadow</property>
-                <live>true</live>
-                <binding>
-                    <command>nasal</command>
-                    <script>c172p.toggle_shadow()</script>
-                </binding>
-            </checkbox>
-
-            <checkbox>
-                <halign>left</halign>
-                <label>3D shadow</label>
-                <property>/sim/rendering/shadow-volume</property>
-                <live>true</live>
-                <binding>
-                    <command>nasal</command>
-                    <script>c172p.toggle_shadow_volume()</script>
-                </binding>
-            </checkbox>
 
             <checkbox>
                 <halign>left</halign>

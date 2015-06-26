@@ -165,6 +165,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
     <path>/sim/model/occupants</path>
     <path>/fdm/jsbsim/damage</path>
     <path>/fdm/jsbsim/bushkit</path>
+    <path>/controls/engines/active-engine</path>
     <path>/environment/aircraft-effects/cabin-heat-set</path>
     <path>/environment/aircraft-effects/cabin-air-set</path>
     <path>/fdm/jsbsim/running</path>
@@ -200,19 +201,17 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
   </view>
 
   <systems>
+    <path>Aircraft/c172p/Systems/systems.xml</path>
+
     <autopilot>
       <path>Systems/KAP140.xml</path>
     </autopilot>
+
     <property-rule n="100">
       <name>FiltersOnly</name>
       <path>Systems/NAVandGSfilters.xml</path>
     </property-rule>
-    <electrical>
-      <!-- null electrical system path here so we can use a nasal based -->
-      <!-- model defined later in the nasal section of this file. -->
-      <path></path>
-    </electrical>
-     
+
     <!-- needed by shadows in ALS: http://forum.flightgear.org/viewtopic.php?f=4&t=25157&start=75#p232120 -->
 	<!-- and other ground effects -->
     <property-rule n="101">
@@ -221,6 +220,10 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 
     <property-rule n="102">
       <path>Aircraft/c172p/Systems/als-lights.xml</path>
+    </property-rule>
+
+    <property-rule n="103">
+      <path>Aircraft/c172p/Systems/engine.xml</path>
     </property-rule>
   </systems>
 
@@ -278,6 +281,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 		<int n="14" alias="/fdm/jsbsim/wing-both/broken"/>
 		<int n="15" alias="/fdm/jsbsim/wing-damage/left-wing"/>
 		<int n="16" alias="/fdm/jsbsim/wing-damage/right-wing"/>
+		<int n="17" alias="/engines/active-engine/exhaust"/>
 
         <!-- Registration number over MP -->
         <string n="0" alias="/sim/model/immat"/>
@@ -304,17 +308,22 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
   </flight>
   <engines>
    <engine n="0">
-    <throttle type="double">0</throttle>
     <primer type="double">0</primer>
     <primer-lever type="bool">false</primer-lever>
     <use-primer type="bool">false</use-primer>
-    <master-alt type="bool">false</master-alt>
-    <master-bat type="bool">false</master-bat>
    </engine>
+   <current-engine>
+     <throttle type="double">0.0</throttle>
+     <mixture type="double">0.0</mixture>
+   </current-engine>
+   <active-engine type="int">0</active-engine>
   </engines>
   <switches>
     <master-avionics type="bool">false</master-avionics>
     <starter type="bool">false</starter>
+    <master-alt type="bool">false</master-alt>
+    <master-bat type="bool">false</master-bat>
+    <magnetos type="int">0</magnetos>
   </switches>
 
   <gear>
@@ -345,7 +354,12 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
     <selected type="bool">true</selected>
    </tank>
    <tank n="2">
-    <name>Float chamber</name>
+    <name>Float chamber1</name>
+    <capacity unit="LBS"> 0.1 </capacity>
+    <selected type="bool">true</selected>
+   </tank>
+   <tank n="3">
+    <name>Float chamber2</name>
     <capacity unit="LBS"> 0.1 </capacity>
     <selected type="bool">true</selected>
    </tank>
@@ -391,12 +405,20 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
    <running type="bool">false</running>
   </engine>
 
+  <active-engine>
+    <killed type="bool">false</killed>
+  </active-engine>
+
   <!-- Following properties are part of a static list of properties
        that FlightGear transmits during multiplay. Because the number
        of properties in /sim/multiplay/generic/ is quite limited and
        the properties in /engines/ are unused, we can use them instead
        to get FlightGear to transmit all the required properties.
   -->
+
+  <engine n="2">
+    <rpm alias="/engines/active-engine/rpm"/>
+  </engine>
 
   <!-- Amphibious front left -->
   <engine n="3">
@@ -525,10 +547,25 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
  </payload>
 
  <limits>
+  <mass-and-balance-160hp>
+    <maximum-ramp-mass-lbs>2407</maximum-ramp-mass-lbs>
+    <maximum-takeoff-mass-lbs>2400</maximum-takeoff-mass-lbs>
+    <maximum-landing-mass-lbs>2400</maximum-landing-mass-lbs>
+  </mass-and-balance-160hp>
+
+  <mass-and-balance-180hp>
+    <maximum-ramp-mass-lbs>2558</maximum-ramp-mass-lbs>
+    <maximum-takeoff-mass-lbs>2550</maximum-takeoff-mass-lbs>
+    <maximum-landing-mass-lbs>2550</maximum-landing-mass-lbs>
+  </mass-and-balance-180hp>
+  
   <mass-and-balance>
-   <maximum-ramp-mass-lbs>2407</maximum-ramp-mass-lbs>
-   <maximum-takeoff-mass-lbs>2400</maximum-takeoff-mass-lbs>
-   <maximum-landing-mass-lbs>2400</maximum-landing-mass-lbs>
+    <!-- Define some nodes for the Fuel and Payload dialog. Aliasing is
+         done later in Nasal/c172p.nas.
+    -->
+    <maximum-ramp-mass-lbs/>
+    <maximum-takeoff-mass-lbs/>
+    <maximum-landing-mass-lbs/>
    <cg>
     <dimension type="string">in</dimension>
     <limit>

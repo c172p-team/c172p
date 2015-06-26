@@ -64,15 +64,15 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
       <value>0.0</value>
     </set>
     <set>
-      <property>/controls/engines/engine/magnetos</property>
+      <property>/controls/switches/magnetos</property>
       <value>3</value>
     </set>
     <set>
-      <property>/controls/engines/engine/throttle</property>
+      <property>/controls/engines/current-engine/throttle</property>
       <value>0.2</value>
     </set>
     <set>
-      <property>/controls/engines/engine/starter</property>
+      <property>/controls/switches/starter</property>
       <value>true</value>
     </set>
     <set>
@@ -97,8 +97,8 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
 
       # Script to simulate holding down the starter button until the engine starts
       var starter = func() {
-        setprop("/controls/engines/engine/starter", 1);
-        if (! getprop("/engines/engine/running")) {
+        setprop("/controls/switches/starter", 1);
+        if (! getprop("/engines/active-engine/running")) {
           settimer(starter, 0);
         }
       };
@@ -117,7 +117,7 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
 
   <step>
     <set>
-      <property>/controls/engines/engine/starter</property>
+      <property>/controls/switches/starter</property>
       <value>false</value>
     </set>
     <message>I've already started the engine. Press Shift-B to release the parking brake. Throttle up to about
@@ -140,7 +140,7 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
             <value>0</value>
           </equals>
           <less-than>
-            <property>/controls/engines/engine/throttle</property>
+            <property>/controls/engines/current-engine/throttle</property>
             <value>0.15</value>
           </less-than>
         </and>

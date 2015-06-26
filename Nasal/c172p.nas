@@ -137,7 +137,7 @@ var reset_system = func {
 	props.globals.getNode("/fdm/jsbsim/right-pontoon/damaged", 0).setBoolValue(0);
     props.globals.getNode("/fdm/jsbsim/right-pontoon/broken", 0).setBoolValue(0);
 
-	setprop("/fdm/jsbsim/propulsion/tank[2]/priority", 1);
+	setprop("/engines/active-engine/killed", 0);
 	setprop("/fdm/jsbsim/contact/unit[4]/z-position", 50);
 	setprop("/fdm/jsbsim/contact/unit[5]/z-position", 50);
 
@@ -183,11 +183,51 @@ var global_system_loop = func{
 #  setprop("/environment/terrain-rolling-friction",0.02);
 #});
 
+var set_limits = func (node) {
+    if (node.getValue() == 1) {
+        var limits = props.globals.getNode("/limits/mass-and-balance-180hp");
+    }
+    else {
+        var limits = props.globals.getNode("/limits/mass-and-balance-160hp");
+    }
+    var ac_limits = props.globals.getNode("/limits/mass-and-balance");
+
+    # Get the mass limits of the current engine
+    var ramp_mass = limits.getNode("maximum-ramp-mass-lbs");
+    var takeoff_mass = limits.getNode("maximum-takeoff-mass-lbs");
+    var landing_mass = limits.getNode("maximum-landing-mass-lbs");
+
+    # Get the actual mass limit nodes of the aircraft
+    var ac_ramp_mass = ac_limits.getNode("maximum-ramp-mass-lbs");
+    var ac_takeoff_mass = ac_limits.getNode("maximum-takeoff-mass-lbs");
+    var ac_landing_mass = ac_limits.getNode("maximum-landing-mass-lbs");
+
+    # Set the mass limits of the aircraft
+    ac_ramp_mass.unalias();
+    ac_takeoff_mass.unalias();
+    ac_landing_mass.unalias();
+
+    ac_ramp_mass.alias(ramp_mass);
+    ac_takeoff_mass.alias(takeoff_mass);
+    ac_landing_mass.alias(landing_mass);
+};
+
+setlistener("/controls/engines/active-engine", func (node) {
+    # Set new mass limits for Fuel and Payload Settings dialog
+    set_limits(node);
+
+    # Emit a sound because the engine has been replaced
+    click("engine-repair", 6.0);
+}, 0, 0);
+
 var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.
     aircraft.data.add("/sim/model/c172p/immat-on-panel");
     aircraft.data.load();
+
+    # Initialize mass limits
+    set_limits(props.globals.getNode("/controls/engines/active-engine"));
 
     reset_system();
     var c172_timer = maketimer(0.25, func{global_system_loop()});

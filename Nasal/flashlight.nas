@@ -15,17 +15,12 @@
 
 # ALS flashlight
 var toggle_flashlight = func {
-    if (check_required_version([3, 5])) {
-        if (getprop("/sim/rendering/shaders/skydome")) {
-            var old_value = getprop("/sim/rendering/als-secondary-lights/use-flashlight");
-            var new_value = math.mod(old_value + 1, 3);
-            setprop("/sim/rendering/als-secondary-lights/use-flashlight", new_value);
-        }
-        else {
-            gui.popupTip("Enable ALS for ALS Flashlight", 5);
-        }
+    if (getprop("/sim/rendering/shaders/skydome")) {
+        var old_value = getprop("/sim/rendering/als-secondary-lights/use-flashlight");
+        var new_value = math.mod(old_value + 1, 3);
+        setprop("/sim/rendering/als-secondary-lights/use-flashlight", new_value);
     }
     else {
-        gui.popupTip("ALS Flashlight require version 3.5 or greater", 5);
+        gui.popupTip("Enable ALS for ALS Flashlight", 5);
     }
 };

@@ -13,27 +13,28 @@
 
     <PropertyList>
 
-      <path>shadow.ac</path>
+      <path>3dpontoonshadow.ac</path>
       <nopreview/>
-      
-      <offsets>
-        <pitch-deg>2.75</pitch-deg>
-        <z-m>1.91</z-m>
+	  
+	  <offsets>
+        <pitch-deg>3.75</pitch-deg>
+        <z-m>-0.25</z-m>
       </offsets>
       
       <animation>
-        <object-name>shadow</object-name>
+        <object-name>3dpontoonshadow</object-name>
         <type>select</type>
         <condition>
 		<and>
-          <not>
+		  <not>
             <property>/sim/rendering/rembrandt/enabled</property>
           </not>
 		  <property>/sim/rendering/shaders/skydome</property>
-		  <property>/sim/rendering/shadow</property>
-		  <not>
-            <property>/sim/rendering/shadow-volume</property>
-		  </not>
+          <property>/sim/rendering/shadow-volume</property>
+		  <equals>
+		    <property>/fdm/jsbsim/bushkit</property>
+		    <value>4</value>
+		  </equals>
 		  <not>
 			<property>/fdm/jsbsim/unit[12]/WOW</property>
 		  </not>
@@ -49,21 +50,21 @@
 		 </and>
         </condition>
       </animation>
-     
+	
       <effect>
-        <inherits-from>Effects/shadow</inherits-from>
-        <object-name>shadow</object-name>
+        <inherits-from>Effects/shadow-vol</inherits-from>
+        <object-name>3dpontoonshadow</object-name>
       </effect>
-
+	
       <animation>
         <type>noshadow</type>
-		<object-name>shadow</object-name>
+        <object-name>3dpontoonshadow</object-name>
       </animation>
 
       <!-- pitch -->
       <animation>
         <type>rotate</type>
-		<object-name>shadow</object-name>
+        <object-name>3dpontoonshadow</object-name>
         <property>/orientation/pitch-deg</property>
         <factor>-1.0</factor>
         <center>
@@ -81,7 +82,7 @@
       <!-- roll -->
       <animation>
         <type>rotate</type>
-		<object-name>shadow</object-name>
+        <object-name>3dpontoonshadow</object-name>
         <property>/orientation/roll-deg</property>
         <factor>1.0</factor>
         <center>
@@ -95,28 +96,5 @@
           <z>0</z>
         </axis>
       </animation>
-	  
-	  <!--Translate to ground level  -->
-	  <animation>
-	   <type>translate</type>
-	   <object-name>shadow</object-name>
-	   <condition>
-		<not>
-		  <property>/sim/rendering/shaders/skydome</property>
-		</not>
-	   </condition>
-	   <property>/position/altitude-agl-ft</property>
-	   <factor>-0.3048</factor>
-	   <center>
-		 <x-m>0</x-m>
-		 <y-m>0</y-m>
-		 <z-m>0</z-m>
-	   </center>
-	   <axis>
-		 <x>0</x>
-		 <y>0</y>
-		 <z>1</z>
-	   </axis>
-	  </animation>
 
     </PropertyList>

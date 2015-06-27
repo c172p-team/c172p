@@ -2,8 +2,8 @@ props.Node.new({ "/fdm/jsbsim/bushkit":0 });
 props.globals.initNode("/fdm/jsbsim/bushkit", 0, "INT");
 
 # Specifications Vne=158 KIAS,
-# Normal category (1500 - 2400 lb): max positive-g=3.8, max negative-g=1.52,
-# Utility category (1500 - 2100 lb): max positive-g=4.4, max negative-g=1.76,
+# Normal category (1500 - 2400 or 2550 lbs): max positive-g=3.8, max negative-g=1.52,
+# Utility category (1500 - 2100 lbs): max positive-g=4.4, max negative-g=1.76,
 # structure holds at least 150% max g's
 props.Node.new({ "limits/vne":0 });
 props.globals.initNode("limits/vne", 158, "DOUBLE");
@@ -11,10 +11,14 @@ props.Node.new({ "limits/max-positive-g":0 });
 props.globals.initNode("limits/max-positive-g", 3.8, "DOUBLE");
 props.Node.new({ "limits/max-negative-g":0 });
 props.globals.initNode("limits/max-negative-g", -1.52, "DOUBLE");
+props.Node.new({ "limits/max-lift-force":0 });
+props.globals.initNode("limits/max-lift-force", 2550*3.8, "DOUBLE");
 
 var g = getprop("/fdm/jsbsim/accelerations/Nz");
 var max_positive = getprop("limits/max-positive-g");
 var max_negative = getprop("limits/max-negative-g");
+var max_lift_force = getprop("limits/max-lift-force");
+var lift_force = -getprop("/fdm/jsbsim/forces/fbz-aero-lbs");
 
 var aero_coeff = "fdm/jsbsim/aero/coefficient/";
 #Roll moment due to (diedra + roll rate + yaw rate + ailerons) ==> asymmetry to break one wing
@@ -404,40 +408,43 @@ var poll_damage = func
 		}
 	}
 	
-#Over-g damages
-	g = getprop("/fdm/jsbsim/accelerations/Nz");
-	if (g > max_positive)
+#Over-g damages, over-forces on wings
+
+    lift_force = -getprop("/fdm/jsbsim/forces/fbz-aero-lbs");
+    
+    if (lift_force > max_lift_force)
 	{
+#        print("Lift-Force =", lift_force);
 		if (roll_moment < -4000 and getprop("/fdm/jsbsim/wing-damage/left-wing") == 0)
 		{
 			setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
-            gui.popupTip("Over-g Right wing DAMAGED!!", 5);
+            gui.popupTip("Over-load Right wing DAMAGED!!", 5);
 		}
 		if (roll_moment > 4000 and getprop("/fdm/jsbsim/wing-damage/right-wing") == 0)
 		{
 			setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
-            gui.popupTip("Over-g Left wing DAMAGED!!", 5);
+            gui.popupTip("Over-load Left wing DAMAGED!!", 5);
 		}
 	}
-	if (g > (max_positive * 1.25))
+    if (lift_force > (max_lift_force * 1.25))
 	{
 		if (roll_moment < -4000 and getprop("/fdm/jsbsim/wing-damage/left-wing") < 1)
 		{
 			rightwingbroke();
-            gui.popupTip("Over-g Right wing BROKEN", 5);
+            gui.popupTip("Over-load Right wing BROKEN", 5);
 		}
 		if (roll_moment > 4000 and getprop("/fdm/jsbsim/wing-damage/right-wing") < 1)
 		{
 			leftwingbroke();
-            gui.popupTip("Over-g Left wing BROKEN", 5);
+            gui.popupTip("Over-load Left wing BROKEN", 5);
 		}
 	}
-	if (g > (max_positive * 1.5))
+    if (lift_force > (max_lift_force * 1.5))
 	{
 		if (!getprop("/fdm/jsbsim/crash"))
 		{
 			bothwingsbroke();
-			gui.popupTip("Over-g Both wings BROKEN!!", 5);
+			gui.popupTip("Over-load Both wings BROKEN!!", 5);
 		}
 	}	
 }

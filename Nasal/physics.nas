@@ -42,7 +42,6 @@ var resetalldamage = func
 	setprop(contact~"unit[12]/z-position", 90);
 	setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
 	setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
-	setprop("/fdm/jsbsim/wing-both/broken", 0);
 	setprop("/fdm/jsbsim/crash", 0);
 	setprop("/fdm/jsbsim/left-pontoon/damaged", 0);
 	setprop("/fdm/jsbsim/left-pontoon/broken", 0);
@@ -144,11 +143,8 @@ var bothwingcollapse = func
 
 var bothwingsbroke = func
 {
-	setprop(contact~"unit[4]/broken", 1);
-	setprop(contact~"unit[5]/broken", 1);
-	setprop("/fdm/jsbsim/wing-damage/left-wing", 1);
-	setprop("/fdm/jsbsim/wing-damage/right-wing", 1);
-	setprop("/fdm/jsbsim/wing-both/broken", 1);
+    leftwingbroke();
+    rightwingbroke();
 }
 
 var upsidedown = func (left_wing_damage, right_wing_damage)
@@ -304,10 +300,11 @@ var poll_damage = func
 
     var left_wing_damage = getprop("/fdm/jsbsim/wing-damage/left-wing");
     var right_wing_damage = getprop("/fdm/jsbsim/wing-damage/right-wing");
-    var crash = getprop("/fdm/jsbsim/crash");
 
-	if (gears_broken == 3 and !getprop("/fdm/jsbsim/wing-both/broken") and left_wing_damage < 1 and right_wing_damage < 1)
+	if (gears_broken == 3 and left_wing_damage < 1 and right_wing_damage < 1)
 		bothwingcollapse();
+
+    var crash = getprop("/fdm/jsbsim/crash");
 
 	if (getprop(contact~"unit[12]/WOW"))
 		upsidedown(left_wing_damage, right_wing_damage);

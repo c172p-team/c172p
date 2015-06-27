@@ -493,42 +493,48 @@ var poll_surface = func
 		setprop(contact~"unit[11]/z-position", 60);
 }
 
-#required delay for bush kit change over
-var poll_gear_delay = func
-{
-	if(getprop("/fdm/jsbsim/bushkit") == 0)
-		defaulttires();
-	else
-	if(getprop("/fdm/jsbsim/bushkit") == 1)
-		medbushtires();
-	else
-	if(getprop("/fdm/jsbsim/bushkit") == 2)
-		largebushtires();
-	else
-	if(getprop("/fdm/jsbsim/bushkit") == 3)
-		pontoons();
-	else
-	if(getprop("/fdm/jsbsim/bushkit") == 4)
-		amphibious();
-}
+var changing_bushkit = 0;
+
+# Duration in which no damage will occur. Assumes the aircraft has
+# stabilized within this duration.
+var bushkit_change_timeout = 3.0;
 
 var physics_loop = func
 {
-	if(getprop("/sim/freeze/replay-state")) return;
-	if (lastkit == getprop("/fdm/jsbsim/bushkit"))
-	{
-		settledelay = 0;
-		if(getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
-			poll_surface();
-		if (getprop("/fdm/jsbsim/damage"))
-			poll_damage();
-	}
-	else
-	{
-		poll_gear_delay();
-		settledelay+=1;
-		if (settledelay == 5) {
-			lastkit = getprop("/fdm/jsbsim/bushkit");
-		}
-	}
+	if (getprop("/sim/freeze/replay-state")) {
+        return;
+    }
+
+	if(getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
+		poll_surface();
+	if (!changing_bushkit and getprop("/fdm/jsbsim/damage"))
+		poll_damage();
 }
+
+var set_bushkit = func (bushkit) {
+    if (bushkit == 0)
+        defaulttires();
+    elsif (bushkit == 1)
+        medbushtires();
+    elsif (bushkit == 2)
+        largebushtires();
+    elsif (bushkit == 3)
+        pontoons();
+    elsif (bushkit == 4)
+        amphibious();
+};
+
+# This timer object is used to enable damage again a short time after
+# changing to the last bush kit option.
+var bushkit_changed_timer = maketimer(bushkit_change_timeout, func {
+    changing_bushkit = 0;
+});
+bushkit_changed_timer.singleShot = 1;
+
+setlistener("/sim/signals/fdm-initialized", func {
+    setlistener("/fdm/jsbsim/bushkit", func (n) {
+        changing_bushkit = 1;
+        set_bushkit(n.getValue());
+        bushkit_changed_timer.restart(bushkit_change_timeout);
+    }, 1, 0);
+});

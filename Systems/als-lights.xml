@@ -20,16 +20,41 @@
 <PropertyList>
 
     <logic>
-        <name>ALS Lighting Landing</name>
+        <name>Lighting Landing On/Off</name>
         <input>
             <and>
-                <property>/sim/current-view/internal</property>
                 <less-than>
                     <property>/systems/electrical/outputs/landing-lights</property>
                     <value>31.5</value>
                 </less-than>
                 <greater-than>
                     <property>/systems/electrical/outputs/landing-lights</property>
+                    <value>20.0</value>
+                </greater-than>
+			    <not>
+				    <property>/fdm/jsbsim/contact/unit[4]/broken</property>
+			    </not>
+                <less-than>
+                    <property>/fdm/jsbsim/wing-damage/left-wing</property>
+                    <value>1.0</value>
+                </less-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/landing</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Lighting Taxi On/Off</name>
+        <input>
+            <and>
+                <less-than>
+                    <property>/systems/electrical/outputs/taxi-light</property>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property>/systems/electrical/outputs/taxi-light</property>
                     <value>20.0</value>
                 </greater-than>
 				<not>
@@ -42,6 +67,19 @@
             </and>
         </input>
         <output>
+            <property>/sim/model/c172p/lighting/taxi</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>ALS Lighting Landing</name>
+        <input>
+            <and>
+                <property>/sim/current-view/internal</property>
+                <property>/sim/model/c172p/lighting/landing</property>
+            </and>
+        </input>
+        <output>
             <property>/sim/rendering/als-secondary-lights/use-landing-light</property>
         </output>
     </logic>
@@ -51,21 +89,7 @@
         <input>
             <and>
                 <property>/sim/current-view/internal</property>
-                <less-than>
-                    <property>/systems/electrical/outputs/taxi-light</property>
-                    <value>31.5</value>
-                </less-than>
-                <greater-than>
-                    <property>/systems/electrical/outputs/taxi-light</property>
-                    <value>20.0</value>
-                </greater-than>
-				<not>
-					<property>/fdm/jsbsim/contact/unit[4]/broken</property>
-				</not>
-                <less-than>
-                    <property>/fdm/jsbsim/wing-damage/left-wing</property>
-                    <value>1.0</value>
-                </less-than>
+                <property>/sim/model/c172p/lighting/taxi</property>
             </and>
         </input>
         <output>

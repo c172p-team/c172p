@@ -1,9 +1,7 @@
 var max_lift_force = getprop("limits/max-lift-force");
-var lift_force = -getprop("/fdm/jsbsim/forces/fbz-aero-lbs");
+var limit_vne = getprop("limits/vne");
 
 var aero_coeff = "fdm/jsbsim/aero/coefficient/";
-#Roll moment due to (diedra + roll rate + yaw rate + ailerons) ==> asymmetry to break one wing
-var roll_moment = getprop(aero_coeff~"Clb")+getprop(aero_coeff~"Clp")+getprop(aero_coeff~"Clr")+getprop(aero_coeff~"ClDa");
 
 var get_gear_force = func (index, spring_coeff, damping_coeff) {
     # Force-on-gear = (compression-ft) x (spring_coeff) + (compression-velocity-fps) x (damping_coeff)
@@ -52,15 +50,13 @@ var resetalldamage = func
 	setprop("/fdm/jsbsim/right-pontoon/broken", 0);
 }
 
-var nosegearbroke = func
+var nosegearbroke = func (bushkit)
 {
-	if(getprop("/fdm/jsbsim/bushkit") == 0)
+	if (bushkit == 0)
 		setprop(contact~"unit[6]/z-position", -10);
-	else 
-    if(getprop("/fdm/jsbsim/bushkit") == 1)
+	elsif (bushkit == 1)
 		setprop(contact~"unit[6]/z-position", -18.5);
-	else
-	if(getprop("/fdm/jsbsim/bushkit") == 2)
+	elsif (bushkit == 2)
 		setprop(contact~"unit[6]/z-position", -17.7);
 
 	setprop(gears~"unit[0]/z-position", 0);
@@ -68,68 +64,60 @@ var nosegearbroke = func
 	setprop(gears~"unit[0]/broken", 1);
 }
 
-var leftgearbroke = func
+var leftgearbroke = func (bushkit)
 {
-	if(getprop("/fdm/jsbsim/bushkit") == 0)
+	if (bushkit == 0)
 		setprop(contact~"unit[7]/z-position", -9.5);
-	else 
-    if(getprop("/fdm/jsbsim/bushkit") == 1)
+	elsif (bushkit == 1)
 		setprop(contact~"unit[7]/z-position", -14.5);
-	else
-	if(getprop("/fdm/jsbsim/bushkit") == 2)
+	elsif (bushkit == 2)
 		setprop(contact~"unit[7]/z-position", -16);
 
 	setprop(gears~"unit[1]/z-position", 0);
 	setprop(gears~"unit[1]/broken", 1);
 }
 
-var rightgearbroke = func
+var rightgearbroke = func (bushkit)
 {
-	if(getprop("/fdm/jsbsim/bushkit") == 0)
+	if (bushkit == 0)
 		setprop(contact~"unit[8]/z-position", -8);
-	else 
-    if(getprop("/fdm/jsbsim/bushkit") == 1)
+	elsif (bushkit == 1)
 		setprop(contact~"unit[8]/z-position", -15.5);
-	else
-	if(getprop("/fdm/jsbsim/bushkit") == 2)
+	elsif (bushkit == 2)
 		setprop(contact~"unit[8]/z-position", -17.4);
 
 	setprop(gears~"unit[2]/z-position", 0);
 	setprop(gears~"unit[2]/broken", 1);
 }
 
-var leftpontoondamaged = func
+var leftpontoondamaged = func (bushkit)
 {
-	if(getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
-		if(!getprop("/fdm/jsbsim/left-pontoon/broken"))
-			setprop("/fdm/jsbsim/left-pontoon/damaged", 1);
+	if ((bushkit == 3 or bushkit == 4) and !getprop("/fdm/jsbsim/left-pontoon/broken"))
+		setprop("/fdm/jsbsim/left-pontoon/damaged", 1);
 
     killengine();
 }
 
-var leftpontoonbroke = func
+var leftpontoonbroke = func (bushkit)
 {
-	if(getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
-	{
+	if (bushkit == 3 or bushkit == 4) {
 		setprop("/fdm/jsbsim/left-pontoon/damaged", 0);
 		setprop("/fdm/jsbsim/left-pontoon/broken", 1);
 	}
     killengine();
 }
 
-var rightpontoondamaged = func
+var rightpontoondamaged = func (bushkit)
 {
-	if(getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
-		if(!getprop("/fdm/jsbsim/right-pontoon/broken"))
-			setprop("/fdm/jsbsim/right-pontoon/damaged", 1);
+	if ((bushkit == 3 or bushkit == 4) and !getprop("/fdm/jsbsim/right-pontoon/broken"))
+		setprop("/fdm/jsbsim/right-pontoon/damaged", 1);
 
     killengine();
 }
 
-var rightpontoonbroke = func
+var rightpontoonbroke = func (bushkit)
 {
-	if(getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
-	{
+	if (bushkit == 3 or bushkit == 4) {
 		setprop("/fdm/jsbsim/right-pontoon/damaged", 0);
 		setprop("/fdm/jsbsim/right-pontoon/broken", 1);
 	}
@@ -163,21 +151,20 @@ var bothwingsbroke = func
 	setprop("/fdm/jsbsim/wing-both/broken", 1);
 }
 
-var upsidedown = func
+var upsidedown = func (left_wing_damage, right_wing_damage)
 {
 	setprop(contact~"unit[12]/z-position", 90);
+
 	if (getprop(contact~"unit[4]/broken"))
 		setprop(contact~"unit[4]/z-position", 40);
-	else
-	if(getprop("/fdm/jsbsim/wing-damage/left-wing") > 1)
+	elsif (left_wing_damage > 1)
 		setprop(contact~"unit[4]/z-position", 85);
 	else
 		setprop(contact~"unit[4]/z-position", 50);
 
 	if (getprop(contact~"unit[5]/broken"))
 		setprop(contact~"unit[5]/z-position", 40);
-	else
-	if(getprop("/fdm/jsbsim/wing-damage/right-wing") > 1)
+	elsif (right_wing_damage > 1)
 		setprop(contact~"unit[5]/z-position", 85);
 	else
 		setprop(contact~"unit[5]/z-position", 50);
@@ -204,8 +191,6 @@ var resetcontacts = func
 
 var defaulttires = func
 {
-	resetalldamage();
-	resetcontacts();
 	setprop(gears~"unit[0]/z-position", -19.5);
 	setprop(gears~"unit[1]/z-position", -15.5);
 	setprop(gears~"unit[2]/z-position", -15.5);
@@ -213,8 +198,6 @@ var defaulttires = func
 
 var medbushtires = func
 {
-	resetalldamage();
-	resetcontacts();
 	setprop(gears~"unit[0]/z-position", -22);
 	setprop(gears~"unit[1]/z-position", -20);
 	setprop(gears~"unit[2]/z-position", -20);
@@ -222,8 +205,6 @@ var medbushtires = func
 
 var largebushtires = func
 {
-	resetalldamage();
-	resetcontacts();
 	setprop(gears~"unit[0]/z-position", -22);
 	setprop(gears~"unit[1]/z-position", -22);
 	setprop(gears~"unit[2]/z-position", -22);
@@ -231,14 +212,11 @@ var largebushtires = func
 
 var pontoons = func
 {
-	resetalldamage();
-	resetcontacts();
+    # Empty, no z-position's to reset
 }
 
 var amphibious = func
 {
-	resetcontacts();
-	resetalldamage();
 	setprop(gears~"unit[19]/z-position", -62);
 	setprop(gears~"unit[20]/z-position", -62);
 	setprop(gears~"unit[21]/z-position", -50.5);
@@ -247,205 +225,220 @@ var amphibious = func
 
 var poll_damage = func
 {
+    # GROUND DAMAGES
 
-# GROUND DAMAGES
-
-    force0 = get_gear_force(0, 1800, 600); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for NOSE
-    force1 = get_gear_force(1, 5400, 400); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for LEFT gear
-    force2 = get_gear_force(2, 5400, 400); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for RIGHT gear
+    # MUST be the same coefficients as spring_coeff and damping_coeff
+    # in the FDM for nose and main gear
+    force0 = get_gear_force(0, 1800, 600);
+    force1 = get_gear_force(1, 5400, 400);
+    force2 = get_gear_force(2, 5400, 400);
 
     gear_side_force = getprop("/fdm/jsbsim/forces/fby-gear-lbs");
-    
+
 #    # For tests: forces (LBS) exerted on gears (along Z and Y), uncomment these lines.
-#    if(force0 > 1000) print("Nose Z-force =", force0); #future breaking forces for gears
-#    if(force1 > 1200) print("Left Z-force =", force1); #1500 - 2000 lb seems plausible. Mind full load and cross wind landing
-#    if(force2 >1200)  print("Right Z-force =", force2);
-#    if(gear_side_force > 500) print ("left side-force =", gear_side_force);
-#    if(gear_side_force < -500) print ("right side-force =", abs(gear_side_force));
+#    # Future breaking forces for gears
+#    if (force0 > 1000) print("Nose Z-force =", force0);
+#
+#    # 1500 - 2000 lb seems plausible. Mind full load and cross wind landing
+#    if (force1 > 1200) print("Left Z-force =", force1);
+#
+#    if (force2 > 1200) print("Right Z-force =", force2);
+#    if (gear_side_force > 500) print ("left side-force =", gear_side_force);
+#    if (gear_side_force < -500) print ("right side-force =", abs(gear_side_force));
 
-	if(force0 > 1400)
-		nosegearbroke();
+    var bushkit = getprop("/fdm/jsbsim/bushkit");
+    var gears_broken = 0;
 
-	if(force1 > 2000 or gear_side_force > 1500)
-		leftgearbroke();
+	if (force0 > 1400) {
+		nosegearbroke(bushkit);
+		gears_broken += 1;
+    }
 
-	if(force2 > 2000 or gear_side_force < -1500)
-		rightgearbroke();
+	if (force1 > 2000 or gear_side_force > 1500) {
+		leftgearbroke(bushkit);
+		gears_broken += 1;
+    }
 
-	if(getprop(contact~"unit[13]/compression-ft") > 0.75 or getprop(contact~"unit[15]/compression-ft")  > 0.75 or getprop(contact~"unit[17]/compression-ft") > 0.75 or
-		getprop(gears~"unit[19]/compression-ft") > 0.75 or getprop(gears~"unit[21]/compression-ft")   > 0.75)
-		leftpontoondamaged();
+	if (force2 > 2000 or gear_side_force < -1500) {
+		rightgearbroke(bushkit);
+		gears_broken += 1;
+    }
 
-	if(getprop(contact~"unit[13]/compression-ft") > 0.95 or getprop(contact~"unit[15]/compression-ft")  > 0.95 or getprop(contact~"unit[17]/compression-ft") > 0.95 or
-		getprop(gears~"unit[19]/compression-ft") > 0.95 or getprop(gears~"unit[21]/compression-ft")   > 0.95)
-		leftpontoonbroke();
+    var unit_13_comp = getprop(contact~"unit[13]/compression-ft");
+    var unit_15_comp = getprop(contact~"unit[15]/compression-ft");
+    var unit_17_comp = getprop(contact~"unit[17]/compression-ft");
+    var unit_19_comp = getprop(gears~"unit[19]/compression-ft");
+    var unit_21_comp = getprop(gears~"unit[21]/compression-ft");
 
-	if(getprop(contact~"unit[14]/compression-ft") > 0.75 or getprop(contact~"unit[16]/compression-ft")  > 0.75 or getprop(contact~"unit[18]/compression-ft") > 0.75 or
-		getprop(gears~"unit[20]/compression-ft") > 0.75 or getprop(gears~"unit[22]/compression-ft")   > 0.75)
-		rightpontoondamaged();
+    var max_left_pontoon_gear_comp = std.max(unit_19_comp, unit_21_comp);
 
-	if(getprop(contact~"unit[14]/compression-ft") > 0.95 or getprop(contact~"unit[16]/compression-ft")  > 0.95 or getprop(contact~"unit[18]/compression-ft") > 0.95 or
-		getprop(gears~"unit[20]/compression-ft") > 0.95 or getprop(gears~"unit[22]/compression-ft")   > 0.95)
-		rightpontoonbroke();
+    # Left pontoon
+    if (unit_13_comp > 0.95 or unit_15_comp > 0.95 or unit_17_comp > 0.95 or
+		max_left_pontoon_gear_comp > 0.95)
+		leftpontoonbroke(bushkit);
+	elsif (unit_13_comp > 0.75 or unit_15_comp > 0.75 or unit_17_comp > 0.75 or
+		max_left_pontoon_gear_comp > 0.75)
+		leftpontoondamaged(bushkit);
 
-	# or getprop("/sim/rendering/leftwingdamage") or getprop("/sim/rendering/bothwingdamage")
-	if(getprop(contact~"unit[4]/compression-ft") > 0.005)
+    var unit_14_comp = getprop(contact~"unit[14]/compression-ft");
+    var unit_16_comp = getprop(contact~"unit[16]/compression-ft");
+    var unit_18_comp = getprop(contact~"unit[18]/compression-ft");
+    var unit_20_comp = getprop(gears~"unit[20]/compression-ft");
+    var unit_22_comp = getprop(gears~"unit[22]/compression-ft");
+
+    var max_right_pontoon_gear_comp = std.max(unit_20_comp, unit_22_comp);
+
+    # Right pontoon
+    if (unit_14_comp > 0.95 or unit_16_comp > 0.95 or unit_18_comp > 0.95 or
+		max_right_pontoon_gear_comp > 0.95)
+		rightpontoonbroke(bushkit);
+	elsif (unit_14_comp > 0.75 or unit_16_comp > 0.75 or unit_18_comp > 0.75 or
+		max_right_pontoon_gear_comp > 0.75)
+		rightpontoondamaged(bushkit);
+
+	if (getprop(contact~"unit[4]/compression-ft") > 0.005)
 		leftwingbroke();
 
-	# or getprop("/sim/rendering/rightwingdamage") or getprop("/sim/rendering/bothwingdamage")
-	if(getprop(contact~"unit[5]/compression-ft") > 0.005)
+	if (getprop(contact~"unit[5]/compression-ft") > 0.005)
 		rightwingbroke();
 
-	if(getprop(gears~"unit[0]/broken")	and getprop(gears~"unit[1]/broken")	and getprop(gears~"unit[2]/broken"))
-		if(!getprop("/fdm/jsbsim/wing-both/broken") and getprop("/fdm/jsbsim/wing-damage/left-wing") < 1 and getprop("/fdm/jsbsim/wing-damage/right-wing") < 1)
-			bothwingcollapse();
+    var left_wing_damage = getprop("/fdm/jsbsim/wing-damage/left-wing");
+    var right_wing_damage = getprop("/fdm/jsbsim/wing-damage/right-wing");
+    var crash = getprop("/fdm/jsbsim/crash");
+
+	if (gears_broken == 3 and !getprop("/fdm/jsbsim/wing-both/broken") and left_wing_damage < 1 and right_wing_damage < 1)
+		bothwingcollapse();
 
 	if (getprop(contact~"unit[12]/WOW"))
-		upsidedown();
+		upsidedown(left_wing_damage, right_wing_damage);
 
-	if(getprop("position/altitude-agl-m") < 10 and (getprop("/fdm/jsbsim/crash") or getprop("/fdm/jsbsim/wing-damage/left-wing") > 0.5 or getprop("/fdm/jsbsim/wing-damage/right-wing") > 0.5))
+	if (getprop("position/altitude-agl-m") < 10 and (crash or left_wing_damage > 0.5 or right_wing_damage > 0.5))
 		killengine();
 
-	if (getprop("/sim/rendering/allfix"))
-		resetalldamage();
+    # IN-FLIGHT DAMAGES
 
-#IN-FLIGHT DAMAGES
+    # Roll moment due to (diedra + roll rate + yaw rate + ailerons)
+    # => asymmetry to break one wing
+    var roll_moment = getprop(aero_coeff~"Clb")
+        + getprop(aero_coeff~"Clp")
+        + getprop(aero_coeff~"Clr")
+        + getprop(aero_coeff~"ClDa");
+#    print("Roll-moment: ", roll_moment);
 
-	roll_moment = getprop(aero_coeff~"Clb")+getprop(aero_coeff~"Clp")+getprop(aero_coeff~"Clr")+getprop(aero_coeff~"ClDa");
-	#print ("roll-moment=", roll_moment);
+    # Over-speed damages
+    var airspeed = getprop("velocities/airspeed-kt");
 
-#Over-speed	damages	 
-	if (getprop("velocities/airspeed-kt") > getprop("limits/vne"))
+    if (airspeed > limit_vne * 1.225) # Vne x sqrt(1.5) ~ 200 KIAS
 	{
-		if (roll_moment < -4000 and getprop("/fdm/jsbsim/wing-damage/left-wing") == 0)
+		if (!crash and left_wing_damage < 1 and right_wing_damage < 1)
+		{
+			bothwingsbroke();
+			gui.popupTip("Overspeed!! Both wings BROKEN", 5);
+		}
+	}
+	elsif (airspeed > limit_vne * 1.14) # 180 KIAS
+	{
+        if (roll_moment < -4000) {
+		    if (left_wing_damage < 0.5) {
+			    rightwingbroke();
+                gui.popupTip("Overspeed!! Right wing BROKEN", 5);
+            }
+		}
+		elsif (roll_moment > 4000) {
+		    if (right_wing_damage < 0.5) {
+			    leftwingbroke();
+                gui.popupTip("Overspeed!! Left wing BROKEN", 5);
+            }
+		}
+		else {
+		    if (left_wing_damage == 0 and right_wing_damage == 0) {
+			    setprop("/fdm/jsbsim/wing-damage/left-wing", 0.3);
+                setprop("/fdm/jsbsim/wing-damage/right-wing", 0.3);
+                gui.popupTip("Overspeed. Both wing DAMAGED", 5);
+		    }
+		}
+	}
+	elsif (airspeed > limit_vne)
+	{
+		if (roll_moment < -4000 and left_wing_damage == 0)
 		{
 			setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
             gui.popupTip("Overspeed. Right wing DAMAGED!!", 5);
 		}
 		
-		if (roll_moment > 4000 and getprop("/fdm/jsbsim/wing-damage/right-wing") == 0)
+		if (roll_moment > 4000 and right_wing_damage == 0)
 		{
 			setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
             gui.popupTip("Overspeed. Left wing DAMAGED!!", 5);
 		}
 	}        
 
-	if (getprop("velocities/airspeed-kt") > (getprop("limits/vne") * 1.14)) # 180 KIAS
-	{
-        if (roll_moment > -4000 and roll_moment < 4000 and getprop("/fdm/jsbsim/wing-damage/left-wing") == 0 and getprop("/fdm/jsbsim/wing-damage/right-wing") == 0)
-		{
-			setprop("/fdm/jsbsim/wing-damage/left-wing", 0.3);
-            setprop("/fdm/jsbsim/wing-damage/right-wing", 0.3);
-            gui.popupTip("Overspeed. Both wing DAMAGED", 5);
-		}
-        if (roll_moment < -4000 and getprop("/fdm/jsbsim/wing-damage/left-wing") < 0.5)
-		{
-			rightwingbroke();
-            gui.popupTip("Overspeed!! Right wing BROKEN", 5);
-		}
-		
-		if (roll_moment > 4000 and getprop("/fdm/jsbsim/wing-damage/right-wing") < 0.5)
-		{
-			leftwingbroke();
-            gui.popupTip("Overspeed!! Left wing BROKEN", 5);
-		}
-	}
-		
-	if (getprop("velocities/airspeed-kt") > (getprop("limits/vne") * 1.225)) # Vne x sqrt(1.5) ~ 200 KIAS
-	{    
-		if (getprop("/fdm/jsbsim/wing-damage/left-wing") < 1 and getprop("/fdm/jsbsim/wing-damage/right-wing") < 1)
-		{
-				if (!getprop("/fdm/jsbsim/crash"))
-				{
-					bothwingsbroke();
-					gui.popupTip("Overspeed!! Both wings BROKEN", 5);
-				}
-		}
-	}
-	
-#Over-g damages, over-forces on wings
+    # Over-g damages, over-forces on wings
 
-    lift_force = -getprop("/fdm/jsbsim/forces/fbz-aero-lbs");
-    
-    if (lift_force > max_lift_force)
+    var lift_force = -getprop("/fdm/jsbsim/forces/fbz-aero-lbs");
+
+    if (lift_force > max_lift_force * 1.5)
 	{
-#        print("Lift-Force =", lift_force);
-		if (roll_moment < -4000 and getprop("/fdm/jsbsim/wing-damage/left-wing") == 0)
+		if (!crash)
 		{
-			setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
-            gui.popupTip("Over-load Right wing DAMAGED!!", 5);
-		}
-		if (roll_moment > 4000 and getprop("/fdm/jsbsim/wing-damage/right-wing") == 0)
-		{
-			setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
-            gui.popupTip("Over-load Left wing DAMAGED!!", 5);
+			bothwingsbroke();
+			gui.popupTip("Over-load Both wings BROKEN!!", 5);
 		}
 	}
-    if (lift_force > (max_lift_force * 1.25))
+	elsif (lift_force > max_lift_force * 1.25)
 	{
-		if (roll_moment < -4000 and getprop("/fdm/jsbsim/wing-damage/left-wing") < 1)
+		if (roll_moment < -4000 and left_wing_damage < 1)
 		{
 			rightwingbroke();
             gui.popupTip("Over-load Right wing BROKEN", 5);
 		}
-		if (roll_moment > 4000 and getprop("/fdm/jsbsim/wing-damage/right-wing") < 1)
+		if (roll_moment > 4000 and right_wing_damage < 1)
 		{
 			leftwingbroke();
             gui.popupTip("Over-load Left wing BROKEN", 5);
 		}
 	}
-    if (lift_force > (max_lift_force * 1.5))
+    elsif (lift_force > max_lift_force)
 	{
-		if (!getprop("/fdm/jsbsim/crash"))
+#        print("Lift-Force: ", lift_force);
+		if (roll_moment < -4000 and left_wing_damage == 0)
 		{
-			bothwingsbroke();
-			gui.popupTip("Over-load Both wings BROKEN!!", 5);
+			setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
+            gui.popupTip("Over-load Right wing DAMAGED!!", 5);
 		}
-	}	
+		if (roll_moment > 4000 and right_wing_damage == 0)
+		{
+			setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
+            gui.popupTip("Over-load Left wing DAMAGED!!", 5);
+		}
+	}
 }
 
-#check if on water
+# Check if on water
 var poll_surface = func
 {
-	if (getprop("/fdm/jsbsim/hydro/active-norm") > 0)
-		if (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm")) > (.005*getprop("velocities/groundspeed-kt")))
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*(.065*getprop("fdm/jsbsim/propulsion/engine/engine-rpm"))));
-		else
-			setprop("/environment/aircraft-effects/ground-splash-norm", (.005*getprop("velocities/groundspeed-kt")));
+    var engine_rpm = getprop("fdm/jsbsim/propulsion/engine/engine-rpm");
+    var hydro_active_norm = getprop("/fdm/jsbsim/hydro/active-norm");
+    var ground_splash_norm = getprop("/environment/aircraft-effects/ground-splash-norm");
 
-	if (getprop("position/altitude-agl-m") > 2 or getprop("/fdm/jsbsim/hydro/active-norm") == 0)
-	    if (getprop("/environment/aircraft-effects/ground-splash-norm") > 0)
-		    setprop("/environment/aircraft-effects/ground-splash-norm", getprop("/environment/aircraft-effects/ground-splash-norm") - .005);
+    # Use engine RPM and speed to control ground splash if on the water
+    # and below 2 meter AGL
+	if (getprop("position/altitude-agl-m") < 2 and hydro_active_norm > 0) {
+	    var groundspeed_half_pc = 0.005 * getprop("velocities/groundspeed-kt");
+        var engine_rpm_almost_nothing = 0.005 * 0.065 * engine_rpm;
 
-	if (!getprop(contact~"unit[12]/solid"))
-		setprop(contact~"unit[12]/z-position", 160);
-	else
-		setprop(contact~"unit[12]/z-position", 90);
+	    var splash_norm = std.max(engine_rpm_almost_nothing, groundspeed_half_pc);
+	    setprop("/environment/aircraft-effects/ground-splash-norm", splash_norm);
+	}
+	elsif (ground_splash_norm > 0)
+	    setprop("/environment/aircraft-effects/ground-splash-norm", ground_splash_norm - 0.005);
 
-	if (!getprop(contact~"unit[4]/solid"))
-		setprop(contact~"unit[4]/z-position", -10);
-	else
-		setprop(contact~"unit[4]/z-position", 50);
-
-	if (!getprop(contact~"unit[5]/solid"))
-		setprop(contact~"unit[5]/z-position", -10);
-	else
-		setprop(contact~"unit[5]/z-position", 50);
-
-	if (!getprop(contact~"unit[9]/solid"))
-		setprop(contact~"unit[9]/z-position", -25);
-	else
-		setprop(contact~"unit[9]/z-position", 35);
-
-	if (!getprop(contact~"unit[10]/solid"))
-		setprop(contact~"unit[10]/z-position", -25);
-	else
-		setprop(contact~"unit[10]/z-position", 8);
-
-	if (!getprop(contact~"unit[11]/solid"))
-		setprop(contact~"unit[11]/z-position", -25);
-	else
-		setprop(contact~"unit[11]/z-position", 60);
+    setprop(contact~"unit[12]/z-position", !getprop(contact~"unit[12]/solid") ? 160 : 90);
+    setprop(contact~"unit[4]/z-position", !getprop(contact~"unit[4]/solid") ? -10 : 50);
+    setprop(contact~"unit[5]/z-position", !getprop(contact~"unit[5]/solid") ? -10 : 50);
+    setprop(contact~"unit[9]/z-position", !getprop(contact~"unit[9]/solid") ? -25 : 35);
+    setprop(contact~"unit[10]/z-position", !getprop(contact~"unit[10]/solid") ? -25 : 8);
+    setprop(contact~"unit[11]/z-position", !getprop(contact~"unit[11]/solid") ? -25 : 60);
 }
 
 var changing_bushkit = 0;
@@ -467,6 +460,10 @@ var physics_loop = func
 }
 
 var set_bushkit = func (bushkit) {
+    resetalldamage();
+	resetcontacts();
+
+    # Reset z-position's
     if (bushkit == 0)
         defaulttires();
     elsif (bushkit == 1)

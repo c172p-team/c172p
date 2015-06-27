@@ -128,12 +128,28 @@
 		<pontoon_right_broken>
 			<property>sim/multiplay/generic/int[13]</property>
 		</pontoon_right_broken>
+
+        <!--
+            0    = normal
+            1    = broken
+            2, 3 = light/heavy damage
+
+            In the code below, if we need to check that a wing
+            is not damaged, we use <not-equals> with <value>0</value>.
+
+            If we need to check that a wing is not broken, we use
+            <not-equals> with <value>1</value>
+
+            If we want to check that a wing _is_ damaged, we use
+            <greater-than-equals> with <value>2</value>.
+        -->
 		<wing_left_damaged>
-			<property>sim/multiplay/generic/float[18]</property>
+			<property>sim/multiplay/generic/int[18]</property>
 		</wing_left_damaged>
 		<wing_right_damaged>
-			<property>sim/multiplay/generic/float[19]</property>
+			<property>sim/multiplay/generic/int[19]</property>
 		</wing_right_damaged>
+
         <gear>
             <left-rollspeed-ms>engines/engine[7]/n1</left-rollspeed-ms>
             <right-rollspeed-ms>engines/engine[7]/n2</right-rollspeed-ms>
@@ -3116,10 +3132,10 @@
    <property>surface-positions/left-aileron-pos-norm</property>
    <condition>
        <and>
-           <less-than>
+           <not-equals>
                <property alias="/params/wing_left_damaged/property"/>
-               <value>1.0</value>
-           </less-than>
+               <value>1</value>
+           </not-equals>
 	       <not>
 			     <property alias="/params/crash/property"/>
 	       </not>
@@ -3539,14 +3555,14 @@
    <object-name>flapsD</object-name>
    <condition>
       <or>
-          <greater-than>
+          <not-equals>
 		      <property alias="/params/wing_left_damaged/property"/>
-              <value>0.0</value>
-          </greater-than>
-          <greater-than>
+              <value>0</value>
+          </not-equals>
+          <not-equals>
 		      <property alias="/params/wing_right_damaged/property"/>
-              <value>0.0</value>
-          </greater-than>
+              <value>0</value>
+          </not-equals>
           <property alias="/params/crash/property"/>
       </or>
    </condition>
@@ -3570,11 +3586,11 @@
     <and>
 		<equals>
 		  <property alias="/params/wing_left_damaged/property"/>
-          <value>0.0</value>
+          <value>0</value>
 		</equals>
 		<equals>
 		  <property alias="/params/wing_right_damaged/property"/>
-          <value>0.0</value>
+          <value>0</value>
 		</equals>
         <not>
             <property alias="/params/crash/property"/>
@@ -3610,11 +3626,11 @@
 		<and>
             <equals>
 		        <property alias="/params/wing_left_damaged/property"/>
-                <value>1.0</value>
+                <value>1</value>
             </equals>
             <equals>
 	            <property alias="/params/wing_right_damaged/property"/>
-                <value>1.0</value>
+                <value>1</value>
             </equals>
 		</and>
 		<not>
@@ -3639,22 +3655,14 @@
    <object-name>landinglight2BD</object-name>
    <condition>
 		<and>
-            <greater-than>
+            <greater-than-equals>
 			    <property alias="/params/wing_left_damaged/property"/>
-                <value>0.0</value>
-            </greater-than>
-            <less-than>
-			    <property alias="/params/wing_left_damaged/property"/>
-                <value>1.0</value>
-            </less-than>
-            <greater-than>
+                <value>2</value>
+            </greater-than-equals>
+            <greater-than-equals>
 			    <property alias="/params/wing_right_damaged/property"/>
-                <value>0.0</value>
-            </greater-than>
-            <less-than>
-			    <property alias="/params/wing_right_damaged/property"/>
-                <value>1.0</value>
-            </less-than>
+                <value>2</value>
+            </greater-than-equals>
 			<not>
 			  <property alias="/params/crash/property"/>
 			</not>
@@ -3677,17 +3685,13 @@
    <object-name>landinglight2LD</object-name>
    <condition>
 	<and>
-        <greater-than>
+        <greater-than-equals>
 		    <property alias="/params/wing_left_damaged/property"/>
-            <value>0.0</value>
-        </greater-than>
-        <less-than>
-		    <property alias="/params/wing_left_damaged/property"/>
-            <value>1.0</value>
-        </less-than>
+            <value>2</value>
+        </greater-than-equals>
 		<equals>
 		    <property alias="/params/wing_right_damaged/property"/>
-            <value>0.0</value>
+            <value>0</value>
 		</equals>
 		<not>
 		  <property alias="/params/crash/property"/>
@@ -3711,17 +3715,13 @@
    <object-name>landinglight2RD</object-name>
    <condition>
 	<and>
-        <greater-than>
+        <greater-than-equals>
 		    <property alias="/params/wing_right_damaged/property"/>
-            <value>0.0</value>
-        </greater-than>
-        <less-than>
-		    <property alias="/params/wing_right_damaged/property"/>
-            <value>1.0</value>
-        </less-than>
+            <value>2</value>
+        </greater-than-equals>
 		<equals>
 		    <property alias="/params/wing_left_damaged/property"/>
-            <value>0.0</value>
+            <value>0</value>
 		</equals>
 		<not>
 		  <property alias="/params/crash/property"/>
@@ -3741,16 +3741,12 @@
 	<and>
         <equals>
 		    <property alias="/params/wing_left_damaged/property"/>
-            <value>1.0</value>
+            <value>1</value>
         </equals>
-        <greater-than>
+        <greater-than-equals>
 		    <property alias="/params/wing_right_damaged/property"/>
-            <value>0.0</value>
-        </greater-than>
-        <less-than>
-		    <property alias="/params/wing_right_damaged/property"/>
-            <value>1.0</value>
-        </less-than>
+            <value>2</value>
+        </greater-than-equals>
 		<not>
 		  <property alias="/params/crash/property"/>
 		</not>
@@ -3772,16 +3768,12 @@
 	  <and>
         <equals>
 		    <property alias="/params/wing_right_damaged/property"/>
-            <value>1.0</value>
+            <value>1</value>
         </equals>
-        <greater-than>
+        <greater-than-equals>
 		    <property alias="/params/wing_left_damaged/property"/>
-            <value>0.0</value>
-        </greater-than>
-        <less-than>
-		    <property alias="/params/wing_left_damaged/property"/>
-            <value>1.0</value>
-        </less-than>
+            <value>2</value>
+        </greater-than-equals>
 		<not>
 		  <property alias="/params/crash/property"/>
 		</not>
@@ -3800,11 +3792,11 @@
 	<and>
 		<equals>
 		    <property alias="/params/wing_left_damaged/property"/>
-            <value>1.0</value>
+            <value>1</value>
 		</equals>
 		<equals>
 		  <property alias="/params/wing_right_damaged/property"/>
-          <value>0.0</value>
+          <value>0</value>
 		</equals>
 		<not>
 		  <property alias="/params/crash/property"/>
@@ -3827,11 +3819,11 @@
 	<and>
 		<equals>
 		    <property alias="/params/wing_right_damaged/property"/>
-            <value>1.0</value>
+            <value>1</value>
 		</equals>
 		<equals>
 		    <property alias="/params/wing_left_damaged/property"/>
-            <value>0.0</value>
+            <value>0</value>
 		</equals>
 		<not>
 		  <property alias="/params/crash/property"/>
@@ -4829,7 +4821,7 @@
            <property alias="/params/lighting/strobes/property"/>
 	       <equals>
 	           <property alias="/params/wing_left_damaged/property"/>
-               <value>0.0</value>
+               <value>0</value>
 	       </equals>
 		   <not>
 	           <property alias="/params/crash/property"/>
@@ -4846,7 +4838,7 @@
            <property alias="/params/lighting/strobes/property"/>
 	       <equals>
 	           <property alias="/params/wing_right_damaged/property"/>
-               <value>0.0</value>
+               <value>0</value>
 	       </equals>
 		   <not>
 	           <property alias="/params/crash/property"/>
@@ -4861,10 +4853,10 @@
    <condition>
        <and>
            <property alias="/params/lighting/strobes/property"/>
-           <less-than>
+           <not-equals>
 		       <property alias="/params/wing_left_damaged/property"/>
-               <value>1.0</value>
-           </less-than>
+               <value>1</value>
+           </not-equals>
 		   <not>
 	           <property alias="/params/crash/property"/>
 	       </not>
@@ -4878,10 +4870,10 @@
    <condition>
        <and>
            <property alias="/params/lighting/strobes/property"/>
-           <less-than>
+           <not-equals>
 	           <property alias="/params/wing_right_damaged/property"/>
-               <value>1.0</value>
-           </less-than>
+               <value>1</value>
+           </not-equals>
 		   <not>
 	           <property alias="/params/crash/property"/>
 	       </not>

@@ -1,22 +1,3 @@
-props.Node.new({ "/fdm/jsbsim/bushkit":0 });
-props.globals.initNode("/fdm/jsbsim/bushkit", 0, "INT");
-
-# Specifications Vne=158 KIAS,
-# Normal category (1500 - 2400 or 2550 lbs): max positive-g=3.8, max negative-g=1.52,
-# Utility category (1500 - 2100 lbs): max positive-g=4.4, max negative-g=1.76,
-# structure holds at least 150% max g's
-props.Node.new({ "limits/vne":0 });
-props.globals.initNode("limits/vne", 158, "DOUBLE");
-props.Node.new({ "limits/max-positive-g":0 });
-props.globals.initNode("limits/max-positive-g", 3.8, "DOUBLE");
-props.Node.new({ "limits/max-negative-g":0 });
-props.globals.initNode("limits/max-negative-g", -1.52, "DOUBLE");
-props.Node.new({ "limits/max-lift-force":0 });
-props.globals.initNode("limits/max-lift-force", 2550*3.8, "DOUBLE");
-
-var g = getprop("/fdm/jsbsim/accelerations/Nz");
-var max_positive = getprop("limits/max-positive-g");
-var max_negative = getprop("limits/max-negative-g");
 var max_lift_force = getprop("limits/max-lift-force");
 var lift_force = -getprop("/fdm/jsbsim/forces/fbz-aero-lbs");
 
@@ -32,36 +13,19 @@ var get_gear_force = func (index, spring_coeff, damping_coeff) {
     return spring_coeff * compr + damping_coeff * compr_vel;
 };
 
-var force0 = get_gear_force(0, 1800, 600); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for NOSE
-var force1 = get_gear_force(1, 5400, 400); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for LEFT gear
-var force2 = get_gear_force(2, 5400, 400); # MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for RIGHT gear
+# MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for nose and main gear
+var force0 = get_gear_force(0, 1800, 600);
+var force1 = get_gear_force(1, 5400, 400);
+var force2 = get_gear_force(2, 5400, 400);
 
 var gear_side_force = getprop("/fdm/jsbsim/forces/fby-gear-lbs");
 
 var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
-var lastkit=0;
-var settledelay=0;
 
 var fairing1 = 0;
 var fairing2 = 0;
 var fairing3 = 0;
-
-#Uncomment for resetting damage
-#props.Node.new({ "/sim/rendering/nosedamage":0 });
-#props.globals.initNode("/sim/rendering/nosedamage", 0, "INT");
-#props.Node.new({ "/sim/rendering/leftgeardamage":0 });
-#props.globals.initNode("/sim/rendering/leftgeardamage", 0, "INT");
-#props.Node.new({ "/sim/rendering/rightgeardamage":0 });
-#props.globals.initNode("/sim/rendering/rightgeardamage", 0, "INT");
-#props.Node.new({ "/sim/rendering/alldamage":0 });
-#props.globals.initNode("/sim/rendering/alldamage", 0, "INT");
-#props.Node.new({ "/sim/rendering/rightwingdamage":0 });
-#props.globals.initNode("/sim/rendering/rightwingdamage", 0, "INT");
-#props.Node.new({ "/sim/rendering/leftwingdamage":0 });
-#props.globals.initNode("/sim/rendering/leftwingdamage", 0, "INT");
-#props.Node.new({ "/sim/rendering/allfix":0 });
-#props.globals.initNode("/sim/rendering/allfix", 0, "INT");
 
 var resetalldamage = func
 {
@@ -86,15 +50,6 @@ var resetalldamage = func
 	setprop("/fdm/jsbsim/left-pontoon/broken", 0);
 	setprop("/fdm/jsbsim/right-pontoon/damaged", 0);
 	setprop("/fdm/jsbsim/right-pontoon/broken", 0);
-	#setprop("/sim/rendering/nosedamage", 0);
-	#setprop("/sim/rendering/leftgeardamage", 0);
-	#setprop("/sim/rendering/rightgeardamage", 0);
-	#setprop("/sim/rendering/leftwingdamage", 0);
-	#setprop("/sim/rendering/rightwingdamage", 0);
-	#setprop("/sim/rendering/bothwingdamage", 0);
-	#setprop("/sim/rendering/alldamage", 0);
-	#setprop("/sim/rendering/allfix", 0);
-	lastkit=5;
 }
 
 var nosegearbroke = func

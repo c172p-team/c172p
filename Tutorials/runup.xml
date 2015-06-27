@@ -31,19 +31,19 @@ For more information on the before takeoff checklist, see Section 2-11 of the FA
       <value>0.0</value>
     </set>
     <set>
-      <property>/controls/engines/engine/magnetos</property>
+      <property>/controls/switches/magnetos</property>
       <value>3</value>
     </set>
     <set>
-      <property>/controls/engines/engine/throttle</property>
+      <property>/controls/engines/current-engine/throttle</property>
       <value>0.07</value>
     </set>
     <set>
-      <property>/controls/engines/engine/starter</property>
+      <property>/controls/switches/starter</property>
       <value>true</value>
     </set>
     <set>
-      <property>/engines/engine/running</property>
+      <property>/engines/active-engine/running</property>
       <value>true</value>
     </set>
     <set>
@@ -67,8 +67,8 @@ For more information on the before takeoff checklist, see Section 2-11 of the FA
 
       # Script to simulate holding down the starter button until the engine starts
       var starter = func() {
-        setprop("/controls/engines/engine/starter", 1);
-        if (! getprop("/engines/engine/running")) {
+        setprop("/controls/switches/starter", 1);
+        if (! getprop("/engines/active-engine/running")) {
           settimer(starter, 0);
         }
       };
@@ -87,7 +87,7 @@ For more information on the before takeoff checklist, see Section 2-11 of the FA
 
   <step>
     <set>
-      <property>/controls/engines/engine/starter</property>
+      <property>/controls/switches/starter</property>
       <value>false</value>
     </set>
     <message>You can access the pre-takeoff checklist by selecting Help->Checklists from the menu.</message>
@@ -180,7 +180,7 @@ and that the aircraft has been rigged correctly.</message>
       <message>The mixture isn't completely in. Press m to richen the mixture to fully rich.</message>
       <condition>
         <less-than>
-          <property>/controls/engines/engine/mixture</property>
+          <property>/controls/engines/current-engine/mixture</property>
           <value>0.99</value>
         </less-than>
       </condition>
@@ -209,7 +209,7 @@ and that the aircraft has been rigged correctly.</message>
       <message>That's a bit high. Reduce throttle to 1700 rpm with PgDn, or your joystick throttle control.</message>
       <condition>
         <greater-than>
-          <property>/engines/engine/rpm</property>
+          <property>/engines/active-engine/rpm</property>
           <value>1800.0</value>
         </greater-than>
       </condition>
@@ -218,7 +218,7 @@ and that the aircraft has been rigged correctly.</message>
       <message>That's too low. Increase throttle to 1700 rpm with PgUp, or your joystick throttle control.</message>
       <condition>
         <less-than>
-          <property>/engines/engine/rpm</property>
+          <property>/engines/active-engine/rpm</property>
           <value>1600.0</value>
         </less-than>
       </condition>
@@ -227,11 +227,11 @@ and that the aircraft has been rigged correctly.</message>
       <condition>
         <and>
           <greater-than>
-            <property>/engines/engine/rpm</property>
+            <property>/engines/active-engine/rpm</property>
             <value>1600</value>
           </greater-than>
           <less-than>
-            <property>/engines/engine/rpm</property>
+            <property>/engines/active-engine/rpm</property>
             <value>1700</value>
           </less-than>
         </and>
@@ -352,7 +352,7 @@ and that the aircraft has been rigged correctly.</message>
       <message>Click the left hotspot twice so the key is set to RIGHT.</message>
       <condition>
         <not-equals>
-          <property>/controls/engines/engine/magnetos</property>
+          <property>/controls/switches/magnetos</property>
           <value>1</value>
         </not-equals>
       </condition>
@@ -360,7 +360,7 @@ and that the aircraft has been rigged correctly.</message>
     <exit>
       <condition>
         <equals>
-          <property>/controls/engines/engine/magnetos</property>
+          <property>/controls/switches/magnetos</property>
           <value>1</value>
         </equals>
       </condition>
@@ -391,7 +391,7 @@ and that the aircraft has been rigged correctly.</message>
       <message>Click the left hotspot twice, so the key is set to BOTH.</message>
       <condition>
         <not-equals>
-          <property>/controls/engines/engine/magnetos</property>
+          <property>/controls/switches/magnetos</property>
           <value>3</value>
         </not-equals>
       </condition>
@@ -399,7 +399,7 @@ and that the aircraft has been rigged correctly.</message>
     <exit>
       <condition>
         <equals>
-          <property>/controls/engines/engine/magnetos</property>
+          <property>/controls/switches/magnetos</property>
           <value>3</value>
         </equals>
       </condition>
@@ -430,7 +430,7 @@ and that the aircraft has been rigged correctly.</message>
       <message>Click the left hotspot so the key is set to LEFT.</message>
       <condition>
         <not-equals>
-          <property>/controls/engines/engine/magnetos</property>
+          <property>/controls/switches/magnetos</property>
           <value>2</value>
         </not-equals>
       </condition>
@@ -438,7 +438,7 @@ and that the aircraft has been rigged correctly.</message>
     <exit>
       <condition>
         <equals>
-          <property>/controls/engines/engine/magnetos</property>
+          <property>/controls/switches/magnetos</property>
           <value>2</value>
         </equals>
       </condition>
@@ -469,7 +469,7 @@ and that the aircraft has been rigged correctly.</message>
       <message>Click the left hotspot so the key is set to BOTH.</message>
       <condition>
         <not-equals>
-          <property>/controls/engines/engine/magnetos</property>
+          <property>/controls/switches/magnetos</property>
           <value>3</value>
         </not-equals>
       </condition>
@@ -477,7 +477,7 @@ and that the aircraft has been rigged correctly.</message>
     <exit>
       <condition>
         <equals>
-          <property>/controls/engines/engine/magnetos</property>
+          <property>/controls/switches/magnetos</property>
           <value>3</value>
         </equals>
       </condition>
@@ -513,7 +513,7 @@ and that the aircraft has been rigged correctly.</message>
       <message>That's a bit high. Reduce throttle slightly with PgDn, or your joystick throttle control.</message>
       <condition>
         <greater-than>
-          <property>/engines/engine/rpm</property>
+          <property>/engines/active-engine/rpm</property>
           <value>1000.0</value>
         </greater-than>
       </condition>
@@ -522,7 +522,7 @@ and that the aircraft has been rigged correctly.</message>
       <message>That's too low. Increase throttle slightly with PgUp, or your joystick throttle control.</message>
       <condition>
         <less-than>
-          <property>/engines/engine/rpm</property>
+          <property>/engines/active-engine/rpm</property>
           <value>800.0</value>
         </less-than>
       </condition>
@@ -531,11 +531,11 @@ and that the aircraft has been rigged correctly.</message>
       <condition>
         <and>
           <greater-than>
-            <property>/engines/engine/rpm</property>
+            <property>/engines/active-engine/rpm</property>
             <value>800</value>
           </greater-than>
           <less-than>
-            <property>/engines/engine/rpm</property>
+            <property>/engines/active-engine/rpm</property>
             <value>1000</value>
           </less-than>
         </and>

@@ -12,9 +12,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 - Enhanced model by thevirtualfer
 - Small details and systems by ludomotico (Juan Vera) and gsagostinho 
 
-Notice this version relays heavily on the original c172p!
-Many files from the original c172p directory are included in this file.
-
 ************************************************************************
 -->
 
@@ -25,13 +22,11 @@ Many files from the original c172p directory are included in this file.
   <description>Cessna 172P Skyhawk (1981 model, detailed)</description>
   <long-description>The Cessna 172 Skyhawk is a four-seat, single-engine, high-wing fixed-wing aircraft. 
       First flown in 1955 and still in production, more Cessna 172s have been built than any other aircraft.
-      This version has more detailed textures, instruments and models than the default version.
   </long-description>
   
   <fr>
       <long-description>Le Cessna 172 Skyhawk est un avion quadriplace, monomoteur à aile haute. 
         Il effectua son premier vol en 1955 et est toujours en production, plus de Cessna 172 ont été construits que tout autres avions.
-        Cette version a des textures, des instruments et des modèles plus détaillés que la version originale.
         </long-description>
   </fr>
   
@@ -39,7 +34,6 @@ Many files from the original c172p directory are included in this file.
     <long-description>La Cessna 172 Skyhawk es un avión de cuatro plazas, monomotor y de ala alta.
       Se empezó a producir en 1955 y, con equipos modernizados, aún sigue en producción.
       La Cessna 172 es el avión del que unidades se han construido en la historia.
-      Esta version tiene texturas mas detalladas, mas instrumentos y modelos que la version por defecto.
       </long-description>
   </es>
   
@@ -67,6 +61,11 @@ Many files from the original c172p directory are included in this file.
   <aero archive="y">c172p</aero>
 
   <allow-toggle-cockpit type="bool">true</allow-toggle-cockpit>
+
+    <panel>
+        <path>Aircraft/c172p/Panels/c172-610x-panel.xml</path>
+        <visibility>false</visibility>
+    </panel>
 
   <model>
     <path archive="y">Aircraft/c172p/Models/c172p.xml</path>
@@ -161,11 +160,11 @@ Many files from the original c172p directory are included in this file.
   </model>
   
   <aircraft-data>
-    <path>/sim/rendering/shadow</path>
     <path>/sim/rendering/shadow-volume</path>
     <path>/sim/model/occupants</path>
     <path>/fdm/jsbsim/damage</path>
     <path>/fdm/jsbsim/bushkit</path>
+    <path>/controls/engines/active-engine</path>
     <path>/environment/aircraft-effects/cabin-heat-set</path>
     <path>/environment/aircraft-effects/cabin-air-set</path>
     <path>/fdm/jsbsim/running</path>
@@ -201,19 +200,17 @@ Many files from the original c172p directory are included in this file.
   </view>
 
   <systems>
+    <path>Aircraft/c172p/Systems/systems.xml</path>
+
     <autopilot>
       <path>Systems/KAP140.xml</path>
     </autopilot>
+
     <property-rule n="100">
       <name>FiltersOnly</name>
       <path>Systems/NAVandGSfilters.xml</path>
     </property-rule>
-    <electrical>
-      <!-- null electrical system path here so we can use a nasal based -->
-      <!-- model defined later in the nasal section of this file. -->
-      <path></path>
-    </electrical>
-     
+
     <!-- needed by shadows in ALS: http://forum.flightgear.org/viewtopic.php?f=4&t=25157&start=75#p232120 -->
 	<!-- and other ground effects -->
     <property-rule n="101">
@@ -222,6 +219,10 @@ Many files from the original c172p directory are included in this file.
 
     <property-rule n="102">
       <path>Aircraft/c172p/Systems/als-lights.xml</path>
+    </property-rule>
+
+    <property-rule n="103">
+      <path>Aircraft/c172p/Systems/engine.xml</path>
     </property-rule>
   </systems>
 
@@ -279,6 +280,7 @@ Many files from the original c172p directory are included in this file.
 		<int n="14" alias="/fdm/jsbsim/wing-both/broken"/>
 		<int n="15" alias="/fdm/jsbsim/wing-damage/left-wing"/>
 		<int n="16" alias="/fdm/jsbsim/wing-damage/right-wing"/>
+		<int n="17" alias="/engines/active-engine/exhaust"/>
 
         <!-- Registration number over MP -->
         <string n="0" alias="/sim/model/immat"/>
@@ -296,6 +298,11 @@ Many files from the original c172p directory are included in this file.
   <instrumentation>
     <path>Systems/instrumentation.xml</path>
   </instrumentation>
+
+  <!-- Enable the ALS shadow volume by default -->
+  <rendering>
+    <shadow-volume type="bool">true</shadow-volume>
+  </rendering>
  </sim>
 
  <controls>
@@ -305,17 +312,22 @@ Many files from the original c172p directory are included in this file.
   </flight>
   <engines>
    <engine n="0">
-    <throttle type="double">0</throttle>
     <primer type="double">0</primer>
     <primer-lever type="bool">false</primer-lever>
     <use-primer type="bool">false</use-primer>
-    <master-alt type="bool">false</master-alt>
-    <master-bat type="bool">false</master-bat>
    </engine>
+   <current-engine>
+     <throttle type="double">0.0</throttle>
+     <mixture type="double">0.0</mixture>
+   </current-engine>
+   <active-engine type="int">0</active-engine>
   </engines>
   <switches>
     <master-avionics type="bool">false</master-avionics>
     <starter type="bool">false</starter>
+    <master-alt type="bool">false</master-alt>
+    <master-bat type="bool">false</master-bat>
+    <magnetos type="int">0</magnetos>
   </switches>
 
   <gear>
@@ -346,7 +358,12 @@ Many files from the original c172p directory are included in this file.
     <selected type="bool">true</selected>
    </tank>
    <tank n="2">
-    <name>Float chamber</name>
+    <name>Float chamber1</name>
+    <capacity unit="LBS"> 0.1 </capacity>
+    <selected type="bool">true</selected>
+   </tank>
+   <tank n="3">
+    <name>Float chamber2</name>
     <capacity unit="LBS"> 0.1 </capacity>
     <selected type="bool">true</selected>
    </tank>
@@ -392,12 +409,20 @@ Many files from the original c172p directory are included in this file.
    <running type="bool">false</running>
   </engine>
 
+  <active-engine>
+    <killed type="bool">false</killed>
+  </active-engine>
+
   <!-- Following properties are part of a static list of properties
        that FlightGear transmits during multiplay. Because the number
        of properties in /sim/multiplay/generic/ is quite limited and
        the properties in /engines/ are unused, we can use them instead
        to get FlightGear to transmit all the required properties.
   -->
+
+  <engine n="2">
+    <rpm alias="/engines/active-engine/rpm"/>
+  </engine>
 
   <!-- Amphibious front left -->
   <engine n="3">
@@ -458,7 +483,6 @@ Many files from the original c172p directory are included in this file.
       <file>Nasal/kma20.nas</file>
       <file>Nasal/ki266.nas</file>
       <file>Nasal/engine.nas</file>
-	  <file>Nasal/shadow.nas</file>
 	  <file>Nasal/avionics.nas</file>
 	  <file>Nasal/weather.nas</file>
 	  <file>Nasal/flashlight.nas</file>
@@ -526,10 +550,25 @@ Many files from the original c172p directory are included in this file.
  </payload>
 
  <limits>
+  <mass-and-balance-160hp>
+    <maximum-ramp-mass-lbs>2407</maximum-ramp-mass-lbs>
+    <maximum-takeoff-mass-lbs>2400</maximum-takeoff-mass-lbs>
+    <maximum-landing-mass-lbs>2400</maximum-landing-mass-lbs>
+  </mass-and-balance-160hp>
+
+  <mass-and-balance-180hp>
+    <maximum-ramp-mass-lbs>2558</maximum-ramp-mass-lbs>
+    <maximum-takeoff-mass-lbs>2550</maximum-takeoff-mass-lbs>
+    <maximum-landing-mass-lbs>2550</maximum-landing-mass-lbs>
+  </mass-and-balance-180hp>
+  
   <mass-and-balance>
-   <maximum-ramp-mass-lbs>2407</maximum-ramp-mass-lbs>
-   <maximum-takeoff-mass-lbs>2400</maximum-takeoff-mass-lbs>
-   <maximum-landing-mass-lbs>2400</maximum-landing-mass-lbs>
+    <!-- Define some nodes for the Fuel and Payload dialog. Aliasing is
+         done later in Nasal/c172p.nas.
+    -->
+    <maximum-ramp-mass-lbs/>
+    <maximum-takeoff-mass-lbs/>
+    <maximum-landing-mass-lbs/>
    <cg>
     <dimension type="string">in</dimension>
     <limit>

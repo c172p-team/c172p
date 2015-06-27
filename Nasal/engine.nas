@@ -14,25 +14,32 @@ var UPDATE_PERIOD = 0.3;
 # =============================== Hobbs meter =======================================
 
 # this property is saved by aircraft.timer
-var hobbsmeter_engine = aircraft.timer.new("/sim/time/hobbs/engine[0]", 60, 1);
+var hobbsmeter_engine_160hp = aircraft.timer.new("/sim/time/hobbs/engine[0]", 60, 1);
+var hobbsmeter_engine_180hp = aircraft.timer.new("/sim/time/hobbs/engine[1]", 60, 1);
 
-setlistener("/engines/engine[0]/running", func {
-    if ( getprop("/engines/engine[0]/running") or 0 ) {
-        hobbsmeter_engine.start();
-        print("Hobbs system started");
-    } else {
-        hobbsmeter_engine.stop();
-        print("Hobbs system stopped");
-    }
-}, 1, 0);
+var init_hobbs_meter = func(index, meter) {
+    setlistener("/engines/engine[" ~ index ~ "]/running", func {
+        if (getprop("/engines/engine[" ~ index ~ "]/running")) {
+            meter.start();
+            print("Hobbs system started");
+        } else {
+            meter.stop();
+            print("Hobbs system stopped");
+        }
+    }, 1, 0);
+};
+
+init_hobbs_meter(0, hobbsmeter_engine_160hp);
+init_hobbs_meter(1, hobbsmeter_engine_180hp);
 
 setlistener("/sim/time/hobbs/engine[0]", func {
     # in seconds
-    var hobbs = getprop("/sim/time/hobbs/engine[0]") or 0.0;
+    var hobbs_160hp = getprop("/sim/time/hobbs/engine[0]") or 0.0;
+    var hobbs_180hp = getprop("/sim/time/hobbs/engine[1]") or 0.0;
     # This uses minutes, for testing
     #hobbs = hobbs / 60.0;
     # in hours
-    hobbs = hobbs / 3600.0;
+    hobbs = (hobbs_160hp + hobbs_180hp) / 3600.0;
     # tenths of hour
     setprop("/instrumentation/hobbs-meter/digits0", math.mod(int(hobbs * 10), 10));
     # rest of digits
@@ -89,7 +96,7 @@ var update = func {
     # We use the mixture to control the engines, so set the mixture
     var usePrimer = getprop("/controls/engines/engine/use-primer") or 0;
 
-    var engine_running = getprop("/engines/engine/running");
+    var engine_running = getprop("/engines/current-engine/running");
 
     if (outOfFuel and (engine_running or usePrimer)) {
         print("Out of fuel!");
@@ -116,18 +123,18 @@ var update = func {
 };
 
 var autostart = func (msg=1) {
-    if (getprop("/engines/engine/running")) {
+    if (getprop("/engines/current-engine/running")) {
 		if (msg)
             gui.popupTip("Engine already running.", 5);
         return;
     }
 
-    setprop("/controls/engines/engine/magnetos", 3);
-    setprop("/controls/engines/engine/throttle", 0.2);
-    setprop("/controls/engines/engine/mixture", 1.0);
-    setprop("/controls/engines/engine/master-bat", 1.0);
-    setprop("/controls/engines/engine/master-alt", 1.0);
-    setprop("/controls/switches/master-avionics", 1.0);
+    setprop("/controls/switches/magnetos", 3);
+    setprop("/controls/engines/current-engine/throttle", 0.2);
+    setprop("/controls/engines/current-engine/mixture", 1.0);
+    setprop("/controls/switches/master-bat", 1);
+    setprop("/controls/switches/master-alt", 1);
+    setprop("/controls/switches/master-avionics", 1);
 
     setprop("/controls/lighting/nav-lights", 1);
     setprop("/controls/lighting/strobe", 1);
@@ -169,17 +176,52 @@ setlistener("/controls/switches/starter", func {
 
 # =============== Variables ================
 
+controls.incThrottle = func {
+    var delta = arg[1] * controls.THROTTLE_RATE * getprop("/sim/time/delta-realtime-sec");
+    var old_value = getprop("/controls/engines/current-engine/throttle");
+    var new_value = std.max(0.0, std.min(old_value + delta, 1.0));
+    setprop("/controls/engines/current-engine/throttle", new_value);
+};
+
+controls.throttleMouse = func {
+    if (!getprop("/devices/status/mice/mouse[0]/button[1]")) {
+        return;
+    }
+    var delta = cmdarg().getNode("offset").getValue() * -4;
+    var old_value = getprop("/controls/engines/current-engine/throttle");
+    var new_value = std.max(0.0, std.min(old_value + delta, 1.0));
+    setprop("/controls/engines/current-engine/throttle", new_value);
+};
+
+controls.throttleAxis = func {
+    var value = (1 - cmdarg().getNode("setting").getValue()) / 2;
+    var new_value = std.max(0.0, std.min(value, 1.0));
+    setprop("/controls/engines/current-engine/throttle", new_value);
+};
+
+controls.adjMixture = func {
+    var delta = arg[0] * controls.THROTTLE_RATE * getprop("/sim/time/delta-realtime-sec");
+    var old_value = getprop("/controls/engines/current-engine/mixture");
+    var new_value = std.max(0.0, std.min(old_value + delta, 1.0));
+    setprop("/controls/engines/current-engine/mixture", new_value);
+};
+
+controls.mixtureAxis = func {
+    var value = (1 - cmdarg().getNode("setting").getValue()) / 2;
+    var new_value = std.max(0.0, std.min(value, 1.0));
+    setprop("/controls/engines/current-engine/mixture", new_value);
+};
+
 # key 's' calls to this function when it is pressed DOWN even if I overwrite the binding in the -set.xml file!
 # fun fact: the key UP event can be overwriten!
 controls.startEngine = func(v = 1) {
-    if (getprop("/engines/engine/running"))
+    if (getprop("/engines/current-engine/running"))
 	{
         setprop("/controls/switches/starter", 0);
 		return;
 	}
 	else
 		setprop("/controls/switches/starter", v);
-    # TODO: I still don't know where "/controls/engines/engine/starter" is set to true...
 };
 
 setlistener("/sim/signals/fdm-initialized", func {

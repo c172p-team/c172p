@@ -330,7 +330,7 @@ var poll_damage = func
     # Over-g damages, over-forces on wings
     var lift_force = -getprop("/fdm/jsbsim/forces/fbz-aero-lbs");
 
-    if (lift_force > max_lift_force * 1.5)
+    if (lift_force > max_lift_force * 1.75)
 	{
 		if (!crash)
 		{
@@ -338,7 +338,7 @@ var poll_damage = func
 			gui.popupTip("Over-load Both wings BROKEN!", 5);
 		}
 	}
-	elsif (lift_force > max_lift_force * 1.25)
+	elsif (lift_force > max_lift_force * 1.4)
 	{
 		if (roll_moment < -4000 and left_wing_damage < 1)
 		{
@@ -350,6 +350,20 @@ var poll_damage = func
 			leftwingbroke();
             gui.popupTip("Over-load Left wing BROKEN!", 5);
 		}
+        else
+        {
+            if (left_wing_damage == 0)
+                setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
+            else
+                setprop("/fdm/jsbsim/wing-damage/right-wing", 0.3);
+
+            if (right_wing_damage == 0)
+                setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
+            else
+                setprop("/fdm/jsbsim/wing-damage/left-wing", 0.3);
+            if (left_wing_damage == 0 and right_wing_damage == 0)
+			    gui.popupTip("Over-load Both wings DAMAGED!", 5);
+        }
 	}
     elsif (lift_force > max_lift_force)
 	{

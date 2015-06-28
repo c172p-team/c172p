@@ -142,20 +142,7 @@
 			<property>sim/multiplay/generic/int[13]</property>
 		</pontoon_right_broken>
 
-        <!--
-            0    = normal
-            1    = broken
-            2, 3 = light/heavy damage
-
-            In the code below, if we need to check that a wing
-            is not damaged, we use <not-equals> with <value>0</value>.
-
-            If we need to check that a wing is not broken, we use
-            <not-equals> with <value>1</value>
-
-            If we want to check that a wing _is_ damaged, we use
-            <greater-than-equals> with <value>2</value>.
-        -->
+        <!-- 0 = normal, 1 = broken, 2 = damaged -->
 		<wing_left_damaged>
 			<property>sim/multiplay/generic/int[18]</property>
 		</wing_left_damaged>
@@ -3668,14 +3655,14 @@
    <object-name>landinglight2BD</object-name>
    <condition>
 		<and>
-            <greater-than-equals>
+            <equals>
 			    <property alias="/params/wing_left_damaged/property"/>
                 <value>2</value>
-            </greater-than-equals>
-            <greater-than-equals>
+            </equals>
+            <equals>
 			    <property alias="/params/wing_right_damaged/property"/>
                 <value>2</value>
-            </greater-than-equals>
+            </equals>
 			<not>
 			  <property alias="/params/crash/property"/>
 			</not>
@@ -3698,10 +3685,10 @@
    <object-name>landinglight2LD</object-name>
    <condition>
 	<and>
-        <greater-than-equals>
+        <equals>
 		    <property alias="/params/wing_left_damaged/property"/>
             <value>2</value>
-        </greater-than-equals>
+        </equals>
 		<equals>
 		    <property alias="/params/wing_right_damaged/property"/>
             <value>0</value>
@@ -3728,10 +3715,10 @@
    <object-name>landinglight2RD</object-name>
    <condition>
 	<and>
-        <greater-than-equals>
+        <equals>
 		    <property alias="/params/wing_right_damaged/property"/>
             <value>2</value>
-        </greater-than-equals>
+        </equals>
 		<equals>
 		    <property alias="/params/wing_left_damaged/property"/>
             <value>0</value>
@@ -3756,10 +3743,10 @@
 		    <property alias="/params/wing_left_damaged/property"/>
             <value>1</value>
         </equals>
-        <greater-than-equals>
+        <equals>
 		    <property alias="/params/wing_right_damaged/property"/>
             <value>2</value>
-        </greater-than-equals>
+        </equals>
 		<not>
 		  <property alias="/params/crash/property"/>
 		</not>
@@ -3783,10 +3770,10 @@
 		    <property alias="/params/wing_right_damaged/property"/>
             <value>1</value>
         </equals>
-        <greater-than-equals>
+        <equals>
 		    <property alias="/params/wing_left_damaged/property"/>
             <value>2</value>
-        </greater-than-equals>
+        </equals>
 		<not>
 		  <property alias="/params/crash/property"/>
 		</not>

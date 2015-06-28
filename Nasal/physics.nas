@@ -297,7 +297,7 @@ var poll_damage = func
     var left_wing_damage = getprop("/fdm/jsbsim/wing-damage/left-wing");
     var right_wing_damage = getprop("/fdm/jsbsim/wing-damage/right-wing");
 
-	if (gears_broken == 3 and left_wing_damage != 1 and right_wing_damage != 1)
+	if (gears_broken == 3 and left_wing_damage < 1 and right_wing_damage < 1)
 		bothwingcollapse();
 
     var crash = getprop("/fdm/jsbsim/crash");
@@ -305,7 +305,7 @@ var poll_damage = func
 	if (getprop(contact~"unit[12]/WOW"))
 		upsidedown();
 
-	if (getprop("position/altitude-agl-m") < 10 and (crash or left_wing_damage == 1 or right_wing_damage == 1))
+	if (getprop("position/altitude-agl-m") < 10 and (crash or left_wing_damage > 0.5 or right_wing_damage > 0.5))
 		killengine();
 
     # IN-FLIGHT DAMAGES
@@ -323,7 +323,7 @@ var poll_damage = func
 
     if (airspeed > limit_vne * 1.225) # Vne x sqrt(1.5) ~ 200 KIAS
 	{
-		if (!crash and left_wing_damage != 1 and right_wing_damage != 1)
+		if (!crash and left_wing_damage < 1 and right_wing_damage < 1)
 		{
 			bothwingsbroke();
 			gui.popupTip("Overspeed!! Both wings BROKEN", 5);
@@ -332,21 +332,21 @@ var poll_damage = func
 	elsif (airspeed > limit_vne * 1.14) # 180 KIAS
 	{
         if (roll_moment < -4000) {
-		    if (left_wing_damage == 0 or left_wing_damage == 2) {
+		    if (left_wing_damage < 0.5) {
 			    rightwingbroke();
                 gui.popupTip("Overspeed!! Right wing BROKEN", 5);
             }
 		}
 		elsif (roll_moment > 4000) {
-		    if (right_wing_damage == 0 or right_wing_damage == 2) {
+		    if (right_wing_damage < 0.5) {
 			    leftwingbroke();
                 gui.popupTip("Overspeed!! Left wing BROKEN", 5);
             }
 		}
 		else {
 		    if (left_wing_damage == 0 and right_wing_damage == 0) {
-			    setprop("/fdm/jsbsim/wing-damage/left-wing", 3);
-                setprop("/fdm/jsbsim/wing-damage/right-wing", 3);
+			    setprop("/fdm/jsbsim/wing-damage/left-wing", 0.3);
+                setprop("/fdm/jsbsim/wing-damage/right-wing", 0.3);
                 gui.popupTip("Overspeed. Both wing DAMAGED", 5);
 		    }
 		}
@@ -355,13 +355,13 @@ var poll_damage = func
 	{
 		if (roll_moment < -4000 and left_wing_damage == 0)
 		{
-			setprop("/fdm/jsbsim/wing-damage/right-wing", 2);
+			setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
             gui.popupTip("Overspeed. Right wing DAMAGED!!", 5);
 		}
 		
 		if (roll_moment > 4000 and right_wing_damage == 0)
 		{
-			setprop("/fdm/jsbsim/wing-damage/left-wing", 2);
+			setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
             gui.popupTip("Overspeed. Left wing DAMAGED!!", 5);
 		}
 	}        
@@ -380,12 +380,12 @@ var poll_damage = func
 	}
 	elsif (lift_force > max_lift_force * 1.25)
 	{
-		if (roll_moment < -4000 and left_wing_damage != 1)
+		if (roll_moment < -4000 and left_wing_damage < 1)
 		{
 			rightwingbroke();
             gui.popupTip("Over-load Right wing BROKEN", 5);
 		}
-		if (roll_moment > 4000 and right_wing_damage != 1)
+		if (roll_moment > 4000 and right_wing_damage < 1)
 		{
 			leftwingbroke();
             gui.popupTip("Over-load Left wing BROKEN", 5);
@@ -396,12 +396,12 @@ var poll_damage = func
 #        print("Lift-Force: ", lift_force);
 		if (roll_moment < -4000 and left_wing_damage == 0)
 		{
-			setprop("/fdm/jsbsim/wing-damage/right-wing", 2);
+			setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
             gui.popupTip("Over-load Right wing DAMAGED!!", 5);
 		}
 		if (roll_moment > 4000 and right_wing_damage == 0)
 		{
-			setprop("/fdm/jsbsim/wing-damage/left-wing", 2);
+			setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
             gui.popupTip("Over-load Left wing DAMAGED!!", 5);
 		}
 	}

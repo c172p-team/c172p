@@ -11,13 +11,6 @@ var get_gear_force = func (index, spring_coeff, damping_coeff) {
     return spring_coeff * compr + damping_coeff * compr_vel;
 };
 
-# MUST be the same coefficients as spring_coeff and damping_coeff in the FDM for nose and main gear
-var force0 = get_gear_force(0, 1800, 600);
-var force1 = get_gear_force(1, 5400, 400);
-var force2 = get_gear_force(2, 5400, 400);
-
-var gear_side_force = getprop("/fdm/jsbsim/forces/fby-gear-lbs");
-
 var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
 
@@ -25,7 +18,7 @@ var fairing1 = 0;
 var fairing2 = 0;
 var fairing3 = 0;
 
-var resetalldamage = func
+var reset_all_damage = func
 {
     setprop("/engines/active-engine/killed", 0);
 
@@ -47,7 +40,25 @@ var resetalldamage = func
 	setprop("/fdm/jsbsim/left-pontoon/broken", 0);
 	setprop("/fdm/jsbsim/right-pontoon/damaged", 0);
 	setprop("/fdm/jsbsim/right-pontoon/broken", 0);
+
+	# Reset contacts
+	setprop(gears~"unit[0]/z-position", 0);
+	setprop(gears~"unit[1]/z-position", 0);
+	setprop(gears~"unit[2]/z-position", 0);
+	setprop(contact~"unit[6]/z-position", 0);
+	setprop(contact~"unit[7]/z-position", 0);
+	setprop(contact~"unit[8]/z-position", 0);
+	setprop(gears~"unit[19]/z-position", 0);
+	setprop(gears~"unit[20]/z-position", 0);
+	setprop(gears~"unit[21]/z-position", 0);
+	setprop(gears~"unit[22]/z-position", 0);
 }
+
+var repair_damage = func {
+    setprop("/fdm/jsbsim/damage/repairing", 1);
+    set_bushkit(getprop("/fdm/jsbsim/bushkit"));
+    bushkit_changed_timer.restart(bushkit_change_timeout);
+};
 
 var nosegearbroke = func (bushkit)
 {
@@ -60,7 +71,6 @@ var nosegearbroke = func (bushkit)
 
 	setprop(gears~"unit[0]/z-position", 0);
     killengine();
-	setprop(gears~"unit[0]/broken", 1);
 }
 
 var leftgearbroke = func (bushkit)
@@ -73,7 +83,6 @@ var leftgearbroke = func (bushkit)
 		setprop(contact~"unit[7]/z-position", -16);
 
 	setprop(gears~"unit[1]/z-position", 0);
-	setprop(gears~"unit[1]/broken", 1);
 }
 
 var rightgearbroke = func (bushkit)
@@ -86,7 +95,6 @@ var rightgearbroke = func (bushkit)
 		setprop(contact~"unit[8]/z-position", -17.4);
 
 	setprop(gears~"unit[2]/z-position", 0);
-	setprop(gears~"unit[2]/broken", 1);
 }
 
 var leftpontoondamaged = func (bushkit)
@@ -167,20 +175,6 @@ var killengine = func
 	setprop("/engines/active-engine/killed", 1);
 }
 
-var resetcontacts = func
-{
-	setprop(gears~"unit[0]/z-position", 0);
-	setprop(gears~"unit[1]/z-position", 0);
-	setprop(gears~"unit[2]/z-position", 0);
-	setprop(contact~"unit[6]/z-position", 0);
-	setprop(contact~"unit[7]/z-position", 0);
-	setprop(contact~"unit[8]/z-position", 0);
-	setprop(gears~"unit[19]/z-position", 0);
-	setprop(gears~"unit[20]/z-position", 0);
-	setprop(gears~"unit[21]/z-position", 0);
-	setprop(gears~"unit[22]/z-position", 0);
-}
-
 var defaulttires = func
 {
 	setprop(gears~"unit[0]/z-position", -19.5);
@@ -219,42 +213,8 @@ var poll_damage = func
 {
     # GROUND DAMAGES
 
-    # MUST be the same coefficients as spring_coeff and damping_coeff
-    # in the FDM for nose and main gear
-    force0 = get_gear_force(0, 1800, 600);
-    force1 = get_gear_force(1, 5400, 400);
-    force2 = get_gear_force(2, 5400, 400);
-
-    gear_side_force = getprop("/fdm/jsbsim/forces/fby-gear-lbs");
-
-#    # For tests: forces (LBS) exerted on gears (along Z and Y), uncomment these lines.
-#    # Future breaking forces for gears
-#    if (force0 > 1000) print("Nose Z-force =", force0);
-#
-#    # 1500 - 2000 lb seems plausible. Mind full load and cross wind landing
-#    if (force1 > 1200) print("Left Z-force =", force1);
-#
-#    if (force2 > 1200) print("Right Z-force =", force2);
-#    if (gear_side_force > 500) print ("left side-force =", gear_side_force);
-#    if (gear_side_force < -500) print ("right side-force =", abs(gear_side_force));
-
     var bushkit = getprop("/fdm/jsbsim/bushkit");
     var gears_broken = 0;
-
-	if (force0 > 1400) {
-		nosegearbroke(bushkit);
-		gears_broken += 1;
-    }
-
-	if (force1 > 2000 or gear_side_force > 1500) {
-		leftgearbroke(bushkit);
-		gears_broken += 1;
-    }
-
-	if (force2 > 2000 or gear_side_force < -1500) {
-		rightgearbroke(bushkit);
-		gears_broken += 1;
-    }
 
     var unit_13_comp = getprop(contact~"unit[13]/compression-ft");
     var unit_15_comp = getprop(contact~"unit[15]/compression-ft");
@@ -297,6 +257,7 @@ var poll_damage = func
     var left_wing_damage = getprop("/fdm/jsbsim/wing-damage/left-wing");
     var right_wing_damage = getprop("/fdm/jsbsim/wing-damage/right-wing");
 
+    # FIXME Fix testing for all gear broken
 	if (gears_broken == 3 and left_wing_damage < 1 and right_wing_damage < 1)
 		bothwingcollapse();
 
@@ -326,7 +287,7 @@ var poll_damage = func
 		if (!crash and left_wing_damage < 1 and right_wing_damage < 1)
 		{
 			bothwingsbroke();
-			gui.popupTip("Overspeed!! Both wings BROKEN", 5);
+			gui.popupTip("Overspeed! Both wings BROKEN!", 5);
 		}
 	}
 	elsif (airspeed > limit_vne * 1.14) # 180 KIAS
@@ -334,20 +295,20 @@ var poll_damage = func
         if (roll_moment < -4000) {
 		    if (left_wing_damage < 0.5) {
 			    rightwingbroke();
-                gui.popupTip("Overspeed!! Right wing BROKEN", 5);
+                gui.popupTip("Overspeed! Right wing BROKEN!", 5);
             }
 		}
 		elsif (roll_moment > 4000) {
 		    if (right_wing_damage < 0.5) {
 			    leftwingbroke();
-                gui.popupTip("Overspeed!! Left wing BROKEN", 5);
+                gui.popupTip("Overspeed! Left wing BROKEN!", 5);
             }
 		}
 		else {
 		    if (left_wing_damage == 0 and right_wing_damage == 0) {
 			    setprop("/fdm/jsbsim/wing-damage/left-wing", 0.3);
                 setprop("/fdm/jsbsim/wing-damage/right-wing", 0.3);
-                gui.popupTip("Overspeed. Both wing DAMAGED", 5);
+                gui.popupTip("Overspeed! Both wings DAMAGED!", 5);
 		    }
 		}
 	}
@@ -356,18 +317,17 @@ var poll_damage = func
 		if (roll_moment < -4000 and left_wing_damage == 0)
 		{
 			setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
-            gui.popupTip("Overspeed. Right wing DAMAGED!!", 5);
+            gui.popupTip("Overspeed! Right wing DAMAGED!", 5);
 		}
 		
 		if (roll_moment > 4000 and right_wing_damage == 0)
 		{
 			setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
-            gui.popupTip("Overspeed. Left wing DAMAGED!!", 5);
+            gui.popupTip("Overspeed! Left wing DAMAGED!", 5);
 		}
 	}        
 
     # Over-g damages, over-forces on wings
-
     var lift_force = -getprop("/fdm/jsbsim/forces/fbz-aero-lbs");
 
     if (lift_force > max_lift_force * 1.5)
@@ -375,7 +335,7 @@ var poll_damage = func
 		if (!crash)
 		{
 			bothwingsbroke();
-			gui.popupTip("Over-load Both wings BROKEN!!", 5);
+			gui.popupTip("Over-load Both wings BROKEN!", 5);
 		}
 	}
 	elsif (lift_force > max_lift_force * 1.25)
@@ -383,26 +343,25 @@ var poll_damage = func
 		if (roll_moment < -4000 and left_wing_damage < 1)
 		{
 			rightwingbroke();
-            gui.popupTip("Over-load Right wing BROKEN", 5);
+            gui.popupTip("Over-load Right wing BROKEN!", 5);
 		}
 		if (roll_moment > 4000 and right_wing_damage < 1)
 		{
 			leftwingbroke();
-            gui.popupTip("Over-load Left wing BROKEN", 5);
+            gui.popupTip("Over-load Left wing BROKEN!", 5);
 		}
 	}
     elsif (lift_force > max_lift_force)
 	{
-#        print("Lift-Force: ", lift_force);
 		if (roll_moment < -4000 and left_wing_damage == 0)
 		{
 			setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
-            gui.popupTip("Over-load Right wing DAMAGED!!", 5);
+            gui.popupTip("Over-load Right wing DAMAGED!", 5);
 		}
 		if (roll_moment > 4000 and right_wing_damage == 0)
 		{
 			setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
-            gui.popupTip("Over-load Left wing DAMAGED!!", 5);
+            gui.popupTip("Over-load Left wing DAMAGED!", 5);
 		}
 	}
 }
@@ -434,8 +393,6 @@ var poll_surface = func
     setprop(contact~"unit[11]/z-position", !getprop(contact~"unit[11]/solid") ? -25 : 60);
 }
 
-var changing_bushkit = 0;
-
 # Duration in which no damage will occur. Assumes the aircraft has
 # stabilized within this duration.
 var bushkit_change_timeout = 3.0;
@@ -448,13 +405,12 @@ var physics_loop = func
 
 	if(getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
 		poll_surface();
-	if (!changing_bushkit and getprop("/fdm/jsbsim/damage"))
+	if (!getprop("/fdm/jsbsim/damage/repairing") and getprop("/fdm/jsbsim/settings/damage"))
 		poll_damage();
 }
 
 var set_bushkit = func (bushkit) {
-    resetalldamage();
-	resetcontacts();
+    reset_all_damage();
 
     # Reset z-position's
     if (bushkit == 0)
@@ -472,14 +428,33 @@ var set_bushkit = func (bushkit) {
 # This timer object is used to enable damage again a short time after
 # changing to the last bush kit option.
 var bushkit_changed_timer = maketimer(bushkit_change_timeout, func {
-    changing_bushkit = 0;
+    setprop("/fdm/jsbsim/damage/repairing", 0);
 });
 bushkit_changed_timer.singleShot = 1;
 
 setlistener("/sim/signals/fdm-initialized", func {
+    # Update the 3D model when changing bush kit
     setlistener("/fdm/jsbsim/bushkit", func (n) {
-        changing_bushkit = 1;
+        setprop("/fdm/jsbsim/damage/repairing", 1);
         set_bushkit(n.getValue());
         bushkit_changed_timer.restart(bushkit_change_timeout);
     }, 1, 0);
+
+    setlistener(gears~"unit[0]/broken", func (n) {
+        if (n.getBoolValue()) {
+            nosegearbroke(getprop("/fdm/jsbsim/bushkit"));
+        }
+    }, 0, 0);
+
+    setlistener(gears~"unit[1]/broken", func (n) {
+        if (n.getBoolValue()) {
+            leftgearbroke(getprop("/fdm/jsbsim/bushkit"));
+        }
+    }, 0, 0);
+
+    setlistener(gears~"unit[2]/broken", func (n) {
+        if (n.getBoolValue()) {
+            rightgearbroke(getprop("/fdm/jsbsim/bushkit"));
+        }
+    }, 0, 0);
 });

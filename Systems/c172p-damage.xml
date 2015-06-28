@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright (c) 2015 onox
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<system name="c172p damage">
+
+    <channel name="gear-forces">
+
+        <!--
+            Numbers MUST be the same coefficients as spring_coeff and
+            damping_coeff in the FDM for nose and main gear!
+        -->
+
+        <fcs_function name="damage/force-nose-gear">
+            <function>
+                <sum>
+                    <product>
+                        <value>1800</value><!-- spring coefficient -->
+                        <property>gear/unit[0]/compression-ft</property>
+                    </product>
+                    <product>
+                        <value>600</value><!-- damping coefficient -->
+                        <property>gear/unit[0]/compression-velocity-fps</property>
+                    </product>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="damage/force-left-gear">
+            <function>
+                <sum>
+                    <product>
+                        <value>5400</value><!-- spring coefficient -->
+                        <property>gear/unit[1]/compression-ft</property>
+                    </product>
+                    <product>
+                        <value>400</value><!-- damping coefficient -->
+                        <property>gear/unit[1]/compression-velocity-fps</property>
+                    </product>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="damage/force-right-gear">
+            <function>
+                <sum>
+                    <product>
+                        <value>5400</value><!-- spring coefficient -->
+                        <property>gear/unit[2]/compression-ft</property>
+                    </product>
+                    <product>
+                        <value>400</value><!-- damping coefficient -->
+                        <property>gear/unit[2]/compression-velocity-fps</property>
+                    </product>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <switch>
+            <output>gear/unit[0]/broken</output>
+            <default value="0"/>
+
+            <test logic="AND" value="1">
+                damage/force-nose-gear GT 1400.0
+                settings/damage eq 1
+                damage/repairing EQ 0
+                simulation/sim-time-sec GT 0.25
+            </test>
+
+            <!-- Keep nose gear broken once it breaks -->
+            <test logic="AND" value="1">
+                gear/unit[0]/broken EQ 1
+            </test>
+        </switch>
+
+        <switch>
+            <output>gear/unit[1]/broken</output>
+            <default value="0"/>
+
+            <test logic="AND" value="1">
+                damage/force-left-gear GT 2000.0
+                forces/fby-gear-lbs GT 1500.0
+                settings/damage EQ 1
+                damage/repairing EQ 0
+                simulation/sim-time-sec GT 0.25
+            </test>
+
+            <!-- Keep left gear broken once it breaks -->
+            <test logic="AND" value="1">
+                gear/unit[1]/broken EQ 1
+            </test>
+        </switch>
+
+        <switch>
+            <output>gear/unit[2]/broken</output>
+            <default value="0"/>
+
+            <test logic="AND" value="1">
+                damage/force-right-gear GT 2000.0
+                forces/fby-gear-lbs LT -1500.0
+                settings/damage EQ 1
+                damage/repairing EQ 0
+                simulation/sim-time-sec GT 0.25
+            </test>
+
+            <!-- Keep right gear broken once it breaks -->
+            <test logic="AND" value="1">
+                gear/unit[2]/broken EQ 1
+            </test>
+        </switch>
+
+    </channel>
+
+</system>

@@ -18,10 +18,65 @@ Under the GPL. Used by shadows under ALS -->
       <output>/position/altitude-agl-m</output>
    </filter>
 
-    <!-- This filter is used to passthrough a value in non-replay mode.
+    <!-- These filters are used to passthrough a value in non-replay mode.
          In replay mode, the value from the flight recorder is used.
          This filter is needed because JSBSim wins over the flight recorder.
     -->
+
+    <filter>
+        <name>Stall Horn Volume</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <property>/fdm/jsbsim/sounds/stall-horn-volume</property>
+        </input>
+        <output>
+            <property>/fdm/jsbsim/sounds/stall-horn-volume-actual</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Stall Horn Pitch</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <property>/fdm/jsbsim/sounds/stall-horn-pitch</property>
+        </input>
+        <output>
+            <property>/fdm/jsbsim/sounds/stall-horn-pitch-actual</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Water Rudder Position</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <property>/controls/gear/water-rudder-down</property>
+        </input>
+        <output>
+            <property>/controls/gear/water-rudder-down-actual</property>
+        </output>
+    </filter>
+
     <filter>
         <name>Spray and Wakes Effect for Pontoons</name>
         <type>gain</type>

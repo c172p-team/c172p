@@ -21,6 +21,11 @@
     <channel name="gear-forces">
 
         <!--
+             References:
+                [1] https://www.youtube.com/watch?v=O1yWkbJuqkE#t=420
+        -->
+
+        <!--
             Numbers MUST be the same coefficients as spring_coeff and
             damping_coeff in the FDM for nose and main gear!
         -->
@@ -75,8 +80,8 @@
             <default value="0"/>
 
             <test logic="AND" value="1">
-                damage/force-nose-gear GT 2400.0
-                gear/unit[0]/compression-ft GT 0.5
+                damage/force-nose-gear GT 1500.0
+                gear/unit[0]/compression-ft GT 0.3
                 settings/damage eq 1
                 damage/repairing EQ 0
                 simulation/sim-time-sec GT 0.25
@@ -92,6 +97,7 @@
             <output>gear/unit[1]/broken</output>
             <default value="0"/>
 
+            <!-- [1] used to guess required force -->
             <test logic="AND" value="1">
                 damage/force-left-gear GT 6500.0
                 gear/unit[1]/compression-ft GT 0.8
@@ -119,6 +125,7 @@
             <output>gear/unit[2]/broken</output>
             <default value="0"/>
 
+            <!-- [1] used to guess required force -->
             <test logic="AND" value="1">
                 damage/force-right-gear GT 6500.0
                 gear/unit[2]/compression-ft GT 0.8

@@ -1,16 +1,6 @@
 var max_lift_force = getprop("limits/max-lift-force");
 var limit_vne = getprop("limits/vne");
 
-var aero_coeff = "fdm/jsbsim/aero/coefficient/";
-
-var get_gear_force = func (index, spring_coeff, damping_coeff) {
-    # Force-on-gear = (compression-ft) x (spring_coeff) + (compression-velocity-fps) x (damping_coeff)
-
-    var compr = getprop("/fdm/jsbsim/gear/unit", index, "compression-ft");
-    var compr_vel = getprop("/fdm/jsbsim/gear/unit", index, "compression-velocity-fps");
-    return spring_coeff * compr + damping_coeff * compr_vel;
-};
-
 var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
 
@@ -97,37 +87,33 @@ var rightgearbroke = func (bushkit)
 	setprop(gears~"unit[2]/z-position", 0);
 }
 
-var leftpontoondamaged = func (bushkit)
+var leftpontoondamaged = func
 {
-	if ((bushkit == 3 or bushkit == 4) and !getprop("/fdm/jsbsim/left-pontoon/broken"))
+	if (!getprop("/fdm/jsbsim/left-pontoon/broken"))
 		setprop("/fdm/jsbsim/left-pontoon/damaged", 1);
 
     killengine();
 }
 
-var leftpontoonbroke = func (bushkit)
+var leftpontoonbroke = func
 {
-	if (bushkit == 3 or bushkit == 4) {
-		setprop("/fdm/jsbsim/left-pontoon/damaged", 0);
-		setprop("/fdm/jsbsim/left-pontoon/broken", 1);
-	}
+	setprop("/fdm/jsbsim/left-pontoon/damaged", 0);
+	setprop("/fdm/jsbsim/left-pontoon/broken", 1);
     killengine();
 }
 
-var rightpontoondamaged = func (bushkit)
+var rightpontoondamaged = func
 {
-	if ((bushkit == 3 or bushkit == 4) and !getprop("/fdm/jsbsim/right-pontoon/broken"))
+	if (!getprop("/fdm/jsbsim/right-pontoon/broken"))
 		setprop("/fdm/jsbsim/right-pontoon/damaged", 1);
 
     killengine();
 }
 
-var rightpontoonbroke = func (bushkit)
+var rightpontoonbroke = func
 {
-	if (bushkit == 3 or bushkit == 4) {
-		setprop("/fdm/jsbsim/right-pontoon/damaged", 0);
-		setprop("/fdm/jsbsim/right-pontoon/broken", 1);
-	}
+	setprop("/fdm/jsbsim/right-pontoon/damaged", 0);
+	setprop("/fdm/jsbsim/right-pontoon/broken", 1);
     killengine();
 }
 
@@ -216,37 +202,39 @@ var poll_damage = func
     var bushkit = getprop("/fdm/jsbsim/bushkit");
     var gears_broken = 0;
 
-    var unit_13_comp = getprop(contact~"unit[13]/compression-ft");
-    var unit_15_comp = getprop(contact~"unit[15]/compression-ft");
-    var unit_17_comp = getprop(contact~"unit[17]/compression-ft");
-    var unit_19_comp = getprop(gears~"unit[19]/compression-ft");
-    var unit_21_comp = getprop(gears~"unit[21]/compression-ft");
+    if (bushkit == 3 or bushkit == 4) {
+        var unit_13_comp = getprop(contact~"unit[13]/compression-ft");
+        var unit_15_comp = getprop(contact~"unit[15]/compression-ft");
+        var unit_17_comp = getprop(contact~"unit[17]/compression-ft");
+        var unit_19_comp = getprop(gears~"unit[19]/compression-ft");
+        var unit_21_comp = getprop(gears~"unit[21]/compression-ft");
 
-    var max_left_pontoon_gear_comp = std.max(unit_19_comp, unit_21_comp);
+        var max_left_pontoon_gear_comp = std.max(unit_19_comp, unit_21_comp);
 
-    # Left pontoon
-    if (unit_13_comp > 0.95 or unit_15_comp > 0.95 or unit_17_comp > 0.95 or
-		max_left_pontoon_gear_comp > 0.95)
-		leftpontoonbroke(bushkit);
-	elsif (unit_13_comp > 0.75 or unit_15_comp > 0.75 or unit_17_comp > 0.75 or
-		max_left_pontoon_gear_comp > 0.75)
-		leftpontoondamaged(bushkit);
+        # Left pontoon
+        if (unit_13_comp > 0.95 or unit_15_comp > 0.95 or unit_17_comp > 0.95 or
+		    max_left_pontoon_gear_comp > 0.95)
+		    leftpontoonbroke();
+	    elsif (unit_13_comp > 0.75 or unit_15_comp > 0.75 or unit_17_comp > 0.75 or
+		    max_left_pontoon_gear_comp > 0.75)
+		    leftpontoondamaged();
 
-    var unit_14_comp = getprop(contact~"unit[14]/compression-ft");
-    var unit_16_comp = getprop(contact~"unit[16]/compression-ft");
-    var unit_18_comp = getprop(contact~"unit[18]/compression-ft");
-    var unit_20_comp = getprop(gears~"unit[20]/compression-ft");
-    var unit_22_comp = getprop(gears~"unit[22]/compression-ft");
+        var unit_14_comp = getprop(contact~"unit[14]/compression-ft");
+        var unit_16_comp = getprop(contact~"unit[16]/compression-ft");
+        var unit_18_comp = getprop(contact~"unit[18]/compression-ft");
+        var unit_20_comp = getprop(gears~"unit[20]/compression-ft");
+        var unit_22_comp = getprop(gears~"unit[22]/compression-ft");
 
-    var max_right_pontoon_gear_comp = std.max(unit_20_comp, unit_22_comp);
+        var max_right_pontoon_gear_comp = std.max(unit_20_comp, unit_22_comp);
 
-    # Right pontoon
-    if (unit_14_comp > 0.95 or unit_16_comp > 0.95 or unit_18_comp > 0.95 or
-		max_right_pontoon_gear_comp > 0.95)
-		rightpontoonbroke(bushkit);
-	elsif (unit_14_comp > 0.75 or unit_16_comp > 0.75 or unit_18_comp > 0.75 or
-		max_right_pontoon_gear_comp > 0.75)
-		rightpontoondamaged(bushkit);
+        # Right pontoon
+        if (unit_14_comp > 0.95 or unit_16_comp > 0.95 or unit_18_comp > 0.95 or
+		    max_right_pontoon_gear_comp > 0.95)
+		    rightpontoonbroke();
+	    elsif (unit_14_comp > 0.75 or unit_16_comp > 0.75 or unit_18_comp > 0.75 or
+		    max_right_pontoon_gear_comp > 0.75)
+		    rightpontoondamaged();
+    }
 
 	if (getprop(contact~"unit[4]/compression-ft") > 0.005)
 		leftwingbroke();
@@ -270,14 +258,7 @@ var poll_damage = func
 		killengine();
 
     # IN-FLIGHT DAMAGES
-
-    # Roll moment due to (diedra + roll rate + yaw rate + ailerons)
-    # => asymmetry to break one wing
-    var roll_moment = getprop(aero_coeff~"Clb")
-        + getprop(aero_coeff~"Clp")
-        + getprop(aero_coeff~"Clr")
-        + getprop(aero_coeff~"ClDa");
-#    print("Roll-moment: ", roll_moment);
+    var roll_moment = getprop("/fdm/jsbsim/damage/roll-moment");
 
     # Over-speed damages
     var airspeed = getprop("velocities/airspeed-kt");

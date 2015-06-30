@@ -94,6 +94,7 @@ BatteryClass.new = func {
                 amp_hours : 12.75,
                 charge_percent : 1.0,
                 charge_amps : 7.0 };
+    setprop("/systems/electrical/battery-charge-percent", obj.charge_percent);
     return obj;
 }
 
@@ -102,24 +103,22 @@ BatteryClass.new = func {
 # Negative amps indicates a battery charge.
 #
 
-BatteryClass.apply_load = func( amps, dt ) {
+BatteryClass.apply_load = func (amps, dt) {
+    var old_charge_percent = getprop("/systems/electrical/battery-charge-percent");
+
+    if (getprop("/sim/freeze/replay-state"))
+        return me.amp_hours * old_charge_percent;
+
     var amphrs_used = amps * dt / 3600.0;
     var percent_used = amphrs_used / me.amp_hours;
-    var charge_percent = me.charge_percent;
-    charge_percent -= percent_used;
-    if ( charge_percent < 0.0 ) {
-        charge_percent = 0.0;
-    } elsif ( charge_percent > 1.0 ) {
-        charge_percent = 1.0;
-    }
-    if ((charge_percent < 0.1)and(me.charge_percent >= 0.1))
-    {
-        print("Warning: Low battery! Enable alternator or apply external power to recharge battery.");
-    }
-    me.charge_percent = charge_percent;
-    setprop("/systems/electrical/battery-charge-percent", charge_percent);
-    # print( "battery percent = ", charge_percent);
-    return me.amp_hours * charge_percent;
+
+    var new_charge_percent = std.max(0.0, std.min(old_charge_percent - percent_used, 1.0));
+
+    if (new_charge_percent < 0.1 and old_charge_percent >= 0.1)
+        gui.popupTip("Warning: Low battery! Enable alternator or apply external power to recharge battery.", 10);
+
+    setprop("/systems/electrical/battery-charge-percent", new_charge_percent);
+    return me.amp_hours * new_charge_percent;
 }
 
 ##

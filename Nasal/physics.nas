@@ -4,10 +4,6 @@ var limit_vne = getprop("limits/vne");
 var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
 
-var fairing1 = 0;
-var fairing2 = 0;
-var fairing3 = 0;
-
 var reset_all_damage = func
 {
     setprop("/engines/active-engine/killed", 0);
@@ -45,9 +41,7 @@ var reset_all_damage = func
 }
 
 var repair_damage = func {
-    setprop("/fdm/jsbsim/damage/repairing", 1);
     set_bushkit(getprop("/fdm/jsbsim/bushkit"));
-    bushkit_changed_timer.restart(bushkit_change_timeout);
 };
 
 var nosegearbroke = func (bushkit)
@@ -120,13 +114,11 @@ var rightpontoonbroke = func
 var leftwingbroke = func
 {
 	setprop(contact~"unit[4]/broken", 1);
-	setprop("/fdm/jsbsim/wing-damage/left-wing", 1);
 }
 
 var rightwingbroke = func
 {
 	setprop(contact~"unit[5]/broken", 1);
-	setprop("/fdm/jsbsim/wing-damage/right-wing", 1);
 }
 
 var bothwingcollapse = func
@@ -236,12 +228,6 @@ var poll_damage = func
 		    rightpontoondamaged();
     }
 
-	if (getprop(contact~"unit[4]/compression-ft") > 0.005)
-		leftwingbroke();
-
-	if (getprop(contact~"unit[5]/compression-ft") > 0.005)
-		rightwingbroke();
-
     var left_wing_damage = getprop("/fdm/jsbsim/wing-damage/left-wing");
     var right_wing_damage = getprop("/fdm/jsbsim/wing-damage/right-wing");
 
@@ -257,58 +243,10 @@ var poll_damage = func
 	if (getprop("position/altitude-agl-m") < 10 and (crash or left_wing_damage > 0.5 or right_wing_damage > 0.5))
 		killengine();
 
-    # IN-FLIGHT DAMAGES
-    var roll_moment = getprop("/fdm/jsbsim/damage/roll-moment");
-
-    # Over-speed damages
-    var airspeed = getprop("velocities/airspeed-kt");
-
-    if (airspeed > limit_vne * 1.225) # Vne x sqrt(1.5) ~ 200 KIAS
-	{
-		if (!crash and left_wing_damage < 1 and right_wing_damage < 1)
-		{
-			bothwingsbroke();
-			gui.popupTip("Overspeed! Both wings BROKEN!", 5);
-		}
-	}
-	elsif (airspeed > limit_vne * 1.14) # 180 KIAS
-	{
-        if (roll_moment < -4000) {
-		    if (left_wing_damage < 0.5) {
-			    rightwingbroke();
-                gui.popupTip("Overspeed! Right wing BROKEN!", 5);
-            }
-		}
-		elsif (roll_moment > 4000) {
-		    if (right_wing_damage < 0.5) {
-			    leftwingbroke();
-                gui.popupTip("Overspeed! Left wing BROKEN!", 5);
-            }
-		}
-		else {
-		    if (left_wing_damage == 0 and right_wing_damage == 0) {
-			    setprop("/fdm/jsbsim/wing-damage/left-wing", 0.3);
-                setprop("/fdm/jsbsim/wing-damage/right-wing", 0.3);
-                gui.popupTip("Overspeed! Both wings DAMAGED!", 5);
-		    }
-		}
-	}
-	elsif (airspeed > limit_vne)
-	{
-		if (roll_moment < -4000 and left_wing_damage == 0)
-		{
-			setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
-            gui.popupTip("Overspeed! Right wing DAMAGED!", 5);
-		}
-		
-		if (roll_moment > 4000 and right_wing_damage == 0)
-		{
-			setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
-            gui.popupTip("Overspeed! Left wing DAMAGED!", 5);
-		}
-	}        
+################################################################################
 
     # Over-g damages, over-forces on wings
+    var roll_moment = getprop("/fdm/jsbsim/damage/roll-moment");
     var lift_force = -getprop("/fdm/jsbsim/forces/fbz-aero-lbs");
 
     if (lift_force > max_lift_force * 1.75)
@@ -405,6 +343,8 @@ var physics_loop = func
 }
 
 var set_bushkit = func (bushkit) {
+    setprop("/fdm/jsbsim/damage/repairing", 1);
+
     reset_all_damage();
 
     # Reset z-position's
@@ -418,6 +358,8 @@ var set_bushkit = func (bushkit) {
         pontoons();
     elsif (bushkit == 4)
         amphibious();
+
+    bushkit_changed_timer.restart(bushkit_change_timeout);
 };
 
 # This timer object is used to enable damage again a short time after
@@ -430,9 +372,7 @@ bushkit_changed_timer.singleShot = 1;
 setlistener("/sim/signals/fdm-initialized", func {
     # Update the 3D model when changing bush kit
     setlistener("/fdm/jsbsim/bushkit", func (n) {
-        setprop("/fdm/jsbsim/damage/repairing", 1);
         set_bushkit(n.getValue());
-        bushkit_changed_timer.restart(bushkit_change_timeout);
     }, 1, 0);
 
     setlistener(gears~"unit[0]/broken", func (n) {

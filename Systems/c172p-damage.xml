@@ -77,7 +77,7 @@
 
         <switch>
             <output>gear/unit[0]/broken</output>
-            <default value="0"/>
+            <default value="gear/unit[0]/broken"/>
 
             <test logic="AND" value="1">
                 damage/force-nose-gear GT 1500.0
@@ -86,16 +86,11 @@
                 damage/repairing EQ 0
                 simulation/sim-time-sec GT 0.25
             </test>
-
-            <!-- Keep nose gear broken once it breaks -->
-            <test logic="AND" value="1">
-                gear/unit[0]/broken EQ 1
-            </test>
         </switch>
 
         <switch>
             <output>gear/unit[1]/broken</output>
-            <default value="0"/>
+            <default value="gear/unit[1]/broken"/>
 
             <!-- [1] used to guess required force -->
             <test logic="AND" value="1">
@@ -114,16 +109,11 @@
                 damage/repairing EQ 0
                 simulation/sim-time-sec GT 0.25
             </test>
-
-            <!-- Keep left gear broken once it breaks -->
-            <test logic="AND" value="1">
-                gear/unit[1]/broken EQ 1
-            </test>
         </switch>
 
         <switch>
             <output>gear/unit[2]/broken</output>
-            <default value="0"/>
+            <default value="gear/unit[2]/broken"/>
 
             <!-- [1] used to guess required force -->
             <test logic="AND" value="1">
@@ -142,11 +132,6 @@
                 damage/repairing EQ 0
                 simulation/sim-time-sec GT 0.25
             </test>
-
-            <!-- Keep right gear broken once it breaks -->
-            <test logic="AND" value="1">
-                gear/unit[2]/broken EQ 1
-            </test>
         </switch>
 
     </channel>
@@ -164,6 +149,106 @@
                 </sum>
             </function>
         </fcs_function>
+
+        <pure_gain name="damage/limits-vne-high">
+            <input>/limits/vne</input>
+            <gain>1.225</gain>
+        </pure_gain>
+
+        <pure_gain name="damage/limits-vne-medium">
+            <input>/limits/vne</input>
+            <gain>1.14</gain>
+        </pure_gain>
+
+        <!-- Left wing broken -->
+        <switch>
+            <output>contact/unit[4]/broken</output>
+            <default value="contact/unit[4]/broken"/>
+
+            <test logic="AND" value="1">
+                contact/unit[4]/compression-ft GT 0.005
+            </test>
+
+            <test logic="AND" value="1">
+                /velocities/airspeed-kt GT damage/limits-vne-high
+                crash EQ 0
+                wing-damage/left-wing LT 1.0
+            </test>
+
+            <test logic="AND" value="1">
+                /velocities/airspeed-kt GT damage/limits-vne-medium
+                damage/roll-moment GT 4000.0
+                wing-damage/right-wing LT 0.5<!-- Change to wing-damage/left-wing LT 0.5? -->
+            </test>
+        </switch>
+
+        <!-- Left wing damage -->
+        <switch>
+            <output>wing-damage/left-wing</output>
+            <default value="wing-damage/left-wing"/>
+
+            <test logic="AND" value="1.0">
+                contact/unit[4]/broken EQ 1
+            </test>
+
+            <test logic="AND" value="0.3">
+                /velocities/airspeed-kt GT damage/limits-vne-medium
+                damage/roll-moment LT 4000.0
+                damage/roll-moment GT -4000.0
+                wing-damage/left-wing EQ 0.0<!-- Change to wing-damage/left-wing LT 0.3? -->
+            </test>
+
+            <test logic="AND" value="0.12">
+                /velocities/airspeed-kt GT /limits/vne
+                damage/roll-moment GT 4000.0
+                wing-damage/right-wing EQ 0.0<!-- Change to wing-damage/left-wing LT 0.12? -->
+            </test>
+        </switch>
+
+        <!-- Right wing broken -->
+        <switch>
+            <output>contact/unit[5]/broken</output>
+            <default value="contact/unit[5]/broken"/>
+
+            <test logic="AND" value="1">
+                contact/unit[5]/compression-ft GT 0.005
+            </test>
+
+            <test logic="AND" value="1">
+                /velocities/airspeed-kt GT damage/limits-vne-high
+                crash EQ 0
+                wing-damage/right-wing LT 1.0
+            </test>
+
+            <test logic="AND" value="1">
+                /velocities/airspeed-kt GT damage/limits-vne-medium
+                damage/roll-moment LT -4000.0
+                wing-damage/left-wing LT 0.5<!-- Change to wing-damage/right-wing LT 0.5? -->
+            </test>
+        </switch>
+
+        <!-- Right wing damage -->
+        <switch>
+            <output>wing-damage/right-wing</output>
+            <default value="wing-damage/right-wing"/>
+
+            <test logic="AND" value="1.0">
+                contact/unit[5]/broken EQ 1
+            </test>
+
+            <test logic="AND" value="0.3">
+                /velocities/airspeed-kt GT damage/limits-vne-medium
+                damage/roll-moment LT 4000.0
+                damage/roll-moment GT -4000.0
+                wing-damage/right-wing EQ 0.0<!-- Change to wing-damage/right-wing LT 0.3? -->
+            </test>
+
+            <test logic="AND" value="0.12">
+                /velocities/airspeed-kt GT /limits/vne
+                damage/roll-moment LT -4000.0
+                wing-damage/left-wing EQ 0.0<!-- Change to wing-damage/right-wing LT 0.12? -->
+            </test>
+        </switch>
 
     </channel>
 

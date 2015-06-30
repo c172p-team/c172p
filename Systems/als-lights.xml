@@ -19,6 +19,12 @@
 
 <PropertyList>
 
+    <!--
+        Note: Properties in /systems/electrical/ are computed by
+        Nasal/electrical.nas during replay, thus do not need to be
+        recorded.
+    -->
+
     <logic>
         <name>Lighting Landing On/Off</name>
         <input>
@@ -31,13 +37,10 @@
                     <property>/systems/electrical/outputs/landing-lights</property>
                     <value>20.0</value>
                 </greater-than>
-			    <not>
-				    <property>/fdm/jsbsim/contact/unit[4]/broken</property>
-			    </not>
-                <less-than>
-                    <property>/fdm/jsbsim/wing-damage/left-wing</property>
-                    <value>1.0</value>
-                </less-than>
+                <not-equals>
+                    <property>/sim/model/c172p/damage/left-wing</property>
+                    <value>1</value>
+                </not-equals>
             </and>
         </input>
         <output>
@@ -57,13 +60,10 @@
                     <property>/systems/electrical/outputs/taxi-light</property>
                     <value>20.0</value>
                 </greater-than>
-				<not>
-					<property>/fdm/jsbsim/contact/unit[4]/broken</property>
-				</not>
-                <less-than>
-                    <property>/fdm/jsbsim/wing-damage/left-wing</property>
-                    <value>1.0</value>
-                </less-than>
+                <not-equals>
+                    <property>/sim/model/c172p/damage/left-wing</property>
+                    <value>1</value>
+                </not-equals>
             </and>
         </input>
         <output>

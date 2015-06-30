@@ -1,5 +1,4 @@
 var max_lift_force = getprop("limits/max-lift-force");
-var limit_vne = getprop("limits/vne");
 
 var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
@@ -11,8 +10,6 @@ var reset_all_damage = func
 	setprop(gears~"unit[0]/broken", 0);
 	setprop(gears~"unit[1]/broken", 0);
 	setprop(gears~"unit[2]/broken", 0);
-	setprop(contact~"unit[4]/broken", 0);
-	setprop(contact~"unit[5]/broken", 0);
 	setprop(contact~"unit[4]/z-position", 50);
 	setprop(contact~"unit[5]/z-position", 50);
 	setprop(contact~"unit[9]/z-position", 35);
@@ -111,38 +108,22 @@ var rightpontoonbroke = func
     killengine();
 }
 
-var leftwingbroke = func
-{
-	setprop(contact~"unit[4]/broken", 1);
-}
-
-var rightwingbroke = func
-{
-	setprop(contact~"unit[5]/broken", 1);
-}
-
 var bothwingcollapse = func
 {
 	setprop(contact~"unit[5]/z-position", -8);
 	setprop("/fdm/jsbsim/crash", 1);
 }
 
-var bothwingsbroke = func
-{
-    leftwingbroke();
-    rightwingbroke();
-}
-
 var upsidedown = func
 {
 	setprop(contact~"unit[12]/z-position", 90);
 
-	if (getprop(contact~"unit[4]/broken"))
+	if (getprop("/fdm/jsbsim/wing-damage/left-wing") == 1.0)
 		setprop(contact~"unit[4]/z-position", 40);
 	else
 		setprop(contact~"unit[4]/z-position", 50);
 
-	if (getprop(contact~"unit[5]/broken"))
+	if (getprop("/fdm/jsbsim/wing-damage/right-wing") == 1.0)
 		setprop(contact~"unit[5]/z-position", 40);
 	else
 		setprop(contact~"unit[5]/z-position", 50);
@@ -243,60 +224,6 @@ var poll_damage = func
 	if (getprop("position/altitude-agl-m") < 10 and (crash or left_wing_damage > 0.5 or right_wing_damage > 0.5))
 		killengine();
 
-################################################################################
-
-    # Over-g damages, over-forces on wings
-    var roll_moment = getprop("/fdm/jsbsim/damage/roll-moment");
-    var lift_force = -getprop("/fdm/jsbsim/forces/fbz-aero-lbs");
-
-    if (lift_force > max_lift_force * 1.75)
-	{
-		if (!crash)
-		{
-			bothwingsbroke();
-			gui.popupTip("Over-load Both wings BROKEN!", 5);
-		}
-	}
-	elsif (lift_force > max_lift_force * 1.4)
-	{
-		if (roll_moment < -4000 and left_wing_damage < 1)
-		{
-			rightwingbroke();
-            gui.popupTip("Over-load Right wing BROKEN!", 5);
-		}
-		if (roll_moment > 4000 and right_wing_damage < 1)
-		{
-			leftwingbroke();
-            gui.popupTip("Over-load Left wing BROKEN!", 5);
-		}
-        else
-        {
-            if (left_wing_damage == 0)
-                setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
-            else
-                setprop("/fdm/jsbsim/wing-damage/right-wing", 0.3);
-
-            if (right_wing_damage == 0)
-                setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
-            else
-                setprop("/fdm/jsbsim/wing-damage/left-wing", 0.3);
-            if (left_wing_damage == 0 and right_wing_damage == 0)
-			    gui.popupTip("Over-load Both wings DAMAGED!", 5);
-        }
-	}
-    elsif (lift_force > max_lift_force)
-	{
-		if (roll_moment < -4000 and left_wing_damage == 0)
-		{
-			setprop("/fdm/jsbsim/wing-damage/right-wing", 0.12);
-            gui.popupTip("Over-load Right wing DAMAGED!", 5);
-		}
-		if (roll_moment > 4000 and right_wing_damage == 0)
-		{
-			setprop("/fdm/jsbsim/wing-damage/left-wing", 0.12);
-            gui.popupTip("Over-load Left wing DAMAGED!", 5);
-		}
-	}
 }
 
 # Check if on water
@@ -390,6 +317,42 @@ setlistener("/sim/signals/fdm-initialized", func {
     setlistener(gears~"unit[2]/broken", func (n) {
         if (n.getBoolValue()) {
             rightgearbroke(getprop("/fdm/jsbsim/bushkit"));
+        }
+    }, 0, 0);
+
+    setlistener("/fdm/jsbsim/wing-damage/left-wing", func (n) {
+        var left_wing = n.getValue();
+        var right_wing = getprop("/fdm/jsbsim/wing-damage/right-wing");
+
+        if (left_wing == 1.0) {
+            if (right_wing == 1.0)
+                gui.popupTip("Both wings BROKEN!", 5);
+            else
+                gui.popupTip("Left wing BROKEN!", 5);
+        }
+        elsif (left_wing > 0.0) {
+            if (0.0 < right_wing and right_wing < 1.0)
+                gui.popupTip("Both wings DAMAGED!", 5);
+            else
+                gui.popupTip("Left wing DAMAGED!", 5);
+        }
+    }, 0, 0);
+
+    setlistener("/fdm/jsbsim/wing-damage/right-wing", func (n) {
+        var left_wing = getprop("/fdm/jsbsim/wing-damage/left-wing");
+        var right_wing = n.getValue();
+
+        if (right_wing == 1.0) {
+            if (left_wing == 1.0)
+                gui.popupTip("Both wings BROKEN!", 5);
+            else
+                gui.popupTip("Right wing BROKEN!", 5);
+        }
+        elsif (right_wing > 0.0) {
+            if (0.0 < left_wing and left_wing < 1.0)
+                gui.popupTip("Both wings DAMAGED!", 5);
+            else
+                gui.popupTip("Right wing DAMAGED!", 5);
         }
     }, 0, 0);
 });

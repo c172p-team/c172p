@@ -21,7 +21,7 @@
     <channel name="gear-forces">
 
         <!--
-             References:
+            References:
                 [1] https://www.youtube.com/watch?v=O1yWkbJuqkE#t=420
         -->
 
@@ -150,47 +150,85 @@
             </function>
         </fcs_function>
 
+        <!-- Limits for overspeed damage -->
         <pure_gain name="damage/limits-vne-high">
             <input>/limits/vne</input>
             <gain>1.225</gain>
         </pure_gain>
-
         <pure_gain name="damage/limits-vne-medium">
             <input>/limits/vne</input>
             <gain>1.14</gain>
         </pure_gain>
+        <pure_gain name="damage/limits-vne-low">
+            <input>/limits/vne</input>
+            <gain>1.0</gain>
+        </pure_gain>
 
-        <!-- Left wing broken -->
-        <switch>
-            <output>contact/unit[4]/broken</output>
-            <default value="contact/unit[4]/broken"/>
+        <!-- Limits for over-g damage -->
+        <pure_gain name="damage/limits-lift-high">
+            <input>/limits/max-lift-force</input>
+            <gain>1.75</gain>
+        </pure_gain>
+        <pure_gain name="damage/limits-lift-medium">
+            <input>/limits/max-lift-force</input>
+            <gain>1.4</gain>
+        </pure_gain>
+        <pure_gain name="damage/limits-lift-low">
+            <input>/limits/max-lift-force</input>
+            <gain>1.0</gain>
+        </pure_gain>
 
-            <test logic="AND" value="1">
-                contact/unit[4]/compression-ft GT 0.005
-            </test>
-
-            <test logic="AND" value="1">
-                /velocities/airspeed-kt GT damage/limits-vne-high
-                crash EQ 0
-                wing-damage/left-wing LT 1.0
-            </test>
-
-            <test logic="AND" value="1">
-                /velocities/airspeed-kt GT damage/limits-vne-medium
-                damage/roll-moment GT 4000.0
-                wing-damage/right-wing LT 0.5<!-- Change to wing-damage/left-wing LT 0.5? -->
-            </test>
-        </switch>
+        <pure_gain name="damage/force-aero-lbs">
+            <input>forces/fbz-aero-lbs</input>
+            <gain>-1.0</gain>
+        </pure_gain>
 
         <!-- Left wing damage -->
         <switch>
             <output>wing-damage/left-wing</output>
             <default value="wing-damage/left-wing"/>
 
+            <!-- Break wing when its wing tip hits the ground or an object -->
             <test logic="AND" value="1.0">
-                contact/unit[4]/broken EQ 1
+                contact/unit[4]/compression-ft GT 0.005
             </test>
 
+            <!-- Overspeed broken -->
+            <test logic="AND" value="1.0">
+                /velocities/airspeed-kt GT damage/limits-vne-high
+                crash EQ 0
+                wing-damage/left-wing LT 1.0
+            </test>
+
+            <!-- Overspeed broken -->
+            <test logic="AND" value="1.0">
+                /velocities/airspeed-kt GT damage/limits-vne-medium
+                damage/roll-moment GT 4000.0
+                wing-damage/right-wing LT 0.5<!-- Change to wing-damage/left-wing LT 0.5? -->
+            </test>
+
+            <!-- Over-g broken -->
+            <test logic="AND" value="1.0">
+                damage/force-aero-lbs GT damage/limits-lift-high
+                crash EQ 0
+            </test>
+
+            <!-- Over-g broken -->
+            <test logic="AND" value="1.0">
+                damage/force-aero-lbs GT damage/limits-lift-medium
+                damage/roll-moment GT 4000.0
+                wing-damage/right-wing LT 1.0<!-- Change to wing-damage/left-wing LT 1.0? -->
+            </test>
+
+            <!-- Over-g damage -->
+            <test logic="AND" value="0.3">
+                damage/force-aero-lbs GT damage/limits-lift-medium
+                damage/roll-moment LT 4000.0
+                damage/roll-moment GT -4000.0
+                wing-damage/right-wing LT 0.3<!-- Change to wing-damage/left-wing LT 0.3? -->
+            </test>
+
+            <!-- Overspeed damage -->
             <test logic="AND" value="0.3">
                 /velocities/airspeed-kt GT damage/limits-vne-medium
                 damage/roll-moment LT 4000.0
@@ -198,32 +236,26 @@
                 wing-damage/left-wing EQ 0.0<!-- Change to wing-damage/left-wing LT 0.3? -->
             </test>
 
+            <!-- Overspeed damage -->
             <test logic="AND" value="0.12">
-                /velocities/airspeed-kt GT /limits/vne
+                /velocities/airspeed-kt GT damage/limits-vne-low
                 damage/roll-moment GT 4000.0
                 wing-damage/right-wing EQ 0.0<!-- Change to wing-damage/left-wing LT 0.12? -->
             </test>
-        </switch>
 
-        <!-- Right wing broken -->
-        <switch>
-            <output>contact/unit[5]/broken</output>
-            <default value="contact/unit[5]/broken"/>
-
-            <test logic="AND" value="1">
-                contact/unit[5]/compression-ft GT 0.005
+            <!-- Over-g damage -->
+            <test logic="AND" value="0.12">
+                damage/force-aero-lbs GT damage/limits-lift-medium
+                damage/roll-moment LT 4000.0
+                damage/roll-moment GT -4000.0
+                wing-damage/right-wing EQ 0.0<!-- Change to wing-damage/left-wing EQ 0.0? -->
             </test>
 
-            <test logic="AND" value="1">
-                /velocities/airspeed-kt GT damage/limits-vne-high
-                crash EQ 0
-                wing-damage/right-wing LT 1.0
-            </test>
-
-            <test logic="AND" value="1">
-                /velocities/airspeed-kt GT damage/limits-vne-medium
-                damage/roll-moment LT -4000.0
-                wing-damage/left-wing LT 0.5<!-- Change to wing-damage/right-wing LT 0.5? -->
+            <!-- Over-g damage -->
+            <test logic="AND" value="0.12">
+                damage/force-aero-lbs GT damage/limits-lift-low
+                damage/roll-moment GT 4000.0
+                wing-damage/right-wing EQ 0.0<!-- Change to wing-damage/left-wing EQ 0.0? -->
             </test>
         </switch>
 
@@ -232,10 +264,47 @@
             <output>wing-damage/right-wing</output>
             <default value="wing-damage/right-wing"/>
 
+            <!-- Break wing when its wing tip hits the ground or an object -->
             <test logic="AND" value="1.0">
-                contact/unit[5]/broken EQ 1
+                contact/unit[5]/compression-ft GT 0.005
             </test>
 
+            <!-- Overspeed broken -->
+            <test logic="AND" value="1.0">
+                /velocities/airspeed-kt GT damage/limits-vne-high
+                crash EQ 0
+                wing-damage/right-wing LT 1.0
+            </test>
+
+            <!-- Overspeed broken -->
+            <test logic="AND" value="1.0">
+                /velocities/airspeed-kt GT damage/limits-vne-medium
+                damage/roll-moment LT -4000.0
+                wing-damage/left-wing LT 0.5<!-- Change to wing-damage/right-wing LT 0.5? -->
+            </test>
+
+            <!-- Over-g broken -->
+            <test logic="AND" value="1.0">
+                damage/force-aero-lbs GT damage/limits-lift-high
+                crash EQ 0
+            </test>
+
+            <!-- Over-g broken -->
+            <test logic="AND" value="1.0">
+                damage/force-aero-lbs GT damage/limits-lift-medium
+                damage/roll-moment LT -4000.0
+                wing-damage/left-wing LT 1.0<!-- Change to wing-damage/right-wing LT 1.0? -->
+            </test>
+
+            <!-- Over-g damage -->
+            <test logic="AND" value="0.3">
+                damage/force-aero-lbs GT damage/limits-lift-medium
+                damage/roll-moment LT 4000.0
+                damage/roll-moment GT -4000.0
+                wing-damage/left-wing LT 0.3<!-- Change to wing-damage/right-wing LT 0.3? -->
+            </test>
+
+            <!-- Overspeed damage -->
             <test logic="AND" value="0.3">
                 /velocities/airspeed-kt GT damage/limits-vne-medium
                 damage/roll-moment LT 4000.0
@@ -243,10 +312,26 @@
                 wing-damage/right-wing EQ 0.0<!-- Change to wing-damage/right-wing LT 0.3? -->
             </test>
 
+            <!-- Overspeed damage -->
             <test logic="AND" value="0.12">
-                /velocities/airspeed-kt GT /limits/vne
+                /velocities/airspeed-kt GT damage/limits-vne-low
                 damage/roll-moment LT -4000.0
                 wing-damage/left-wing EQ 0.0<!-- Change to wing-damage/right-wing LT 0.12? -->
+            </test>
+
+            <!-- Over-g damage -->
+            <test logic="AND" value="0.12">
+                damage/force-aero-lbs GT damage/limits-lift-medium
+                damage/roll-moment LT 4000.0
+                damage/roll-moment GT -4000.0
+                wing-damage/left-wing EQ 0.0<!-- Change to wing-damage/right-wing EQ 0.0? -->
+            </test>
+
+            <!-- Over-g damage -->
+            <test logic="AND" value="0.12">
+                damage/force-aero-lbs GT damage/limits-lift-low
+                damage/roll-moment LT -4000.0
+                wing-damage/left-wing EQ 0.0<!-- Change to wing-damage/right-wing EQ 0.0? -->
             </test>
         </switch>
 

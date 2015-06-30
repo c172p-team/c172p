@@ -125,13 +125,9 @@ var reset_system = func {
     # appear to receive the random values from the MP properties during initialization.
     # Therefore, override these random values with the proper values we want.
     props.globals.getNode("/fdm/jsbsim/crash", 0).setBoolValue(0);
-    props.globals.getNode("/fdm/jsbsim/contact/unit[4]/broken", 0).setBoolValue(0);
-    props.globals.getNode("/fdm/jsbsim/contact/unit[5]/broken", 0).setBoolValue(0);
     props.globals.getNode("/fdm/jsbsim/gear/unit[0]/broken", 0).setBoolValue(0);
     props.globals.getNode("/fdm/jsbsim/gear/unit[1]/broken", 0).setBoolValue(0);
     props.globals.getNode("/fdm/jsbsim/gear/unit[2]/broken", 0).setBoolValue(0);
-    props.globals.getNode("/fdm/jsbsim/wing-damage/left-wing", 0).setBoolValue(0);
-    props.globals.getNode("/fdm/jsbsim/wing-damage/right-wing", 0).setBoolValue(0);
 	props.globals.getNode("/fdm/jsbsim/left-pontoon/damaged", 0).setBoolValue(0);
     props.globals.getNode("/fdm/jsbsim/left-pontoon/broken", 0).setBoolValue(0);
 	props.globals.getNode("/fdm/jsbsim/right-pontoon/damaged", 0).setBoolValue(0);

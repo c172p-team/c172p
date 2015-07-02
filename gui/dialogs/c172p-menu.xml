@@ -8,6 +8,21 @@
             <enabled type="bool">true</enabled>
 
             <item>
+              <label>Panel in a browser</label>
+              <binding>
+                <command>nasal</command>
+                <script>
+                  var n = props.globals.getNode("/sim/http/running");
+                  if( props.globals.getNode("/").getValue("sim/http/running",0) != 1 ) {
+                    gui.popupTip("Internal webserver not running. Restart FlightGear with --httpd=8080", 5.0);
+                  } else {
+                    var _url = "http://localhost:" ~ getprop("/sim/http/options/listening-port") ~ "/aircraft-dir/WebPanel/c172p-webpanel.html";
+                    fgcommand("open-browser", props.Node.new({ "url": _url }));
+                  }
+                </script>
+              </binding>
+            </item>
+            <item>
                 <label>Aircraft options</label>
                 <binding>
                     <command>dialog-show</command>

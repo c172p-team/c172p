@@ -6,24 +6,8 @@
         <menu n="10">
             <label>Cessna C172P</label>
             <enabled type="bool">true</enabled>
-
             <item>
-              <label>Panel in a browser</label>
-              <binding>
-                <command>nasal</command>
-                <script>
-                  var n = props.globals.getNode("/sim/http/running");
-                  if( props.globals.getNode("/").getValue("sim/http/running",0) != 1 ) {
-                    gui.popupTip("Internal webserver not running. Restart FlightGear with --httpd=8080", 5.0);
-                  } else {
-                    var _url = "http://localhost:" ~ getprop("/sim/http/options/listening-port") ~ "/aircraft-dir/WebPanel/c172p-webpanel.html";
-                    fgcommand("open-browser", props.Node.new({ "url": _url }));
-                  }
-                </script>
-              </binding>
-            </item>
-            <item>
-                <label>Aircraft options</label>
+                <label>Aircraft Options</label>
                 <binding>
                     <command>dialog-show</command>
                     <dialog-name>aircraft-dialog</dialog-name>
@@ -31,7 +15,7 @@
             </item>
 
             <item>
-                <label>Select livery</label>
+                <label>Select Livery</label>
                 <binding>
                     <command>nasal</command>
                     <script>aircraft.livery.dialog.toggle()</script>
@@ -55,11 +39,11 @@
             </item>
 
             <item>
-	             <name>show-hide-yokes</name>
-	             <binding>
-	                 <command>property-toggle</command>
-	                 <property>/sim/model/hide-yoke</property>
-	             </binding>
+                <label>Show/Hide Yokes</label>
+	            <binding>
+	                <command>property-toggle</command>
+	                <property>/sim/model/hide-yoke</property>
+	            </binding>
             </item>
 
             <item>
@@ -68,6 +52,21 @@
                     <command>nasal</command>
                     <script>c172p.autostart()</script>
                 </binding>
+            </item>
+            <item>
+              <label>Panel in a Browser</label>
+              <binding>
+                <command>nasal</command>
+                <script>
+                  var n = props.globals.getNode("/sim/http/running");
+                  if( props.globals.getNode("/").getValue("sim/http/running",0) != 1 ) {
+                    gui.popupTip("Internal webserver not running. Restart FlightGear with --httpd=8080", 5.0);
+                  } else {
+                    var _url = "http://localhost:" ~ getprop("/sim/http/options/listening-port") ~ "/aircraft-dir/WebPanel/c172p-webpanel.html";
+                    fgcommand("open-browser", props.Node.new({ "url": _url }));
+                  }
+                </script>
+              </binding>
             </item>
         </menu>
     </default>

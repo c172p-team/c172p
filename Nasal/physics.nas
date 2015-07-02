@@ -1,5 +1,3 @@
-var max_lift_force = getprop("limits/max-lift-force");
-
 var gears = "fdm/jsbsim/gear/";
 var contact = "fdm/jsbsim/contact/";
 
@@ -19,10 +17,8 @@ var reset_all_damage = func
 	setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
 	setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
 	setprop("/fdm/jsbsim/crash", 0);
-	setprop("/fdm/jsbsim/left-pontoon/damaged", 0);
-	setprop("/fdm/jsbsim/left-pontoon/broken", 0);
-	setprop("/fdm/jsbsim/right-pontoon/damaged", 0);
-	setprop("/fdm/jsbsim/right-pontoon/broken", 0);
+	setprop("/fdm/jsbsim/pontoon-damage/left-pontoon", 0);
+	setprop("/fdm/jsbsim/pontoon-damage/right-pontoon", 0);
 
 	# Reset contacts
 	setprop(gears~"unit[0]/z-position", 0);
@@ -78,35 +74,13 @@ var rightgearbroke = func (bushkit)
 	setprop(gears~"unit[2]/z-position", 0);
 }
 
-var leftpontoondamaged = func
-{
-	if (!getprop("/fdm/jsbsim/left-pontoon/broken"))
-		setprop("/fdm/jsbsim/left-pontoon/damaged", 1);
+var leftpontoonbroke = func {
+    # FIXME Of which units do we need to update the z-position?
+};
 
-    killengine();
-}
-
-var leftpontoonbroke = func
-{
-	setprop("/fdm/jsbsim/left-pontoon/damaged", 0);
-	setprop("/fdm/jsbsim/left-pontoon/broken", 1);
-    killengine();
-}
-
-var rightpontoondamaged = func
-{
-	if (!getprop("/fdm/jsbsim/right-pontoon/broken"))
-		setprop("/fdm/jsbsim/right-pontoon/damaged", 1);
-
-    killengine();
-}
-
-var rightpontoonbroke = func
-{
-	setprop("/fdm/jsbsim/right-pontoon/damaged", 0);
-	setprop("/fdm/jsbsim/right-pontoon/broken", 1);
-    killengine();
-}
+var rightpontoonbroke = func {
+    # FIXME Of which units do we need to update the z-position?
+};
 
 var bothwingcollapse = func
 {
@@ -172,42 +146,7 @@ var poll_damage = func
 {
     # GROUND DAMAGES
 
-    var bushkit = getprop("/fdm/jsbsim/bushkit");
     var gears_broken = 0;
-
-    if (bushkit == 3 or bushkit == 4) {
-        var unit_13_comp = getprop(contact~"unit[13]/compression-ft");
-        var unit_15_comp = getprop(contact~"unit[15]/compression-ft");
-        var unit_17_comp = getprop(contact~"unit[17]/compression-ft");
-        var unit_19_comp = getprop(gears~"unit[19]/compression-ft");
-        var unit_21_comp = getprop(gears~"unit[21]/compression-ft");
-
-        var max_left_pontoon_gear_comp = std.max(unit_19_comp, unit_21_comp);
-
-        # Left pontoon
-        if (unit_13_comp > 0.95 or unit_15_comp > 0.95 or unit_17_comp > 0.95 or
-		    max_left_pontoon_gear_comp > 0.95)
-		    leftpontoonbroke();
-	    elsif (unit_13_comp > 0.75 or unit_15_comp > 0.75 or unit_17_comp > 0.75 or
-		    max_left_pontoon_gear_comp > 0.75)
-		    leftpontoondamaged();
-
-        var unit_14_comp = getprop(contact~"unit[14]/compression-ft");
-        var unit_16_comp = getprop(contact~"unit[16]/compression-ft");
-        var unit_18_comp = getprop(contact~"unit[18]/compression-ft");
-        var unit_20_comp = getprop(gears~"unit[20]/compression-ft");
-        var unit_22_comp = getprop(gears~"unit[22]/compression-ft");
-
-        var max_right_pontoon_gear_comp = std.max(unit_20_comp, unit_22_comp);
-
-        # Right pontoon
-        if (unit_14_comp > 0.95 or unit_16_comp > 0.95 or unit_18_comp > 0.95 or
-		    max_right_pontoon_gear_comp > 0.95)
-		    rightpontoonbroke();
-	    elsif (unit_14_comp > 0.75 or unit_16_comp > 0.75 or unit_18_comp > 0.75 or
-		    max_right_pontoon_gear_comp > 0.75)
-		    rightpontoondamaged();
-    }
 
     var left_wing_damage = getprop("/fdm/jsbsim/wing-damage/left-wing");
     var right_wing_damage = getprop("/fdm/jsbsim/wing-damage/right-wing");
@@ -218,12 +157,8 @@ var poll_damage = func
 
     var crash = getprop("/fdm/jsbsim/crash");
 
-	if (getprop(contact~"unit[12]/WOW"))
-		upsidedown();
-
 	if (getprop("position/altitude-agl-m") < 10 and (crash or left_wing_damage > 0.5 or right_wing_damage > 0.5))
 		killengine();
-
 }
 
 # Check if on water
@@ -320,6 +255,13 @@ setlistener("/sim/signals/fdm-initialized", func {
         }
     }, 0, 0);
 
+    setlistener(contact~"unit[12]/WOW", func (n) {
+        if (n.getBoolValue()) {
+            gui.popupTip("Upside down!", 5);
+            upsidedown();
+        }
+    }, 0, 0);
+
     setlistener("/fdm/jsbsim/wing-damage/left-wing", func (n) {
         var left_wing = n.getValue();
         var right_wing = getprop("/fdm/jsbsim/wing-damage/right-wing");
@@ -336,6 +278,10 @@ setlistener("/sim/signals/fdm-initialized", func {
             else
                 gui.popupTip("Left wing DAMAGED!", 5);
         }
+
+        # upsidedown() uses wing-damage/left-wing
+        if (getprop(contact~"unit[12]/WOW"))
+            upsidedown();
     }, 0, 0);
 
     setlistener("/fdm/jsbsim/wing-damage/right-wing", func (n) {
@@ -354,5 +300,55 @@ setlistener("/sim/signals/fdm-initialized", func {
             else
                 gui.popupTip("Right wing DAMAGED!", 5);
         }
+
+        # upsidedown() uses wing-damage/right-wing
+        if (getprop(contact~"unit[12]/WOW"))
+            upsidedown();
+    }, 0, 0);
+
+    setlistener("/fdm/jsbsim/pontoon-damage/left-pontoon", func (n) {
+        var left_pontoon = n.getValue();
+        var right_pontoon = getprop("/fdm/jsbsim/pontoon-damage/right-pontoon");
+
+        if (left_pontoon == 1) {
+            if (right_pontoon == 1)
+                gui.popupTip("Both pontoons BROKEN!", 5);
+            else
+                gui.popupTip("Left pontoon BROKEN!", 5);
+
+            leftpontoonbroke();
+        }
+        elsif (left_pontoon == 2) {
+            if (right_pontoon == 2)
+                gui.popupTip("Both pontoons DAMAGED!", 5);
+            else
+                gui.popupTip("Left pontoon DAMAGED!", 5);
+        }
+
+        if (left_pontoon != 0)
+            killengine();
+    }, 0, 0);
+
+    setlistener("/fdm/jsbsim/pontoon-damage/right-pontoon", func (n) {
+        var left_pontoon = getprop("/fdm/jsbsim/pontoon-damage/left-pontoon");
+        var right_pontoon = n.getValue();
+
+        if (right_pontoon == 1) {
+            if (left_pontoon == 1)
+                gui.popupTip("Both pontoons BROKEN!", 5);
+            else
+                gui.popupTip("Right pontoon BROKEN!", 5);
+
+            rightpontoonbroke();
+        }
+        elsif (right_pontoon == 2) {
+            if (left_pontoon == 2)
+                gui.popupTip("Both pontoons DAMAGED!", 5);
+            else
+                gui.popupTip("Right pontoon DAMAGED!", 5);
+        }
+
+        if (right_pontoon != 0)
+            killengine();
     }, 0, 0);
 });

@@ -365,4 +365,98 @@
 
     </channel>
 
+    <channel name="pontoon-damage">
+
+        <!-- Left pontoon damage -->
+        <switch>
+            <output>pontoon-damage/left-pontoon</output>
+            <default value="pontoon-damage/left-pontoon"/>
+
+            <!-- No damage -->
+            <test logic="OR" value="0">
+                settings/damage EQ 0
+                damage/repairing EQ 1
+                simulation/sim-time-sec LT 0.25
+            </test>
+            <test logic="AND" value="0">
+                bushkit NE 3
+                bushkit NE 4
+            </test>
+
+            <!-- ================================================================== -->
+            <!-- Broken                                                             -->
+            <!-- ================================================================== -->
+
+            <test logic="OR" value="1">
+                contact/unit[13]/compression-ft GT 0.95
+                contact/unit[15]/compression-ft GT 0.95
+                contact/unit[17]/compression-ft GT 0.95
+                gear/unit[19]/compression-ft GT 0.95
+                gear/unit[21]/compression-ft GT 0.95
+            </test>
+
+            <!-- ================================================================== -->
+            <!-- Damaged                                                            -->
+            <!-- ================================================================== -->
+
+            <test logic="AND" value="pontoon-damage/left-pontoon">
+                pontoon-damage/left-pontoon NE 1
+
+                <test logic="OR" value="2">
+                    contact/unit[13]/compression-ft GT 0.75
+                    contact/unit[15]/compression-ft GT 0.75
+                    contact/unit[17]/compression-ft GT 0.75
+                    gear/unit[19]/compression-ft GT 0.75
+                    gear/unit[21]/compression-ft GT 0.75
+                </test>
+            </test>
+        </switch>
+
+        <!-- Right pontoon damage -->
+        <switch>
+            <output>pontoon-damage/right-pontoon</output>
+            <default value="pontoon-damage/right-pontoon"/>
+
+            <!-- No damage -->
+            <test logic="OR" value="0">
+                settings/damage EQ 0
+                damage/repairing EQ 1
+                simulation/sim-time-sec LT 0.25
+            </test>
+            <test logic="AND" value="0">
+                bushkit NE 3
+                bushkit NE 4
+            </test>
+
+            <!-- ================================================================== -->
+            <!-- Broken                                                             -->
+            <!-- ================================================================== -->
+
+            <test logic="OR" value="1">
+                contact/unit[14]/compression-ft GT 0.95
+                contact/unit[16]/compression-ft GT 0.95
+                contact/unit[18]/compression-ft GT 0.95
+                gear/unit[20]/compression-ft GT 0.95
+                gear/unit[22]/compression-ft GT 0.95
+            </test>
+
+            <!-- ================================================================== -->
+            <!-- Damaged                                                            -->
+            <!-- ================================================================== -->
+
+            <test logic="AND" value="pontoon-damage/right-pontoon">
+                pontoon-damage/right-pontoon NE 1
+
+                <test logic="OR" value="2">
+                    contact/unit[14]/compression-ft GT 0.75
+                    contact/unit[16]/compression-ft GT 0.75
+                    contact/unit[18]/compression-ft GT 0.75
+                    gear/unit[20]/compression-ft GT 0.75
+                    gear/unit[22]/compression-ft GT 0.75
+                </test>
+            </test>
+        </switch>
+
+    </channel>
+
 </system>

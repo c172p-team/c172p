@@ -129,18 +129,14 @@
 		<bushkit>
 			<property>sim/multiplay/generic/int[9]</property>
 		</bushkit>
+
+        <!-- 0 = normal, 1 = broken, 2 = damaged -->
 		<pontoon_left_damaged>
 			<property>sim/multiplay/generic/int[10]</property>
 		</pontoon_left_damaged>
-		<pontoon_left_broken>
-			<property>sim/multiplay/generic/int[11]</property>
-		</pontoon_left_broken>
 		<pontoon_right_damaged>
-			<property>sim/multiplay/generic/int[12]</property>
+			<property>sim/multiplay/generic/int[11]</property>
 		</pontoon_right_damaged>
-		<pontoon_right_broken>
-			<property>sim/multiplay/generic/int[13]</property>
-		</pontoon_right_broken>
 
         <!-- 0 = normal, 1 = broken, 2 = damaged -->
 		<wing_left_damaged>
@@ -3526,15 +3522,19 @@
    <object-name>Propeller</object-name>
    <object-name>Propeller.Fast</object-name>
    <condition>
-	  <not>
-		<or>
+    <and>
+        <not>
 		  <property alias="/params/gear_nose_broken/property"/>
+        </not>
+        <equals>
 		  <property alias="/params/pontoon_left_damaged/property"/>
-		  <property alias="/params/pontoon_left_broken/property"/>
+          <value>0</value>
+        </equals>
+        <equals>
 		  <property alias="/params/pontoon_right_damaged/property"/>
-		  <property alias="/params/pontoon_right_broken/property"/>
-	    </or>
-	  </not>
+          <value>0</value>
+        </equals>
+    </and>
    </condition>
  </animation>
 
@@ -3545,10 +3545,14 @@
    <condition>
 	    <or>
 		    <property alias="/params/gear_nose_broken/property"/>
-		    <property alias="/params/pontoon_left_damaged/property"/>
-		    <property alias="/params/pontoon_left_broken/property"/>
-		    <property alias="/params/pontoon_right_damaged/property"/>
-		    <property alias="/params/pontoon_right_broken/property"/>
+            <not-equals>
+		        <property alias="/params/pontoon_left_damaged/property"/>
+                <value>0</value>
+            </not-equals>
+            <not-equals>
+		        <property alias="/params/pontoon_right_damaged/property"/>
+                <value>0</value>
+            </not-equals>
 		</or>
    </condition>
  </animation>
@@ -3842,12 +3846,10 @@
    <object-name>L-FloatC</object-name>
    <condition>
 	  <and>
-		<not>
+		<equals>
 			<property alias="/params/pontoon_left_damaged/property"/>
-		</not>
-		<not>
-			<property alias="/params/pontoon_left_broken/property"/>
-		</not>
+			<value>0</value>
+		</equals>
 		<equals>
 			<property alias="/params/bushkit/property"/>
 			<value>3</value>
@@ -3862,12 +3864,10 @@
    <object-name>R-FloatC</object-name>
    <condition>
 	  <and>
-		<not>
+		<equals>
 			<property alias="/params/pontoon_right_damaged/property"/>
-		</not>
-		<not>
-			<property alias="/params/pontoon_right_broken/property"/>
-		</not>
+            <value>0</value>
+		</equals>
 		<equals>
 			<property alias="/params/bushkit/property"/>
 			<value>3</value>
@@ -3890,12 +3890,10 @@
    <object-name>Lstrut.002</object-name>
    <condition>
 	  <and>
-		<not>
+		<equals>
 			<property alias="/params/pontoon_left_damaged/property"/>
-		</not>
-		<not>
-			<property alias="/params/pontoon_left_broken/property"/>
-		</not>
+			<value>0</value>
+		</equals>
 		<equals>
 			<property alias="/params/bushkit/property"/>
 			<value>4</value>
@@ -3918,12 +3916,10 @@
    <object-name>Rstrut.002</object-name>
    <condition>
 	  <and>
-		<not>
+		<equals>
 			<property alias="/params/pontoon_right_damaged/property"/>
-		</not>
-		<not>
-			<property alias="/params/pontoon_right_broken/property"/>
-		</not>
+            <value>0</value>
+		</equals>
 		<equals>
 			<property alias="/params/bushkit/property"/>
 			<value>4</value>
@@ -3938,12 +3934,10 @@
    <object-name>LHrudder</object-name>
    <condition>
 	  <and>
-		<not>
-		  <property alias="/params/pontoon_left_damaged/property"/>
-		</not>
-		<not>
-		  <property alias="/params/pontoon_left_broken/property"/>
-		</not>
+		<equals>
+		    <property alias="/params/pontoon_left_damaged/property"/>
+	        <value>0</value>
+		</equals>
 		<or>
 			<equals>
 			  <property alias="/params/bushkit/property"/>
@@ -3964,12 +3958,10 @@
    <object-name>RHrudder</object-name>
    <condition>
 	  <and>
-	    <not>
-		  <property alias="/params/pontoon_right_damaged/property"/>
-		</not>
-		<not>
-		  <property alias="/params/pontoon_right_broken/property"/>
-		</not>
+		<equals>
+		    <property alias="/params/pontoon_right_damaged/property"/>
+            <value>0</value>
+		</equals>
 		<or>
 			<equals>
 			  <property alias="/params/bushkit/property"/>
@@ -4009,10 +4001,10 @@
    <object-name>L-FloatCD</object-name>
    <condition>
 	  <and>
-	    <property alias="/params/pontoon_left_damaged/property"/>
-		<not>
-		  <property alias="/params/pontoon_left_broken/property"/>
-		</not>
+        <equals>
+	        <property alias="/params/pontoon_left_damaged/property"/>
+		    <value>2</value>
+        </equals>
 		<equals>
 		  <property alias="/params/bushkit/property"/>
 		  <value>3</value>
@@ -4027,10 +4019,10 @@
    <object-name>R-FloatCD</object-name>
    <condition>
 	  <and>
-	    <property alias="/params/pontoon_right_damaged/property"/>
-		<not>
-		  <property alias="/params/pontoon_right_broken/property"/>
-		</not>
+		<equals>
+	        <property alias="/params/pontoon_right_damaged/property"/>
+            <value>2</value>
+		</equals>
 		<equals>
 		  <property alias="/params/bushkit/property"/>
 		  <value>3</value>
@@ -4079,10 +4071,10 @@
    <object-name>LstrutOD.002</object-name>
    <condition>
 	  <and>
-	    <property alias="/params/pontoon_left_damaged/property"/>
-		<not>
-		  <property alias="/params/pontoon_left_broken/property"/>
-		</not>
+        <equals>
+	        <property alias="/params/pontoon_left_damaged/property"/>
+            <value>2</value>
+        </equals>
 		<equals>
 		  <property alias="/params/bushkit/property"/>
 		  <value>4</value>
@@ -4101,10 +4093,10 @@
    <object-name>RstrutOD.002</object-name>
    <condition>
 	  <and>
-	    <property alias="/params/pontoon_right_damaged/property"/>
-		<not>
-		  <property alias="/params/pontoon_right_broken/property"/>
-		</not>
+		<equals>
+	        <property alias="/params/pontoon_right_damaged/property"/>
+            <value>2</value>
+		</equals>
 		<equals>
 		  <property alias="/params/bushkit/property"/>
 		  <value>4</value>
@@ -4157,10 +4149,10 @@
    <object-name>LHrudderD</object-name>
    <condition>
 	  <and>
-	    <property alias="/params/pontoon_left_damaged/property"/>
-		<not>
-		  <property alias="/params/pontoon_left_broken/property"/>
-		</not>
+        <equals>
+	        <property alias="/params/pontoon_left_damaged/property"/>
+            <value>2</value>
+        </equals>
 		<or>
 			<equals>
 			  <property alias="/params/bushkit/property"/>
@@ -4181,10 +4173,10 @@
    <object-name>RHrudderD</object-name>
    <condition>
 	  <and>
-	    <property alias="/params/pontoon_right_damaged/property"/>
-		<not>
-		  <property alias="/params/pontoon_right_broken/property"/>
-		</not>
+        <equals>
+	        <property alias="/params/pontoon_right_damaged/property"/>
+            <value>2</value>
+        </equals>
 		<or>
 			<equals>
 			  <property alias="/params/bushkit/property"/>

@@ -85,7 +85,9 @@ var rightpontoonbroke = func {
 var bothwingcollapse = func
 {
 	setprop(contact~"unit[5]/z-position", -8);
-	setprop("/fdm/jsbsim/crash", 1);
+
+    if (getprop("position/altitude-agl-m") < 10)
+        killengine();
 }
 
 var upsidedown = func
@@ -142,25 +144,6 @@ var amphibious = func
 	setprop(gears~"unit[22]/z-position", -50.5);
 }
 
-var poll_damage = func
-{
-    # GROUND DAMAGES
-
-    var gears_broken = 0;
-
-    var left_wing_damage = getprop("/fdm/jsbsim/wing-damage/left-wing");
-    var right_wing_damage = getprop("/fdm/jsbsim/wing-damage/right-wing");
-
-    # FIXME Fix testing for all gear broken
-	if (gears_broken == 3 and left_wing_damage < 1 and right_wing_damage < 1)
-		bothwingcollapse();
-
-    var crash = getprop("/fdm/jsbsim/crash");
-
-	if (getprop("position/altitude-agl-m") < 10 and (crash or left_wing_damage > 0.5 or right_wing_damage > 0.5))
-		killengine();
-}
-
 # Check if on water
 var poll_surface = func
 {
@@ -198,10 +181,8 @@ var physics_loop = func
         return;
     }
 
-	if(getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
+	if (getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
 		poll_surface();
-	if (!getprop("/fdm/jsbsim/damage/repairing") and getprop("/fdm/jsbsim/settings/damage"))
-		poll_damage();
 }
 
 var set_bushkit = func (bushkit) {
@@ -262,6 +243,12 @@ setlistener("/sim/signals/fdm-initialized", func {
         }
     }, 0, 0);
 
+    setlistener("/fdm/jsbsim/crash", func (n) {
+        if (n.getBoolValue()) {
+            bothwingcollapse();
+        }
+    }, 0, 0);
+
     setlistener("/fdm/jsbsim/wing-damage/left-wing", func (n) {
         var left_wing = n.getValue();
         var right_wing = getprop("/fdm/jsbsim/wing-damage/right-wing");
@@ -277,6 +264,9 @@ setlistener("/sim/signals/fdm-initialized", func {
                 gui.popupTip("Both wings DAMAGED!", 5);
             else
                 gui.popupTip("Left wing DAMAGED!", 5);
+
+            if (getprop("position/altitude-agl-m") < 10)
+                killengine();
         }
 
         # upsidedown() uses wing-damage/left-wing
@@ -299,6 +289,9 @@ setlistener("/sim/signals/fdm-initialized", func {
                 gui.popupTip("Both wings DAMAGED!", 5);
             else
                 gui.popupTip("Right wing DAMAGED!", 5);
+
+            if (getprop("position/altitude-agl-m") < 10)
+                killengine();
         }
 
         # upsidedown() uses wing-damage/right-wing

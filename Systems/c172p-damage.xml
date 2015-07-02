@@ -189,6 +189,33 @@
             <gain>-1.0</gain>
         </pure_gain>
 
+        <pure_gain name="damage/force-gear-lbs">
+            <input>forces/fbz-gear-lbs</input>
+            <gain>-1.0</gain>
+        </pure_gain>
+
+        <!-- Wings collapsed -->
+        <switch>
+            <output>crash</output>
+            <default value="crash"/>
+
+            <!-- No damage -->
+            <test logic="OR" value="0.0">
+                settings/damage EQ 0
+                damage/repairing EQ 1
+                simulation/sim-time-sec LT 0.25
+            </test>
+
+            <test logic="AND" value="1.0">
+                contact/unit[6]/WOW EQ 1
+                contact/unit[7]/WOW EQ 1
+                contact/unit[8]/WOW EQ 1
+                damage/force-gear-lbs GT damage/limits-lift-high
+                wing-damage/left-wing LT 1.0
+                wing-damage/right-wing LT 1.0
+            </test>
+        </switch>
+
         <!-- Left wing damage -->
         <switch>
             <output>wing-damage/left-wing</output>
@@ -206,8 +233,9 @@
             <!-- ================================================================== -->
 
             <!-- Break wing when its wing tip hits the ground or an object -->
-            <test logic="AND" value="1.0">
+            <test logic="OR" value="1.0">
                 contact/unit[4]/compression-ft GT 0.005
+                crash EQ 1
             </test>
 
             <!-- Overspeed -->
@@ -293,8 +321,9 @@
             <!-- ================================================================== -->
 
             <!-- Break wing when its wing tip hits the ground or an object -->
-            <test logic="AND" value="1.0">
+            <test logic="OR" value="1.0">
                 contact/unit[5]/compression-ft GT 0.005
+                crash EQ 1
             </test>
 
             <!-- Overspeed -->

@@ -91,6 +91,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
     </liveryfloat>
 
     <c172p>
+      <!-- Registration number -->
       <regnum1 type="int">0</regnum1>
       <regnum2 type="int">0</regnum2>
       <regnum3 type="int">0</regnum3>
@@ -101,6 +102,8 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
       <fairing1 type="bool">true</fairing1>
       <fairing2 type="bool">false</fairing2>
       <fairing3 type="bool">false</fairing3>
+
+      <!-- Event sounds -->
       <sound>
         <click-light type="bool">false</click-light>
         <click-master type="bool">false</click-master>
@@ -129,6 +132,18 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
         <click-kx165-1-dial type="bool">false</click-kx165-1-dial>
         <click-kx165-2-dial type="bool">false</click-kx165-2-dial>
       </sound>
+
+      <!-- Lighting used by model and ALS -->
+      <lighting>
+        <taxi type="bool">false</taxi>
+        <landing type="bool">false</landing>
+      </lighting>
+
+      <!-- Damage type (0 = normal, 1 = broken, 2 = damaged) used by model -->
+      <damage>
+        <left-wing type="int">0</left-wing>
+        <right-wing type="int">0</right-wing>
+      </damage>
     </c172p>
     <hide-yoke type="bool">false</hide-yoke>
     
@@ -148,7 +163,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
     </crew>
 	
 	<!-- human models persistent menu choice -->
-	<occupants type="bool">0</occupants>
+	<occupants type="bool">false</occupants>
   
     <!-- an exit for the walker -->
     <map>
@@ -162,7 +177,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
   <aircraft-data>
     <path>/sim/rendering/shadow-volume</path>
     <path>/sim/model/occupants</path>
-    <path>/fdm/jsbsim/damage</path>
+    <path>/fdm/jsbsim/settings/damage</path>
     <path>/fdm/jsbsim/bushkit</path>
     <path>/controls/engines/active-engine</path>
     <path>/environment/aircraft-effects/cabin-heat-set</path>
@@ -224,6 +239,10 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
     <property-rule n="103">
       <path>Aircraft/c172p/Systems/engine.xml</path>
     </property-rule>
+
+    <property-rule n="104">
+      <path>Aircraft/c172p/Systems/damage.xml</path>
+    </property-rule>
   </systems>
 
   <sound>
@@ -249,8 +268,8 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
         <float n="1" alias="/sim/model/door-positions/leftDoor/position-norm"/>
         <float n="2" alias="/sim/model/door-positions/baggageDoor/position-norm"/>
 		<float n="3" alias="/systems/electrical/outputs/nav-lights"/>
-        <float n="4" alias="/systems/electrical/outputs/taxi-light"/>
-        <float n="5" alias="/systems/electrical/outputs/landing-lights"/>
+        <!-- 4 unused -->
+        <!-- 5 unused -->
 		<float n="6" alias="/fdm/jsbsim/hydro/spray-wake-speed-kt-actual"/>
 		<float n="7" alias="/fdm/jsbsim/hydro/left-ground-effect-speed-kt-actual"/>
 		<float n="8" alias="/fdm/jsbsim/hydro/right-ground-effect-speed-kt-actual"/>	
@@ -263,24 +282,29 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 		<float n="15" alias="/fdm/jsbsim/ground/nose-tyre-smoke-ground-effect-speed-kt-actual"/>
 		<float n="16" alias="/fdm/jsbsim/ground/left-tyre-smoke-ground-effect-speed-kt-actual"/>
 		<float n="17" alias="/fdm/jsbsim/ground/right-tyre-smoke-ground-effect-speed-kt-actual"/>
+		<!-- 18 unused -->
+        <!-- 19 unused -->
 
+        <!-- 0 unused -->
         <int n="1" alias="/sim/model/c172p/lighting/beacon-top/state"/>
         <int n="2" alias="/sim/model/c172p/lighting/strobes/state"/>
-        <int n="3" alias="/fdm/jsbsim/crash"/>
-        <int n="4" alias="/fdm/jsbsim/contact/unit[4]/broken"/>
-        <int n="5" alias="/fdm/jsbsim/contact/unit[5]/broken"/>
+        <!-- 3 unused -->
+        <int n="4" alias="/sim/model/c172p/lighting/taxi"/>
+        <int n="5" alias="/sim/model/c172p/lighting/landing"/>
         <int n="6" alias="/fdm/jsbsim/gear/unit[0]/broken"/>
         <int n="7" alias="/fdm/jsbsim/gear/unit[1]/broken"/>
         <int n="8" alias="/fdm/jsbsim/gear/unit[2]/broken"/>
         <int n="9" alias="/fdm/jsbsim/bushkit"/>
-        <int n="10" alias="/fdm/jsbsim/left-pontoon/damaged"/>
-        <int n="11" alias="/fdm/jsbsim/left-pontoon/broken"/>
-        <int n="12" alias="/fdm/jsbsim/right-pontoon/damaged"/>
-        <int n="13" alias="/fdm/jsbsim/right-pontoon/broken"/>
-		<int n="14" alias="/fdm/jsbsim/wing-both/broken"/>
-		<int n="15" alias="/fdm/jsbsim/wing-damage/left-wing"/>
-		<int n="16" alias="/fdm/jsbsim/wing-damage/right-wing"/>
+        <int n="10" alias="/fdm/jsbsim/pontoon-damage/left-pontoon"/>
+        <int n="11" alias="/fdm/jsbsim/pontoon-damage/right-pontoon"/>
+        <!-- 12 unused -->
+        <!-- 13 unused -->
+        <int n="14" alias="/fdm/jsbsim/crash"/>
+        <!-- 15 unused -->
+        <!-- 16 unused -->
 		<int n="17" alias="/engines/active-engine/exhaust"/>
+        <int n="18" alias="/sim/model/c172p/damage/left-wing"/>
+		<int n="19" alias="/sim/model/c172p/damage/right-wing"/>
 
         <!-- Registration number over MP -->
         <string n="0" alias="/sim/model/immat"/>
@@ -549,7 +573,22 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
   </weight>
  </payload>
 
- <limits>
+    <limits>
+        <!--
+            Specifications Vne: 158 KIAS
+            Normal category (1500 - 2400 or 2550 lbs):
+                max positive-g: 3.8, max negative-g: -1.52,
+            Utility category (1500 - 2100 lbs):
+                max positive-g: 4.4, max negative-g: -1.76,
+            Structure holds at least 150 % max g's
+        -->
+        <max-positive-g>3.8</max-positive-g>
+        <max-negative-g>-1.52</max-negative-g>
+        <vne>158</vne>
+
+        <!-- 2550*3.8 -->
+        <max-lift-force>9690</max-lift-force>
+
   <mass-and-balance-160hp>
     <maximum-ramp-mass-lbs>2407</maximum-ramp-mass-lbs>
     <maximum-takeoff-mass-lbs>2400</maximum-takeoff-mass-lbs>
@@ -641,26 +680,25 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 			  <broken type="bool">0</broken>
 			</unit>
 		</contact>
-		<crash type="bool">0</crash>
-		<damage type="bool">0</damage>
-		<running type="bool">0</running>
-		<complex type="bool">0</complex>
-		<weather type="bool">0</weather>
+		<crash type="bool">false</crash>
+		<running type="bool">false</running>
+		<complex type="bool">false</complex>
+		<weather type="bool">false</weather>
+		<bushkit type="int">0</bushkit>
 		<wing-damage>
-            <left-wing type="double">0</left-wing>
-            <right-wing type="double">0</right-wing>
+            <left-wing type="double">0.0</left-wing>
+            <right-wing type="double">0.0</right-wing>
         </wing-damage>
-		<wing-both>
-            <broken type="bool">0</broken>
-		</wing-both>
-		<left-pontoon>
-			<damaged type="bool">0</damaged>
-			<broken type="bool">0</broken>
-		</left-pontoon>
-		<right-pontoon>
-			<damaged type="bool">0</damaged>
-			<broken type="bool">0</broken>
-		</right-pontoon>
+        <pontoon-damage>
+            <left-pontoon type="int">0</left-pontoon>
+            <right-pontoon type="int">0</right-pontoon>
+        </pontoon-damage>
+        <damage>
+            <repairing type="bool">false</repairing>
+        </damage>
+        <settings>
+		    <damage type="bool">false</damage>
+        </settings>
     </jsbsim>
   </fdm>
   <!-- End Damage Mod -->

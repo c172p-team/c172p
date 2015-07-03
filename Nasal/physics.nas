@@ -74,14 +74,6 @@ var rightgearbroke = func (bushkit)
 	setprop(gears~"unit[2]/z-position", 0);
 }
 
-var leftpontoonbroke = func {
-    # FIXME Of which units do we need to update the z-position?
-};
-
-var rightpontoonbroke = func {
-    # FIXME Of which units do we need to update the z-position?
-};
-
 var bothwingcollapse = func
 {
 	setprop(contact~"unit[5]/z-position", -8);
@@ -308,8 +300,6 @@ setlistener("/sim/signals/fdm-initialized", func {
                 gui.popupTip("Both pontoons BROKEN!", 5);
             else
                 gui.popupTip("Left pontoon BROKEN!", 5);
-
-            leftpontoonbroke();
         }
         elsif (left_pontoon == 2) {
             if (right_pontoon == 2)
@@ -331,8 +321,6 @@ setlistener("/sim/signals/fdm-initialized", func {
                 gui.popupTip("Both pontoons BROKEN!", 5);
             else
                 gui.popupTip("Right pontoon BROKEN!", 5);
-
-            rightpontoonbroke();
         }
         elsif (right_pontoon == 2) {
             if (left_pontoon == 2)

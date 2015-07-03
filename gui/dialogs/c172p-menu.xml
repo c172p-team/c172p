@@ -7,7 +7,6 @@
         <menu n="10">
             <label>Cessna C172P</label>
             <enabled type="bool">true</enabled>
-
             <item>
                 <label>Aircraft Options</label>
                 <binding>
@@ -54,6 +53,22 @@
                     <command>nasal</command>
                     <script>c172p.autostart()</script>
                 </binding>
+            </item>
+            <item>
+              <label>Panel in a Browser</label>
+              <binding>
+                <command>nasal</command>
+                <script>
+                    if (getprop("/sim/http/running")) {
+                        var port = getprop("/sim/http/options/listening-port");
+                        var url = sprintf("http://localhost:%d/aircraft-dir/WebPanel/c172p-webpanel.html", port);
+                        fgcommand("open-browser", props.Node.new({ "url": url }));
+                    }
+                    else {
+                        gui.popupTip("Internal webserver not running. Restart FlightGear with --httpd=8080", 5.0);
+                    }
+                </script>
+              </binding>
             </item>
         </menu>
 

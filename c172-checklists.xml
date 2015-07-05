@@ -1193,6 +1193,55 @@
     </item>
   </checklist>
   <checklist>
+    <title>After Takeoff</title>
+    <item>
+      <name>Wheels (amphibious)</name>
+      <value>UP</value>
+      <condition>
+        <and>
+          <equals>
+            <property>/fdm/jsbsim/bushkit</property>
+            <value>4</value>
+          </equals>
+          <not>
+            <property>/controls/gear/gear-down</property>
+          </not>
+        </and>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/gear/gear-down</property>
+        <value type="bool">false</value>
+      </binding>
+    </item>
+    <item>
+      <name>Water rudders (float plane)</name>
+      <value>UP</value>
+      <condition>
+        <and>
+          <or>
+            <equals>
+              <property>/fdm/jsbsim/bushkit</property>
+              <value>3</value>
+            </equals>
+            <equals>
+              <property>/fdm/jsbsim/bushkit</property>
+              <value>4</value>
+            </equals>
+          </or>
+          <not>
+            <property>/controls/gear/water-rudder</property>
+          </not>
+        </and>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/gear/water-rudder</property>
+        <value type="bool">false</value>
+      </binding>
+    </item>
+  </checklist>
+  <checklist>
     <title>Enroute Climb</title>
     <item>
       <name>Airspeed</name>
@@ -1436,6 +1485,44 @@
     <item>
       <name>Seats, Seat Belt, Shoulder Harnesses</name>
       <value>SECURE</value>
+    </item>
+    <item>
+      <name>Wheels (amphibious, land)</name>
+      <value>DOWN</value>
+      <condition>
+        <and>
+          <equals>
+            <property>/fdm/jsbsim/bushkit</property>
+            <value>4</value>
+          </equals>
+          <property>/controls/gear/gear-down</property>
+        </and>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/gear/gear-down</property>
+        <value type="bool">true</value>
+      </binding>
+    </item>
+    <item>
+      <name>Wheels (amphibious, water)</name>
+      <value>UP</value>
+      <condition>
+        <and>
+          <equals>
+            <property>/fdm/jsbsim/bushkit</property>
+            <value>4</value>
+          </equals>
+          <not>
+            <property>/controls/gear/gear-down</property>
+          </not>
+        </and>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/gear/gear-down</property>
+        <value type="bool">false</value>
+      </binding>
     </item>
     <item>
       <name>Water rudders (float plane)</name>

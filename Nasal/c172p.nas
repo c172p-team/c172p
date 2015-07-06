@@ -96,8 +96,8 @@ var reset_system = func {
 	{
 		c172p.autostart(0);
 	    setprop("/controls/switches/starter", 1);
-		var engineRunning = setlistener("/engines/engine[0]/running", func{
-			if (getprop("/engines/engine[0]/running"))
+		var engineRunning = setlistener("/engines/active-engine/running", func{
+			if (getprop("/engines/active-engine/running"))
 			{
 				setprop("/controls/switches/starter", 0);
 				removelistener(engineRunning);

@@ -115,7 +115,7 @@ BatteryClass.apply_load = func (amps, dt) {
     var new_charge_percent = std.max(0.0, std.min(old_charge_percent - percent_used, 1.0));
 
     if (new_charge_percent < 0.1 and old_charge_percent >= 0.1)
-        gui.popupTip("Warning: Low battery! Enable alternator or apply external power to recharge battery.", 10);
+        gui.popupTip("Warning: Low battery! Enable alternator or apply external power to recharge battery!", 10);
 
     setprop("/systems/electrical/battery-charge-percent", new_charge_percent);
     return me.amp_hours * new_charge_percent;
@@ -164,7 +164,7 @@ var AlternatorClass = {};
 
 AlternatorClass.new = func {
     var obj = { parents : [AlternatorClass],
-                rpm_source : "/engines/engine[0]/rpm",
+                rpm_source : "/engines/active-engine/rpm",
                 rpm_threshold : 800.0,
                 ideal_volts : 28.0,
                 ideal_amps : 60.0 };

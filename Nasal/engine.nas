@@ -96,13 +96,13 @@ var update = func {
     # We use the mixture to control the engines, so set the mixture
     var usePrimer = getprop("/controls/engines/engine/use-primer") or 0;
 
-    var engine_running = getprop("/engines/current-engine/running");
+    var engine_running = getprop("/engines/active-engine/running");
 
     if (outOfFuel and (engine_running or usePrimer)) {
         print("Out of fuel!");
         gui.popupTip("Out of fuel!");
     }
-    elsif (usePrimer and getprop("/engines/engine/oil-temperature-degf") <= 75) {
+    elsif (usePrimer and !engine_running and getprop("/engines/active-engine/oil-temperature-degf") <= 75) {
         # Mixture is controlled by start conditions
         var primer = getprop("/controls/engines/engine/primer");
         if (!getprop("/fdm/jsbsim/fcs/mixture-primer") and getprop("/controls/switches/starter")) {
@@ -123,9 +123,9 @@ var update = func {
 };
 
 var autostart = func (msg=1) {
-    if (getprop("/engines/current-engine/running")) {
+    if (getprop("/engines/active-engine/running")) {
 		if (msg)
-            gui.popupTip("Engine already running.", 5);
+            gui.popupTip("Engine already running", 5);
         return;
     }
 
@@ -215,13 +215,15 @@ controls.mixtureAxis = func {
 # key 's' calls to this function when it is pressed DOWN even if I overwrite the binding in the -set.xml file!
 # fun fact: the key UP event can be overwriten!
 controls.startEngine = func(v = 1) {
-    if (getprop("/engines/current-engine/running"))
+    if (getprop("/engines/active-engine/running"))
 	{
         setprop("/controls/switches/starter", 0);
 		return;
 	}
-	else
+	else {
+        setprop("/controls/switches/magnetos", 3);
 		setprop("/controls/switches/starter", v);
+    }
 };
 
 setlistener("/sim/signals/fdm-initialized", func {

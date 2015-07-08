@@ -27,24 +27,6 @@ var ammeter_ave = 0.0;
 var init_electrical = func {
     battery = BatteryClass.new();
     alternator = AlternatorClass.new();
-    
-    props.globals.getNode("controls/circuit-breakers/aircond", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/master", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/flaps", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/pitot-heat", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/instr", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/intlt", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/navlt", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/bcnlt", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/landing", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/strobe", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/turn-coordinator", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/radio1", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/radio2", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/radio3", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/radio4", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/radio5", 1).setBoolValue(1);
-    props.globals.getNode("controls/circuit-breakers/autopilot", 1).setBoolValue(1);
 
     # These two properties are aliased to MP properties in /sim/multiplay/generic/.
     # This aliasing seems to work in both ways, because the two properties below

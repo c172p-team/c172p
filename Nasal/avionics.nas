@@ -103,3 +103,24 @@ aircraft.data.add(
     "/controls/engines/current-engine/mixture",
     "/controls/engines/engine[0]/primer-lever",
 );
+
+# Circuit breakers
+aircraft.data.add(
+    "/controls/circuit-breakers/aircond",
+    "/controls/circuit-breakers/autopilot",
+    "/controls/circuit-breakers/bcnlt",
+    "/controls/circuit-breakers/flaps",
+    "/controls/circuit-breakers/instr",
+    "/controls/circuit-breakers/intlt",
+    "/controls/circuit-breakers/landing",
+    "/controls/circuit-breakers/master",
+    "/controls/circuit-breakers/navlt",
+    "/controls/circuit-breakers/pitot-heat",
+    "/controls/circuit-breakers/radio1",
+    "/controls/circuit-breakers/radio2",
+    "/controls/circuit-breakers/radio3",
+    "/controls/circuit-breakers/radio4",
+    "/controls/circuit-breakers/radio5",
+    "/controls/circuit-breakers/strobe",
+    "/controls/circuit-breakers/turn-coordinator",
+);

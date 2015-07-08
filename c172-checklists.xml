@@ -9,6 +9,38 @@
       <value>Check fuel and oil levels</value>
     </item>
     <item>
+      <name>Water rudders operation (float plane)</name>
+      <value>CHECK</value>
+    </item>
+    <item>
+      <name>Water rudders (float plane)</name>
+      <value>DOWN (on the water)</value>
+      <value>(For taxiing)</value>
+      <condition>
+        <and>
+          <or>
+            <equals>
+              <property>/fdm/jsbsim/bushkit</property>
+              <value>3</value>
+            </equals>
+            <equals>
+              <property>/fdm/jsbsim/bushkit</property>
+              <value>4</value>
+            </equals>
+          </or>
+          <property>/controls/gear/water-rudder</property>
+          <not>
+            <property>/fdm/jsbsim/ground/solid</property>
+          </not>
+        </and>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/gear/water-rudder</property>
+        <value type="bool">true</value>
+      </binding>
+    </item>
+    <item>
       <name>Passenger Briefing</name>
       <value>COMPLETE</value>
       <value>Inform them about security procedures</value>
@@ -1023,6 +1055,193 @@
     </item>
   </checklist>
   <checklist>
+    <title>Water Takeoff</title>
+    <item>
+      <name>Water rudders</name>
+      <value>UP</value>
+      <condition>
+        <and>
+          <or>
+            <equals>
+              <property>/fdm/jsbsim/bushkit</property>
+              <value>3</value>
+            </equals>
+            <equals>
+              <property>/fdm/jsbsim/bushkit</property>
+              <value>4</value>
+            </equals>
+          </or>
+          <not>
+            <property>/controls/gear/water-rudder</property>
+          </not>
+        </and>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/gear/water-rudder</property>
+        <value type="bool">false</value>
+      </binding>
+    </item>
+    <item>
+      <name>Wing Flaps</name>
+      <value>20 degrees</value>
+      <marker>
+        <x-m>-0.3608</x-m>
+        <y-m>0.1725</y-m>
+        <z-m>-0.2325</z-m>
+        <scale>4.2667</scale>
+      </marker>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/controls/flight/flaps</property>
+            <value>0.6</value>
+          </greater-than>
+          <less-than>
+            <property>/controls/flight/flaps</property>
+            <value>0.7</value>
+          </less-than>
+        </and>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/flight/flaps</property>
+        <value>0</value>
+      </binding>
+    </item>
+    <item>
+      <name>Carburetor Heat</name>
+      <value>COLD</value>
+      <marker>
+        <x-m>-0.3225</x-m>
+        <y-m>-0.0850</y-m>
+        <z-m>-0.2117</z-m>
+        <scale>2.0500</scale>
+      </marker>
+      <condition>
+        <equals>
+          <property>/controls/anti-ice/engine[0]/carb-heat</property>
+          <value>0</value>
+        </equals>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/anti-ice/engine[0]/carb-heat</property>
+        <value>0</value>
+      </binding>
+    </item>
+    <item>
+      <name>Mixture</name>
+      <value>RICH</value>
+      <value>(above 3000ft, LEAN to obtain maximum RPM)</value>
+      <marker>
+        <x-m>-0.3067</x-m>
+        <y-m>0.0767</y-m>
+        <z-m>-0.2108</z-m>
+        <scale>3.1156</scale>
+      </marker>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/current-engine/mixture</property>
+          <value>0.9</value>
+        </greater-than>
+      </condition>
+      <binding>
+        <command>property-interpolate</command>
+        <property>/controls/engines/current-engine/mixture</property>
+        <value>1.0</value>
+        <time>1.0</time>
+      </binding>
+    </item>
+    <item>
+      <name>Elevator Control</name>
+      <value>LIGHT BACK PRESSURE</value>
+      <condition>
+        <and>
+          <less-than>
+            <property>/controls/flight/elevator</property>
+            <value>-0.2</value>
+          </less-than>
+          <greater-than>
+            <property>/controls/flight/elevator</property>
+            <value>-0.4</value>
+          </greater-than>
+        </and>
+      </condition>
+    </item>
+    <item>
+      <name>Throttle</name>
+      <value>FULL OPEN (SLOWLY)</value>
+      <marker>
+        <x-m>-0.3342</x-m>
+        <y-m>-0.0027</y-m>
+        <z-m>-0.2289</z-m>
+        <scale>3.1156</scale>
+      </marker>
+      <condition>
+        <greater-than>
+          <property>/controls/engines/current-engine/throttle</property>
+          <value>0.95</value>
+        </greater-than>
+      </condition>
+      <binding>
+        <command>property-interpolate</command>
+        <property>/controls/engines/current-engine/throttle</property>
+        <value>1.0</value>
+        <time>2.0</time>
+      </binding>
+    </item>
+  </checklist>
+  <checklist>
+    <title>After Takeoff</title>
+    <item>
+      <name>Wheels (amphibious)</name>
+      <value>UP</value>
+      <condition>
+        <and>
+          <equals>
+            <property>/fdm/jsbsim/bushkit</property>
+            <value>4</value>
+          </equals>
+          <not>
+            <property>/controls/gear/gear-down</property>
+          </not>
+        </and>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/gear/gear-down</property>
+        <value type="bool">false</value>
+      </binding>
+    </item>
+    <item>
+      <name>Water rudders (float plane)</name>
+      <value>UP</value>
+      <condition>
+        <and>
+          <or>
+            <equals>
+              <property>/fdm/jsbsim/bushkit</property>
+              <value>3</value>
+            </equals>
+            <equals>
+              <property>/fdm/jsbsim/bushkit</property>
+              <value>4</value>
+            </equals>
+          </or>
+          <not>
+            <property>/controls/gear/water-rudder</property>
+          </not>
+        </and>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/gear/water-rudder</property>
+        <value type="bool">false</value>
+      </binding>
+    </item>
+  </checklist>
+  <checklist>
     <title>Enroute Climb</title>
     <item>
       <name>Airspeed</name>
@@ -1266,6 +1485,70 @@
     <item>
       <name>Seats, Seat Belt, Shoulder Harnesses</name>
       <value>SECURE</value>
+    </item>
+    <item>
+      <name>Wheels (amphibious, land)</name>
+      <value>DOWN</value>
+      <condition>
+        <and>
+          <equals>
+            <property>/fdm/jsbsim/bushkit</property>
+            <value>4</value>
+          </equals>
+          <property>/controls/gear/gear-down</property>
+        </and>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/gear/gear-down</property>
+        <value type="bool">true</value>
+      </binding>
+    </item>
+    <item>
+      <name>Wheels (amphibious, water)</name>
+      <value>UP</value>
+      <condition>
+        <and>
+          <equals>
+            <property>/fdm/jsbsim/bushkit</property>
+            <value>4</value>
+          </equals>
+          <not>
+            <property>/controls/gear/gear-down</property>
+          </not>
+        </and>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/gear/gear-down</property>
+        <value type="bool">false</value>
+      </binding>
+    </item>
+    <item>
+      <name>Water rudders (float plane)</name>
+      <value>UP</value>
+      <condition>
+        <and>
+          <or>
+            <equals>
+              <property>/fdm/jsbsim/bushkit</property>
+              <value>3</value>
+            </equals>
+            <equals>
+              <property>/fdm/jsbsim/bushkit</property>
+              <value>4</value>
+            </equals>
+          </or>
+          <not>
+            <property>/controls/gear/water-rudder</property>
+          </not>
+        </and>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/gear/water-rudder</property>
+        <value type="bool">false</value>
+      </binding>
     </item>
     <item>
       <name>Fuel Selector Valve</name>
@@ -1540,6 +1823,97 @@
     </item>
   </checklist>
   <checklist>
+    <title>Water Landing</title>
+    <item>
+      <name>Airspeed</name>
+      <value>65-75 KIAS (flaps UP)</value>
+      <marker>
+        <x-m>-0.3608</x-m>
+        <y-m>-0.3083</y-m>
+        <z-m>0.0675</z-m>
+        <scale>3.6500</scale>
+      </marker>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>65.0</value>
+          </greater-than>
+          <less-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>75.0</value>
+          </less-than>
+        </and>
+      </condition>
+    </item>
+    <item>
+      <name>Wing Flaps</name>
+      <value>AS DESIRED</value>
+      <value>0 - 10 degrees below 110KIAS</value>
+      <value>10 - 30 degrees below 85KIAS</value>
+      <marker>
+        <x-m>-0.3608</x-m>
+        <y-m>0.1725</y-m>
+        <z-m>-0.2325</z-m>
+        <scale>4.2667</scale>
+      </marker>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/controls/flight/flaps</property>
+            <value>0.2</value>
+          </greater-than>
+        </and>
+      </condition>
+    </item>
+    <item>
+      <name>Airspeed</name>
+      <value>60-70 KIAS (flaps DOWN)</value>
+      <marker>
+        <x-m>-0.3608</x-m>
+        <y-m>-0.3083</y-m>
+        <z-m>0.0675</z-m>
+        <scale>3.6500</scale>
+      </marker>
+      <condition>
+        <and>
+          <greater-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>60.0</value>
+          </greater-than>
+          <less-than>
+            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+            <value>70.0</value>
+          </less-than>
+        </and>
+      </condition>
+    </item>
+    <item>
+      <name>Touchdown</name>
+      <value>SLIGHTLY TAIL LOW</value>
+      <value>(NOSE ABOVE HORIZON)</value>
+      <condition>
+        <greater-than>
+          <property>/orientation/pitch-deg</property>
+          <value>2.0</value>
+        </greater-than>
+      </condition>
+    </item>
+    <item>
+      <name>Landing Roll</name>
+      <value>HOLD YOKE FULL AFT</value>
+      <value>(While decelerating to taxi speed)</value>
+      <condition>
+        <and>
+          <equals>
+            <property>/controls/flight/elevator</property>
+            <value>-1.0</value>
+          </equals>
+        </and>
+      </condition>
+    </item>
+  </checklist>
+  <checklist>
     <title>Aborted Landing</title>
     <item>
       <name>Throttle</name>
@@ -1639,6 +2013,34 @@
   </checklist>
   <checklist>
     <title>After Landing</title>
+    <item>
+      <name>Water rudders (float plane)</name>
+      <value>DOWN (on the water)</value>
+      <value>(For taxiing)</value>
+      <condition>
+        <and>
+          <or>
+            <equals>
+              <property>/fdm/jsbsim/bushkit</property>
+              <value>3</value>
+            </equals>
+            <equals>
+              <property>/fdm/jsbsim/bushkit</property>
+              <value>4</value>
+            </equals>
+          </or>
+          <property>/controls/gear/water-rudder</property>
+          <not>
+            <property>/fdm/jsbsim/ground/solid</property>
+          </not>
+        </and>
+      </condition>
+      <binding>
+        <command>property-assign</command>
+        <property>/controls/gear/water-rudder</property>
+        <value type="bool">true</value>
+      </binding>
+    </item>
     <item>
       <name>Carburetor Heat</name>
       <value>COLD</value>

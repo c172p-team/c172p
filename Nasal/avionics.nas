@@ -83,7 +83,11 @@ aircraft.data.add(
     "/controls/lighting/landing-lights",
     "/controls/lighting/nav-lights",
     "/controls/lighting/strobe",
-    "/controls/lighting/taxi-light"
+    "/controls/lighting/taxi-light",
+    "/controls/switches/magnetos",
+    "/controls/switches/master-bat",
+    "/controls/switches/master-alt",
+    "/controls/switches/master-avionics",
 );
 
 # Other controls
@@ -91,5 +95,11 @@ aircraft.data.add(
     "/controls/anti-ice/engine/carb-heat",
     "/controls/anti-ice/pitot-heat",
     "/consumables/fuel/tank/selected",
-    "/consumables/fuel/tank[1]/selected"
+    "/consumables/fuel/tank[1]/selected",
+    "/controls/gear/brake-parking",
+    "/controls/flight/flaps",
+    "/controls/flight/elevator-trim",
+    "/controls/engines/current-engine/throttle",
+    "/controls/engines/current-engine/mixture",
+    "/controls/engines/engine[0]/primer-lever",
 );

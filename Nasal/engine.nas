@@ -147,6 +147,7 @@ var autostart = func (msg=1) {
     setprop("/instrumentation/altimeter/setting-inhg", getprop("/environment/pressure-sea-level-inhg"));
 
     #c172p.autoPrime();
+    setprop("/controls/engines/engine[0]/primer-lever", 0);
     setprop("/controls/engines/engine/primer", 3);
 	if (msg)
 	    gui.popupTip("Hold down \"s\" to start the engine", 5);

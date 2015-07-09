@@ -15,11 +15,15 @@
     "instrumentation/comm[1]/volume",
     "instrumentation/comm[1]/frequencies/selected-mhz",
     "instrumentation/comm[1]/frequencies/standby-mhz",
+    "instrumentation/comm[1]/frequencies/dial-khz",
+    "instrumentation/comm[1]/frequencies/dial-mhz",
     "instrumentation/comm[1]/test-btn",
     "instrumentation/nav[1]/audio-btn",
     "instrumentation/nav[1]/power-btn",
     "instrumentation/nav[1]/frequencies/selected-mhz",
     "instrumentation/nav[1]/frequencies/standby-mhz",
+    "instrumentation/nav[1]/frequencies/dial-khz",
+    "instrumentation/nav[1]/frequencies/dial-mhz",
   );
   -->
 
@@ -32,12 +36,16 @@
     <comm-frq-swp>instrumentation/comm[1]/frq-swap-btn</comm-frq-swp>
     <comm-frq-selected>instrumentation/comm[1]/frequencies/selected-mhz</comm-frq-selected>
     <comm-frq-standby>instrumentation/comm[1]/frequencies/standby-mhz</comm-frq-standby>
+    <comm-dial-khz>instrumentation/comm[1]/frequencies/dial-khz</comm-dial-khz>
+    <comm-dial-mhz>instrumentation/comm[1]/frequencies/dial-mhz</comm-dial-mhz>
     <comm-volume>instrumentation/comm[1]/volume</comm-volume>
     <comm-test>instrumentation/comm[1]/test-btn</comm-test>
 
     <nav-frq-swp>instrumentation/nav[1]/frq-swap-btn</nav-frq-swp>
     <nav-frq-selected>instrumentation/nav[1]/frequencies/selected-mhz</nav-frq-selected>
     <nav-frq-standby>instrumentation/nav[1]/frequencies/standby-mhz</nav-frq-standby>
+    <nav-dial-khz>instrumentation/nav[1]/frequencies/dial-khz</nav-dial-khz>
+    <nav-dial-mhz>instrumentation/nav[1]/frequencies/dial-mhz</nav-dial-mhz>
     <nav-volume>instrumentation/nav[1]/volume</nav-volume>
     <nav-audio>instrumentation/nav[1]/audio-btn</nav-audio>
 
@@ -509,6 +517,7 @@
     </axis>
   </animation>
 
+
   <!-- knobs and buttons -->
 
   <animation>
@@ -614,8 +623,8 @@
   <animation>
     <type>knob</type>
     <object-name>CommKHz</object-name>
-    <property alias="../../params/comm-frq-standby"/>
-    <factor>-360</factor>
+    <property alias="/params/comm-dial-khz"/>
+    <factor>-0.25</factor>
     <axis>
       <x>1</x>
       <y>0</y>
@@ -632,13 +641,21 @@
           <property alias="../../../../../params/power-comm"/>
         </condition>
         <command>property-adjust</command>
-        <property alias="../../../../params/comm-frq-standby"/>
-        <factor>0.025</factor>
+        <property alias="/params/comm-frq-standby"/>
+        <factor>-0.025</factor>
         <min>0.0</min>
         <max>1.0</max>
         <resolution>0.025</resolution>
         <wrap>true</wrap>
         <mask>decimal</mask>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="/params/comm-dial-khz"/>
+        <factor>-4</factor>
+        <min>0</min>
+        <max>360</max>
+        <wrap>true</wrap>
       </binding>
       <binding>
         <command>nasal</command>
@@ -650,8 +667,8 @@
   <animation>
     <type>knob</type>
     <object-name>CommMHz</object-name>
-    <property alias="../../params/comm-frq-standby"/>
-    <factor>-7</factor>
+    <property alias="/params/comm-dial-mhz"/>
+    <factor>-0.25</factor>
     <axis>
       <x>1</x>
       <y>0</y>
@@ -668,12 +685,20 @@
           <property alias="../../../../../params/power-comm"/>
         </condition>
         <command>property-adjust</command>
-        <property alias="../../../../params/comm-frq-standby"/>
-        <factor>1</factor>
+        <property alias="/params/comm-frq-standby"/>
+        <factor>-1</factor>
         <min>118.0</min>
         <max>137.0</max>
         <wrap>true</wrap>
         <mask>integer</mask>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="/params/comm-dial-mhz"/>
+        <factor>-4</factor>
+        <min>0</min>
+        <max>360</max>
+        <wrap>true</wrap>
       </binding>
       <binding>
         <command>nasal</command>
@@ -762,8 +787,8 @@
   <animation>
     <type>knob</type>
     <object-name>NavKHz</object-name>
-    <property alias="../../params/nav-frq-standby"/>
-    <factor>-360</factor>
+    <property alias="/params/nav-dial-khz"/>
+    <factor>-0.25</factor>
     <axis>
       <x>1</x>
       <y>0</y>
@@ -780,13 +805,21 @@
           <property alias="../../../../../params/power-comm"/>
         </condition>
         <command>property-adjust</command>
-        <property alias="../../../../params/nav-frq-standby"/>
-        <factor>0.05</factor>
+        <property alias="/params/nav-frq-standby"/>
+        <factor>-0.05</factor>
         <min>0.0</min>
         <max>1.0</max>
         <resolution>0.050</resolution>
         <wrap>true</wrap>
         <mask>decimal</mask>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="/params/nav-dial-khz"/>
+        <factor>-4</factor>
+        <min>0</min>
+        <max>360</max>
+        <wrap>true</wrap>
       </binding>
       <binding>
         <command>nasal</command>
@@ -798,8 +831,8 @@
   <animation>
     <type>knob</type>
     <object-name>NavMHz</object-name>
-    <property alias="../../params/nav-frq-standby"/>
-    <factor>-7</factor>
+    <property alias="/params/nav-dial-mhz"/>
+    <factor>-0.25</factor>
     <axis>
       <x>1</x>
       <y>0</y>
@@ -816,12 +849,20 @@
           <property alias="../../../../../params/power-comm"/>
         </condition>
         <command>property-adjust</command>
-        <property alias="../../../../params/nav-frq-standby"/>
-        <factor>1</factor>
+        <property alias="/params/nav-frq-standby"/>
+        <factor>-1</factor>
         <min>108.0</min>
         <max>118.0</max>
         <wrap>true</wrap>
         <mask>integer</mask>
+      </binding>
+      <binding>
+        <command>property-adjust</command>
+        <property alias="/params/nav-dial-mhz"/>
+        <factor>-4</factor>
+        <min>0</min>
+        <max>360</max>
+        <wrap>true</wrap>
       </binding>
       <binding>
         <command>nasal</command>

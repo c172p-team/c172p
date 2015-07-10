@@ -73,6 +73,12 @@ aircraft.data.add(
 );
 
 # DME saves power-btn in ki266.nas
+aircraft.data.add(
+    "instrumentation/dme/switch-position",
+    "instrumentation/dme/frequencies/source",
+    "instrumentation/dme/frequencies/selected-mhz",
+);
+
 # ADF saves its properties in ki87.nas
 # TRANSPONDER (KT76A)
 aircraft.data.add(

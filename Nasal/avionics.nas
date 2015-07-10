@@ -42,11 +42,16 @@ aircraft.data.add(
     "instrumentation/comm[0]/volume",
     "instrumentation/comm[0]/frequencies/selected-mhz",
     "instrumentation/comm[0]/frequencies/standby-mhz",
+    "instrumentation/comm[0]/frequencies/dial-khz",
+    "instrumentation/comm[0]/frequencies/dial-mhz",
     "instrumentation/comm[0]/test-btn",
     "instrumentation/nav[0]/audio-btn",
     "instrumentation/nav[0]/power-btn",
+    "instrumentation/nav[0]/volume",
     "instrumentation/nav[0]/frequencies/selected-mhz",
     "instrumentation/nav[0]/frequencies/standby-mhz",
+    "instrumentation/nav[0]/frequencies/dial-khz",
+    "instrumentation/nav[0]/frequencies/dial-mhz",
 );
 
 # COMM2 (according to its documentation)
@@ -55,11 +60,16 @@ aircraft.data.add(
     "instrumentation/comm[1]/volume",
     "instrumentation/comm[1]/frequencies/selected-mhz",
     "instrumentation/comm[1]/frequencies/standby-mhz",
+    "instrumentation/comm[1]/frequencies/dial-khz",
+    "instrumentation/comm[1]/frequencies/dial-mhz",
     "instrumentation/comm[1]/test-btn",
     "instrumentation/nav[1]/audio-btn",
     "instrumentation/nav[1]/power-btn",
+    "instrumentation/nav[1]/volume",
     "instrumentation/nav[1]/frequencies/selected-mhz",
     "instrumentation/nav[1]/frequencies/standby-mhz",
+    "instrumentation/nav[1]/frequencies/dial-khz",
+    "instrumentation/nav[1]/frequencies/dial-mhz",
 );
 
 # DME saves power-btn in ki266.nas

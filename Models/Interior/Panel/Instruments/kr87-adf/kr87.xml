@@ -1,8 +1,12 @@
 <?xml version="1.0" ?>
+
 <PropertyList>
+
     <params>
         <right-display>/instrumentation/adf[0]/right-display</right-display>
         <dimming>instrumentation/adf[0]/dimming-norm</dimming>
+        <dial-1-khz>instrumentation/adf[0]/frequencies/dial-1-khz</dial-1-khz>
+        <dial-100-khz>instrumentation/adf[0]/frequencies/dial-100-khz</dial-100-khz>
     </params>
     
     <path>kr87.ac</path>
@@ -503,13 +507,7 @@
         </action>
     </animation>
 
-    <animation>
-        <type>pick</type>
-        <object-name>VolumePickLeft</object-name>
-        <object-name>VolumePickRight</object-name>
-        <visible>false</visible>
-    </animation>
-        
+    <!-- volume knob -->
     <animation>
         <type>knob</type>
         <object-name>Volume</object-name>
@@ -568,19 +566,25 @@
             </binding>
         </action>
     </animation>
-    
-    <!-- frequency knob -->
-    <animation>
-        <type>pick</type>
-        <object-name>FreqPickLeft</object-name>
-        <object-name>FreqPickRight</object-name>
-        <visible>false</visible>
-    </animation>
-        
+
+    <!-- inner frequency (1 KHz) knob -->
     <animation>
         <type>knob</type>
-        <object-name>FRQOuter</object-name>
         <object-name>FRQInner</object-name>
+
+        <property alias="/params/dial-1-khz"/>
+        <factor>-2.5</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0.0371</x-m>
+            <y-m>0.0629</y-m>
+            <z-m>-0.0018</z-m>
+        </center>
+
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -592,11 +596,38 @@
                 <wrap>true</wrap>
             </binding>
             <binding>
+                <command>property-adjust</command>
+                <property alias="/params/dial-1-khz"/>
+                <factor>4</factor>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+            </binding>
+            <binding>
                 <command>nasal</command>
                 <script>c172p.click("kr87-adf-dial")</script>
             </binding>
         </action>
-        <shift-action>
+    </animation>
+
+    <!-- outer frequency (100 KHz) knob -->
+    <animation>
+        <type>knob</type>
+        <object-name>FRQOuter</object-name>
+
+        <property alias="/params/dial-100-khz"/>
+        <factor>-2.5</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0.0371</x-m>
+            <y-m>0.0629</y-m>
+            <z-m>-0.0018</z-m>
+        </center>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property>/instrumentation/adf[0]/frequencies/standby-khz</property>
@@ -607,9 +638,18 @@
                 <wrap>true</wrap>
             </binding>
             <binding>
+                <command>property-adjust</command>
+                <property alias="/params/dial-100-khz"/>
+                <factor>4</factor>
+                <min>0</min>
+                <max>360</max>
+                <wrap>true</wrap>
+            </binding>
+            <binding>
                 <command>nasal</command>
                 <script>c172p.click("kr87-adf-dial")</script>
             </binding>
-        </shift-action>
+        </action>
     </animation>
+
 </PropertyList>

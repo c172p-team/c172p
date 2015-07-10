@@ -155,26 +155,36 @@
   </axis>
  </animation>
 
-<!--	VOR 1 Radial adjust  -->
+<!-- VOR 1 Radial adjust -->
 
 <animation>
     <type>knob</type>
-     <type>pick</type>
-     <object-name>click-R</object-name>
-      <object-name>click-L</object-name>
-     <visible>false</visible>
+    <object-name>disk</object-name>
+    <property>/instrumentation/nav[0]/radials/selected-deg</property>
+    <factor>-8</factor>
 
-     <shift-repeat type="int">5</shift-repeat>
+    <axis>
+        <x>1</x>
+        <y>0</y>
+        <z>0</z>
+    </axis>
+    <center>
+        <x-m>0.0</x-m>
+        <y-m>-0.0272</y-m>
+        <z-m>-0.0292</z-m>
+    </center>
+
+    <shift-repeat type="int">5</shift-repeat>
      
-     <action>
-         <binding>
-           <command>property-adjust</command>
-           <property>/instrumentation/nav/radials/selected-deg</property>
-           <factor>1</factor>
-           <min>0</min>
-           <max>360</max>
-           <wrap>1</wrap>
-         </binding>
+    <action>
+        <binding>
+            <command>property-adjust</command>
+            <property>/instrumentation/nav[0]/radials/selected-deg</property>
+            <factor>1</factor>
+            <min>0</min>
+            <max>360</max>
+            <wrap>1</wrap>
+        </binding>
     </action>
     
     <hovered>
@@ -183,7 +193,7 @@
        <tooltip-id>nav1-obs</tooltip-id>
        <label>Nav 1 Radial %3d</label>
        <mapping>heading</mapping>
-       <property>/instrumentation/nav/radials/selected-deg</property>
+       <property>/instrumentation/nav[0]/radials/selected-deg</property>
     </binding>
     </hovered>
  </animation>

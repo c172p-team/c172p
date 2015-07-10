@@ -52,6 +52,7 @@ aircraft.data.add(
     "instrumentation/nav[0]/frequencies/standby-mhz",
     "instrumentation/nav[0]/frequencies/dial-khz",
     "instrumentation/nav[0]/frequencies/dial-mhz",
+    "instrumentation/nav[0]/radials/selected-deg",
 );
 
 # COMM2 (according to its documentation)
@@ -70,6 +71,22 @@ aircraft.data.add(
     "instrumentation/nav[1]/frequencies/standby-mhz",
     "instrumentation/nav[1]/frequencies/dial-khz",
     "instrumentation/nav[1]/frequencies/dial-mhz",
+    "instrumentation/nav[1]/radials/selected-deg",
+);
+
+aircraft.data.add(
+    "instrumentation/dme/switch-position",
+    "instrumentation/dme/frequencies/source",
+    "instrumentation/dme/frequencies/selected-mhz",
+);
+
+# Instruments
+aircraft.data.add(
+    "instrumentation/altimeter/setting-inhg",
+    "instrumentation/attitude-indicator/horizon-offset-deg",
+    "autopilot/settings/heading-bug-deg",
+    "instrumentation/heading-indicator/offset-deg",
+    "instrumentation/adf[0]/rotation-deg"
 );
 
 # DME saves power-btn in ki266.nas

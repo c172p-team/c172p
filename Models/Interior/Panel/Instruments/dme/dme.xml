@@ -140,7 +140,7 @@
 
     <!-- the source switch -->
     <animation>
-        <type>rotate</type>
+        <type>knob</type>
         <object-name>SourceSelectorKnob</object-name>
         <property>instrumentation/dme/switch-position</property>
         <factor>-30</factor>
@@ -157,19 +157,11 @@
             <y-m>-0.0589436</y-m>
             <z-m>0</z-m>
         </center>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>SourceSelectorPick.R</object-name>
-        <visible>false</visible>
         <action>
-          <button>0</button>
-          <repeatable>false</repeatable>
           <binding>
               <command>property-adjust</command>
               <property>instrumentation/dme/switch-position</property>
-              <step>1</step>
+              <factor>-1</factor>
               <min>1</min>
               <max>3</max>
               <wrap>0</wrap>
@@ -217,61 +209,6 @@
               <command>property-assign</command>
               <property>instrumentation/dme/frequencies/source</property>
               <value>instrumentation/nav[1]/frequencies/selected-mhz</value>
-          </binding>
-          <binding>
-              <command>nasal</command>
-              <script>c172p.click("dme-source")</script>
-          </binding>
-        </action>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>SourceSelectorPick.L</object-name>
-        <visible>false</visible>
-        <action>
-          <button>0</button>
-          <repeatable>false</repeatable>
-          <binding>
-              <command>property-adjust</command>
-              <property>instrumentation/dme/switch-position</property>
-              <step>-1</step>
-              <min>1</min>
-              <max>3</max>
-              <wrap>0</wrap>
-          </binding>
-          <binding>
-              <condition>
-                  <equals>
-                      <property>instrumentation/dme/switch-position</property>
-                      <value type="int">1</value>
-                  </equals>
-              </condition>
-              <command>property-assign</command>
-              <property>instrumentation/dme/frequencies/source</property>
-              <value>instrumentation/nav[0]/frequencies/selected-mhz</value>
-          </binding>
-          <binding>
-              <condition>
-                  <equals>
-                      <property>instrumentation/dme/switch-position</property>
-                      <value type="int">2</value>
-                  </equals>
-              </condition>
-              <command>property-assign</command>
-              <property>instrumentation/dme/frequencies/source</property>
-              <value>instrumentation/dme/frequencies/selected-mhz</value>
-          </binding>
-          <binding>
-              <condition>
-                  <equals>
-                      <property>instrumentation/dme/switch-position</property>
-                      <value type="int">2</value>
-                  </equals>
-              </condition>
-              <command>property-assign</command>
-              <property>instrumentation/dme/frequencies/selected-mhz</property>
-              <property>instrumentation/nav[1]/frequencies/selected-mhz</property>
           </binding>
           <binding>
               <command>nasal</command>

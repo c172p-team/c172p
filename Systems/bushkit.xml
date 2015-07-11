@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
- 
+
 <!--
 ***********************************************************************************
 c172p-detailed, May 2015 
@@ -10,20 +10,19 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
 <system name="bushkits">
 
     <channel name="extra-weight">
-       
         <switch name="extra-weight-left-26-in">
             <default value="0"/>
             <test logic="AND" value="10">
                 bushkit EQ 1
-            </test>            
+            </test>
             <output>/fdm/jsbsim/inertia/pointmass-weight-lbs[5]</output>
         </switch>
-       
+
         <switch name="extra-weight-right-26-in">
             <default value="0"/>
             <test logic="AND" value="10">
                 bushkit EQ 1
-            </test>            
+            </test>
             <output>/fdm/jsbsim/inertia/pointmass-weight-lbs[6]</output>
         </switch>
 
@@ -31,7 +30,7 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
             <default value="0"/>
             <test logic="AND" value="15">
                 bushkit EQ 2
-            </test>            
+            </test>
             <output>/fdm/jsbsim/inertia/pointmass-weight-lbs[7]</output>
         </switch>
 
@@ -39,7 +38,7 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
             <default value="0"/>
             <test logic="AND" value="15">
                 bushkit EQ 2
-            </test>            
+            </test>
             <output>/fdm/jsbsim/inertia/pointmass-weight-lbs[8]</output>
         </switch>
 
@@ -47,83 +46,81 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
             <default value="0"/>
             <test logic="AND" value="142">
                 /controls/engines/active-engine EQ 1
-            </test>            
+            </test>
             <output>/fdm/jsbsim/inertia/pointmass-weight-lbs[13]</output>
         </switch>
 
         <fcs_function name="extra-weight-left-float">
             <function>
-               <product>
-                   <eq>
-                       <property>bushkit</property>
-                       <value>3</value>
-                   </eq>
-                   <sum>
-                       <value>66.0</value>
-                       <property>left-pontoon/leaked-water-lbs</property>
-                   </sum>
-               </product>
+                <product>
+                    <eq>
+                        <property>bushkit</property>
+                        <value>3</value>
+                    </eq>
+                    <sum>
+                        <value>66.0</value>
+                        <property>left-pontoon/leaked-water-lbs</property>
+                    </sum>
+                </product>
             </function>
             <output>inertia/pointmass-weight-lbs[9]</output>
         </fcs_function>
 
         <fcs_function name="extra-weight-right-float">
             <function>
-               <product>
-                   <eq>
-                       <property>bushkit</property>
-                       <value>3</value>
-                   </eq>
-                   <sum>
-                       <value>66.0</value>
-                       <property>right-pontoon/leaked-water-lbs</property>
-                   </sum>
-               </product>
+                <product>
+                    <eq>
+                        <property>bushkit</property>
+                        <value>3</value>
+                    </eq>
+                    <sum>
+                        <value>66.0</value>
+                        <property>right-pontoon/leaked-water-lbs</property>
+                    </sum>
+                </product>
             </function>
             <output>inertia/pointmass-weight-lbs[10]</output>
         </fcs_function>
 
         <fcs_function name="extra-weight-left-amphibious">
             <function>
-               <product>
-                   <eq>
-                       <property>bushkit</property>
-                       <value>4</value>
-                   </eq>
-                   <sum>
-                       <value>138.0</value>
-                       <property>left-pontoon/leaked-water-lbs</property>
-                   </sum>
-               </product>
+                <product>
+                    <eq>
+                        <property>bushkit</property>
+                        <value>4</value>
+                    </eq>
+                    <sum>
+                        <value>138.0</value>
+                        <property>left-pontoon/leaked-water-lbs</property>
+                    </sum>
+                </product>
             </function>
             <output>inertia/pointmass-weight-lbs[11]</output>
         </fcs_function>
 
         <fcs_function name="extra-weight-right-amphibious">
             <function>
-               <product>
-                   <eq>
-                       <property>bushkit</property>
-                       <value>4</value>
-                   </eq>
-                   <sum>
-                       <value>138.0</value>
-                       <property>right-pontoon/leaked-water-lbs</property>
-                   </sum>
-               </product>
+                <product>
+                    <eq>
+                        <property>bushkit</property>
+                        <value>4</value>
+                    </eq>
+                    <sum>
+                        <value>138.0</value>
+                        <property>right-pontoon/leaked-water-lbs</property>
+                    </sum>
+                </product>
             </function>
             <output>inertia/pointmass-weight-lbs[12]</output>
         </fcs_function>
-
     </channel>
 
     <channel name="extra-drag">
-
         <switch name="drag-26-in">
             <default value="1"/>
             <test logic="AND" value="1.05">
                 bushkit EQ 1
-            </test>            
+            </test>
             <output>gear/drag-coef[1]</output>
         </switch>
 
@@ -131,15 +128,15 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
             <default value="1"/>
             <test logic="AND" value="1.07">
                 bushkit EQ 2
-            </test>            
+            </test>
             <output>gear/drag-coef[2]</output>
         </switch>
-       
+
         <switch name="drag-Floats">
             <default value="1"/>
             <test logic="AND" value="1.20">
                 bushkit EQ 3
-            </test>            
+            </test>
             <output>gear/drag-coef[3]</output>
         </switch>
 
@@ -147,25 +144,23 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
             <default value="1"/>
             <test logic="AND" value="1.22">
                 bushkit EQ 4
-            </test>            
+            </test>
             <output>gear/drag-coef[4]</output>
         </switch>
-
     </channel>
 
     <channel name="JSBSim hydrodynamics integration">
-
         <fcs_function name="tmp/floats-enabled-norm">
             <function>
                 <product>
                     <value>1.0</value>
                     <le>
-                      <value>3.0</value>
-                      <property>bushkit</property>
+                        <value>3.0</value>
+                        <property>bushkit</property>
                     </le>
                     <le>
-                      <property>bushkit</property>
-                      <value>4.0</value>
+                        <property>bushkit</property>
+                        <value>4.0</value>
                     </le>
                     <not>
                         <and>
@@ -194,6 +189,7 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
             </test>
             <output>contact/unit[13]/z-position</output>
         </switch>
+
         <switch name="left-pontoon/contact-z-pos-in[1]">
             <default value="38.5"/>
             <test logic="AND" value="-44.2">
@@ -204,6 +200,7 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
             </test>
             <output>contact/unit[15]/z-position</output>
         </switch>
+
         <switch name="left-pontoon/contact-z-pos-in[2]">
             <default value="38.5"/>
             <test logic="AND" value="-24.5">
@@ -225,6 +222,7 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
             </test>
             <output>contact/unit[14]/z-position</output>
         </switch>
+
         <switch name="right-pontoon/contact-z-pos-in[1]">
             <default value="38.5"/>
             <test logic="AND" value="-44.2">
@@ -234,6 +232,7 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
             </test>
             <output>contact/unit[16]/z-position</output>
         </switch>
+
         <switch name="right-pontoon/contact-z-pos-in[2]">
             <default value="38.5"/>
             <test logic="AND" value="-24.5">
@@ -296,7 +295,6 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
                 <max>2500.0</max> <!-- FIXME: Too much? Or too little? -->
             </clipto>
         </pid>
-
     </channel>
 
 </system>

@@ -156,6 +156,26 @@
     </filter>
 
     <filter>
+        <name>Engine Fuel Flow</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/engines/engine[1]/fuel-flow-gph</property>
+        </input>
+        <input>
+            <property>/engines/engine[0]/fuel-flow-gph</property>
+        </input>
+        <output>
+            <property>/engines/active-engine/fuel-flow-gph</property>
+        </output>
+    </filter>
+
+    <filter>
         <name>Engine EGT Norm</name>
         <type>gain</type>
         <input>

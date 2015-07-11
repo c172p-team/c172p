@@ -1,0 +1,305 @@
+<?xml version="1.0"?>
+
+<!--
+egt-ff.xml
+
+EGT and Fuel Flow Gauge from C172-S
+
+Martin Dressler dr@musicabona.cz
+Jan 26 2003
+-->
+
+<PropertyList>
+
+    <name>C172-S EGT and Fuel Flow Gauge</name>
+    <w-base>512</w-base>
+    <h-base>512</h-base>
+
+    <params>
+        <engine-egt-select>/engines/active-engine/egt-norm</engine-egt-select>
+        <engine-fuel-flow-select>/engines/active-engine/fuel-flow-gph</engine-fuel-flow-select>
+    </params>
+
+    <layers>
+        <layer>
+            <name>Backplate</name>
+            <w>292</w>
+            <h>456</h>
+            <texture>
+                <path>Aircraft/Instruments/Textures/egt1.rgb</path>
+                <x1>0.0</x1>
+                <x2>0.570312</x2>
+                <y1>0.109375</y1>
+                <y2>1.0</y2>
+            </texture>
+        </layer>
+
+        <layer>
+            <name>EGT Needle</name>
+            <w>148</w>
+            <h>32</h>
+            <texture>
+                <path>Aircraft/Instruments/Textures/misc2.rgb</path>
+                <x1>0.0</x1>
+                <x2>0.289062</x2>
+                <y1>0.554688</y1>
+                <y2>0.617188</y2>
+            </texture>
+            <transformations>
+                <transformation>
+                    <type>x-shift</type>
+                    <offset>-142</offset>
+                </transformation>
+                <transformation>
+                    <condition>
+                        <greater-than-equals>
+                            <property>/systems/electrical/volts</property>
+                            <value>12</value>
+                        </greater-than-equals>
+                    </condition>
+                    <type>rotation</type>
+                    <property alias="../../../../../params/engine-egt-select"/>
+                    <min>0.0</min>
+                    <max>1.0</max>
+                    <scale>100</scale>
+                    <offset>-50</offset>
+                </transformation>
+                <transformation>
+                    <condition>
+                        <less-than>
+                            <property>/systems/electrical/volts</property>
+                            <value>12</value>
+                        </less-than>
+                    </condition>
+                    <type>rotation</type>
+                    <offset>60</offset>
+                </transformation>
+                <transformation>
+                    <type>x-shift</type>
+                    <offset>78</offset>
+                </transformation>
+            </transformations>
+        </layer>
+
+        <layer>
+            <name>Fuel Flow Needle</name>
+            <w>148</w>
+            <h>32</h>
+            <texture>
+                <path>Aircraft/Instruments/Textures/misc2.rgb</path>
+                <x1>0.0</x1>
+                <x2>0.289062</x2>
+                <y1>0.554688</y1>
+                <y2>0.617188</y2>
+            </texture>
+            <transformations>
+                <transformation>
+                    <type>x-shift</type>
+                    <offset>142</offset>
+                </transformation>
+                <transformation>
+                    <condition>
+                        <greater-than-equals>
+                            <property>/systems/electrical/volts</property>
+                            <value>12</value>
+                        </greater-than-equals>
+                    </condition>
+                    <type>rotation</type>
+                    <property alias="../../../../../params/engine-fuel-flow-select"/>
+                    <min>0.0</min>
+                    <max>20.0</max>
+                    <scale>1.0</scale>
+                    <interpolation>
+                        <entry><ind>   0</ind><dep>126.8</dep></entry>
+                        <entry><ind>   5</ind><dep>134.8</dep></entry>
+                        <entry><ind>   6</ind><dep>137.4</dep></entry>
+                        <entry><ind>  10</ind><dep>156.4</dep></entry>
+                        <entry><ind>  15</ind><dep>191.8</dep></entry>
+                        <entry><ind>  19</ind><dep>233.0</dep></entry>
+                        <entry><ind>  20</ind><dep>242.7</dep></entry>
+                    </interpolation>
+                    <offset>0</offset>
+                </transformation>
+                <transformation>
+                    <condition>
+                        <less-than>
+                            <property>/systems/electrical/volts</property>
+                            <value>12</value>
+                        </less-than>
+                    </condition>
+                    <type>rotation</type>
+                    <offset>120</offset>
+                </transformation>
+                <transformation>
+                    <type>x-shift</type>
+                    <offset>78</offset>
+                </transformation>
+            </transformations>
+        </layer>
+
+        <layer>
+            <name>EGT REF Needle</name>
+            <condition>
+                <equals>
+                    <property>/sim/instrument-options/omit-knobs</property>
+                    <value/>
+                </equals>
+            </condition>
+            <w>148</w>
+            <h>32</h>
+            <texture>
+                <path>Aircraft/Instruments/Textures/misc2.rgb</path>
+                <x1>0.289062</x1>
+                <x2>0.578125</x2>
+                <y1>0.554688</y1>
+                <y2>0.617188</y2>
+            </texture>
+            <transformations>
+                <transformation>
+                    <type>x-shift</type>
+                    <offset>-142</offset>
+                </transformation>
+                <transformation>
+                    <type>rotation</type>
+                    <property>/engines/engine[0]/egt-bug-norm</property>
+                    <scale>100</scale>
+                    <offset>-50</offset>
+                </transformation>
+                <transformation>
+                    <type>x-shift</type>
+                    <offset>78</offset>
+                </transformation>
+            </transformations>
+        </layer>
+
+        <layer>
+            <name>Foreground</name>
+            <w>512</w>
+            <h>512</h>
+            <texture>
+                <path>Aircraft/Instruments/Textures/smlf.rgb</path>
+                <x1>0.0</x1>
+                <x2>1.0</x2>
+                <y1>0.0</y1>
+                <y2>1.0</y2>
+            </texture>
+        </layer>
+
+        <layer>
+            <name>EGT REF Knob</name>
+            <w>88</w>
+            <h>88</h>
+            <texture>
+                <path>Aircraft/Instruments/Textures/misc2.rgb</path>
+                <x1>0.171875</x1>
+                <x2>0.34375</x2>
+                <y1>0.617188</y1>
+                <y2>0.789062</y2>
+            </texture>
+            <transformations>
+                <transformation>
+                    <type>x-shift</type>
+                    <offset>-142</offset>
+                </transformation>
+                <transformation>
+                    <type>rotation</type>
+                    <property>/engines/engine[0]/egt-bug-norm</property>
+                </transformation>
+            </transformations>
+        </layer>
+
+        <layer>
+            <name>FUEL FLOW label</name>
+            <w>52</w>
+            <h>150</h>
+            <texture>
+                <path>Aircraft/Instruments/Textures/misc2.rgb</path>
+                <x1>0.703125</x1>
+                <x2>0.804688</x2>
+                <y1>0.707031</y1>
+                <y2>1.0</y2>
+            </texture>
+            <transformations>
+                <transformation>
+                    <type>x-shift</type>
+                    <offset>165</offset>
+                </transformation>
+                <transformation>
+                    <type>y-shift</type>
+                    <offset>-4</offset>
+                </transformation>
+            </transformations>
+        </layer>
+    </layers>
+
+    <actions>
+        <action>
+            <name>fine lower</name>
+            <button>0</button>
+            <x>-186</x>
+            <y>-44</y>
+            <w>44</w>
+            <h>88</h>
+            <binding>
+                <command>property-adjust</command>
+                <property>/engines/engine[0]/egt-bug-norm</property>
+                <step>-0.01</step>
+                <min>0.0</min>
+                <max>1.0</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+
+        <action>
+            <name>coarse lower</name>
+            <button>1</button>
+            <x>-186</x>
+            <y>-44</y>
+            <w>44</w>
+            <h>88</h>
+            <binding>
+                <command>property-adjust</command>
+                <property>/engines/engine[0]/egt-bug-norm</property>
+                <step>-0.1</step>
+                <min>0.0</min>
+                <max>1.0</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+
+        <action>
+            <name>fine raiser</name>
+            <button>0</button>
+            <x>-142</x>
+            <y>-44</y>
+            <w>44</w>
+            <h>88</h>
+            <binding>
+                <command>property-adjust</command>
+                <property>/engines/engine[0]/egt-bug-norm</property>
+                <step>0.01</step>
+                <min>0.0</min>
+                <max>1.0</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+
+        <action>
+            <name>coarse lower</name>
+            <button>1</button>
+            <x>-142</x>
+            <y>-44</y>
+            <w>44</w>
+            <h>88</h>
+            <binding>
+                <command>property-adjust</command>
+                <property>/engines/engine[0]/egt-bug-norm</property>
+                <step>0.1</step>
+                <min>0.0</min>
+                <max>1.0</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+    </actions>
+
+</PropertyList>

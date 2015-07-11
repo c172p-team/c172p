@@ -32,7 +32,7 @@ var init_hobbs_meter = func(index, meter) {
 init_hobbs_meter(0, hobbsmeter_engine_160hp);
 init_hobbs_meter(1, hobbsmeter_engine_180hp);
 
-setlistener("/sim/time/hobbs/engine[0]", func {
+var update_hobbs_meter = func {
     # in seconds
     var hobbs_160hp = getprop("/sim/time/hobbs/engine[0]") or 0.0;
     var hobbs_180hp = getprop("/sim/time/hobbs/engine[1]") or 0.0;
@@ -47,7 +47,10 @@ setlistener("/sim/time/hobbs/engine[0]", func {
     setprop("/instrumentation/hobbs-meter/digits2", math.mod(int(hobbs / 10), 10));
     setprop("/instrumentation/hobbs-meter/digits3", math.mod(int(hobbs / 100), 10));
     setprop("/instrumentation/hobbs-meter/digits4", math.mod(int(hobbs / 1000), 10));
-}, 1, 0);
+};
+
+setlistener("/sim/time/hobbs/engine[0]", update_hobbs_meter, 1, 0);
+setlistener("/sim/time/hobbs/engine[1]", update_hobbs_meter, 1, 0);
 
 # ========== primer stuff ======================
 

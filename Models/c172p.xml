@@ -9,6 +9,31 @@
         <z-m> -0.065 </z-m>
     </offsets>
 
+    <!-- The human models depend on some properties (sim/model/crew/).
+         Since the properties never change, we can just directly add it
+         to the /ai/model/multiplay[i] tree.
+    -->
+    <multiplay>
+        <sim>
+            <model>
+                <crew>
+                    <pilot n="0">
+                        <pose include="Aircraft/c172p/Models/Human/pose-pilot.xml"/>
+                        <character>0</character>
+                        <outfit>0</outfit>
+                        <equipment>0</equipment>
+                    </pilot>
+                    <pilot n="1">
+                        <pose include="Aircraft/c172p/Models/Human/pose-copilot.xml"/>
+                        <character>0</character>
+                        <outfit>0</outfit>
+                        <equipment>0</equipment>
+                    </pilot>
+                </crew>
+            </model>
+        </sim>
+    </multiplay>
+
     <model>
         <name>Damage</name>
         <path>Effects/damage/damage.xml</path>
@@ -61,11 +86,29 @@
 
             io.include("Aircraft/c172p/Nasal/registration_number.nas");
 
+            # Registration number
             var rplayer = cmdarg();
             var regnum_path = rplayer.getNode("sim/multiplay/generic/string[0]").getPath();
             setlistener(regnum_path, func (node) {
                 set_registration_number(rplayer, node.getValue());
             }, 1, 0);
+
+            # Passengers
+            var pax_state_path = rplayer.getNode("sim/multiplay/generic/int[16]").getPath();
+
+            var co_pilot = rplayer.initNode("pax/co-pilot/present", 0, "BOOL");
+            var left_passenger = rplayer.initNode("pax/left-passenger/present", 0, "BOOL");
+            var right_passenger = rplayer.initNode("pax/right-passenger/present", 0, "BOOL");
+
+            setlistener(pax_state_path, func (node) {
+                var state = node.getValue();
+                co_pilot.setBoolValue(bits.test(state, 0));
+                left_passenger.setBoolValue(bits.test(state, 1));
+                right_passenger.setBoolValue(bits.test(state, 2));
+            }, 1, 0);
+
+            # Make sure human occupants are always visible in remote aircraft
+            rplayer.initNode("sim/model/occupants", 1, "BOOL");
 
             # Gear
             rplayer.initNode("sim/multiplay/generic/int[6]", 0, "BOOL");
@@ -5187,6 +5230,17 @@
         <object-name>Pilot</object-name>
         <condition>
             <and>
+                <!-- Note: the sim/ properties do NOT start with a /,
+                     which means that FlightGear tries to find them in
+                     either:
+
+                        (a) the root (/) for the local aircraft, or:
+                        (b) in /ai/models/multiplayer[i]
+
+                     In the case of (b), the properties do not exist, thus
+                     the <not-equals> gets evaluated to true (always), which
+                     is what we want, but this behavior is error-prone.
+                -->
                 <not-equals>
                     <property>sim/current-view/name</property>
                     <value>Cockpit View</value>
@@ -5199,6 +5253,7 @@
                     <property>sim/current-view/name</property>
                     <value>Walker Orbit View</value>
                 </not-equals>
+
                 <property>sim/model/occupants</property>
             </and>
         </condition>
@@ -5210,10 +5265,7 @@
         <object-name>Copilot</object-name>
         <condition>
             <and>
-                <greater-than>
-                    <property>payload/weight[1]/weight-lb</property>
-                    <value>100</value>
-                </greater-than>
+                <property>pax/co-pilot/present</property>
                 <property>sim/model/occupants</property>
             </and>
         </condition>
@@ -5223,10 +5275,7 @@
         <object-name>LeftPassenger</object-name>
         <condition>
             <and>
-                <greater-than>
-                    <property>payload/weight[2]/weight-lb</property>
-                    <value>100</value>
-                </greater-than>
+                <property>pax/right-passenger/present</property>
                 <property>sim/model/occupants</property>
             </and>
         </condition>
@@ -5236,10 +5285,7 @@
         <object-name>RightPassenger</object-name>
         <condition>
             <and>
-                <greater-than>
-                    <property>payload/weight[3]/weight-lb</property>
-                    <value>100</value>
-                </greater-than>
+                <property>pax/left-passenger/present</property>
                 <property>sim/model/occupants</property>
             </and>
         </condition>

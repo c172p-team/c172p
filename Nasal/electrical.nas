@@ -28,13 +28,6 @@ var init_electrical = func {
     battery = BatteryClass.new();
     alternator = AlternatorClass.new();
 
-    # These two properties are aliased to MP properties in /sim/multiplay/generic/.
-    # This aliasing seems to work in both ways, because the two properties below
-    # appear to receive the random values from the MP properties during initialization.
-    # Therefore, override these random values with the proper values we want.
-    props.globals.getNode("sim/model/c172p/lighting/beacon-top/state", 0).setBoolValue(0);
-    props.globals.getNode("sim/model/c172p/lighting/strobes/state", 0).setBoolValue(0);
-
     # Request that the update function be called next frame
     settimer(update_electrical, 0);
     print("Electrical system initialized");

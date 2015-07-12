@@ -196,6 +196,19 @@ setlistener("/controls/engines/active-engine", func (node) {
     click("engine-repair", 6.0);
 }, 0, 0);
 
+var update_pax = func {
+    var state = 0;
+    state = bits.switch(state, 0, getprop("pax/co-pilot/present"));
+    state = bits.switch(state, 1, getprop("pax/left-passenger/present"));
+    state = bits.switch(state, 2, getprop("pax/right-passenger/present"));
+    setprop("/payload/pax-state", state);
+};
+
+setlistener("/pax/co-pilot/present", update_pax, 0, 0);
+setlistener("/pax/left-passenger/present", update_pax, 0, 0);
+setlistener("/pax/right-passenger/present", update_pax, 0, 0);
+update_pax();
+
 var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.

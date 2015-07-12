@@ -13,13 +13,13 @@ For the repository containing the texture files for the liveries and instruments
 
 This aircraft was modified and updated in a joint effort by the following people:
 
-* (onox): programming, bug tracking, general organisation, git knowledge
+* onox: programming, bug tracking, general organisation, git knowledge
 
-* Juan Vera del Campo (ludomotico): programming, 3D modeling, bug tracking, general organisation
+* ludomotico: programming, 3D modeling, bug tracking, general organisation
 
 * Gilberto Agostinho (gsagostinho): texturing, sounds, bug tracking, testing
 
-* (thevirtualfer): 3D modeling and texturing
+* thevirtualfer: 3D modeling and texturing
 
 * Wayne Bragg (wlbragg): effects - damage, rain/fog/ice, internal/external shadows, bushkit (Special thanks to Thorsten Renk for all the work involved in giving us the base for these effects)
 

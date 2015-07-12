@@ -84,10 +84,21 @@
             "Aircraft/c172p/Models/Liveries", 10,
             func { print("c172p livery update") });
 
+            var rplayer = cmdarg();
+
+            # Beacon and strobes lighting
+            var lighting_beacon_enabled = rplayer.getNode("sim/multiplay/generic/int[12]").getPath();
+            var lighting_strobes_enabled = rplayer.getNode("sim/multiplay/generic/int[13]").getPath();
+
+            var lighting_beacon_state = rplayer.getNode("sim/model/c172p/lighting/beacon").getPath();
+            var lighting_strobes_state = rplayer.getNode("sim/model/c172p/lighting/strobes").getPath();
+
+            aircraft.light.new(lighting_beacon_state, [0.10, 0.90], lighting_beacon_enabled);
+            aircraft.light.new(lighting_strobes_state, [0.015, 1.985], lighting_strobes_enabled);
+
             io.include("Aircraft/c172p/Nasal/registration_number.nas");
 
             # Registration number
-            var rplayer = cmdarg();
             var regnum_path = rplayer.getNode("sim/multiplay/generic/string[0]").getPath();
             setlistener(regnum_path, func (node) {
                 set_registration_number(rplayer, node.getValue());
@@ -133,15 +144,9 @@
 
     <params>
         <lighting>
-            <navigation>
-                <property>sim/multiplay/generic/float[3]</property>
-            </navigation>
-            <beacon-top>
-                <property>sim/multiplay/generic/int[1]</property>
-            </beacon-top>
-            <strobes>
-                <property>sim/multiplay/generic/int[2]</property>
-            </strobes>
+            <navigation>sim/multiplay/generic/int[14]</navigation>
+            <beacon>sim/model/c172p/lighting/beacon/state</beacon>
+            <strobes>sim/model/c172p/lighting/strobes/state</strobes>
             <taxi>
                 <property>sim/multiplay/generic/int[4]</property>
             </taxi>
@@ -162,7 +167,7 @@
         </doors>
 
         <crash>
-            <property>sim/multiplay/generic/int[14]</property>
+            <property>sim/multiplay/generic/int[15]</property>
         </crash>
         <gear_nose_broken>
             <property>sim/multiplay/generic/int[6]</property>
@@ -2946,7 +2951,7 @@
         <object-name>navlight_rightDLB</object-name>
         <object-name>navlight_rightGLB</object-name>
         <condition>
-            <property alias="../../../params/lighting/navigation/property"/>
+            <property alias="../../../params/lighting/navigation"/>
         </condition>
     </animation>
     <animation>
@@ -4675,7 +4680,7 @@
         <object-name>strobe1</object-name>
         <condition>
             <and>
-                <property alias="/params/lighting/strobes/property"/>
+                <property alias="/params/lighting/strobes"/>
                 <equals>
                     <property alias="/params/wing_left_damaged/property"/>
                     <value>0</value>
@@ -4691,7 +4696,7 @@
         <object-name>strobe2</object-name>
         <condition>
             <and>
-                <property alias="/params/lighting/strobes/property"/>
+                <property alias="/params/lighting/strobes"/>
                 <equals>
                     <property alias="/params/wing_right_damaged/property"/>
                     <value>0</value>
@@ -4707,7 +4712,7 @@
         <object-name>strobe1BD</object-name>
         <condition>
             <and>
-                <property alias="/params/lighting/strobes/property"/>
+                <property alias="/params/lighting/strobes"/>
 				<equals>
                     <property alias="/params/wing_left_damaged/property"/>
                     <value>2</value>
@@ -4723,7 +4728,7 @@
         <object-name>strobe2BD</object-name>
         <condition>
             <and>
-                <property alias="/params/lighting/strobes/property"/>
+                <property alias="/params/lighting/strobes"/>
                 <equals>
                     <property alias="/params/wing_right_damaged/property"/>
                     <value>2</value>
@@ -4740,7 +4745,7 @@
         <object-name>strobe2Collapse</object-name>
         <condition>
             <and>
-                <property alias="/params/lighting/strobes/property"/>
+                <property alias="/params/lighting/strobes"/>
                 <property alias="/params/crash/property"/>
             </and>
         </condition>
@@ -4875,7 +4880,7 @@
         <type>select</type>
         <object-name>BeaconOffX</object-name>
         <condition>
-            <property alias="/params/lighting/beacon-top/property"/>
+            <property alias="/params/lighting/beacon"/>
         </condition>
     </animation>
     <animation>

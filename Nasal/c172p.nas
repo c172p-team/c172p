@@ -205,6 +205,14 @@ var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
     # Initialize mass limits
     set_limits(props.globals.getNode("/controls/engines/active-engine"));
 
+    # Set alt alert of KAP 140 autopilot to 20_000 ft to get rid of annoying beep
+    setlistener("/autopilot/KAP140/settings/target-alt-ft", func (n) {
+        if (n.getValue() == 0) {
+            kap140.altPreselect = 20000;
+            setprop("/autopilot/KAP140/settings/target-alt-ft", kap140.altPreselect);
+        }
+    });
+
     reset_system();
     var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();

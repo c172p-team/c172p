@@ -16,6 +16,12 @@ adjusting them, toggling them, or swaping them with other
 properties' values.
 -->
 <PropertyList>
+
+    <params>
+        <dial-10-ft>/autopilot/KAP140/settings/dial-10-ft</dial-10-ft>
+        <dial-100-ft>/autopilot/KAP140/settings/dial-100-ft</dial-100-ft>
+    </params>
+
   <name>KAP140TwoAxisAlt</name>
   <path>kap140.ac</path>
 
@@ -900,36 +906,97 @@ properties' values.
       </binding>
     </hovered>
   </animation>
-  
-  <animation>
-      <object-name>knob-inner</object-name>
-      <object-name>knob-outer</object-name>
-      <type>knob</type>
-      <increase>
-          <binding>
-            <command>nasal</command>
-            <script>kap140.knobSmallUp();c172p.click("kap140-dial")</script>
-          </binding>
-      </increase>
-      <decrease>
-          <binding>
-            <command>nasal</command>
-            <script>kap140.knobSmallDown();c172p.click("kap140-dial")</script>
-          </binding>
-      </decrease>
-      
-      <shift-increase>
-          <binding>
-            <command>nasal</command>
-            <script>kap140.knobLargeUp();c172p.click("kap140-dial")</script>
-          </binding>
-      </shift-increase>
-      <shift-decrease>
-          <binding>
-            <command>nasal</command>
-            <script>kap140.knobLargeDown();c172p.click("kap140-dial")</script>
-          </binding>
-      </shift-decrease>
- </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>knob-inner</object-name>
+
+        <property alias="/params/dial-10-ft"/>
+        <factor>-2.5</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0.0065</x-m>
+            <y-m>0.0652</y-m>
+            <z-m>-0.0060</z-m>
+        </center>
+
+        <increase>
+            <binding>
+                <command>nasal</command>
+                <script>kap140.knobSmallUp()</script>
+            </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>nasal</command>
+                <script>kap140.knobSmallDown()</script>
+            </binding>
+        </decrease>
+
+        <action>
+             <binding>
+                 <command>property-adjust</command>
+                 <property alias="/params/dial-10-ft"/>
+                 <factor>4</factor>
+                 <min>0</min>
+                 <max>360</max>
+                 <wrap>true</wrap>
+             </binding>
+             <binding>
+                 <command>nasal</command>
+                 <script>c172p.click("kap140-dial")</script>
+             </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>knob-outer</object-name>
+
+        <property alias="/params/dial-100-ft"/>
+        <factor>-2.5</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0.0065</x-m>
+            <y-m>0.0652</y-m>
+            <z-m>-0.0060</z-m>
+        </center>
+
+        <increase>
+            <binding>
+                <command>nasal</command>
+                <script>kap140.knobLargeUp()</script>
+            </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>nasal</command>
+                <script>kap140.knobLargeDown()</script>
+            </binding>
+        </decrease>
+
+        <action>
+             <binding>
+                 <command>property-adjust</command>
+                 <property alias="/params/dial-100-ft"/>
+                 <factor>4</factor>
+                 <min>0</min>
+                 <max>360</max>
+                 <wrap>true</wrap>
+             </binding>
+             <binding>
+                 <command>nasal</command>
+                 <script>c172p.click("kap140-dial")</script>
+             </binding>
+        </action>
+    </animation>
  
 </PropertyList>

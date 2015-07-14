@@ -5220,7 +5220,7 @@
         <path>Human/male-copilot.xml</path>
         <offsets>
             <x-m> 0.9 </x-m>
-            <y-m> 0.2 </y-m>
+            <y-m> -0.2 </y-m>
             <z-m> -1.45 </z-m>
         </offsets>
     </model>
@@ -5229,7 +5229,7 @@
         <path>Human/male-copilot.xml</path>
         <offsets>
             <x-m> 0.9 </x-m>
-            <y-m> -0.2 </y-m>
+            <y-m> 0.2 </y-m>
             <z-m> -1.45 </z-m>
         </offsets>
     </model>
@@ -5269,7 +5269,7 @@
         </condition>
     </animation>
 
-    <!-- Co-pilot not visible if not enough weight on his seat or if uing Cockpit Right Seat View-->
+    <!-- Co-pilot not visible if not enough weight on his seat or if using Cockpit Right Seat View-->
     <animation>
         <type>select</type>
         <object-name>Copilot</object-name>
@@ -5285,13 +5285,17 @@
         </condition>
     </animation>
     
-    <!-- Passangers not visible if not enough weight on his seat -->
+    <!-- Passangers not visible if not enough weight on their seats or if using their view -->
     <animation>
         <type>select</type>
         <object-name>LeftPassenger</object-name>
         <condition>
             <and>
-                <property>pax/right-passenger/present</property>
+                <not-equals>
+                    <property>sim/current-view/name</property>
+                    <value>Left Passenger Seat View</value>
+                </not-equals>
+                <property>pax/left-passenger/present</property>
                 <property>sim/model/occupants</property>
             </and>
         </condition>
@@ -5301,7 +5305,11 @@
         <object-name>RightPassenger</object-name>
         <condition>
             <and>
-                <property>pax/left-passenger/present</property>
+                <not-equals>
+                    <property>sim/current-view/name</property>
+                    <value>Right Passenger Seat View</value>
+                </not-equals>
+                <property>pax/right-passenger/present</property>
                 <property>sim/model/occupants</property>
             </and>
         </condition>

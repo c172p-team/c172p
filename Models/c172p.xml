@@ -5232,7 +5232,7 @@
         </offsets>
     </model>
 
-    <!-- Pilot not visible in the cockpit AND walker modes -->
+    <!-- Pilot not visible in the cockpit AND walker modes or if not enough weight on his seat -->
     <animation>
         <type>select</type>
         <object-name>Pilot</object-name>
@@ -5261,23 +5261,29 @@
                     <property>sim/current-view/name</property>
                     <value>Walker Orbit View</value>
                 </not-equals>
-
+                <property>pax/pilot/present</property>
                 <property>sim/model/occupants</property>
             </and>
         </condition>
     </animation>
 
-    <!-- Co-pilot and passangers not visible if not enough weight on his seat -->
+    <!-- Co-pilot not visible if not enough weight on his seat or if uing Cockpit Right Seat View-->
     <animation>
         <type>select</type>
         <object-name>Copilot</object-name>
         <condition>
             <and>
+                <not-equals>
+                    <property>sim/current-view/name</property>
+                    <value>Cockpit Right Seat View</value>
+                </not-equals>
                 <property>pax/co-pilot/present</property>
                 <property>sim/model/occupants</property>
             </and>
         </condition>
     </animation>
+    
+    <!-- Passangers not visible if not enough weight on his seat -->
     <animation>
         <type>select</type>
         <object-name>LeftPassenger</object-name>

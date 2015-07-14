@@ -201,12 +201,14 @@ var update_pax = func {
     state = bits.switch(state, 0, getprop("pax/co-pilot/present"));
     state = bits.switch(state, 1, getprop("pax/left-passenger/present"));
     state = bits.switch(state, 2, getprop("pax/right-passenger/present"));
+    state = bits.switch(state, 3, getprop("pax/pilot/present"));
     setprop("/payload/pax-state", state);
 };
 
 setlistener("/pax/co-pilot/present", update_pax, 0, 0);
 setlistener("/pax/left-passenger/present", update_pax, 0, 0);
 setlistener("/pax/right-passenger/present", update_pax, 0, 0);
+setlistener("/pax/pilot/present", update_pax, 0, 0);
 update_pax();
 
 var nasalInit = setlistener("/sim/signals/fdm-initialized", func{

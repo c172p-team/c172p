@@ -110,12 +110,14 @@
             var co_pilot = rplayer.initNode("pax/co-pilot/present", 0, "BOOL");
             var left_passenger = rplayer.initNode("pax/left-passenger/present", 0, "BOOL");
             var right_passenger = rplayer.initNode("pax/right-passenger/present", 0, "BOOL");
+            var pilot = rplayer.initNode("pax/pilot/present", 0, "BOOL");
 
             setlistener(pax_state_path, func (node) {
                 var state = node.getValue();
                 co_pilot.setBoolValue(bits.test(state, 0));
                 left_passenger.setBoolValue(bits.test(state, 1));
                 right_passenger.setBoolValue(bits.test(state, 2));
+                pilot.setBoolValue(bits.test(state, 3));
             }, 1, 0);
 
             # Make sure human occupants are always visible in remote aircraft

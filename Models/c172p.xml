@@ -110,12 +110,14 @@
             var co_pilot = rplayer.initNode("pax/co-pilot/present", 0, "BOOL");
             var left_passenger = rplayer.initNode("pax/left-passenger/present", 0, "BOOL");
             var right_passenger = rplayer.initNode("pax/right-passenger/present", 0, "BOOL");
+            var pilot = rplayer.initNode("pax/pilot/present", 0, "BOOL");
 
             setlistener(pax_state_path, func (node) {
                 var state = node.getValue();
                 co_pilot.setBoolValue(bits.test(state, 0));
                 left_passenger.setBoolValue(bits.test(state, 1));
                 right_passenger.setBoolValue(bits.test(state, 2));
+                pilot.setBoolValue(bits.test(state, 3));
             }, 1, 0);
 
             # Make sure human occupants are always visible in remote aircraft
@@ -5218,7 +5220,7 @@
         <path>Human/male-copilot.xml</path>
         <offsets>
             <x-m> 0.9 </x-m>
-            <y-m> 0.2 </y-m>
+            <y-m> -0.2 </y-m>
             <z-m> -1.45 </z-m>
         </offsets>
     </model>
@@ -5227,12 +5229,12 @@
         <path>Human/male-copilot.xml</path>
         <offsets>
             <x-m> 0.9 </x-m>
-            <y-m> -0.2 </y-m>
+            <y-m> 0.2 </y-m>
             <z-m> -1.45 </z-m>
         </offsets>
     </model>
 
-    <!-- Pilot not visible in the cockpit AND walker modes -->
+    <!-- Pilot not visible in the cockpit AND walker modes or if not enough weight on his seat -->
     <animation>
         <type>select</type>
         <object-name>Pilot</object-name>
@@ -5261,29 +5263,39 @@
                     <property>sim/current-view/name</property>
                     <value>Walker Orbit View</value>
                 </not-equals>
-
+                <property>pax/pilot/present</property>
                 <property>sim/model/occupants</property>
             </and>
         </condition>
     </animation>
 
-    <!-- Co-pilot and passangers not visible if not enough weight on his seat -->
+    <!-- Co-pilot not visible if not enough weight on his seat or if using Cockpit Right Seat View-->
     <animation>
         <type>select</type>
         <object-name>Copilot</object-name>
         <condition>
             <and>
+                <not-equals>
+                    <property>sim/current-view/name</property>
+                    <value>Cockpit Right Seat View</value>
+                </not-equals>
                 <property>pax/co-pilot/present</property>
                 <property>sim/model/occupants</property>
             </and>
         </condition>
     </animation>
+    
+    <!-- Passangers not visible if not enough weight on their seats or if using their view -->
     <animation>
         <type>select</type>
         <object-name>LeftPassenger</object-name>
         <condition>
             <and>
-                <property>pax/right-passenger/present</property>
+                <not-equals>
+                    <property>sim/current-view/name</property>
+                    <value>Left Passenger Seat View</value>
+                </not-equals>
+                <property>pax/left-passenger/present</property>
                 <property>sim/model/occupants</property>
             </and>
         </condition>
@@ -5293,7 +5305,11 @@
         <object-name>RightPassenger</object-name>
         <condition>
             <and>
-                <property>pax/left-passenger/present</property>
+                <not-equals>
+                    <property>sim/current-view/name</property>
+                    <value>Right Passenger Seat View</value>
+                </not-equals>
+                <property>pax/right-passenger/present</property>
                 <property>sim/model/occupants</property>
             </and>
         </condition>

@@ -31,4 +31,4 @@ This aircraft was modified and updated in a joint effort by the following people
 
 * Waldo Kitty (wkitty42): bug hunting/reporting
 
-* dg-505: 3D modeling, exhaust smoke, checklists
+* Jonathan Schellhase (dg-505): 3D modeling, exhaust smoke, checklists

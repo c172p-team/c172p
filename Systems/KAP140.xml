@@ -250,8 +250,12 @@
         <name>static port pressure rate computer</name>
         <debug>false</debug>
         <type>derivative</type>
-        <input>systems/static[0]/pressure-inhg</input>
-        <output>autopilot/internal/pressure-rate</output>
+        <input>
+            <property>systems/static[0]/pressure-inhg</property>
+        </input>
+        <output>
+            <property>autopilot/internal/pressure-rate</property>
+        </output>
         <filter-time>1.0</filter-time>
     </filter>
 
@@ -259,8 +263,12 @@
         <name>pressure-rate-filter</name>
         <debug>false</debug>
         <type>double-exponential</type>
-        <input>/autopilot/internal/pressure-rate</input>
-        <output>/autopilot/internal/filtered-pressure-rate</output>
+        <input>
+            <property>/autopilot/internal/pressure-rate</property>
+        </input>
+        <output>
+            <property>/autopilot/internal/filtered-pressure-rate</property>
+        </output>
         <filter-time>0.1</filter-time>
     </filter>
 
@@ -268,8 +276,12 @@
         <name>conversion to fpm</name>
         <debug>false</debug>
         <type>gain</type>
-        <input>/autopilot/KAP140/settings/target-pressure-rate</input>
-        <output>/autopilot/KAP140/settings/target-pressure-rate-fpm</output>
+        <input>
+            <property>/autopilot/KAP140/settings/target-pressure-rate</property>
+        </input>
+        <output>
+            <property>/autopilot/KAP140/settings/target-pressure-rate-fpm</property>
+        </output>
         <gain>-58000</gain>
     </filter>
 

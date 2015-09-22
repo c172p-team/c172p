@@ -34,22 +34,23 @@ You start the tutorial cruising at around 1000ft and 90kts. To begin your descen
     </presets>
 
     <init>
-        <set>
-            <property>/controls/flight/flaps</property>
-            <value>0.0</value>
-        </set>
+        <message></message>
         <set>
             <property>/controls/switches/magnetos</property>
             <value>3</value>
-        </set>
-        <set>
-            <property>/controls/engines/current-engine/throttle</property>
-            <value>0.4</value>
-        </set>
+        </set>		
         <set>
             <property>/controls/switches/starter</property>
             <value>true</value>
         </set>
+        <set>
+            <property>/engines/active-engine/running</property>
+            <value>true</value>
+        </set>
+		<set>
+            <property>/controls/engines/engine/use-primer</property>
+            <value>false</value>
+		</set>
         <set>
             <property>/instrumentation/adf/frequencies/selected-khz</property>
             <value>340</value>
@@ -59,6 +60,53 @@ You start the tutorial cruising at around 1000ft and 90kts. To begin your descen
             <value>Fair weather</value>
         </set>
     </init>
+
+    <step>
+        <set>
+            <property>/controls/flight/flaps</property>
+            <value>0.0</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/engine_flag_0</property>
+            <value>1</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/engine_flag_1</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/controls/engines/active-engine</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_0</property>
+            <value>1</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_1</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_2</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_3</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_4</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>fdm/jsbsim/bushkit</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/controls/engines/current-engine/throttle</property>
+            <value>0.4</value>
+        </set>
+    </step>
 
     <step>
         <message>The runway is straight ahead. Reduce throttle to 50% and apply one degree of flaps.

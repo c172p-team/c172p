@@ -78,6 +78,17 @@
         </offsets>
     </model>
 
+    <model>
+        <name>Skis</name>
+        <path>Effects/skis/skis.xml</path>
+        <offsets>
+            <x-m>0.0</x-m>
+            <y-m>0.0</y-m>
+            <z-m>0.0</z-m>
+            <pitch-deg>0</pitch-deg>
+        </offsets>
+    </model>
+
     <nasal>
         <load>
             var livery_update = aircraft.livery_update.new(
@@ -277,6 +288,16 @@
         <object-name>Rstrut.002</object-name>
         <object-name>LHrudder</object-name>
         <object-name>RHrudder</object-name>
+        <object-name>NoseWheelSki</object-name>
+        <object-name>NoseSki</object-name>
+        <object-name>NoseSkiAxle</object-name>
+        <object-name>NoseWheelStrutSki</object-name>
+        <object-name>LeftWheelSki</object-name>
+        <object-name>LeftSki</object-name>
+        <object-name>LeftSkiAxle</object-name>
+        <object-name>RightWheelSki</object-name>
+        <object-name>RightSki</object-name>
+        <object-name>RightSkiAxle</object-name>
     </effect>
     <effect>
         <inherits-from>Effects/bumpspec-tail</inherits-from>
@@ -338,6 +359,16 @@
         <object-name>Rstrut.002</object-name>
         <object-name>LHrudder</object-name>
         <object-name>RHrudder</object-name>
+        <object-name>NoseWheelSki</object-name>
+        <object-name>NoseSki</object-name>
+        <object-name>NoseSkiAxle</object-name>
+        <object-name>NoseWheelStrutSki</object-name>
+        <object-name>LeftWheelSki</object-name>
+        <object-name>LeftSki</object-name>
+        <object-name>LeftSkiAxle</object-name>
+        <object-name>RightWheelSki</object-name>
+        <object-name>RightSki</object-name>
+        <object-name>RightSkiAxle</object-name>
         <shininess>128</shininess>
         <specular>
             <r>1</r>
@@ -4174,6 +4205,10 @@
                         <property alias="/params/bushkit/property"/>
                         <value>2</value>
                     </equals>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>5</value>
+                    </equals>
                 </or>
             </and>
         </condition>
@@ -4215,6 +4250,10 @@
                     <equals>
                         <property alias="/params/bushkit/property"/>
                         <value>2</value>
+                    </equals>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>5</value>
                     </equals>
                 </or>
             </and>
@@ -4288,6 +4327,10 @@
                         <property alias="/params/bushkit/property"/>
                         <value>2</value>
                     </equals>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>5</value>
+                    </equals>
                 </or>
             </and>
         </condition>
@@ -4313,10 +4356,16 @@
         <condition>
             <and>
                 <property alias="/params/gear_left_broken/property"/>
-                <equals>
-                    <property alias="/params/bushkit/property"/>
-                    <value>1</value>
-                </equals>
+                <or>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>5</value>
+                    </equals>
+                </or>
             </and>
         </condition>
     </animation>
@@ -4424,6 +4473,10 @@
                         <property alias="/params/bushkit/property"/>
                         <value>2</value>
                     </equals>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>5</value>
+                    </equals>
                 </or>
             </and>
         </condition>
@@ -4449,10 +4502,16 @@
         <condition>
             <and>
                 <property alias="/params/gear_right_broken/property"/>
-                <equals>
-                    <property alias="/params/bushkit/property"/>
-                    <value>1</value>
-                </equals>
+                <or>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>5</value>
+                    </equals>
+                </or>
             </and>
         </condition>
     </animation>
@@ -4489,6 +4548,64 @@
                         <value>2</value>
                     </equals>
                 </or>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- Nose Ski No Damage -->
+    <animation>
+        <type>select</type>
+        <object-name>NoseWheelSki</object-name>
+        <object-name>NoseSki</object-name>
+        <object-name>NoseSkiAxle</object-name>
+        <object-name>NoseWheelStrutSki</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property alias="/params/gear_nose_broken/property"/>
+                </not>
+                <equals>
+                    <property alias="/params/bushkit/property"/>
+                    <value>5</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- Left Ski No Damage -->
+    <animation>
+        <type>select</type>
+        <object-name>LeftWheelSki</object-name>
+        <object-name>LeftSki</object-name>
+        <object-name>LeftSkiAxle</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property alias="/params/gear_left_broken/property"/>
+                </not>
+                <equals>
+                    <property alias="/params/bushkit/property"/>
+                    <value>5</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- Right Ski No Damage -->
+    <animation>
+        <type>select</type>
+        <object-name>RightWheelSki</object-name>
+        <object-name>RightSki</object-name>
+        <object-name>RightSkiAxle</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property alias="/params/gear_right_broken/property"/>
+                </not>
+                <equals>
+                    <property alias="/params/bushkit/property"/>
+                    <value>5</value>
+                </equals>
             </and>
         </condition>
     </animation>

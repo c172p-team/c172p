@@ -136,6 +136,13 @@ var amphibious = func
 	setprop(gears~"unit[22]/z-position", -50.5);
 }
 
+var skis = func
+{
+	setprop(gears~"unit[0]/z-position", -27);
+	setprop(gears~"unit[1]/z-position", -27);
+	setprop(gears~"unit[2]/z-position", -27);
+}
+
 # Check if on water
 var poll_surface = func
 {
@@ -193,6 +200,8 @@ var set_bushkit = func (bushkit) {
         pontoons();
     elsif (bushkit == 4)
         amphibious();
+    elsif (bushkit == 5)
+        skis();
 
     bushkit_changed_timer.restart(bushkit_change_timeout);
 };

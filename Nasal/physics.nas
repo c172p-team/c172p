@@ -28,9 +28,12 @@ var reset_all_damage = func
 	setprop(contact~"unit[7]/z-position", 0);
 	setprop(contact~"unit[8]/z-position", 0);
 	setprop(gears~"unit[19]/z-position", 0);
-	setprop(gears~"unit[20]/z-position", 0);
-	setprop(gears~"unit[21]/z-position", 0);
-	setprop(gears~"unit[22]/z-position", 0);
+        setprop(gears~"unit[20]/z-position", 0);
+        setprop(gears~"unit[21]/z-position", 0);
+        setprop(gears~"unit[22]/z-position", 0);
+        setprop(gears~"unit[23]/z-position", 0);
+        setprop(gears~"unit[24]/z-position", 0);
+setprop(gears~"unit[25]/z-position", 0);
 }
 
 var repair_damage = func {
@@ -136,6 +139,13 @@ var amphibious = func
 	setprop(gears~"unit[22]/z-position", -50.5);
 }
 
+var skis = func
+{
+	setprop(gears~"unit[23]/z-position", -22);
+	setprop(gears~"unit[24]/z-position", -22);
+	setprop(gears~"unit[25]/z-position", -22);
+}
+
 # Check if on water
 var poll_surface = func
 {
@@ -163,18 +173,55 @@ var poll_surface = func
     setprop(contact~"unit[11]/z-position", !getprop(contact~"unit[11]/solid") ? -25 : 60);
 }
 
+var poll_ski_agl = func
+{
+    if (!getprop(gears~"unit[0]/WOW")) {
+        if (!getprop(gears~"unit[23]/WOW") and getprop(gears~"unit[23]/z-position") > -23) {
+            setprop(gears~"unit[23]/z-position", getprop(gears~"unit[23]/z-position") - .1);
+            setprop("/fdm/jsbsim/skiangle/noseski",  getprop("/fdm/jsbsim/skiangle/noseski") + .1);
+        } else
+           if (getprop(gears~"unit[23]/WOW") and getprop(gears~"unit[23]/z-position") < -22) {
+              setprop(gears~"unit[23]/z-position", getprop(gears~"unit[23]/z-position") + .1);
+              setprop("/fdm/jsbsim/skiangle/noseski",  getprop("/fdm/jsbsim/skiangle/noseski") - .1);
+           }
+    }
+    if (!getprop(gears~"unit[1]/WOW")) {
+        if (!getprop(gears~"unit[24]/WOW") and getprop(gears~"unit[24]/z-position") > -23) {
+            setprop(gears~"unit[24]/z-position", getprop(gears~"unit[24]/z-position") - .1);
+            setprop("/fdm/jsbsim/skiangle/leftski",  getprop("/fdm/jsbsim/skiangle/leftski") + .1);
+        } else
+           if (getprop(gears~"unit[24]/WOW") and getprop(gears~"unit[24]/z-position") < -22) {
+              setprop(gears~"unit[24]/z-position", getprop(gears~"unit[24]/z-position") + .1);
+              setprop("/fdm/jsbsim/skiangle/leftski",  getprop("/fdm/jsbsim/skiangle/leftski") - .1);
+           }
+    }
+    if (!getprop(gears~"unit[2]/WOW")) {
+        if (!getprop(gears~"unit[25]/WOW") and getprop(gears~"unit[25]/z-position")  > -23) {
+            setprop(gears~"unit[25]/z-position", getprop(gears~"unit[25]/z-position") - .1);
+            setprop("/fdm/jsbsim/skiangle/rightski",  getprop("/fdm/jsbsim/skiangle/rightski") + .1);
+        } else
+           if (getprop(gears~"unit[25]/WOW") and getprop(gears~"unit[25]/z-position") < -22) {
+              setprop(gears~"unit[25]/z-position", getprop(gears~"unit[25]/z-position") + .1);
+              setprop("/fdm/jsbsim/skiangle/rightski",  getprop("/fdm/jsbsim/skiangle/rightski") - .1);
+           }
+    }
+}
+
 # Duration in which no damage will occur. Assumes the aircraft has
 # stabilized within this duration.
 var bushkit_change_timeout = 3.0;
 
 var physics_loop = func
 {
-	if (getprop("/sim/freeze/replay-state")) {
+    if (getprop("/sim/freeze/replay-state")) {
         return;
     }
 
-	if (getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
-		poll_surface();
+    if (getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
+        poll_surface();
+
+    if (getprop("/fdm/jsbsim/bushkit") == 5)
+        poll_ski_agl();
 }
 
 var set_bushkit = func (bushkit) {
@@ -187,12 +234,14 @@ var set_bushkit = func (bushkit) {
         defaulttires();
     elsif (bushkit == 1)
         medbushtires();
-    elsif (bushkit == 2 or bushkit == 5)
+    elsif (bushkit == 2)
         largebushtires();
     elsif (bushkit == 3)
         pontoons();
     elsif (bushkit == 4)
         amphibious();
+    elsif (bushkit == 5)
+        skis();
 
     bushkit_changed_timer.restart(bushkit_change_timeout);
 };

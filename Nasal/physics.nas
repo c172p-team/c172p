@@ -216,10 +216,8 @@ var physics_loop = func
     if (getprop("/sim/freeze/replay-state")) {
         return;
     }
-
     if (getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
         poll_surface();
-
     if (getprop("/fdm/jsbsim/bushkit") == 5)
         poll_ski_agl();
 }

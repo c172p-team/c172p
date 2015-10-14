@@ -28,12 +28,12 @@ var reset_all_damage = func
 	setprop(contact~"unit[7]/z-position", 0);
 	setprop(contact~"unit[8]/z-position", 0);
 	setprop(gears~"unit[19]/z-position", 0);
-        setprop(gears~"unit[20]/z-position", 0);
-        setprop(gears~"unit[21]/z-position", 0);
-        setprop(gears~"unit[22]/z-position", 0);
-        setprop(gears~"unit[23]/z-position", 0);
-        setprop(gears~"unit[24]/z-position", 0);
-setprop(gears~"unit[25]/z-position", 0);
+    setprop(gears~"unit[20]/z-position", 0);
+    setprop(gears~"unit[21]/z-position", 0);
+    setprop(gears~"unit[22]/z-position", 0);
+    setprop(gears~"unit[23]/z-position", 0);
+    setprop(gears~"unit[24]/z-position", 0);
+    setprop(gears~"unit[25]/z-position", 0);
 }
 
 var repair_damage = func {
@@ -141,9 +141,12 @@ var amphibious = func
 
 var skis = func
 {
-	setprop(gears~"unit[23]/z-position", -22);
-	setprop(gears~"unit[24]/z-position", -22);
-	setprop(gears~"unit[25]/z-position", -22);
+    setprop(gears~"unit[0]/z-position", -22);
+    setprop(gears~"unit[1]/z-position", -22);
+    setprop(gears~"unit[2]/z-position", -22);
+    setprop(gears~"unit[23]/z-position", -22);
+    setprop(gears~"unit[24]/z-position", -22);
+    setprop(gears~"unit[25]/z-position", -22);
 }
 
 # Check if on water
@@ -175,36 +178,9 @@ var poll_surface = func
 
 var poll_ski_agl = func
 {
-    if (!getprop(gears~"unit[0]/WOW")) {
-        if (!getprop(gears~"unit[23]/WOW") and getprop(gears~"unit[23]/z-position") > -23) {
-            setprop(gears~"unit[23]/z-position", getprop(gears~"unit[23]/z-position") - .1);
-            setprop("/fdm/jsbsim/skiangle/noseski",  getprop("/fdm/jsbsim/skiangle/noseski") + .1);
-        } else
-           if (getprop(gears~"unit[23]/WOW") and getprop(gears~"unit[23]/z-position") < -22) {
-              setprop(gears~"unit[23]/z-position", getprop(gears~"unit[23]/z-position") + .1);
-              setprop("/fdm/jsbsim/skiangle/noseski",  getprop("/fdm/jsbsim/skiangle/noseski") - .1);
-           }
-    }
-    if (!getprop(gears~"unit[1]/WOW")) {
-        if (!getprop(gears~"unit[24]/WOW") and getprop(gears~"unit[24]/z-position") > -23) {
-            setprop(gears~"unit[24]/z-position", getprop(gears~"unit[24]/z-position") - .1);
-            setprop("/fdm/jsbsim/skiangle/leftski",  getprop("/fdm/jsbsim/skiangle/leftski") + .1);
-        } else
-           if (getprop(gears~"unit[24]/WOW") and getprop(gears~"unit[24]/z-position") < -22) {
-              setprop(gears~"unit[24]/z-position", getprop(gears~"unit[24]/z-position") + .1);
-              setprop("/fdm/jsbsim/skiangle/leftski",  getprop("/fdm/jsbsim/skiangle/leftski") - .1);
-           }
-    }
-    if (!getprop(gears~"unit[2]/WOW")) {
-        if (!getprop(gears~"unit[25]/WOW") and getprop(gears~"unit[25]/z-position")  > -23) {
-            setprop(gears~"unit[25]/z-position", getprop(gears~"unit[25]/z-position") - .1);
-            setprop("/fdm/jsbsim/skiangle/rightski",  getprop("/fdm/jsbsim/skiangle/rightski") + .1);
-        } else
-           if (getprop(gears~"unit[25]/WOW") and getprop(gears~"unit[25]/z-position") < -22) {
-              setprop(gears~"unit[25]/z-position", getprop(gears~"unit[25]/z-position") + .1);
-              setprop("/fdm/jsbsim/skiangle/rightski",  getprop("/fdm/jsbsim/skiangle/rightski") - .1);
-           }
-    }
+    setprop(gears~"unit[23]/z-position", getprop(gears~"unit[23]/z-position") + getprop("/fdm/jsbsim/ski/rotateNG"));
+    setprop(gears~"unit[24]/z-position", getprop(gears~"unit[24]/z-position") + getprop("/fdm/jsbsim/ski/rotateLG"));
+    setprop(gears~"unit[25]/z-position", getprop(gears~"unit[25]/z-position") + getprop("/fdm/jsbsim/ski/rotateRG"));
 }
 
 # Duration in which no damage will occur. Assumes the aircraft has

@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+
+<!--
+
+  c172p ski animations.
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+
+-->
+
+<system name="c172p-skis">
+
+    <channel name="ski-rotations">
+
+        <switch name="moseskirotation">
+            <output>ski/rotateNG</output>
+            <default value="0"/>
+
+            <!-- ski is off ground and not fuly rotated -->
+            <test logic="AND" value="-1">
+                /fdm/jsbsim/gear/unit[23]/WOW EQ 0
+                /fdm/jsbsim/gear/unit[23]/z-position GT -33 
+            </test>
+
+            <!-- ski is on ground and not fuly rotated -->
+            <test logic="AND" value="1">
+                /fdm/jsbsim/gear/unit[23]/WOW EQ 1
+                /fdm/jsbsim/gear/unit[23]/z-position LT -23
+            </test>
+        </switch>
+
+        <switch name="leftskirotation">
+            <output>ski/rotateLG</output>
+            <default value="0"/>
+
+            <!-- ski is off ground and not fuly rotated -->
+            <test logic="AND" value="-1">
+                /fdm/jsbsim/gear/unit[24]/WOW EQ 0
+                /fdm/jsbsim/gear/unit[24]/z-position GT -33 
+            </test>
+
+            <!-- ski is on ground and not fuly rotated -->
+            <test logic="AND" value="1">
+                /fdm/jsbsim/gear/unit[24]/WOW EQ 1
+                /fdm/jsbsim/gear/unit[24]/z-position LT -23
+            </test>
+        </switch>
+
+        <switch name="rightskirotation">
+            <output>ski/rotateRG</output>
+            <default value="0"/>
+
+            <!-- ski is off ground and not fuly rotated -->
+            <test logic="AND" value="-1">
+                /fdm/jsbsim/gear/unit[25]/WOW EQ 0
+                /fdm/jsbsim/gear/unit[25]/z-position GT -33 
+            </test>
+
+            <!-- ski is on ground and not fuly rotated -->
+            <test logic="AND" value="1">
+                /fdm/jsbsim/gear/unit[25]/WOW EQ 1
+                /fdm/jsbsim/gear/unit[25]/z-position LT -23
+            </test>
+        </switch>
+
+    </channel>
+ 
+</system>

@@ -34,6 +34,61 @@ Under the GPL. Used by shadows under ALS -->
          In replay mode, the value from the flight recorder is used.
          This filter is needed because JSBSim wins over the flight recorder.
     -->
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <property>/fdm/jsbsim/ski/rotateNGout</property>
+        </input>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <output>
+            <property>/fdm/jsbsim/gear/unit[23]/z-position</property>
+        </output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <property>/fdm/jsbsim/ski/rotateLGout</property>
+        </input>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <output>
+            <property>/fdm/jsbsim/gear/unit[24]/z-position</property>
+        </output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <property>/fdm/jsbsim/ski/rotateRGout</property>
+        </input>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <output>
+            <property>/fdm/jsbsim/gear/unit[25]/z-position</property>
+        </output>
+    </filter>
+
     <filter>
         <name>Stall Horn Volume</name>
         <type>gain</type>

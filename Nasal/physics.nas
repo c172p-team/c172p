@@ -176,13 +176,6 @@ var poll_surface = func
     setprop(contact~"unit[11]/z-position", !getprop(contact~"unit[11]/solid") ? -25 : 60);
 }
 
-var poll_ski_agl = func
-{
-    setprop(gears~"unit[23]/z-position", getprop(gears~"unit[23]/z-position") + getprop("/fdm/jsbsim/ski/rotateNG"));
-    setprop(gears~"unit[24]/z-position", getprop(gears~"unit[24]/z-position") + getprop("/fdm/jsbsim/ski/rotateLG"));
-    setprop(gears~"unit[25]/z-position", getprop(gears~"unit[25]/z-position") + getprop("/fdm/jsbsim/ski/rotateRG"));
-}
-
 # Duration in which no damage will occur. Assumes the aircraft has
 # stabilized within this duration.
 var bushkit_change_timeout = 3.0;
@@ -194,8 +187,6 @@ var physics_loop = func
     }
     if (getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
         poll_surface();
-    if (getprop("/fdm/jsbsim/bushkit") == 5)
-        poll_ski_agl();
 }
 
 var set_bushkit = func (bushkit) {

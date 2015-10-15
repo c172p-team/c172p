@@ -24,82 +24,18 @@
 
     <channel name="ski-rotations">
 
-        <switch name="moseskirotation">
-            <output>ski/rotateNG</output>
-            <default value="0"/>
+		<!-- arcsin(alt_agl / length_ski) -->
+		<fcs_function name="ski/rotate">
+			<function>
+				<asin> 
+					<product>
+						<property>/position/altitude-agl-m</property>
+						<value>0.01458</value>
+					</product>
+				</asin>
+			</function>
+		</fcs_function>
 
-            <!-- ski is off ground and not fuly rotated -->
-            <test logic="AND" value="-.1">
-                /fdm/jsbsim/gear/unit[23]/WOW EQ 0
-                /fdm/jsbsim/gear/unit[23]/z-position GT -24 
-            </test>
-            <!-- ski is on ground and not fuly rotated -->
-            <test logic="AND" value=".1">
-                /fdm/jsbsim/gear/unit[23]/WOW EQ 1
-                /fdm/jsbsim/gear/unit[23]/z-position LT -22.1
-            </test>
-        </switch>
-
-       <fcs_function name="ski/rotateNGout">
-            <function>
-                <sum>
-                    <property>/fdm/jsbsim/gear/unit[23]/z-position</property>
-                    <property>/fdm/jsbsim/ski/rotateNG</property>
-                </sum>
-            </function>
-        </fcs_function>
-
-        <switch name="leftskirotation">
-            <output>ski/rotateLG</output>
-            <default value="0"/>
-
-            <!-- ski is off ground and not fuly rotated -->
-            <test logic="AND" value="-.1">
-                /fdm/jsbsim/gear/unit[24]/WOW EQ 0
-                /fdm/jsbsim/gear/unit[24]/z-position GT -24 
-            </test>
-
-            <!-- ski is on ground and not fuly rotated -->
-            <test logic="AND" value=".1">
-                /fdm/jsbsim/gear/unit[24]/WOW EQ 1
-                /fdm/jsbsim/gear/unit[24]/z-position LT -22.1
-            </test>
-        </switch>
-
-       <fcs_function name="ski/rotateLGout">
-            <function>
-                <sum>
-                    <property>/fdm/jsbsim/gear/unit[24]/z-position</property>
-                    <property>/fdm/jsbsim/ski/rotateLG</property>
-                </sum>
-            </function>
-        </fcs_function>
-
-        <switch name="rightskirotation">
-            <output>ski/rotateRG</output>
-            <default value="0"/>
-
-            <!-- ski is off ground and not fuly rotated -->
-            <test logic="AND" value="-.1">
-                /fdm/jsbsim/gear/unit[25]/WOW EQ 0
-                /fdm/jsbsim/gear/unit[25]/z-position GT -24 
-            </test>
-
-            <!-- ski is on ground and not fuly rotated -->
-            <test logic="AND" value=".1">
-                /fdm/jsbsim/gear/unit[25]/WOW EQ 1
-                /fdm/jsbsim/gear/unit[25]/z-position LT -22.1
-            </test>
-        </switch>
-
-       <fcs_function name="ski/rotateRGout">
-            <function>
-                <sum>
-                    <property>/fdm/jsbsim/gear/unit[25]/z-position</property>
-                    <property>/fdm/jsbsim/ski/rotateRG</property>
-                </sum>
-            </function>
-        </fcs_function>
 
     </channel>
  

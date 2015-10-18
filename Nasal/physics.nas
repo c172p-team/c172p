@@ -61,6 +61,8 @@ var leftgearbroke = func (bushkit)
 		setprop(contact~"unit[7]/z-position", -14.5);
 	elsif (bushkit == 2)
 		setprop(contact~"unit[7]/z-position", -16);
+	elsif (bushkit == 5)
+		setprop(gears~"unit[24]/z-position", -14);
 
 	setprop(gears~"unit[1]/z-position", 0);
 }
@@ -73,6 +75,8 @@ var rightgearbroke = func (bushkit)
 		setprop(contact~"unit[8]/z-position", -15.5);
 	elsif (bushkit == 2)
 		setprop(contact~"unit[8]/z-position", -17.4);
+	elsif (bushkit == 5)
+		setprop(gears~"unit[25]/z-position", -16);
 
 	setprop(gears~"unit[2]/z-position", 0);
 }

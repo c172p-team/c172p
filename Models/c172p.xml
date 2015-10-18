@@ -57,6 +57,17 @@
     </model>
 
     <model>
+        <name>SkiDamage</name>
+        <path>Effects/damage/skidamage.xml</path>
+        <offsets>
+            <x-m>0.0</x-m>
+            <y-m>0.0</y-m>
+            <z-m>0.0</z-m>
+            <pitch-deg>0</pitch-deg>
+        </offsets>
+    </model>
+
+    <model>
         <name>Bushkit</name>
         <path>Effects/bushkit/bushkit.xml</path>
         <offsets>
@@ -194,6 +205,16 @@
         <bushkit>
             <property>sim/multiplay/generic/int[9]</property>
         </bushkit>
+
+        <!--ski-nose-damage>
+            <property>sim/multiplay/generic/int[1]</property>
+        <ski-nose-damage/>
+        <ski-left-damage>
+            <property>sim/multiplay/generic/int[2]</property>
+        <ski-left-damage/>
+        <ski-right-damage>
+            <property>sim/multiplay/generic/int[3]</property>
+        <ski-right-damage/-->
 
         <!-- 0 = normal, 1 = broken, 2 = damaged -->
         <pontoon_left_damaged>
@@ -4594,6 +4615,30 @@
         </condition>
     </animation>
 
+    <!-- Nose Ski Damage -->
+    <animation>
+        <type>select</type>
+        <object-name>NoseSkid</object-name>
+        <object-name>NoseSkiAxled</object-name>
+        <object-name>NoseSkiAxleBld</object-name>
+        <object-name>NoseSkiAxleBrd</object-name>
+        <object-name>NoseSkiBraceLd</object-name>
+        <object-name>NoseSkiBraceRd</object-name>
+        <object-name>NoseSkiWireFd</object-name>
+        <object-name>NoseCableConnectd</object-name>
+        <object-name>NoseSkiWheelLd</object-name>
+        <object-name>NoseSkiWheelRd</object-name>
+        <condition>
+            <and>
+                <property alias="/params/gear_nose_broken/property"/>
+                <equals>
+                    <property alias="/params/bushkit/property"/>
+                    <value>5</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
     <!-- Left Ski No Damage -->
     <animation>
         <type>select</type>
@@ -4623,6 +4668,33 @@
         </condition>
     </animation>
 
+    <!-- Left Ski Damage -->
+    <animation>
+        <type>select</type>
+        <object-name>LeftSkid</object-name>
+        <object-name>LeftSkiAxled</object-name>
+        <object-name>LeftSkiAxleBld</object-name>
+        <object-name>LeftSkiAxleBrd</object-name>
+        <object-name>LeftSkiBraceLd</object-name>
+        <object-name>LeftSkiBraceRd</object-name>
+        <object-name>LeftSkiWireFd</object-name>
+        <object-name>LeftSkiWireBd</object-name>
+        <object-name>LeftCableConnectFd</object-name>
+        <object-name>LeftCableConnectBd</object-name>
+        <object-name>LeftCableConnectTd</object-name>
+        <object-name>LeftSkiWheeld</object-name>
+        <object-name>LeftSkiSpringd</object-name>
+        <condition>
+            <and>
+                <property alias="/params/gear_left_broken/property"/>
+                <equals>
+                    <property alias="/params/bushkit/property"/>
+                    <value>5</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
     <!-- Right Ski No Damage -->
     <animation>
         <type>select</type>
@@ -4644,6 +4716,33 @@
                 <not>
                     <property alias="/params/gear_right_broken/property"/>
                 </not>
+                <equals>
+                    <property alias="/params/bushkit/property"/>
+                    <value>5</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- Right Ski Damage -->
+    <animation>
+        <type>select</type>
+        <object-name>RightSkid</object-name>
+        <object-name>RightSkiAxled</object-name>
+        <object-name>RightSkiAxleBld</object-name>
+        <object-name>RightSkiAxleBrd</object-name>
+        <object-name>RightSkiBraceLd</object-name>
+        <object-name>RightSkiBraceRd</object-name>
+        <object-name>RightCableConnectTd</object-name>
+        <object-name>RightSkiWireFd</object-name>
+        <object-name>RightSkiWireBd</object-name>
+        <object-name>RightCableConnectFd</object-name>
+        <object-name>RightCableConnectBd</object-name>
+        <object-name>RightSkiWheeld</object-name>
+        <object-name>RightSkiSpringd</object-name>
+        <condition>
+            <and>
+                <property alias="/params/gear_right_broken/property"/>
                 <equals>
                     <property alias="/params/bushkit/property"/>
                     <value>5</value>
@@ -5357,6 +5456,9 @@
     </model>
     <model>
         <path>Effects/shadow/3damphibiousshadow.xml</path>
+    </model>
+    <model>
+        <path>Effects/shadow/3dskishadow.xml</path>
     </model>
 
     <!-- Pilot, co-pilot, and passengers -->

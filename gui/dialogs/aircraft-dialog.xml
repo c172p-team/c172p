@@ -147,6 +147,18 @@
                 </binding>
             </checkbox>
 
+           <checkbox>
+                <halign>left</halign>
+                <label>Show registration on panel</label>
+                <property>/sim/model/c172p/immat-on-panel</property>
+                <live>true</live>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+
+           <hrule/>
+
             <checkbox>
                 <halign>left</halign>
                 <label>Disable frost and fog</label>
@@ -156,16 +168,22 @@
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
-
-            <checkbox>
-                <halign>left</halign>
-                <label>Show registration on panel</label>
-                <property>/sim/model/c172p/immat-on-panel</property>
-                <live>true</live>
+            <button>
+                <halign>center</halign>
+                <legend>User defined frost and fog factors</legend>
+                <pref-width>200</pref-width>
+                <pref-height>28</pref-height>
+                <visible>
+                    <not>
+                        <property>/sim/freeze/replay-state</property>
+                    </not>
+                </visible>
                 <binding>
-                    <command>dialog-apply</command>
+                    <command>dialog-show</command>
+                    <dialog-name>user-defined-factors</dialog-name>
                 </binding>
-            </checkbox>
+            </button>
+
         </group>
 
         <hrule/>

@@ -36,57 +36,57 @@ props.globals.initNode("/environment/aircraft-effects/cabinairdewpointC", dewpoi
 
 #factor used to increment internal temprature over time using *(cabinheatset*cabinairset)
 #smaller number will slow effect
-props.Node.new({ "/environment/aircraft-effects/internalairtempfactor":0 });
-props.globals.initNode("/environment/aircraft-effects/internalairtempfactor", .04, "DOUBLE");
+props.Node.new({ "/environment/aircraft-effects/factorinternalairtemp":0 });
+props.globals.initNode("/environment/aircraft-effects/factorinternalairtemp", .04, "DOUBLE");
 
 #factor used to increment internal surface temprature over time using *(cabinheatset*cabinairset)
 #smaller number will slow effect
-props.Node.new({ "/environment/aircraft-effects/internalsurfacetempfactor":0 });
-props.globals.initNode("/environment/aircraft-effects/internalsurfacetempfactor", .03, "DOUBLE");
+props.Node.new({ "/environment/aircraft-effects/factorinternalsurfacetemp":0 });
+props.globals.initNode("/environment/aircraft-effects/factorinternalsurfacetemp", .03, "DOUBLE");
 
 #factor used to increment internal air temprature from air inflow (no heat) over time using *(cabinairset)
 #smaller number will slow effect
-props.Node.new({ "/environment/aircraft-effects/outsideairflowtempfactor":0 });
-props.globals.initNode("/environment/aircraft-effects/outsideairflowtempfactor", .03, "DOUBLE");
+props.Node.new({ "/environment/aircraft-effects/factoroutsideairflowtemp":0 });
+props.globals.initNode("/environment/aircraft-effects/factoroutsideairflowtemp", .03, "DOUBLE");
 
 #factor used to increment internal surface temprature from air inflow (no heat) over time using *(cabinairset)
 #smaller number will slow effect
-props.Node.new({ "/environment/aircraft-effects/outsideairflowsurfacetempfactor":0 });
-props.globals.initNode("/environment/aircraft-effects/outsideairflowsurfacetempfactor", .02, "DOUBLE");
+props.Node.new({ "/environment/aircraft-effects/factoroutsideairflowsurfacetemp":0 });
+props.globals.initNode("/environment/aircraft-effects/factoroutsideairflowsurfacetemp", .02, "DOUBLE");
 
 #factor used to increment internal air temprature (radiant) over time
 #smaller number will slow effect
-props.Node.new({ "/environment/aircraft-effects/airtempradfactor":0 });
-props.globals.initNode("/environment/aircraft-effects/airtempradfactor", .01, "DOUBLE");
+props.Node.new({ "/environment/aircraft-effects/factorairtemprad":0 });
+props.globals.initNode("/environment/aircraft-effects/factorairtemprad", .01, "DOUBLE");
 
 #factor used to increment internal dewpoint temprature (radiant) over time
 #smaller number will slow effect
-props.Node.new({ "/environment/aircraft-effects/dewpointtempradfactor":0 });
-props.globals.initNode("/environment/aircraft-effects/dewpointtempradfactor", .01, "DOUBLE");
+props.Node.new({ "/environment/aircraft-effects/factordewpointtemprad":0 });
+props.globals.initNode("/environment/aircraft-effects/factordewpointtemprad", .01, "DOUBLE");
 
 #factor used to increment internal surface temprature (radiant) over time
 #smaller number will slow effect
-props.Node.new({ "/environment/aircraft-effects/surfacetempradfactor":0 });
-props.globals.initNode("/environment/aircraft-effects/surfacetempradfactor", .01, "DOUBLE");
+props.Node.new({ "/environment/aircraft-effects/factorsurfacetemprad":0 });
+props.globals.initNode("/environment/aircraft-effects/factorsurfacetemprad", .01, "DOUBLE");
 
 #factor used to increment condensation over time
 #smaller number will slow effect
-props.Node.new({ "/environment/aircraft-effects/condensationfactor":0 });
-props.globals.initNode("/environment/aircraft-effects/condensationfactor", .01, "DOUBLE");
+props.Node.new({ "/environment/aircraft-effects/factorcondensationr":0 });
+props.globals.initNode("/environment/aircraft-effects/factorcondensation", .01, "DOUBLE");
 
 var weather_effects_loop = func {
     var cabinairtempC = getprop("/environment/aircraft-effects/cabinairtempC");
     var surfacetempC = getprop("/environment/aircraft-effects/surfacetempC");
     var cabinairdewpointC = getprop("/environment/aircraft-effects/cabinairdewpointC");
 
-    var internalairtempfactor = getprop("/environment/aircraft-effects/internalairtempfactor");
-    var internalsurfacetempfactor = getprop("/environment/aircraft-effects/internalsurfacetempfactor");
-    var outsideairflowtempfactor = getprop("/environment/aircraft-effects/outsideairflowtempfactor");
-    var outsideairflowsurfacetempfactor = getprop("/environment/aircraft-effects/outsideairflowsurfacetempfactor");
-    var airtempradfactor = getprop("/environment/aircraft-effects/airtempradfactor");
-    var dewpointtempradfactor = getprop("/environment/aircraft-effects/dewpointtempradfactor");
-    var surfacetempradfactor = getprop("/environment/aircraft-effects/surfacetempradfactor");
-    var condensationfactor = getprop("/environment/aircraft-effects/condensationfactor");
+    var internalairtempfactor = getprop("/environment/aircraft-effects/factorinternalairtemp");
+    var internalsurfacetempfactor = getprop("/environment/aircraft-effects/factorinternalsurfacetemp");
+    var outsideairflowtempfactor = getprop("/environment/aircraft-effects/factoroutsideairflowtemp");
+    var outsideairflowsurfacetempfactor = getprop("/environment/aircraft-effects/factoroutsideairflowsurfacetemp");
+    var airtempradfactor = getprop("/environment/aircraft-effects/factorairtemprad");
+    var dewpointtempradfactor = getprop("/environment/aircraft-effects/factordewpointtemprad");
+    var surfacetempradfactor = getprop("/environment/aircraft-effects/factorsurfacetemprad");
+    var condensationfactor = getprop("/environment/aircraft-effects/factorcondensation");
 
 	############################################## rain
 	

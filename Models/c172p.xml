@@ -205,16 +205,11 @@
         <bushkit>
             <property>sim/multiplay/generic/int[9]</property>
         </bushkit>
-
-        <!--ski-nose-damage>
-            <property>sim/multiplay/generic/int[1]</property>
-        <ski-nose-damage/>
-        <ski-left-damage>
-            <property>sim/multiplay/generic/int[2]</property>
-        <ski-left-damage/>
-        <ski-right-damage>
-            <property>sim/multiplay/generic/int[3]</property>
-        <ski-right-damage/-->
+        <gear-ski>
+            <ski-nose-rollspeed-ms>engines/engine[10]/rpm</ski-nose-rollspeed-ms>
+            <ski-left-rollspeed-ms>engines/engine[10]/n1</ski-left-rollspeed-ms>
+            <ski-right-rollspeed-ms>engines/engine[10]/n2</ski-right-rollspeed-ms>
+        </gear-ski>
 
         <!-- 0 = normal, 1 = broken, 2 = damaged -->
         <pontoon_left_damaged>
@@ -3200,8 +3195,9 @@
         <object-name>NoseSkiBraceR</object-name>
         <object-name>NoseSkiWireF</object-name>
         <object-name>NoseCableConnect</object-name>
-        <object-name>NoseSkiWheelL</object-name>
-        <object-name>NoseSkiWheelR</object-name>
+        <object-name>NoseSkiWheel</object-name>
+        <object-name>NoseSkiWheelAxleL</object-name>
+        <object-name>NoseSkiWheelAxleR</object-name>
         <property>surface-positions/rudder-pos-norm</property>
         <factor>30</factor>
         <axis>
@@ -3232,8 +3228,9 @@
         <object-name>NoseSkiBraceR</object-name>
         <object-name>NoseSkiWireF</object-name>
         <object-name>NoseCableConnect</object-name>
-        <object-name>NoseSkiWheelL</object-name>
-        <object-name>NoseSkiWheelR</object-name>
+        <object-name>NoseSkiWheel</object-name>
+        <object-name>NoseSkiWheelAxleL</object-name>
+        <object-name>NoseSkiWheelAxleR</object-name>
         <property>gear/gear[0]/compression-norm</property>
         <factor>0.30</factor>
         <axis>
@@ -3288,11 +3285,12 @@
         <object-name>RightSkiAxleBr</object-name>
         <object-name>RightSkiBraceL</object-name>
         <object-name>RightSkiBraceR</object-name>
-        <!--object-name>RightSkiWireF</object-name-->
+        <object-name>RightSkiWireF</object-name>
         <object-name>RightSkiWireB</object-name>
         <object-name>RightCableConnectF</object-name>
         <object-name>RightCableConnectB</object-name>
         <object-name>RightSkiWheel</object-name>
+        <object-name>RightSkiWheelAxle</object-name>
         <property>gear/gear[2]/compression-norm</property>
         <center>
             <x-m>0.711</x-m>
@@ -3325,6 +3323,7 @@
         <object-name>LeftCableConnectF</object-name>
         <object-name>LeftCableConnectB</object-name>
         <object-name>LeftSkiWheel</object-name>
+        <object-name>LeftSkiWheelAxle</object-name>
         <property>gear/gear[1]/compression-norm</property>
         <center>
             <x-m>0.711</x-m>
@@ -3337,6 +3336,508 @@
             <z>0.0</z>
         </axis>
         <interpolation include="MainRotationInterpolation.xml"/>
+    </animation>
+
+    <!-- Rotate front ski angle from 0 to 10 deg -->
+    <animation>
+        <type>rotate</type>
+        <object-name>NoseSki</object-name>
+        <object-name>NoseSkiAxle</object-name>
+        <object-name>NoseSkiAxleBl</object-name>
+        <object-name>NoseSkiAxleBr</object-name>
+        <object-name>NoseSkiBraceL</object-name>
+        <object-name>NoseSkiBraceR</object-name>
+        <object-name>NoseSkiWireF</object-name>
+        <object-name>NoseCableConnect</object-name>
+        <object-name>NoseSkiWheel</object-name>
+        <object-name>NoseSkiWheelAxleL</object-name>
+        <object-name>NoseSkiWheelAxleR</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+            <entry>
+                <ind>0.65</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.61</ind>
+                <dep>10.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-1.113</x-m>
+            <y-m>-0.004</y-m>
+            <z-m>-1.202</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <!-- rotate front ski wire -->
+    <animation>
+        <type>rotate</type>
+        <object-name>NoseSkiWireF</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+             <entry>
+                <ind>0.6517</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.493</ind>
+                <dep>-3</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-2.1396</x-m>
+            <y-m>-0.0177</y-m>
+            <z-m>-1.1274</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <!-- Rotate left ski angle from 0 to 10 deg -->
+
+    <!-- rotate left ski xtan below 1.78 agl (remove sink into ground)-->
+    <!--animation>
+        <type>rotate</type>
+        <object-name>LeftSki</object-name>
+        <object-name>LeftSkiAxleBl</object-name>
+        <object-name>LeftSkiAxleBr</object-name>
+        <object-name>LeftSkiBraceL</object-name>
+        <object-name>LeftSkiBraceR</object-name>
+        <object-name>LeftSkiWireF</object-name>
+        <object-name>LeftSkiWireB</object-name>
+        <object-name>LeftCableConnectF</object-name>
+        <object-name>LeftCableConnectB</object-name>
+        <object-name>LeftSkiWheel</object-name>
+        <object-name>LeftSkiWheelAxle</object-name>
+        <property>/fdm/jsbsim/ski/xtan-actual</property>
+        <condition>
+            <and>
+                <less-than>
+                    <property>/position/altitude-agl-m</property>
+                    <value>1.780</value>
+                </less-than>
+                <greater-than>
+                    <property>/fdm/jsbsim/ski/xtan-actual</property>
+                    <value>.00856</value>
+                </greater-than>
+            </and>
+        </condition>
+        <interpolation>
+             <entry>
+                <ind>.00856</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>.1044</ind>
+                <dep>-10</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 0.528</x-m>
+            <y-m>-1.179</y-m>
+            <z-m>-1.148</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation-->
+
+    <!-- rotate left ski atan above-equal 1.78 agl -->
+    <animation>
+        <type>rotate</type>
+        <object-name>LeftSki</object-name>
+        <object-name>LeftSkiAxleBl</object-name>
+        <object-name>LeftSkiAxleBr</object-name>
+        <object-name>LeftSkiBraceL</object-name>
+        <object-name>LeftSkiBraceR</object-name>
+        <object-name>LeftSkiWireF</object-name>
+        <object-name>LeftSkiWireB</object-name>
+        <object-name>LeftCableConnectF</object-name>
+        <object-name>LeftCableConnectB</object-name>
+        <object-name>LeftSkiWheel</object-name>
+        <object-name>LeftSkiWheelAxle</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+            <entry>
+                <ind>0.6517</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.493</ind>
+                <dep>10.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 0.528</x-m>
+            <y-m>-1.179</y-m>
+            <z-m>-1.148</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <!-- rotate left front bungee (top) ski wire -->
+    <animation>
+        <type>rotate</type>
+        <object-name>LeftSkiSpring</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+             <entry>
+                <ind>0.6517</ind>
+                <dep>0.</dep>
+            </entry>
+            <entry>
+                <ind>0.493</ind>
+                <dep>1</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-0.6362</x-m>
+            <y-m>-0.5327</y-m>
+            <z-m>-0.1468</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>LeftSkiSpring</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+             <entry>
+                <ind>0.6517</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.493</ind>
+                <dep>-6</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-0.6362</x-m>
+            <y-m>-0.5327</y-m>
+            <z-m>-0.1468</z-m>
+        </center>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <!-- rotate left front bottom ski wire -->
+    <animation>
+        <type>rotate</type>
+        <object-name>LeftSkiWireF</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+             <entry>
+                <ind>0.6517</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.493</ind>
+                <dep>-8</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-0.8426</x-m>
+            <y-m>-0.9569</y-m>
+            <z-m>-1.1537</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>LeftSkiWireF</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+            <entry>
+                <ind>0.6517</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.493</ind>
+                <dep>-6</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-0.8426</x-m>
+            <y-m>-0.9569</y-m>
+            <z-m>-1.1537</z-m>
+        </center>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <!-- rotate left back ski wire -->
+    <animation>
+        <type>rotate</type>
+        <object-name>LeftSkiWireB</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+             <entry>
+                <ind>0.6517</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.493</ind>
+                <dep>-3</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>1.4231</x-m>
+            <y-m>-0.9603</y-m>
+            <z-m>-1.3955</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <!-- Rotate right ski angle from 0 to 10 deg -->
+
+    <!-- rotate right ski xtan below 1.78 agl (remove sink into ground)-->
+    <!--animation>
+        <type>rotate</type>
+        <object-name>RightSki</object-name>
+        <object-name>RightSkiAxleBl</object-name>
+        <object-name>RightSkiAxleBr</object-name>
+        <object-name>RightSkiBraceL</object-name>
+        <object-name>RightSkiBraceR</object-name>
+        <object-name>RightSkiWireF</object-name>
+        <object-name>RightSkiWireB</object-name>
+        <object-name>RightCableConnectF</object-name>
+        <object-name>RightCableConnectB</object-name>
+        <object-name>RightSkiWheel</object-name>
+        <object-name>RightSkiWheelAxle</object-name>
+        <property>/fdm/jsbsim/ski/xtan-actual</property>
+        <condition>
+            <and>
+                <less-than>
+                    <property>/position/altitude-agl-m</property>
+                    <value>1.780</value>
+                </less-than>
+                <greater-than>
+                    <property>/fdm/jsbsim/ski/xtan-actual</property>
+                    <value>.00856</value>
+                </greater-than>
+            </and>
+        </condition>
+        <interpolation>
+             <entry>
+                <ind>.00856</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>.1044</ind>
+                <dep>-10</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 0.530</x-m>
+            <y-m>1.189</y-m>
+            <z-m>-1.145</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation-->
+
+    <!-- rotate right ski atan above-equal 1.78 agl -->
+    <animation>
+        <type>rotate</type>
+        <object-name>RightSki</object-name>
+        <object-name>RightSkiAxleBl</object-name>
+        <object-name>RightSkiAxleBr</object-name>
+        <object-name>RightSkiBraceL</object-name>
+        <object-name>RightSkiBraceR</object-name>
+        <object-name>RightSkiWireF</object-name>
+        <object-name>RightSkiWireB</object-name>
+        <object-name>RightCableConnectF</object-name>
+        <object-name>RightCableConnectB</object-name>
+        <object-name>RightSkiWheel</object-name>
+        <object-name>RightSkiWheelAxle</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+            <entry>
+                <ind>0.6517</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.493</ind>
+                <dep>10.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 0.530</x-m>
+            <y-m>1.189</y-m>
+            <z-m>-1.145</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <!-- rotate right front bungee (top) ski wire -->
+    <animation>
+        <type>rotate</type>
+        <object-name>RightSkiSpring</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+             <entry>
+                <ind>0.6517</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.493</ind>
+                <dep>2</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-0.6344</x-m>
+            <y-m>0.5495</y-m>
+            <z-m>-0.1629</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>RightSkiSpring</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+             <entry>
+                <ind>0.6517</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.493</ind>
+                <dep>6</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-0.6344</x-m>
+            <y-m>0.5495</y-m>
+            <z-m>-0.1629</z-m>
+        </center>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <!-- rotate right front bottom ski wire -->
+    <animation>
+        <type>rotate</type>
+        <object-name>RightSkiWireF</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+             <entry>
+                <ind>0.6517</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.493</ind>
+                <dep>-8</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-0.844</x-m>
+            <y-m> 0.9575</y-m>
+            <z-m>-1.1582</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>RightSkiWireF</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+            <entry>
+                <ind>0.6517</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.493</ind>
+                <dep>6</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-0.844</x-m>
+            <y-m> 0.9575</y-m>
+            <z-m>-1.1582</z-m>
+        </center>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <!-- rotate right rear ski wire -->
+    <animation>
+        <type>rotate</type>
+        <object-name>RightSkiWireB</object-name>
+        <property>/fdm/jsbsim/ski/atan-actual</property>
+        <interpolation>
+             <entry>
+                <ind>0.6517</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.493</ind>
+                <dep>-3.5</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>1.4278</x-m>
+            <y-m>0.9737</y-m>
+            <z-m>-1.3889</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
     </animation>
 
     <!-- MOD: Spin to gears -->
@@ -3394,6 +3895,56 @@
             <x-m>-1.11403</x-m>
             <y-m>0.00000</y-m>
             <z-m>-1.18615</z-m>
+        </center>
+    </animation>
+
+    <!-- Spin to Ski Wheels -->
+    <animation>
+        <type>spin</type>
+        <object-name>NoseSkiWheel</object-name>
+        <property alias="/params/gear-ski/ski-nose-rollspeed-ms"/>
+        <factor>13</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-0.56607</x-m>
+            <y-m>-0.00027</y-m>
+            <z-m>-1.34917</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>spin</type>
+        <object-name>LeftSkiWheel</object-name>
+        <property alias="/params/gear-ski/ski-left-rollspeed-ms"/>
+        <factor>13</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>1.24648</x-m>
+            <y-m>-1.30575</y-m>
+            <z-m>-1.48968</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>spin</type>
+        <object-name>RightSkiWheel</object-name>
+        <property alias="/params/gear-ski/ski-right-rollspeed-ms"/>
+        <factor>13</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>1.24648</x-m>
+            <y-m>1.33153</y-m>
+            <z-m>-1.48274</z-m>
         </center>
     </animation>
     <!-- MODEND: Spin to gears -->
@@ -4600,8 +5151,9 @@
         <object-name>NoseSkiBraceR</object-name>
         <object-name>NoseSkiWireF</object-name>
         <object-name>NoseCableConnect</object-name>
-        <object-name>NoseSkiWheelL</object-name>
-        <object-name>NoseSkiWheelR</object-name>
+        <object-name>NoseSkiWheel</object-name>
+        <object-name>NoseSkiWheelAxleL</object-name>
+        <object-name>NoseSkiWheelAxleR</object-name>
         <condition>
             <and>
                 <not>
@@ -4626,8 +5178,9 @@
         <object-name>NoseSkiBraceRd</object-name>
         <object-name>NoseSkiWireFd</object-name>
         <object-name>NoseCableConnectd</object-name>
-        <object-name>NoseSkiWheelLd</object-name>
-        <object-name>NoseSkiWheelRd</object-name>
+        <object-name>NoseSkiWheeld</object-name>
+        <object-name>NoseSkiWheelAxleLd</object-name>
+        <object-name>NoseSkiWheelAxleRd</object-name>
         <condition>
             <and>
                 <property alias="/params/gear_nose_broken/property"/>
@@ -4655,6 +5208,7 @@
         <object-name>LeftSkiWheel</object-name>
         <object-name>LeftCableConnectT</object-name>
         <object-name>LeftSkiSpring</object-name>
+        <object-name>LeftSkiWheelAxle</object-name>
        <condition>
             <and>
                 <not>
@@ -4684,6 +5238,7 @@
         <object-name>LeftCableConnectTd</object-name>
         <object-name>LeftSkiWheeld</object-name>
         <object-name>LeftSkiSpringd</object-name>
+        <object-name>LeftSkiWheelAxled</object-name>
         <condition>
             <and>
                 <property alias="/params/gear_left_broken/property"/>
@@ -4711,6 +5266,7 @@
         <object-name>RightSkiWheel</object-name>
         <object-name>RightCableConnectT</object-name>
         <object-name>RightSkiSpring</object-name>
+        <object-name>RightSkiWheelAxle</object-name>
         <condition>
             <and>
                 <not>
@@ -4740,6 +5296,7 @@
         <object-name>RightCableConnectBd</object-name>
         <object-name>RightSkiWheeld</object-name>
         <object-name>RightSkiSpringd</object-name>
+        <object-name>RightSkiWheelAxled</object-name>
         <condition>
             <and>
                 <property alias="/params/gear_right_broken/property"/>

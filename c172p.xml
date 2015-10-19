@@ -107,7 +107,7 @@
                 <z> 24 </z>
             </location>
         </pointmass>
-        <!-- Bushkits 1 to 4, pointmass [5] to [12] -->
+        <!-- Bushkits 1 to 5, pointmass [5] to [12] and [14] to [15], [13] is 180 hp engine (below) -->
         <!-- Weight and drag are managed by Systems/bushkit.xml -->
         <pointmass name="Left bush wheel 26 inches">
             <weight unit="LBS"> 0 </weight>
@@ -171,6 +171,22 @@
                 <x> 41 </x>
                 <y>  43 </y>
                 <z> -25 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Left ski">
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> 58.2 </x>
+                <y>  -43 </y>
+                <z> -15.5 </z>
+            </location>
+        </pointmass>
+        <pointmass name="Right ski">
+            <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> 58.2 </x>
+                <y>  43 </y>
+                <z> -15.5 </z>
             </location>
         </pointmass>
 
@@ -484,10 +500,14 @@
             <brake_group>RIGHT</brake_group>
             <retractable>1</retractable>
         </contact>
+
+        <!-- contact 23 = 2 wheels on nose ski.
+             The ski wheels friction would have a
+             rolling friction on a hard surface and
+             slide or drag on snow -->
         <!-- contact 23, 24, 25 -->
         <contact type="BOGEY" name="NOSE_SKI">
             <location unit="IN">
-                <!--x> -6.8 </x-->
                 <x>  18.44 </x>
                 <y> 0 </y>
                 <z> -10 </z>
@@ -495,17 +515,16 @@
             <static_friction> 0.8 </static_friction>
             <dynamic_friction> 0.5 </dynamic_friction>
             <rolling_friction> 0.02 </rolling_friction>
-            <spring_coeff unit="LBS/FT"> 5400 </spring_coeff>
-            <damping_coeff unit="LBS/FT/SEC"> 400 </damping_coeff>
-            <max_steer unit="DEG"> 0.0 </max_steer>
-            <brake_group> RIGHT </brake_group>
+            <spring_coeff unit="LBS/FT"> 1800 </spring_coeff>
+            <damping_coeff unit="LBS/FT/SEC"> 600 </damping_coeff>
+            <max_steer unit="DEG"> 10 </max_steer>
+            <brake_group> NONE </brake_group>
             <retractable>0</retractable>
         </contact>
         <contact type="BOGEY" name="LEFT_SKI">
             <location unit="IN">
-                <!--x> 58.2 </x-->
                 <x> 93 </x>
-                <y> -43 </y>
+                <y> -51 </y>
                 <z> -10 </z>
             </location>
             <static_friction> 0.8 </static_friction>
@@ -514,14 +533,13 @@
             <spring_coeff unit="LBS/FT"> 5400 </spring_coeff>
             <damping_coeff unit="LBS/FT/SEC"> 400 </damping_coeff>
             <max_steer unit="DEG"> 0.0 </max_steer>
-            <brake_group> RIGHT </brake_group>
+            <brake_group> NONE </brake_group>
             <retractable>0</retractable>
         </contact>
         <contact type="BOGEY" name="RIGHT_SKI">
             <location unit="IN">
-                <!--x> 58.2 </x-->
                 <x> 93 </x>
-                <y> 43 </y>
+                <y> 52 </y>
                 <z> -10 </z>
             </location>
             <static_friction> 0.8 </static_friction>
@@ -530,7 +548,7 @@
             <spring_coeff unit="LBS/FT"> 5400 </spring_coeff>
             <damping_coeff unit="LBS/FT/SEC"> 400 </damping_coeff>
             <max_steer unit="DEG"> 0.0 </max_steer>
-            <brake_group> RIGHT </brake_group>
+            <brake_group>NONE </brake_group>
             <retractable>0</retractable>
         </contact>
 
@@ -986,6 +1004,7 @@
                     <property>gear/drag-coef[2]</property> <!-- bush wheels 36" -->
                     <property>gear/drag-coef[3]</property> <!-- Floats -->
                     <property>gear/drag-coef[4]</property> <!-- Amphibious -->
+                    <property>gear/drag-coef[5]</property> <!-- Ski -->
                 </product>
             </function>
 
@@ -1052,6 +1071,7 @@
                     <property>gear/drag-coef[2]</property>
                     <property>gear/drag-coef[3]</property>
                     <property>gear/drag-coef[4]</property>
+                    <property>gear/drag-coef[5]</property>
                 </product>
             </function>
 
@@ -1076,6 +1096,7 @@
                     <property>gear/drag-coef[2]</property>
                     <property>gear/drag-coef[3]</property>
                     <property>gear/drag-coef[4]</property>
+                    <property>gear/drag-coef[5]</property>
                 </product>
             </function>
         </axis>

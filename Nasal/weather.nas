@@ -34,10 +34,59 @@ props.globals.initNode("/environment/aircraft-effects/surfacetempC", airtempC, "
 props.Node.new({ "/environment/aircraft-effects/cabinairdewpointC":0 });
 props.globals.initNode("/environment/aircraft-effects/cabinairdewpointC", dewpointC, "DOUBLE");
 
+#factor used to increment internal temprature over time using *(cabinheatset*cabinairset)
+#smaller number will slow effect
+props.Node.new({ "/environment/aircraft-effects/factorinternalairtemp":0 });
+props.globals.initNode("/environment/aircraft-effects/factorinternalairtemp", .04, "DOUBLE");
+
+#factor used to increment internal surface temprature over time using *(cabinheatset*cabinairset)
+#smaller number will slow effect
+props.Node.new({ "/environment/aircraft-effects/factorinternalsurfacetemp":0 });
+props.globals.initNode("/environment/aircraft-effects/factorinternalsurfacetemp", .03, "DOUBLE");
+
+#factor used to increment internal air temprature from air inflow (no heat) over time using *(cabinairset)
+#smaller number will slow effect
+props.Node.new({ "/environment/aircraft-effects/factoroutsideairflowtemp":0 });
+props.globals.initNode("/environment/aircraft-effects/factoroutsideairflowtemp", .03, "DOUBLE");
+
+#factor used to increment internal surface temprature from air inflow (no heat) over time using *(cabinairset)
+#smaller number will slow effect
+props.Node.new({ "/environment/aircraft-effects/factoroutsideairflowsurfacetemp":0 });
+props.globals.initNode("/environment/aircraft-effects/factoroutsideairflowsurfacetemp", .02, "DOUBLE");
+
+#factor used to increment internal air temprature (radiant) over time
+#smaller number will slow effect
+props.Node.new({ "/environment/aircraft-effects/factorairtemprad":0 });
+props.globals.initNode("/environment/aircraft-effects/factorairtemprad", .01, "DOUBLE");
+
+#factor used to increment internal dewpoint temprature (radiant) over time
+#smaller number will slow effect
+props.Node.new({ "/environment/aircraft-effects/factordewpointtemprad":0 });
+props.globals.initNode("/environment/aircraft-effects/factordewpointtemprad", .01, "DOUBLE");
+
+#factor used to increment internal surface temprature (radiant) over time
+#smaller number will slow effect
+props.Node.new({ "/environment/aircraft-effects/factorsurfacetemprad":0 });
+props.globals.initNode("/environment/aircraft-effects/factorsurfacetemprad", .01, "DOUBLE");
+
+#factor used to increment condensation over time
+#smaller number will slow effect
+props.Node.new({ "/environment/aircraft-effects/factorcondensationr":0 });
+props.globals.initNode("/environment/aircraft-effects/factorcondensation", .01, "DOUBLE");
+
 var weather_effects_loop = func {
     var cabinairtempC = getprop("/environment/aircraft-effects/cabinairtempC");
     var surfacetempC = getprop("/environment/aircraft-effects/surfacetempC");
     var cabinairdewpointC = getprop("/environment/aircraft-effects/cabinairdewpointC");
+
+    var internalairtempfactor = getprop("/environment/aircraft-effects/factorinternalairtemp");
+    var internalsurfacetempfactor = getprop("/environment/aircraft-effects/factorinternalsurfacetemp");
+    var outsideairflowtempfactor = getprop("/environment/aircraft-effects/factoroutsideairflowtemp");
+    var outsideairflowsurfacetempfactor = getprop("/environment/aircraft-effects/factoroutsideairflowsurfacetemp");
+    var airtempradfactor = getprop("/environment/aircraft-effects/factorairtemprad");
+    var dewpointtempradfactor = getprop("/environment/aircraft-effects/factordewpointtemprad");
+    var surfacetempradfactor = getprop("/environment/aircraft-effects/factorsurfacetemprad");
+    var condensationfactor = getprop("/environment/aircraft-effects/factorcondensation");
 
 	############################################## rain
 	
@@ -77,7 +126,7 @@ var weather_effects_loop = func {
 	#otherwise it is just outside airtemp
 	if (cabinheatset > 0) 
 	{
-		cabinairtempC += .04*(cabinheatset*cabinairset);
+		cabinairtempC += internalairtempfactor*(cabinheatset*cabinairset);
 		if (cabinairtempC > 32)
 		{
 			if (!getprop("/fdm/jsbsim/weather"))
@@ -85,38 +134,38 @@ var weather_effects_loop = func {
 		}
 		#surfacetemp is slowely changed by cabinairtemp
 		if (surfacetempC < cabinairtempC)
-			surfacetempC += .03*(cabinheatset*cabinairset);
+			surfacetempC += internalsurfacetempfactor*(cabinheatset*cabinairset);
 		if (surfacetempC > cabinairtempC)
-			surfacetempC -= .03*(cabinheatset*cabinairset);
+			surfacetempC -= internalsurfacetempfactor*(cabinheatset*cabinairset);
 	} 
 	else
 	if (cabinairset > 0)
 	{
-		#if no cabinheat then we incrementally adjust cabintemp with outside airtemp
+		#if no cabinheat but cabin air is on, then we incrementally adjust cabintemp with outside airtemp
 		if (cabinairtempC < airtempC)
-			cabinairtempC += .03*cabinairset;
+			cabinairtempC += outsideairflowtempfactor*cabinairset;
 		if (cabinairtempC > airtempC) 
-			cabinairtempC -= .03*cabinairset;
+			cabinairtempC -= outsideairflowtempfactor*cabinairset;
 		if (surfacetempC < cabinairtempC)
-			surfacetempC += .02*cabinairset;
+			surfacetempC += outsideairflowsurfacetempfactor*cabinairset;
 		if (surfacetempC > cabinairtempC)
-			surfacetempC -= .02*cabinairset; 
+			surfacetempC -= outsideairflowsurfacetempfactor*cabinairset; 
 	} 
 
 	#regardless of whether or not vents are open we
 	#incremetally adjust cabintemp with outside airtemp
 	if (cabinairtempC < airtempC)
-		cabinairtempC += .01;
+		cabinairtempC += airtempradfactor;
 	if (cabinairtempC > airtempC) 
-		cabinairtempC -= .01;
+		cabinairtempC -= airtempradfactor;
 	if (cabinairdewpointC < dewpointC)
-		cabinairdewpointC += .01;
+		cabinairdewpointC += dewpointtempradfactor;
 	if (cabinairdewpointC > dewpointC)
-		cabinairdewpointC -= .01;
+		cabinairdewpointC -= dewpointtempradfactor;
 	if (surfacetempC < cabinairtempC)
-		surfacetempC += .01;
+		surfacetempC += surfacetempradfactor;
 	if (surfacetempC > cabinairtempC)
-		surfacetempC -= .01;
+		surfacetempC -= surfacetempradfactor;
 
 	#if cabinairtemp is less than dewpointtemp at startup we start out
 	#with fog. If it is also freezing we switch to frost.
@@ -134,12 +183,12 @@ var weather_effects_loop = func {
 		}
 		else 
 		if (surfacetempC <= cabinairdewpointC)
-			if (moisture < 1) moisture += .01;
+			if (moisture < 1) moisture += condensationfactor;
 	}
 	else 
 	{
 		if (surfacetempC > cabinairdewpointC)
-			if (moisture > 0) moisture -= .01;
+			if (moisture > 0) moisture -= condensationfactor;
 		start = 0;
 	}
 	

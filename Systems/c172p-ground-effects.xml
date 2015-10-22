@@ -24,6 +24,67 @@
 
     <channel name="groundeffects">
 
+        <switch name="gear-spin-nose">
+            <output>gear/gear-spin-nose</output>
+            <default value="13"/>
+            <test logic="OR" value="10">
+                bushkit EQ 1
+                bushkit EQ 2
+                bushkit EQ 5
+            </test>
+        </switch>
+
+        <switch name="gear-spin-left">
+            <output>gear/gear-spin-left</output>
+            <default value="13"/>
+            <test logic="OR" value="8">
+                bushkit EQ 2
+                bushkit EQ 5
+            </test>
+            <test logic="OR" value="10">
+                bushkit EQ 1
+            </test>
+        </switch>
+
+        <switch name="gear-spin-right">
+            <output>gear/gear-spin-right</output>
+            <default value="13"/>
+            <test logic="OR" value="8">
+                bushkit EQ 2
+                bushkit EQ 5
+            </test>
+            <test logic="OR" value="10">
+                bushkit EQ 1
+            </test>
+        </switch>
+
+        <fcs_function name="gear/gearspin-nose">
+            <function>
+                <product>
+                    <property>/fdm/jsbsim/gear/gear-spin-nose</property>
+                    <property>/engines/engine[7]/rpm</property>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="gear/gearspin-left">
+            <function>
+                <product>
+                    <property>/fdm/jsbsim/gear/gear-spin-left</property>
+                    <property>/engines/engine[7]/n1</property>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="gear/gearspin-right">
+            <function>
+                <product>
+                    <property>/fdm/jsbsim/gear/gear-spin-right</property>
+                    <property>/engines/engine[7]/n2</property>
+                </product>
+            </function>
+        </fcs_function>
+
         <fcs_function name="ground/tail-ground-effect-speed-kt">
             <function>
                 <product>

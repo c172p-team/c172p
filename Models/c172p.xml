@@ -206,9 +206,9 @@
             <property>sim/multiplay/generic/int[9]</property>
         </bushkit>
         <gear-ski>
-            <ski-nose-rollspeed-ms>engines/engine[10]/rpm</ski-nose-rollspeed-ms>
-            <ski-left-rollspeed-ms>engines/engine[10]/n1</ski-left-rollspeed-ms>
-            <ski-right-rollspeed-ms>engines/engine[10]/n2</ski-right-rollspeed-ms>
+            <ski-nose-rollspeed-ms>rotors/main/blade[0]/position-deg</ski-nose-rollspeed-ms>
+            <ski-left-rollspeed-ms>rotors/main/blade[1]/position-deg</ski-left-rollspeed-ms>
+            <ski-right-rollspeed-ms>rotors/main/blade[2]/position-deg</ski-right-rollspeed-ms>
         </gear-ski>
 
         <!-- 0 = normal, 1 = broken, 2 = damaged -->
@@ -228,12 +228,9 @@
         </wing_right_damaged>
 
         <gear>
-            <nose-rollspeed-ms>sim/multiplay/generic/float[4]</nose-rollspeed-ms>
-            <left-rollspeed-ms>sim/multiplay/generic/float[18]</left-rollspeed-ms>
-            <right-rollspeed-ms>sim/multiplay/generic/float[19]</right-rollspeed-ms>
-            <!--left-rollspeed-ms>engines/engine[7]/n1</left-rollspeed-ms>
-                                <right-rollspeed-ms>engines/engine[7]/n2</right-rollspeed-ms>
-                                <nose-rollspeed-ms>engines/engine[7]/rpm</nose-rollspeed-ms-->
+            <nose-rollspeed-ms>engines/engine[7]/rpm</nose-rollspeed-ms>  
+            <left-rollspeed-ms>engines/engine[7]/n1</left-rollspeed-ms>
+            <right-rollspeed-ms>engines/engine[7]/n2</right-rollspeed-ms>
         </gear>
         <gear-amphibious>
             <front-left-compression-ft>engines/engine[3]/n1</front-left-compression-ft>
@@ -3850,8 +3847,13 @@
         <!-- Bushkit Mod -->
         <object-name>RightWheelBK</object-name>
         <object-name>RightWheelBKs</object-name>
-        <property alias="/params/gear/right-rollspeed-ms"/>
-        <!--factor>13</factor-->
+
+        <expression>
+            <product>
+                <property alias="/params/gear/right-rollspeed-ms"/>
+                <property>/fdm/jsbsim/gear/gear-spin-right</property>
+            </product>
+        </expression>
         <axis>
             <x>0</x>
             <y>-1</y>
@@ -3869,8 +3871,12 @@
         <!-- Bushkit Mod -->
         <object-name>LeftWheelBK</object-name>
         <object-name>LeftWheelBKs</object-name>
-        <property alias="/params/gear/left-rollspeed-ms"/>
-        <!--factor>13</factor-->
+        <expression>
+            <product>
+                <property alias="/params/gear/left-rollspeed-ms"/>
+                <property>/fdm/jsbsim/gear/gear-spin-left</property>
+            </product>
+        </expression>
         <axis>
             <x>0</x>
             <y>-1</y>
@@ -3887,8 +3893,12 @@
         <object-name>NoseWheel</object-name>
         <!-- Bushkit Mod -->
         <object-name>NoseWheelBK</object-name>
-        <property alias="/params/gear/nose-rollspeed-ms"/>
-        <!--factor>13</factor-->
+        <expression>
+            <product>
+                <property alias="/params/gear/nose-rollspeed-ms"/>
+                <property>/fdm/jsbsim/gear/gear-spin-nose</property>
+            </product>
+        </expression>
         <axis>
             <x>0</x>
             <y>-1</y>

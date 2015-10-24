@@ -5,6 +5,8 @@ A high detailed version of the Cessna 172P aircraft for FlightGear.
 
 Development thread: http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 
+Creating a release: see the [wiki page "Release process and versioning"](https://github.com/Juanvvc/c172p-detailed/wiki/Release-process-and-versioning) how to do a release.
+
 ![Cessna 172P](http://s30.postimg.org/gl82bkjc1/fgfs_screen_003.png)
 
 For the repository containing the texture files for the liveries and instruments (including their .xcf files), visit: https://github.com/gilbertohasnofb/c172p-detailed-liveries

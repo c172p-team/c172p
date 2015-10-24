@@ -28,9 +28,12 @@ var reset_all_damage = func
 	setprop(contact~"unit[7]/z-position", 0);
 	setprop(contact~"unit[8]/z-position", 0);
 	setprop(gears~"unit[19]/z-position", 0);
-	setprop(gears~"unit[20]/z-position", 0);
-	setprop(gears~"unit[21]/z-position", 0);
-	setprop(gears~"unit[22]/z-position", 0);
+    setprop(gears~"unit[20]/z-position", 0);
+    setprop(gears~"unit[21]/z-position", 0);
+    setprop(gears~"unit[22]/z-position", 0);
+    setprop(gears~"unit[23]/z-position", 0);
+    setprop(gears~"unit[24]/z-position", 0);
+    setprop(gears~"unit[25]/z-position", 0);
 }
 
 var repair_damage = func {
@@ -58,6 +61,8 @@ var leftgearbroke = func (bushkit)
 		setprop(contact~"unit[7]/z-position", -14.5);
 	elsif (bushkit == 2)
 		setprop(contact~"unit[7]/z-position", -16);
+	elsif (bushkit == 5)
+		setprop(gears~"unit[24]/z-position", -14);
 
 	setprop(gears~"unit[1]/z-position", 0);
 }
@@ -70,6 +75,8 @@ var rightgearbroke = func (bushkit)
 		setprop(contact~"unit[8]/z-position", -15.5);
 	elsif (bushkit == 2)
 		setprop(contact~"unit[8]/z-position", -17.4);
+	elsif (bushkit == 5)
+		setprop(gears~"unit[25]/z-position", -16);
 
 	setprop(gears~"unit[2]/z-position", 0);
 }
@@ -136,6 +143,16 @@ var amphibious = func
 	setprop(gears~"unit[22]/z-position", -50.5);
 }
 
+var skis = func
+{
+    setprop(gears~"unit[0]/z-position", -22);
+    setprop(gears~"unit[1]/z-position", -22);
+    setprop(gears~"unit[2]/z-position", -22);
+    setprop(gears~"unit[23]/z-position", -22);
+    setprop(gears~"unit[24]/z-position", -22);
+    setprop(gears~"unit[25]/z-position", -22);
+}
+
 # Check if on water
 var poll_surface = func
 {
@@ -169,12 +186,11 @@ var bushkit_change_timeout = 3.0;
 
 var physics_loop = func
 {
-	if (getprop("/sim/freeze/replay-state")) {
+    if (getprop("/sim/freeze/replay-state")) {
         return;
     }
-
-	if (getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
-		poll_surface();
+    if (getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
+        poll_surface();
 }
 
 var set_bushkit = func (bushkit) {
@@ -193,6 +209,8 @@ var set_bushkit = func (bushkit) {
         pontoons();
     elsif (bushkit == 4)
         amphibious();
+    elsif (bushkit == 5)
+        skis();
 
     bushkit_changed_timer.restart(bushkit_change_timeout);
 };

@@ -140,10 +140,6 @@ var reset_system = func {
 # If you need to run nasal as loop, add it in this function
 ############################################
 var global_system_loop = func{
-  # terrain_survol_loop was incorporated during damage system creation. 
-  # "Unimplemented" crash detection system requires this self terrain modelling (I think)
-  # If we end up not using it, then we can remove it.
-  #terrain_survol_loop();
   c172p.physics_loop();
   c172p.weather_effects_loop();
 }
@@ -151,14 +147,6 @@ var global_system_loop = func{
 ##########################################
 # SetListerner must be at the end of this file
 ##########################################
-#setlistener("/sim/signals/fdm-initialized", func{
-#  setprop("/environment/terrain-type",1);
-#  setprop("/environment/terrain-load-resistance",1e+30);
-#  setprop("/environment/terrain-friction-factor",1.05);
-#  setprop("/environment/terrain-bumpiness",0);
-#  setprop("/environment/terrain-rolling-friction",0.02);
-#});
-
 var set_limits = func (node) {
     if (node.getValue() == 1) {
         var limits = props.globals.getNode("/limits/mass-and-balance-180hp");

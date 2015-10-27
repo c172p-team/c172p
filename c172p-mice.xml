@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright (c) 2015 onox
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<PropertyList>
+
+    <mouse n="0">
+
+        <mode n="0">
+            <button n="3">
+                <binding n="0">
+                    <script></script>
+                </binding>
+                <binding n="1">
+                    <condition>
+                        <property>/sim/current-view/can-change-z-offset</property>
+                    </condition>
+                    <command>nasal</command>
+                    <script>
+                        var distance = getprop("/sim/current-view/z-offset-m");
+                        var multiple = getprop("/sim/current-view/z-offset-inc-step");
+                        var min_dist = getprop("/sim/current-view/z-offset-min-m");
+
+                        # Round distance to a multiple of the step
+                        distance = math.round(std.min(-min_dist, distance + multiple) / multiple) * multiple;
+                        setprop("/sim/current-view/z-offset-m", distance);
+
+                        gui.popupTip(sprintf("%d meter", abs(getprop("/sim/current-view/z-offset-m"))));
+                    </script>
+                </binding>
+            </button>
+
+            <button n="4">
+                <binding n="0">
+                    <script></script>
+                </binding>
+                <binding n="1">
+                    <condition>
+                        <property>/sim/current-view/can-change-z-offset</property>
+                    </condition>
+                    <command>nasal</command>
+                    <script>
+                        var distance = getprop("/sim/current-view/z-offset-m");
+                        var multiple = getprop("/sim/current-view/z-offset-dec-step");
+                        var max_dist = getprop("/sim/current-view/z-offset-max-m");
+
+                        # Round distance to a multiple of the step
+                        distance = math.round(std.max(-max_dist, distance + multiple) / multiple) * multiple;
+                        setprop("/sim/current-view/z-offset-m", distance);
+
+                        gui.popupTip(sprintf("%d meter", abs(getprop("/sim/current-view/z-offset-m"))));
+                    </script>
+                </binding>
+            </button>
+        </mode>
+
+    </mouse>
+
+</PropertyList>

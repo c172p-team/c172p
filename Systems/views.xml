@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright (c) 2015 onox
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<PropertyList>
+
+    <!-- ================================================================== -->
+    <!-- Scroll Wheel Zooming                                               -->
+    <!-- ================================================================== -->
+
+    <logic>
+        <name>View Zoom Enabled</name>
+        <input>
+            <and>
+                <equals>
+                    <property>/sim/current-view/type</property>
+                    <value>lookat</value>
+                </equals>
+                <not-equals>
+                    <property>/sim/current-view/name</property>
+                    <value>Tower View</value>
+                </not-equals>
+                <not-equals>
+                    <property>/sim/current-view/name</property>
+                    <value>Fly-By View</value>
+                </not-equals>
+                <not-equals>
+                    <property>/sim/current-view/name</property>
+                    <value>Chase View</value>
+                </not-equals>
+                <not-equals>
+                    <property>/sim/current-view/name</property>
+                    <value>Chase View Without Yaw</value>
+                </not-equals>
+                <not-equals>
+                    <property>/sim/current-view/name</property>
+                    <value>Walk View</value>
+                </not-equals>
+            </and>
+        </input>
+        <output>
+            <property>/sim/current-view/can-change-z-offset</property>
+        </output>
+    </logic>
+
+    <filter>
+        <name>View Zoom Decrease Step</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <less-than-equals>
+                    <property>/sim/current-view/z-offset-m</property>
+                    <value>-50.0</value>
+                </less-than-equals>
+            </condition>
+            <value>-10.0</value>
+        </input>
+        <input>
+            <condition>
+                <less-than-equals>
+                    <property>/sim/current-view/z-offset-m</property>
+                    <value>-15.0</value>
+                </less-than-equals>
+            </condition>
+            <value>-5.0</value>
+        </input>
+        <input>
+            <value>-2.0</value>
+        </input>
+        <output>
+            <property>/sim/current-view/z-offset-dec-step</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>View Zoom Increase Step</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <less-than>
+                    <property>/sim/current-view/z-offset-m</property>
+                    <value>-50.0</value>
+                </less-than>
+            </condition>
+            <value>10.0</value>
+        </input>
+        <input>
+            <condition>
+                <less-than>
+                    <property>/sim/current-view/z-offset-m</property>
+                    <value>-15.0</value>
+                </less-than>
+            </condition>
+            <value>5.0</value>
+        </input>
+        <input>
+            <value>2.0</value>
+        </input>
+        <output>
+            <property>/sim/current-view/z-offset-inc-step</property>
+        </output>
+    </filter>
+
+</PropertyList>

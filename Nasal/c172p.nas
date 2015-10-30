@@ -60,7 +60,7 @@ var thunder = func (name) {
 
 		print(delay_seconds);
     # Play the sound
-    click("thunder", 20.0, delay_seconds);
+    click("thunder", 9.0, delay_seconds);
 };
 
 ##########################################

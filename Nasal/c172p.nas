@@ -52,12 +52,13 @@ var click = func (name, timeout=0.1, delay=0) {
 # Thunder Sound
 ##########################################
 
-var thunder = func (name, timeout=0.1) {
-    var lightning_pos_X = "/environment/lightning/lightning-pos-x";
-    var lightning_pos_Y = "/environment/lightning/lightning-pos-y";
-    var lightning_distance = sqrt(pow(lightning_pos_X,2) + pow(lightning_pos_Y,2));
-    var delay_seconds = lightning_distance * 340.29;
+var thunder = func (name) {
+    var lightning_pos_x = getprop("/environment/lightning/lightning-pos-x");
+    var lightning_pos_y = getprop("/environment/lightning/lightning-pos-y");
+    var lightning_distance = math.sqrt(math.pow(lightning_pos_x,2) + math.pow(lightning_pos_y,2));
+    var delay_seconds = lightning_distance / 340.29;
 
+		print(delay_seconds);
     # Play the sound
     click("thunder", 20.0, delay_seconds);
 };
@@ -231,6 +232,9 @@ var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
             setprop("/autopilot/KAP140/settings/target-alt-ft", kap140.altPreselect);
         }
     });
+    
+    # Listening for lightning strikes
+    setlistener("/environment/lightning/lightning-pos-x", thunder);
 
     reset_system();
     var c172_timer = maketimer(0.25, func{global_system_loop()});

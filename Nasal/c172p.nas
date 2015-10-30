@@ -58,7 +58,6 @@ var thunder = func (name) {
     var lightning_distance = math.sqrt(math.pow(lightning_pos_x,2) + math.pow(lightning_pos_y,2));
     var delay_seconds = lightning_distance / 340.29;
 
-		print(delay_seconds);
     # Play the sound
     click("thunder", 9.0, delay_seconds);
 };

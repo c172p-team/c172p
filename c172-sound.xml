@@ -222,6 +222,19 @@
             <name>wind</name>
             <mode>looped</mode>
             <path>Sounds/wind.wav</path>
+            <!-- TODO Ideally we should have two wind sources: one left of left
+                 window, and one right of right window. Each attenuated only by their
+                 corresponding door and window.
+
+                 In external view, these two sounds should be disabled and a third
+                 sound, positioned near the center (but not exactly (0,0,0)), should
+                 be enabled.
+            -->
+            <position>
+                <x>0.0</x>
+                <y>1.0</y><!-- Position left of pilot -->
+                <z>0.0</z>
+            </position>
             <volume>
                 <property>position/altitude-ft</property>
                 <factor>-0.000015</factor>
@@ -236,6 +249,7 @@
                 <max>0.25</max>
             </volume>
             <volume>
+                <factor>0.5</factor> <!-- Arbitrary factor to attenuate wind -->
                 <property>/sim/model/c172p/sound/volume-boost-doors</property>
             </volume>
             <volume>
@@ -246,6 +260,8 @@
                 <factor>0.0035</factor>
                 <offset>1.25</offset>
             </pitch>
+            <reference-dist>1.0</reference-dist>
+            <max-dist>100.0</max-dist>
         </wind>
 
         <stall>

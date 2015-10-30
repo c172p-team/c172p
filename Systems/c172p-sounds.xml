@@ -18,7 +18,7 @@
 -->
 <system name="c172p sounds">
 
-    <channel name="sounds">
+    <channel name="stallhorn">
 
         <fcs_function name="sounds/stall-horn-volume">
             <function>
@@ -91,6 +91,63 @@
                 <min>0.9</min>
                 <max>1.1</max>
             </clipto>
+        </fcs_function>
+
+    </channel>
+
+    <channel name="engine">
+
+        <fcs_function name="sounds/volume-boost-doors">
+            <description>
+                Return a factor (>= 1.0) to boost the volume when one or both
+                doors are open.
+            </description>
+            <function>
+                <sum>
+                    <ifthen>
+                        <property>/sim/current-view/internal</property>
+
+                        <!-- Product computed for cockpit views -->
+                        <product>
+                            <log2>
+                                <sum>
+                                    <!-- Left door fully open is 1.0. Fully closed is 0.0 -->
+                                    <table>
+                                        <independentVar>/sim/multiplay/generic/float[1]</independentVar>
+                                        <tableData>
+                                            0.50    0.0
+                                            0.65    0.7
+                                            1.00    1.0
+                                        </tableData>
+                                    </table>
+
+                                    <!-- Right door fully open is 1.0. Fully closed is 0.0 -->
+                                    <table>
+                                        <independentVar>/sim/multiplay/generic/float[0]</independentVar>
+                                        <tableData>
+                                            0.50    0.0
+                                            0.65    0.7
+                                            1.00    1.0
+                                        </tableData>
+                                    </table>
+
+                                    <!-- Prevents math domain error because log2
+                                         requires value >= 1.0.
+                                    -->
+                                    <value>1.0</value>
+                                </sum>
+                            </log2>
+
+                            <!-- 20 % extra volume if one door is open, 32 % if both -->
+                            <value>0.2</value>
+                        </product>
+
+                        <!-- 40 % extra volume if outside the aircraft -->
+                        <value>0.4</value>
+                    </ifthen>
+                    <value>1.0</value>
+                </sum>
+            </function>
         </fcs_function>
 
     </channel>

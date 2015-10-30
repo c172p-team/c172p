@@ -49,6 +49,20 @@ var click = func (name, timeout=0.1, delay=0) {
 };
 
 ##########################################
+# Thunder Sound
+##########################################
+
+var thunder = func (name, timeout=0.1) {
+    var lightning_pos_X = "/environment/lightning/lightning-pos-x";
+    var lightning_pos_Y = "/environment/lightning/lightning-pos-y";
+    var lightning_distance = sqrt(pow(lightning_pos_X,2) + pow(lightning_pos_Y,2));
+    var delay_seconds = lightning_distance * 340.29;
+
+    # Play the sound
+    click("thunder", 20.0, delay_seconds);
+};
+
+##########################################
 # Ground Detection
 ##########################################
 

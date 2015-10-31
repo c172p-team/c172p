@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright (c) 2015 onox
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<PropertyList>
+
+    <!-- Return a factor (>= 1.0) to boost the volume when one or both
+         doors are open.
+    -->
+    <filter>
+        <name>Volume Boost Doors Factor</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/sim/current-view/internal</property>
+            </condition>
+            <expression>
+                <sum>
+                    <product>
+                        <div>
+                            <log>
+                                <sum>
+                                    <!-- Left door fully open is 1.0. Fully closed is 0.0 -->
+                                    <table>
+                                        <property>/sim/multiplay/generic/float[1]</property>
+                                        <entry><ind>0.5</ind><dep>0.0</dep></entry>
+                                        <entry><ind>0.65</ind><dep>0.7</dep></entry>
+                                        <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                                    </table>
+
+                                    <!-- Right door fully open is 1.0. Fully closed is 0.0 -->
+                                    <table>
+                                        <property>/sim/multiplay/generic/float[0]</property>
+                                        <entry><ind>0.5</ind><dep>0.0</dep></entry>
+                                        <entry><ind>0.65</ind><dep>0.7</dep></entry>
+                                        <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                                    </table>
+
+                                    <!-- Prevents math domain error because log2
+                                         requires value >= 1.0.
+                                    -->
+                                    <value>1.0</value>
+                                </sum>
+                            </log>
+                            <log>
+                                <!-- log(x)/log(2) = log2(x) -->
+                                <value>2.0</value>
+                            </log>
+                        </div>
+
+                        <!-- 20 % extra volume if one door is open, 32 % if both -->
+                        <value>0.2</value>
+                    </product>
+                    <value>1.0</value>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <!-- 40 % extra volume if outside the aircraft -->
+            <value>1.4</value>
+        </input>
+        <output>
+            <property>/sim/model/c172p/sound/volume-boost-doors</property>
+        </output>
+    </filter>
+
+</PropertyList>

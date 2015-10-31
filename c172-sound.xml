@@ -23,8 +23,14 @@
                 <z>0.0</z>
             </position>
             <volume>
+                <factor>0.7143</factor>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <volume>
                 <offset>0.4</offset>
             </volume>
+            <reference-dist>5.0</reference-dist>
+            <max-dist>200.0</max-dist>
         </crank>
 
         <crank>
@@ -43,8 +49,14 @@
                 <z>0.0</z>
             </position>
             <volume>
+                <factor>0.7143</factor>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <volume>
                 <offset>0.5</offset>
             </volume>
+            <reference-dist>5.0</reference-dist>
+            <max-dist>200.0</max-dist>
         </crank>
 
         <crank>
@@ -57,8 +69,14 @@
                 <z>0.0</z>
             </position>
             <volume>
+                <factor>0.7143</factor>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <volume>
                 <offset>0.3</offset>
             </volume>
+            <reference-dist>5.0</reference-dist>
+            <max-dist>200.0</max-dist>
         </crank>
 
         <engine>
@@ -68,14 +86,10 @@
             <property>/engines/active-engine/running</property>
             <volume>
                 <property>/engines/active-engine/mp-osi</property>
-                <factor>0.027777</factor>
-                <!-- these values of min and max are unlikely to be relevant,
-           because the MAP is unlikely to go below 5" or above 28".
-           Also note that propeller noise is additional to engine
-           noise, rather like an <offset>.
-             -->
-                <max>1.0</max>
-                <min>0.10</min>
+                <factor>0.025</factor>
+            </volume>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
             </volume>
             <pitch>
                 <property>/engines/active-engine/rpm</property>
@@ -84,6 +98,8 @@
                 <max>2.0</max>
                 <offset>0.01</offset>
             </pitch>
+            <reference-dist>5.0</reference-dist>
+            <max-dist>200.0</max-dist>
         </engine>
 
         <propeller>
@@ -99,7 +115,9 @@
             <volume>
                 <property>/engines/active-engine/rpm</property>
                 <factor>0.0001</factor>
-                <max>0.25</max>
+            </volume>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
             </volume>
             <pitch>
                 <property>/engines/active-engine/rpm</property>
@@ -108,6 +126,8 @@
                 <max>2.0</max>
                 <offset>0.01</offset>
             </pitch>
+            <reference-dist>5.0</reference-dist>
+            <max-dist>200.0</max-dist>
         </propeller>
 
         <rumble>
@@ -120,7 +140,6 @@
                     <property>gear/gear[1]/wow</property>
                     <property>gear/gear[2]/wow</property>
                 </or>
-                <!-- <property>sim/current-view/internal</property> -->
             </condition>
             <position>
                 <x>1.0</x>
@@ -132,6 +151,11 @@
                 <type>log</type>
                 <factor>0.25</factor>
             </volume>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <reference-dist>2.5</reference-dist>
+            <max-dist>200.0</max-dist>
         </rumble>
 
         <squeal>
@@ -165,11 +189,16 @@
                 <factor>0.1</factor>
                 <max>1.0</max>
             </volume>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
             <pitch>
                 <property>velocities/groundspeed-kt</property>
                 <factor>0.0025</factor>
                 <offset>1.2</offset>
             </pitch>
+            <reference-dist>2.5</reference-dist>
+            <max-dist>200.0</max-dist>
         </squeal>
 
         <flap>
@@ -185,20 +214,27 @@
             <volume>
                 <factor>0.8</factor>
             </volume>
-            <reference-dist>10.0</reference-dist>
-            <max-dist>20.0</max-dist>
+            <reference-dist>1.0</reference-dist>
+            <max-dist>200.0</max-dist>
         </flap>
 
         <wind>
             <name>wind</name>
             <mode>looped</mode>
             <path>Sounds/wind.wav</path>
-            <condition>
-                <and>
-                    <property>velocities/airspeed-kt</property>
-                    <property>sim/current-view/internal</property>
-                </and>
-            </condition>
+            <!-- TODO Ideally we should have two wind sources: one left of left
+                 window, and one right of right window. Each attenuated only by their
+                 corresponding door and window.
+
+                 In external view, these two sounds should be disabled and a third
+                 sound, positioned near the center (but not exactly (0,0,0)), should
+                 be enabled.
+            -->
+            <position>
+                <x>0.0</x>
+                <y>1.0</y><!-- Position left of pilot -->
+                <z>0.0</z>
+            </position>
             <volume>
                 <property>position/altitude-ft</property>
                 <factor>-0.000015</factor>
@@ -212,11 +248,20 @@
                 <min>0.03</min>
                 <max>0.25</max>
             </volume>
+            <volume>
+                <factor>0.5</factor> <!-- Arbitrary factor to attenuate wind -->
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <volume>
+                <offset>-0.03</offset>
+            </volume>
             <pitch>
                 <property>velocities/airspeed-kt</property>
                 <factor>0.0035</factor>
                 <offset>1.25</offset>
             </pitch>
+            <reference-dist>1.0</reference-dist>
+            <max-dist>100.0</max-dist>
         </wind>
 
         <stall>
@@ -1186,6 +1231,62 @@
                 <offset>0.0</offset>
             </volume>
         </pontoons-in-water-inside>
+
+        <thunder>
+            <name>thunder</name>
+            <mode>once</mode>
+            <path>Sounds/thunder.wav</path>
+            <property>/sim/model/c172p/sound/click-thunder</property>
+            <volume>
+                <factor>1.0</factor>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+        </thunder>
+        
+        <rain>
+            <name>rain</name>
+            <mode>looped</mode>
+            <path>Sounds/rain.wav</path>
+            <condition>
+                <greater-than>
+                    <property>/environment/rain-norm</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <volume>
+                <factor>0.7</factor>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+        </rain>
+
+        <rain-windshield>
+            <name>rain-windshield</name>
+            <mode>looped</mode>
+            <path>Sounds/rain-windshield.wav</path>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/environment/rain-norm</property>
+                        <value>0</value>
+                    </greater-than>
+                    <property>/sim/current-view/internal</property>
+                </and>
+            </condition>
+            <position>
+                <x>-0.5</x>
+                <y>0.0</y>
+                <z>0.0</z>
+            </position>
+            <volume>
+                <property>velocities/airspeed-kt</property>
+                <factor>0.0015</factor>
+                <min>0.03</min>
+            </volume>
+            <volume>
+                <offset>0.7</offset>
+            </volume>
+        </rain-windshield>
+        
     </fx>
 
 </PropertyList>

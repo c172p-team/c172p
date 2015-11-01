@@ -255,7 +255,7 @@ var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
     });
     
     # Listening for lightning strikes
-    setlistener("/environment/lightning/lightning-pos-x", thunder);
+    setlistener("/environment/lightning/lightning-pos-y", thunder);
 
     reset_system();
     var c172_timer = maketimer(0.25, func{global_system_loop()});

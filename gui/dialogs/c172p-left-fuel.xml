@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <name>c172p-left-fuel-dialog</name>
+    <layout>vbox</layout>
+    <resizable>false</resizable>
+    <modal>false</modal>
+    <draggable>true</draggable>
+
+    <group>
+        <layout>hbox</layout>
+
+        <empty><stretch>true</stretch></empty>
+        <text>
+            <label>Left Fuel Tank</label>
+        </text>
+        <empty><stretch>true</stretch></empty>
+
+        <button>
+            <legend/>
+            <key>Esc</key>
+            <pref-width>16</pref-width>
+            <pref-height>16</pref-height>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+
+    <hrule/>
+        <group>
+            <layout>vbox</layout>
+            <padding>6</padding>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>Left Fuel Tank:</label>
+                    <halign>left</halign>
+                </text>
+                <slider>
+                    <name>c172p-left-fuel-slider</name>
+                    <min>0</min>
+                    <max>28.0</max>
+                    <property>/consumables/fuel/tank[0]/level-gal_us</property>
+                    <binding>
+                        <command>dialog-apply</command>
+                        <name>c172p-left-fuel-slider</name>
+                    </binding>
+                </slider>
+                <group>
+                    <layout>vbox</layout>
+                    <padding>6</padding>
+                    <group>
+                        <layout>hbox</layout>
+                        <padding>6</padding>
+                        <text>
+                            <label>1234</label>
+                            <halign>left</halign>
+                            <format>%.2f</format>
+                            <live>true</live>
+                            <property>/consumables/fuel/tank[0]/level-gal_us</property>
+                        </text>
+                        <text>
+                            <label>gallons</label>
+                            <halign>left</halign>
+                        </text>
+                    </group>
+                    <group>
+                        <layout>hbox</layout>
+                        <padding>6</padding>
+                        <text>
+                            <label>1234</label>
+                            <halign>left</halign>
+                            <format>%.1f</format>
+                            <live>true</live>
+                            <property>/consumables/fuel/tank[0]/level-lbs</property>
+                        </text>
+                        <text>
+                            <label>pounds</label>
+                            <halign>left</halign>
+                        </text>
+                    </group>
+                </group>
+            </group>
+        </group>
+    <hrule/>
+
+    <group>
+        <layout>hbox</layout>
+        <button>
+            <legend>Close</legend>
+            <equal>true</equal>
+            <key>Esc</key>
+            <default>true</default>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+
+</PropertyList>

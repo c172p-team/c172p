@@ -1973,7 +1973,7 @@
     <!-- Pick animation for the doors -->
     <animation>
         <type>pick</type>
-        <object-name>doorhandleext_right</object-name>
+        <object-name>rightdoor</object-name>
         <object-name>doorhandleint_right</object-name>
         <visible>true</visible>
         <action>
@@ -1994,7 +1994,7 @@
     </animation>
     <animation>
         <type>pick</type>
-        <object-name>doorhandleext_left</object-name>
+        <object-name>leftdoor</object-name>
         <object-name>doorhandleint_left</object-name>
         <visible>true</visible>
         <action>
@@ -2015,7 +2015,7 @@
     </animation>
     <animation>
         <type>pick</type>
-        <object-name>baggagedoorhandle</object-name>
+        <object-name>baggagedoorexterior</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -2024,12 +2024,62 @@
                 <command>nasal</command>
                 <script>c172p.baggageDoor.toggle();</script>
             </binding>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                        <value>0</value>
+                    </equals>
+                </condition>
+                <command>dialog-show</command>
+                <dialog-name>c172p-baggage-weight-dialog</dialog-name>
+            </binding>
         </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>door-handle-baggage</tooltip-id>
                 <label>Baggage Door Open/Close</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>FuelCapPort</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>dialog-show</command>
+                <dialog-name>c172p-left-fuel-dialog</dialog-name>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fuel-cap-port</tooltip-id>
+                <label>Fuel Cap</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>FuelCapStarboard</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>dialog-show</command>
+                <dialog-name>c172p-right-fuel-dialog</dialog-name>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fuel-cap-starboard</tooltip-id>
+                <label>Fuel Cap</label>
             </binding>
         </hovered>
     </animation>

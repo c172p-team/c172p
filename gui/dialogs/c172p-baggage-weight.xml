@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <name>c172p-baggage-weight-dialog</name>
+    <layout>vbox</layout>
+    <resizable>false</resizable>
+    <modal>false</modal>
+    <draggable>true</draggable>
+
+    <group>
+        <layout>hbox</layout>
+
+        <empty><stretch>true</stretch></empty>
+        <text>
+            <label>Baggage Weight</label>
+        </text>
+        <empty><stretch>true</stretch></empty>
+
+        <button>
+            <legend/>
+            <key>Esc</key>
+            <pref-width>16</pref-width>
+            <pref-height>16</pref-height>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+
+    <hrule/>
+        <group>
+        <layout>vbox</layout>
+        <padding>6</padding>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>Baggage Weight:</label>
+                    <halign>left</halign>
+                </text>
+                <slider>
+                    <name>c172p-baggage-weight-slider</name>
+                    <min>0</min>
+                    <max>150.0</max>
+                    <property>/payload/weight[4]/weight-lb</property>
+                    <binding>
+                        <command>dialog-apply</command>
+                        <name>c172p-baggage-weight-slider</name>
+                    </binding>
+                </slider>
+                <text>
+                    <label>123</label>
+                    <halign>left</halign>
+                    <format>%.0f</format>
+                    <live>true</live>
+                    <property>/payload/weight[4]/weight-lb</property>
+                </text>
+                <text>
+                    <label>pounds</label>
+                    <halign>left</halign>
+                </text>
+            </group>
+        </group>
+    <hrule/>
+
+    <group>
+        <layout>hbox</layout>
+        <default-padding>6</default-padding>
+
+        <empty><stretch>true</stretch></empty>
+
+        <button>
+            <legend>Close</legend>
+            <equal>true</equal>
+            <key>Esc</key>
+            <default>true</default>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+
+</PropertyList>

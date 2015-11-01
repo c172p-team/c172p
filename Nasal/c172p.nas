@@ -53,13 +53,37 @@ var click = func (name, timeout=0.1, delay=0) {
 ##########################################
 
 var thunder = func (name) {
+    var thunderCalls=0;
     var lightning_pos_x = getprop("/environment/lightning/lightning-pos-x");
     var lightning_pos_y = getprop("/environment/lightning/lightning-pos-y");
     var lightning_distance = math.sqrt(math.pow(lightning_pos_x,2) + math.pow(lightning_pos_y,2));
     var delay_seconds = lightning_distance / 340.29;
+    var thunder1 = getprop("/sim/model/c172p/sound/click-thunder1");
+    var thunder2 = getprop("/sim/model/c172p/sound/click-thunder2");
+    var thunder3 = getprop("/sim/model/c172p/sound/click-thunder3");
+
+    if (delay_seconds < 0) delay_seconds = 0;
+    if (delay_seconds > 50) delay_seconds = 50;
+    var lightning_distance_norm = 1+(1-(delay_seconds/50));
+
+    if (!thunder1)
+    {
+	    thunderCalls=1;
+		setprop("/sim/model/c172p/sound/lightning/dist1", lightning_distance_norm);
+    }
+    else if (!thunder2)
+    {
+        thunderCalls=2;
+        setprop("/sim/model/c172p/sound/lightning/dist2", lightning_distance_norm);
+    }
+    else if (!thunder3)
+    {
+        thunderCalls=3;
+		setprop("/sim/model/c172p/sound/lightning/dist3", lightning_distance_norm);
+    } else return;
 
     # Play the sound
-    click("thunder", 9.0, delay_seconds);
+    click("thunder"~thunderCalls, 9.0, delay_seconds);
 };
 
 ##########################################

@@ -64,7 +64,7 @@ var thunder = func (name) {
 
     # Clamp delay to within 0 .. 50 seconds
     delay_seconds = std.max(0, std.min(delay_seconds, 50));
-    var lightning_distance_norm = 1 + (1 - (delay_seconds / 50));
+    var lightning_distance_norm = 1 - (delay_seconds / 50);
 
     if (!thunder1) {
         thunderCalls = 1;

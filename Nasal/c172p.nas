@@ -53,37 +53,36 @@ var click = func (name, timeout=0.1, delay=0) {
 ##########################################
 
 var thunder = func (name) {
-    var thunderCalls=0;
+    var thunderCalls = 0;
     var lightning_pos_x = getprop("/environment/lightning/lightning-pos-x");
     var lightning_pos_y = getprop("/environment/lightning/lightning-pos-y");
-    var lightning_distance = math.sqrt(math.pow(lightning_pos_x,2) + math.pow(lightning_pos_y,2));
+    var lightning_distance = math.sqrt(math.pow(lightning_pos_x, 2) + math.pow(lightning_pos_y, 2));
     var delay_seconds = lightning_distance / 340.29;
     var thunder1 = getprop("/sim/model/c172p/sound/click-thunder1");
     var thunder2 = getprop("/sim/model/c172p/sound/click-thunder2");
     var thunder3 = getprop("/sim/model/c172p/sound/click-thunder3");
 
-    if (delay_seconds < 0) delay_seconds = 0;
-    if (delay_seconds > 50) delay_seconds = 50;
-    var lightning_distance_norm = 1+(1-(delay_seconds/50));
+    # Clamp delay to within 0 .. 50 seconds
+    delay_seconds = std.max(0, std.min(delay_seconds, 50));
+    var lightning_distance_norm = 1 + (1 - (delay_seconds / 50));
 
-    if (!thunder1)
-    {
-	    thunderCalls=1;
-		setprop("/sim/model/c172p/sound/lightning/dist1", lightning_distance_norm);
+    if (!thunder1) {
+        thunderCalls = 1;
+        setprop("/sim/model/c172p/sound/lightning/dist1", lightning_distance_norm);
     }
-    else if (!thunder2)
-    {
-        thunderCalls=2;
+    else if (!thunder2) {
+        thunderCalls = 2;
         setprop("/sim/model/c172p/sound/lightning/dist2", lightning_distance_norm);
     }
-    else if (!thunder3)
-    {
-        thunderCalls=3;
-		setprop("/sim/model/c172p/sound/lightning/dist3", lightning_distance_norm);
-    } else return;
+    else if (!thunder3) {
+        thunderCalls = 3;
+        setprop("/sim/model/c172p/sound/lightning/dist3", lightning_distance_norm);
+    }
+    else
+        return;
 
     # Play the sound
-    click("thunder"~thunderCalls, 9.0, delay_seconds);
+    click("thunder" ~ thunderCalls, 9.0, delay_seconds);
 };
 
 ##########################################
@@ -94,56 +93,55 @@ var thunder = func (name) {
 #setprop("sim/fdm/surface/override-level", 1);
 
 var terrain_survol_loop = func {
-  var lat = getprop("/position/latitude-deg");
-  var lon = getprop("/position/longitude-deg");
+    var lat = getprop("/position/latitude-deg");
+    var lon = getprop("/position/longitude-deg");
 
-  var info = geodinfo(lat, lon);
-  if (info != nil) {
-    if (info[1] != nil){
-      if (info[1].solid !=nil)
-        setprop("/environment/terrain-type",info[1].solid);
-      if (info[1].load_resistance !=nil)
-        setprop("/environment/terrain-load-resistance",info[1].load_resistance);
-      if (info[1].friction_factor !=nil)
-        setprop("/environment/terrain-friction-factor",info[1].friction_factor);
-      if (info[1].bumpiness !=nil)
-        setprop("/environment/terrain-bumpiness",info[1].bumpiness);
-      if (info[1].rolling_friction !=nil)
-        setprop("/environment/terrain-rolling-friction",info[1].rolling_friction);
-      if (info[1].names !=nil)
-        setprop("/environment/terrain-names",info[1].names[0]);
-    }         
-  }else{
-    setprop("/environment/terrain",1);
-    setprop("/environment/terrain-load-resistance",1e+30);
-    setprop("/environment/terrain-friction-factor",1.05);
-    setprop("/environment/terrain-bumpiness",0);
-    setprop("/environment/terrain-rolling-friction",0.02);
+    var info = geodinfo(lat, lon);
+    if (info != nil) {
+        if (info[1] != nil) {
+            if (info[1].solid != nil)
+                setprop("/environment/terrain-type", info[1].solid);
+            if (info[1].load_resistance != nil)
+                setprop("/environment/terrain-load-resistance", info[1].load_resistance);
+            if (info[1].friction_factor != nil)
+                setprop("/environment/terrain-friction-factor", info[1].friction_factor);
+            if (info[1].bumpiness != nil)
+                setprop("/environment/terrain-bumpiness", info[1].bumpiness);
+            if (info[1].rolling_friction != nil)
+                setprop("/environment/terrain-rolling-friction", info[1].rolling_friction);
+            if (info[1].names != nil)
+                setprop("/environment/terrain-names", info[1].names[0]);
+        }
+    }
+    else {
+        setprop("/environment/terrain", 1);
+        setprop("/environment/terrain-load-resistance", 1e+30);
+        setprop("/environment/terrain-friction-factor", 1.05);
+        setprop("/environment/terrain-bumpiness", 0);
+        setprop("/environment/terrain-rolling-friction", 0.02);
+    }
+
+  if (!getprop("sim/freeze/replay-state")
+    and !getprop("/environment/terrain-type")
+    and getprop("/position/altitude-agl-ft") < 3.0) {
+      setprop("sim/messages/copilot", "You are on water!");
+      setprop("sim/freeze/clock", 1);
+      setprop("sim/freeze/master", 1);
+      setprop("sim/crashed", 1);
   }
-
-  if(!getprop("sim/freeze/replay-state") and !getprop("/environment/terrain-type") and getprop("/position/altitude-agl-ft") < 3.0){
-    setprop("sim/messages/copilot", "You are on water !");
-    setprop("sim/freeze/clock", 1);
-    setprop("sim/freeze/master", 1);
-    setprop("sim/crashed", 1);
-  }
-
 }
 
 var reset_system = func {
-
-	if (getprop("/fdm/jsbsim/running"))
-	{
-		c172p.autostart(0);
-	    setprop("/controls/switches/starter", 1);
-		var engineRunning = setlistener("/engines/active-engine/running", func{
-			if (getprop("/engines/active-engine/running"))
-			{
-				setprop("/controls/switches/starter", 0);
-				removelistener(engineRunning);
-			}
-		});
-	}
+    if (getprop("/fdm/jsbsim/running")) {
+        c172p.autostart(0);
+        setprop("/controls/switches/starter", 1);
+        var engineRunning = setlistener("/engines/active-engine/running", func {
+            if (getprop("/engines/active-engine/running")) {
+                setprop("/controls/switches/starter", 0);
+                removelistener(engineRunning);
+            }
+        });
+    }
 
     # These properties are aliased to MP properties in /sim/multiplay/generic/.
     # This aliasing seems to work in both ways, because the two properties below
@@ -153,26 +151,26 @@ var reset_system = func {
     props.globals.getNode("/fdm/jsbsim/gear/unit[0]/broken", 0).setBoolValue(0);
     props.globals.getNode("/fdm/jsbsim/gear/unit[1]/broken", 0).setBoolValue(0);
     props.globals.getNode("/fdm/jsbsim/gear/unit[2]/broken", 0).setBoolValue(0);
-	props.globals.getNode("/fdm/jsbsim/pontoon-damage/left-pontoon", 0).setIntValue(0);
-	props.globals.getNode("/fdm/jsbsim/pontoon-damage/right-pontoon", 0).setIntValue(0);
+    props.globals.getNode("/fdm/jsbsim/pontoon-damage/left-pontoon", 0).setIntValue(0);
+    props.globals.getNode("/fdm/jsbsim/pontoon-damage/right-pontoon", 0).setIntValue(0);
 
-	setprop("/engines/active-engine/killed", 0);
-	setprop("/fdm/jsbsim/contact/unit[4]/z-position", 50);
-	setprop("/fdm/jsbsim/contact/unit[5]/z-position", 50);
+    setprop("/engines/active-engine/killed", 0);
+    setprop("/fdm/jsbsim/contact/unit[4]/z-position", 50);
+    setprop("/fdm/jsbsim/contact/unit[5]/z-position", 50);
 
     # Note: these separate flags exist because PUI's <radio> element
     #       only accepts booleans.
-	var p = getprop("fdm/jsbsim/bushkit");
-	setprop("/sim/model/c172p/bushkit_flag_0",0);
-	setprop("/sim/model/c172p/bushkit_flag_1",0);
-	setprop("/sim/model/c172p/bushkit_flag_2",0);
-	setprop("/sim/model/c172p/bushkit_flag_3",0);
-	setprop("/sim/model/c172p/bushkit_flag_4",0);
-	if (p == 0) { setprop("/sim/model/c172p/bushkit_flag_0",1); }
-	if (p == 1) { setprop("/sim/model/c172p/bushkit_flag_1",1); }
-	if (p == 2) { setprop("/sim/model/c172p/bushkit_flag_2",1); }
-	if (p == 3) { setprop("/sim/model/c172p/bushkit_flag_3",1); }
-	if (p == 4) { setprop("/sim/model/c172p/bushkit_flag_4",1); }
+    var p = getprop("fdm/jsbsim/bushkit");
+    setprop("/sim/model/c172p/bushkit_flag_0",0);
+    setprop("/sim/model/c172p/bushkit_flag_1",0);
+    setprop("/sim/model/c172p/bushkit_flag_2",0);
+    setprop("/sim/model/c172p/bushkit_flag_3",0);
+    setprop("/sim/model/c172p/bushkit_flag_4",0);
+    if (p == 0) { setprop("/sim/model/c172p/bushkit_flag_0",1); }
+    if (p == 1) { setprop("/sim/model/c172p/bushkit_flag_1",1); }
+    if (p == 2) { setprop("/sim/model/c172p/bushkit_flag_2",1); }
+    if (p == 3) { setprop("/sim/model/c172p/bushkit_flag_3",1); }
+    if (p == 4) { setprop("/sim/model/c172p/bushkit_flag_4",1); }
 }
 
 ############################################
@@ -180,8 +178,8 @@ var reset_system = func {
 # If you need to run nasal as loop, add it in this function
 ############################################
 var global_system_loop = func{
-  c172p.physics_loop();
-  c172p.weather_effects_loop();
+    c172p.physics_loop();
+    c172p.weather_effects_loop();
 }
 
 ##########################################

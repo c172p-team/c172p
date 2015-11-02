@@ -64,32 +64,34 @@ var thunder = func (name) {
     if (lightning_distance > 20000)
         return;
 
-    var thunder1 = getprop("/sim/model/c172p/sound/click-thunder1");
-    var thunder2 = getprop("/sim/model/c172p/sound/click-thunder2");
-    var thunder3 = getprop("/sim/model/c172p/sound/click-thunder3");
-
     var delay_seconds = lightning_distance / 340.29;
 
     # Maximum volume at 5000 meter
     var lightning_distance_norm = std.min(1.0, 1 / math.pow(lightning_distance / 5000.0, 2));
 
-    if (!thunder1) {
-        thunderCalls = 1;
-        setprop("/sim/model/c172p/sound/lightning/dist1", lightning_distance_norm);
-    }
-    else if (!thunder2) {
-        thunderCalls = 2;
-        setprop("/sim/model/c172p/sound/lightning/dist2", lightning_distance_norm);
-    }
-    else if (!thunder3) {
-        thunderCalls = 3;
-        setprop("/sim/model/c172p/sound/lightning/dist3", lightning_distance_norm);
-    }
-    else
-        return;
+    settimer(func {
+        var thunder1 = getprop("/sim/model/c172p/sound/click-thunder1");
+        var thunder2 = getprop("/sim/model/c172p/sound/click-thunder2");
+        var thunder3 = getprop("/sim/model/c172p/sound/click-thunder3");
 
-    # Play the sound (sound files are about 9 seconds)
-    click("thunder" ~ thunderCalls, 9.0, delay_seconds);
+        if (!thunder1) {
+            thunderCalls = 1;
+            setprop("/sim/model/c172p/sound/lightning/dist1", lightning_distance_norm);
+        }
+        else if (!thunder2) {
+            thunderCalls = 2;
+            setprop("/sim/model/c172p/sound/lightning/dist2", lightning_distance_norm);
+        }
+        else if (!thunder3) {
+            thunderCalls = 3;
+            setprop("/sim/model/c172p/sound/lightning/dist3", lightning_distance_norm);
+        }
+        else
+            return;
+
+       # Play the sound (sound files are about 9 seconds)
+       click("thunder" ~ thunderCalls, 9.0, 0);
+    }, delay_seconds);
 };
 
 ##########################################

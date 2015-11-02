@@ -321,4 +321,78 @@ Under the GPL. Used by shadows under ALS -->
             <property>/fdm/jsbsim/ground/right-tyre-smoke-ground-effect-speed-kt-actual</property>
         </output>
     </filter>
+    
+    <logic>
+        <name>Parking Brake and chock</name>
+        <input>
+            <or>
+                <property>/sim/model/c172p/brake-parking</property>
+                <property>/sim/model/c172p/chock-visible</property>
+            </or>
+        </input>
+        <output>
+            <property>controls/gear/brake-parking</property>
+        </output>
+    </logic>
+    
+    <logic>
+        <name>chock Can Have</name>
+        <input>
+            <equals>
+                <property>/fdm/jsbsim/bushkit</property>
+                <value>0</value>
+            </equals>
+        </input>
+        <output>
+            <property>/sim/model/c172p/chock-can-have</property>
+        </output>
+    </logic>
+        
+    <logic>
+        <name>chock Visible</name>
+        <input>
+            <and>
+                <property>/sim/model/c172p/chock</property>
+                <property>/sim/model/c172p/chock-can-have</property>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/chock-visible</property>
+        </output>
+    </logic>
+    
+    <logic>
+        <name>Pitot Cover Removable</name>
+        <input>
+            <and>
+                <not>
+                    <property>sim/model/c172p/pitot-cover</property>
+                </not>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>5.0</value>
+                </less-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/pitot-cover-removable</property>
+        </output>
+    </logic>
+    
+    <logic>
+        <name>Pitot Cover Allowed</name>
+        <input>
+            <and>
+                <property>sim/model/c172p/pitot-cover</property>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>5.0</value>
+                </less-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/pitot-cover-allowed</property>
+        </output>
+    </logic>
+
 </PropertyList>

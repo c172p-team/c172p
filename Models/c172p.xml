@@ -2448,7 +2448,7 @@
     <animation>
         <type>translate</type>
         <object-name>ParkingBrake</object-name>
-        <property>/controls/gear/brake-parking</property>
+        <property>/sim/model/c172p/brake-parking</property>
         <factor>0.04</factor>
         <axis>
             <x>1.0</x>
@@ -2459,7 +2459,7 @@
     <animation>
         <type>rotate</type>
         <object-name>ParkingBrake</object-name>
-        <property>/controls/gear/brake-parking</property>
+        <property>/sim/model/c172p/brake-parking</property>
         <factor>90</factor>
         <axis>
             <x>1.0</x>
@@ -2481,7 +2481,7 @@
             <button>0</button>
             <binding>
                 <command>property-toggle</command>
-                <property>/controls/gear/brake-parking</property>
+                <property>/sim/model/c172p/brake-parking</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -2492,7 +2492,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <label>Parking brake: %s</label>
-                <property>/controls/gear/brake-parking</property>
+                <property>/sim/model/c172p/brake-parking</property>
                 <tooltip-id>parking-brake</tooltip-id>
                 <mapping>on-off</mapping>
             </binding>
@@ -6575,11 +6575,11 @@
         </axis>
     </animation>
     <!-- END MOD: Pontoon Gear -->
-    
+
     <!-- Baggage models -->
     <model>
         <name>suitcase1</name>
-        <path>/Interior/Baggages/suitcase1.xml</path>
+        <path>Interior/Baggages/suitcase1.xml</path>
         <offsets>
             <x-m>1.68</x-m>
             <y-m>-0.14</y-m>
@@ -6588,7 +6588,7 @@
     </model>
     <model>
         <name>suitcase2</name>
-        <path>/Interior/Baggages/suitcase2.xml</path>
+        <path>Interior/Baggages/suitcase2.xml</path>
         <offsets>
             <x-m>1.68</x-m>
             <y-m>0.14</y-m>
@@ -6614,6 +6614,226 @@
                 <value>20.0</value>
             </greater-than>
         </condition>
+    </animation>
+
+    <!-- Pitot tube cover "remove before flight" -->
+    <model>
+        <name>rbf-pitot</name>
+        <path>Exterior/rbf/rbf.xml</path>
+        <offsets>
+            <x-m>-0.220</x-m>
+            <y-m>-1.525</y-m>
+            <z-m>0.464</z-m>
+        </offsets>
+    </model>
+    <animation>
+        <type>select</type>
+        <object-name>rbf-pitot</object-name>
+        <condition>
+            <property>sim/model/c172p/pitot-cover</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>rbf-pitot</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/pitot-cover-allowed</property>                    
+                </condition>
+                <command>property-assign</command>
+                <property>instrumentation/airspeed-indicator/serviceable</property>
+                <value>true</value>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/pitot-cover-allowed</property>
+                </condition>
+                <command>property-assign</command>
+                <property>sim/model/c172p/pitot-cover</property>
+                <value>false</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/pitot-cover-allowed</property> 
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>remove-pitot-tube-cap</tooltip-id>
+                <label>Remove Pitot Tube Cap</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>PitotTube</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/pitot-cover-removable</property>
+                </condition>
+                <command>property-assign</command>
+                <property>instrumentation/airspeed-indicator/serviceable</property>
+                <value>false</value>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/pitot-cover-removable</property>
+                </condition>
+                <command>property-assign</command>
+                <property>sim/model/c172p/pitot-cover</property>
+                <value>true</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/pitot-cover-removable</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>put-pitot-tube-cap</tooltip-id>
+                <label>Put Pitot Tube Cap</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <!-- Wheel chock -->
+    <model>
+        <name>chock1</name>
+        <path>Exterior/chock/chock.xml</path>
+        <offsets>
+            <x-m>-0.02</x-m>
+            <y-m>0.0</y-m>
+            <z-m>0.032</z-m>
+        </offsets>
+    </model>
+    <model>
+        <name>chock2</name>
+        <path>Exterior/chock/chock.xml</path>
+        <offsets>
+            <x-m>0.32</x-m>
+            <y-m>0.0</y-m>
+            <z-m>0.028</z-m>
+        </offsets>
+    </model>    
+    <animation>
+        <type>translate</type>
+        <object-name>chock1</object-name>
+        <object-name>chock2</object-name>
+        <property>gear/gear[0]/compression-norm</property>
+        <factor>0.30</factor>
+        <axis>
+            <x>0.3</x>
+            <y>0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>        
+    <animation>
+        <type>select</type>
+        <object-name>chock1</object-name>
+        <condition>
+            <property>sim/model/c172p/chock</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>chock2</object-name>
+        <condition>
+            <property>sim/model/c172p/chock</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>chock1</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>sim/model/c172p/chock</property>
+                <value>false</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <property>sim/model/c172p/chock</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>remove-wheel-chock</tooltip-id>
+                <label>Remove Wheel Chock</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>chock2</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>sim/model/c172p/chock</property>
+                <value>false</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <property>sim/model/c172p/chock</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>remove-wheel-chock</tooltip-id>
+                <label>Remove Wheel Chock</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>NoseWheel</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>sim/model/c172p/chock</property>
+                        </not>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>5.0</value>
+                        </less-than>
+                    </and>
+                </condition>
+                <command>property-assign</command>
+                <property>sim/model/c172p/chock</property>
+                <value>true</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>sim/model/c172p/chock</property>
+                        </not>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>5.0</value>
+                        </less-than>                        
+                    </and>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>put-wheel-chock</tooltip-id>
+                <label>Put Wheel Chock</label>
+            </binding>
+        </hovered>
     </animation>
 
 </PropertyList>

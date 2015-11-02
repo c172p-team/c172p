@@ -360,5 +360,39 @@ Under the GPL. Used by shadows under ALS -->
             <property>/sim/model/c172p/chock-visible</property>
         </output>
     </logic>
+    
+    <logic>
+        <name>Pitot Cover Removable</name>
+        <input>
+            <and>
+                <not>
+                    <property>sim/model/c172p/pitot-cover</property>
+                </not>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>5.0</value>
+                </less-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/pitot-cover-removable</property>
+        </output>
+    </logic>
+    
+    <logic>
+        <name>Pitot Cover Allowed</name>
+        <input>
+            <and>
+                <property>sim/model/c172p/pitot-cover</property>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>5.0</value>
+                </less-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/pitot-cover-allowed</property>
+        </output>
+    </logic>
 
 </PropertyList>

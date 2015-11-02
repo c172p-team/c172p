@@ -321,4 +321,24 @@ Under the GPL. Used by shadows under ALS -->
             <property>/fdm/jsbsim/ground/right-tyre-smoke-ground-effect-speed-kt-actual</property>
         </output>
     </filter>
+    
+    <logic>
+        <name>Parking Brake and Chokes</name>
+        <input>
+            <or>
+                <property>/sim/model/brake-parking</property>
+                <and>
+                    <property>/sim/model/chokes</property>
+                    <equals>
+                        <property>/fdm/jsbsim/bushkit</property>
+                        <value>0</value>
+                    </equals>
+                </and>
+            </or>
+        </input>
+        <output>
+            <property>controls/gear/brake-parking</property>
+        </output>
+    </logic>
+
 </PropertyList>

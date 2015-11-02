@@ -376,18 +376,6 @@
         </ambient>
     </animation>
 
-    <!-- interior lighting effect -->
-    <effect>
-        <inherits-from>Effects/interior/c172p-interior-light</inherits-from>
-        <object-name>carpet</object-name>
-        <object-name>chassis</object-name>
-        <!--object-name>pilotseat_left</object-name>
-        <object-name>pilotseat_right</object-name>
-        <object-name>backseat_left</object-name-->
-        <object-name>doorint_right</object-name>
-        <object-name>doorint_left</object-name>
-    </effect>
-
     <!-- interior effects -->
     <effect>
         <inherits-from>Effects/interior/c172p-interior</inherits-from>
@@ -6587,11 +6575,51 @@
         </axis>
     </animation>
     <!-- END MOD: Pontoon Gear -->
-    
+
+    <!-- Baggage models -->
+    <model>
+        <name>suitcase1</name>
+        <path>Interior/Baggages/suitcase1.xml</path>
+        <offsets>
+            <x-m>1.68</x-m>
+            <y-m>-0.14</y-m>
+            <z-m>-0.59</z-m>
+        </offsets>
+    </model>
+    <model>
+        <name>suitcase2</name>
+        <path>Interior/Baggages/suitcase2.xml</path>
+        <offsets>
+            <x-m>1.68</x-m>
+            <y-m>0.14</y-m>
+            <z-m>-0.59</z-m>
+        </offsets>
+    </model>
+    <animation>
+        <type>select</type>
+        <object-name>suitcase1</object-name>
+        <condition>
+            <greater-than>
+                <property>payload/weight[4]/weight-lb</property>
+                <value>70.0</value>
+            </greater-than>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>suitcase2</object-name>
+        <condition>
+            <greater-than>
+                <property>payload/weight[4]/weight-lb</property>
+                <value>20.0</value>
+            </greater-than>
+        </condition>
+    </animation>
+
     <!-- Pitot tube cover "remove before flight" -->
     <model>
         <name>rbf-pitot</name>
-        <path>/Exterior/rbf/rbf.xml</path>
+        <path>Exterior/rbf/rbf.xml</path>
         <offsets>
             <x-m>-0.220</x-m>
             <y-m>-1.525</y-m>
@@ -6673,11 +6701,11 @@
             </binding>
         </hovered>
     </animation>
-    
+
     <!-- Wheel chock -->
     <model>
         <name>chock1</name>
-        <path>/Exterior/chock/chock.xml</path>
+        <path>Exterior/chock/chock.xml</path>
         <offsets>
             <x-m>-0.02</x-m>
             <y-m>0.0</y-m>
@@ -6686,7 +6714,7 @@
     </model>
     <model>
         <name>chock2</name>
-        <path>/Exterior/chock/chock.xml</path>
+        <path>Exterior/chock/chock.xml</path>
         <offsets>
             <x-m>0.32</x-m>
             <y-m>0.0</y-m>

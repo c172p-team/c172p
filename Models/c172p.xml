@@ -2460,7 +2460,7 @@
     <animation>
         <type>translate</type>
         <object-name>ParkingBrake</object-name>
-        <property>/sim/model/brake-parking</property>
+        <property>/sim/model/c172p/brake-parking</property>
         <factor>0.04</factor>
         <axis>
             <x>1.0</x>
@@ -2471,7 +2471,7 @@
     <animation>
         <type>rotate</type>
         <object-name>ParkingBrake</object-name>
-        <property>/sim/model/brake-parking</property>
+        <property>/sim/model/c172p/brake-parking</property>
         <factor>90</factor>
         <axis>
             <x>1.0</x>
@@ -2493,7 +2493,7 @@
             <button>0</button>
             <binding>
                 <command>property-toggle</command>
-                <property>/sim/model/brake-parking</property>
+                <property>/sim/model/c172p/brake-parking</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -2504,7 +2504,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <label>Parking brake: %s</label>
-                <property>/sim/model/brake-parking</property>
+                <property>/sim/model/c172p/brake-parking</property>
                 <tooltip-id>parking-brake</tooltip-id>
                 <mapping>on-off</mapping>
             </binding>
@@ -6602,7 +6602,7 @@
         <type>select</type>
         <object-name>rbf-pitot</object-name>
         <condition>
-            <property>sim/model/pitot-cover</property>
+            <property>sim/model/c172p/pitot-cover</property>
         </condition>
     </animation>
     <animation>
@@ -6614,7 +6614,7 @@
             <binding>
                 <condition>
                     <and>
-                        <property>sim/model/pitot-cover</property>
+                        <property>sim/model/c172p/pitot-cover</property>
                         <less-than>
                             <property>velocities/groundspeed-kt</property>
                             <value>5.0</value>
@@ -6622,13 +6622,13 @@
                     </and>   
                 </condition>
                 <command>property-assign</command>
-                <property>systems/pitot/serviceable</property>
+                <property>instrumentation/airspeed-indicator/serviceable</property>
                 <value>true</value>
             </binding>
             <binding>
                 <condition>
                     <and>
-                        <property>sim/model/pitot-cover</property>
+                        <property>sim/model/c172p/pitot-cover</property>
                         <less-than>
                             <property>velocities/groundspeed-kt</property>
                             <value>5.0</value>
@@ -6636,7 +6636,7 @@
                     </and>   
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/pitot-cover</property>
+                <property>sim/model/c172p/pitot-cover</property>
                 <value>false</value>
             </binding>
         </action>
@@ -6644,7 +6644,7 @@
             <binding>
                 <condition>
                     <and>
-                        <property>sim/model/pitot-cover</property>
+                        <property>sim/model/c172p/pitot-cover</property>
                         <less-than>
                             <property>velocities/groundspeed-kt</property>
                             <value>5.0</value>
@@ -6667,7 +6667,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>sim/model/pitot-cover</property>
+                            <property>sim/model/c172p/pitot-cover</property>
                         </not>
                         <less-than>
                             <property>velocities/groundspeed-kt</property>
@@ -6676,14 +6676,14 @@
                     </and>
                 </condition>
                 <command>property-assign</command>
-                <property>systems/pitot/serviceable</property>
+                <property>instrumentation/airspeed-indicator/serviceable</property>
                 <value>false</value>
             </binding>
             <binding>
                 <condition>
                     <and>
                         <not>
-                            <property>sim/model/pitot-cover</property>
+                            <property>sim/model/c172p/pitot-cover</property>
                         </not>
                         <less-than>
                             <property>velocities/groundspeed-kt</property>
@@ -6692,7 +6692,7 @@
                     </and>
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/pitot-cover</property>
+                <property>sim/model/c172p/pitot-cover</property>
                 <value>true</value>
             </binding>
         </action>
@@ -6701,7 +6701,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>sim/model/pitot-cover</property>
+                            <property>sim/model/c172p/pitot-cover</property>
                         </not>
                         <less-than>
                             <property>velocities/groundspeed-kt</property>
@@ -6716,15 +6716,12 @@
         </hovered>
     </animation>
     
-    <!-- Wheel chokes -->
+    <!-- Wheel choke -->
     <model>
         <name>choke1</name>
         <path>/Exterior/choke/choke.xml</path>
         <condition>
-            <equals>
-                <property>/fdm/jsbsim/bushkit</property>
-                <value>0</value>
-            </equals>
+            <property>/sim/model/c172p/choke-visible</property>
         </condition>
         <offsets>
             <x-m>-0.02</x-m>
@@ -6736,10 +6733,7 @@
         <name>choke2</name>
         <path>/Exterior/choke/choke.xml</path>
         <condition>
-            <equals>
-                <property>/fdm/jsbsim/bushkit</property>
-                <value>0</value>
-            </equals>
+            <property>/sim/model/c172p/choke-visible</property>
         </condition>
         <offsets>
             <x-m>0.32</x-m>
@@ -6763,14 +6757,14 @@
         <type>select</type>
         <object-name>choke1</object-name>
         <condition>
-            <property>sim/model/chokes</property>
+            <property>sim/model/c172p/choke</property>
         </condition>
     </animation>
     <animation>
         <type>select</type>
         <object-name>choke2</object-name>
         <condition>
-            <property>sim/model/chokes</property>
+            <property>sim/model/c172p/choke</property>
         </condition>
     </animation>
     <animation>
@@ -6781,14 +6775,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>sim/model/chokes</property>
+                <property>sim/model/c172p/choke</property>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>sim/model/chokes</property>
+                    <property>sim/model/c172p/choke</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-wheel-chock</tooltip-id>
@@ -6804,14 +6798,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>sim/model/chokes</property>
+                <property>sim/model/c172p/choke</property>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>sim/model/chokes</property>
+                    <property>sim/model/c172p/choke</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-wheel-chock</tooltip-id>
@@ -6828,7 +6822,7 @@
             <condition>
                 <and>
                     <not>
-                        <property>sim/model/chokes</property>
+                        <property>sim/model/c172p/choke</property>
                     </not>
                     <less-than>
                         <property>velocities/groundspeed-kt</property>
@@ -6838,7 +6832,7 @@
             </condition>
             <binding>
                 <command>property-assign</command>
-                <property>sim/model/chokes</property>
+                <property>sim/model/c172p/choke</property>
                 <value>true</value>
             </binding>
         </action>
@@ -6847,7 +6841,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>sim/model/chokes</property>
+                            <property>sim/model/c172p/choke</property>
                         </not>
                         <less-than>
                             <property>velocities/groundspeed-kt</property>

@@ -129,6 +129,70 @@
 
             <checkbox>
                 <halign>left</halign>
+                <label>Enable wheel chokes</label>
+                <property>/sim/model/c172p/choke</property>
+                <live>true</live>
+                <enable>
+                    <and>
+                        <property>/sim/model/c172p/choke-can-have</property>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>5.0</value>
+                        </less-than>
+                    </and>
+                </enable>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+
+            <checkbox>
+                <halign>left</halign>
+                <label>Put pitot tube cover</label>
+                <property>/sim/model/c172p/pitot-cover</property>
+                <live>true</live>
+                <enable>
+                    <less-than>
+                        <property>velocities/groundspeed-kt</property>
+                        <value>5.0</value>
+                    </less-than>
+                </enable>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+                <binding>
+                    <command>property-toggle</command>
+                    <property>instrumentation/airspeed-indicator/serviceable</property>
+                </binding>
+            </checkbox>
+            
+            <!-- this will be implemented soon
+            <checkbox>
+                <halign>left</halign>
+                <label>Tie down wings</label>
+                <property>/sim/model/c172p/tie-down-wings</property>
+                <live>true</live>
+                <enable>
+                    <less-than>
+                        <property>velocities/groundspeed-kt</property>
+                        <value>5.0</value>
+                    </less-than>
+                </enable>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+            -->
+
+        </group>
+
+        <hrule/>
+
+        <group>
+            <layout>vbox</layout>
+
+            <checkbox>
+                <halign>left</halign>
                 <label>Show shadow</label>
                 <property>/sim/rendering/shadow-volume</property>
                 <live>true</live>
@@ -305,6 +369,11 @@
                             setprop("sim/model/c172p/engine_flag_1", 0);
                         </script>
                     </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>sim/model/c172p/choke</property>
+                        <value>false</value>
+                    </binding>
                 </radio>
 
                 <radio>
@@ -336,6 +405,11 @@
                             setprop("sim/model/c172p/engine_flag_0", 1);
                             setprop("sim/model/c172p/engine_flag_1", 0);
                         </script>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>sim/model/c172p/choke</property>
+                        <value>false</value>
                     </binding>
                 </radio>
             </group>
@@ -373,6 +447,11 @@
                             setprop("sim/model/c172p/engine_flag_1", 1);
                         </script>
                     </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>sim/model/c172p/choke</property>
+                        <value>false</value>
+                    </binding>
                 </radio>
 
                 <radio>
@@ -404,6 +483,11 @@
                             setprop("sim/model/c172p/engine_flag_0", 0);
                             setprop("sim/model/c172p/engine_flag_1", 1);
                         </script>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>sim/model/c172p/choke</property>
+                        <value>false</value>
                     </binding>
                 </radio>
 
@@ -437,8 +521,14 @@
                             setprop("sim/model/c172p/engine_flag_1", 1);
                         </script>
                     </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>sim/model/c172p/choke</property>
+                        <value>false</value>
+                    </binding>
                 </radio>
             </group>
+            
         </group>
     </group>
 

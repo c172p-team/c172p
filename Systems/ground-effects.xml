@@ -323,21 +323,41 @@ Under the GPL. Used by shadows under ALS -->
     </filter>
     
     <logic>
-        <name>Parking Brake and Chokes</name>
+        <name>Parking Brake and Choke</name>
         <input>
             <or>
-                <property>/sim/model/brake-parking</property>
-                <and>
-                    <property>/sim/model/chokes</property>
-                    <equals>
-                        <property>/fdm/jsbsim/bushkit</property>
-                        <value>0</value>
-                    </equals>
-                </and>
+                <property>/sim/model/c172p/brake-parking</property>
+                <property>/sim/model/c172p/choke-visible</property>
             </or>
         </input>
         <output>
             <property>controls/gear/brake-parking</property>
+        </output>
+    </logic>
+    
+    <logic>
+        <name>Choke Can Have</name>
+        <input>
+            <equals>
+                <property>/fdm/jsbsim/bushkit</property>
+                <value>0</value>
+            </equals>
+        </input>
+        <output>
+            <property>/sim/model/c172p/choke-can-have</property>
+        </output>
+    </logic>
+        
+    <logic>
+        <name>Choke Visible</name>
+        <input>
+            <and>
+                <property>/sim/model/c172p/choke</property>
+                <property>/sim/model/c172p/choke-can-have</property>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/choke-visible</property>
         </output>
     </logic>
 

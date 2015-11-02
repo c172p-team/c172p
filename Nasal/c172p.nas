@@ -54,17 +54,24 @@ var click = func (name, timeout=0.1, delay=0) {
 
 var thunder = func (name) {
     var thunderCalls = 0;
+
     var lightning_pos_x = getprop("/environment/lightning/lightning-pos-x");
     var lightning_pos_y = getprop("/environment/lightning/lightning-pos-y");
     var lightning_distance = math.sqrt(math.pow(lightning_pos_x, 2) + math.pow(lightning_pos_y, 2));
-    var delay_seconds = lightning_distance / 340.29;
+
+    # On the ground, thunder can be heard up to 16 km. Increase this value
+    # a bit because the aircraft is usually in the air.
+    if (lightning_distance > 20000)
+        return;
+
     var thunder1 = getprop("/sim/model/c172p/sound/click-thunder1");
     var thunder2 = getprop("/sim/model/c172p/sound/click-thunder2");
     var thunder3 = getprop("/sim/model/c172p/sound/click-thunder3");
 
-    # Clamp delay to within 0 .. 50 seconds
-    delay_seconds = std.max(0, std.min(delay_seconds, 50));
-    var lightning_distance_norm = 1 - (delay_seconds / 50);
+    var delay_seconds = lightning_distance / 340.29;
+
+    # Maximum volume at 5000 meter
+    var lightning_distance_norm = std.min(1.0, 1 / math.pow(lightning_distance / 5000.0, 2));
 
     if (!thunder1) {
         thunderCalls = 1;
@@ -81,7 +88,7 @@ var thunder = func (name) {
     else
         return;
 
-    # Play the sound
+    # Play the sound (sound files are about 9 seconds)
     click("thunder" ~ thunderCalls, 9.0, delay_seconds);
 };
 

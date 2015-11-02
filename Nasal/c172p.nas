@@ -63,6 +63,23 @@ var thunder = func (name) {
 };
 
 ##########################################
+# Chokes
+##########################################
+
+var chokes_parkingbrakes = func (name) {
+  # only default gears have chokes for now
+	if (getprop("/sim/model/c172p/bushkit_flag_0") != 1) {
+		setprop("/sim/model/chokes", 0);
+	};
+	# if either chokes and parking brake lever are on, parking brakes are on. If none are on, parking brakes are off.
+	if ((getprop("/sim/model/chokes") == 0) and (getprop("/sim/model/brake-parking") == 0)) {
+		setprop("/controls/gear/brake-parking", 0);
+	}else{
+	  setprop("/controls/gear/brake-parking", 1);
+	};
+};
+
+##########################################
 # Ground Detection
 ##########################################
 
@@ -234,6 +251,11 @@ var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
     
     # Listening for lightning strikes
     setlistener("/environment/lightning/lightning-pos-x", thunder);
+    
+    # Listening for changes of wheel choke and gear configuration
+    setlistener("/sim/model/c172p/bushkit_flag_0", chokes_parkingbrakes);
+    setlistener("/sim/model/chokes", chokes_parkingbrakes);
+    setlistener("/sim/model/brake-parking", chokes_parkingbrakes);
 
     reset_system();
     var c172_timer = maketimer(0.25, func{global_system_loop()});

@@ -322,7 +322,7 @@ Under the GPL. Used by shadows under ALS -->
         </output>
     </filter>
     
-    <!-- logic for securing aircraft -->
+    <!-- logic for securing aircraft -->   
      <logic>
         <name>Parking Brake and chock</name>
         <input>
@@ -341,10 +341,13 @@ Under the GPL. Used by shadows under ALS -->
     <logic>
         <name>Chock Can Have</name>
         <input>
-            <equals>
-                <property>/fdm/jsbsim/bushkit</property>
-                <value>0</value>
-            </equals>
+            <and>
+                <equals>
+                    <property>/fdm/jsbsim/bushkit</property>
+                    <value>0</value>
+                </equals>
+                <property>/sim/model/c172p/allow-securing-aircraft</property>
+            </and>
         </input>
         <output>
             <property>/sim/model/c172p/chock-can-have</property>
@@ -411,6 +414,7 @@ Under the GPL. Used by shadows under ALS -->
                     <property>velocities/groundspeed-kt</property>
                     <value>5.0</value>
                 </less-than>
+                <property>/sim/model/c172p/allow-securing-aircraft</property>
             </and>
         </input>
         <output>
@@ -431,6 +435,7 @@ Under the GPL. Used by shadows under ALS -->
                     <property>/fdm/jsbsim/bushkit</property>
                     <value>4</value>
                 </not-equals>
+                <property>/sim/model/c172p/allow-securing-aircraft</property>
             </and>
         </input>
         <output>

@@ -6624,13 +6624,16 @@
             <x-m>-0.220</x-m>
             <y-m>-1.525</y-m>
             <z-m>0.464</z-m>
-        </offsets>
+        </offsets>pitot-cover
     </model>
     <animation>
         <type>select</type>
         <object-name>rbf-pitot</object-name>
         <condition>
-            <property>/sim/model/c172p/pitot-cover</property>
+            <and>
+                <property>/sim/model/c172p/pitot-cover</property>
+                <property>/sim/model/c172p/allow-securing-aircraft</property>
+            </and>                
         </condition>
     </animation>
     <animation>
@@ -6641,7 +6644,7 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/pitot-cover-allowed</property>                    
+                    <property>/sim/model/c172p/pitot-cover-allowed</property>                 
                 </condition>
                 <command>property-assign</command>
                 <property>instrumentation/airspeed-indicator/serviceable</property>

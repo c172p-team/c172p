@@ -6630,7 +6630,7 @@
         <type>select</type>
         <object-name>rbf-pitot</object-name>
         <condition>
-            <property>sim/model/c172p/pitot-cover</property>
+            <property>/sim/model/c172p/pitot-cover</property>
         </condition>
     </animation>
     <animation>
@@ -6686,7 +6686,7 @@
                     <property>/sim/model/c172p/pitot-cover-removable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/c172p/pitot-cover</property>
+                <property>/sim/model/c172p/pitot-cover</property>
                 <value>true</value>
             </binding>
         </action>
@@ -6737,14 +6737,14 @@
         <type>select</type>
         <object-name>chock1</object-name>
         <condition>
-            <property>sim/model/c172p/chock</property>
+            <property>/sim/model/c172p/chock</property>
         </condition>
     </animation>
     <animation>
         <type>select</type>
         <object-name>chock2</object-name>
         <condition>
-            <property>sim/model/c172p/chock</property>
+            <property>/sim/model/c172p/chock</property>
         </condition>
     </animation>
     <animation>
@@ -6755,14 +6755,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>sim/model/c172p/chock</property>
+                <property>/sim/model/c172p/chock</property>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>sim/model/c172p/chock</property>
+                    <property>/sim/model/c172p/chock</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-wheel-chock</tooltip-id>
@@ -6778,14 +6778,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>sim/model/c172p/chock</property>
+                <property>/sim/model/c172p/chock</property>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>sim/model/c172p/chock</property>
+                    <property>/sim/model/c172p/chock</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-wheel-chock</tooltip-id>
@@ -6801,15 +6801,7 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <and>
-                        <not>
-                            <property>sim/model/c172p/chock</property>
-                        </not>
-                        <less-than>
-                            <property>velocities/groundspeed-kt</property>
-                            <value>5.0</value>
-                        </less-than>
-                    </and>
+                    <property>/sim/model/c172p/chock-addable</property> 
                 </condition>
                 <command>property-assign</command>
                 <property>sim/model/c172p/chock</property>
@@ -6819,19 +6811,11 @@
         <hovered>
             <binding>
                 <condition>
-                    <and>
-                        <not>
-                            <property>sim/model/c172p/chock</property>
-                        </not>
-                        <less-than>
-                            <property>velocities/groundspeed-kt</property>
-                            <value>5.0</value>
-                        </less-than>                        
-                    </and>
+                    <property>/sim/model/c172p/chock-addable</property> 
                 </condition>
                 <command>set-tooltip</command>
-                <tooltip-id>put-wheel-chock</tooltip-id>
-                <label>Put Wheel Chock</label>
+                <tooltip-id>secure-with-wheel-chock</tooltip-id>
+                <label>Secure With Wheel Chock</label>
             </binding>
         </hovered>
     </animation>
@@ -6850,11 +6834,57 @@
         <type>select</type>
         <object-name>tiedowns</object-name>
         <condition>
-            <less-than>
-                <property>velocities/groundspeed-kt</property>
-                <value>5.0</value>
-            </less-than>
+            <property>sim/model/c172p/tiedowns</property>
         </condition>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>tiedowns</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/sim/model/c172p/tiedowns</property>
+                <value>false</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/tiedowns</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>remove-tiedowns</tooltip-id>
+                <label>Remove Tiedowns</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>wing_1</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/tiedowns-addable</property>
+                </condition>
+                <command>property-assign</command>
+                <property>sim/model/c172p/tiedowns</property>
+                <value>true</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/tiedowns-addable</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>secure-with-tiedowns</tooltip-id>
+                <label>Secure With Tiedowns</label>
+            </binding>
+        </hovered>
     </animation>
 
 </PropertyList>

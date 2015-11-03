@@ -166,23 +166,24 @@
                 </binding>
             </checkbox>
             
-            <!-- this will be implemented soon
             <checkbox>
                 <halign>left</halign>
-                <label>Tie down wings</label>
-                <property>/sim/model/c172p/tie-down-wings</property>
+                <label>Enable tiedowns</label>
+                <property>/sim/model/c172p/tiedowns</property>
                 <live>true</live>
                 <enable>
-                    <less-than>
-                        <property>velocities/groundspeed-kt</property>
-                        <value>5.0</value>
-                    </less-than>
+                    <and>
+                        <property>/sim/model/c172p/tiedowns-can-have</property>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>5.0</value>
+                        </less-than>
+                    </and>
                 </enable>
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
-            -->
 
         </group>
 
@@ -452,6 +453,11 @@
                         <property>sim/model/c172p/chock</property>
                         <value>false</value>
                     </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>sim/model/c172p/tiedowns</property>
+                        <value>false</value>
+                    </binding>
                 </radio>
 
                 <radio>
@@ -487,6 +493,11 @@
                     <binding>
                         <command>property-assign</command>
                         <property>sim/model/c172p/chock</property>
+                        <value>false</value>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>sim/model/c172p/tiedowns</property>
                         <value>false</value>
                     </binding>
                 </radio>

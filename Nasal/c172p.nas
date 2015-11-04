@@ -34,8 +34,8 @@ controls.applyParkingBrake = func (v) {
 ##########################################
 var fuel_save_state = func {
     if (!getprop("/consumables/fuel/save-fuel-state")) {    
-        setprop("/consumables/fuel/tank[0]/level-gal_us",20);
-        setprop("/consumables/fuel/tank[1]/level-gal_us",20);
+        setprop("/consumables/fuel/tank[0]/level-gal_us", 20);
+        setprop("/consumables/fuel/tank[1]/level-gal_us", 20);
     };    
 };
 

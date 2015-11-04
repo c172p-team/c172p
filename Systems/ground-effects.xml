@@ -328,7 +328,8 @@ Under the GPL. Used by shadows under ALS -->
         <input>
             <or>
                 <property>/sim/model/c172p/brake-parking</property>
-                <property>/sim/model/c172p/chock-visible</property>
+                <property>/sim/model/c172p/smallchock-visible</property>
+                <property>/sim/model/c172p/woodenchock-visible</property>
                 <property>/sim/model/c172p/tiedowns-visible</property>
             </or>
         </input>
@@ -342,10 +343,10 @@ Under the GPL. Used by shadows under ALS -->
         <name>Chock Can Have</name>
         <input>
             <and>
-                <equals>
+                <less-than>
                     <property>/fdm/jsbsim/bushkit</property>
-                    <value>0</value>
-                </equals>
+                    <value>3</value>
+                </less-than>
                 <property>/sim/model/c172p/allow-securing-aircraft</property>
             </and>
         </input>
@@ -355,22 +356,30 @@ Under the GPL. Used by shadows under ALS -->
     </logic>
         
     <logic>
-        <name>Chock Visible</name>
+        <name>Small Chock Visible</name>
         <input>
             <and>
+                <equals>
+                    <property>/fdm/jsbsim/bushkit</property>
+                    <value>0</value>
+                </equals>
                 <property>/sim/model/c172p/chock</property>
                 <property>/sim/model/c172p/chock-can-have</property>
             </and>
         </input>
         <output>
-            <property>/sim/model/c172p/chock-visible</property>
+            <property>/sim/model/c172p/smallchock-visible</property>
         </output>
     </logic>
     
     <logic>
-        <name>Chock Addable</name>
+        <name>Small Chock Addable</name>
         <input>
             <and>
+                <equals>
+                    <property>/fdm/jsbsim/bushkit</property>
+                    <value>0</value>
+                </equals>
                 <not>
                     <property>sim/model/c172p/chock</property>
                 </not>
@@ -382,7 +391,59 @@ Under the GPL. Used by shadows under ALS -->
             </and>
         </input>
         <output>
-            <property>/sim/model/c172p/chock-addable</property>
+            <property>/sim/model/c172p/smallchock-addable</property>
+        </output>
+    </logic>
+    
+    <logic>
+        <name>Wooden Chock Visible</name>
+        <input>
+            <and>
+                <or>
+                    <equals>
+                        <property>/fdm/jsbsim/bushkit</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>/fdm/jsbsim/bushkit</property>
+                        <value>2</value>
+                    </equals>
+                </or>
+                <property>/sim/model/c172p/chock</property>
+                <property>/sim/model/c172p/chock-can-have</property>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/woodenchock-visible</property>
+        </output>
+    </logic>
+    
+    <logic>
+        <name>Wooden Chock Addable</name>
+        <input>
+            <and>
+                <or>
+                    <equals>
+                        <property>/fdm/jsbsim/bushkit</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>/fdm/jsbsim/bushkit</property>
+                        <value>2</value>
+                    </equals>
+                </or>
+                <not>
+                    <property>sim/model/c172p/chock</property>
+                </not>
+                <property>/sim/model/c172p/chock-can-have</property>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>5.0</value>
+                </less-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/woodenchock-addable</property>
         </output>
     </logic>
     

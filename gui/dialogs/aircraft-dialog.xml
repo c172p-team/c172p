@@ -88,6 +88,31 @@
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
+            
+            <checkbox>
+                <halign>left</halign>
+                <label>Allow securing aircraft</label>
+                <property>/sim/model/c172p/allow-securing-aircraft</property>
+                <live>true</live>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/pitot-cover</property>
+                    <value>false</value>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/chock</property>
+                    <value>false</value>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/tiedowns</property>
+                    <value>false</value>
+                </binding>
+            </checkbox>
         </group>
 
         <hrule/>
@@ -137,8 +162,9 @@
                         <property>/sim/model/c172p/chock-can-have</property>
                         <less-than>
                             <property>velocities/groundspeed-kt</property>
-                            <value>5.0</value>
+                            <value>1.0</value>
                         </less-than>
+                        <property>/sim/model/c172p/allow-securing-aircraft</property>
                     </and>
                 </enable>
                 <binding>
@@ -152,10 +178,13 @@
                 <property>/sim/model/c172p/pitot-cover</property>
                 <live>true</live>
                 <enable>
-                    <less-than>
-                        <property>velocities/groundspeed-kt</property>
-                        <value>5.0</value>
-                    </less-than>
+                    <and>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>1.0</value>
+                        </less-than>
+                        <property>/sim/model/c172p/allow-securing-aircraft</property>
+                    </and>
                 </enable>
                 <binding>
                     <command>dialog-apply</command>
@@ -166,23 +195,25 @@
                 </binding>
             </checkbox>
             
-            <!-- this will be implemented soon
             <checkbox>
                 <halign>left</halign>
-                <label>Tie down wings</label>
-                <property>/sim/model/c172p/tie-down-wings</property>
+                <label>Enable tiedowns</label>
+                <property>/sim/model/c172p/tiedowns</property>
                 <live>true</live>
                 <enable>
-                    <less-than>
-                        <property>velocities/groundspeed-kt</property>
-                        <value>5.0</value>
-                    </less-than>
+                    <and>
+                        <property>/sim/model/c172p/tiedowns-can-have</property>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>1.0</value>
+                        </less-than>
+                        <property>/sim/model/c172p/allow-securing-aircraft</property>
+                    </and>
                 </enable>
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
-            -->
 
         </group>
 
@@ -369,11 +400,6 @@
                             setprop("sim/model/c172p/engine_flag_1", 0);
                         </script>
                     </binding>
-                    <binding>
-                        <command>property-assign</command>
-                        <property>sim/model/c172p/chock</property>
-                        <value>false</value>
-                    </binding>
                 </radio>
 
                 <radio>
@@ -405,11 +431,6 @@
                             setprop("sim/model/c172p/engine_flag_0", 1);
                             setprop("sim/model/c172p/engine_flag_1", 0);
                         </script>
-                    </binding>
-                    <binding>
-                        <command>property-assign</command>
-                        <property>sim/model/c172p/chock</property>
-                        <value>false</value>
                     </binding>
                 </radio>
             </group>
@@ -452,6 +473,11 @@
                         <property>sim/model/c172p/chock</property>
                         <value>false</value>
                     </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>sim/model/c172p/tiedowns</property>
+                        <value>false</value>
+                    </binding>
                 </radio>
 
                 <radio>
@@ -487,6 +513,11 @@
                     <binding>
                         <command>property-assign</command>
                         <property>sim/model/c172p/chock</property>
+                        <value>false</value>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>sim/model/c172p/tiedowns</property>
                         <value>false</value>
                     </binding>
                 </radio>

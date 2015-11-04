@@ -322,12 +322,15 @@ Under the GPL. Used by shadows under ALS -->
         </output>
     </filter>
     
-    <logic>
+    <!-- logic for securing aircraft -->   
+     <logic>
         <name>Parking Brake and chock</name>
         <input>
             <or>
                 <property>/sim/model/c172p/brake-parking</property>
-                <property>/sim/model/c172p/chock-visible</property>
+                <property>/sim/model/c172p/smallchock-visible</property>
+                <property>/sim/model/c172p/woodenchock-visible</property>
+                <property>/sim/model/c172p/tiedowns-visible</property>
             </or>
         </input>
         <output>
@@ -335,13 +338,17 @@ Under the GPL. Used by shadows under ALS -->
         </output>
     </logic>
     
+    <!-- logic for chocks -->
     <logic>
-        <name>chock Can Have</name>
+        <name>Chock Can Have</name>
         <input>
-            <equals>
-                <property>/fdm/jsbsim/bushkit</property>
-                <value>0</value>
-            </equals>
+            <and>
+                <less-than>
+                    <property>/fdm/jsbsim/bushkit</property>
+                    <value>3</value>
+                </less-than>
+                <property>/sim/model/c172p/allow-securing-aircraft</property>
+            </and>
         </input>
         <output>
             <property>/sim/model/c172p/chock-can-have</property>
@@ -349,18 +356,98 @@ Under the GPL. Used by shadows under ALS -->
     </logic>
         
     <logic>
-        <name>chock Visible</name>
+        <name>Small Chock Visible</name>
         <input>
             <and>
+                <equals>
+                    <property>/fdm/jsbsim/bushkit</property>
+                    <value>0</value>
+                </equals>
                 <property>/sim/model/c172p/chock</property>
                 <property>/sim/model/c172p/chock-can-have</property>
             </and>
         </input>
         <output>
-            <property>/sim/model/c172p/chock-visible</property>
+            <property>/sim/model/c172p/smallchock-visible</property>
         </output>
     </logic>
     
+    <logic>
+        <name>Small Chock Addable</name>
+        <input>
+            <and>
+                <equals>
+                    <property>/fdm/jsbsim/bushkit</property>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property>sim/model/c172p/chock</property>
+                </not>
+                <property>/sim/model/c172p/chock-can-have</property>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>1.0</value>
+                </less-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/smallchock-addable</property>
+        </output>
+    </logic>
+    
+    <logic>
+        <name>Wooden Chock Visible</name>
+        <input>
+            <and>
+                <or>
+                    <equals>
+                        <property>/fdm/jsbsim/bushkit</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>/fdm/jsbsim/bushkit</property>
+                        <value>2</value>
+                    </equals>
+                </or>
+                <property>/sim/model/c172p/chock</property>
+                <property>/sim/model/c172p/chock-can-have</property>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/woodenchock-visible</property>
+        </output>
+    </logic>
+    
+    <logic>
+        <name>Wooden Chock Addable</name>
+        <input>
+            <and>
+                <or>
+                    <equals>
+                        <property>/fdm/jsbsim/bushkit</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>/fdm/jsbsim/bushkit</property>
+                        <value>2</value>
+                    </equals>
+                </or>
+                <not>
+                    <property>sim/model/c172p/chock</property>
+                </not>
+                <property>/sim/model/c172p/chock-can-have</property>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>1.0</value>
+                </less-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/woodenchock-addable</property>
+        </output>
+    </logic>
+    
+    <!-- logic for pitot tube -->
     <logic>
         <name>Pitot Cover Removable</name>
         <input>
@@ -370,7 +457,7 @@ Under the GPL. Used by shadows under ALS -->
                 </not>
                 <less-than>
                     <property>velocities/groundspeed-kt</property>
-                    <value>5.0</value>
+                    <value>1.0</value>
                 </less-than>
             </and>
         </input>
@@ -386,12 +473,66 @@ Under the GPL. Used by shadows under ALS -->
                 <property>sim/model/c172p/pitot-cover</property>
                 <less-than>
                     <property>velocities/groundspeed-kt</property>
-                    <value>5.0</value>
+                    <value>1.0</value>
                 </less-than>
+                <property>/sim/model/c172p/allow-securing-aircraft</property>
             </and>
         </input>
         <output>
             <property>/sim/model/c172p/pitot-cover-allowed</property>
+        </output>
+    </logic>
+    
+    <!-- logic for tiedowns -->
+    <logic>
+        <name>Tiedowns Can Have</name>
+        <input>
+            <and>
+                <not-equals>
+                    <property>/fdm/jsbsim/bushkit</property>
+                    <value>3</value>
+                </not-equals>
+                <not-equals>
+                    <property>/fdm/jsbsim/bushkit</property>
+                    <value>4</value>
+                </not-equals>
+                <property>/sim/model/c172p/allow-securing-aircraft</property>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/tiedowns-can-have</property>
+        </output>
+    </logic>
+        
+    <logic>
+        <name>Tiedowns Visible</name>
+        <input>
+            <and>
+                <property>/sim/model/c172p/tiedowns</property>
+                <property>/sim/model/c172p/tiedowns-can-have</property>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/tiedowns-visible</property>
+        </output>
+    </logic>
+        
+    <logic>
+        <name>Tiedowns Addable</name>
+        <input>
+            <and>
+                <not>
+                    <property>sim/model/c172p/tiedowns</property>
+                </not>
+                <property>/sim/model/c172p/tiedowns-can-have</property>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>1.0</value>
+                </less-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/tiedowns-addable</property>
         </output>
     </logic>
 

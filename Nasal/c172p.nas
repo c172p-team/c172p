@@ -30,6 +30,16 @@ controls.applyParkingBrake = func (v) {
 };
 
 ##########################################
+# Fuel Save State
+##########################################
+var fuel_save_state = func {
+    if (!getprop("/consumables/fuel/save-fuel-state")) {    
+        setprop("/consumables/fuel/tank[0]/level-gal_us",20);
+        setprop("/consumables/fuel/tank[1]/level-gal_us",20);
+    };    
+};
+
+##########################################
 # Click Sounds
 ##########################################
 
@@ -234,6 +244,9 @@ var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
             setprop("/autopilot/KAP140/settings/target-alt-ft", kap140.altPreselect);
         }
     });
+    
+    # Checking if fuel tanks should be refilled (in case save state is off)
+    fuel_save_state();
     
     # Listening for lightning strikes
     setlistener("/environment/lightning/lightning-pos-y", thunder);

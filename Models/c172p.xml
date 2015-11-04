@@ -2448,7 +2448,7 @@
     <animation>
         <type>translate</type>
         <object-name>ParkingBrake</object-name>
-        <property>/controls/gear/brake-parking</property>
+        <property>/sim/model/c172p/brake-parking</property>
         <factor>0.04</factor>
         <axis>
             <x>1.0</x>
@@ -2459,7 +2459,7 @@
     <animation>
         <type>rotate</type>
         <object-name>ParkingBrake</object-name>
-        <property>/controls/gear/brake-parking</property>
+        <property>/sim/model/c172p/brake-parking</property>
         <factor>90</factor>
         <axis>
             <x>1.0</x>
@@ -2481,7 +2481,7 @@
             <button>0</button>
             <binding>
                 <command>property-toggle</command>
-                <property>/controls/gear/brake-parking</property>
+                <property>/sim/model/c172p/brake-parking</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -2492,7 +2492,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <label>Parking brake: %s</label>
-                <property>/controls/gear/brake-parking</property>
+                <property>/sim/model/c172p/brake-parking</property>
                 <tooltip-id>parking-brake</tooltip-id>
                 <mapping>on-off</mapping>
             </binding>
@@ -6753,28 +6753,6 @@
     <animation>
         <type>pick</type>
         <object-name>chock1</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-assign</command>
-                <property>/sim/model/c172p/chock</property>
-                <value>false</value>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <condition>
-                    <property>/sim/model/c172p/chock</property>
-                </condition>
-                <command>set-tooltip</command>
-                <tooltip-id>remove-wheel-chock</tooltip-id>
-                <label>Remove Wheel Chock</label>
-            </binding>
-        </hovered>
-    </animation>
-    <animation>
-        <type>pick</type>
         <object-name>chock2</object-name>
         <action>
             <button>0</button>
@@ -6828,9 +6806,9 @@
         <name>woodenchock</name>
         <path>Exterior/wooden-chock/woodenchock.xml</path>
         <offsets>
-            <x-m>0.0</x-m>
+            <x-m>-0.027</x-m>
             <y-m>0.0</y-m>
-            <z-m>-0.07</z-m>
+            <z-m>-0.088</z-m>
         </offsets>
     </model>
     <animation>
@@ -6915,12 +6893,14 @@
         <type>select</type>
         <object-name>tiedowns</object-name>
         <condition>
-            <property>sim/model/c172p/tiedowns</property>
+            <property>sim/model/c172p/tiedowns-visible</property>
         </condition>
     </animation>
     <animation>
         <type>pick</type>
         <object-name>tiedowns</object-name>
+        <object-name>TieDownLeft</object-name>
+        <object-name>TieDownRight</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -6940,6 +6920,13 @@
                 <label>Remove Tiedowns</label>
             </binding>
         </hovered>
+    </animation>    
+    <animation>
+        <type>select</type>
+        <object-name>TiedownHotSpot</object-name>
+        <condition>
+            <property>/sim/model/c172p/tiedowns-addable</property>
+        </condition>
     </animation>
     <animation>
         <type>pick</type>

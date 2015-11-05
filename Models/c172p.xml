@@ -6119,7 +6119,7 @@
         </offsets>
     </model>
 
-    <!-- Pilot not visible in the cockpit AND walker modes or if not enough weight on his seat -->
+    <!-- Pilot visible only when not in the cockpit, the walker is not activated and if there is enough weight on his seat -->
     <animation>
         <type>select</type>
         <object-name>Pilot</object-name>
@@ -6137,17 +6137,12 @@
                      is what we want, but this behavior is error-prone.
                 -->
                 <not-equals>
-                    <property>sim/current-view/name</property>
+                    <property>/sim/current-view/name</property>
                     <value>Cockpit View</value>
                 </not-equals>
-                <not-equals>
-                    <property>sim/current-view/name</property>
-                    <value>Walk View</value>
-                </not-equals>
-                <not-equals>
-                    <property>sim/current-view/name</property>
-                    <value>Walker Orbit View</value>
-                </not-equals>
+                <not>
+                    <property>/sim/walker/outside</property>
+                </not>
                 <property>pax/pilot/present</property>
                 <property>sim/model/occupants</property>
             </and>

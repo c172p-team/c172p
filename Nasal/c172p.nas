@@ -92,6 +92,8 @@ var switches_save_state = func {
         setprop("/controls/anti-ice/pitot-heat", 0);
         setprop("/environment/aircraft-effects/cabin-heat-set", 0.0);
         setprop("/environment/aircraft-effects/cabin-air-set", 0.0);
+        setprop("/consumables/fuel/tank[0]/selected", 1);
+        setprop("/consumables/fuel/tank[1]/selected", 1);
     };    
 };
 

@@ -551,6 +551,17 @@
     </model>
 
     <!-- Instrumentation -->
+
+    <model>
+        <name>Gear</name>
+        <path>Interior/Panel/Instruments/gear/gear-ctl.xml</path>
+        <offsets>
+            <x-m>-0.36</x-m>
+            <y-m>0.26</y-m>
+            <z-m>0.06</z-m>
+        </offsets>
+    </model>
+
     <model>
         <name>MagCompass</name>
         <path>Interior/Panel/Instruments/mag-compass/mag-compass.xml</path>
@@ -559,6 +570,12 @@
             <y-m>0.00</y-m>
             <z-m>0.18</z-m>
         </offsets>
+        <condition>
+            <equals>
+               <property alias="/params/bushkit/property"/>
+               <value>4</value>
+            </equals>
+        </condition>
     </model>
     <model>
         <name>AI</name>
@@ -4395,6 +4412,20 @@
         </condition>
     </animation>
 
+    <!--animation>
+        <type>select</type>
+        <object-name>RuddWires</object-name>
+        <object-name>FloatStruts</object-name>
+        <object-name>FloatReinforceLeft</object-name>
+        <object-name>FloatReinforceRight</object-name>
+        <condition>
+            <equals>
+               <property alias="/params/bushkit/property"/>
+               <value>4</value>
+            </equals>
+        </condition>
+    </animation-->
+
     <!-- Left Pontoon Damaged -->
     <animation>
         <type>select</type>
@@ -6857,4 +6888,251 @@
         </hovered>
     </animation>
 
+    <!-- Amphibious Gear Instrumentation -->
+    <animation>
+        <type>select</type>
+        <object-name>Switch.nut</object-name>
+        <object-name>Dim.bezel</object-name>
+        <object-name>Dim.toggle</object-name>
+        <object-name>Plane</object-name>
+        <object-name>Wgear.bezel</object-name>
+        <condition>
+            <equals>
+               <property alias="/params/bushkit/property"/>
+               <value>4</value>
+            </equals>
+        </condition>
+    </animation>
+
+    <!--  Gear Down - land -->
+    <animation>
+        <type>select</type>
+        <object-name>nosedn1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property>gear/gear[4]/position-norm</property>
+                    <value>1.0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>nosedn2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property>gear/gear[5]/position-norm</property>
+                    <value>1.0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>maindn1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property>gear/gear[6]/position-norm</property>
+                    <value>1.0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>maindn2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property>gear/gear[7]/position-norm</property>
+                    <value>1.0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <!--  Gear Up - water -->
+    <animation>
+        <type>select</type>
+        <object-name>noseup1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property>gear/gear[4]/position-norm</property>
+                    <value>0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>noseup2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property>gear/gear[5]/position-norm</property>
+                    <value>0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>mainup1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property>gear/gear[6]/position-norm</property>
+                    <value>0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>mainup2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property>gear/gear[7]/position-norm</property>
+                    <value>0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- in transit -->
+    <animation>
+        <type>select</type>
+        <object-name>pump</object-name>
+        <condition>
+            <and>
+                <greater-than>
+                    <property>gear/gear[4]/position-norm</property>
+                    <value>0</value>
+                </greater-than>
+                <less-than>
+                    <property>gear/gear[4]/position-norm</property>
+                    <value>1.0</value>
+                </less-than>
+                <equals>
+                    <property alias="/params/bushkit/property"/>
+                    <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Gearswitch</object-name>
+        <property>controls/gear/gear-down</property>
+        <factor>180</factor>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0.015</y-m>
+            <z-m>-0.018</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>Switch.nut</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/gear/gear-down</property>
+            </binding>
+        </action>
+    </animation>
+
+  <!-- TEXT OSG -->
+  <text>
+    <name>textosg</name>
+    <type type="string">literal</type>
+    <text type="string">Gear</text>
+    <draw-text type="bool">true</draw-text>
+    <font>Helvetica.txf</font>
+    <character-size type="double">0.014</character-size>
+    <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+    <axis-alignment>yz-plane</axis-alignment>
+    <max-height>0.06</max-height>
+    <max-width>0.05</max-width>
+    <font-resolution>
+      <width type="int">64</width>
+      <height type="int">64</height>
+    </font-resolution>
+    <alignment>center-center</alignment>
+    <offsets>
+      <x-m>  0.005 </x-m>
+      <y-m>  0.000 </y-m>
+      <z-m>  0.000 </z-m>
+    </offsets>
+  </text>
+
+  <animation>
+    <type>material</type>
+    <object-name>textosg</object-name>
+    <emission>
+      <red>   0.8 </red>
+      <green> 0.8 </green>
+      <blue>  0.0 </blue>
+    </emission>
+  </animation>
+
+  <animation>
+    <type>select</type>
+    <object-name>textosg</object-name>
+    <condition>
+      <property>sim/panel-hotspots</property>
+    </condition>
+  </animation>
 </PropertyList>

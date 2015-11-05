@@ -40,6 +40,62 @@ var fuel_save_state = func {
 };
 
 ##########################################
+# Switches Save State
+##########################################
+var switches_save_state = func {
+    if (!getprop("/instrumentation/save-switches-state")) {
+        setprop("/controls/engines/engine[0]/primer", 0);
+        setprop("/controls/engines/engine[0]/primer-lever", 0);
+        setprop("/controls/engines/engine[0]/use-primer", 0);
+        setprop("/controls/engines/engine[1]/primer", 0);
+        setprop("/controls/engines/engine[1]/primer-lever", 0);
+        setprop("/controls/engines/engine[1]/use-primer", 0);
+        setprop("/controls/engines/current-engine/throttle", 0.0);
+        setprop("/controls/engines/current-engine/mixture", 0.0);
+        setprop("/controls/circuit-breakers/aircond", 1);
+        setprop("/controls/circuit-breakers/autopilot", 1);
+        setprop("/controls/circuit-breakers/bcnlt", 1);
+        setprop("/controls/circuit-breakers/flaps", 1);
+        setprop("/controls/circuit-breakers/instr", 1);
+        setprop("/controls/circuit-breakers/intlt", 1);
+        setprop("/controls/circuit-breakers/landing", 1);
+        setprop("/controls/circuit-breakers/master", 1);
+        setprop("/controls/circuit-breakers/navlt", 1);
+        setprop("/controls/circuit-breakers/pitot-heat", 1);
+        setprop("/controls/circuit-breakers/radio1", 1);
+        setprop("/controls/circuit-breakers/radio2", 1);
+        setprop("/controls/circuit-breakers/radio3", 1);
+        setprop("/controls/circuit-breakers/radio4", 1);
+        setprop("/controls/circuit-breakers/radio5", 1);
+        setprop("/controls/circuit-breakers/strobe", 1);
+        setprop("/controls/circuit-breakers/turn-coordinator", 1);
+        setprop("/controls/switches/master-avionics", 0);
+        setprop("/controls/switches/starter", 0);
+        setprop("/controls/switches/master-alt", 0);
+        setprop("/controls/switches/master-bat", 0);
+        setprop("/controls/switches/magnetos", 0);
+        setprop("/controls/lighting/nav-lights", 0);
+        setprop("/controls/lighting/beacon", 0);
+        setprop("/controls/lighting/strobe", 0);
+        setprop("/controls/lighting/taxi-light", 0);
+        setprop("/controls/lighting/landing-lights", 0);
+        setprop("/controls/lighting/instruments-norm", 0.0);
+        setprop("/controls/gear/water-rudder", 0);
+        setprop("/controls/gear/water-rudder-down", 0);
+        setprop("/controls/gear/brake-parking", 0);
+        setprop("/sim/model/c172p/brake-parking", 0);
+        setprop("/controls/flight/flaps", 0.0);
+        setprop("/surface-positions/flap-pos-norm", 0.0);
+        setprop("/controls/flight/elevator-trim", 0.0);
+        setprop("/controls/anti-ice/engine[0]/carb-heat", 0);
+        setprop("/controls/anti-ice/engine[1]/carb-heat", 0);
+        setprop("/controls/anti-ice/pitot-heat", 0);
+        setprop("/environment/aircraft-effects/cabin-heat-set", 0.0);
+        setprop("/environment/aircraft-effects/cabin-air-set", 0.0);
+    };    
+};
+
+##########################################
 # Click Sounds
 ##########################################
 
@@ -247,6 +303,9 @@ var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
     
     # Checking if fuel tanks should be refilled (in case save state is off)
     fuel_save_state();
+    
+    # Checking if switches should be moved back to default position (in case save state is off)
+    switches_save_state();
     
     # Listening for lightning strikes
     setlistener("/environment/lightning/lightning-pos-y", thunder);

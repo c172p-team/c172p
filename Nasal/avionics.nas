@@ -127,7 +127,7 @@ aircraft.data.add(
     "/controls/anti-ice/pitot-heat",
     "/consumables/fuel/tank/selected",
     "/consumables/fuel/tank[1]/selected",
-    "/controls/gear/brake-parking",
+    "/sim/model/c172p/brake-parking",
     "/controls/flight/flaps",
     "/controls/flight/elevator-trim",
     "/controls/engines/current-engine/throttle",

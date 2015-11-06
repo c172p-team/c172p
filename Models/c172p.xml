@@ -328,7 +328,7 @@
     </effect>
 
 	<effect>
-        <inherits-from>Effects/exterior/c172p-exterior-glass-reflection</inherits-from>
+        <inherits-from>Effects/exterior/exterior-glass-reflection</inherits-from>
         <object-name>glas</object-name>
         <object-name>leftwindow</object-name>
         <object-name>rightwindow</object-name>
@@ -433,6 +433,9 @@
         <object-name>TrimWheel</object-name>
         <object-name>wing_1L</object-name>
         <object-name>wing_1R</object-name>
+        <object-name>FloatReinforceLeft</object-name>
+        <object-name>FloatReinforceRight</object-name>
+        <object-name>FloatReinforceJoin</object-name>
         <object-name>backseat_left</object-name>
         <object-name>carpet</object-name>
         <object-name>pilotseat_left</object-name>
@@ -552,6 +555,17 @@
     </model>
 
     <!-- Instrumentation -->
+
+    <model>
+        <name>Gear</name>
+        <path>Interior/Panel/Instruments/gear/gear-ctl.xml</path>
+        <offsets>
+            <x-m>-0.36</x-m>
+            <y-m>0.26</y-m>
+            <z-m>0.06</z-m>
+        </offsets>
+    </model>
+
     <model>
         <name>MagCompass</name>
         <path>Interior/Panel/Instruments/mag-compass/mag-compass.xml</path>
@@ -3455,57 +3469,6 @@
         </axis>
     </animation>
 
-    <!-- Rotate left ski angle from 0 to 10 deg -->
-
-    <!-- rotate left ski xtan below 1.78 agl (remove sink into ground)-->
-    <!--animation>
-        <type>rotate</type>
-        <object-name>LeftSki</object-name>
-        <object-name>LeftSkiAxleBl</object-name>
-        <object-name>LeftSkiAxleBr</object-name>
-        <object-name>LeftSkiBraceL</object-name>
-        <object-name>LeftSkiBraceR</object-name>
-        <object-name>LeftSkiWireF</object-name>
-        <object-name>LeftSkiWireB</object-name>
-        <object-name>LeftCableConnectF</object-name>
-        <object-name>LeftCableConnectB</object-name>
-        <object-name>LeftSkiWheel</object-name>
-        <object-name>LeftSkiWheelAxle</object-name>
-        <property>/fdm/jsbsim/ski/xtan-actual</property>
-        <condition>
-            <and>
-                <less-than>
-                    <property>/position/altitude-agl-m</property>
-                    <value>1.780</value>
-                </less-than>
-                <greater-than>
-                    <property>/fdm/jsbsim/ski/xtan-actual</property>
-                    <value>.00856</value>
-                </greater-than>
-            </and>
-        </condition>
-        <interpolation>
-             <entry>
-                <ind>.00856</ind>
-                <dep>0</dep>
-            </entry>
-            <entry>
-                <ind>.1044</ind>
-                <dep>-10</dep>
-            </entry>
-        </interpolation>
-        <center>
-            <x-m> 0.528</x-m>
-            <y-m>-1.179</y-m>
-            <z-m>-1.148</z-m>
-        </center>
-        <axis>
-            <x>0.0</x>
-            <y>1.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation-->
-
     <!-- rotate left ski atan above-equal 1.78 agl -->
     <animation>
         <type>rotate</type>
@@ -3673,57 +3636,6 @@
             <z>0.0</z>
         </axis>
     </animation>
-
-    <!-- Rotate right ski angle from 0 to 10 deg -->
-
-    <!-- rotate right ski xtan below 1.78 agl (remove sink into ground)-->
-    <!--animation>
-        <type>rotate</type>
-        <object-name>RightSki</object-name>
-        <object-name>RightSkiAxleBl</object-name>
-        <object-name>RightSkiAxleBr</object-name>
-        <object-name>RightSkiBraceL</object-name>
-        <object-name>RightSkiBraceR</object-name>
-        <object-name>RightSkiWireF</object-name>
-        <object-name>RightSkiWireB</object-name>
-        <object-name>RightCableConnectF</object-name>
-        <object-name>RightCableConnectB</object-name>
-        <object-name>RightSkiWheel</object-name>
-        <object-name>RightSkiWheelAxle</object-name>
-        <property>/fdm/jsbsim/ski/xtan-actual</property>
-        <condition>
-            <and>
-                <less-than>
-                    <property>/position/altitude-agl-m</property>
-                    <value>1.780</value>
-                </less-than>
-                <greater-than>
-                    <property>/fdm/jsbsim/ski/xtan-actual</property>
-                    <value>.00856</value>
-                </greater-than>
-            </and>
-        </condition>
-        <interpolation>
-             <entry>
-                <ind>.00856</ind>
-                <dep>0</dep>
-            </entry>
-            <entry>
-                <ind>.1044</ind>
-                <dep>-10</dep>
-            </entry>
-        </interpolation>
-        <center>
-            <x-m> 0.530</x-m>
-            <y-m>1.189</y-m>
-            <z-m>-1.145</z-m>
-        </center>
-        <axis>
-            <x>0.0</x>
-            <y>1.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation-->
 
     <!-- rotate right ski atan above-equal 1.78 agl -->
     <animation>
@@ -4482,6 +4394,9 @@
         <type>select</type>
         <object-name>RuddWires</object-name>
         <object-name>FloatStruts</object-name>
+        <object-name>FloatReinforceLeft</object-name>
+        <object-name>FloatReinforceRight</object-name>
+        <object-name>FloatReinforceJoin</object-name>
         <condition>
             <or>
                 <equals>
@@ -6958,4 +6873,252 @@
         </hovered>
     </animation>
 
+    <!-- Amphibious Gear Instrumentation -->
+    <animation>
+        <type>select</type>
+        <object-name>Switch.nut</object-name>
+        <object-name>Dim.bezel</object-name>
+        <object-name>Dim.toggle</object-name>
+        <object-name>Plane</object-name>
+        <object-name>Wgear.bezel</object-name>
+        <object-name>Gearswitch</object-name>
+        <condition>
+            <equals>
+               <property alias="/params/bushkit/property"/>
+               <value>4</value>
+            </equals>
+        </condition>
+    </animation>
+
+    <!--  Gear Down - land -->
+    <animation>
+        <type>select</type>
+        <object-name>nosedn1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/front-left-position-norm"/>
+                    <value>1.0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>nosedn2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/front-right-position-norm"/>
+                    <value>1.0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>maindn1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/rear-left-position-norm"/>
+                    <value>1.0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>maindn2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/rear-right-position-norm"/>
+                    <value>1.0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <!--  Gear Up - water -->
+    <animation>
+        <type>select</type>
+        <object-name>noseup1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/front-left-position-norm"/>
+                    <value>0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>noseup2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/front-right-position-norm"/>
+                    <value>0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>mainup1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/rear-left-position-norm"/>
+                    <value>0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>mainup2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/rear-right-position-norm"/>
+                    <value>0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit/property"/>
+                   <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- in transit -->
+    <animation>
+        <type>select</type>
+        <object-name>pump</object-name>
+        <condition>
+            <and>
+                <greater-than>
+                    <property alias="/params/gear-amphibious/front-left-position-norm"/>
+                    <value>0</value>
+                </greater-than>
+                <less-than>
+                    <property alias="/params/gear-amphibious/front-left-position-norm"/>
+                    <value>1.0</value>
+                </less-than>
+                <equals>
+                    <property alias="/params/bushkit/property"/>
+                    <value>4</value>
+                </equals>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Gearswitch</object-name>
+        <property>controls/gear/gear-down</property>
+        <factor>180</factor>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0.015</y-m>
+            <z-m>-0.018</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>Switch.nut</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/gear/gear-down</property>
+            </binding>
+        </action>
+    </animation>
+
+    <!-- TEXT OSG -->
+    <text>
+        <name>textosg</name>
+        <type type="string">literal</type>
+        <text type="string">Gear</text>
+        <draw-text type="bool">true</draw-text>
+        <font>Helvetica.txf</font>
+        <character-size type="double">0.014</character-size>
+        <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+        <axis-alignment>yz-plane</axis-alignment>
+        <max-height>0.06</max-height>
+        <max-width>0.05</max-width>
+        <font-resolution>
+            <width type="int">64</width>
+            <height type="int">64</height>
+        </font-resolution>
+        <alignment>center-center</alignment>
+        <offsets>
+            <x-m>  0.005 </x-m>
+            <y-m>  0.000 </y-m>
+            <z-m>  0.000 </z-m>
+        </offsets>
+    </text>
+
+    <animation>
+        <type>material</type>
+        <object-name>textosg</object-name>
+        <emission>
+            <red>   0.8 </red>
+            <green> 0.8 </green>
+            <blue>  0.0 </blue>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>textosg</object-name>
+        <condition>
+            <property>sim/panel-hotspots</property>
+        </condition>
+    </animation>
 </PropertyList>

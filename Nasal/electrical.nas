@@ -507,13 +507,8 @@ settimer(init_electrical, 0);
 
 ############################ Utility function
 
-# (from the g115) Only move flaps if voltage is sufficient
 var flapsDown = controls.flapsDown;
-controls.flapsDown = func(v){
-  var volts = getprop("systems/electrical/outputs/flaps");
-  print("Flap Volts: ",volts);
-  flapsDown(volts > 16 ? v : 0);
-  if (volts > 16) {
+controls.flapsDown = func(v) {
+    flapsDown(v);
     c172p.click("flaps");
-  }
-}
+};

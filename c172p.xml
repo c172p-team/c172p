@@ -786,8 +786,21 @@
         </channel>
 
         <channel name="Flaps">
+            <!-- Disable flap movement if electrical voltage is too low -->
+            <switch name="Flaps Command">
+                <default value="fcs/flap-cmd-norm"/>
+                <output>fcs/flap-input-norm</output>
+
+                <!-- Route back the (normalized) output of the <kinematic>
+                     to its input in order to disable it.
+                -->
+                <test logic="AND" value="fcs/flap-pos-norm">
+                    /systems/electrical/outputs/flaps le 16
+                </test>
+            </switch>
+
             <kinematic name="Flaps Control">
-                <input>fcs/flap-cmd-norm</input>
+                <input>fcs/flap-input-norm</input>
                 <traverse>
                     <setting>
                         <position>0</position>

@@ -1327,7 +1327,7 @@
                 <factor>0.7143</factor>
                 <property>/sim/model/c172p/sound/volume-boost-doors</property>
             </volume>
-            <reference-dist>2.5</reference-dist>
+            <reference-dist>3.0</reference-dist>
             <max-dist>200.0</max-dist>
         </crash>
 
@@ -1335,10 +1335,19 @@
             <name>damage-left-wing</name>
             <path>Sounds/damage.wav</path>
             <condition>
-                <greater-than-equals>
-                    <property>/fdm/jsbsim/wing-damage/left-wing</property>
-                    <value>0.12</value>
-                </greater-than-equals>
+                <and>
+                    <greater-than-equals>
+                        <property>/fdm/jsbsim/wing-damage/left-wing</property>
+                        <value>0.12</value>
+                    </greater-than-equals>
+                    <less-than>
+                        <property>/fdm/jsbsim/wing-damage/left-wing</property>
+                        <value>1.0</value>
+                    </less-than>
+                    <not>
+                        <property>/fdm/jsbsim/crash</property>
+                    </not>
+                </and>
             </condition>
             <position>
                 <x>-0.5</x>
@@ -1357,10 +1366,19 @@
             <name>damage-right-wing</name>
             <path>Sounds/damage.wav</path>
             <condition>
-                <greater-than-equals>
-                    <property>/fdm/jsbsim/wing-damage/right-wing</property>
-                    <value>0.12</value>
-                </greater-than-equals>
+                <and>
+                    <greater-than-equals>
+                        <property>/fdm/jsbsim/wing-damage/right-wing</property>
+                        <value>0.12</value>
+                    </greater-than-equals>
+                    <less-than>
+                        <property>/fdm/jsbsim/wing-damage/right-wing</property>
+                        <value>1.0</value>
+                    </less-than>
+                    <not>
+                        <property>/fdm/jsbsim/crash</property>
+                    </not>
+                </and>
             </condition>
             <position>
                 <x>-0.5</x>
@@ -1374,6 +1392,60 @@
             <reference-dist>2.5</reference-dist>
             <max-dist>200.0</max-dist>
         </damage-right-wing>
+
+        <damage-heavy-left-wing>
+            <name>damage-heavy-left-wing</name>
+            <path>Sounds/damage-heavy.wav</path>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/fdm/jsbsim/wing-damage/left-wing</property>
+                        <value>1.0</value>
+                    </equals>
+                    <not>
+                        <property>/fdm/jsbsim/crash</property>
+                    </not>
+                </and>
+            </condition>
+            <position>
+                <x>-0.5</x>
+                <y>-2.0</y>
+                <z>0.5</z>
+            </position>
+            <volume>
+                <factor>0.7143</factor>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <reference-dist>3.0</reference-dist>
+            <max-dist>200.0</max-dist>
+        </damage-heavy-left-wing>
+
+        <damage-heavy-right-wing>
+            <name>damage-heavy-right-wing</name>
+            <path>Sounds/damage-heavy.wav</path>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/fdm/jsbsim/wing-damage/right-wing</property>
+                        <value>1.0</value>
+                    </equals>
+                    <not>
+                        <property>/fdm/jsbsim/crash</property>
+                    </not>
+                </and>
+            </condition>
+            <position>
+                <x>-0.5</x>
+                <y>2.0</y>
+                <z>0.5</z>
+            </position>
+            <volume>
+                <factor>0.7143</factor>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <reference-dist>3.0</reference-dist>
+            <max-dist>200.0</max-dist>
+        </damage-heavy-right-wing>
 
     </fx>
 

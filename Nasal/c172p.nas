@@ -40,6 +40,38 @@ var fuel_save_state = func {
 };
 
 ##########################################
+# Fuel Contamination
+##########################################
+var fuel_contamination = func {
+    var chance = rand();
+    var water = math.pow(rand(),6); # that is, quantity of water is much more likely to be small than large, since it's given by x^6 (76% of the time it will be lower than 0.2)
+    if ((getprop("/consumables/fuel/contamination_allowed")) and (chance < 0.01)) { # if contamination allowed, then 1 in 100
+        setprop("/consumables/fuel/tank[0]/water-contamination", water);
+        setprop("/consumables/fuel/tank[1]/water-contamination", water);
+    } else {
+        setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
+        setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);
+    };
+};
+
+##########################################
+# Discard Fuel Sample
+##########################################
+var discard_fuel_sample = func(index) {
+    var fuel = getprop("/consumables/fuel/tank[" ~ index ~ "]/level-gal_us");
+    var water = getprop("/consumables/fuel/tank[" ~ index ~ "]/water-contamination");
+    fuel = fuel - 0.0132086; # removing 50 ml of fuel
+    setprop("/consumables/fuel/tank[" ~ index ~ "]/level-gal_us", fuel);
+    if (water > 0.0) { # if contaminated, removes a bit of water
+        water = water - 0.2;
+        if (water < 0.0) {
+             water = 0.0;
+        };
+        setprop("/consumables/fuel/tank[" ~ index ~ "]/water-contamination", water);
+    };
+};
+
+##########################################
 # Switches Save State
 ##########################################
 var switches_save_state = func {
@@ -308,6 +340,9 @@ var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
     
     # Checking if switches should be moved back to default position (in case save state is off)
     switches_save_state();
+    
+    # Checking if fuel contamination is allowed, and if so generating a random situation
+    fuel_contamination();
     
     # Listening for lightning strikes
     setlistener("/environment/lightning/lightning-pos-y", thunder);

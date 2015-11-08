@@ -402,5 +402,25 @@
             <property>/controls/engines/engine[1]/mixture</property>
         </output>
     </filter>
+    
+    <!-- Fuel Contamination -->
+    <logic>
+        <name>Low oil level kills engine</name>
+        <input>
+            <or>
+                <greater-than>
+                    <property>/consumables/fuel/tank[0]/water-contamination</property>
+                    <value>0.0</value>
+                </greater-than>
+                <greater-than>
+                    <property>/consumables/fuel/tank[1]/water-contamination</property>
+                    <value>0.0</value>
+                </greater-than>
+            </or>
+        </input>
+        <output>
+            <property>/engines/active-engine/killed</property>
+        </output>
+    </logic>
 
 </PropertyList>

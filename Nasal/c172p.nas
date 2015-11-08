@@ -16,17 +16,9 @@ controls.applyParkingBrake = func (v) {
         return;
     }
 
-    var left_broken = getprop("/fdm/jsbsim/gear/unit[1]/broken");
-    var right_broken =getprop("/fdm/jsbsim/gear/unit[2]/broken");
-    var p = "/controls/gear/brake-parking";
-    var orig_p = getprop(p);
-
-    # We assume one non-broken gear is enough to apply the parking brake
-    if (orig_p or !left_broken or !right_broken) {
-        setprop(p, var i = !orig_p);
-        return i;
-    }
-    return orig_p;
+    var p = "/sim/model/c172p/brake-parking";
+    setprop(p, var i = !getprop(p));
+    return i;
 };
 
 ##########################################
@@ -82,7 +74,6 @@ var switches_save_state = func {
         setprop("/controls/lighting/instruments-norm", 0.0);
         setprop("/controls/gear/water-rudder", 0);
         setprop("/controls/gear/water-rudder-down", 0);
-        setprop("/controls/gear/brake-parking", 0);
         setprop("/sim/model/c172p/brake-parking", 0);
         setprop("/controls/flight/flaps", 0.0);
         setprop("/surface-positions/flap-pos-norm", 0.0);

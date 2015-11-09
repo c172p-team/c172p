@@ -138,7 +138,12 @@
                 </binding>
                 <binding>
                     <command>property-assign</command>
-                    <property>sim/model/c172p/tiedowns</property>
+                    <property>sim/model/c172p/tiedownL</property>
+                    <value>false</value>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/tiedownR</property>
                     <value>false</value>
                 </binding>
             </checkbox>
@@ -226,8 +231,28 @@
             
             <checkbox>
                 <halign>left</halign>
-                <label>Enable tiedowns</label>
-                <property>/sim/model/c172p/tiedowns</property>
+                <label>Enable left tie-down</label>
+                <property>/sim/model/c172p/tiedownL</property>
+                <live>true</live>
+                <enable>
+                    <and>
+                        <property>/sim/model/c172p/tiedowns-can-have</property>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>1.0</value>
+                        </less-than>
+                        <property>/sim/model/c172p/allow-securing-aircraft</property>
+                    </and>
+                </enable>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+            
+            <checkbox>
+                <halign>left</halign>
+                <label>Enable right tie-down</label>
+                <property>/sim/model/c172p/tiedownR</property>
                 <live>true</live>
                 <enable>
                     <and>
@@ -504,7 +529,12 @@
                     </binding>
                     <binding>
                         <command>property-assign</command>
-                        <property>sim/model/c172p/tiedowns</property>
+                        <property>sim/model/c172p/tiedownL</property>
+                        <value>false</value>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>sim/model/c172p/tiedownR</property>
                         <value>false</value>
                     </binding>
                 </radio>
@@ -546,7 +576,12 @@
                     </binding>
                     <binding>
                         <command>property-assign</command>
-                        <property>sim/model/c172p/tiedowns</property>
+                        <property>sim/model/c172p/tiedownL</property>
+                        <value>false</value>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>sim/model/c172p/tiedownR</property>
                         <value>false</value>
                     </binding>
                 </radio>

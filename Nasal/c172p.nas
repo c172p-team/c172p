@@ -47,6 +47,13 @@ var fuel_contamination = func {
     var water = math.pow(rand(),6); # that is, quantity of water is much more likely to be small than large, since it's given by x^6 (76% of the time it will be lower than 0.2)
     if ((getprop("/consumables/fuel/contamination_allowed")) and (chance < 0.01)) { # if contamination allowed, then 1 in 100
         setprop("/consumables/fuel/tank[0]/water-contamination", water);
+        water = water + 0.2*(rand() - 0.5); # level of water in the right tank will be the same as in the left tank +- 0.1
+        if (water > 1.0) { # clipping water value in the range 0.0 - 1.0
+            water = 1.0;
+        };
+        if (water < 0.0) {
+            water = 0.0;
+        };
         setprop("/consumables/fuel/tank[1]/water-contamination", water);
     } else {
         setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);

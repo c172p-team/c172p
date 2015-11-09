@@ -26,29 +26,15 @@
 
     <channel name="rain">
 
-        <fcs_function name="glass-effects/airspeed-clamped-sqrt">
+        <fcs_function name="glass-effects/splashxas">
+            <description>interpolate airspeed to windshield rain flow</description>
             <function>
-                <sqrt>
-                    <quotient>
-                        <min>
-                            <property>/velocities/airspeed-kt</property>
-                            <value>40</value>
-                        </min>
-                        <value>40</value>
-                    </quotient>
-                </sqrt>
-            </function>
-        </fcs_function>
-
-        <fcs_function name="glass-effects/splashx">
-            <function>
-                <difference>
-                    <value>-0.1</value>
-                    <product>
-                        <value>2.0</value>
-                        <property>/fdm/jsbsim/glass-effects/airspeed-clamped-sqrt</property>
-                    </product>
-                </difference>
+                <interpolate1d>
+                    <property>/velocities/airspeed-kt</property>
+                    <v> 0 </v>  <v> -0.1 </v>
+                    <v> 72.5 </v>  <v> -0.3 </v>
+                    <v> 145 </v>  <v>-1.8 </v>
+                </interpolate1d>
             </function>
             <output>/environment/aircraft-effects/splash-vector-x</output>
         </fcs_function>
@@ -60,18 +46,45 @@
             <output>/environment/aircraft-effects/splash-vector-y</output>
         </fcs_function>
 
-        <fcs_function name="glass-effects/splashz">
+        <fcs_function name="glass-effects/splashzas">
+            <description>interpolate airspeed to windshield rain flow</description>
             <function>
-                <difference>
-                    <value>1.0</value>
-                    <product>
-                        <value>1.35</value>
-                        <property>/fdm/jsbsim/glass-effects/airspeed-clamped-sqrt</property>
-                    </product>
-                </difference>
+                <interpolate1d>
+                    <property>/velocities/airspeed-kt</property>
+                    <v> 0 </v>  <v> 1 </v>
+                    <v> 72.5 </v>  <v> 1.25 </v>
+                    <v> 145 </v>  <v> 1.5 </v>
+                </interpolate1d>
             </function>
             <output>/environment/aircraft-effects/splash-vector-z</output>
         </fcs_function>
+
+        <fcs_function name="glass-effects/splashxrpm">
+            <description>interpolate airspeed to windshield rain flow</description>
+            <function>
+                <interpolate1d>
+                    <property>/engines/active-engine/rpm</property>
+                    <v> 600 </v>  <v> -0.1 </v>
+                    <v> 1000 </v>  <v> -0.3 </v>
+                    <v> 2300</v>  <v>-1.8 </v>
+                </interpolate1d>
+            </function>
+            <output>/environment/aircraft-effects/splash-vector-x</output>
+        </fcs_function>
+
+        <fcs_function name="glass-effects/splashzrpm">
+            <description>interpolate airspeed to windshield rain flow</description>
+            <function>
+                <interpolate1d>
+                    <property>/engines/active-engine/rpm</property>
+                    <v> 600 </v>  <v> 1 </v>
+                    <v> 1000 </v>  <v> 1.25 </v>
+                    <v> 2300 </v>  <v> 1.5 </v>
+                </interpolate1d>
+            </function>
+            <output>/environment/aircraft-effects/splash-vector-z</output>
+        </fcs_function>
+
 
     </channel>
 

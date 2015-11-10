@@ -20,71 +20,33 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+x = .1 to 2
+z = -1 to -2
 -->
 
 <system name="c172p-glass-effects">
 
-    <channel name="rain">
+    <channel name="rainsplasheffect">
 
-        <fcs_function name="glass-effects/splashxas">
-            <description>interpolate airspeed to windshield rain flow</description>
+        <fcs_function name="splashxOut">
             <function>
-                <interpolate1d>
-                    <property>/velocities/airspeed-kt</property>
-                    <v> 0 </v>  <v> -0.1 </v>
-                    <v> 72.5 </v>  <v> -0.3 </v>
-                    <v> 145 </v>  <v>-1.8 </v>
-                </interpolate1d>
+                <max>
+                   <property>/environment/aircraft-effects/splashxa</property>
+                   <property>/environment/aircraft-effects/splashxr</property>
+                </max>
             </function>
             <output>/environment/aircraft-effects/splash-vector-x</output>
         </fcs_function>
 
-        <fcs_function name="glass-effects/splashy">
+        <fcs_function name="splashzOut">
             <function>
-               <value>0.0</value>
-            </function>
-            <output>/environment/aircraft-effects/splash-vector-y</output>
-        </fcs_function>
-
-        <fcs_function name="glass-effects/splashzas">
-            <description>interpolate airspeed to windshield rain flow</description>
-            <function>
-                <interpolate1d>
-                    <property>/velocities/airspeed-kt</property>
-                    <v> 0 </v>  <v> 1 </v>
-                    <v> 72.5 </v>  <v> 1.25 </v>
-                    <v> 145 </v>  <v> 1.5 </v>
-                </interpolate1d>
+                <max>
+                   <property>/environment/aircraft-effects/splashza</property>
+                   <property>/environment/aircraft-effects/splashzr</property>
+                </max>
             </function>
             <output>/environment/aircraft-effects/splash-vector-z</output>
         </fcs_function>
-
-        <fcs_function name="glass-effects/splashxrpm">
-            <description>interpolate airspeed to windshield rain flow</description>
-            <function>
-                <interpolate1d>
-                    <property>/engines/active-engine/rpm</property>
-                    <v> 600 </v>  <v> -0.1 </v>
-                    <v> 1000 </v>  <v> -0.3 </v>
-                    <v> 2300</v>  <v>-1.8 </v>
-                </interpolate1d>
-            </function>
-            <output>/environment/aircraft-effects/splash-vector-x</output>
-        </fcs_function>
-
-        <fcs_function name="glass-effects/splashzrpm">
-            <description>interpolate airspeed to windshield rain flow</description>
-            <function>
-                <interpolate1d>
-                    <property>/engines/active-engine/rpm</property>
-                    <v> 600 </v>  <v> 1 </v>
-                    <v> 1000 </v>  <v> 1.25 </v>
-                    <v> 2300 </v>  <v> 1.5 </v>
-                </interpolate1d>
-            </function>
-            <output>/environment/aircraft-effects/splash-vector-z</output>
-        </fcs_function>
-
 
     </channel>
 

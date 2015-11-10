@@ -1,0 +1,90 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <filter>
+		<name>splashy</name>
+		<debug>false</debug>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<value>0.0</value>
+		</input>
+        <update-interval-secs type="double">0.10</update-interval-secs>
+		<output><property>/environment/aircraft-effects/splash-vector-y</property></output>
+	</filter>
+
+    <filter>
+		<name>splashxa</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<table>
+					<property>/velocities/airspeed-kt</property>
+					<entry><ind> 0</ind><dep> .1 </dep></entry>
+					<entry><ind>72.5</ind><dep> 1.5</dep></entry>
+					<entry><ind>145</ind><dep>2   </dep></entry>
+				</table>
+			</expression>
+		</input>
+        <update-interval-secs type="double">0.01</update-interval-secs>       
+		<output><property>/environment/aircraft-effects/splashxa</property></output>
+	</filter>
+
+    <filter>
+		<name>splashza</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<table>
+					<property>/velocities/airspeed-kt</property>
+					<entry><ind> 0</ind><dep> -1  </dep></entry>
+					<entry><ind>72.5</ind><dep> -1.75</dep></entry>
+					<entry><ind>145</ind><dep> -2  </dep></entry>
+				</table>
+			</expression>
+		</input>
+        <update-interval-secs type="double">0.01</update-interval-secs>
+		<output><property>/environment/aircraft-effects/splashza</property></output>
+	</filter>
+
+    <filter>
+		<name>splashxr</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+        <input>
+			<expression>
+				<table>
+					<property>/engines/active-engine/rpm</property>
+					<entry><ind> 600</ind><dep> .1 </dep></entry>
+					<entry><ind>1450</ind><dep> .95</dep></entry>
+					<entry><ind>2300</ind><dep>2   </dep></entry>
+				</table>
+			</expression>
+		</input> 
+        <update-interval-secs type="double">0.1</update-interval-secs>
+		<output><property>/environment/aircraft-effects/splashxr</property></output>
+	</filter>
+
+    <filter>
+		<name>splashzr</name>
+		<type>gain</type>
+		<gain>1.0</gain>
+		<input>
+			<expression>
+				<table>
+					<property>/engines/active-engine/rpm</property>
+					<entry><ind> 600</ind><dep> -1  </dep></entry>
+					<entry><ind>1450</ind><dep> -1.5</dep></entry>
+					<entry><ind>2300</ind><dep> -2  </dep></entry>
+				</table>
+			</expression>
+		</input>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+		<output><property>/environment/aircraft-effects/splashzr</property></output>
+	</filter>
+
+</PropertyList>
+                  

@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <name>c172p-right-fuel-sample-dialog</name>
+    <layout>vbox</layout>
+    <resizable>false</resizable>
+    <modal>false</modal>
+    <draggable>true</draggable>
+
+    <group>
+        <layout>hbox</layout>
+
+        <empty><stretch>true</stretch></empty>
+        <text>
+            <label>Right Fuel Tank Sampling</label>
+        </text>
+        <empty><stretch>true</stretch></empty>
+
+        <button>
+            <legend/>
+            <key>Esc</key>
+            <pref-width>16</pref-width>
+            <pref-height>16</pref-height>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+
+    <hrule/>
+
+    <group>
+        <layout>vbox</layout>
+        <default-padding>6</default-padding>
+        <empty><stretch>true</stretch></empty>
+        <button>
+            <legend>Take a sample</legend>
+            <equal>true</equal>
+            <default>false</default>
+            <enable>
+                <and>
+                    <not>
+                        <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
+                    </not>
+                    <!-- checking if there is at least 50ml of fuel in the tanks -->
+                    <greater-than>
+                        <property>/consumables/fuel/tank[1]/level-gal_us</property>
+                        <value>0.0132086</value>
+                    </greater-than>
+                </and>
+            </enable>
+            <binding>
+                <condition>
+                    <not>
+                        <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
+                    </not>
+                </condition>
+                <command>nasal</command>
+                <script>c172p.take_fuel_sample(1);</script>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
+                <value>true</value>
+            </binding>
+        </button>
+        <button>
+            <legend>Discard sample</legend>
+            <equal>true</equal>
+            <default>false</default>
+            <enable>
+                <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
+            </enable>
+            <binding>
+                <command>property-assign</command>
+                <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
+                <value>false</value>
+            </binding>
+        </button>
+        <button>
+            <legend>Return sample to the tank</legend>
+            <equal>true</equal>
+            <default>false</default>
+            <enable>
+                <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
+            </enable>
+            <binding>
+                <condition>
+                    <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
+                </condition>
+                <command>nasal</command>
+                <script>c172p.return_fuel_sample(1);</script>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
+                <value>false</value>
+            </binding>
+        </button>
+    </group>
+
+    <hrule/>
+    
+    <group>
+        <layout>hbox</layout>
+        <padding>6</padding>
+        <group>
+            <layout>hbox</layout>
+            <text>
+                <label>Fuel sample colour:</label>
+                <halign>left</halign>
+            </text>
+        </group>
+        <group>
+            <layout>table</layout>
+            <text>
+                <row>0</row>
+                <col>0</col>
+                <visible>
+                    <and>
+                        <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
+                        <equals>
+                            <property>/consumables/fuel/tank[1]/water-contamination</property>
+                            <value>0.0</value>
+                        </equals>
+                    </and>
+                </visible>
+                <color>
+                    <red>0.22</red>
+                    <green>0.69</green>
+                    <blue>0.87</blue>
+                </color>
+                <label>light blue</label>
+            </text>
+            <text>
+                <row>0</row>
+                <col>0</col>
+                <visible>
+                    <and>
+                        <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
+                        <greater-than>
+                            <property>/consumables/fuel/tank[1]/water-contamination</property>
+                            <value>0.0</value>
+                        </greater-than>
+                        <less-than-equals>
+                            <property>/consumables/fuel/tank[1]/water-contamination</property>
+                            <value>0.2</value>
+                        </less-than-equals>
+                    </and>
+                </visible>
+                <color>
+                    <red>0.22</red>
+                    <green>0.69</green>
+                    <blue>0.87</blue>
+                </color>
+                <label>part light blue</label>
+            </text>
+            <text>
+                <row>0</row>
+                <col>2</col>
+                <visible>
+                    <and>
+                        <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
+                        <greater-than>
+                            <property>/consumables/fuel/tank[1]/water-contamination</property>
+                            <value>0.0</value>
+                        </greater-than>
+                        <less-than-equals>
+                            <property>/consumables/fuel/tank[1]/water-contamination</property>
+                            <value>0.2</value>
+                        </less-than-equals>
+                    </and>
+                </visible>
+                <color>
+                    <red>0.84</red>
+                    <green>0.84</green>
+                    <blue>0.84</blue>
+                </color>
+                <label>part translucid</label>
+            </text>
+            <text>
+                <row>0</row>
+                <col>0</col>
+                <visible>
+                    <and>
+                        <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
+                        <greater-than>
+                            <property>/consumables/fuel/tank[1]/water-contamination</property>
+                            <value>0.2</value>
+                        </greater-than>
+                    </and>
+                </visible>
+                <color>
+                    <red>0.84</red>
+                    <green>0.84</green>
+                    <blue>0.84</blue>
+                </color>
+                <label>translucid</label>
+            </text>
+        </group>
+    </group>
+
+    <hrule/>
+
+    <group>
+        <layout>hbox</layout>
+        <default-padding>6</default-padding>
+        <empty><stretch>true</stretch></empty>
+        <button>
+            <legend>Close</legend>
+            <equal>true</equal>
+            <key>Esc</key>
+            <default>true</default>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+
+</PropertyList>

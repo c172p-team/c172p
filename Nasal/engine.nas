@@ -98,7 +98,7 @@ var oil_consumption = maketimer(1.0, func {
     # consumption rate defined as 1.5 quarter per 10 hours (36000 seconds) at cruise RPM
     var consumption_rate = 1.5 / 36000; 
     
-    if (getprop("/engines/active-engine/running")) {
+    if ((getprop("/engines/active-engine/running")) and (getprop("/engines/active-engine/oil_consumption_allowed"))) {
         oil_level = oil_level - consumption_rate * rpm_factor;
         setprop("/engines/active-engine/oil-level", oil_level);        
     }

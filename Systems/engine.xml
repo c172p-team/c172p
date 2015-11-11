@@ -436,5 +436,49 @@
             <property>/engines/active-engine/killed</property>
         </output>
     </logic>
+    
+    <filter>
+        <name>Low oil leads to low oil pressure</name>
+        <type>gain</type>
+        <gain>
+            <property>/engines/active-engine/low-oil-pressure-factor</property>
+        </gain>
+        <enable>
+            <condition>
+                <less-than>
+                    <property>/engines/active-engine/oil-level</property>
+                    <value>5.0</value>
+                </less-than>
+            </condition>
+        </enable>
+        <input>
+            <property>/engines/active-engine/oil-pressure-psi</property>
+        </input>
+        <output>
+            <property>/engines/active-engine/oil-pressure-psi</property>
+        </output>
+    </filter>
+    
+    <filter>
+        <name>Low oil leads to high oil temperature</name>
+        <type>gain</type>
+        <gain>
+            <property>/engines/active-engine/low-oil-temperature-factor</property>
+        </gain>
+        <enable>
+            <condition>
+                <less-than>
+                    <property>/engines/active-engine/oil-level</property>
+                    <value>5.0</value>
+                </less-than>
+            </condition>
+        </enable>
+        <input>
+            <property>/engines/active-engine/oil-temperature-degf</property>
+        </input>
+        <output>
+            <property>/engines/active-engine/oil-temperature-degf</property>
+        </output>
+    </filter>
 
 </PropertyList>

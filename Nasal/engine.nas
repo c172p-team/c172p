@@ -97,12 +97,25 @@ var oil_consumption = maketimer(1.0, func {
     var rpm_factor = 0.00000012 * math.pow(rpm,2) - 0.0001 * rpm + 0.62;
     # consumption rate defined as 1.5 quarter per 10 hours (36000 seconds) at cruise RPM
     var consumption_rate = 1.5 / 36000; 
+    var low_oil_pressure_factor = 1.0;
+    var low_oil_temperature_factor = 1.0;
     
     if ((getprop("/engines/active-engine/running")) and (getprop("/engines/active-engine/oil_consumption_allowed"))) {
         oil_level = oil_level - consumption_rate * rpm_factor;
         setprop("/engines/active-engine/oil-level", oil_level);        
     }
-        
+    
+    # if oil gets low, pressure should lower and temperature should rise
+    if (oil_level < 5.0) {
+        low_oil_pressure_factor = 11.25 * oil_level - 55.25; # should give 1.0 for oil_level = 5 and 0.1 for oil_level 4.92, which is the min before the engine stops
+        low_oil_temperature_factor = -6.25 * oil_level + 32.25; # should give 1.0 for oil_level = 5 and 1.5 for oil_level 4.92
+        setprop("/engines/active-engine/low-oil-pressure-factor", low_oil_pressure_factor);
+        setprop("/engines/active-engine/low-oil-temperature-factor", low_oil_temperature_factor);
+    } else {
+        setprop("/engines/active-engine/low-oil-pressure-factor", 1.0);
+        setprop("/engines/active-engine/low-oil-temperature-factor", 1.0);
+    };
+
 });
 
 setlistener("/sim/signals/fdm-initialized", func {

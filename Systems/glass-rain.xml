@@ -1,90 +1,151 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright (c) 2015 Wayne Bragg
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
 
 <PropertyList>
 
     <filter>
-		<name>splashy</name>
-		<debug>false</debug>
-		<type>gain</type>
-		<gain>1.0</gain>
-		<input>
-			<value>0.0</value>
-		</input>
-        <update-interval-secs type="double">0.10</update-interval-secs>
-		<output><property>/environment/aircraft-effects/splash-vector-y</property></output>
-	</filter>
-
-    <filter>
-		<name>splashxa</name>
-		<type>gain</type>
-		<gain>1.0</gain>
-		<input>
-			<expression>
-				<table>
-					<property>/velocities/airspeed-kt</property>
-					<entry><ind> 0</ind><dep> .1 </dep></entry>
-					<entry><ind>72.5</ind><dep> 1.5</dep></entry>
-					<entry><ind>145</ind><dep>2   </dep></entry>
-				</table>
-			</expression>
-		</input>
-        <update-interval-secs type="double">0.01</update-interval-secs>       
-		<output><property>/environment/aircraft-effects/splashxa</property></output>
-	</filter>
-
-    <filter>
-		<name>splashza</name>
-		<type>gain</type>
-		<gain>1.0</gain>
-		<input>
-			<expression>
-				<table>
-					<property>/velocities/airspeed-kt</property>
-					<entry><ind> 0</ind><dep> -1  </dep></entry>
-					<entry><ind>72.5</ind><dep> -1.75</dep></entry>
-					<entry><ind>145</ind><dep> -2  </dep></entry>
-				</table>
-			</expression>
-		</input>
+        <name>splash-xa</name>
         <update-interval-secs type="double">0.01</update-interval-secs>
-		<output><property>/environment/aircraft-effects/splashza</property></output>
-	</filter>
-
-    <filter>
-		<name>splashxr</name>
-		<type>gain</type>
-		<gain>1.0</gain>
+        <type>gain</type>
+        <gain>1.0</gain>
         <input>
-			<expression>
-				<table>
-					<property>/engines/active-engine/rpm</property>
-					<entry><ind> 600</ind><dep> .1 </dep></entry>
-					<entry><ind>1450</ind><dep> .95</dep></entry>
-					<entry><ind>2300</ind><dep>2   </dep></entry>
-				</table>
-			</expression>
-		</input> 
-        <update-interval-secs type="double">0.1</update-interval-secs>
-		<output><property>/environment/aircraft-effects/splashxr</property></output>
-	</filter>
+            <expression>
+                <table>
+                    <property>/velocities/airspeed-kt</property>
+                    <entry><ind>  0.0</ind><dep>0.1</dep></entry>
+                    <entry><ind> 72.5</ind><dep>1.5</dep></entry>
+                    <entry><ind>145.0</ind><dep>2.0</dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/splash-xa</property>
+        </output>
+    </filter>
 
     <filter>
-		<name>splashzr</name>
-		<type>gain</type>
-		<gain>1.0</gain>
-		<input>
-			<expression>
-				<table>
-					<property>/engines/active-engine/rpm</property>
-					<entry><ind> 600</ind><dep> -1  </dep></entry>
-					<entry><ind>1450</ind><dep> -1.5</dep></entry>
-					<entry><ind>2300</ind><dep> -2  </dep></entry>
-				</table>
-			</expression>
-		</input>
+        <name>splash-za</name>
+        <update-interval-secs type="double">0.01</update-interval-secs>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <table>
+                    <property>/velocities/airspeed-kt</property>
+                    <entry><ind>  0.0</ind><dep> -1.0 </dep></entry>
+                    <entry><ind> 72.5</ind><dep> -1.75</dep></entry>
+                    <entry><ind>145.0</ind><dep> -2.0 </dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/splash-za</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>splash-xr</name>
         <update-interval-secs type="double">0.1</update-interval-secs>
-		<output><property>/environment/aircraft-effects/splashzr</property></output>
-	</filter>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <table>
+                    <property>/engines/active-engine/rpm</property>
+                    <entry><ind> 600</ind><dep>0.1 </dep></entry>
+                    <entry><ind>1450</ind><dep>0.95</dep></entry>
+                    <entry><ind>2300</ind><dep>2.0 </dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/splash-xr</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>splash-zr</name>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <table>
+                    <property>/engines/active-engine/rpm</property>
+                    <entry><ind> 600</ind><dep> -1.0</dep></entry>
+                    <entry><ind>1450</ind><dep> -1.5</dep></entry>
+                    <entry><ind>2300</ind><dep> -2.0</dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/splash-zr</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>splash-x</name>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <max>
+                    <property>/environment/aircraft-effects/splash-xa</property>
+                    <property>/environment/aircraft-effects/splash-xr</property>
+                </max>
+            </expression>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/splash-vector-x</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>splash-y</name>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/splash-vector-y</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>splash-z</name>
+        <update-interval-secs type="double">0.1</update-interval-secs>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <max>
+                    <property>/environment/aircraft-effects/splash-za</property>
+                    <property>/environment/aircraft-effects/splash-zr</property>
+                </max>
+            </expression>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/splash-vector-z</property>
+        </output>
+    </filter>
 
 </PropertyList>
-                  

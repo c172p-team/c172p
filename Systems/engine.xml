@@ -405,7 +405,7 @@
     
     <!-- Fuel Contamination -->
     <logic>
-        <name>Low oil level kills engine</name>
+        <name>Fuel contamination level kills engine</name>
         <input>
             <or>
                 <greater-than>
@@ -417,6 +417,20 @@
                     <value>0.0</value>
                 </greater-than>
             </or>
+        </input>
+        <output>
+            <property>/engines/active-engine/killed</property>
+        </output>
+    </logic>
+    
+    <!-- Low Oil -->
+    <logic>
+        <name>Low oil level kills engine</name>
+        <input>
+            <less-than>
+                <property>/engines/active-engine/oil-level</property>
+                <value>4.92</value>
+            </less-than>
         </input>
         <output>
             <property>/engines/active-engine/killed</property>

@@ -88,6 +88,26 @@ var primerTimer = maketimer(5, func {
     primerTimer.stop();
 });
 
+# ========== oil consumption ======================
+
+var oil_consumption = maketimer(1.0, func {
+    var oil_level = getprop("/engines/active-engine/oil-level");
+    var rpm = getprop("/engines/active-engine/rpm");
+    # quadratic formula which outputs 1.0 for input 2300 RPM (cruise value), 0.6 for 700 RPM (idle) and 1.2 for 2700 RPM (max)
+    var rpm_factor = 0.00000012 * math.pow(rpm,2) - 0.0001 * rpm + 0.62;
+    # consumption rate defined as 1.5 quarter per 10 hours (36000 seconds) at cruise RPM
+    var consumption_rate = 1.5 / 36000; 
+    
+    if (getprop("/engines/active-engine/running")) {
+        oil_level = oil_level - consumption_rate * rpm_factor;
+        setprop("/engines/active-engine/oil-level", oil_level);        
+    }
+        
+});
+
+setlistener("/sim/signals/fdm-initialized", func {
+    oil_consumption.start();
+});
 
 # ========== Main loop ======================
 

@@ -28,6 +28,78 @@
         </button>
     </group>
 
+    <hrule/>    
+
+    <group>
+        <layout>vbox</layout>
+        <default-padding>6</default-padding>
+        <empty><stretch>true</stretch></empty>
+        <button>
+            <legend>Take a sample</legend>
+            <equal>true</equal>
+            <default>false</default>
+            <enable>
+                <and>
+                    <not>
+                        <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+                    </not>
+                    <!-- checking if there is at least 50ml of fuel in the tanks -->
+                    <greater-than>
+                        <property>/consumables/fuel/tank[0]/level-gal_us</property>
+                        <value>0.0132086</value>
+                    </greater-than>
+                </and>
+            </enable>
+            <binding>
+                <condition>
+                    <not>
+                        <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+                    </not>
+                </condition>
+                <command>nasal</command>
+                <script>c172p.take_fuel_sample(0);</script>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+                <value>true</value>
+            </binding>
+        </button>
+        <button>
+            <legend>Discard sample</legend>
+            <equal>true</equal>
+            <default>false</default>
+            <enable>
+                <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+            </enable>
+            <binding>
+                <command>property-assign</command>
+                <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+                <value>false</value>
+            </binding>
+        </button>
+        <button>
+            <legend>Return sample to the tank</legend>
+            <equal>true</equal>
+            <default>false</default>
+            <enable>
+                <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+            </enable>
+            <binding>
+                <condition>
+                    <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+                </condition>
+                <command>nasal</command>
+                <script>c172p.return_fuel_sample(0);</script>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+                <value>false</value>
+            </binding>
+        </button>
+    </group>
+
     <hrule/>
     
     <group>
@@ -36,7 +108,7 @@
         <group>
             <layout>hbox</layout>
             <text>
-                <label>Fuel Sample Colour:</label>
+                <label>Fuel sample colour:</label>
                 <halign>left</halign>
             </text>
         </group>
@@ -127,71 +199,6 @@
                 <label>translucid</label>
             </text>
         </group>
-    </group>
-
-    <hrule/>
-
-    <group>
-        <layout>vbox</layout>
-        <default-padding>6</default-padding>
-        <empty><stretch>true</stretch></empty>
-        <button>
-            <legend>Take a sample</legend>
-            <equal>true</equal>
-            <default>false</default>
-            <enable>
-                <not>
-                    <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
-                </not>
-            </enable>
-            <binding>
-                <condition>
-                    <not>
-                        <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
-                    </not>
-                </condition>
-                <command>nasal</command>
-                <script>c172p.take_fuel_sample(0);</script>
-            </binding>
-            <binding>
-                <command>property-assign</command>
-                <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
-                <value>true</value>
-            </binding>
-        </button>
-        <button>
-            <legend>Discard sample</legend>
-            <equal>true</equal>
-            <default>false</default>
-            <enable>
-                <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
-            </enable>
-            <binding>
-                <command>property-assign</command>
-                <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
-                <value>false</value>
-            </binding>
-        </button>
-        <button>
-            <legend>Return sample to the tank</legend>
-            <equal>true</equal>
-            <default>false</default>
-            <enable>
-                <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
-            </enable>
-            <binding>
-                <condition>
-                    <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
-                </condition>
-                <command>nasal</command>
-                <script>c172p.return_fuel_sample(0);</script>
-            </binding>
-            <binding>
-                <command>property-assign</command>
-                <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
-                <value>false</value>
-            </binding>
-        </button>
     </group>
 
     <hrule/>

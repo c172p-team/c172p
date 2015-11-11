@@ -46,10 +46,13 @@
                 <row>0</row>
                 <col>0</col>
                 <visible>
-                    <equals>
-                        <property>/consumables/fuel/tank[0]/water-contamination</property>
-                        <value>0.0</value>
-                    </equals>
+                    <and>
+                        <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+                        <equals>
+                            <property>/consumables/fuel/tank[0]/water-contamination</property>
+                            <value>0.0</value>
+                        </equals>
+                    </and>
                 </visible>
                 <color>
                     <red>0.22</red>
@@ -63,6 +66,7 @@
                 <col>0</col>
                 <visible>
                     <and>
+                        <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
                         <greater-than>
                             <property>/consumables/fuel/tank[0]/water-contamination</property>
                             <value>0.0</value>
@@ -85,6 +89,7 @@
                 <col>2</col>
                 <visible>
                     <and>
+                        <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
                         <greater-than>
                             <property>/consumables/fuel/tank[0]/water-contamination</property>
                             <value>0.0</value>
@@ -106,10 +111,13 @@
                 <row>0</row>
                 <col>0</col>
                 <visible>
-                    <greater-than>
-                        <property>/consumables/fuel/tank[0]/water-contamination</property>
-                        <value>0.2</value>
-                    </greater-than>
+                    <and>
+                        <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+                        <greater-than>
+                            <property>/consumables/fuel/tank[0]/water-contamination</property>
+                            <value>0.2</value>
+                        </greater-than>
+                    </and>
                 </visible>
                 <color>
                     <red>0.84</red>
@@ -128,24 +136,53 @@
         <default-padding>6</default-padding>
         <empty><stretch>true</stretch></empty>
         <button>
-            <legend>Discard sample and take another one</legend>
+            <legend>Take a sample</legend>
             <equal>true</equal>
             <default>false</default>
             <binding>
+                <condition>
+                    <not>
+                        <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+                    </not>
+                </condition>
                 <command>nasal</command>
-                <script>c172p.discard_fuel_sample(0);</script>
+                <script>c172p.take_fuel_sample(0);</script>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+                <value>true</value>
             </binding>
         </button>
         <button>
-            <legend>Return sample to the tank and close</legend>
+            <legend>Discard sample</legend>
             <equal>true</equal>
             <default>false</default>
             <binding>
-                <command>dialog-close</command>
+                <command>property-assign</command>
+                <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+                <value>false</value>
+            </binding>
+        </button>
+        <button>
+            <legend>Return sample to the tank</legend>
+            <equal>true</equal>
+            <default>false</default>
+            <binding>
+                <condition>
+                    <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+                </condition>
+                <command>nasal</command>
+                <script>c172p.return_fuel_sample(0);</script>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
+                <value>false</value>
             </binding>
         </button>
     </group>
-        
+
     <hrule/>
 
     <group>

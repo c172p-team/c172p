@@ -54,9 +54,9 @@ var fuel_contamination = func {
 };
 
 ##########################################
-# Discard Fuel Sample
+# Take Fuel Sample
 ##########################################
-var discard_fuel_sample = func(index) {
+var take_fuel_sample = func(index) {
     var fuel = getprop("/consumables/fuel/tank[" ~ index ~ "]/level-gal_us");
     var water = getprop("/consumables/fuel/tank[" ~ index ~ "]/water-contamination");
     fuel = fuel - 0.0132086; # removing 50 ml of fuel
@@ -65,6 +65,23 @@ var discard_fuel_sample = func(index) {
         water = water - 0.2;
         if (water < 0.0) {
              water = 0.0;
+        };
+        setprop("/consumables/fuel/tank[" ~ index ~ "]/water-contamination", water);
+    };
+};
+
+##########################################
+# Return Fuel Sample
+##########################################
+var return_fuel_sample = func(index) {
+    var fuel = getprop("/consumables/fuel/tank[" ~ index ~ "]/level-gal_us");
+    var water = getprop("/consumables/fuel/tank[" ~ index ~ "]/water-contamination");
+    fuel = fuel + 0.0132086; # removing 50 ml of fuel
+    setprop("/consumables/fuel/tank[" ~ index ~ "]/level-gal_us", fuel);
+    if (water > 0.0) { # if contaminated, removes a bit of water
+        water = water + 0.2;
+        if (water > 1.0) {
+             water = 1.0;
         };
         setprop("/consumables/fuel/tank[" ~ index ~ "]/water-contamination", water);
     };

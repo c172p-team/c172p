@@ -270,6 +270,18 @@ var reset_system = func {
 }
 
 ############################################
+# Engine coughing sound
+############################################
+
+var coughing_engine_sound = func{
+    if ((getprop("/engines/active-engine/running")) and (getprop("/engines/active-engine/killed"))) {
+        click("coughing-engine-sound", 0.7, 0);
+    };
+}
+
+setlistener("/engines/active-engine/killed", coughing_engine_sound);
+
+############################################
 # Global loop function
 # If you need to run nasal as loop, add it in this function
 ############################################

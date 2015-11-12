@@ -403,19 +403,24 @@
         </output>
     </filter>
     
-    <!-- Fuel Contamination -->
-    <logic>
-        <name>Fuel contamination level kills engine</name>
+    <!-- Fuel Contamination and low oil level-->
+    <!-- High level of fuel contamination or low level of oil kills engine -->
+      <logic>
+        <name>Killing engine</name>
         <input>
             <or>
                 <greater-than>
                     <property>/consumables/fuel/tank[0]/water-contamination</property>
-                    <value>0.0</value>
+                    <value>0.2</value>
                 </greater-than>
                 <greater-than>
                     <property>/consumables/fuel/tank[1]/water-contamination</property>
-                    <value>0.0</value>
+                    <value>0.2</value>
                 </greater-than>
+                <less-than>
+                    <property>/engines/active-engine/oil-level</property>
+                    <value>4.92</value>
+                </less-than>
             </or>
         </input>
         <output>
@@ -423,17 +428,45 @@
         </output>
     </logic>
     
-    <!-- Low Oil -->
+    <!-- Low level of fuel contamination or just above oil minimal level makes engine cough-->
     <logic>
-        <name>Low oil level kills engine</name>
+        <name>Engine coughing</name>
         <input>
-            <less-than>
-                <property>/engines/active-engine/oil-level</property>
-                <value>4.92</value>
-            </less-than>
+            <or>
+                <and>
+                    <or>
+                        <greater-than>
+                            <property>/consumables/fuel/tank[0]/water-contamination</property>
+                            <value>0.0</value>
+                        </greater-than>
+                        <greater-than>
+                            <property>/consumables/fuel/tank[1]/water-contamination</property>
+                            <value>0.0</value>
+                        </greater-than>
+                    </or>
+                    <less-than-equals>
+                        <property>/consumables/fuel/tank[0]/water-contamination</property>
+                        <value>0.2</value>
+                    </less-than-equals>
+                    <less-than-equals>
+                        <property>/consumables/fuel/tank[1]/water-contamination</property>
+                        <value>0.2</value>
+                    </less-than-equals>
+                </and>
+                <and>
+                    <greater-than-equals>
+                        <property>/engines/active-engine/oil-level</property>
+                        <value>4.920</value>
+                    </greater-than-equals>
+                    <less-than>
+                        <property>/engines/active-engine/oil-level</property>
+                        <value>4.925</value>
+                    </less-than>
+                </and>
+            </or>
         </input>
         <output>
-            <property>/engines/active-engine/killed</property>
+            <property>/engines/active-engine/coughing</property>
         </output>
     </logic>
     

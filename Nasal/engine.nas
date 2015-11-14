@@ -118,24 +118,15 @@ var oil_consumption = maketimer(1.0, func {
 
 });
 
-setlistener("/sim/signals/fdm-initialized", func {
-    oil_consumption.start();
-});
-
 # ========== engine coughing ======================
-
 
 var engine_coughing = maketimer(3.0, func {
     var coughing = getprop("/engines/active-engine/coughing");
     var running = getprop("/engines/active-engine/running");
-    var delay = 3.0 * rand();
-    if ((coughing) and (running)) {
+    if (coughing and running) {
+        var delay = 3.0 * rand();
         settimer(func {setprop("/engines/active-engine/killed", 1);}, delay); # the <logic> block in engine.xml which controls the engine killed status will force it back to killed == 0 if oil level is still all right
     };
-});
-    
-setlistener("/sim/signals/fdm-initialized", func {
-    engine_coughing.start();
 });
 
 # ========== Main loop ======================
@@ -283,5 +274,6 @@ controls.startEngine = func(v = 1) {
 setlistener("/sim/signals/fdm-initialized", func {
     var engine_timer = maketimer(UPDATE_PERIOD, func { update(); });
     engine_timer.start();
+    oil_consumption.start();
+    engine_coughing.start();
 });
-

@@ -21,16 +21,17 @@
 
     <filter>
         <name>splash-xa</name>
-        <update-interval-secs type="double">0.01</update-interval-secs>
+        <update-interval-secs type="double">0.1</update-interval-secs>
         <type>gain</type>
         <gain>1.0</gain>
         <input>
             <expression>
                 <table>
                     <property>/velocities/airspeed-kt</property>
-                    <entry><ind>  0.0</ind><dep>0.1</dep></entry>
-                    <entry><ind> 72.5</ind><dep>1.5</dep></entry>
-                    <entry><ind>145.0</ind><dep>2.0</dep></entry>
+                    <entry><ind>   0 </ind><dep> -0.33 </dep></entry>
+                    <entry><ind>  19 </ind><dep> -0.33 </dep></entry>
+                    <entry><ind>  20 </ind><dep> -0.7  </dep></entry>
+                    <entry><ind> 170 </ind><dep> -1.2  </dep></entry>
                 </table>
             </expression>
         </input>
@@ -41,16 +42,17 @@
 
     <filter>
         <name>splash-za</name>
-        <update-interval-secs type="double">0.01</update-interval-secs>
+        <update-interval-secs type="double">0.1</update-interval-secs>
         <type>gain</type>
         <gain>1.0</gain>
         <input>
             <expression>
                 <table>
                     <property>/velocities/airspeed-kt</property>
-                    <entry><ind>  0.0</ind><dep> -1.0 </dep></entry>
-                    <entry><ind> 72.5</ind><dep> -1.75</dep></entry>
-                    <entry><ind>145.0</ind><dep> -2.0 </dep></entry>
+                    <entry><ind>   0 </ind><dep> 0.82 </dep></entry>
+                    <entry><ind>  19 </ind><dep> 0.82 </dep></entry>
+                    <entry><ind>  20 </ind><dep> 1    </dep></entry>
+                    <entry><ind> 170 </ind><dep> 1.5  </dep></entry>
                 </table>
             </expression>
         </input>
@@ -68,9 +70,10 @@
             <expression>
                 <table>
                     <property>/engines/active-engine/rpm</property>
-                    <entry><ind> 600</ind><dep>0.1 </dep></entry>
-                    <entry><ind>1450</ind><dep>0.95</dep></entry>
-                    <entry><ind>2300</ind><dep>2.0 </dep></entry>
+                    <entry><ind>    0 </ind><dep> -0.33 </dep></entry>
+                    <entry><ind>  600 </ind><dep> -0.33 </dep></entry>
+                    <entry><ind>  601 </ind><dep> -0.7  </dep></entry>
+                    <entry><ind> 3000 </ind><dep> -0.7  </dep></entry>
                 </table>
             </expression>
         </input>
@@ -88,9 +91,11 @@
             <expression>
                 <table>
                     <property>/engines/active-engine/rpm</property>
-                    <entry><ind> 600</ind><dep> -1.0</dep></entry>
-                    <entry><ind>1450</ind><dep> -1.5</dep></entry>
-                    <entry><ind>2300</ind><dep> -2.0</dep></entry>
+                    <entry><ind>    0 </ind><dep> 0.82 </dep></entry>
+                    <entry><ind>  600 </ind><dep> 0.82 </dep></entry>
+                    <entry><ind>  601 </ind><dep> 1    </dep></entry>
+                    <entry><ind> 3000 </ind><dep> 1    </dep></entry>
+
                 </table>
             </expression>
         </input>
@@ -105,12 +110,22 @@
         <type>gain</type>
         <gain>1.0</gain>
         <input>
-            <expression>
-                <max>
-                    <property>/environment/aircraft-effects/splash-xa</property>
-                    <property>/environment/aircraft-effects/splash-xr</property>
-                </max>
-            </expression>
+            <condition>
+                <greater-than-equals>
+                    <property>/velocities/airspeed-kt</property>
+                    <value>20</value>
+                </greater-than-equals>
+            </condition>
+            <property>/environment/aircraft-effects/splash-xa</property>
+        </input>
+        <input>
+            <condition>
+                <less-than>
+                    <property>/velocities/airspeed-kt</property>
+                    <value>20</value>
+                </less-than>
+            </condition>
+            <property>/environment/aircraft-effects/splash-xr</property>
         </input>
         <output>
             <property>/environment/aircraft-effects/splash-vector-x</property>
@@ -136,12 +151,22 @@
         <type>gain</type>
         <gain>1.0</gain>
         <input>
-            <expression>
-                <max>
-                    <property>/environment/aircraft-effects/splash-za</property>
-                    <property>/environment/aircraft-effects/splash-zr</property>
-                </max>
-            </expression>
+            <condition>
+                <greater-than-equals>
+                    <property>/velocities/airspeed-kt</property>
+                    <value>20</value>
+                </greater-than-equals>
+            </condition>
+            <property>/environment/aircraft-effects/splash-za</property>
+        </input>
+        <input>
+            <condition>
+                <less-than>
+                    <property>/velocities/airspeed-kt</property>
+                    <value>20</value>
+                </less-than>
+            </condition>
+            <property>/environment/aircraft-effects/splash-zr</property>
         </input>
         <output>
             <property>/environment/aircraft-effects/splash-vector-z</property>

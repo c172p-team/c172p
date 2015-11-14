@@ -403,7 +403,54 @@
         </output>
     </filter>
     
-    <!-- Fuel Contamination and low oil level-->
+    <!-- ============================================================== -->
+    <!-- Carburetor Heat                                                -->
+    <!-- ============================================================== -->
+
+    <filter>
+        <name>Engine 160 HP Carb Heat</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property>/controls/engines/current-engine/carb-heat</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/anti-ice/engine[0]/carb-heat</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Engine 180 HP Carb Heat</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property>/controls/engines/current-engine/carb-heat</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/anti-ice/engine[1]/carb-heat</property>
+        </output>
+    </filter>
+    
+    <!-- ============================================================== -->
+    <!-- Fuel contamination and low oil level                           -->
+    <!-- ============================================================== -->
+    
     <!-- High level of fuel contamination or low level of oil kills engine -->
       <logic>
         <name>Killing engine</name>

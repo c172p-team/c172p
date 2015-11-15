@@ -462,14 +462,20 @@
         <name>Killing engine</name>
         <input>
             <or>
-                <greater-than>
-                    <property>/consumables/fuel/tank[0]/water-contamination</property>
-                    <value>0.2</value>
-                </greater-than>
-                <greater-than>
-                    <property>/consumables/fuel/tank[1]/water-contamination</property>
-                    <value>0.2</value>
-                </greater-than>
+                <and>
+                    <property>consumables/fuel/tank[0]/selected</property>
+                    <greater-than>
+                        <property>/consumables/fuel/tank[0]/water-contamination</property>
+                        <value>0.2</value>
+                    </greater-than>
+                </and>
+                <and>
+                    <property>consumables/fuel/tank[1]/selected</property>
+                    <greater-than>
+                        <property>/consumables/fuel/tank[1]/water-contamination</property>
+                        <value>0.2</value>
+                    </greater-than>
+                </and>
                 <less-than>
                     <property>/engines/active-engine/oil-level</property>
                     <value>4.92</value>
@@ -488,23 +494,39 @@
             <or>
                 <and>
                     <or>
-                        <greater-than>
-                            <property>/consumables/fuel/tank[0]/water-contamination</property>
-                            <value>0.0</value>
-                        </greater-than>
-                        <greater-than>
-                            <property>/consumables/fuel/tank[1]/water-contamination</property>
-                            <value>0.0</value>
-                        </greater-than>
+                        <and>
+                            <property>consumables/fuel/tank[0]/selected</property>
+                            <greater-than>
+                                <property>/consumables/fuel/tank[0]/water-contamination</property>
+                                <value>0.0</value>
+                            </greater-than>
+                        </and>
+                        <and>
+                            <property>consumables/fuel/tank[1]/selected</property>
+                            <greater-than>
+                                <property>/consumables/fuel/tank[1]/water-contamination</property>
+                                <value>0.0</value>
+                            </greater-than>
+                        </and>
                     </or>
-                    <less-than-equals>
-                        <property>/consumables/fuel/tank[0]/water-contamination</property>
-                        <value>0.2</value>
-                    </less-than-equals>
-                    <less-than-equals>
-                        <property>/consumables/fuel/tank[1]/water-contamination</property>
-                        <value>0.2</value>
-                    </less-than-equals>
+                    <not>
+                        <and>
+                            <property>consumables/fuel/tank[0]/selected</property>
+                            <greater-than>
+                                <property>/consumables/fuel/tank[0]/water-contamination</property>
+                                <value>0.2</value>
+                            </greater-than>
+                        </and>
+                    </not>
+                    <not>
+                        <and>
+                            <property>consumables/fuel/tank[1]/selected</property>
+                            <greater-than>
+                                <property>/consumables/fuel/tank[1]/water-contamination</property>
+                                <value>0.2</value>
+                            </greater-than>
+                        </and>
+                    </not>
                 </and>
                 <and>
                     <greater-than-equals>

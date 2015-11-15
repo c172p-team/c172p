@@ -255,6 +255,7 @@
         <controls>
             <throttle>/controls/engines/current-engine/throttle</throttle>
             <mixture>/controls/engines/current-engine/mixture</mixture>
+            <carb-heat>/controls/engines/current-engine/carb-heat</carb-heat>
         </controls>
     </params>
 
@@ -2520,7 +2521,7 @@
     <animation>
         <type>translate</type>
         <object-name>CarbHeatGroup</object-name>
-        <property>controls/anti-ice/engine[0]/carb-heat</property>
+        <property alias="/params/controls/carb-heat"/>
         <factor>0.04</factor>
         <axis>
             <x>1.0</x>
@@ -2537,9 +2538,22 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>controls/anti-ice/engine[0]/carb-heat</property>
+                <property>/controls/engines/current-engine/carb-heat</property>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>carburetor-heat</tooltip-id>
+                <label>Carburetor: %s</label>
+                <mapping>nasal</mapping>
+                <property>/controls/engines/current-engine/carb-heat</property>
+                <script>
+                    var modes = ['COLD', 'HEATED'];
+                    return modes[arg[0]];
+                </script>
+            </binding>
+        </hovered>
     </animation>
     <animation>
         <type>translate</type>
@@ -7176,12 +7190,18 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
+                <condition>
+                    <property>/consumables/fuel/contamination_allowed</property>
+                </condition>
                 <command>dialog-show</command>
                 <dialog-name>c172p-left-fuel-sample-dialog</dialog-name>
             </binding>
         </action>
         <hovered>
             <binding>
+                <condition>
+                    <property>/consumables/fuel/contamination_allowed</property>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>left-tank-drain-sump</tooltip-id>
                 <label>Left Tank Drain Sump</label>
@@ -7198,15 +7218,67 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
+                <condition>
+                    <property>/consumables/fuel/contamination_allowed</property>
+                </condition>
                 <command>dialog-show</command>
                 <dialog-name>c172p-right-fuel-sample-dialog</dialog-name>
             </binding>
         </action>
         <hovered>
             <binding>
+                <condition>
+                    <property>/consumables/fuel/contamination_allowed</property>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>right-tank-drain-sump</tooltip-id>
                 <label>Right Tank Drain Sump</label>
+            </binding>
+        </hovered>
+    </animation>
+    
+    <!-- oil level check -->
+    <animation>
+        <type>pick</type>
+        <object-name>OilDoorHotSpot</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <and>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                        <equals>
+                            <property>/controls/engines/active-engine</property>
+                            <value>0</value>
+                        </equals>
+                    </and>
+                </condition>
+                <command>dialog-show</command>
+                <dialog-name>c172p-oil-dialog-160</dialog-name>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                        <equals>
+                            <property>/controls/engines/active-engine</property>
+                            <value>1</value>
+                        </equals>
+                    </and>
+                </condition>
+                <command>dialog-show</command>
+                <dialog-name>c172p-oil-dialog-180</dialog-name>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <property>/engines/active-engine/oil_consumption_allowed</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>oil-sump</tooltip-id>
+                <label>Oil Sump</label>
             </binding>
         </hovered>
     </animation>

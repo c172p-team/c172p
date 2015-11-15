@@ -121,6 +121,21 @@
             
             <checkbox>
                 <halign>left</halign>
+                <label>Allow oil management</label>
+                <property>/engines/active-engine/oil_consumption_allowed</property>
+                <live>true</live>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/engines/active-engine/oil-level</property>
+                    <value>7.0</value>
+                </binding>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+            
+            <checkbox>
+                <halign>left</halign>
                 <label>Allow securing aircraft</label>
                 <property>/sim/model/c172p/allow-securing-aircraft</property>
                 <binding>
@@ -362,6 +377,15 @@
                             setprop("sim/model/c172p/engine_flag_1", 0);
                         </script>
                     </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>/engines/active-engine/oil-level</property>
+                        <value>7.0</value>
+                    </binding>
+                    <binding>
+                        <command>dialog-close</command>
+                        <dialog-name>c172p-oil-dialog-180</dialog-name>
+                    </binding>
                 </radio>
 
                 <radio>
@@ -384,6 +408,15 @@
                             setprop("sim/model/c172p/engine_flag_0", 0);
                             setprop("sim/model/c172p/engine_flag_1", 1);
                         </script>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>/engines/active-engine/oil-level</property>
+                        <value>8.0</value>
+                    </binding>
+                    <binding>
+                        <command>dialog-close</command>
+                        <dialog-name>c172p-oil-dialog-160</dialog-name>
                     </binding>
                 </radio>
             </group>

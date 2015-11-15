@@ -29,62 +29,88 @@
     </group>
 
     <hrule/>
+    
+    <group>
+        <layout>vbox</layout>
+        <padding>6</padding>
         <group>
-            <layout>vbox</layout>
-            <padding>6</padding>
-            <group>
-                <layout>hbox</layout>
-                <text>
-                    <label>Left Fuel Tank:</label>
-                    <halign>left</halign>
-                </text>
-                <slider>
+            <layout>hbox</layout>
+            <text>
+                <label>Left Fuel Tank:</label>
+                <halign>left</halign>
+            </text>
+            <slider>
+                <name>c172p-left-fuel-slider</name>
+                <min>0</min>
+                <max>28.0</max>
+                <live>true</live>
+                <enable>
+                    <less-than>
+                        <property>velocities/groundspeed-kt</property>
+                        <value>1.0</value>
+                    </less-than>
+                </enable>
+                <property>/consumables/fuel/tank[0]/level-gal_us</property>
+                <binding>
+                    <command>dialog-apply</command>
                     <name>c172p-left-fuel-slider</name>
-                    <min>0</min>
-                    <max>28.0</max>
-                    <live>true</live>
-                    <property>/consumables/fuel/tank[0]/level-gal_us</property>
-                    <binding>
-                        <command>dialog-apply</command>
-                        <name>c172p-left-fuel-slider</name>
-                    </binding>
-                </slider>
+                </binding>
+            </slider>
+            <group>
+                <layout>vbox</layout>
+                <padding>6</padding>
                 <group>
-                    <layout>vbox</layout>
+                    <layout>hbox</layout>
                     <padding>6</padding>
-                    <group>
-                        <layout>hbox</layout>
-                        <padding>6</padding>
-                        <text>
-                            <label>1234</label>
-                            <halign>left</halign>
-                            <format>%.2f</format>
-                            <live>true</live>
-                            <property>/consumables/fuel/tank[0]/level-gal_us</property>
-                        </text>
-                        <text>
-                            <label>gallons</label>
-                            <halign>left</halign>
-                        </text>
-                    </group>
-                    <group>
-                        <layout>hbox</layout>
-                        <padding>6</padding>
-                        <text>
-                            <label>1234</label>
-                            <halign>left</halign>
-                            <format>%.1f</format>
-                            <live>true</live>
-                            <property>/consumables/fuel/tank[0]/level-lbs</property>
-                        </text>
-                        <text>
-                            <label>pounds</label>
-                            <halign>left</halign>
-                        </text>
-                    </group>
+                    <text>
+                        <label>1234</label>
+                        <halign>left</halign>
+                        <format>%.2f</format>
+                        <live>true</live>
+                        <property>/consumables/fuel/tank[0]/level-gal_us</property>
+                    </text>
+                    <text>
+                        <label>gallons</label>
+                        <halign>left</halign>
+                    </text>
+                </group>
+                <group>
+                    <layout>hbox</layout>
+                    <padding>6</padding>
+                    <text>
+                        <label>1234</label>
+                        <halign>left</halign>
+                        <format>%.1f</format>
+                        <live>true</live>
+                        <property>/consumables/fuel/tank[0]/level-lbs</property>
+                    </text>
+                    <text>
+                        <label>pounds</label>
+                        <halign>left</halign>
+                    </text>
                 </group>
             </group>
         </group>
+    </group>
+    
+    <group>
+        <layout>hbox</layout>
+        <text>
+            <visible>
+                <greater-than-equals>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>1.0</value>
+                </greater-than-equals>
+            </visible>
+            <color>
+                <red>0.9</red>
+                <green>0.1</green>
+                <blue>0.1</blue>
+            </color>
+            <label>Dialog disabled when in movement</label>
+        </text>
+    </group>
+        
     <hrule/>
 
     <group>

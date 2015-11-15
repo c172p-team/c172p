@@ -19,9 +19,9 @@ This aircraft was modified and updated in a joint effort by the following people
 
 * ludomotico: programming, 3D modeling, bug tracking, general organisation
 
-* Gilberto Agostinho (gsagostinho): texturing, sounds, bug tracking, testing
+* Gilberto Agostinho (gsagostinho): textures, sounds, bug tracking, testing, programming
 
-* Fernando Barbosa (thevirtualfer): 3D modeling and texturing
+* Fernando Barbosa (thevirtualfer): 3D modeling and textures
 
 * Wayne Bragg (wlbragg): effects - damage, rain/fog/ice, internal/external shadows, bushkit (Special thanks to Thorsten Renk for all the work involved in giving us the base for these effects)
 

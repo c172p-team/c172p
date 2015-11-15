@@ -105,16 +105,18 @@ var oil_consumption = maketimer(1.0, func {
         setprop("/engines/active-engine/oil-level", oil_level);        
     }
     
-    # if oil gets low, pressure should lower and temperature should rise
-    if (oil_level < 5.0) {
-        low_oil_pressure_factor = 11.25 * oil_level - 55.25; # should give 1.0 for oil_level = 5 and 0.1 for oil_level 4.92, which is the min before the engine stops
-        low_oil_temperature_factor = -6.25 * oil_level + 32.25; # should give 1.0 for oil_level = 5 and 1.5 for oil_level 4.92
-        setprop("/engines/active-engine/low-oil-pressure-factor", low_oil_pressure_factor);
-        setprop("/engines/active-engine/low-oil-temperature-factor", low_oil_temperature_factor);
-    } else {
-        setprop("/engines/active-engine/low-oil-pressure-factor", 1.0);
-        setprop("/engines/active-engine/low-oil-temperature-factor", 1.0);
-    };
+    # If oil gets low, pressure should lower and temperature should rise
+    var oil_level_limited = std.min(oil_level, 5.0);
+
+    # Should give 1.0 for oil_level = 5 and 0.1 for oil_level 4.92,
+    # which is the min before the engine stops
+    low_oil_pressure_factor = 11.25 * oil_level_limited - 55.25;
+
+    # Should give 1.0 for oil_level = 5 and 1.5 for oil_level 4.92
+    low_oil_temperature_factor = -6.25 * oil_level_limited + 32.25;
+
+    setprop("/engines/active-engine/low-oil-pressure-factor", low_oil_pressure_factor);
+    setprop("/engines/active-engine/low-oil-temperature-factor", low_oil_temperature_factor);
 
 });
 
@@ -125,7 +127,8 @@ var engine_coughing = maketimer(3.0, func {
     var running = getprop("/engines/active-engine/running");
     if (coughing and running) {
         var delay = 3.0 * rand();
-        settimer(func {setprop("/engines/active-engine/killed", 1);}, delay); # the <logic> block in engine.xml which controls the engine killed status will force it back to killed == 0 if oil level is still all right
+        # engine.xml will force an engine back to killed == 0 if oil level is still all right
+        settimer(func {setprop("/engines/active-engine/killed", 1);}, delay);
     };
 });
 

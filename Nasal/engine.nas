@@ -183,13 +183,6 @@ var autostart = func (msg=1) {
     setprop("/controls/switches/master-alt", 1);
     setprop("/controls/switches/master-avionics", 1);
 
-    # Remove parking brakes, wheel chocks, pitot tube cover and tie-downs
-    setprop("/sim/model/c172p/brake-parking", 0);
-    setprop("/sim/model/c172p/chock", 0);
-    setprop("/sim/model/c172p/pitot-cover", 0);
-    setprop("/sim/model/c172p/tiedownL", 0);
-    setprop("/sim/model/c172p/tiedownR", 0);
-
     setprop("/controls/lighting/nav-lights", 1);
     setprop("/controls/lighting/strobe", 1);
     setprop("/controls/lighting/beacon", 1);
@@ -199,6 +192,16 @@ var autostart = func (msg=1) {
 
     # Set the altimeter
     setprop("/instrumentation/altimeter/setting-inhg", getprop("/environment/pressure-sea-level-inhg"));
+
+    # Pre-flight inspection
+    setprop("/sim/model/c172p/brake-parking", 0);
+    setprop("/sim/model/c172p/chock", 0);
+    setprop("/sim/model/c172p/pitot-cover", 0);
+    setprop("/sim/model/c172p/tiedownL", 0);
+    setprop("/sim/model/c172p/tiedownR", 0);
+    setprop("/engines/active-engine/oil-level", 7.0);
+    setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
+    setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);
 
     #c172p.autoPrime();
     setprop("/controls/engines/engine[0]/primer-lever", 0);

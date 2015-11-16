@@ -2027,6 +2027,24 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
+                <condition>
+                    <or>
+                        <equals>
+                            <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                            <value>1</value>
+                        </equals>
+                        <and>
+                            <equals>
+                                <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                                <value>0</value>
+                            </equals>
+                            <less-than>
+                                <property>velocities/groundspeed-kt</property>
+                                <value>1.0</value>
+                            </less-than>
+                        </and>
+                    </or>
+                </condition>
                 <command>nasal</command>
                 <script>c172p.baggageDoor.toggle();</script>
             </binding>

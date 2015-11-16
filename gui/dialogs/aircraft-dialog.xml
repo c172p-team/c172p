@@ -111,9 +111,33 @@
             
             <checkbox>
                 <halign>left</halign>
+                <label>Allow fuel contamination</label>
+                <property>/consumables/fuel/contamination_allowed</property>
+                <live>true</live>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+            
+            <checkbox>
+                <halign>left</halign>
+                <label>Allow oil management</label>
+                <property>/engines/active-engine/oil_consumption_allowed</property>
+                <live>true</live>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/engines/active-engine/oil-level</property>
+                    <value>7.0</value>
+                </binding>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+            
+            <checkbox>
+                <halign>left</halign>
                 <label>Allow securing aircraft</label>
                 <property>/sim/model/c172p/allow-securing-aircraft</property>
-                <live>true</live>
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
@@ -129,7 +153,12 @@
                 </binding>
                 <binding>
                     <command>property-assign</command>
-                    <property>sim/model/c172p/tiedowns</property>
+                    <property>sim/model/c172p/tiedownL</property>
+                    <value>false</value>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/tiedownR</property>
                     <value>false</value>
                 </binding>
             </checkbox>
@@ -213,12 +242,42 @@
                     <command>property-toggle</command>
                     <property>instrumentation/airspeed-indicator/serviceable</property>
                 </binding>
+                <binding>
+                    <condition>
+                        <not>
+                            <property>instrumentation/airspeed-indicator/serviceable</property>
+                        </not>
+                    </condition>
+                    <command>property-assign</command>
+                    <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                    <value>0.0</value>
+                </binding>
             </checkbox>
             
             <checkbox>
                 <halign>left</halign>
-                <label>Enable tiedowns</label>
-                <property>/sim/model/c172p/tiedowns</property>
+                <label>Enable left tie-down</label>
+                <property>/sim/model/c172p/tiedownL</property>
+                <live>true</live>
+                <enable>
+                    <and>
+                        <property>/sim/model/c172p/tiedowns-can-have</property>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>1.0</value>
+                        </less-than>
+                        <property>/sim/model/c172p/allow-securing-aircraft</property>
+                    </and>
+                </enable>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+            
+            <checkbox>
+                <halign>left</halign>
+                <label>Enable right tie-down</label>
+                <property>/sim/model/c172p/tiedownR</property>
                 <live>true</live>
                 <enable>
                     <and>
@@ -318,6 +377,15 @@
                             setprop("sim/model/c172p/engine_flag_1", 0);
                         </script>
                     </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>/engines/active-engine/oil-level</property>
+                        <value>7.0</value>
+                    </binding>
+                    <binding>
+                        <command>dialog-close</command>
+                        <dialog-name>c172p-oil-dialog-180</dialog-name>
+                    </binding>
                 </radio>
 
                 <radio>
@@ -340,6 +408,15 @@
                             setprop("sim/model/c172p/engine_flag_0", 0);
                             setprop("sim/model/c172p/engine_flag_1", 1);
                         </script>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>/engines/active-engine/oil-level</property>
+                        <value>8.0</value>
+                    </binding>
+                    <binding>
+                        <command>dialog-close</command>
+                        <dialog-name>c172p-oil-dialog-160</dialog-name>
                     </binding>
                 </radio>
             </group>
@@ -495,7 +572,12 @@
                     </binding>
                     <binding>
                         <command>property-assign</command>
-                        <property>sim/model/c172p/tiedowns</property>
+                        <property>sim/model/c172p/tiedownL</property>
+                        <value>false</value>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>sim/model/c172p/tiedownR</property>
                         <value>false</value>
                     </binding>
                 </radio>
@@ -537,7 +619,12 @@
                     </binding>
                     <binding>
                         <command>property-assign</command>
-                        <property>sim/model/c172p/tiedowns</property>
+                        <property>sim/model/c172p/tiedownL</property>
+                        <value>false</value>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>sim/model/c172p/tiedownR</property>
                         <value>false</value>
                     </binding>
                 </radio>

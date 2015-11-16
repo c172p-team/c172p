@@ -332,7 +332,8 @@ Under the GPL. Used by shadows under ALS -->
 
                 <property>/sim/model/c172p/smallchock-visible</property>
                 <property>/sim/model/c172p/woodenchock-visible</property>
-                <property>/sim/model/c172p/tiedowns-visible</property>
+                <property>/sim/model/c172p/tiedownL-visible</property>
+                <property>/sim/model/c172p/tiedownR-visible</property>
 
                 <!-- A broken gear operates as a parking brake -->
                 <property>/fdm/jsbsim/gear/unit[1]/broken</property>
@@ -455,12 +456,54 @@ Under the GPL. Used by shadows under ALS -->
     
     <!-- logic for pitot tube -->
     <logic>
-        <name>Pitot Cover Removable</name>
+        <name>Pitot Cover Visible</name>
+        <input>
+            <and>
+                <property>/sim/model/c172p/pitot-cover</property>
+                <property>/sim/model/c172p/allow-securing-aircraft</property>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/pitot-cover-visible</property>
+        </output>
+    </logic>
+    
+    <logic>
+        <name>Pitot Cover Visible Blocks AI</name>
+        <inverted>true</inverted>
+        <input>
+            <property>/sim/model/c172p/pitot-cover-visible</property>
+        </input>
+        <output>
+            <property>instrumentation/airspeed-indicator/serviceable</property>
+        </output>
+    </logic>
+    
+    <logic>
+        <name>Pitot Cover Addable</name>
         <input>
             <and>
                 <not>
                     <property>sim/model/c172p/pitot-cover</property>
                 </not>
+                <property>/sim/model/c172p/allow-securing-aircraft</property>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>1.0</value>
+                </less-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/pitot-cover-addable</property>
+        </output>
+    </logic>
+    
+    <logic>
+        <name>Pitot Cover Removable</name>
+        <input>
+            <and>
+                <property>sim/model/c172p/pitot-cover-visible</property>
+                <property>/sim/model/c172p/allow-securing-aircraft</property>
                 <less-than>
                     <property>velocities/groundspeed-kt</property>
                     <value>1.0</value>
@@ -469,23 +512,6 @@ Under the GPL. Used by shadows under ALS -->
         </input>
         <output>
             <property>/sim/model/c172p/pitot-cover-removable</property>
-        </output>
-    </logic>
-    
-    <logic>
-        <name>Pitot Cover Allowed</name>
-        <input>
-            <and>
-                <property>sim/model/c172p/pitot-cover</property>
-                <less-than>
-                    <property>velocities/groundspeed-kt</property>
-                    <value>1.0</value>
-                </less-than>
-                <property>/sim/model/c172p/allow-securing-aircraft</property>
-            </and>
-        </input>
-        <output>
-            <property>/sim/model/c172p/pitot-cover-allowed</property>
         </output>
     </logic>
     
@@ -511,24 +537,24 @@ Under the GPL. Used by shadows under ALS -->
     </logic>
         
     <logic>
-        <name>Tiedowns Visible</name>
+        <name>Left Tiedown Visible</name>
         <input>
             <and>
-                <property>/sim/model/c172p/tiedowns</property>
+                <property>/sim/model/c172p/tiedownL</property>
                 <property>/sim/model/c172p/tiedowns-can-have</property>
             </and>
         </input>
         <output>
-            <property>/sim/model/c172p/tiedowns-visible</property>
+            <property>/sim/model/c172p/tiedownL-visible</property>
         </output>
     </logic>
         
     <logic>
-        <name>Tiedowns Addable</name>
+        <name>Left Tiedowns Addable</name>
         <input>
             <and>
                 <not>
-                    <property>sim/model/c172p/tiedowns</property>
+                    <property>sim/model/c172p/tiedownL</property>
                 </not>
                 <property>/sim/model/c172p/tiedowns-can-have</property>
                 <less-than>
@@ -538,7 +564,39 @@ Under the GPL. Used by shadows under ALS -->
             </and>
         </input>
         <output>
-            <property>/sim/model/c172p/tiedowns-addable</property>
+            <property>/sim/model/c172p/tiedownL-addable</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Right Tiedown Visible</name>
+        <input>
+            <and>
+                <property>/sim/model/c172p/tiedownR</property>
+                <property>/sim/model/c172p/tiedowns-can-have</property>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/tiedownR-visible</property>
+        </output>
+    </logic>
+        
+    <logic>
+        <name>Right Tiedowns Addable</name>
+        <input>
+            <and>
+                <not>
+                    <property>sim/model/c172p/tiedownR</property>
+                </not>
+                <property>/sim/model/c172p/tiedowns-can-have</property>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>1.0</value>
+                </less-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/tiedownR-addable</property>
         </output>
     </logic>
 

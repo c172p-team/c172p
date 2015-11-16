@@ -182,7 +182,13 @@ var autostart = func (msg=1) {
     setprop("/controls/switches/master-bat", 1);
     setprop("/controls/switches/master-alt", 1);
     setprop("/controls/switches/master-avionics", 1);
+
+    # Remove parking brakes, wheel chocks, pitot tube cover and tie-downs
     setprop("/sim/model/c172p/brake-parking", 0);
+    setprop("/sim/model/c172p/chock", 0);
+    setprop("/sim/model/c172p/pitot-cover", 0);
+    setprop("/sim/model/c172p/tiedownL", 0);
+    setprop("/sim/model/c172p/tiedownR", 0);
 
     setprop("/controls/lighting/nav-lights", 1);
     setprop("/controls/lighting/strobe", 1);

@@ -175,8 +175,8 @@ var thunder = func (name) {
         else
             return;
 
-       # Play the sound (sound files are about 9 seconds)
-       click("thunder" ~ thunderCalls, 9.0, 0);
+        # Play the sound (sound files are about 9 seconds)
+        click("thunder" ~ thunderCalls, 9.0, 0);
     }, delay_seconds);
 };
 

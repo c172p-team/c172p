@@ -2641,30 +2641,122 @@
             </binding>
         </item>
         <item>
-            <name>Parking Brake</name>
-            <value>SET</value>
-            <marker>
-                <x-m>-0.3092</x-m>
-                <y-m>-0.1992</y-m>
-                <z-m>-0.3284</z-m>
-                <scale>3.4667</scale>
-            </marker>
-            <condition>
-                <equals>
-                    <property>/sim/model/c172p/brake-parking</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <binding>
-                <command>property-assign</command>
-                <property>/sim/model/c172p/brake-parking</property>
-                <value>1</value>
-            </binding>
-        </item>
-        <item>
             <name>Control Lock</name>
             <value>INSTALL</value>
         </item>
+        <item>
+        	<name>Walker</name>
+		    <value>STEP OUT OF AIRCRAFT</value>
+		   	<condition>
+		   		<property>/sim/walker/outside</property>
+		   	</condition>
+		   	<binding>
+				<command>property-toggle</command>
+				<property>sim/walker/key-triggers/outside-toggle</property>
+			</binding>
+		</item>
+		<item>
+			<name>Pitot tube</name>
+			<value>COVER</value>
+			<marker>
+				<x-m>-0.2000</x-m>
+				<y-m>-1.5190</y-m>
+				<z-m>0.4471</z-m>
+				<scale>3.1983</scale>
+			</marker>
+			<condition>
+				<property>sim/model/c172p/pitot-cover</property>
+			</condition>
+			<binding>
+				<command>property-assign</command>
+	            <property>sim/model/c172p/pitot-cover</property>
+	            <value type="bool">true</value>
+	        </binding>
+	    </item>
+	    <item>
+		    <name>Left Tiedown</name>
+		   	<value>SECURED</value>
+		   	<marker>
+		   		<x-m>0.1198</x-m>
+				<y-m>-2.3124</y-m>
+				<z-m>0.3909</z-m>
+				<scale>2.7686</scale>
+			</marker>
+			<condition>
+				<property>sim/model/c172p/tiedownL</property>
+			</condition>
+			<binding>
+				<command>property-assign</command>
+	            <property>sim/model/c172p/tiedownL</property>
+	            <value type="bool">true</value>
+	        </binding>
+	    </item>
+	    <item>
+		    <name>Wheel Chocks</name>
+		   	<value>PLACED</value>
+		   	<condition>
+				<property>sim/model/c172p/chock</property>
+			</condition>
+			<binding>
+				<command>property-assign</command>
+	            <property>sim/model/c172p/chock</property>
+	            <value type="bool">true</value>
+	        </binding>
+	    </item>
+	    <item>
+		    <name>Right Tiedown</name>
+		   	<value>SECURED</value>
+		   	<marker>
+		   		<x-m>0.1198</x-m>
+				<y-m>2.3124</y-m>
+				<z-m>0.3909</z-m>
+				<scale>2.7686</scale>
+			</marker>
+			<condition>
+				<property>sim/model/c172p/tiedownR</property>
+			</condition>
+			<binding>
+				<command>property-assign</command>
+	            <property>sim/model/c172p/tiedownR</property>
+	            <value type="bool">true</value>
+	        </binding>
+	    </item>
+	    <item>
+	    	<name>Doors</name>
+	    	<value>CLOSED AND LOCKED</value>
+	    	<value>so that nobody can steal your airplane</value>
+	    	<condition>
+	    		<and>
+	    			<equals>
+	    				<property>/sim/model/door-positions/baggageDoor/position-norm</property>
+	    				<value>0</value>
+	    			</equals>
+	    			<equals>
+	    				<property>/sim/model/door-positions/leftDoor/position-norm</property>
+	    				<value>0</value>
+	    			</equals>
+	    			<equals>
+	    				<property>/sim/model/door-positions/rightDoor/position-norm</property>
+	    				<value>0</value>
+	    			</equals>
+	    		</and>
+	    	</condition>
+	    	<binding>
+				<command>property-assign</command>
+				<property>/sim/model/door-positions/baggageDoor/position-norm</property>
+				<value>0.0</value>
+			</binding>
+	    	<binding>
+				<command>property-assign</command>
+				<property>/sim/model/door-positions/leftDoor/position-norm</property>
+				<value>0.0</value>
+			</binding>
+	    	<binding>
+				<command>property-assign</command>
+				<property>/sim/model/door-positions/rightDoor/position-norm</property>
+				<value>0.0</value>
+			</binding>
+		</item>
     </checklist>
 
     <checklist>

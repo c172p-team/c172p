@@ -3,10 +3,10 @@
 # /fdm/jsbsim/propulsion/tank[]/priority
 
 setlistener("consumables/fuel/tank[0]/selected", func(selected) {
-  setprop("/fdm/jsbsim/propulsion/tank[0]/priority", selected.getBoolValue() ? 1 : 0);
+    setprop("/fdm/jsbsim/propulsion/tank[0]/priority", selected.getBoolValue() ? 1 : 0);
 });
 
 setlistener("consumables/fuel/tank[1]/selected", func(selected) {
-  setprop("/fdm/jsbsim/propulsion/tank[1]/priority", selected.getBoolValue() ? 1 : 0);
+    setprop("/fdm/jsbsim/propulsion/tank[1]/priority", selected.getBoolValue() ? 1 : 0);
 });
 

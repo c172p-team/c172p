@@ -4,8 +4,8 @@
 
 var autostart = func (msg=1) {
     if (getprop("/engines/active-engine/running")) {
-		if (msg)
-            gui.popupTip("Engine already running", 5);
+    if (msg)
+        gui.popupTip("Engine already running", 5);
         return;
     }
 
@@ -40,8 +40,8 @@ var autostart = func (msg=1) {
     #c172p.autoPrime();
     setprop("/controls/engines/engine[0]/primer-lever", 0);
     setprop("/controls/engines/engine/primer", 3);
-	if (msg)
-	    gui.popupTip("Hold down \"s\" to start the engine", 5);
+    if (msg)
+        gui.popupTip("Hold down \"s\" to start the engine", 5);
 };
 
 ##########################################

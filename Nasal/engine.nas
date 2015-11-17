@@ -1,9 +1,7 @@
-
 # Manages the engine
 #
 # Fuel system: based on the Spitfire. Manages primer and negGCutoff
 # Hobbs meter
-
 
 # =============================== DEFINITIONS ===========================================
 
@@ -169,8 +167,8 @@ var update = func {
 };
 
 setlistener("/controls/switches/starter", func {
-	if (!getprop("/fdm/jsbsim/complex"))
-	    c172p.autostart(0);
+    if (!getprop("/fdm/jsbsim/complex"))
+        c172p.autostart(0);
     var v = getprop("/controls/switches/starter") or 0;
     if (v == 0) {
         print("Starter off");
@@ -232,13 +230,13 @@ controls.mixtureAxis = func {
 # fun fact: the key UP event can be overwriten!
 controls.startEngine = func(v = 1) {
     if (getprop("/engines/active-engine/running"))
-	{
+    {
         setprop("/controls/switches/starter", 0);
-		return;
-	}
-	else {
+        return;
+    }
+    else {
         setprop("/controls/switches/magnetos", 3);
-		setprop("/controls/switches/starter", v);
+        setprop("/controls/switches/starter", v);
     }
 };
 

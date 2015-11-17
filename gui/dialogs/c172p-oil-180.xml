@@ -29,104 +29,125 @@
     </group>
 
     <hrule/>
+
+    <group>
+        <layout>vbox</layout>
+        <padding>6</padding>
+        <empty><stretch>true</stretch></empty>
         <group>
-            <layout>vbox</layout>
-            <padding>6</padding>
+            <layout>hbox</layout>
+            <text>
+                <label>Oil Level:</label>
+                <halign>left</halign>
+            </text>
+            <slider>
+                <name>c172p-oil-slider-180</name>
+                <min>0</min>
+                <max>8.0</max>
+                <live>true</live>
+                <enable>
+                    <less-than>
+                        <property>velocities/groundspeed-kt</property>
+                        <value>1.0</value>
+                    </less-than>
+                </enable>
+                <property>/engines/active-engine/oil-level</property>
+                <binding>
+                    <command>dialog-apply</command>
+                    <name>c172p-oil-slider-180</name>
+                </binding>
+            </slider>
             <group>
                 <layout>hbox</layout>
+                <padding>6</padding>
                 <text>
-                    <label>Oil Level:</label>
+                    <label>123</label>
+                    <halign>left</halign>
+                    <format>%.2f</format>
+                    <live>true</live>
+                    <property>/engines/active-engine/oil-level</property>
+                </text>
+                <text>
+                    <label>quarts</label>
                     <halign>left</halign>
                 </text>
-                <slider>
-                    <name>c172p-oil-slider-180</name>
-                    <min>0</min>
-                    <max>8.0</max>
-                    <live>true</live>
-                    <enable>
-                        <less-than>
-                            <property>velocities/groundspeed-kt</property>
-                            <value>1.0</value>
-                        </less-than>
-                    </enable>
-                    <property>/engines/active-engine/oil-level</property>
-                    <binding>
-                        <command>dialog-apply</command>
-                        <name>c172p-oil-slider-180</name>
-                    </binding>
-                </slider>
-                <group>
-                    <layout>hbox</layout>
-                    <padding>6</padding>
-                    <text>
-                        <label>123</label>
-                        <halign>left</halign>
-                        <format>%.2f</format>
-                        <live>true</live>
-                        <property>/engines/active-engine/oil-level</property>
-                    </text>
-                    <text>
-                        <label>quarts</label>
-                        <halign>left</halign>
-                    </text>
-                </group>
             </group>
         </group>
+    </group>
+    
+    <group>
+        <layout>hbox</layout>
+        <text>
+            <visible>
+                <greater-than-equals>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>1.0</value>
+                </greater-than-equals>
+            </visible>
+            <color>
+                <red>0.9</red>
+                <green>0.1</green>
+                <blue>0.1</blue>
+            </color>
+            <label>Dialog disabled when in movement</label>
+        </text>
+    </group>
     
     <hrule/>
-    
-        <group>
-            <layout>table</layout>
-            <text>
-                <row>0</row>
-                <col>0</col>
-                <visible>
-                    <greater-than>
-                        <property>/engines/active-engine/oil-level</property>
-                        <value>6.0</value>
-                    </greater-than>
-                </visible>
-                <label>Good oil level</label>
-            </text>
-            <text>
-                <row>0</row>
-                <col>0</col>
-                <visible>
-                    <and>
-                        <less-than-equals>
-                            <property>/engines/active-engine/oil-level</property>
-                            <value>6.0</value>
-                        </less-than-equals>
-                        <greater-than>
-                            <property>/engines/active-engine/oil-level</property>
-                            <value>5.0</value>
-                        </greater-than>
-                    </and>
-                </visible>
-                <color>
-                    <red>0.9</red>
-                    <green>0.74</green>
-                    <blue>0.23</blue>
-                </color>
-                <label>Low oil level</label>
-            </text>
-            <text>
-                <row>0</row>
-                <col>0</col>
-                <visible>
+
+    <group>
+        <layout>table</layout>
+        <text>
+            <row>0</row>
+            <col>0</col>
+            <visible>
+                <greater-than>
+                    <property>/engines/active-engine/oil-level</property>
+                    <value>6.0</value>
+                </greater-than>
+            </visible>
+            <label>Good oil level</label>
+        </text>
+        <text>
+            <row>0</row>
+            <col>0</col>
+            <visible>
+                <and>
                     <less-than-equals>
                         <property>/engines/active-engine/oil-level</property>
-                        <value>5.0</value>
+                        <value>6.0</value>
                     </less-than-equals>
-                </visible>
-                <color>
-                    <red>0.95</red>
-                    <green>0.0</green>
-                    <blue>0.0</blue>
-                </color>
-                <label>Critical oil level!</label>
-            </text>
-        </group>
+                    <greater-than>
+                        <property>/engines/active-engine/oil-level</property>
+                        <value>5.0</value>
+                    </greater-than>
+                </and>
+            </visible>
+            <color>
+                <red>0.9</red>
+                <green>0.74</green>
+                <blue>0.23</blue>
+            </color>
+            <label>Low oil level</label>
+        </text>
+        <text>
+            <row>0</row>
+            <col>0</col>
+            <visible>
+                <less-than-equals>
+                    <property>/engines/active-engine/oil-level</property>
+                    <value>5.0</value>
+                </less-than-equals>
+            </visible>
+            <color>
+                <red>0.95</red>
+                <green>0.0</green>
+                <blue>0.0</blue>
+            </color>
+            <label>Critical oil level!</label>
+        </text>
+    </group>
+    
     <hrule/>
 
     <group>

@@ -5,29 +5,29 @@ var reset_all_damage = func
 {
     setprop("/engines/active-engine/killed", 0);
 
-	setprop(gears~"unit[0]/broken", 0);
-	setprop(gears~"unit[1]/broken", 0);
-	setprop(gears~"unit[2]/broken", 0);
-	setprop(contact~"unit[4]/z-position", 50);
-	setprop(contact~"unit[5]/z-position", 50);
-	setprop(contact~"unit[9]/z-position", 35);
-	setprop(contact~"unit[10]/z-position", 8);
-	setprop(contact~"unit[11]/z-position", 60);
-	setprop(contact~"unit[12]/z-position", 90);
-	setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
-	setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
-	setprop("/fdm/jsbsim/crash", 0);
-	setprop("/fdm/jsbsim/pontoon-damage/left-pontoon", 0);
-	setprop("/fdm/jsbsim/pontoon-damage/right-pontoon", 0);
+    setprop(gears~"unit[0]/broken", 0);
+    setprop(gears~"unit[1]/broken", 0);
+    setprop(gears~"unit[2]/broken", 0);
+    setprop(contact~"unit[4]/z-position", 50);
+    setprop(contact~"unit[5]/z-position", 50);
+    setprop(contact~"unit[9]/z-position", 35);
+    setprop(contact~"unit[10]/z-position", 8);
+    setprop(contact~"unit[11]/z-position", 60);
+    setprop(contact~"unit[12]/z-position", 90);
+    setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
+    setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
+    setprop("/fdm/jsbsim/crash", 0);
+    setprop("/fdm/jsbsim/pontoon-damage/left-pontoon", 0);
+    setprop("/fdm/jsbsim/pontoon-damage/right-pontoon", 0);
 
-	# Reset contacts
-	setprop(gears~"unit[0]/z-position", 0);
-	setprop(gears~"unit[1]/z-position", 0);
-	setprop(gears~"unit[2]/z-position", 0);
-	setprop(contact~"unit[6]/z-position", 0);
-	setprop(contact~"unit[7]/z-position", 0);
-	setprop(contact~"unit[8]/z-position", 0);
-	setprop(gears~"unit[19]/z-position", 0);
+    # Reset contacts
+    setprop(gears~"unit[0]/z-position", 0);
+    setprop(gears~"unit[1]/z-position", 0);
+    setprop(gears~"unit[2]/z-position", 0);
+    setprop(contact~"unit[6]/z-position", 0);
+    setprop(contact~"unit[7]/z-position", 0);
+    setprop(contact~"unit[8]/z-position", 0);
+    setprop(gears~"unit[19]/z-position", 0);
     setprop(gears~"unit[20]/z-position", 0);
     setprop(gears~"unit[21]/z-position", 0);
     setprop(gears~"unit[22]/z-position", 0);
@@ -42,48 +42,48 @@ var repair_damage = func {
 
 var nosegearbroke = func (bushkit)
 {
-	if (bushkit == 0)
-		setprop(contact~"unit[6]/z-position", -10);
-	elsif (bushkit == 1)
-		setprop(contact~"unit[6]/z-position", -18.5);
-	elsif (bushkit == 2)
-		setprop(contact~"unit[6]/z-position", -17.7);
+    if (bushkit == 0)
+        setprop(contact~"unit[6]/z-position", -10);
+    elsif (bushkit == 1)
+        setprop(contact~"unit[6]/z-position", -18.5);
+    elsif (bushkit == 2)
+        setprop(contact~"unit[6]/z-position", -17.7);
 
-	setprop(gears~"unit[0]/z-position", 0);
+    setprop(gears~"unit[0]/z-position", 0);
     killengine();
 }
 
 var leftgearbroke = func (bushkit)
 {
-	if (bushkit == 0)
-		setprop(contact~"unit[7]/z-position", -9.5);
-	elsif (bushkit == 1)
-		setprop(contact~"unit[7]/z-position", -14.5);
-	elsif (bushkit == 2)
-		setprop(contact~"unit[7]/z-position", -16);
-	elsif (bushkit == 5)
-		setprop(gears~"unit[24]/z-position", -14);
+    if (bushkit == 0)
+        setprop(contact~"unit[7]/z-position", -9.5);
+    elsif (bushkit == 1)
+        setprop(contact~"unit[7]/z-position", -14.5);
+    elsif (bushkit == 2)
+        setprop(contact~"unit[7]/z-position", -16);
+    elsif (bushkit == 5)
+        setprop(gears~"unit[24]/z-position", -14);
 
-	setprop(gears~"unit[1]/z-position", 0);
+    setprop(gears~"unit[1]/z-position", 0);
 }
 
 var rightgearbroke = func (bushkit)
 {
-	if (bushkit == 0)
-		setprop(contact~"unit[8]/z-position", -8);
-	elsif (bushkit == 1)
-		setprop(contact~"unit[8]/z-position", -15.5);
-	elsif (bushkit == 2)
-		setprop(contact~"unit[8]/z-position", -17.4);
-	elsif (bushkit == 5)
-		setprop(gears~"unit[25]/z-position", -16);
+    if (bushkit == 0)
+        setprop(contact~"unit[8]/z-position", -8);
+    elsif (bushkit == 1)
+        setprop(contact~"unit[8]/z-position", -15.5);
+    elsif (bushkit == 2)
+        setprop(contact~"unit[8]/z-position", -17.4);
+    elsif (bushkit == 5)
+        setprop(gears~"unit[25]/z-position", -16);
 
-	setprop(gears~"unit[2]/z-position", 0);
+    setprop(gears~"unit[2]/z-position", 0);
 }
 
 var bothwingcollapse = func
 {
-	setprop(contact~"unit[5]/z-position", -8);
+    setprop(contact~"unit[5]/z-position", -8);
 
     if (getprop("position/altitude-agl-m") < 10)
         killengine();
@@ -91,43 +91,43 @@ var bothwingcollapse = func
 
 var upsidedown = func
 {
-	setprop(contact~"unit[12]/z-position", 90);
+    setprop(contact~"unit[12]/z-position", 90);
 
-	if (getprop("/fdm/jsbsim/wing-damage/left-wing") == 1.0)
-		setprop(contact~"unit[4]/z-position", 40);
-	else
-		setprop(contact~"unit[4]/z-position", 50);
+    if (getprop("/fdm/jsbsim/wing-damage/left-wing") == 1.0)
+        setprop(contact~"unit[4]/z-position", 40);
+    else
+        setprop(contact~"unit[4]/z-position", 50);
 
-	if (getprop("/fdm/jsbsim/wing-damage/right-wing") == 1.0)
-		setprop(contact~"unit[5]/z-position", 40);
-	else
-		setprop(contact~"unit[5]/z-position", 50);
+    if (getprop("/fdm/jsbsim/wing-damage/right-wing") == 1.0)
+        setprop(contact~"unit[5]/z-position", 40);
+    else
+        setprop(contact~"unit[5]/z-position", 50);
 }
 
 var killengine = func
 {
-	setprop("/engines/active-engine/killed", 1);
+    setprop("/engines/active-engine/killed", 1);
 }
 
 var defaulttires = func
 {
-	setprop(gears~"unit[0]/z-position", -19.5);
-	setprop(gears~"unit[1]/z-position", -15.5);
-	setprop(gears~"unit[2]/z-position", -15.5);
+    setprop(gears~"unit[0]/z-position", -19.5);
+    setprop(gears~"unit[1]/z-position", -15.5);
+    setprop(gears~"unit[2]/z-position", -15.5);
 }
 
 var medbushtires = func
 {
-	setprop(gears~"unit[0]/z-position", -22);
-	setprop(gears~"unit[1]/z-position", -20);
-	setprop(gears~"unit[2]/z-position", -20);
+    setprop(gears~"unit[0]/z-position", -22);
+    setprop(gears~"unit[1]/z-position", -20);
+    setprop(gears~"unit[2]/z-position", -20);
 }
 
 var largebushtires = func
 {
-	setprop(gears~"unit[0]/z-position", -22);
-	setprop(gears~"unit[1]/z-position", -22);
-	setprop(gears~"unit[2]/z-position", -22);
+    setprop(gears~"unit[0]/z-position", -22);
+    setprop(gears~"unit[1]/z-position", -22);
+    setprop(gears~"unit[2]/z-position", -22);
 }
 
 var pontoons = func
@@ -137,10 +137,10 @@ var pontoons = func
 
 var amphibious = func
 {
-	setprop(gears~"unit[19]/z-position", -62);
-	setprop(gears~"unit[20]/z-position", -62);
-	setprop(gears~"unit[21]/z-position", -50.5);
-	setprop(gears~"unit[22]/z-position", -50.5);
+    setprop(gears~"unit[19]/z-position", -62);
+    setprop(gears~"unit[20]/z-position", -62);
+    setprop(gears~"unit[21]/z-position", -50.5);
+    setprop(gears~"unit[22]/z-position", -50.5);
 }
 
 var skis = func
@@ -162,15 +162,15 @@ var poll_surface = func
 
     # Use engine RPM and speed to control ground splash if on the water
     # and below 2 meter AGL
-	if (getprop("position/altitude-agl-m") < 2 and hydro_active_norm > 0) {
-	    var groundspeed_half_pc = 0.005 * getprop("velocities/groundspeed-kt");
+    if (getprop("position/altitude-agl-m") < 2 and hydro_active_norm > 0) {
+        var groundspeed_half_pc = 0.005 * getprop("velocities/groundspeed-kt");
         var engine_rpm_almost_nothing = 0.005 * 0.065 * engine_rpm;
 
-	    var splash_norm = std.max(engine_rpm_almost_nothing, groundspeed_half_pc);
-	    setprop("/environment/aircraft-effects/ground-splash-norm", splash_norm);
-	}
-	elsif (ground_splash_norm > 0)
-	    setprop("/environment/aircraft-effects/ground-splash-norm", ground_splash_norm - 0.005);
+        var splash_norm = std.max(engine_rpm_almost_nothing, groundspeed_half_pc);
+        setprop("/environment/aircraft-effects/ground-splash-norm", splash_norm);
+    }
+    elsif (ground_splash_norm > 0)
+        setprop("/environment/aircraft-effects/ground-splash-norm", ground_splash_norm - 0.005);
 
     setprop(contact~"unit[12]/z-position", !getprop(contact~"unit[12]/solid") ? 160 : 90);
     setprop(contact~"unit[4]/z-position", !getprop(contact~"unit[4]/solid") ? -10 : 50);

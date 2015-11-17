@@ -168,51 +168,9 @@ var update = func {
     }
 };
 
-var autostart = func (msg=1) {
-    if (getprop("/engines/active-engine/running")) {
-		if (msg)
-            gui.popupTip("Engine already running", 5);
-        return;
-    }
-
-    setprop("/controls/switches/magnetos", 3);
-    setprop("/controls/engines/current-engine/throttle", 0.2);
-    setprop("/controls/engines/current-engine/mixture", 1.0);
-    setprop("/controls/flight/elevator-trim", 0.0);
-    setprop("/controls/switches/master-bat", 1);
-    setprop("/controls/switches/master-alt", 1);
-    setprop("/controls/switches/master-avionics", 1);
-
-    setprop("/controls/lighting/nav-lights", 1);
-    setprop("/controls/lighting/strobe", 1);
-    setprop("/controls/lighting/beacon", 1);
-
-    setprop("/consumables/fuel/tank[0]/selected", 1);
-    setprop("/consumables/fuel/tank[1]/selected", 1);
-
-    # Set the altimeter
-    setprop("/instrumentation/altimeter/setting-inhg", getprop("/environment/pressure-sea-level-inhg"));
-
-    # Pre-flight inspection
-    setprop("/sim/model/c172p/brake-parking", 0);
-    setprop("/sim/model/c172p/chock", 0);
-    setprop("/sim/model/c172p/pitot-cover", 0);
-    setprop("/sim/model/c172p/tiedownL", 0);
-    setprop("/sim/model/c172p/tiedownR", 0);
-    setprop("/engines/active-engine/oil-level", 7.0);
-    setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
-    setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);
-
-    #c172p.autoPrime();
-    setprop("/controls/engines/engine[0]/primer-lever", 0);
-    setprop("/controls/engines/engine/primer", 3);
-	if (msg)
-	    gui.popupTip("Hold down \"s\" to start the engine", 5);
-};
-
 setlistener("/controls/switches/starter", func {
 	if (!getprop("/fdm/jsbsim/complex"))
-	    autostart(0);
+	    c172p.autostart(0);
     var v = getprop("/controls/switches/starter") or 0;
     if (v == 0) {
         print("Starter off");

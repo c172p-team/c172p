@@ -4434,7 +4434,6 @@
         <object-name>FloatReinforceLeft</object-name>
         <object-name>FloatReinforceRight</object-name>
         <object-name>FloatReinforceJoin</object-name>
-        <object-name>Rudder Cable</object-name>
         <object-name>Rudder Catch</object-name>
         <object-name>Rudder Handle</object-name>
         <object-name>Rudder Screws</object-name>
@@ -4451,6 +4450,41 @@
                 </equals>
             </or>
         </condition>
+    </animation>
+
+    <!-- Rudder cable -->
+    <animation>
+        <type>select</type>
+        <object-name>Rudder Cable</object-name>
+        <condition>
+            <and>
+                <or>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>3</value>
+                    </equals>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>4</value>
+                    </equals>
+                </or>
+                <not>
+                    <property>/controls/gear/water-rudder</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>Rudder Handle</object-name>
+        <property>/controls/gear/water-rudder</property>
+        <factor>-0.21348</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
     </animation>
 
     <!-- Left Pontoon Damaged -->

@@ -896,8 +896,19 @@
         </channel>
 
         <channel name="Landing Gear">
+            <!-- Disable gear movement if electrical voltage is too low -->
+            <switch name="Gear Command">
+                <default value="gear/gear-cmd-norm"/>
+                <output>gear/gear-input-norm</output>
+                <!-- Route back the (normalized) output of the <kinematic>
+                     to its input in order to disable it.
+                -->
+                <test logic="AND" value="gear/gear-pos-norm">
+                    /systems/electrical/outputs/instrument-lights le 20.0
+                </test>
+            </switch>
             <kinematic name="Gr">
-                <input>gear/gear-cmd-norm</input>
+                <input>gear/gear-input-norm</input>
                 <traverse>
                     <setting>
                         <position>0</position>
@@ -920,7 +931,7 @@
                     </setting>
                     <setting>
                         <position>1</position>
-                        <time>5</time>
+                        <time>1</time>
                     </setting>
                 </traverse>
             </kinematic>

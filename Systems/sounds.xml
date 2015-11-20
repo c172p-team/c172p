@@ -130,4 +130,121 @@
         </output>
     </filter>
 
+    <!-- Return a factor (>= 1.0) to boost the volume when left door is open -->
+    <filter>
+        <name>Volume Boost Left Door Factor</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/sim/current-view/internal</property>
+            </condition>
+            <expression>
+                <sum>
+                    <product>
+                        <div>
+                            <log>
+                                <sum>
+                                    <!-- Left door fully open is 1.0. Fully closed is 0.0 -->
+                                    <table>
+                                        <property>/sim/multiplay/generic/float[1]</property>
+                                        <entry><ind>0.5</ind><dep>0.0</dep></entry>
+                                        <entry><ind>0.65</ind><dep>0.7</dep></entry>
+                                        <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                                    </table>
+
+                                    <!-- Prevents math domain error because log2
+                                         requires value >= 1.0.
+                                    -->
+                                    <value>1.0</value>
+                                </sum>
+                            </log>
+                            <log>
+                                <!-- log(x)/log(2) = log2(x) -->
+                                <value>2.0</value>
+                            </log>
+                        </div>
+
+                        <!-- 20 % extra volume if door is open -->
+                        <value>0.2</value>
+                    </product>
+                    <value>1.0</value>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <!-- 40 % extra volume if outside the aircraft -->
+            <value>1.4</value>
+        </input>
+        <output>
+            <property>/sim/model/c172p/sound/volume-boost-left-door</property>
+        </output>
+    </filter>
+
+    <!-- Return a factor (>= 1.0) to boost the volume when right door is open -->
+    <filter>
+        <name>Volume Boost Right Door Factor</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/sim/current-view/internal</property>
+            </condition>
+            <expression>
+                <sum>
+                    <product>
+                        <div>
+                            <log>
+                                <sum>
+                                    <!-- Right door fully open is 1.0. Fully closed is 0.0 -->
+                                    <table>
+                                        <property>/sim/multiplay/generic/float[0]</property>
+                                        <entry><ind>0.5</ind><dep>0.0</dep></entry>
+                                        <entry><ind>0.65</ind><dep>0.7</dep></entry>
+                                        <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                                    </table>
+
+                                    <!-- Prevents math domain error because log2
+                                         requires value >= 1.0.
+                                    -->
+                                    <value>1.0</value>
+                                </sum>
+                            </log>
+                            <log>
+                                <!-- log(x)/log(2) = log2(x) -->
+                                <value>2.0</value>
+                            </log>
+                        </div>
+
+                        <!-- 20 % extra volume if door is open -->
+                        <value>0.2</value>
+                    </product>
+                    <value>1.0</value>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <!-- 40 % extra volume if outside the aircraft -->
+            <value>1.4</value>
+        </input>
+        <output>
+            <property>/sim/model/c172p/sound/volume-boost-right-door</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Spray Wake Speed</name>
+        <type>noise-spike</type>
+        <input>
+            <property>/fdm/jsbsim/hydro/spray-wake-speed-kt-actual</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/sound/spray-wake-speed</property>
+        </output>
+
+        <!-- High rate of change to give a quick, but not abrupt cut off
+             of the pontoon wake sounds when the aircraft starts climbing
+             during a takeoff from the water.
+        -->
+        <max-rate-of-change>20.0</max-rate-of-change>
+    </filter>
+
 </PropertyList>

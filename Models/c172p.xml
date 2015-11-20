@@ -257,6 +257,11 @@
             <mixture>/controls/engines/current-engine/mixture</mixture>
             <carb-heat>/controls/engines/current-engine/carb-heat</carb-heat>
         </controls>
+        <cockpit>
+            <electrical>
+                <gear-amphibious>/sim/model/c172p/lighting/amphibious</gear-amphibious>
+            </electrical>
+        </cockpit>
     </params>
 
     <!-- exterior effects -->
@@ -4429,6 +4434,10 @@
         <object-name>FloatReinforceLeft</object-name>
         <object-name>FloatReinforceRight</object-name>
         <object-name>FloatReinforceJoin</object-name>
+        <object-name>RudderCatch</object-name>
+        <object-name>RudderHandle</object-name>
+        <object-name>RudderScrews</object-name>
+        <object-name>RudderTube</object-name>
         <condition>
             <or>
                 <equals>
@@ -4441,6 +4450,62 @@
                 </equals>
             </or>
         </condition>
+    </animation>
+
+    <!-- Rudder cable -->
+    <animation>
+        <type>select</type>
+        <object-name>RudderCable</object-name>
+        <condition>
+            <and>
+                <or>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>3</value>
+                    </equals>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>4</value>
+                    </equals>
+                </or>
+                <not>
+                    <property>/controls/gear/water-rudder</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>RudderHandle</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/gear/water-rudder</property>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Water rudders: %s</label>
+                <property>/controls/gear/water-rudder</property>
+                <tooltip-id>water-rudders</tooltip-id>
+                <mapping>down-up</mapping>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>RudderHandle</object-name>
+        <property>/controls/gear/water-rudder</property>
+        <factor>-0.21348</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
     </animation>
 
     <!-- Left Pontoon Damaged -->
@@ -6981,6 +7046,7 @@
                    <property alias="/params/bushkit/property"/>
                    <value>4</value>
                 </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
             </and>
         </condition>
     </animation>
@@ -6998,6 +7064,7 @@
                    <property alias="/params/bushkit/property"/>
                    <value>4</value>
                 </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
             </and>
         </condition>
     </animation>
@@ -7015,6 +7082,7 @@
                    <property alias="/params/bushkit/property"/>
                    <value>4</value>
                 </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
             </and>
         </condition>
     </animation>
@@ -7032,6 +7100,7 @@
                    <property alias="/params/bushkit/property"/>
                    <value>4</value>
                 </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
             </and>
         </condition>
     </animation>
@@ -7050,6 +7119,7 @@
                    <property alias="/params/bushkit/property"/>
                    <value>4</value>
                 </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
             </and>
         </condition>
     </animation>
@@ -7067,6 +7137,7 @@
                    <property alias="/params/bushkit/property"/>
                    <value>4</value>
                 </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
             </and>
         </condition>
     </animation>
@@ -7084,6 +7155,7 @@
                    <property alias="/params/bushkit/property"/>
                    <value>4</value>
                 </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
             </and>
         </condition>
     </animation>
@@ -7101,6 +7173,7 @@
                    <property alias="/params/bushkit/property"/>
                    <value>4</value>
                 </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
             </and>
         </condition>
     </animation>
@@ -7123,6 +7196,7 @@
                     <property alias="/params/bushkit/property"/>
                     <value>4</value>
                 </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
             </and>
         </condition>
     </animation>

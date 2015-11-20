@@ -218,25 +218,17 @@
             <max-dist>200.0</max-dist>
         </flap>
 
-        <wind>
-            <name>wind</name>
+        <wind-left>
+            <name>wind-left</name>
             <mode>looped</mode>
             <path>Sounds/wind.wav</path>
             <condition>
                 <!-- Silence "Neither a condition nor a property specified" warning -->
                 <true/>
             </condition>
-            <!-- TODO Ideally we should have two wind sources: one left of left
-                 window, and one right of right window. Each attenuated only by their
-                 corresponding door and window.
-
-                 In external view, these two sounds should be disabled and a third
-                 sound, positioned near the center (but not exactly (0,0,0)), should
-                 be enabled.
-            -->
             <position>
                 <x>0.0</x>
-                <y>1.0</y><!-- Position left of pilot -->
+                <y>1.5</y><!-- Position left of pilot -->
                 <z>0.0</z>
             </position>
             <volume>
@@ -254,7 +246,7 @@
             </volume>
             <volume>
                 <factor>0.7</factor> <!-- Arbitrary factor to attenuate wind -->
-                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+                <property>/sim/model/c172p/sound/volume-boost-left-door</property>
             </volume>
             <volume>
                 <offset>-0.03</offset>
@@ -266,7 +258,49 @@
             </pitch>
             <reference-dist>1.0</reference-dist>
             <max-dist>100.0</max-dist>
-        </wind>
+        </wind-left>
+
+        <wind-right>
+            <name>wind-right</name>
+            <mode>looped</mode>
+            <path>Sounds/wind.wav</path>
+            <condition>
+                <!-- Silence "Neither a condition nor a property specified" warning -->
+                <true/>
+            </condition>
+            <position>
+                <x>0.0</x>
+                <y>-1.5</y><!-- Position right of co-pilot -->
+                <z>0.0</z>
+            </position>
+            <volume>
+                <property>position/altitude-ft</property>
+                <factor>-0.000015</factor>
+                <offset>1.0</offset>
+                <min>0.1</min>
+                <max>1.0</max>
+            </volume>
+            <volume>
+                <property>velocities/airspeed-kt</property>
+                <factor>0.0015</factor>
+                <min>0.03</min>
+                <max>0.25</max>
+            </volume>
+            <volume>
+                <factor>0.7</factor> <!-- Arbitrary factor to attenuate wind -->
+                <property>/sim/model/c172p/sound/volume-boost-right-door</property>
+            </volume>
+            <volume>
+                <offset>-0.03</offset>
+            </volume>
+            <pitch>
+                <property>velocities/airspeed-kt</property>
+                <factor>0.0035</factor>
+                <offset>1.25</offset>
+            </pitch>
+            <reference-dist>1.0</reference-dist>
+            <max-dist>100.0</max-dist>
+        </wind-right>
 
         <stall>
             <name>stall</name>
@@ -1028,213 +1062,121 @@
             <max-dist>50.0</max-dist>
         </baggage-door-closing>
 
-        <left-pontoon-outside>
-            <name>left-pontoon-outside</name>
+        <pontoon-fast-left>
+            <name>pontoon-fast-left</name>
             <mode>looped</mode>
             <path>Sounds/water-fast.wav</path>
             <condition>
-                <and>
-                    <greater-than>
-                        <property alias="/params/spray_wake_speed_kt/property"/>
-                        <value>5</value>
-                    </greater-than>
-                    <not>
-                        <property>/sim/current-view/internal</property>
-                    </not>
-                </and>
+                <greater-than>
+                    <property alias="/params/spray_wake_speed_kt/property"/>
+                    <value>5</value>
+                </greater-than>
             </condition>
             <position>
                 <x>0.0</x>
                 <y>1.1</y>
                 <z>-2.0</z>
             </position>
-            <reference-dist>10.0</reference-dist>
-            <max-dist>50.0</max-dist>
-            <volume>
-                <property alias="/params/spray_wake_speed_kt/property"/>
-                <factor>0.04</factor>
-                <offset>0.1</offset>
-                <min>0.1</min>
-                <max>2.0</max>
-            </volume>
-        </left-pontoon-outside>
-
-        <left-pontoon-inside>
-            <name>left-pontoon-inside</name>
-            <mode>looped</mode>
-            <path>Sounds/water-fast.wav</path>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property alias="/params/spray_wake_speed_kt/property"/>
-                        <value>5</value>
-                    </greater-than>
-                    <property>/sim/current-view/internal</property>
-                </and>
-            </condition>
-            <position>
-                <x>0.0</x>
-                <y>1.1</y>
-                <z>-2.0</z>
-            </position>
-            <reference-dist>10.0</reference-dist>
-            <max-dist>50.0</max-dist>
-            <volume>
-                <property alias="/params/spray_wake_speed_kt/property"/>
-                <factor>0.04</factor>
-                <offset>0.1</offset>
-                <min>0.1</min>
-                <max>2.0</max>
-            </volume>
-            <volume>
-                <offset>-0.5</offset>
-            </volume>
-            <volume>
-                <property alias="/params/doors/left"/>
-                <factor>0.25</factor>
-                <offset>0.0</offset>
-            </volume>
-            <volume>
-                <property alias="/params/doors/right"/>
-                <factor>0.25</factor>
-                <offset>0.0</offset>
-            </volume>
-        </left-pontoon-inside>
-
-        <right-pontoon-outside>
-            <name>right-pontoon-outside</name>
-            <mode>looped</mode>
-            <path>Sounds/water-fast.wav</path>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property alias="/params/spray_wake_speed_kt/property"/>
-                        <value>5</value>
-                    </greater-than>
-                    <not>
-                        <property>/sim/current-view/internal</property>
-                    </not>
-                </and>
-            </condition>
-            <position>
-                <x>0.0</x>
-                <y>-1.1</y>
-                <z>-2.0</z>
-            </position>
-            <reference-dist>10.0</reference-dist>
-            <max-dist>50.0</max-dist>
-            <volume>
-                <property alias="/params/spray_wake_speed_kt/property"/>
-                <factor>0.04</factor>
-                <offset>0.1</offset>
-                <min>0.1</min>
-                <max>2.0</max>
-            </volume>
-        </right-pontoon-outside>
-
-        <right-pontoon-inside>
-            <name>right-pontoon-inside</name>
-            <mode>looped</mode>
-            <path>Sounds/water-fast.wav</path>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property alias="/params/spray_wake_speed_kt/property"/>
-                        <value>5</value>
-                    </greater-than>
-                    <property>/sim/current-view/internal</property>
-                </and>
-            </condition>
-            <position>
-                <x>0.0</x>
-                <y>-1.1</y>
-                <z>-2.0</z>
-            </position>
-            <reference-dist>10.0</reference-dist>
-            <max-dist>50.0</max-dist>
-            <volume>
-                <property alias="/params/spray_wake_speed_kt/property"/>
-                <factor>0.04</factor>
-                <offset>0.1</offset>
-                <min>0.1</min>
-                <max>2.0</max>
-            </volume>
-            <volume>
-                <offset>-0.5</offset>
-            </volume>
-            <volume>
-                <property alias="/params/doors/left"/>
-                <factor>0.25</factor>
-                <offset>0.0</offset>
-            </volume>
-            <volume>
-                <property alias="/params/doors/right"/>
-                <factor>0.25</factor>
-                <offset>0.0</offset>
-            </volume>
-        </right-pontoon-inside>
-
-        <pontoons-in-water-outside>
-            <name>pontoons-in-water-outside</name>
-            <mode>looped</mode>
-            <path>Sounds/water-still.wav</path>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property alias="/params/spray_wake_speed_kt/property"/>
-                        <value>0</value>
-                    </greater-than>
-                    <not>
-                        <property>/sim/current-view/internal</property>
-                    </not>
-                </and>
-            </condition>
-            <position>
-                <x>0.0</x>
-                <y>0.0</y>
-                <z>-2.0</z>
-            </position>
             <reference-dist>5.0</reference-dist>
-            <max-dist>25.0</max-dist>
+            <max-dist>200.0</max-dist>
             <volume>
-                <offset>0.3</offset>
-            </volume>
-        </pontoons-in-water-outside>
-
-        <pontoons-in-water-inside>
-            <name>pontoons-in-water-inside</name>
-            <mode>looped</mode>
-            <path>Sounds/water-still.wav</path>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property alias="/params/spray_wake_speed_kt/property"/>
-                        <value>0</value>
-                    </greater-than>
-                    <property>/sim/current-view/internal</property>
-                </and>
-            </condition>
-            <position>
-                <x>0.0</x>
-                <y>0.0</y>
-                <z>-2.0</z>
-            </position>
-            <reference-dist>5.0</reference-dist>
-            <max-dist>25.0</max-dist>
-            <volume>
+                <property alias="/params/spray_wake_speed_kt/property"/>
+                <factor>0.03</factor>
                 <offset>0.2</offset>
+                <min>0.0</min>
+                <max>1.0</max>
             </volume>
             <volume>
-                <property alias="/params/doors/left"/>
-                <factor>0.2</factor>
-                <offset>0.0</offset>
+                <factor>1.142857142857143</factor> <!-- (1.0+0.6)/1.4 (offset = -0.6, max boost: 1.4) -->
+                <property>/sim/model/c172p/sound/volume-boost-left-door</property>
+                <offset>-0.6</offset>
+            </volume>
+        </pontoon-fast-left>
+
+        <pontoon-fast-right>
+            <name>pontoon-fast-right</name>
+            <mode>looped</mode>
+            <path>Sounds/water-fast.wav</path>
+            <condition>
+                <greater-than>
+                    <property alias="/params/spray_wake_speed_kt/property"/>
+                    <value>5</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>0.0</x>
+                <y>-1.1</y>
+                <z>-2.0</z>
+            </position>
+            <reference-dist>5.0</reference-dist>
+            <max-dist>200.0</max-dist>
+            <volume>
+                <property alias="/params/spray_wake_speed_kt/property"/>
+                <factor>0.03</factor>
+                <offset>0.2</offset>
+                <min>0.0</min>
+                <max>1.0</max>
             </volume>
             <volume>
-                <property alias="/params/doors/right"/>
-                <factor>0.2</factor>
-                <offset>0.0</offset>
+                <factor>1.142857142857143</factor> <!-- (1.0+0.6)/1.4 (offset = -0.6, max boost: 1.4) -->
+                <property>/sim/model/c172p/sound/volume-boost-right-door</property>
+                <offset>-0.6</offset>
             </volume>
-        </pontoons-in-water-inside>
+        </pontoon-fast-right>
+
+        <pontoons-in-water-left>
+            <name>pontoons-in-water-left</name>
+            <mode>looped</mode>
+            <path>Sounds/water-still.wav</path>
+            <condition>
+                <greater-than>
+                    <property alias="/params/spray_wake_speed_kt/property"/>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>0.0</x>
+                <y>1.1</y>
+                <z>-2.0</z>
+            </position>
+            <reference-dist>2.0</reference-dist>
+            <max-dist>200.0</max-dist>
+            <volume>
+                <offset>-0.2</offset>
+            </volume>
+            <volume>
+                <factor>1.142857142857143</factor> <!-- (1.0+0.6)/1.4 (offset = -0.6, max boost: 1.4) -->
+                <property>/sim/model/c172p/sound/volume-boost-right-door</property>
+                <offset>-0.6</offset>
+            </volume>
+        </pontoons-in-water-left>
+
+        <pontoons-in-water-right>
+            <name>pontoons-in-water-right</name>
+            <mode>looped</mode>
+            <path>Sounds/water-still.wav</path>
+            <condition>
+                <greater-than>
+                    <property alias="/params/spray_wake_speed_kt/property"/>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>0.0</x>
+                <y>-1.1</y>
+                <z>-2.0</z>
+            </position>
+            <reference-dist>2.0</reference-dist>
+            <max-dist>200.0</max-dist>
+            <volume>
+                <offset>-0.2</offset>
+            </volume>
+            <volume>
+                <factor>1.142857142857143</factor> <!-- (1.0+0.6)/1.4 (offset = -0.6, max boost: 1.4) -->
+                <property>/sim/model/c172p/sound/volume-boost-right-door</property>
+                <offset>-0.6</offset>
+            </volume>
+        </pontoons-in-water-right>
 
         <thunder1>
             <name>thunder1</name>

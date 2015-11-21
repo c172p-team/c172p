@@ -189,7 +189,14 @@
                 <property>sim/multiplay/generic/float[2]</property>
             </baggage>
         </doors>
-
+        <windows>
+            <left>
+                <property>sim/multiplay/generic/float[3]</property>
+            </left>
+            <right>
+                <property>sim/multiplay/generic/float[4]</property>
+            </right>
+        </windows>
         <crash>
             <property>sim/multiplay/generic/int[15]</property>
         </crash>
@@ -435,6 +442,8 @@
         <object-name>seat_mount</object-name>
         <object-name>windlocket_right</object-name>
         <object-name>windlocket_left</object-name>
+        <object-name>windlocketbak_right</object-name>
+        <object-name>windlocketbak_left</object-name>
         <object-name>CeilingSpeaker</object-name>
         <object-name>TrimWheel</object-name>
         <object-name>wing_1L</object-name>
@@ -2024,6 +2033,53 @@
             </binding>
         </hovered>
     </animation>
+
+    <!-- Pick animation for the windows -->
+    <animation>
+        <type>pick</type>
+        <object-name>lefttwindow</object-name>
+        <object-name>windlocket_left</object-name>
+        <object-name>leftwindow_interior</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.leftWindow.toggle();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>window-handle-l</tooltip-id>
+                <label>Left Window Open/Close</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>rightwindow</object-name>
+        <object-name>windlocket_right</object-name>
+        <object-name>rightwindow_interior</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.rightWindow.toggle();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>window-handle-r</tooltip-id>
+                <label>Right Window Open/Close</label>
+            </binding>
+        </hovered>
+    </animation>
+
     <animation>
         <type>pick</type>
         <object-name>baggagedoorexterior</object-name>
@@ -2122,6 +2178,7 @@
         <object-name>doorint_right</object-name>
         <object-name>doorhandleint_right</object-name>
         <object-name>windlocket_right</object-name>
+        <object-name>windlocketbak_right</object-name>
         <!-- MOD: Added an interior window-->
         <!--object-name>rightwindow_int</object-name-->
         <object-name>rightwindow_interior</object-name>
@@ -2190,6 +2247,7 @@
         <object-name>doorint_left</object-name>
         <object-name>doorhandleint_left</object-name>
         <object-name>windlocket_left</object-name>
+        <object-name>windlocketbak_left</object-name>
         <!-- MOD: Added an interior window-->
         <object-name>leftwindow_int</object-name>
         <object-name>leftwindow_interior</object-name>
@@ -2247,6 +2305,132 @@
             <x>0.0</x>
             <y>1.0</y>
             <z>0.0</z>
+        </axis>
+    </animation>
+
+    <!-- Left Window -->
+    <animation>
+        <type>rotate</type>
+        <object-name>leftwindow</object-name>
+        <object-name>leftwindow_interior</object-name>
+        <object-name>windlocket_left</object-name>
+        <object-name>windlocketbak_left</object-name>
+        <property alias="../../params/windows/left/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>-20.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>0.4485</x-m>
+            <y-m>-0.5212</y-m>
+            <z-m>0.2791</z-m>
+        </center>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>windlocket_left</object-name>
+        <property alias="../../params/windows/left/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>90.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>90.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>0.33704</x-m>
+            <y-m>-0.51572</y-m>
+            <z-m>-0.05777</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <!-- Right Window -->
+    <animation>
+        <type>rotate</type>
+        <object-name>rightwindow</object-name>
+        <object-name>rightwindow_interior</object-name>
+        <object-name>windlocket_right</object-name>
+        <object-name>windlocketbak_right</object-name>
+        <property alias="../../params/windows/right/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>20.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>0.4564</x-m>
+            <y-m>0.5226</y-m>
+            <z-m>0.2798</z-m>
+        </center>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>windlocket_right</object-name>
+        <property alias="../../params/windows/right/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>90.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>90.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>0.33704</x-m>
+            <y-m>0.51535</y-m>
+            <z-m>-0.05777</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
         </axis>
     </animation>
 
@@ -7374,5 +7558,5 @@
             </binding>
         </hovered>
     </animation>
-    
+
 </PropertyList>

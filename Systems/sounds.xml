@@ -19,6 +19,17 @@
 
 <PropertyList>
 
+    <params>
+        <doors>
+            <left>/sim/multiplay/generic/float[1]</left>
+            <right>/sim/multiplay/generic/float[0]</right>
+        </doors>
+        <windows>
+            <left>/sim/multiplay/generic/float[3]</left>
+            <right>/sim/multiplay/generic/float[4]</right>
+        </windows>
+    </params>
+
     <!-- Return a factor (>= 1.0) to boost the volume when one or both
          doors are open.
     -->
@@ -35,21 +46,47 @@
                         <div>
                             <log>
                                 <sum>
-                                    <!-- Left door fully open is 1.0. Fully closed is 0.0 -->
-                                    <table>
-                                        <property>/sim/multiplay/generic/float[1]</property>
-                                        <entry><ind>0.5</ind><dep>0.0</dep></entry>
-                                        <entry><ind>0.65</ind><dep>0.7</dep></entry>
-                                        <entry><ind>1.0</ind><dep>1.0</dep></entry>
-                                    </table>
+                                    <min>
+                                        <sum>
+                                            <!-- Left door fully open is 1.0. Fully closed is 0.0 -->
+                                            <table>
+                                                <property alias="/params/doors/left"/>
+                                                <entry><ind>0.5</ind><dep>0.0</dep></entry>
+                                                <entry><ind>0.65</ind><dep>0.7</dep></entry>
+                                                <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                                            </table>
 
-                                    <!-- Right door fully open is 1.0. Fully closed is 0.0 -->
-                                    <table>
-                                        <property>/sim/multiplay/generic/float[0]</property>
-                                        <entry><ind>0.5</ind><dep>0.0</dep></entry>
-                                        <entry><ind>0.65</ind><dep>0.7</dep></entry>
-                                        <entry><ind>1.0</ind><dep>1.0</dep></entry>
-                                    </table>
+                                            <!-- Left window fully open is 1.0. Fully closed is 0.0 -->
+                                            <table>
+                                                <property alias="/params/windows/left"/>
+                                                <entry><ind>0.5</ind><dep>0.0</dep></entry>
+                                                <entry><ind>0.65</ind><dep>0.7</dep></entry>
+                                                <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                                            </table>
+                                        </sum>
+                                        <value>1.0</value>
+                                    </min>
+
+                                    <min>
+                                        <sum>
+                                            <!-- Right door fully open is 1.0. Fully closed is 0.0 -->
+                                            <table>
+                                                <property alias="/params/doors/right"/>
+                                                <entry><ind>0.5</ind><dep>0.0</dep></entry>
+                                                <entry><ind>0.65</ind><dep>0.7</dep></entry>
+                                                <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                                            </table>
+
+                                            <!-- Right window fully open is 1.0. Fully closed is 0.0 -->
+                                            <table>
+                                                <property alias="/params/windows/right"/>
+                                                <entry><ind>0.5</ind><dep>0.0</dep></entry>
+                                                <entry><ind>0.65</ind><dep>0.7</dep></entry>
+                                                <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                                            </table>
+                                        </sum>
+                                        <value>1.0</value>
+                                    </min>
 
                                     <!-- Prevents math domain error because log2
                                          requires value >= 1.0.
@@ -144,13 +181,26 @@
                         <div>
                             <log>
                                 <sum>
-                                    <!-- Left door fully open is 1.0. Fully closed is 0.0 -->
-                                    <table>
-                                        <property>/sim/multiplay/generic/float[1]</property>
-                                        <entry><ind>0.5</ind><dep>0.0</dep></entry>
-                                        <entry><ind>0.65</ind><dep>0.7</dep></entry>
-                                        <entry><ind>1.0</ind><dep>1.0</dep></entry>
-                                    </table>
+                                    <min>
+                                        <sum>
+                                            <!-- Left door fully open is 1.0. Fully closed is 0.0 -->
+                                            <table>
+                                                <property alias="/params/doors/left"/>
+                                                <entry><ind>0.5</ind><dep>0.0</dep></entry>
+                                                <entry><ind>0.65</ind><dep>0.7</dep></entry>
+                                                <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                                            </table>
+
+                                            <!-- Left window fully open is 1.0. Fully closed is 0.0 -->
+                                            <table>
+                                                <property alias="/params/windows/left"/>
+                                                <entry><ind>0.5</ind><dep>0.0</dep></entry>
+                                                <entry><ind>0.65</ind><dep>0.7</dep></entry>
+                                                <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                                            </table>
+                                        </sum>
+                                        <value>1.0</value>
+                                    </min>
 
                                     <!-- Prevents math domain error because log2
                                          requires value >= 1.0.
@@ -194,13 +244,26 @@
                         <div>
                             <log>
                                 <sum>
-                                    <!-- Right door fully open is 1.0. Fully closed is 0.0 -->
-                                    <table>
-                                        <property>/sim/multiplay/generic/float[0]</property>
-                                        <entry><ind>0.5</ind><dep>0.0</dep></entry>
-                                        <entry><ind>0.65</ind><dep>0.7</dep></entry>
-                                        <entry><ind>1.0</ind><dep>1.0</dep></entry>
-                                    </table>
+                                    <min>
+                                        <sum>
+                                            <!-- Right door fully open is 1.0. Fully closed is 0.0 -->
+                                            <table>
+                                                <property alias="/params/doors/right"/>
+                                                <entry><ind>0.5</ind><dep>0.0</dep></entry>
+                                                <entry><ind>0.65</ind><dep>0.7</dep></entry>
+                                                <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                                            </table>
+
+                                            <!-- Right window fully open is 1.0. Fully closed is 0.0 -->
+                                            <table>
+                                                <property alias="/params/windows/right"/>
+                                                <entry><ind>0.5</ind><dep>0.0</dep></entry>
+                                                <entry><ind>0.65</ind><dep>0.7</dep></entry>
+                                                <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                                            </table>
+                                        </sum>
+                                        <value>1.0</value>
+                                    </min>
 
                                     <!-- Prevents math domain error because log2
                                          requires value >= 1.0.

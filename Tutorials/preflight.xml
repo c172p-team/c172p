@@ -26,7 +26,11 @@ This tutorial will guide you through the Preflight inspection
         <offset-distance-nm>0</offset-distance-nm>
     </presets>
 
-    <init>
+    <step>
+        <set>
+            <property>/sim/model/c172p/allow-securing-aircraft</property>
+            <value>true</value>
+        </set>
         <set>
             <property>/engines/active-engine/running</property>
             <value>false</value>
@@ -89,7 +93,7 @@ This tutorial will guide you through the Preflight inspection
         </set>
         <set>
             <property>/controls/lighting/strobe</property>
-            <value>true</value>
+            <value>false</value>
         </set>
         <set>
             <property>/controls/anti-ice/engine/carb-heat</property>
@@ -101,6 +105,10 @@ This tutorial will guide you through the Preflight inspection
         </set>
         <set>
             <property>/controls/engines/engine/throttle</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/controls/engines/current-engine/throttle</property>
             <value>0</value>
         </set>
         <set>
@@ -128,37 +136,82 @@ This tutorial will guide you through the Preflight inspection
             <value>false</value>
         </set>
         <set>
-            <property>/sim/model/door-positions/baggageDoor</property>
+            <property>/sim/model/door-positions/baggageDoor/position-norm</property>
             <value>0</value>
         </set>
         <set>
-            <property>/sim/model/door-positions/leftDoor</property>
+            <property>/sim/model/door-positions/leftDoor/position-norm</property>
             <value>0</value>
         </set>
         <set>
-            <property>/sim/model/door-positions/rightDoor</property>
+            <property>/sim/model/door-positions/rightDoor/position-norm</property>
             <value>0</value>
         </set>
         <set>
             <property>/sim/model/c172p/chock</property>
-            <value>true</value>
+            <value>1</value>
         </set>
         <set>
             <property>/sim/model/c172p/tiedownL</property>
-            <value>true</value>
+            <value>1</value>
         </set>
         <set>
             <property>/sim/model/c172p/tiedownR</property>
-            <value>true</value>
+            <value>1</value>
         </set>
         <set>
             <property>/sim/model/c172p/pitot-cover</property>
-            <value>true</value>
+            <value>1</value>
         </set>
-    </init>
-
-    <step>
+        <set>
+            <property>sim/model/c172p/engine_flag_0</property>
+            <value>1</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/engine_flag_1</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/controls/engines/active-engine</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_0</property>
+            <value>1</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_1</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_2</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_3</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_4</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>fdm/jsbsim/bushkit</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/controls/engines/current-engine/throttle</property>
+            <value>0</value>
+        </set>
         <message>Welcome to Livermore Municipal Airport. In this lesson we'll check the condition of our aircraft.</message>
+        <view>
+            <heading-offset-deg>0.0</heading-offset-deg>
+            <pitch-offset-deg>-12</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.21</x-offset-m>
+            <y-offset-m>0.19</y-offset-m>
+            <field-of-view>73.6</field-of-view>
+        </view>
         <wait>10</wait>
     </step>
 
@@ -357,7 +410,7 @@ This tutorial will guide you through the Preflight inspection
             <scale>2.0413</scale>
         </marker>
         <error>
-            <message>To save energy, swithc the battery off..</message>
+            <message>To save energy, switch off the battery.</message>
             <condition>
                 <property>/controls/switches/master-bat</property>
             </condition>
@@ -420,7 +473,7 @@ This tutorial will guide you through the Preflight inspection
             <z-offset-m>0.4</z-offset-m>
             <field-of-view>105.1</field-of-view>
         </view>
-        <wait>10</wait>
+        <wait>7</wait>
     </step>
 
     <step>
@@ -557,10 +610,10 @@ This tutorial will guide you through the Preflight inspection
     </step>
 
     <step>
-        <message>If the color of the fuel is light blue, the fuel isn't contaminated and you can return the sample to the tank. If it's partially translucid, it is contaminated. Then you have to discard the sample.</message>
-        <wait>15</wait>
+        <message>If the sample is light blue, the fuel isn't contaminated and you can return it to the tank. If it's transparent, it's contaminated: You have to discard the it.</message>
+        <wait>10</wait>
         <error>
-            <message>There's still water in the fuel. Continue the process.</message>
+            <message>There's still water in the fuel. Discard the sample and take a new one.</message>
             <condition>
                 <greater-than>
                     <property>/consumables/fuel/tank[0]/water-contamination</property>
@@ -825,11 +878,11 @@ This tutorial will guide you through the Preflight inspection
         </exit>
     </step>
 
-    <step>
-        <message>If the color of the fuel is light blue, the fuel isn't contaminated and you can return the sample to the tank. If it's partially translucid, it is contaminated. Then you have to discard the sample.</message>
-        <wait>15</wait>
+     <step>
+        <message>If the sample is light blue, the fuel isn't contaminated and you can return it to the tank. If it's transparent, it's contaminated: You have to discard the it.</message>
+        <wait>10</wait>
         <error>
-            <message>There's still water in the fuel. Continue the process.</message>
+            <message>There's still water in the fuel. Discard the sample and take a new one.</message>
             <condition>
                 <greater-than>
                     <property>/consumables/fuel/tank[1]/water-contamination</property>
@@ -879,10 +932,10 @@ This tutorial will guide you through the Preflight inspection
             <script>fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));</script>
         </nasal>
         <nasal>
-            <script>if (getprop("/controls/engines/active-engine", 0)) { fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog-160"})); } else { fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));}</script>
+            <script>fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));</script>
         </nasal>
         <error>
-            <message>The oil level is too low. Refill some oil, or you risk an engine damage!</message>
+            <message>The oil level is too low. Refill some oil, or you will risk an engine damage!</message>
             <condition>
                 <less-than-equals>
                     <property>/engines/active-engine/oil-level</property>
@@ -917,7 +970,7 @@ This tutorial will guide you through the Preflight inspection
             <field-of-view>77.0</field-of-view>
         </view>
         <nasal>
-            <script>if (getprop("/controls/engines/active-engine", 0)) { fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"})); } else { fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));}</script>
+            <script>fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));</script>
         </nasal>
         <wait>10</wait>
     </step>
@@ -1043,13 +1096,12 @@ This tutorial will guide you through the Preflight inspection
     <step>
         <message>Perfect, you're finished. The aircraft is in a good condition, and you're ready to start the engine.</message>
         <view>
-            <heading-offset-deg>335.6</heading-offset-deg>
-            <pitch-offset-deg>-21.1</pitch-offset-deg>
+            <heading-offset-deg>0.0</heading-offset-deg>
+            <pitch-offset-deg>-12</pitch-offset-deg>
             <roll-offset-deg>0.0</roll-offset-deg>
-            <x-offset-m>-0.3</x-offset-m>
-            <y-offset-m>0.3</y-offset-m>
-            <z-offset-m>0.4</z-offset-m>
-            <field-of-view>105.1</field-of-view>
+            <x-offset-m>-0.21</x-offset-m>
+            <y-offset-m>0.19</y-offset-m>
+            <field-of-view>73.6</field-of-view>
         </view>
     </step>
 

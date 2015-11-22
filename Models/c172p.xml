@@ -7195,6 +7195,76 @@
         </hovered>
     </animation>
 
+ <!-- Tail Tiedowns -->
+    <model>
+        <name>tiedownT</name>
+        <path>Exterior/tiedowns/tiedownT.xml</path>
+    </model>
+    <animation>
+        <type>select</type>
+        <object-name>tiedownT</object-name>
+        <condition>
+            <property>sim/model/c172p/tiedownT-visible</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>tiedownT</object-name>
+        <object-name>TieDownTail</object-name> <!-- tiedown handle -->
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>/sim/model/c172p/tiedownT</property>
+                <value>false</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/tiedownT</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>remove-tail-tiedowns</tooltip-id>
+                <label>Remove Tail Tie-Down</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>TiedownHotSpotTail</object-name>
+        <condition>
+            <property>/sim/model/c172p/tiedownT-addable</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>TiedownHotSpotTail</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/tiedownT-addable</property>
+                </condition>
+                <command>property-assign</command>
+                <property>sim/model/c172p/tiedownT</property>
+                <value>true</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/tiedownT-addable</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>secure-with-tail-tiedowns</tooltip-id>
+                <label>Secure With Tie-Down</label>
+            </binding>
+        </hovered>
+    </animation>
+
     <!-- Amphibious Gear Instrumentation -->
     <animation>
         <type>select</type>

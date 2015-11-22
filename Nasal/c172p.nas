@@ -33,6 +33,7 @@ var autostart = func (msg=1) {
     setprop("/sim/model/c172p/pitot-cover", 0);
     setprop("/sim/model/c172p/tiedownL", 0);
     setprop("/sim/model/c172p/tiedownR", 0);
+    setprop("/sim/model/c172p/tiedownT", 0);
     setprop("/engines/active-engine/oil-level", 7.0);
     setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
     setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);
@@ -268,8 +269,8 @@ var thunder = func (name) {
         else
             return;
 
-       # Play the sound (sound files are about 9 seconds)
-       click("thunder" ~ thunderCalls, 9.0, 0);
+        # Play the sound (sound files are about 9 seconds)
+        click("thunder" ~ thunderCalls, 9.0, 0);
     }, delay_seconds);
 };
 

@@ -334,6 +334,7 @@ Under the GPL. Used by shadows under ALS -->
                 <property>/sim/model/c172p/woodenchock-visible</property>
                 <property>/sim/model/c172p/tiedownL-visible</property>
                 <property>/sim/model/c172p/tiedownR-visible</property>
+                <property>/sim/model/c172p/tiedownT-visible</property>
 
                 <!-- A broken gear operates as a parking brake -->
                 <property>/fdm/jsbsim/gear/unit[1]/broken</property>
@@ -597,6 +598,38 @@ Under the GPL. Used by shadows under ALS -->
         </input>
         <output>
             <property>/sim/model/c172p/tiedownR-addable</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Tail Tiedown Visible</name>
+        <input>
+            <and>
+                <property>/sim/model/c172p/tiedownT</property>
+                <property>/sim/model/c172p/tiedowns-can-have</property>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/tiedownT-visible</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Tail Tiedowns Addable</name>
+        <input>
+            <and>
+                <not>
+                    <property>sim/model/c172p/tiedownT</property>
+                </not>
+                <property>/sim/model/c172p/tiedowns-can-have</property>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>1.0</value>
+                </less-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/tiedownT-addable</property>
         </output>
     </logic>
 

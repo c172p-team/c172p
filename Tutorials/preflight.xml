@@ -160,6 +160,10 @@ This tutorial will guide you through the Preflight inspection
             <value>1</value>
         </set>
         <set>
+            <property>/sim/model/c172p/tiedownT</property>
+            <value>1</value>
+        </set>
+        <set>
             <property>/sim/model/c172p/pitot-cover</property>
             <value>1</value>
         </set>
@@ -773,6 +777,38 @@ This tutorial will guide you through the Preflight inspection
             <field-of-view>61.0</field-of-view>
         </view>
         <wait>10</wait>
+    </step>
+
+    <step>
+        <message>Remove the rear tiedown.</message>
+        <view>
+            <heading-offset-deg>323.3</heading-offset-deg>
+            <pitch-offset-deg>0.5</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-1.0</x-offset-m>
+            <y-offset-m>-0.6</y-offset-m>
+            <z-offset-m>6.0</z-offset-m>
+            <field-of-view>53.5</field-of-view>
+        </view>
+        <marker>
+            <x-m>4.9132</x-m>
+            <y-m>-0.1835</y-m>
+            <z-m>-0.7075</z-m>
+            <scale>3.0000</scale>
+        </marker>
+        <error>
+            <message>You have to remove the tiedown, or you can't fly away!</message>
+            <condition>
+                <property>sim/model/c172p/tiedownT</property>
+            </condition>
+        </error>
+        <exit>
+            <condition>
+                <not>
+                    <property>sim/model/c172p/tiedownT</property>
+                </not>
+            </condition>
+        </exit>
     </step>
 
     <step>

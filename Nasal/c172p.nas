@@ -4,8 +4,8 @@
 
 var autostart = func (msg=1) {
     if (getprop("/engines/active-engine/running")) {
-    if (msg)
-        gui.popupTip("Engine already running", 5);
+        if (msg)
+            gui.popupTip("Engine already running", 5);
         return;
     }
 
@@ -25,7 +25,8 @@ var autostart = func (msg=1) {
     setprop("/consumables/fuel/tank[1]/selected", 1);
 
     # Set the altimeter
-    setprop("/instrumentation/altimeter/setting-inhg", getprop("/environment/pressure-sea-level-inhg"));
+    var pressure_sea_level = getprop("/environment/pressure-sea-level-inhg");
+    setprop("/instrumentation/altimeter/setting-inhg", pressure_sea_level);
 
     # Pre-flight inspection
     setprop("/sim/model/c172p/brake-parking", 0);
@@ -41,6 +42,7 @@ var autostart = func (msg=1) {
     #c172p.autoPrime();
     setprop("/controls/engines/engine[0]/primer-lever", 0);
     setprop("/controls/engines/engine/primer", 3);
+
     if (msg)
         gui.popupTip("Hold down \"s\" to start the engine", 5);
 };
@@ -332,9 +334,8 @@ setlistener("/engines/active-engine/killed", coughing_engine_sound);
 # Global loop function
 # If you need to run nasal as loop, add it in this function
 ############################################
-var global_system_loop = func{
+var global_system_loop = func {
     c172p.physics_loop();
-    c172p.weather_effects_loop();
 }
 
 ##########################################
@@ -392,7 +393,7 @@ setlistener("/pax/right-passenger/present", update_pax, 0, 0);
 setlistener("/pax/pilot/present", update_pax, 0, 0);
 update_pax();
 
-var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
+setlistener("/sim/signals/fdm-initialized", func {
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.
     aircraft.data.add("/sim/model/c172p/immat-on-panel");
@@ -409,6 +410,20 @@ var nasalInit = setlistener("/sim/signals/fdm-initialized", func{
         }
     });
     
+    setlistener("/sim/model/c172p/cabin-air-temp-in-range", func (node) {
+        var temp_degc = getprop("/fdm/jsbsim/heat/cabin-air-temp-degc");
+
+        if (node.getValue()) {
+            gui.popupTip("Cabin temperature between 32F/0C and 90F/32C", 5);
+        }
+        else {
+            if (temp_degc >= 32)
+                gui.popupTip("Cabin temperature exceeding 90F/32C!", 10);
+            elsif (temp_degc <= 0)
+                gui.popupTip("Cabin temperature falling below 32F/0C!", 10);
+        }
+    }, 1, 0);
+
     # Checking if fuel tanks should be refilled (in case save state is off)
     fuel_save_state();
     

@@ -321,7 +321,83 @@ Under the GPL. Used by shadows under ALS -->
             <property>/fdm/jsbsim/ground/right-tyre-smoke-ground-effect-speed-kt-actual</property>
         </output>
     </filter>
-    
+
+    <filter>
+        <name>Aircraft Effect Fog Level</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>0.1</max-rate-of-change>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <condition>
+                <property>/sim/model/c172p/enable-fog-frost</property>
+            </condition>
+            <property>/fdm/jsbsim/heat/fog-level</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/fog-level</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Aircraft Effect Frost Level</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>0.1</max-rate-of-change>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <condition>
+                <property>/sim/model/c172p/enable-fog-frost</property>
+            </condition>
+            <property>/fdm/jsbsim/heat/frost-level</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/environment/aircraft-effects/frost-level</property>
+        </output>
+    </filter>
+
+    <logic>
+        <name>Aircraft Effect Temperature In Range</name>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <and>
+                <less-than>
+                    <property>/fdm/jsbsim/heat/cabin-air-temp-degc</property>
+                    <value>32.0</value>
+                </less-than>
+                <greater-than>
+                    <property>/fdm/jsbsim/heat/cabin-air-temp-degc</property>
+                    <value>0.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/cabin-air-temp-in-range</property>
+        </output>
+    </logic>
+
     <!-- logic for securing aircraft -->   
     <logic>
         <name>Parking Brake And Chock</name>

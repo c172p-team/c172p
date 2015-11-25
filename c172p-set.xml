@@ -145,24 +145,25 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                     <left-wing type="int">0</left-wing>
                     <right-wing type="int">0</right-wing>
                 </damage>
-                
+
                 <!-- property that decides if chockes, pitot cover and tiedowns are allowed or not -->
                 <allow-securing-aircraft type="bool">false</allow-securing-aircraft>
-                
+
                 <!-- RBF: pitot cover "remove before flight" -->
                 <pitot-cover type="bool">false</pitot-cover>
-                
+
                 <!-- chocks used to secure the front gear -->
                 <chock type="bool">false</chock>
-                
+
                 <!-- tiedowns attached to the wings used to secure plane -->
                 <tiedownL type="bool">false</tiedownL>
                 <tiedownR type="bool">false</tiedownR>
                 <tiedownT type="bool">false</tiedownT>
-                
+
                 <!-- Parking brakes -->
                 <brake-parking type="bool">true</brake-parking>
 
+                <enable-fog-frost type="bool">true</enable-fog-frost>
             </c172p>
 
             <hide-yoke type="bool">false</hide-yoke>
@@ -211,6 +212,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <path>/sim/model/c172p/tiedownR</path>
             <path>/sim/model/c172p/tiedownT</path>
             <path>/sim/model/c172p/brake-parking</path>
+            <path>/sim/model/c172p/enable-fog-frost</path>
             <path>/instrumentation/airspeed-indicator/serviceable</path>
             <path>/engines/active-engine/oil_consumption_allowed</path>
             <path>/engines/active-engine/oil-level</path>
@@ -221,7 +223,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <path>/environment/aircraft-effects/cabin-air-set</path>
             <path>/fdm/jsbsim/running</path>
             <path>/fdm/jsbsim/complex</path>
-            <path>/fdm/jsbsim/weather</path>
             <path>/consumables/fuel/save-fuel-state</path>
             <path>/consumables/fuel/contamination_allowed</path>
             <path>/instrumentation/save-switches-state</path>
@@ -492,6 +493,13 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
         </fuel>
     </consumables>
 
+    <environment>
+        <aircraft-effects>
+            <cabin-heat-set type="double">0.0</cabin-heat-set>
+            <cabin-air-set type="double">0.0</cabin-air-set>
+        </aircraft-effects>
+    </environment>
+
     <instrumentation>
         <kma20 include="Aircraft/Instruments-3d/kma20/kma20init.xml"/>
         <attitude-indicator>
@@ -645,7 +653,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <file>Nasal/ki266.nas</file>
             <file>Nasal/engine.nas</file>
             <file>Nasal/avionics.nas</file>
-            <file>Nasal/weather.nas</file>
             <file>Nasal/flashlight.nas</file>
             <!-- Damage Mod -->
             <file>Nasal/physics.nas</file>
@@ -818,10 +825,14 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                     <broken type="bool">0</broken>
                 </unit>
             </contact>
+            <heat>
+                <cabin-air-temp-degc type="double">0.0</cabin-air-temp-degc>
+                <surface-temp-degc type="double">0.0</surface-temp-degc>
+                <moisture-norm type="double">0.0</moisture-norm>
+            </heat>
             <crash type="bool">false</crash>
             <running type="bool">false</running>
             <complex type="bool">true</complex>
-            <weather type="bool">false</weather>
             <bushkit type="int">0</bushkit>
             <wing-damage>
                 <left-wing type="double">0.0</left-wing>

@@ -526,23 +526,34 @@ Under the GPL. Used by shadows under ALS -->
                     <value>3</value>
                 </not-equals>
                 <property>/sim/model/c172p/allow-securing-aircraft</property>
+                <property>/fdm/jsbsim/ground/solid</property>
             </and>
         </input>
         <output>
             <property>/sim/model/c172p/tiedowns-can-have</property>
         </output>
     </logic>
-        
+    
     <logic>
-        <name>Left Tiedown Visible</name>
+        <name>If tiedowns-can-have is false then no tiedowns visible</name>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/model/c172p/tiedowns-can-have</property>
+                </not>
+            </condition>
+        </enable>
         <input>
-            <and>
-                <property>/sim/model/c172p/tiedownL</property>
-                <property>/sim/model/c172p/tiedowns-can-have</property>
-            </and>
+            <property>/sim/model/c172p/tiedowns-can-have</property>
         </input>
         <output>
             <property>/sim/model/c172p/tiedownL-visible</property>
+        </output>
+        <output>
+            <property>/sim/model/c172p/tiedownR-visible</property>
+        </output>
+        <output>
+            <property>/sim/model/c172p/tiedownT-visible</property>
         </output>
     </logic>
         
@@ -551,7 +562,7 @@ Under the GPL. Used by shadows under ALS -->
         <input>
             <and>
                 <not>
-                    <property>sim/model/c172p/tiedownL</property>
+                    <property>sim/model/c172p/tiedownL-visible</property>
                 </not>
                 <property>/sim/model/c172p/tiedowns-can-have</property>
                 <less-than>
@@ -564,26 +575,13 @@ Under the GPL. Used by shadows under ALS -->
             <property>/sim/model/c172p/tiedownL-addable</property>
         </output>
     </logic>
-
-    <logic>
-        <name>Right Tiedown Visible</name>
-        <input>
-            <and>
-                <property>/sim/model/c172p/tiedownR</property>
-                <property>/sim/model/c172p/tiedowns-can-have</property>
-            </and>
-        </input>
-        <output>
-            <property>/sim/model/c172p/tiedownR-visible</property>
-        </output>
-    </logic>
         
     <logic>
         <name>Right Tiedowns Addable</name>
         <input>
             <and>
                 <not>
-                    <property>sim/model/c172p/tiedownR</property>
+                    <property>sim/model/c172p/tiedownR-visible</property>
                 </not>
                 <property>/sim/model/c172p/tiedowns-can-have</property>
                 <less-than>
@@ -598,24 +596,11 @@ Under the GPL. Used by shadows under ALS -->
     </logic>
 
     <logic>
-        <name>Tail Tiedown Visible</name>
-        <input>
-            <and>
-                <property>/sim/model/c172p/tiedownT</property>
-                <property>/sim/model/c172p/tiedowns-can-have</property>
-            </and>
-        </input>
-        <output>
-            <property>/sim/model/c172p/tiedownT-visible</property>
-        </output>
-    </logic>
-
-    <logic>
         <name>Tail Tiedowns Addable</name>
         <input>
             <and>
                 <not>
-                    <property>sim/model/c172p/tiedownT</property>
+                    <property>sim/model/c172p/tiedownT-visible</property>
                 </not>
                 <property>/sim/model/c172p/tiedowns-can-have</property>
                 <less-than>

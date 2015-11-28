@@ -19,6 +19,119 @@
 
 <system name="c172p heat">
 
+    <channel name="cabin-doors-windows">
+
+        <aerosurface_scale name="heat/door-left">
+            <input>/sim/model/door-positions/leftDoor/position-norm</input>
+            <zero_centered>false</zero_centered>
+            <domain>
+                <min>0.5</min>
+                <max>1.0</max>
+            </domain>
+            <range>
+                <min>0.0</min>
+                <max>1.0</max>
+            </range>
+            <clipto>
+                <min>0.0</min>
+                <max>1.0</max>
+            </clipto>
+        </aerosurface_scale>
+
+        <aerosurface_scale name="heat/door-right">
+            <input>/sim/model/door-positions/rightDoor/position-norm</input>
+            <zero_centered>false</zero_centered>
+            <domain>
+                <min>0.5</min>
+                <max>1.0</max>
+            </domain>
+            <range>
+                <min>0.0</min>
+                <max>1.0</max>
+            </range>
+            <clipto>
+                <min>0.0</min>
+                <max>1.0</max>
+            </clipto>
+        </aerosurface_scale>
+
+        <aerosurface_scale name="heat/door-baggage">
+            <input>/sim/model/door-positions/baggageDoor/position-norm</input>
+            <zero_centered>false</zero_centered>
+            <domain>
+                <min>0.0</min>
+                <max>1.0</max>
+            </domain>
+            <range>
+                <min>0.0</min>
+                <max>0.5</max>
+            </range>
+            <clipto>
+                <min>0.0</min>
+                <max>0.5</max>
+            </clipto>
+        </aerosurface_scale>
+
+        <aerosurface_scale name="heat/window-left">
+            <input>/sim/model/door-positions/leftWindow/position-norm</input>
+            <zero_centered>false</zero_centered>
+            <domain>
+                <min>0.5</min>
+                <max>1.0</max>
+            </domain>
+            <range>
+                <min>0.0</min>
+                <max>0.2</max>
+            </range>
+            <clipto>
+                <min>0.0</min>
+                <max>0.2</max>
+            </clipto>
+        </aerosurface_scale>
+
+        <aerosurface_scale name="heat/window-right">
+            <input>/sim/model/door-positions/rightWindow/position-norm</input>
+            <zero_centered>false</zero_centered>
+            <domain>
+                <min>0.5</min>
+                <max>1.0</max>
+            </domain>
+            <range>
+                <min>0.0</min>
+                <max>0.2</max>
+            </range>
+            <clipto>
+                <min>0.0</min>
+                <max>0.2</max>
+            </clipto>
+        </aerosurface_scale>
+
+        <summer name="heat/doors-windows-left">
+            <input>heat/door-left</input>
+            <input>heat/window-left</input>
+            <clipto>
+                <min>0.0</min>
+                <max>1.0</max>
+            </clipto>
+        </summer>
+
+        <summer name="heat/doors-windows-right">
+            <input>heat/door-right</input>
+            <input>heat/window-right</input>
+            <clipto>
+                <min>0.0</min>
+                <max>1.0</max>
+            </clipto>
+        </summer>
+
+        <summer name="heat/doors-windows-total">
+            <input>heat/doors-windows-left</input>
+            <input>heat/doors-windows-right</input>
+            <input>heat/door-baggage</input>
+        </summer>
+
+    </channel>
+
     <channel name="cabin-temperature">
 
         <!-- The exhaust gas temperature controls how much the air is
@@ -30,41 +143,61 @@
             <!-- Extra heat (in Celsius) when EGT is at maximum. EGT is
                  usually between 0.4 and 0.6.
             -->
-            <gain>50.0</gain>
+            <gain>60.0</gain>
         </pure_gain>
 
-        <pure_gain name="heat/cabin-heated-air-degc">
+        <!-- Computes the difference in temperature between the cabin
+             heat intake (behind propeller) and the cabin.
+        -->
+        <summer name="heat/cabin-heat-temp-diff">
+            <input>/environment/temperature-degc</input>
+            <input>-heat/cabin-air-temp-degc</input>
             <input>heat/heat-exhaust-gas-temp-degc</input>
-            <gain>/environment/aircraft-effects/cabin-heat-set</gain>
-        </pure_gain>
+        </summer>
 
-        <!-- Computes the difference in temperature between the start
-             (outside fuselage) and end (cabin) points of the air duct.
+        <!-- Computes the difference in temperature between the cabin
+             air intake (ventilating air door on the right side of the
+             fuselage) and the cabin.
         -->
         <summer name="heat/cabin-air-temp-diff">
             <input>/environment/temperature-degc</input>
             <input>-heat/cabin-air-temp-degc</input>
-
-            <!-- cabin-heat-set adds extra heat energy that is transferred.
-                 If the cabin heat slider is closed, none of the air that flows
-                 into the cabin is heated up.
-            -->
-            <input>heat/cabin-heated-air-degc</input>
         </summer>
 
-        <pure_gain name="heat/cabin-air-heat-transfer-air-duct">
-            <input>heat/cabin-air-temp-diff</input>
+        <scheduled_gain name="heat/cabin-air-transfer-heat-duct">
+            <input>heat/cabin-heat-temp-diff</input>
+            <gain>/environment/aircraft-effects/cabin-heat-set</gain>
+            <table>
+                <independentVar lookup="row">/engines/active-engine/rpm</independentVar>
+                <independentVar lookup="column">/velocities/airspeed-kt</independentVar>
+                <tableData>
+                            40      120
+                       0    0.10    0.50
+                     700    0.25    0.60
+                    2800    0.50    1.00
+                </tableData>
+            </table>
+        </scheduled_gain>
 
-            <!-- cabin-air-set controls how much heat (positive or negative)
-                 is transferred from the outside air to the cabin.
-            -->
+        <scheduled_gain name="heat/cabin-air-transfer-air-duct">
+            <input>heat/cabin-air-temp-diff</input>
             <gain>/environment/aircraft-effects/cabin-air-set</gain>
-        </pure_gain>
+            <table>
+                <independentVar lookup="row">/engines/active-engine/rpm</independentVar>
+                <independentVar lookup="column">/velocities/airspeed-kt</independentVar>
+                <tableData>
+                            40      120
+                       0    0.10    0.50
+                     700    0.25    0.60
+                    2800    0.50    1.00
+                </tableData>
+            </table>
+        </scheduled_gain>
 
         <!-- Even with the air slider closed, there is still some small
              amount of heat transferred via the fuselage.
         -->
-        <summer name="heat/cabin-air-heat-transfer-fuselage">
+        <summer name="heat/cabin-air-transfer-fuselage">
             <input>/environment/temperature-degc</input>
             <input>-heat/cabin-air-temp-degc</input>
             <clipto>
@@ -73,13 +206,46 @@
             </clipto>
         </summer>
 
-        <summer name="heat/cabin-air-heat-transfer">
-            <input>heat/cabin-air-heat-transfer-air-duct</input>
-            <input>heat/cabin-air-heat-transfer-fuselage</input>
+        <scheduled_gain name="heat/cabin-air-transfer-overhead-vent-left">
+            <input>heat/cabin-air-temp-diff</input>
+            <gain>/controls/climate-control/overhead-vent-front-left</gain>
+            <table>
+                <independentVar>/velocities/airspeed-kt</independentVar>
+                <tableData>
+                     40     0.10
+                    120     0.50
+                </tableData>
+            </table>
+        </scheduled_gain>
+
+        <scheduled_gain name="heat/cabin-air-transfer-overhead-vent-right">
+            <input>heat/cabin-air-temp-diff</input>
+            <gain>/controls/climate-control/overhead-vent-front-right</gain>
+            <table>
+                <independentVar>/velocities/airspeed-kt</independentVar>
+                <tableData>
+                     40     0.10
+                    120     0.50
+                </tableData>
+            </table>
+        </scheduled_gain>
+
+        <pure_gain name="heat/cabin-air-transfer-doors-windows">
+            <input>heat/cabin-air-temp-diff</input>
+            <gain>heat/doors-windows-total</gain>
+        </pure_gain>
+
+        <summer name="heat/cabin-air-transfer-total">
+            <input>heat/cabin-air-transfer-heat-duct</input>
+            <input>heat/cabin-air-transfer-air-duct</input>
+            <input>heat/cabin-air-transfer-fuselage</input>
+            <input>heat/cabin-air-transfer-overhead-vent-left</input>
+            <input>heat/cabin-air-transfer-overhead-vent-right</input>
+            <input>heat/cabin-air-transfer-doors-windows</input>
         </summer>
 
         <integrator name="heat/cabin-air-temp-degc">
-            <input>heat/cabin-air-heat-transfer</input>
+            <input>heat/cabin-air-transfer-total</input>
 
             <!-- This is the constant that actually controls how fast
                  (or slow) the cabin temperature changes.

@@ -28,7 +28,7 @@ This tutorial will guide you through the Preflight inspection
 
     <step>
         <set>
-            <property>/sim/model/c172p/allow-securing-aircraft</property>
+            <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
             <value>true</value>
         </set>
         <set>
@@ -148,23 +148,23 @@ This tutorial will guide you through the Preflight inspection
             <value>0</value>
         </set>
         <set>
-            <property>/sim/model/c172p/chock</property>
+            <property>/sim/model/c172p/securing/chock</property>
             <value>1</value>
         </set>
         <set>
-            <property>/sim/model/c172p/tiedownL</property>
+            <property>/sim/model/c172p/securing/tiedownL-visible</property>
             <value>1</value>
         </set>
         <set>
-            <property>/sim/model/c172p/tiedownR</property>
+            <property>/sim/model/c172p/securing/tiedownR-visible</property>
             <value>1</value>
         </set>
         <set>
-            <property>/sim/model/c172p/tiedownT</property>
+            <property>/sim/model/c172p/securing/tiedownT-visible</property>
             <value>1</value>
         </set>
         <set>
-            <property>/sim/model/c172p/pitot-cover</property>
+            <property>/sim/model/c172p/securing/pitot-cover-visible</property>
             <value>1</value>
         </set>
         <set>
@@ -572,13 +572,13 @@ This tutorial will guide you through the Preflight inspection
         <error>
             <message>To enable the Airspeed Indicator to show something, you have to remove the pitot tube cover.</message>
             <condition>
-                <property>sim/model/c172p/pitot-cover</property>
+                <property>sim/model/c172p/securing/pitot-cover-visible</property>
             </condition>
         </error>
         <exit>
             <condition>
                 <not>
-                    <property>sim/model/c172p/pitot-cover</property>
+                    <property>sim/model/c172p/securing/pitot-cover-visible</property>
                 </not>
             </condition>
         </exit>
@@ -614,7 +614,7 @@ This tutorial will guide you through the Preflight inspection
     </step>
 
     <step>
-        <message>If the sample is light blue, the fuel isn't contaminated and you can return it to the tank. If it's transparent, it's contaminated: You have to discard the it.</message>
+        <message>If the sample is light blue, the fuel isn't contaminated and you can return it to the tank. If it's transparent, it's contaminated: You have to discard it.</message>
         <wait>10</wait>
         <error>
             <message>There's still water in the fuel. Discard the sample and take a new one.</message>
@@ -653,7 +653,7 @@ This tutorial will guide you through the Preflight inspection
     </step>
 
     <step>
-        <message>Remove the left tiedown.</message>
+        <message>Remove the left tie-down.</message>
         <view>
             <heading-offset-deg>140.0</heading-offset-deg>
             <pitch-offset-deg>-13.2</pitch-offset-deg>
@@ -673,15 +673,15 @@ This tutorial will guide you through the Preflight inspection
             <script>fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));</script>
         </nasal>
         <error>
-            <message>You have to remove the tiedown, or you can't fly away!</message>
+            <message>You have to remove the tie-down, or you can't fly away!</message>
             <condition>
-                <property>sim/model/c172p/tiedownL</property>
+                <property>sim/model/c172p/securing/tiedownL-visible</property>
             </condition>
         </error>
         <exit>
             <condition>
                 <not>
-                    <property>sim/model/c172p/tiedownL</property>
+                    <property>sim/model/c172p/securing/tiedownL-visible</property>
                 </not>
             </condition>
         </exit>
@@ -780,7 +780,7 @@ This tutorial will guide you through the Preflight inspection
     </step>
 
     <step>
-        <message>Remove the rear tiedown.</message>
+        <message>Remove the rear tie-down.</message>
         <view>
             <heading-offset-deg>323.3</heading-offset-deg>
             <pitch-offset-deg>0.5</pitch-offset-deg>
@@ -797,15 +797,15 @@ This tutorial will guide you through the Preflight inspection
             <scale>3.0000</scale>
         </marker>
         <error>
-            <message>You have to remove the tiedown, or you can't fly away!</message>
+            <message>You have to remove the tie-down, or you can't fly away!</message>
             <condition>
-                <property>sim/model/c172p/tiedownT</property>
+                <property>sim/model/c172p/securing/tiedownT-visible</property>
             </condition>
         </error>
         <exit>
             <condition>
                 <not>
-                    <property>sim/model/c172p/tiedownT</property>
+                    <property>sim/model/c172p/securing/tiedownT-visible</property>
                 </not>
             </condition>
         </exit>
@@ -854,7 +854,7 @@ This tutorial will guide you through the Preflight inspection
     </step>
 
      <step>
-        <message>Remove the right tiedown.</message>
+        <message>Remove the right tie-down.</message>
         <view>
             <heading-offset-deg>220.0</heading-offset-deg>
             <pitch-offset-deg>-13.2</pitch-offset-deg>
@@ -871,15 +871,15 @@ This tutorial will guide you through the Preflight inspection
             <scale>3.0000</scale>
         </marker>
         <error>
-            <message>You have to remove the tiedown, or you can't fly away!</message>
+            <message>You have to remove the tie-down, or you can't fly away!</message>
             <condition>
-                <property>sim/model/c172p/tiedownR</property>
+                <property>sim/model/c172p/securing/tiedownR-visible</property>
             </condition>
         </error>
         <exit>
             <condition>
                 <not>
-                    <property>sim/model/c172p/tiedownR</property>
+                    <property>sim/model/c172p/securing/tiedownR-visible</property>
                 </not>
             </condition>
         </exit>
@@ -1045,13 +1045,13 @@ This tutorial will guide you through the Preflight inspection
         <error>
             <message>You must remove the wheel chocks before the flight!</message>
             <condition>
-                <property>sim/model/c172p/chock</property>
+                <property>sim/model/c172p/securing/chock</property>
             </condition>
         </error>
         <exit>
             <condition>
                 <not>
-                    <property>sim/model/c172p/chock</property>
+                    <property>sim/model/c172p/securing/chock</property>
                 </not>
             </condition>
         </exit>

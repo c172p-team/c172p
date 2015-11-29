@@ -391,9 +391,12 @@
 
     <!-- interior effects -->
     <effect>
-        <inherits-from>Effects/interior/c172p-interior</inherits-from>
+        <inherits-from>Effects/interior/c172p-flashlight</inherits-from>
         <object-name>AirVent_left</object-name>
         <object-name>AirVent_right</object-name>
+    </effect>
+    <effect>
+        <inherits-from>Effects/interior/c172p-interior</inherits-from>
         <object-name>ElevatorTrimPos</object-name>
         <object-name>FuelSelectorFace</object-name>
         <object-name>FuelSelectorLeft</object-name>
@@ -5429,7 +5432,7 @@
                 <property alias="/params/gear_right_broken/property"/>
                 <equals>
                     <property alias="/params/bushkit/property"/>
-                    <value>2</value>
+                    <value>1</value>
                 </equals>
             </and>
         </condition>
@@ -6907,7 +6910,7 @@
         <type>select</type>
         <object-name>rbf-pitot</object-name>
         <condition>
-            <property>/sim/model/c172p/pitot-cover-visible</property>
+            <property>/sim/model/c172p/securing/pitot-cover-visible</property>
         </condition>
     </animation>
     <animation>
@@ -6918,17 +6921,17 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/pitot-cover-removable</property>
+                    <property>/sim/model/c172p/securing/pitot-cover-removable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/pitot-cover</property>
+                <property>/sim/model/c172p/securing/pitot-cover-visible</property>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/pitot-cover-removable</property>
+                    <property>/sim/model/c172p/securing/pitot-cover-removable</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-pitot-tube-cap</tooltip-id>
@@ -6944,10 +6947,10 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/pitot-cover-addable</property>
+                    <property>/sim/model/c172p/securing/pitot-cover-addable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/pitot-cover</property>
+                <property>/sim/model/c172p/securing/pitot-cover-visible</property>
                 <value>true</value>
             </binding>
             <binding>
@@ -6959,7 +6962,7 @@
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/pitot-cover-addable</property>
+                    <property>/sim/model/c172p/securing/pitot-cover-addable</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>put-pitot-tube-cap</tooltip-id>
@@ -7003,14 +7006,14 @@
         <type>select</type>
         <object-name>chock1</object-name>
         <condition>
-            <property>/sim/model/c172p/smallchock-visible</property>
+            <property>/sim/model/c172p/securing/smallchock-visible</property>
         </condition>
     </animation>
     <animation>
         <type>select</type>
         <object-name>chock2</object-name>
         <condition>
-            <property>/sim/model/c172p/smallchock-visible</property>
+            <property>/sim/model/c172p/securing/smallchock-visible</property>
         </condition>
     </animation>
     <animation>
@@ -7022,14 +7025,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/chock</property>
+                <property>/sim/model/c172p/securing/chock</property>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/chock</property>
+                    <property>/sim/model/c172p/securing/chock</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-wheel-chock</tooltip-id>
@@ -7045,17 +7048,17 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/smallchock-addable</property> 
+                    <property>/sim/model/c172p/securing/smallchock-addable</property> 
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/c172p/chock</property>
+                <property>sim/model/c172p/securing/chock</property>
                 <value>true</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/smallchock-addable</property> 
+                    <property>/sim/model/c172p/securing/smallchock-addable</property> 
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>secure-with-wheel-chock</tooltip-id>
@@ -7089,7 +7092,7 @@
         <type>select</type>
         <object-name>woodenchock</object-name>
         <condition>
-            <property>/sim/model/c172p/woodenchock-visible</property>
+            <property>/sim/model/c172p/securing/woodenchock-visible</property>
         </condition>
     </animation>
     <animation>
@@ -7100,14 +7103,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/chock</property>
+                <property>/sim/model/c172p/securing/chock</property>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/chock</property>
+                    <property>/sim/model/c172p/securing/chock</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-wheel-woodenchock</tooltip-id>
@@ -7123,17 +7126,17 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/woodenchock-addable</property> 
+                    <property>/sim/model/c172p/securing/woodenchock-addable</property> 
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/c172p/chock</property>
+                <property>sim/model/c172p/securing/chock</property>
                 <value>true</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/woodenchock-addable</property> 
+                    <property>/sim/model/c172p/securing/woodenchock-addable</property> 
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>secure-with-wheel-woodenchock</tooltip-id>
@@ -7151,8 +7154,45 @@
         <type>select</type>
         <object-name>tiedownL</object-name>
         <condition>
-            <property>sim/model/c172p/tiedownL-visible</property>
+            <property>sim/model/c172p/securing/tiedownL-visible</property>
         </condition>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>tiedownL</object-name>
+        <property alias="/params/bushkit/property"/>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>23.5</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>21.95</dep>
+            </entry>
+            <entry>
+                <ind>2</ind>
+                <dep>21.3</dep>
+            </entry>
+             <entry>
+                <ind>4</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>5</ind>
+                <dep>21.3</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>0.1188</x-m>
+            <y-m>-2.29982</y-m>
+            <z-m>0.40082</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
     </animation>
     <animation>
         <type>pick</type>
@@ -7163,14 +7203,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/tiedownL</property>
+                <property>/sim/model/c172p/securing/tiedownL-visible</property>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/tiedownL</property>
+                    <property>/sim/model/c172p/securing/tiedownL-visible</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-left-tiedowns</tooltip-id>
@@ -7182,7 +7222,7 @@
         <type>select</type>
         <object-name>TiedownHotSpotLeft</object-name>
         <condition>
-            <property>/sim/model/c172p/tiedownL-addable</property>
+            <property>/sim/model/c172p/securing/tiedownL-addable</property>
         </condition>
     </animation>
     <animation>
@@ -7193,17 +7233,17 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/tiedownL-addable</property>
+                    <property>/sim/model/c172p/securing/tiedownL-addable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/c172p/tiedownL</property>
+                <property>sim/model/c172p/securing/tiedownL-visible</property>
                 <value>true</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/tiedownL-addable</property>
+                    <property>/sim/model/c172p/securing/tiedownL-addable</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>secure-with-left-tiedowns</tooltip-id>
@@ -7221,8 +7261,45 @@
         <type>select</type>
         <object-name>tiedownR</object-name>
         <condition>
-            <property>sim/model/c172p/tiedownR-visible</property>
+            <property>sim/model/c172p/securing/tiedownR-visible</property>
         </condition>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>tiedownR</object-name>
+        <property alias="/params/bushkit/property"/>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>24.45</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>22.95</dep>
+            </entry>
+            <entry>
+                <ind>2</ind>
+                <dep>22.5</dep>
+            </entry>
+             <entry>
+                <ind>4</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>5</ind>
+                <dep>22.5</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>0.13462</x-m>
+            <y-m>2.30397</y-m>
+            <z-m>0.40351</z-m>
+        </center>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
     </animation>
     <animation>
         <type>pick</type>
@@ -7233,14 +7310,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/tiedownR</property>
+                <property>/sim/model/c172p/securing/tiedownR-visible</property>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/tiedownR</property>
+                    <property>/sim/model/c172p/securing/tiedownR-visible</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-right-tiedowns</tooltip-id>
@@ -7252,7 +7329,7 @@
         <type>select</type>
         <object-name>TiedownHotSpotRight</object-name>
         <condition>
-            <property>/sim/model/c172p/tiedownR-addable</property>
+            <property>/sim/model/c172p/securing/tiedownR-addable</property>
         </condition>
     </animation>
     <animation>
@@ -7263,17 +7340,17 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/tiedownR-addable</property>
+                    <property>/sim/model/c172p/securing/tiedownR-addable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/c172p/tiedownR</property>
+                <property>sim/model/c172p/securing/tiedownR-visible</property>
                 <value>true</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/tiedownR-addable</property>
+                    <property>/sim/model/c172p/securing/tiedownR-addable</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>secure-with-right-tiedowns</tooltip-id>
@@ -7291,8 +7368,45 @@
         <type>select</type>
         <object-name>tiedownT</object-name>
         <condition>
-            <property>sim/model/c172p/tiedownT-visible</property>
+            <property>sim/model/c172p/securing/tiedownT-visible</property>
         </condition>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>tiedownT</object-name>
+        <property alias="/params/bushkit/property"/>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>30</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>22.65</dep>
+            </entry>
+            <entry>
+                <ind>2</ind>
+                <dep>15.5</dep>
+            </entry>
+             <entry>
+                <ind>4</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>5</ind>
+                <dep>15.5</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>4.71165</x-m>
+            <y-m>-0.00494</y-m>
+            <z-m>-0.66627</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
     </animation>
     <animation>
         <type>pick</type>
@@ -7303,14 +7417,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/tiedownT</property>
+                <property>/sim/model/c172p/securing/tiedownT-visible</property>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/tiedownT</property>
+                    <property>/sim/model/c172p/securing/tiedownT-visible</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-tail-tiedowns</tooltip-id>
@@ -7322,7 +7436,7 @@
         <type>select</type>
         <object-name>TiedownHotSpotTail</object-name>
         <condition>
-            <property>/sim/model/c172p/tiedownT-addable</property>
+            <property>/sim/model/c172p/securing/tiedownT-addable</property>
         </condition>
     </animation>
     <animation>
@@ -7333,17 +7447,17 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/tiedownT-addable</property>
+                    <property>/sim/model/c172p/securing/tiedownT-addable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/c172p/tiedownT</property>
+                <property>sim/model/c172p/securing/tiedownT-visible</property>
                 <value>true</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/tiedownT-addable</property>
+                    <property>/sim/model/c172p/securing/tiedownT-addable</property>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>secure-with-tail-tiedowns</tooltip-id>

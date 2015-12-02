@@ -19,6 +19,9 @@
 
 <system name="c172p heat">
 
+    <property value="37.0">heat/human-body-temp-degc</property>
+    <property value="0.0">heat/moisture-norm</property>
+
     <channel name="cabin-doors-windows">
 
         <aerosurface_scale name="heat/door-left">
@@ -130,6 +133,13 @@
             <input>heat/door-baggage</input>
         </summer>
 
+        <summer name="heat/humans-count">
+            <input>/pax/pilot/present</input>
+            <input>/pax/co-pilot/present</input>
+            <input>/pax/left-passenger/present</input>
+            <input>/pax/right-passenger/present</input>
+        </summer>
+
     </channel>
 
     <channel name="cabin-temperature">
@@ -162,6 +172,15 @@
         <summer name="heat/cabin-air-temp-diff">
             <input>/environment/temperature-degc</input>
             <input>-heat/cabin-air-temp-degc</input>
+        </summer>
+
+        <summer name="heat/cabin-human-temp-diff">
+            <input>heat/human-body-temp-degc</input>
+            <input>-heat/cabin-air-temp-degc</input>
+            <clipto>
+                <min>-0.01</min>
+                <max> 0.10</max>
+            </clipto>
         </summer>
 
         <scheduled_gain name="heat/cabin-air-transfer-heat-duct">
@@ -235,6 +254,11 @@
             <gain>heat/doors-windows-total</gain>
         </pure_gain>
 
+        <pure_gain name="heat/cabin-air-transfer-humans">
+            <input>heat/cabin-human-temp-diff</input>
+            <gain>heat/humans-count</gain>
+        </pure_gain>
+
         <summer name="heat/cabin-air-transfer-total">
             <input>heat/cabin-air-transfer-heat-duct</input>
             <input>heat/cabin-air-transfer-air-duct</input>
@@ -242,6 +266,7 @@
             <input>heat/cabin-air-transfer-overhead-vent-left</input>
             <input>heat/cabin-air-transfer-overhead-vent-right</input>
             <input>heat/cabin-air-transfer-doors-windows</input>
+            <input>heat/cabin-air-transfer-humans</input>
         </summer>
 
         <integrator name="heat/cabin-air-temp-degc">
@@ -284,6 +309,95 @@
 
     <channel name="cabin-dewpoint">
 
+        <fcs_function name="heat/non-humans-airflow">
+            <function>
+                <quotient>
+                    <sum>
+                        <abs>
+                            <property>heat/cabin-air-transfer-air-duct</property>
+                        </abs>
+                        <abs>
+                            <product>
+                                <quotient>
+                                    <property>heat/cabin-air-transfer-heat-duct</property>
+                                    <property>heat/cabin-heat-temp-diff</property>
+                                </quotient>
+                                <property>heat/cabin-air-temp-diff</property>
+                            </product>
+                        </abs>
+                        <abs>
+                            <property>heat/cabin-air-transfer-doors-windows</property>
+                        </abs>
+                        <abs>
+                            <property>heat/cabin-air-transfer-overhead-vent-left</property>
+                        </abs>
+                        <abs>
+                            <property>heat/cabin-air-transfer-overhead-vent-right</property>
+                        </abs>
+                    </sum>
+                    <abs>
+                        <property>heat/cabin-air-temp-diff</property>
+                    </abs>
+                </quotient>
+            </function>
+        </fcs_function>
+
+        <pure_gain name="heat/humans-airflow">
+            <input>heat/humans-count</input>
+            <gain>0.1</gain>
+        </pure_gain>
+
+        <fcs_function name="heat/future-cabin-rel-humidity">
+            <function>
+                <sum>
+                    <quotient>
+                        <sum>
+                            <product>
+                                <property>heat/non-humans-airflow</property>
+                                <property>/environment/relative-humidity</property>
+                            </product>
+                            <product>
+                                <property>heat/humans-airflow</property>
+                                <!-- Human breath: 35 C with 95 % RH -->
+                                <value>95.0</value>
+                            </product>
+                        </sum>
+                        <sum>
+                            <property>heat/non-humans-airflow</property>
+                            <property>heat/humans-airflow</property>
+                        </sum>
+                    </quotient>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <summer name="heat/cabin-rel-humidity-diff">
+            <input>heat/future-cabin-rel-humidity</input>
+            <input>-heat/cabin-relative-humidity</input>
+
+            <clipto>
+                <min>-10.0</min>
+                <max> 10.0</max>
+            </clipto>
+        </summer>
+
+        <integrator name="heat/cabin-relative-humidity">
+            <input>heat/cabin-rel-humidity-diff</input>
+
+            <!-- This is the constant that actually controls how fast
+                 (or slow) the cabin relative humidity changes.
+            -->
+            <c1>0.015</c1>
+
+            <!-- Keep relative humidity above zero to prevent
+                 math domain error (which happens in ln(x) for x = 0).
+            -->
+            <clipto>
+                <min>  0.1</min>
+                <max>100.0</max>
+            </clipto>
+        </integrator>
+
         <!-- Computing the dewpoint using the Arden Buck equation:
 
              y_m(T, RH) = ln(RH/100 * exp((b - T/d) * (T/(c+T)))
@@ -302,7 +416,7 @@
                 <ln>
                     <product>
                         <quotient>
-                            <property>/environment/relative-humidity</property>
+                            <property>heat/cabin-relative-humidity</property>
                             <value>100.0</value>
                         </quotient>
                         <exp>

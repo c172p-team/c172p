@@ -393,6 +393,15 @@ setlistener("/pax/right-passenger/present", update_pax, 0, 0);
 setlistener("/pax/pilot/present", update_pax, 0, 0);
 update_pax();
 
+var log_cabin_temp = func {
+    var temp_degc = getprop("/fdm/jsbsim/heat/cabin-air-temp-degc");
+    if (temp_degc >= 32)
+        logger.screen.red("Cabin temperature exceeding 90F/32C!");
+    elsif (temp_degc <= 0)
+        logger.screen.red("Cabin temperature falling below 32F/0C!");
+};
+var cabin_temp_timer = maketimer(30.0, log_cabin_temp);
+
 setlistener("/sim/signals/fdm-initialized", func {
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.
@@ -411,16 +420,13 @@ setlistener("/sim/signals/fdm-initialized", func {
     });
     
     setlistener("/sim/model/c172p/cabin-air-temp-in-range", func (node) {
-        var temp_degc = getprop("/fdm/jsbsim/heat/cabin-air-temp-degc");
-
         if (node.getValue()) {
-            gui.popupTip("Cabin temperature between 32F/0C and 90F/32C", 5);
+            cabin_temp_timer.stop();
+            logger.screen.green("Cabin temperature between 32F/0C and 90F/32C");
         }
         else {
-            if (temp_degc >= 32)
-                gui.popupTip("Cabin temperature exceeding 90F/32C!", 10);
-            elsif (temp_degc <= 0)
-                gui.popupTip("Cabin temperature falling below 32F/0C!", 10);
+            log_cabin_temp();
+            cabin_temp_timer.start();
         }
     }, 1, 0);
 

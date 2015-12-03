@@ -282,9 +282,19 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
             </function>
         </fcs_function>
 
-        <!-- FIXME: How to reset this to 0 on repair? -->
+        <!-- No water leakage as long as pontoon is not damaged or broken -->
+        <switch name="left-pontoon/leaked-water-windup-trigger">
+            <default value="-1"/>
+
+            <test logic="AND" value="0">
+                pontoon-damage/left-pontoon GT 0
+            </test>
+        </switch>
+
+        <!-- If trigger is negative then the integrator is reset to 0 -->
         <pid name="left-pontoon/leaked-water-lbs">
             <input>left-pontoon/leakage-lbs_sec</input>
+            <trigger>left-pontoon/leaked-water-windup-trigger</trigger>
             <kp>0.0</kp>
             <ki>1.0</ki>
             <kd>0.0</kd>
@@ -308,9 +318,19 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
             </function>
         </fcs_function>
 
-        <!-- FIXME: How to reset this to 0 on repair? -->
+        <!-- No water leakage as long as pontoon is not damaged or broken -->
+        <switch name="right-pontoon/leaked-water-windup-trigger">
+            <default value="-1"/>
+
+            <test logic="AND" value="0">
+                pontoon-damage/right-pontoon GT 0
+            </test>
+        </switch>
+
+        <!-- If trigger is negative then the integrator is reset to 0 -->
         <pid name="right-pontoon/leaked-water-lbs">
             <input>right-pontoon/leakage-lbs_sec</input>
+            <trigger>right-pontoon/leaked-water-windup-trigger</trigger>
             <kp>0.0</kp>
             <ki>1.0</ki>
             <kd>0.0</kd>

@@ -394,13 +394,22 @@ setlistener("/pax/pilot/present", update_pax, 0, 0);
 update_pax();
 
 var log_cabin_temp = func {
-    var temp_degc = getprop("/fdm/jsbsim/heat/cabin-air-temp-degc");
-    if (temp_degc >= 32)
-        logger.screen.red("Cabin temperature exceeding 90F/32C!");
-    elsif (temp_degc <= 0)
-        logger.screen.red("Cabin temperature falling below 32F/0C!");
+    if (getprop("/sim/model/c172p/enable-fog-frost")) {
+        var temp_degc = getprop("/fdm/jsbsim/heat/cabin-air-temp-degc");
+        if (temp_degc >= 32)
+            logger.screen.red("Cabin temperature exceeding 90F/32C!");
+        elsif (temp_degc <= 0)
+            logger.screen.red("Cabin temperature falling below 32F/0C!");
+    }
 };
 var cabin_temp_timer = maketimer(30.0, log_cabin_temp);
+
+var log_fog_frost = func {
+    if (getprop("/sim/model/c172p/enable-fog-frost")) {
+        logger.screen.white("Wait until fog/frost clears up or decrease cabin air temperature");
+    }
+};
+var fog_frost_timer = maketimer(30.0, log_fog_frost);
 
 setlistener("/sim/signals/fdm-initialized", func {
     # Use Nasal to make some properties persistent. <aircraft-data> does
@@ -427,6 +436,16 @@ setlistener("/sim/signals/fdm-initialized", func {
         else {
             log_cabin_temp();
             cabin_temp_timer.start();
+        }
+    }, 1, 0);
+
+    setlistener("/sim/model/c172p/fog-or-frost-increasing", func (node) {
+        if (node.getValue()) {
+            log_fog_frost();
+            fog_frost_timer.start();
+        }
+        else {
+            fog_frost_timer.stop();
         }
     }, 1, 0);
 

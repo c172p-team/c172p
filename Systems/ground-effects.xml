@@ -398,6 +398,32 @@ Under the GPL. Used by shadows under ALS -->
         </output>
     </logic>
 
+    <logic>
+        <name>Aircraft Effect Fog Or Frost Increasing</name>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <and>
+                <greater-than>
+                    <property>/fdm/jsbsim/heat/moisture-norm</property>
+                    <value>0.5</value>
+                </greater-than>
+                <greater-than>
+                    <property>/fdm/jsbsim/heat/surface-dewpoint-diff</property>
+                    <value>0.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/fog-or-frost-increasing</property>
+        </output>
+    </logic>
+
     <!-- logic for securing aircraft -->   
     <logic>
         <name>Parking Brake And Chock</name>

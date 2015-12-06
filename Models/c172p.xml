@@ -260,6 +260,10 @@
             <mixture>/controls/engines/current-engine/mixture</mixture>
             <carb-heat>/controls/engines/current-engine/carb-heat</carb-heat>
         </controls>
+        <air-vents>
+            <front-left>/controls/climate-control/overhead-vent-front-left</front-left>
+            <front-right>/controls/climate-control/overhead-vent-front-right</front-right>
+        </air-vents>
         <cockpit>
             <electrical>
                 <gear-amphibious>/sim/model/c172p/lighting/amphibious</gear-amphibious>
@@ -926,7 +930,7 @@
 
     <!-- MOD: OAT -->
     <model>
-        <name>OAT</name>
+        <name>OAT-object</name>
         <path>Interior/Panel/Instruments/oat/oat.xml</path>
         <offsets>
             <x-m>-0.0375</x-m>
@@ -1924,7 +1928,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>/environment/aircraft-effects/cabin-heat-set</property>
-                <factor>0.1</factor>
+                <factor>-0.1</factor>
                 <min>0</min>
                 <max>1</max>
                 <wrap>0</wrap>
@@ -1961,7 +1965,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>/environment/aircraft-effects/cabin-air-set</property>
-                <factor>0.1</factor>
+                <factor>-0.1</factor>
                 <min>0</min>
                 <max>1</max>
                 <wrap>0</wrap>
@@ -1987,6 +1991,83 @@
             <x>1.0</x>
             <y>0.0</y>
             <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>slider</type>
+        <object-name>AirVent_left</object-name>
+        <visible>true</visible>
+        <drag-direction>horizontal</drag-direction>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/climate-control/overhead-vent-front-left</property>
+                <factor>0.1</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Air Vent: %3d%%</label>
+                <measure-text>Air Vent: 100%</measure-text>
+                <tooltip-id>air-vent-front-left</tooltip-id>
+                <mapping>percent</mapping>
+                <property alias="/params/air-vents/front-left"/>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>AirVent_left</object-name>
+        <property alias="/params/air-vents/front-left"/>
+        <factor>0.032</factor>
+        <offset-m>-0.032</offset-m>
+        <axis>
+            <y>1.0</y>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>slider</type>
+        <object-name>AirVent_right</object-name>
+        <object-name>OAT-object</object-name>
+        <visible>true</visible>
+        <drag-direction>horizontal</drag-direction>
+        <drag-scale-px>-10.0</drag-scale-px>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/climate-control/overhead-vent-front-right</property>
+                <factor>0.1</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Air Vent: %3d%%</label>
+                <measure-text>Air Vent: 100%</measure-text>
+                <tooltip-id>air-vent-front-right</tooltip-id>
+                <mapping>percent</mapping>
+                <property alias="/params/air-vents/front-right"/>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>AirVent_right</object-name>
+        <object-name>OAT-object</object-name>
+        <property alias="/params/air-vents/front-right"/>
+        <factor>-0.050</factor>
+        <offset-m>0.050</offset-m>
+        <axis>
+            <y>1.0</y>
         </axis>
     </animation>
 

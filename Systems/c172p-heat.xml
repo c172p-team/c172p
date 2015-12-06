@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright (c) 2015 onox
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<system name="c172p heat">
+
+    <property value="37.0">heat/human-body-temp-degc</property>
+
+    <channel name="cabin-doors-windows">
+
+        <aerosurface_scale name="heat/door-left">
+            <input>/sim/model/door-positions/leftDoor/position-norm</input>
+            <zero_centered>false</zero_centered>
+            <domain>
+                <min>0.5</min>
+                <max>1.0</max>
+            </domain>
+            <range>
+                <min>0.0</min>
+                <max>1.0</max>
+            </range>
+            <clipto>
+                <min>0.0</min>
+                <max>1.0</max>
+            </clipto>
+        </aerosurface_scale>
+
+        <aerosurface_scale name="heat/door-right">
+            <input>/sim/model/door-positions/rightDoor/position-norm</input>
+            <zero_centered>false</zero_centered>
+            <domain>
+                <min>0.5</min>
+                <max>1.0</max>
+            </domain>
+            <range>
+                <min>0.0</min>
+                <max>1.0</max>
+            </range>
+            <clipto>
+                <min>0.0</min>
+                <max>1.0</max>
+            </clipto>
+        </aerosurface_scale>
+
+        <aerosurface_scale name="heat/door-baggage">
+            <input>/sim/model/door-positions/baggageDoor/position-norm</input>
+            <zero_centered>false</zero_centered>
+            <domain>
+                <min>0.0</min>
+                <max>1.0</max>
+            </domain>
+            <range>
+                <min>0.0</min>
+                <max>0.5</max>
+            </range>
+            <clipto>
+                <min>0.0</min>
+                <max>0.5</max>
+            </clipto>
+        </aerosurface_scale>
+
+        <aerosurface_scale name="heat/window-left">
+            <input>/sim/model/door-positions/leftWindow/position-norm</input>
+            <zero_centered>false</zero_centered>
+            <domain>
+                <min>0.5</min>
+                <max>1.0</max>
+            </domain>
+            <range>
+                <min>0.0</min>
+                <max>0.2</max>
+            </range>
+            <clipto>
+                <min>0.0</min>
+                <max>0.2</max>
+            </clipto>
+        </aerosurface_scale>
+
+        <aerosurface_scale name="heat/window-right">
+            <input>/sim/model/door-positions/rightWindow/position-norm</input>
+            <zero_centered>false</zero_centered>
+            <domain>
+                <min>0.5</min>
+                <max>1.0</max>
+            </domain>
+            <range>
+                <min>0.0</min>
+                <max>0.2</max>
+            </range>
+            <clipto>
+                <min>0.0</min>
+                <max>0.2</max>
+            </clipto>
+        </aerosurface_scale>
+
+        <summer name="heat/doors-windows-left">
+            <input>heat/door-left</input>
+            <input>heat/window-left</input>
+            <clipto>
+                <min>0.0</min>
+                <max>1.0</max>
+            </clipto>
+        </summer>
+
+        <summer name="heat/doors-windows-right">
+            <input>heat/door-right</input>
+            <input>heat/window-right</input>
+            <clipto>
+                <min>0.0</min>
+                <max>1.0</max>
+            </clipto>
+        </summer>
+
+        <summer name="heat/doors-windows-total">
+            <input>heat/doors-windows-left</input>
+            <input>heat/doors-windows-right</input>
+            <input>heat/door-baggage</input>
+        </summer>
+
+        <summer name="heat/humans-count">
+            <input>/pax/pilot/present</input>
+            <input>/pax/co-pilot/present</input>
+            <input>/pax/left-passenger/present</input>
+            <input>/pax/right-passenger/present</input>
+        </summer>
+
+    </channel>
+
+    <channel name="cabin-temperature">
+
+        <!-- The exhaust gas temperature controls how much the air is
+             heated up.
+        -->
+        <pure_gain name="heat/heat-exhaust-gas-temp-degc">
+            <input>/engines/active-engine/egt-norm</input>
+
+            <!-- Extra heat (in Celsius) when EGT is at maximum. EGT is
+                 usually between 0.4 and 0.6.
+            -->
+            <gain>60.0</gain>
+        </pure_gain>
+
+        <!-- Computes the difference in temperature between the cabin
+             heat intake (behind propeller) and the cabin.
+        -->
+        <summer name="heat/cabin-heat-temp-diff">
+            <input>/environment/temperature-degc</input>
+            <input>-heat/cabin-air-temp-degc</input>
+            <input>heat/heat-exhaust-gas-temp-degc</input>
+        </summer>
+
+        <!-- Computes the difference in temperature between the cabin
+             air intake (ventilating air door on the right side of the
+             fuselage) and the cabin.
+        -->
+        <summer name="heat/cabin-air-temp-diff">
+            <input>/environment/temperature-degc</input>
+            <input>-heat/cabin-air-temp-degc</input>
+        </summer>
+
+        <summer name="heat/cabin-human-temp-diff">
+            <input>heat/human-body-temp-degc</input>
+            <input>-heat/cabin-air-temp-degc</input>
+            <clipto>
+                <min>-0.01</min>
+                <max> 0.10</max>
+            </clipto>
+        </summer>
+
+        <scheduled_gain name="heat/cabin-air-transfer-heat-duct">
+            <input>heat/cabin-heat-temp-diff</input>
+            <gain>/environment/aircraft-effects/cabin-heat-set</gain>
+            <table>
+                <independentVar lookup="row">/engines/active-engine/rpm</independentVar>
+                <independentVar lookup="column">/velocities/airspeed-kt</independentVar>
+                <tableData>
+                            40      120
+                       0    0.10    0.50
+                     700    0.25    0.60
+                    2800    0.50    1.00
+                </tableData>
+            </table>
+        </scheduled_gain>
+
+        <scheduled_gain name="heat/cabin-air-transfer-air-duct">
+            <input>heat/cabin-air-temp-diff</input>
+            <gain>/environment/aircraft-effects/cabin-air-set</gain>
+            <table>
+                <independentVar lookup="row">/engines/active-engine/rpm</independentVar>
+                <independentVar lookup="column">/velocities/airspeed-kt</independentVar>
+                <tableData>
+                            40      120
+                       0    0.10    0.50
+                     700    0.25    0.60
+                    2800    0.50    1.00
+                </tableData>
+            </table>
+        </scheduled_gain>
+
+        <!-- Even with the air slider closed, there is still some small
+             amount of heat transferred via the fuselage.
+        -->
+        <summer name="heat/cabin-air-transfer-fuselage">
+            <input>/environment/temperature-degc</input>
+            <input>-heat/cabin-air-temp-degc</input>
+            <clipto>
+                <min>-0.1</min>
+                <max> 0.1</max>
+            </clipto>
+        </summer>
+
+        <scheduled_gain name="heat/cabin-air-transfer-overhead-vent-left">
+            <input>heat/cabin-air-temp-diff</input>
+            <gain>/controls/climate-control/overhead-vent-front-left</gain>
+            <table>
+                <independentVar>/velocities/airspeed-kt</independentVar>
+                <tableData>
+                     40     0.10
+                    120     0.50
+                </tableData>
+            </table>
+        </scheduled_gain>
+
+        <scheduled_gain name="heat/cabin-air-transfer-overhead-vent-right">
+            <input>heat/cabin-air-temp-diff</input>
+            <gain>/controls/climate-control/overhead-vent-front-right</gain>
+            <table>
+                <independentVar>/velocities/airspeed-kt</independentVar>
+                <tableData>
+                     40     0.10
+                    120     0.50
+                </tableData>
+            </table>
+        </scheduled_gain>
+
+        <pure_gain name="heat/cabin-air-transfer-doors-windows">
+            <input>heat/cabin-air-temp-diff</input>
+            <gain>heat/doors-windows-total</gain>
+        </pure_gain>
+
+        <pure_gain name="heat/cabin-air-transfer-humans">
+            <input>heat/cabin-human-temp-diff</input>
+            <gain>heat/humans-count</gain>
+        </pure_gain>
+
+        <summer name="heat/cabin-air-transfer-total">
+            <input>heat/cabin-air-transfer-heat-duct</input>
+            <input>heat/cabin-air-transfer-air-duct</input>
+            <input>heat/cabin-air-transfer-fuselage</input>
+            <input>heat/cabin-air-transfer-overhead-vent-left</input>
+            <input>heat/cabin-air-transfer-overhead-vent-right</input>
+            <input>heat/cabin-air-transfer-doors-windows</input>
+            <input>heat/cabin-air-transfer-humans</input>
+        </summer>
+
+        <integrator name="heat/cabin-air-temp-degc">
+            <input>heat/cabin-air-transfer-total</input>
+
+            <!-- This is the constant that actually controls how fast
+                 (or slow) the cabin temperature changes.
+            -->
+            <c1>0.030</c1>
+        </integrator>
+
+    </channel>
+
+    <channel name="surface-temperature">
+
+        <summer name="heat/surface-cabin-heat-transfer">
+            <input>heat/cabin-air-temp-degc</input>
+            <input>-heat/surface-temp-degc</input>
+
+            <!-- If the pilot opens the air slider, the cabin air temp might
+                 start increasing or decreasing fast. Clip the difference to
+                 limit this effect.
+            -->
+            <clipto>
+                <min>-5.0</min>
+                <max> 5.0</max>
+            </clipto>
+        </summer>
+
+        <integrator name="heat/surface-temp-degc">
+            <input>heat/surface-cabin-heat-transfer</input>
+
+            <!-- This is the constant that actually controls how fast
+                 (or slow) the surface temperature changes.
+            -->
+            <c1>0.020</c1>
+        </integrator>
+
+    </channel>
+
+    <channel name="cabin-dewpoint">
+
+        <fcs_function name="heat/non-humans-airflow">
+            <function>
+                <quotient>
+                    <sum>
+                        <abs>
+                            <property>heat/cabin-air-transfer-air-duct</property>
+                        </abs>
+                        <abs>
+                            <product>
+                                <quotient>
+                                    <property>heat/cabin-air-transfer-heat-duct</property>
+                                    <property>heat/cabin-heat-temp-diff</property>
+                                </quotient>
+                                <property>heat/cabin-air-temp-diff</property>
+                            </product>
+                        </abs>
+                        <abs>
+                            <property>heat/cabin-air-transfer-doors-windows</property>
+                        </abs>
+                        <abs>
+                            <property>heat/cabin-air-transfer-overhead-vent-left</property>
+                        </abs>
+                        <abs>
+                            <property>heat/cabin-air-transfer-overhead-vent-right</property>
+                        </abs>
+                    </sum>
+                    <abs>
+                        <property>heat/cabin-air-temp-diff</property>
+                    </abs>
+                </quotient>
+            </function>
+        </fcs_function>
+
+        <pure_gain name="heat/humans-airflow">
+            <input>heat/humans-count</input>
+            <gain>0.1</gain>
+        </pure_gain>
+
+        <fcs_function name="heat/future-cabin-rel-humidity">
+            <function>
+                <sum>
+                    <quotient>
+                        <sum>
+                            <product>
+                                <property>heat/non-humans-airflow</property>
+                                <property>/environment/relative-humidity</property>
+                            </product>
+                            <product>
+                                <property>heat/humans-airflow</property>
+                                <!-- Human breath: 35 C with 95 % RH -->
+                                <value>95.0</value>
+                            </product>
+                        </sum>
+                        <sum>
+                            <property>heat/non-humans-airflow</property>
+                            <property>heat/humans-airflow</property>
+                        </sum>
+                    </quotient>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <summer name="heat/cabin-rel-humidity-diff">
+            <input>heat/future-cabin-rel-humidity</input>
+            <input>-heat/cabin-relative-humidity</input>
+
+            <clipto>
+                <min>-10.0</min>
+                <max> 10.0</max>
+            </clipto>
+        </summer>
+
+        <integrator name="heat/cabin-relative-humidity">
+            <input>heat/cabin-rel-humidity-diff</input>
+
+            <!-- This is the constant that actually controls how fast
+                 (or slow) the cabin relative humidity changes.
+            -->
+            <c1>0.015</c1>
+
+            <!-- Keep relative humidity above zero to prevent
+                 math domain error (which happens in ln(x) for x = 0).
+            -->
+            <clipto>
+                <min>  0.1</min>
+                <max>100.0</max>
+            </clipto>
+        </integrator>
+
+        <!-- Computing the dewpoint using the Arden Buck equation:
+
+             y_m(T, RH) = ln(RH/100 * exp((b - T/d) * (T/(c+T)))
+
+             using the following constants:
+
+             b = 17.67; c = 243.5 celsius; d = 234.5 celsius
+
+             from:
+
+             Bolton, D. (1980). The computation of equivalent potential
+             temperature. Monthly weather review, 108(7), 1046-1053.
+        -->
+        <fcs_function name="heat/cabin-dewpoint-ym">
+            <function>
+                <ln>
+                    <product>
+                        <quotient>
+                            <property>heat/cabin-relative-humidity</property>
+                            <value>100.0</value>
+                        </quotient>
+                        <exp>
+                            <product>
+                                <difference>
+                                    <value>17.67</value>
+                                    <quotient>
+                                        <property>heat/cabin-air-temp-degc</property>
+                                        <value>234.5</value>
+                                    </quotient>
+                                </difference>
+                                <quotient>
+                                    <property>heat/cabin-air-temp-degc</property>
+                                    <sum>
+                                        <value>243.5</value>
+                                        <property>heat/cabin-air-temp-degc</property>
+                                    </sum>
+                                </quotient>
+                            </product>
+                        </exp>
+                    </product>
+                </ln>
+            </function>
+        </fcs_function>
+
+        <!-- Computing dewpoint using the Arden Buck equation using constants
+             that give a maximum error of 0.1 % for -30.0 <= T <= +35.0.
+
+             Reference: https://en.wikipedia.org/wiki/Dew_point#Calculating_the_dew_point
+        -->
+        <fcs_function name="heat/cabin-dewpoint-degc">
+            <function>
+                <quotient>
+                    <product>
+                        <value>243.5</value>
+                        <property>heat/cabin-dewpoint-ym</property>
+                    </product>
+                    <difference>
+                        <value>17.67</value>
+                        <property>heat/cabin-dewpoint-ym</property>
+                    </difference>
+                </quotient>
+            </function>
+        </fcs_function>
+
+        <!-- Normalized human perception of dew point:
+
+             0.0 is dry; 0.1 - 0.5 is comfortable; 0.7 is somewhat uncomfortable;
+             0.8 - 0.9 is very uncomfortable; 1.0 is extremely high.
+
+             Reference: https://en.wikipedia.org/wiki/Dew_point#Relationship_to_human_comfort
+        -->
+        <fcs_function name="heat/cabin-dewpoint-perception-norm">
+            <function>
+                <table>
+                    <independentVar>heat/cabin-dewpoint-degc</independentVar>
+                    <tableData>
+                        10  0.0
+                        13  0.3
+                        16  0.5
+                        18  0.7
+                        21  0.8
+                        24  0.9
+                        26  1.0
+                    </tableData>
+                </table>
+            </function>
+        </fcs_function>
+
+    </channel>
+
+    <channel name="fog-and-frost">
+
+        <summer name="heat/surface-dewpoint-diff">
+            <input>heat/cabin-dewpoint-degc</input>
+            <input>-heat/surface-temp-degc</input>
+
+            <!-- Small maximum to slowdown increase and decrease of fog
+                 and frost.
+            -->
+            <clipto>
+                <min>-0.5</min>
+                <max> 0.5</max>
+            </clipto>
+        </summer>
+
+        <switch name="heat/moisture-windup-trigger">
+            <default value="0"/>
+
+            <test logic="AND" value="1">
+                heat/surface-dewpoint-diff GT 0
+                heat/moisture-norm GE 1
+            </test>
+
+            <test logic="AND" value="1">
+                heat/surface-dewpoint-diff LT 0
+                heat/moisture-norm LE 0
+            </test>
+        </switch>
+
+        <integrator name="heat/moisture-norm">
+            <input>heat/surface-dewpoint-diff</input>
+            <trigger>heat/moisture-windup-trigger</trigger>
+
+            <!-- This is the constant that actually controls how fast
+                 (or slow) the moisture changes.
+            -->
+            <c1>0.010</c1>
+
+            <clipto>
+                <min>0.0</min>
+                <max>1.0</max>
+            </clipto>
+        </integrator>
+
+        <pure_gain name="heat/moisture-fog-level">
+            <input>heat/moisture-norm</input>
+            <gain>1.0</gain>
+        </pure_gain>
+
+        <pure_gain name="heat/moisture-frost-level">
+            <input>heat/moisture-norm</input>
+            <gain>3.0</gain>
+        </pure_gain>
+
+        <switch name="heat/fog-level">
+            <default value="heat/moisture-fog-level"/>
+            <test logic="AND" value="0">
+                heat/cabin-air-temp-degc LE 0
+            </test>
+        </switch>
+
+        <switch name="heat/frost-level">
+            <default value="heat/moisture-frost-level"/>
+            <test logic="AND" value="0">
+                heat/cabin-air-temp-degc GT 0
+            </test>
+        </switch>
+
+    </channel>
+
+</system>

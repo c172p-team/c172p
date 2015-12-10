@@ -3,7 +3,8 @@ var contact = "fdm/jsbsim/contact/";
 
 var reset_all_damage = func
 {
-    setprop("/engines/active-engine/killed", 0);
+    setprop("/engines/active-engine/crash-engine", 0);
+    setprop("/engines/active-engine/kill-engine", 0);
 
     setprop(gears~"unit[0]/broken", 0);
     setprop(gears~"unit[1]/broken", 0);
@@ -50,7 +51,6 @@ var nosegearbroke = func (bushkit)
         setprop(contact~"unit[6]/z-position", -17.7);
 
     setprop(gears~"unit[0]/z-position", 0);
-    killengine();
 }
 
 var leftgearbroke = func (bushkit)
@@ -106,7 +106,7 @@ var upsidedown = func
 
 var killengine = func
 {
-    setprop("/engines/active-engine/killed", 1);
+    setprop("/engines/active-engine/crash-engine", 1);
 }
 
 var defaulttires = func
@@ -325,9 +325,6 @@ setlistener("/sim/signals/fdm-initialized", func {
             else
                 gui.popupTip("Left pontoon DAMAGED!", 5);
         }
-
-        if (left_pontoon != 0)
-            killengine();
     }, 0, 0);
 
     setlistener("/fdm/jsbsim/pontoon-damage/right-pontoon", func (n) {
@@ -346,8 +343,5 @@ setlistener("/sim/signals/fdm-initialized", func {
             else
                 gui.popupTip("Right pontoon DAMAGED!", 5);
         }
-
-        if (right_pontoon != 0)
-            killengine();
     }, 0, 0);
 });

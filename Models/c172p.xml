@@ -253,7 +253,9 @@
         <water-rudder-norm>sim/multiplay/generic/float[5]</water-rudder-norm>
         <engine>
             <rpm>engines/engine[2]/rpm</rpm>
+            <crashed>sim/multiplay/generic/int[3]</crashed>
         </engine>
+
         <!-- TODO To be made MP properties in the future when we get passengers or dual-control -->
         <controls>
             <throttle>/controls/engines/current-engine/throttle</throttle>
@@ -4240,19 +4242,9 @@
         <object-name>Spinner</object-name>
         <object-name>Propeller.Fast</object-name>
         <condition>
-            <and>
-                <not>
-                    <property alias="/params/gear_nose_broken/property"/>
-                </not>
-                <equals>
-                    <property alias="/params/pontoon_left_damaged/property"/>
-                    <value>0</value>
-                </equals>
-                <equals>
-                    <property alias="/params/pontoon_right_damaged/property"/>
-                    <value>0</value>
-                </equals>
-            </and>
+            <not>
+                <property alias="/params/engine/crashed"/>
+            </not>
         </condition>
     </animation>
 
@@ -4262,17 +4254,7 @@
         <object-name>PropellerD</object-name>
         <object-name>SpinnerD</object-name>
         <condition>
-            <or>
-                <property alias="/params/gear_nose_broken/property"/>
-                <not-equals>
-                    <property alias="/params/pontoon_left_damaged/property"/>
-                    <value>0</value>
-                </not-equals>
-                <not-equals>
-                    <property alias="/params/pontoon_right_damaged/property"/>
-                    <value>0</value>
-                </not-equals>
-            </or>
+            <property alias="/params/engine/crashed"/>
         </condition>
     </animation>
 

@@ -299,7 +299,7 @@ var reset_system = func {
     props.globals.getNode("/fdm/jsbsim/pontoon-damage/left-pontoon", 0).setIntValue(0);
     props.globals.getNode("/fdm/jsbsim/pontoon-damage/right-pontoon", 0).setIntValue(0);
 
-    setprop("/engines/active-engine/killed", 0);
+    setprop("/engines/active-engine/kill-engine", 0);
     setprop("/fdm/jsbsim/contact/unit[4]/z-position", 50);
     setprop("/fdm/jsbsim/contact/unit[5]/z-position", 50);
 
@@ -322,13 +322,11 @@ var reset_system = func {
 # Engine coughing sound
 ############################################
 
-var coughing_engine_sound = func{
-    if (getprop("/engines/active-engine/running") and getprop("/engines/active-engine/killed")) {
+setlistener("/engines/active-engine/killed", func (node) {
+    if (node.getValue() and getprop("/engines/active-engine/running")) {
         click("coughing-engine-sound", 0.7, 0);
     };
-}
-
-setlistener("/engines/active-engine/killed", coughing_engine_sound);
+});
 
 ############################################
 # Global loop function

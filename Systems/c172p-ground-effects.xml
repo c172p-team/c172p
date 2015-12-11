@@ -24,6 +24,136 @@
 
 <system name="c172p ground effects">
 
+    <channel name="contact-points">
+
+        <fcs_function name="z-position-nose-gear">
+            <output>gear/unit[0]/z-position</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[0]/broken</property>
+                    <value>0.0</value>
+                    <switch>
+                        <property>/fdm/jsbsim/bushkit</property>
+
+                        <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                        <value>-19.5</value>
+                        <value>-22.0</value>
+                        <value>-22.0</value>
+                        <value>  0.0</value>
+                        <value>  0.0</value>
+                        <value>-22.0</value>
+                    </switch>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="z-position-left-gear">
+            <output>gear/unit[1]/z-position</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[1]/broken</property>
+                    <value>0.0</value>
+                    <switch>
+                        <property>/fdm/jsbsim/bushkit</property>
+
+                        <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                        <value>-15.5</value>
+                        <value>-20.0</value>
+                        <value>-22.0</value>
+                        <value>  0.0</value>
+                        <value>  0.0</value>
+                        <value>-22.0</value>
+                    </switch>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="z-position-right-gear">
+            <output>gear/unit[2]/z-position</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[2]/broken</property>
+                    <value>0.0</value>
+                    <switch>
+                        <property>/fdm/jsbsim/bushkit</property>
+
+                        <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                        <value>-15.5</value>
+                        <value>-20.0</value>
+                        <value>-22.0</value>
+                        <value>  0.0</value>
+                        <value>  0.0</value>
+                        <value>-22.0</value>
+                    </switch>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="z-position-effect-nose-gear">
+            <output>contact/unit[6]/z-position</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[0]/broken</property>
+                    <switch>
+                        <property>/fdm/jsbsim/bushkit</property>
+
+                        <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                        <value>-10.0</value>
+                        <value>-18.5</value>
+                        <value>-17.7</value>
+                        <value>  0.0</value>
+                        <value>  0.0</value>
+                        <value>  0.0</value> <!-- TODO No z-position for skis? -->
+                    </switch>
+                    <value>0.0</value>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="z-position-effect-left-gear">
+            <output>contact/unit[7]/z-position</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[1]/broken</property>
+                    <switch>
+                        <property>/fdm/jsbsim/bushkit</property>
+
+                        <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                        <value> -9.5</value>
+                        <value>-14.5</value>
+                        <value>-16.0</value>
+                        <value>  0.0</value>
+                        <value>  0.0</value>
+                        <value>-14.0</value>
+                    </switch>
+                    <value>0.0</value>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="z-position-effect-right-gear">
+            <output>contact/unit[8]/z-position</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[2]/broken</property>
+                    <switch>
+                        <property>/fdm/jsbsim/bushkit</property>
+
+                        <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                        <value> -8.0</value>
+                        <value>-15.5</value>
+                        <value>-17.4</value>
+                        <value>  0.0</value>
+                        <value>  0.0</value>
+                        <value>-16.0</value>
+                    </switch>
+                    <value>0.0</value>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+    </channel>
+
     <channel name="groundeffects">
 
         <switch name="gear-spin-nose">

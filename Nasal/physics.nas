@@ -22,12 +22,6 @@ var reset_all_damage = func
     setprop("/fdm/jsbsim/pontoon-damage/right-pontoon", 0);
 
     # Reset contacts
-    setprop(gears~"unit[0]/z-position", 0);
-    setprop(gears~"unit[1]/z-position", 0);
-    setprop(gears~"unit[2]/z-position", 0);
-    setprop(contact~"unit[6]/z-position", 0);
-    setprop(contact~"unit[7]/z-position", 0);
-    setprop(contact~"unit[8]/z-position", 0);
     setprop(gears~"unit[19]/z-position", 0);
     setprop(gears~"unit[20]/z-position", 0);
     setprop(gears~"unit[21]/z-position", 0);
@@ -40,46 +34,6 @@ var reset_all_damage = func
 var repair_damage = func {
     set_bushkit(getprop("/fdm/jsbsim/bushkit"));
 };
-
-var nosegearbroke = func (bushkit)
-{
-    if (bushkit == 0)
-        setprop(contact~"unit[6]/z-position", -10);
-    elsif (bushkit == 1)
-        setprop(contact~"unit[6]/z-position", -18.5);
-    elsif (bushkit == 2)
-        setprop(contact~"unit[6]/z-position", -17.7);
-
-    setprop(gears~"unit[0]/z-position", 0);
-}
-
-var leftgearbroke = func (bushkit)
-{
-    if (bushkit == 0)
-        setprop(contact~"unit[7]/z-position", -9.5);
-    elsif (bushkit == 1)
-        setprop(contact~"unit[7]/z-position", -14.5);
-    elsif (bushkit == 2)
-        setprop(contact~"unit[7]/z-position", -16);
-    elsif (bushkit == 5)
-        setprop(gears~"unit[24]/z-position", -14);
-
-    setprop(gears~"unit[1]/z-position", 0);
-}
-
-var rightgearbroke = func (bushkit)
-{
-    if (bushkit == 0)
-        setprop(contact~"unit[8]/z-position", -8);
-    elsif (bushkit == 1)
-        setprop(contact~"unit[8]/z-position", -15.5);
-    elsif (bushkit == 2)
-        setprop(contact~"unit[8]/z-position", -17.4);
-    elsif (bushkit == 5)
-        setprop(gears~"unit[25]/z-position", -16);
-
-    setprop(gears~"unit[2]/z-position", 0);
-}
 
 var bothwingcollapse = func
 {
@@ -109,27 +63,6 @@ var killengine = func
     setprop("/engines/active-engine/crash-engine", 1);
 }
 
-var defaulttires = func
-{
-    setprop(gears~"unit[0]/z-position", -19.5);
-    setprop(gears~"unit[1]/z-position", -15.5);
-    setprop(gears~"unit[2]/z-position", -15.5);
-}
-
-var medbushtires = func
-{
-    setprop(gears~"unit[0]/z-position", -22);
-    setprop(gears~"unit[1]/z-position", -20);
-    setprop(gears~"unit[2]/z-position", -20);
-}
-
-var largebushtires = func
-{
-    setprop(gears~"unit[0]/z-position", -22);
-    setprop(gears~"unit[1]/z-position", -22);
-    setprop(gears~"unit[2]/z-position", -22);
-}
-
 var pontoons = func
 {
     # Empty, no z-position's to reset
@@ -145,9 +78,6 @@ var amphibious = func
 
 var skis = func
 {
-    setprop(gears~"unit[0]/z-position", -22);
-    setprop(gears~"unit[1]/z-position", -22);
-    setprop(gears~"unit[2]/z-position", -22);
     setprop(gears~"unit[23]/z-position", -22);
     setprop(gears~"unit[24]/z-position", -22);
     setprop(gears~"unit[25]/z-position", -22);
@@ -199,13 +129,7 @@ var set_bushkit = func (bushkit) {
     reset_all_damage();
 
     # Reset z-position's
-    if (bushkit == 0)
-        defaulttires();
-    elsif (bushkit == 1)
-        medbushtires();
-    elsif (bushkit == 2)
-        largebushtires();
-    elsif (bushkit == 3)
+    if (bushkit == 3)
         pontoons();
     elsif (bushkit == 4)
         amphibious();
@@ -227,24 +151,6 @@ setlistener("/sim/signals/fdm-initialized", func {
     setlistener("/fdm/jsbsim/bushkit", func (n) {
         set_bushkit(n.getValue());
     }, 1, 0);
-
-    setlistener(gears~"unit[0]/broken", func (n) {
-        if (n.getBoolValue()) {
-            nosegearbroke(getprop("/fdm/jsbsim/bushkit"));
-        }
-    }, 0, 0);
-
-    setlistener(gears~"unit[1]/broken", func (n) {
-        if (n.getBoolValue()) {
-            leftgearbroke(getprop("/fdm/jsbsim/bushkit"));
-        }
-    }, 0, 0);
-
-    setlistener(gears~"unit[2]/broken", func (n) {
-        if (n.getBoolValue()) {
-            rightgearbroke(getprop("/fdm/jsbsim/bushkit"));
-        }
-    }, 0, 0);
 
     setlistener(contact~"unit[12]/WOW", func (n) {
         if (n.getBoolValue()) {

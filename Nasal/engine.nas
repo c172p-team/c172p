@@ -124,9 +124,15 @@ var engine_coughing = maketimer(3.0, func {
     var coughing = getprop("/engines/active-engine/coughing");
     var running = getprop("/engines/active-engine/running");
     if (coughing and running) {
-        var delay = 3.0 * rand();
-        # engine.xml will force an engine back to killed == 0 if oil level is still all right
-        settimer(func {setprop("/engines/active-engine/killed", 1);}, delay);
+        var delay = 10.0 * rand();
+        settimer(func {
+            setprop("/engines/active-engine/kill-engine", 1);
+
+            # Bring the engine back to life after 0.25 seconds
+            settimer(func {
+                setprop("/engines/active-engine/kill-engine", 0);
+            }, 0.25);
+        }, delay);
     };
 });
 

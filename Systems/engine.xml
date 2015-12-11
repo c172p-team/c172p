@@ -135,6 +135,29 @@
         </output>
     </logic>
 
+    <logic>
+        <name>Engine Crashed</name>
+        <input>
+            <or>
+                <property>/engines/active-engine/crash-engine</property>
+
+                <!-- Nose gear broken or pontoons damaged or broken crashes engine -->
+                <property>/fdm/jsbsim/gear/unit[0]/broken</property>
+                <not-equals>
+                    <property>/fdm/jsbsim/pontoon-damage/left-pontoon</property>
+                    <value>0</value>
+                </not-equals>
+                <not-equals>
+                    <property>/fdm/jsbsim/pontoon-damage/right-pontoon</property>
+                    <value>0</value>
+                </not-equals>
+            </or>
+        </input>
+        <output>
+            <property>/engines/active-engine/crashed</property>
+        </output>
+    </logic>
+
     <filter>
         <name>Engine MP-OSI</name>
         <type>gain</type>
@@ -457,11 +480,14 @@
     <!-- Fuel contamination and low oil level                           -->
     <!-- ============================================================== -->
     
-    <!-- High level of fuel contamination or low level of oil kills engine -->
-      <logic>
-        <name>Killing engine</name>
+    <logic>
+        <name>Engine Killed</name>
         <input>
             <or>
+                <property>/engines/active-engine/crashed</property>
+                <property>/engines/active-engine/kill-engine</property>
+
+                <!-- High level of fuel contamination or low level of oil kills engine -->
                 <and>
                     <property>consumables/fuel/tank[0]/selected</property>
                     <greater-than>
@@ -489,7 +515,7 @@
     
     <!-- Low level of fuel contamination or just above oil minimal level makes engine cough-->
     <logic>
-        <name>Engine coughing</name>
+        <name>Engine Coughing</name>
         <input>
             <or>
                 <and>

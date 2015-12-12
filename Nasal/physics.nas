@@ -1,25 +1,23 @@
-var gears = "fdm/jsbsim/gear/";
-var contact = "fdm/jsbsim/contact/";
-
 var reset_all_damage = func
 {
     setprop("/engines/active-engine/crash-engine", 0);
     setprop("/engines/active-engine/kill-engine", 0);
 
-    setprop(gears~"unit[0]/broken", 0);
-    setprop(gears~"unit[1]/broken", 0);
-    setprop(gears~"unit[2]/broken", 0);
+    # Landing gear
+    setprop("/fdm/jsbsim/gear/unit[0]/broken", 0);
+    setprop("/fdm/jsbsim/gear/unit[1]/broken", 0);
+    setprop("/fdm/jsbsim/gear/unit[2]/broken", 0);
+
+    # Wings
     setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
     setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
+
+    # Collapsed wings
     setprop("/fdm/jsbsim/crash", 0);
+
+    # Pontoons
     setprop("/fdm/jsbsim/pontoon-damage/left-pontoon", 0);
     setprop("/fdm/jsbsim/pontoon-damage/right-pontoon", 0);
-
-    # Reset contacts
-    setprop(gears~"unit[19]/z-position", 0);
-    setprop(gears~"unit[20]/z-position", 0);
-    setprop(gears~"unit[21]/z-position", 0);
-    setprop(gears~"unit[22]/z-position", 0);
 }
 
 var repair_damage = func {
@@ -29,14 +27,6 @@ var repair_damage = func {
 var killengine = func
 {
     setprop("/engines/active-engine/crash-engine", 1);
-}
-
-var amphibious = func
-{
-    setprop(gears~"unit[19]/z-position", -62);
-    setprop(gears~"unit[20]/z-position", -62);
-    setprop(gears~"unit[21]/z-position", -50.5);
-    setprop(gears~"unit[22]/z-position", -50.5);
 }
 
 # Check if on water
@@ -74,13 +64,7 @@ var physics_loop = func
 
 var set_bushkit = func (bushkit) {
     setprop("/fdm/jsbsim/damage/repairing", 1);
-
     reset_all_damage();
-
-    # Reset z-positions (pontoons have no z-positions to reset)
-    if (bushkit == 4)
-        amphibious();
-
     bushkit_changed_timer.restart(bushkit_change_timeout);
 };
 

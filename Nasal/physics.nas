@@ -9,9 +9,6 @@ var reset_all_damage = func
     setprop(gears~"unit[0]/broken", 0);
     setprop(gears~"unit[1]/broken", 0);
     setprop(gears~"unit[2]/broken", 0);
-    setprop(contact~"unit[9]/z-position", 35);
-    setprop(contact~"unit[10]/z-position", 8);
-    setprop(contact~"unit[11]/z-position", 60);
     setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
     setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
     setprop("/fdm/jsbsim/crash", 0);
@@ -23,6 +20,7 @@ var reset_all_damage = func
     setprop(gears~"unit[20]/z-position", 0);
     setprop(gears~"unit[21]/z-position", 0);
     setprop(gears~"unit[22]/z-position", 0);
+
     setprop(gears~"unit[23]/z-position", 0);
     setprop(gears~"unit[24]/z-position", 0);
     setprop(gears~"unit[25]/z-position", 0);
@@ -70,10 +68,6 @@ var poll_surface = func
     }
     elsif (ground_splash_norm > 0)
         setprop("/environment/aircraft-effects/ground-splash-norm", ground_splash_norm - 0.005);
-
-    setprop(contact~"unit[9]/z-position", !getprop(contact~"unit[9]/solid") ? -25 : 35);
-    setprop(contact~"unit[10]/z-position", !getprop(contact~"unit[10]/solid") ? -25 : 8);
-    setprop(contact~"unit[11]/z-position", !getprop(contact~"unit[11]/solid") ? -25 : 60);
 }
 
 # Duration in which no damage will occur. Assumes the aircraft has

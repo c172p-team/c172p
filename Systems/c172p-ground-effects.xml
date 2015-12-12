@@ -26,6 +26,10 @@
 
     <channel name="contact-points">
 
+        <!-- ================================================================== -->
+        <!-- Contact points landing gear and yellow sparks                      -->
+        <!-- ================================================================== -->
+
         <fcs_function name="z-position-nose-gear">
             <output>gear/unit[0]/z-position</output>
             <function>
@@ -152,6 +156,10 @@
             </function>
         </fcs_function>
 
+        <!-- ================================================================== -->
+        <!-- Contact points wing tips                                           -->
+        <!-- ================================================================== -->
+
         <switch name="z-position-left-wing-tip">
             <output>contact/unit[4]/z-position</output>
             <default value="50"/>
@@ -190,6 +198,10 @@
             </test>
         </switch>
 
+        <!-- ================================================================== -->
+        <!-- Contact points top of fuselage and empennage                       -->
+        <!-- ================================================================== -->
+
         <switch name="z-position-top-vertical-stabilizer">
             <output>contact/unit[12]/z-position</output>
             <default value="90"/>
@@ -224,6 +236,49 @@
 
             <test logic="AND" value="-25">
                 contact/unit[11]/solid EQ 0
+            </test>
+        </switch>
+
+        <!-- ================================================================== -->
+        <!-- Contact points skis                                                -->
+        <!-- ================================================================== -->
+
+        <switch name="z-position-nose-ski">
+            <output>gear/unit[23]/z-position</output>
+            <default value="0"/>
+
+            <test logic="AND" value="-22">
+                bushkit EQ 5
+            </test>
+        </switch>
+
+        <switch name="z-position-left-ski">
+            <output>gear/unit[24]/z-position</output>
+            <default value="0"/>
+
+            <test logic="AND" value="-22">
+                bushkit EQ 5
+                gear/unit[1]/broken EQ 0
+            </test>
+
+            <test logic="AND" value="-14">
+                bushkit EQ 5
+                gear/unit[1]/broken EQ 1
+            </test>
+        </switch>
+
+        <switch name="z-position-right-ski">
+            <output>gear/unit[25]/z-position</output>
+            <default value="0"/>
+
+            <test logic="AND" value="-22">
+                bushkit EQ 5
+                gear/unit[2]/broken EQ 0
+            </test>
+
+            <test logic="AND" value="-16">
+                bushkit EQ 5
+                gear/unit[2]/broken EQ 1
             </test>
         </switch>
 

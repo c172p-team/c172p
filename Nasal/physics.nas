@@ -20,10 +20,6 @@ var reset_all_damage = func
     setprop(gears~"unit[20]/z-position", 0);
     setprop(gears~"unit[21]/z-position", 0);
     setprop(gears~"unit[22]/z-position", 0);
-
-    setprop(gears~"unit[23]/z-position", 0);
-    setprop(gears~"unit[24]/z-position", 0);
-    setprop(gears~"unit[25]/z-position", 0);
 }
 
 var repair_damage = func {
@@ -41,13 +37,6 @@ var amphibious = func
     setprop(gears~"unit[20]/z-position", -62);
     setprop(gears~"unit[21]/z-position", -50.5);
     setprop(gears~"unit[22]/z-position", -50.5);
-}
-
-var skis = func
-{
-    setprop(gears~"unit[23]/z-position", -22);
-    setprop(gears~"unit[24]/z-position", -22);
-    setprop(gears~"unit[25]/z-position", -22);
 }
 
 # Check if on water
@@ -91,8 +80,6 @@ var set_bushkit = func (bushkit) {
     # Reset z-positions (pontoons have no z-positions to reset)
     if (bushkit == 4)
         amphibious();
-    elsif (bushkit == 5)
-        skis();
 
     bushkit_changed_timer.restart(bushkit_change_timeout);
 };

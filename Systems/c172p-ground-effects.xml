@@ -33,7 +33,7 @@
                     <property>gear/unit[0]/broken</property>
                     <value>0.0</value>
                     <switch>
-                        <property>/fdm/jsbsim/bushkit</property>
+                        <property>bushkit</property>
 
                         <!-- Default/26"/36"/pontoon/amphibious/skis -->
                         <value>-19.5</value>
@@ -54,7 +54,7 @@
                     <property>gear/unit[1]/broken</property>
                     <value>0.0</value>
                     <switch>
-                        <property>/fdm/jsbsim/bushkit</property>
+                        <property>bushkit</property>
 
                         <!-- Default/26"/36"/pontoon/amphibious/skis -->
                         <value>-15.5</value>
@@ -75,7 +75,7 @@
                     <property>gear/unit[2]/broken</property>
                     <value>0.0</value>
                     <switch>
-                        <property>/fdm/jsbsim/bushkit</property>
+                        <property>bushkit</property>
 
                         <!-- Default/26"/36"/pontoon/amphibious/skis -->
                         <value>-15.5</value>
@@ -95,7 +95,7 @@
                 <ifthen>
                     <property>gear/unit[0]/broken</property>
                     <switch>
-                        <property>/fdm/jsbsim/bushkit</property>
+                        <property>bushkit</property>
 
                         <!-- Default/26"/36"/pontoon/amphibious/skis -->
                         <value>-10.0</value>
@@ -116,7 +116,7 @@
                 <ifthen>
                     <property>gear/unit[1]/broken</property>
                     <switch>
-                        <property>/fdm/jsbsim/bushkit</property>
+                        <property>bushkit</property>
 
                         <!-- Default/26"/36"/pontoon/amphibious/skis -->
                         <value> -9.5</value>
@@ -137,7 +137,7 @@
                 <ifthen>
                     <property>gear/unit[2]/broken</property>
                     <switch>
-                        <property>/fdm/jsbsim/bushkit</property>
+                        <property>bushkit</property>
 
                         <!-- Default/26"/36"/pontoon/amphibious/skis -->
                         <value> -8.0</value>
@@ -151,6 +151,69 @@
                 </ifthen>
             </function>
         </fcs_function>
+
+        <switch name="z-position-left-wing-tip">
+            <output>contact/unit[4]/z-position</output>
+            <default value="50"/>
+
+            <test logic="AND" value="-8">
+                crash EQ 1
+            </test>
+
+            <test logic="AND" value="-10">
+                bushkit EQ 3
+                contact/unit[4]/solid EQ 0
+            </test>
+            <test logic="AND" value="-10">
+                bushkit EQ 4
+                contact/unit[4]/solid EQ 0
+            </test>
+
+            <test logic="AND" value="40">
+                wing-damage/left-wing EQ 1.0
+                contact/unit[12]/WOW EQ 1
+            </test>
+        </switch>
+
+        <switch name="z-position-right-wing-tip">
+            <output>contact/unit[5]/z-position</output>
+            <default value="50"/>
+
+            <test logic="AND" value="-8">
+                crash EQ 1
+            </test>
+
+            <!-- Pontoons/amphibious on water -->
+            <test logic="AND" value="-10">
+                bushkit EQ 3
+                contact/unit[5]/solid EQ 0
+            </test>
+            <test logic="AND" value="-10">
+                bushkit EQ 4
+                contact/unit[5]/solid EQ 0
+            </test>
+
+            <test logic="AND" value="40">
+                wing-damage/right-wing EQ 1.0
+                contact/unit[12]/WOW EQ 1
+            </test>
+        </switch>
+
+        <switch name="z-position-top-vertical-stabilizer">
+            <output>contact/unit[12]/z-position</output>
+            <default value="90"/>
+
+            <!-- Pontoons/amphibious on water -->
+            <!-- 160 puts tail higher in the air when upside down -->
+            <test logic="AND" value="160">
+                bushkit EQ 3
+                contact/unit[12]/solid EQ 0
+            </test>
+            <test logic="AND" value="160">
+                bushkit EQ 4
+                contact/unit[12]/solid EQ 0
+            </test>
+        </switch>
 
     </channel>
 

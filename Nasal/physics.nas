@@ -9,12 +9,9 @@ var reset_all_damage = func
     setprop(gears~"unit[0]/broken", 0);
     setprop(gears~"unit[1]/broken", 0);
     setprop(gears~"unit[2]/broken", 0);
-    setprop(contact~"unit[4]/z-position", 50);
-    setprop(contact~"unit[5]/z-position", 50);
     setprop(contact~"unit[9]/z-position", 35);
     setprop(contact~"unit[10]/z-position", 8);
     setprop(contact~"unit[11]/z-position", 60);
-    setprop(contact~"unit[12]/z-position", 90);
     setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
     setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
     setprop("/fdm/jsbsim/crash", 0);
@@ -35,37 +32,9 @@ var repair_damage = func {
     set_bushkit(getprop("/fdm/jsbsim/bushkit"));
 };
 
-var bothwingcollapse = func
-{
-    setprop(contact~"unit[5]/z-position", -8);
-
-    if (getprop("position/altitude-agl-m") < 10)
-        killengine();
-}
-
-var upsidedown = func
-{
-    setprop(contact~"unit[12]/z-position", 90);
-
-    if (getprop("/fdm/jsbsim/wing-damage/left-wing") == 1.0)
-        setprop(contact~"unit[4]/z-position", 40);
-    else
-        setprop(contact~"unit[4]/z-position", 50);
-
-    if (getprop("/fdm/jsbsim/wing-damage/right-wing") == 1.0)
-        setprop(contact~"unit[5]/z-position", 40);
-    else
-        setprop(contact~"unit[5]/z-position", 50);
-}
-
 var killengine = func
 {
     setprop("/engines/active-engine/crash-engine", 1);
-}
-
-var pontoons = func
-{
-    # Empty, no z-position's to reset
 }
 
 var amphibious = func
@@ -102,9 +71,6 @@ var poll_surface = func
     elsif (ground_splash_norm > 0)
         setprop("/environment/aircraft-effects/ground-splash-norm", ground_splash_norm - 0.005);
 
-    setprop(contact~"unit[12]/z-position", !getprop(contact~"unit[12]/solid") ? 160 : 90);
-    setprop(contact~"unit[4]/z-position", !getprop(contact~"unit[4]/solid") ? -10 : 50);
-    setprop(contact~"unit[5]/z-position", !getprop(contact~"unit[5]/solid") ? -10 : 50);
     setprop(contact~"unit[9]/z-position", !getprop(contact~"unit[9]/solid") ? -25 : 35);
     setprop(contact~"unit[10]/z-position", !getprop(contact~"unit[10]/solid") ? -25 : 8);
     setprop(contact~"unit[11]/z-position", !getprop(contact~"unit[11]/solid") ? -25 : 60);
@@ -128,10 +94,8 @@ var set_bushkit = func (bushkit) {
 
     reset_all_damage();
 
-    # Reset z-position's
-    if (bushkit == 3)
-        pontoons();
-    elsif (bushkit == 4)
+    # Reset z-positions (pontoons have no z-positions to reset)
+    if (bushkit == 4)
         amphibious();
     elsif (bushkit == 5)
         skis();
@@ -152,16 +116,9 @@ setlistener("/sim/signals/fdm-initialized", func {
         set_bushkit(n.getValue());
     }, 1, 0);
 
-    setlistener(contact~"unit[12]/WOW", func (n) {
-        if (n.getBoolValue()) {
-            gui.popupTip("Upside down!", 5);
-            upsidedown();
-        }
-    }, 0, 0);
-
     setlistener("/fdm/jsbsim/crash", func (n) {
-        if (n.getBoolValue()) {
-            bothwingcollapse();
+        if (n.getBoolValue() and getprop("position/altitude-agl-m") < 10) {
+            killengine();
         }
     }, 0, 0);
 
@@ -184,10 +141,6 @@ setlistener("/sim/signals/fdm-initialized", func {
             if (getprop("position/altitude-agl-m") < 10)
                 killengine();
         }
-
-        # upsidedown() uses wing-damage/left-wing
-        if (getprop(contact~"unit[12]/WOW"))
-            upsidedown();
     }, 0, 0);
 
     setlistener("/fdm/jsbsim/wing-damage/right-wing", func (n) {
@@ -209,10 +162,6 @@ setlistener("/sim/signals/fdm-initialized", func {
             if (getprop("position/altitude-agl-m") < 10)
                 killengine();
         }
-
-        # upsidedown() uses wing-damage/right-wing
-        if (getprop(contact~"unit[12]/WOW"))
-            upsidedown();
     }, 0, 0);
 
     setlistener("/fdm/jsbsim/pontoon-damage/left-pontoon", func (n) {

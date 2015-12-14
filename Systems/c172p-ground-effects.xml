@@ -181,4 +181,197 @@
 
     </channel>
 
+    <channel name="tiedowns">
+
+        <fcs_function name="tiedown-left-x">
+            <output>external_reactions/tiedown-left/x</output>
+            <function>
+                <sin>
+                    <toradians>
+                        <property>/sim/model/c172p/tiedowns/left/heading-deg</property>
+                    </toradians>
+                </sin>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="tiedown-left-y">
+            <output>external_reactions/tiedown-left/y</output>
+            <function>
+                <product>
+                    <value>-1</value>
+                    <cos>
+                        <toradians>
+                            <property>/sim/model/c172p/tiedowns/left/heading-deg</property>
+                        </toradians>
+                    </cos>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="tiedown-left-z">
+            <output>external_reactions/tiedown-left/z</output>
+            <function>
+                <product>
+                    <value>-1</value>
+                    <sin>
+                        <toradians>
+                            <property>/sim/model/c172p/tiedowns/left/pitch-deg</property>
+                        </toradians>
+                    </sin>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="tiedown-right-x">
+            <output>external_reactions/tiedown-right/x</output>
+            <function>
+                <product>
+                    <value>-1</value>
+                    <sin>
+                        <toradians>
+                            <property>/sim/model/c172p/tiedowns/right/heading-deg</property>
+                        </toradians>
+                    </sin>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="tiedown-right-y">
+            <output>external_reactions/tiedown-right/y</output>
+            <function>
+                <cos>
+                    <toradians>
+                        <property>/sim/model/c172p/tiedowns/right/heading-deg</property>
+                    </toradians>
+                </cos>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="tiedown-right-z">
+            <output>external_reactions/tiedown-right/z</output>
+            <function>
+                <product>
+                    <value>-1</value>
+                    <sin>
+                        <toradians>
+                            <property>/sim/model/c172p/tiedowns/right/pitch-deg</property>
+                        </toradians>
+                    </sin>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="tiedown-tail-x">
+            <output>external_reactions/tiedown-tail/x</output>
+            <function>
+                <cos>
+                    <toradians>
+                        <property>/sim/model/c172p/tiedowns/tail/heading-deg</property>
+                    </toradians>
+                </cos>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="tiedown-tail-y">
+            <output>external_reactions/tiedown-tail/y</output>
+            <function>
+                <sin>
+                    <toradians>
+                        <property>/sim/model/c172p/tiedowns/tail/heading-deg</property>
+                    </toradians>
+                </sin>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="tiedown-tail-z">
+            <output>external_reactions/tiedown-tail/z</output>
+            <function>
+                <product>
+                    <value>-1</value>
+                    <sin>
+                        <toradians>
+                            <property>/sim/model/c172p/tiedowns/tail/pitch-deg</property>
+                        </toradians>
+                    </sin>
+                </product>
+            </function>
+        </fcs_function>
+
+        <summer name="fcs/tiedown-left-mag-error">
+            <input>/sim/model/c172p/tiedowns/left/length</input>
+            <input>-/sim/model/c172p/tiedowns/left/ref-length</input>
+        </summer>
+
+        <summer name="fcs/tiedown-right-mag-error">
+            <input>/sim/model/c172p/tiedowns/right/length</input>
+            <input>-/sim/model/c172p/tiedowns/right/ref-length</input>
+        </summer>
+
+        <summer name="fcs/tiedown-tail-mag-error">
+            <input>/sim/model/c172p/tiedowns/tail/length</input>
+            <input>-/sim/model/c172p/tiedowns/tail/ref-length</input>
+        </summer>
+
+        <pid name="fcs/tiedown-left-magnitude-pid">
+            <input>fcs/tiedown-left-mag-error</input>
+            <kp>7000.0</kp>
+            <ki>0.0</ki>
+            <kd>0.0</kd>
+            <clipto>
+                <min>-50</min>
+                <max>1000</max>
+            </clipto>
+        </pid>
+
+        <pid name="fcs/tiedown-right-magnitude-pid">
+            <input>fcs/tiedown-right-mag-error</input>
+            <kp>7000.0</kp>
+            <ki>0.0</ki>
+            <kd>0.0</kd>
+            <clipto>
+                <min>-50</min>
+                <max>1000</max>
+            </clipto>
+        </pid>
+
+        <pid name="fcs/tiedown-tail-magnitude-pid">
+            <input>fcs/tiedown-tail-mag-error</input>
+            <kp>7000.0</kp>
+            <ki>0.0</ki>
+            <kd>0.0</kd>
+            <clipto>
+                <min>-50</min>
+                <max>1000</max>
+            </clipto>
+        </pid>
+
+        <switch name="fcs/tiedown-left-magnitude">
+            <output>external_reactions/tiedown-left/magnitude</output>
+            <default value="0"/>
+
+            <test logic="AND" value="fcs/tiedown-left-magnitude-pid">
+                /sim/model/c172p/securing/tiedownL-visible EQ 1
+            </test>
+        </switch>
+
+        <switch name="fcs/tiedown-right-magnitude">
+            <output>external_reactions/tiedown-right/magnitude</output>
+            <default value="0"/>
+
+            <test logic="AND" value="fcs/tiedown-right-magnitude-pid">
+                /sim/model/c172p/securing/tiedownR-visible EQ 1
+            </test>
+        </switch>
+
+        <switch name="fcs/tiedown-tail-magnitude">
+            <output>external_reactions/tiedown-tail/magnitude</output>
+            <default value="0"/>
+
+            <test logic="AND" value="fcs/tiedown-tail-magnitude-pid">
+                /sim/model/c172p/securing/tiedownT-visible EQ 1
+            </test>
+        </switch>
+
+    </channel>
+
 </system>

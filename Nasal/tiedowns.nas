@@ -84,6 +84,11 @@ var TiedownPositionUpdater = {
         # Set altitude of end point
         var elev_m = geo.elevation(me.end_point.lat(), me.end_point.lon());
         me.end_point.set_alt(elev_m or getprop("/position/ground-elev-m"));
+
+        # Call update() immediately to compute initial length
+        me.update(0);
+        var length = getprop("/sim/model/c172p/tiedowns", me.name, "length");
+        setprop("/sim/model/c172p/tiedowns", me.name, "ref-length", length);
     },
 
     update: func (dt) {

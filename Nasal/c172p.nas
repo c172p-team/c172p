@@ -199,9 +199,7 @@ var switches_save_state = func {
 
 var thermometer_switch = func {
     var val = getprop("controls/switches/thermometer-switch");
-    var test = 1 + val;
-    if (test > 2) {test = 0};
-    setprop("controls/switches/thermometer-switch", test);
+    setprop("controls/switches/thermometer-switch", math.mod(1 + val, 3));
     settimer(thermometer_off, 300);
 }
 

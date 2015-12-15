@@ -27,6 +27,9 @@ This tutorial will take you through starting the Cessna 172p.
     </presets>
 
     <init>
+    </init>
+
+    <step>
         <set>
             <property>/sim/model/c172p/brake-parking</property>
             <value>1</value>
@@ -75,9 +78,37 @@ This tutorial will take you through starting the Cessna 172p.
             <property>/controls/switches/master-avionics</property>
             <value>false</value>
         </set>
-    </init>
-
-    <step>
+        <set>
+            <property>/controls/switches/master-bat</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-alt</property>
+        </set>
+        <set>
+            <property>/controls/lighting/taxi-light</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/landing-lights</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/anti-ice/pitot-heat</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/nav-lights</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/beacon</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/strobe</property>
+            <value>false</value>
+        </set>
     	<set>
             <property>/sim/model/door-positions/baggageDoor/position-norm</property>
             <value>0</value>
@@ -475,7 +506,7 @@ This tutorial will take you through starting the Cessna 172p.
 
     <step>
         <message>Open the throttle slightly. Use your joystick throttle control,
-      or PgUp to increase throttle to about 10%.</message>
+      or PgUp to increase throttle to about 10-15%.</message>
         <view>
             <heading-offset-deg>346.8</heading-offset-deg>
             <pitch-offset-deg>-25.8</pitch-offset-deg>
@@ -498,7 +529,7 @@ This tutorial will take you through starting the Cessna 172p.
             <condition>
                 <less-than>
                     <property>/controls/engines/current-engine/throttle</property>
-                    <value>0.15</value>
+                    <value>0.1</value>
                 </less-than>
             </condition>
         </error>
@@ -508,7 +539,7 @@ This tutorial will take you through starting the Cessna 172p.
             <condition>
                 <greater-than>
                     <property>/controls/engines/current-engine/throttle</property>
-                    <value>0.25</value>
+                    <value>0.15</value>
                 </greater-than>
             </condition>
         </error>
@@ -516,14 +547,14 @@ This tutorial will take you through starting the Cessna 172p.
         <exit>
             <condition>
                 <and>
-                    <greater-than>
+                    <greater-than-equals>
                         <property>/controls/engines/current-engine/throttle</property>
-                        <value>0.05</value>
-                    </greater-than>
-                    <less-than>
+                        <value>0.1</value>
+                    </greater-than-equals>
+                    <less-than-equals>
                         <property>/controls/engines/current-engine/throttle</property>
-                        <value>0.2</value>
-                    </less-than>
+                        <value>0.15</value>
+                    </less-than-equals>
                 </and>
             </condition>
         </exit>

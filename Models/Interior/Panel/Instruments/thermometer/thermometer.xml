@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+
+<!--
+Digital thermometer display
+Dave Perry
+December 28, 2006
+
+This is an instrument configuration file for the open-source flight
+simulator FlightGear (www.flightgear.org).  The file is an XML-encoded
+FlightGear property list defining the instrument's layers and actions.
+
+Each instrument is composed of layers stacked on top of each other.
+A layer may be a texture (with transparent parts to show the layers
+underneath), text, or a special layer that switches between two
+others (say, to turn an indicator light on or off).  Each layer can
+move independently in proportion to a property value, and text
+can be generated from property values as well: all of the layer's
+movements are defined as transformations.
+
+Actions are hotspots on the instrument that will respond to a mouse
+click.  Actions always modify the values of properties, either by
+adjusting them, toggling them, or swaping them with other
+properties' values.
+-->  
+
+<PropertyList>
+
+    <path>thermometer.ac</path>
+
+    <animation>
+        <type>pick</type>
+        <object-name>click</object-name>
+        <visible type="bool">true</visible>
+        <action>
+            <name>thermometer switch</name>
+            <button>0</button>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.thermometer_switch()</script>
+            </binding>
+        </action>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>window_base</object-name>
+        <object-name>click</object-name>
+        <emission>
+            <red>0.2</red>
+            <green>0.04</green>
+            <blue>0.00002</blue>
+            <factor-prop>sim/model/material/instruments/factor</factor-prop>
+        </emission>
+    </animation> 
+    
+    <name>reading_digital</name>
+    <w-base>128</w-base>
+    <h-base>128</h-base>
+
+    <layers>
+
+        <layer>
+            <name>deg-C-display</name>
+            <condition>
+                <equals>
+                    <property>/controls/switches/thermometer-switch</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <type>text</type>
+            <font>led</font>
+            <point-size>6</point-size>
+            <color>
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+            </color>
+            <chunks>
+                <chunk>
+                    <type>number-value</type>
+                    <property>/fdm/jsbsim/heat/cabin-air-temp-degc</property>
+                    <format>%4.1f</format>
+                    </chunk>
+            </chunks>
+            <transformations>
+                <transformation>
+                    <type>x-shift</type>
+                    <offset>-20</offset>
+                    </transformation>
+                    <transformation>
+                    <type>y-shift</type>
+                    <offset>5</offset>
+                </transformation>
+            </transformations>
+        </layer>
+
+        <layer>
+            <name>C-display</name>
+            <condition>
+                <equals>
+                    <property>/controls/switches/thermometer-switch</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <type>text</type>
+            <font>led</font>
+            <point-size>6</point-size>
+            <color>
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+            </color>
+                <chunks>
+                    <chunk>
+                    <type>literal</type>
+                    <text>C</text>
+                </chunk>
+            </chunks>
+            <transformations>
+                <transformation>
+                    <type>x-shift</type>
+                    <offset>27</offset>
+                    </transformation>
+                    <transformation>
+                    <type>y-shift</type>
+                    <offset>5</offset>
+                </transformation>
+            </transformations>
+        </layer>
+
+        <layer>
+            <name>deg-F-display</name>
+            <condition>
+                <equals>
+                    <property>/controls/switches/thermometer-switch</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <type>text</type>
+            <font>led</font>
+            <point-size>6</point-size>
+            <color>
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+            </color>
+            <chunks>
+                <chunk>
+                    <type>number-value</type>
+                    <property>/fdm/jsbsim/heat/cabin-air-temp-degc</property> <!-- change for degf after -->
+                    <format>%4.1f</format>
+                </chunk>
+            </chunks>
+            <transformations>
+                <transformation>
+                    <type>x-shift</type>
+                    <offset>-20</offset>
+                    </transformation>
+                    <transformation>
+                    <type>y-shift</type>
+                    <offset>5</offset>
+                </transformation>
+            </transformations>
+        </layer> 
+
+        <layer>
+            <name>F-display</name>
+            <condition>
+                <equals>
+                    <property>/controls/switches/thermometer-switch</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <type>text</type>
+            <font>led</font>
+            <point-size>6</point-size>
+            <color>
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+            </color>
+            <chunks>
+                <chunk>
+                    <type>literal</type>
+                    <text>F</text>
+                </chunk>
+            </chunks>
+            <transformations>
+                <transformation>
+                    <type>x-shift</type>
+                    <offset>27</offset>
+                    </transformation>
+                    <transformation>
+                    <type>y-shift</type>
+                    <offset>5</offset>
+                </transformation>
+            </transformations>
+        </layer> 
+
+        <layer>
+            <name>deg-symbol</name>
+            <condition>
+                <equals>
+                    <property>/controls/switches/thermometer-switch</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <type>text</type>
+            <font>led</font>
+            <point-size>4</point-size>
+            <color>
+                <red>0</red>
+                <green>0</green>
+                <blue>0</blue>
+            </color>
+            <chunks>
+                <chunk>
+                    <type>literal</type>
+                    <text>o</text>
+                </chunk>
+            </chunks>
+            <transformations>
+                <transformation>
+                    <type>x-shift</type>
+                    <offset>20</offset>
+                    </transformation>
+                    <transformation>
+                    <type>y-shift</type>
+                    <offset>10</offset>
+                </transformation>
+            </transformations>
+        </layer> 
+        
+    </layers>
+ 
+</PropertyList>

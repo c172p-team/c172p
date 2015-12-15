@@ -6959,7 +6959,7 @@
         </hovered>
     </animation>
 
-    <!-- regular wheel chock -->
+    <!-- Small wheel chock -->
     <model>
         <name>chock1</name>
         <path>Exterior/chock/chock.xml</path>
@@ -6993,69 +6993,19 @@
     <animation>
         <type>select</type>
         <object-name>chock1</object-name>
-        <condition>
-            <property>/sim/model/c172p/securing/smallchock-visible</property>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
         <object-name>chock2</object-name>
         <condition>
-            <property>/sim/model/c172p/securing/smallchock-visible</property>
+            <and>
+                <property>/sim/model/c172p/securing/chock-visible</property>
+                <equals>
+                    <property alias="/params/bushkit/property"/>
+                    <value>0</value>
+                </equals>
+            </and>
         </condition>
     </animation>
-    <animation>
-        <type>pick</type>
-        <object-name>chock1</object-name>
-        <object-name>chock2</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-assign</command>
-                <property>/sim/model/c172p/securing/chock</property>
-                <value>false</value>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <condition>
-                    <property>/sim/model/c172p/securing/chock</property>
-                </condition>
-                <command>set-tooltip</command>
-                <tooltip-id>remove-wheel-chock</tooltip-id>
-                <label>Remove Wheel Chock</label>
-            </binding>
-        </hovered>
-    </animation>
-    <animation>
-        <type>pick</type>
-        <object-name>NoseWheel</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <condition>
-                    <property>/sim/model/c172p/securing/smallchock-addable</property> 
-                </condition>
-                <command>property-assign</command>
-                <property>sim/model/c172p/securing/chock</property>
-                <value>true</value>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <condition>
-                    <property>/sim/model/c172p/securing/smallchock-addable</property> 
-                </condition>
-                <command>set-tooltip</command>
-                <tooltip-id>secure-with-wheel-chock</tooltip-id>
-                <label>Secure With Wheel Chock</label>
-            </binding>
-        </hovered>
-    </animation>
-    
- <!-- Wooden chocks -->
+
+    <!-- Wooden chocks -->
     <model>
         <name>woodenchock</name>
         <path>Exterior/wooden-chock/woodenchock.xml</path>
@@ -7080,11 +7030,27 @@
         <type>select</type>
         <object-name>woodenchock</object-name>
         <condition>
-            <property>/sim/model/c172p/securing/woodenchock-visible</property>
+            <and>
+                <property>/sim/model/c172p/securing/chock-visible</property>
+                <or>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property alias="/params/bushkit/property"/>
+                        <value>2</value>
+                    </equals>
+                </or>
+            </and>
         </condition>
     </animation>
+
+    <!-- Pick animations to show/hide chocks -->
     <animation>
         <type>pick</type>
+        <object-name>chock1</object-name>
+        <object-name>chock2</object-name>
         <object-name>woodenchock</object-name>
         <action>
             <button>0</button>
@@ -7101,20 +7067,21 @@
                     <property>/sim/model/c172p/securing/chock</property>
                 </condition>
                 <command>set-tooltip</command>
-                <tooltip-id>remove-wheel-woodenchock</tooltip-id>
+                <tooltip-id>remove-wheel-chock</tooltip-id>
                 <label>Remove Wheel Chock</label>
             </binding>
         </hovered>
     </animation>
     <animation>
         <type>pick</type>
+        <object-name>NoseWheel</object-name>
         <object-name>NoseWheelBK</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/securing/woodenchock-addable</property> 
+                    <property>/sim/model/c172p/securing/chock-addable</property>
                 </condition>
                 <command>property-assign</command>
                 <property>sim/model/c172p/securing/chock</property>
@@ -7124,14 +7091,14 @@
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/securing/woodenchock-addable</property> 
+                    <property>/sim/model/c172p/securing/chock-addable</property>
                 </condition>
                 <command>set-tooltip</command>
-                <tooltip-id>secure-with-wheel-woodenchock</tooltip-id>
+                <tooltip-id>secure-with-wheel-chock</tooltip-id>
                 <label>Secure With Wheel Chock</label>
             </binding>
         </hovered>
-    </animation>  
+    </animation>
 
     <!-- Left Tiedowns -->
     <model>

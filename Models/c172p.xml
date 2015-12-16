@@ -142,6 +142,24 @@
                 pilot.setBoolValue(bits.test(state, 3));
             }, 1, 0);
 
+            # Securing attributes
+            var securing_state_path = rplayer.getNode("sim/multiplay/generic/int[9]").getPath();
+
+            var pitot_cover   = rplayer.initNode("sim/model/c172p/securing/pitot-cover-visible", 0, "BOOL");
+            var wheel_chock   = rplayer.initNode("sim/model/c172p/securing/chock-visible", 0, "BOOL");
+            var left_tiedown  = rplayer.initNode("sim/model/c172p/securing/tiedownL-visible", 0, "BOOL");
+            var right_tiedown = rplayer.initNode("sim/model/c172p/securing/tiedownR-visible", 0, "BOOL");
+            var tail_tiedown  = rplayer.initNode("sim/model/c172p/securing/tiedownT-visible", 0, "BOOL");
+
+            setlistener(securing_state_path, func (node) {
+                var state = node.getValue();
+                pitot_cover.setBoolValue(bits.test(state, 0));
+                wheel_chock.setBoolValue(bits.test(state, 1));
+                left_tiedown.setBoolValue(bits.test(state, 2));
+                right_tiedown.setBoolValue(bits.test(state, 3));
+                tail_tiedown.setBoolValue(bits.test(state, 4));
+            }, 1, 0);
+
             # Make sure human occupants are always visible in remote aircraft
             rplayer.initNode("sim/model/occupants", 1, "BOOL");
 
@@ -253,6 +271,22 @@
             <rpm>engines/engine[2]/rpm</rpm>
             <crashed>sim/multiplay/generic/int[3]</crashed>
         </engine>
+
+        <securing>
+            <pitot-cover>sim/model/c172p/securing/pitot-cover-visible</pitot-cover>
+            <chocks>sim/model/c172p/securing/chock-visible</chocks>
+            <tiedowns>
+                <left>
+                    <visible>sim/model/c172p/securing/tiedownL-visible</visible>
+                </left>
+                <right>
+                    <visible>sim/model/c172p/securing/tiedownR-visible</visible>
+                </right>
+                <tail>
+                    <visible>sim/model/c172p/securing/tiedownT-visible</visible>
+                </tail>
+            </tiedowns>
+        </securing>
 
         <!-- TODO To be made MP properties in the future when we get passengers or dual-control -->
         <controls>
@@ -6896,7 +6930,7 @@
         <type>select</type>
         <object-name>rbf-pitot</object-name>
         <condition>
-            <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+            <property alias="/params/securing/pitot-cover"/>
         </condition>
     </animation>
     <animation>
@@ -6910,7 +6944,7 @@
                     <property>/sim/model/c172p/securing/pitot-cover-removable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+                <property alias="/params/securing/pitot-cover"/>
                 <value>false</value>
             </binding>
         </action>
@@ -6936,7 +6970,7 @@
                     <property>/sim/model/c172p/securing/pitot-cover-addable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+                <property alias="/params/securing/pitot-cover"/>
                 <value>true</value>
             </binding>
             <binding>
@@ -6994,7 +7028,7 @@
         <object-name>chock2</object-name>
         <condition>
             <and>
-                <property>/sim/model/c172p/securing/chock-visible</property>
+                <property alias="/params/securing/chocks"/>
                 <equals>
                     <property alias="/params/bushkit"/>
                     <value>0</value>
@@ -7029,7 +7063,7 @@
         <object-name>woodenchock</object-name>
         <condition>
             <and>
-                <property>/sim/model/c172p/securing/chock-visible</property>
+                <property alias="/params/securing/chocks"/>
                 <or>
                     <equals>
                         <property alias="/params/bushkit"/>
@@ -7113,7 +7147,7 @@
         <type>select</type>
         <object-name>tiedownL</object-name>
         <condition>
-            <property>sim/model/c172p/securing/tiedownL-visible</property>
+            <property alias="/params/securing/tiedowns/left/visible"/>
         </condition>
     </animation>
     <animation>
@@ -7125,14 +7159,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/securing/tiedownL-visible</property>
+                <property alias="/params/securing/tiedowns/left/visible"/>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/securing/tiedownL-visible</property>
+                    <property alias="/params/securing/tiedowns/left/visible"/>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-left-tiedowns</tooltip-id>
@@ -7158,7 +7192,7 @@
                     <property>/sim/model/c172p/securing/tiedownL-addable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/c172p/securing/tiedownL-visible</property>
+                <property alias="/params/securing/tiedowns/left/visible"/>
                 <value>true</value>
             </binding>
         </action>
@@ -7189,7 +7223,7 @@
         <type>select</type>
         <object-name>tiedownR</object-name>
         <condition>
-            <property>sim/model/c172p/securing/tiedownR-visible</property>
+            <property alias="/params/securing/tiedowns/right/visible"/>
         </condition>
     </animation>
     <animation>
@@ -7201,14 +7235,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/securing/tiedownR-visible</property>
+                <property alias="/params/securing/tiedowns/right/visible"/>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/securing/tiedownR-visible</property>
+                    <property alias="/params/securing/tiedowns/right/visible"/>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-right-tiedowns</tooltip-id>
@@ -7234,7 +7268,7 @@
                     <property>/sim/model/c172p/securing/tiedownR-addable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/c172p/securing/tiedownR-visible</property>
+                <property alias="/params/securing/tiedowns/right/visible"/>
                 <value>true</value>
             </binding>
         </action>
@@ -7265,7 +7299,7 @@
         <type>select</type>
         <object-name>tiedownT</object-name>
         <condition>
-            <property>sim/model/c172p/securing/tiedownT-visible</property>
+            <property alias="/params/securing/tiedowns/tail/visible"/>
         </condition>
     </animation>
     <animation>
@@ -7277,14 +7311,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/securing/tiedownT-visible</property>
+                <property alias="/params/securing/tiedowns/tail/visible"/>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/securing/tiedownT-visible</property>
+                    <property alias="/params/securing/tiedowns/tail/visible"/>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-tail-tiedowns</tooltip-id>
@@ -7310,7 +7344,7 @@
                     <property>/sim/model/c172p/securing/tiedownT-addable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/c172p/securing/tiedownT-visible</property>
+                <property alias="/params/securing/tiedowns/tail/visible"/>
                 <value>true</value>
             </binding>
         </action>

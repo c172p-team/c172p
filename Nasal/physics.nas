@@ -1,156 +1,32 @@
-var gears = "fdm/jsbsim/gear/";
-var contact = "fdm/jsbsim/contact/";
-
 var reset_all_damage = func
 {
     setprop("/engines/active-engine/crash-engine", 0);
     setprop("/engines/active-engine/kill-engine", 0);
 
-    setprop(gears~"unit[0]/broken", 0);
-    setprop(gears~"unit[1]/broken", 0);
-    setprop(gears~"unit[2]/broken", 0);
-    setprop(contact~"unit[4]/z-position", 50);
-    setprop(contact~"unit[5]/z-position", 50);
-    setprop(contact~"unit[9]/z-position", 35);
-    setprop(contact~"unit[10]/z-position", 8);
-    setprop(contact~"unit[11]/z-position", 60);
-    setprop(contact~"unit[12]/z-position", 90);
+    # Landing gear
+    setprop("/fdm/jsbsim/gear/unit[0]/broken", 0);
+    setprop("/fdm/jsbsim/gear/unit[1]/broken", 0);
+    setprop("/fdm/jsbsim/gear/unit[2]/broken", 0);
+
+    # Wings
     setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
     setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
+
+    # Collapsed wings
     setprop("/fdm/jsbsim/crash", 0);
+
+    # Pontoons
     setprop("/fdm/jsbsim/pontoon-damage/left-pontoon", 0);
     setprop("/fdm/jsbsim/pontoon-damage/right-pontoon", 0);
-
-    # Reset contacts
-    setprop(gears~"unit[0]/z-position", 0);
-    setprop(gears~"unit[1]/z-position", 0);
-    setprop(gears~"unit[2]/z-position", 0);
-    setprop(contact~"unit[6]/z-position", 0);
-    setprop(contact~"unit[7]/z-position", 0);
-    setprop(contact~"unit[8]/z-position", 0);
-    setprop(gears~"unit[19]/z-position", 0);
-    setprop(gears~"unit[20]/z-position", 0);
-    setprop(gears~"unit[21]/z-position", 0);
-    setprop(gears~"unit[22]/z-position", 0);
-    setprop(gears~"unit[23]/z-position", 0);
-    setprop(gears~"unit[24]/z-position", 0);
-    setprop(gears~"unit[25]/z-position", 0);
 }
 
 var repair_damage = func {
     set_bushkit(getprop("/fdm/jsbsim/bushkit"));
 };
 
-var nosegearbroke = func (bushkit)
-{
-    if (bushkit == 0)
-        setprop(contact~"unit[6]/z-position", -10);
-    elsif (bushkit == 1)
-        setprop(contact~"unit[6]/z-position", -18.5);
-    elsif (bushkit == 2)
-        setprop(contact~"unit[6]/z-position", -17.7);
-
-    setprop(gears~"unit[0]/z-position", 0);
-}
-
-var leftgearbroke = func (bushkit)
-{
-    if (bushkit == 0)
-        setprop(contact~"unit[7]/z-position", -9.5);
-    elsif (bushkit == 1)
-        setprop(contact~"unit[7]/z-position", -14.5);
-    elsif (bushkit == 2)
-        setprop(contact~"unit[7]/z-position", -16);
-    elsif (bushkit == 5)
-        setprop(gears~"unit[24]/z-position", -14);
-
-    setprop(gears~"unit[1]/z-position", 0);
-}
-
-var rightgearbroke = func (bushkit)
-{
-    if (bushkit == 0)
-        setprop(contact~"unit[8]/z-position", -8);
-    elsif (bushkit == 1)
-        setprop(contact~"unit[8]/z-position", -15.5);
-    elsif (bushkit == 2)
-        setprop(contact~"unit[8]/z-position", -17.4);
-    elsif (bushkit == 5)
-        setprop(gears~"unit[25]/z-position", -16);
-
-    setprop(gears~"unit[2]/z-position", 0);
-}
-
-var bothwingcollapse = func
-{
-    setprop(contact~"unit[5]/z-position", -8);
-
-    if (getprop("position/altitude-agl-m") < 10)
-        killengine();
-}
-
-var upsidedown = func
-{
-    setprop(contact~"unit[12]/z-position", 90);
-
-    if (getprop("/fdm/jsbsim/wing-damage/left-wing") == 1.0)
-        setprop(contact~"unit[4]/z-position", 40);
-    else
-        setprop(contact~"unit[4]/z-position", 50);
-
-    if (getprop("/fdm/jsbsim/wing-damage/right-wing") == 1.0)
-        setprop(contact~"unit[5]/z-position", 40);
-    else
-        setprop(contact~"unit[5]/z-position", 50);
-}
-
 var killengine = func
 {
     setprop("/engines/active-engine/crash-engine", 1);
-}
-
-var defaulttires = func
-{
-    setprop(gears~"unit[0]/z-position", -19.5);
-    setprop(gears~"unit[1]/z-position", -15.5);
-    setprop(gears~"unit[2]/z-position", -15.5);
-}
-
-var medbushtires = func
-{
-    setprop(gears~"unit[0]/z-position", -22);
-    setprop(gears~"unit[1]/z-position", -20);
-    setprop(gears~"unit[2]/z-position", -20);
-}
-
-var largebushtires = func
-{
-    setprop(gears~"unit[0]/z-position", -22);
-    setprop(gears~"unit[1]/z-position", -22);
-    setprop(gears~"unit[2]/z-position", -22);
-}
-
-var pontoons = func
-{
-    # Empty, no z-position's to reset
-}
-
-var amphibious = func
-{
-    setprop(gears~"unit[19]/z-position", -62);
-    setprop(gears~"unit[20]/z-position", -62);
-    setprop(gears~"unit[21]/z-position", -50.5);
-    setprop(gears~"unit[22]/z-position", -50.5);
-}
-
-var skis = func
-{
-    setprop(gears~"unit[0]/z-position", -22);
-    setprop(gears~"unit[1]/z-position", -22);
-    setprop(gears~"unit[2]/z-position", -22);
-    setprop(gears~"unit[23]/z-position", -22);
-    setprop(gears~"unit[24]/z-position", -22);
-    setprop(gears~"unit[25]/z-position", -22);
 }
 
 # Check if on water
@@ -171,13 +47,6 @@ var poll_surface = func
     }
     elsif (ground_splash_norm > 0)
         setprop("/environment/aircraft-effects/ground-splash-norm", ground_splash_norm - 0.005);
-
-    setprop(contact~"unit[12]/z-position", !getprop(contact~"unit[12]/solid") ? 160 : 90);
-    setprop(contact~"unit[4]/z-position", !getprop(contact~"unit[4]/solid") ? -10 : 50);
-    setprop(contact~"unit[5]/z-position", !getprop(contact~"unit[5]/solid") ? -10 : 50);
-    setprop(contact~"unit[9]/z-position", !getprop(contact~"unit[9]/solid") ? -25 : 35);
-    setprop(contact~"unit[10]/z-position", !getprop(contact~"unit[10]/solid") ? -25 : 8);
-    setprop(contact~"unit[11]/z-position", !getprop(contact~"unit[11]/solid") ? -25 : 60);
 }
 
 # Duration in which no damage will occur. Assumes the aircraft has
@@ -195,23 +64,7 @@ var physics_loop = func
 
 var set_bushkit = func (bushkit) {
     setprop("/fdm/jsbsim/damage/repairing", 1);
-
     reset_all_damage();
-
-    # Reset z-position's
-    if (bushkit == 0)
-        defaulttires();
-    elsif (bushkit == 1)
-        medbushtires();
-    elsif (bushkit == 2)
-        largebushtires();
-    elsif (bushkit == 3)
-        pontoons();
-    elsif (bushkit == 4)
-        amphibious();
-    elsif (bushkit == 5)
-        skis();
-
     bushkit_changed_timer.restart(bushkit_change_timeout);
 };
 
@@ -228,34 +81,9 @@ setlistener("/sim/signals/fdm-initialized", func {
         set_bushkit(n.getValue());
     }, 1, 0);
 
-    setlistener(gears~"unit[0]/broken", func (n) {
-        if (n.getBoolValue()) {
-            nosegearbroke(getprop("/fdm/jsbsim/bushkit"));
-        }
-    }, 0, 0);
-
-    setlistener(gears~"unit[1]/broken", func (n) {
-        if (n.getBoolValue()) {
-            leftgearbroke(getprop("/fdm/jsbsim/bushkit"));
-        }
-    }, 0, 0);
-
-    setlistener(gears~"unit[2]/broken", func (n) {
-        if (n.getBoolValue()) {
-            rightgearbroke(getprop("/fdm/jsbsim/bushkit"));
-        }
-    }, 0, 0);
-
-    setlistener(contact~"unit[12]/WOW", func (n) {
-        if (n.getBoolValue()) {
-            gui.popupTip("Upside down!", 5);
-            upsidedown();
-        }
-    }, 0, 0);
-
     setlistener("/fdm/jsbsim/crash", func (n) {
-        if (n.getBoolValue()) {
-            bothwingcollapse();
+        if (n.getBoolValue() and getprop("position/altitude-agl-m") < 10) {
+            killengine();
         }
     }, 0, 0);
 
@@ -278,10 +106,6 @@ setlistener("/sim/signals/fdm-initialized", func {
             if (getprop("position/altitude-agl-m") < 10)
                 killengine();
         }
-
-        # upsidedown() uses wing-damage/left-wing
-        if (getprop(contact~"unit[12]/WOW"))
-            upsidedown();
     }, 0, 0);
 
     setlistener("/fdm/jsbsim/wing-damage/right-wing", func (n) {
@@ -303,10 +127,6 @@ setlistener("/sim/signals/fdm-initialized", func {
             if (getprop("position/altitude-agl-m") < 10)
                 killengine();
         }
-
-        # upsidedown() uses wing-damage/right-wing
-        if (getprop(contact~"unit[12]/WOW"))
-            upsidedown();
     }, 0, 0);
 
     setlistener("/fdm/jsbsim/pontoon-damage/left-pontoon", func (n) {

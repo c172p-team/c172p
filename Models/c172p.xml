@@ -142,6 +142,24 @@
                 pilot.setBoolValue(bits.test(state, 3));
             }, 1, 0);
 
+            # Securing attributes
+            var securing_state_path = rplayer.getNode("sim/multiplay/generic/int[9]").getPath();
+
+            var pitot_cover   = rplayer.initNode("sim/model/c172p/securing/pitot-cover-visible", 0, "BOOL");
+            var wheel_chock   = rplayer.initNode("sim/model/c172p/securing/chock-visible", 0, "BOOL");
+            var left_tiedown  = rplayer.initNode("sim/model/c172p/securing/tiedownL-visible", 0, "BOOL");
+            var right_tiedown = rplayer.initNode("sim/model/c172p/securing/tiedownR-visible", 0, "BOOL");
+            var tail_tiedown  = rplayer.initNode("sim/model/c172p/securing/tiedownT-visible", 0, "BOOL");
+
+            setlistener(securing_state_path, func (node) {
+                var state = node.getValue();
+                pitot_cover.setBoolValue(bits.test(state, 0));
+                wheel_chock.setBoolValue(bits.test(state, 1));
+                left_tiedown.setBoolValue(bits.test(state, 2));
+                right_tiedown.setBoolValue(bits.test(state, 3));
+                tail_tiedown.setBoolValue(bits.test(state, 4));
+            }, 1, 0);
+
             # Make sure human occupants are always visible in remote aircraft
             rplayer.initNode("sim/model/occupants", 1, "BOOL");
 
@@ -154,7 +172,7 @@
             rplayer.initNode("sim/multiplay/generic/int[8]", 0, "BOOL");
 
             # Bush kit
-            rplayer.initNode("sim/multiplay/generic/int[9]", 0, "INT");
+            rplayer.initNode("sim/model/variant", 0, "INT");
 
             # Damage
             rplayer.initNode("sim/multiplay/generic/int[14]", 0, "INT");
@@ -205,9 +223,7 @@
         <gear_right_broken>
             <property>sim/multiplay/generic/int[8]</property>
         </gear_right_broken>
-        <bushkit>
-            <property>sim/multiplay/generic/int[9]</property>
-        </bushkit>
+        <bushkit>sim/model/variant</bushkit>
         <gear-ski>
             <ski-nose-rollspeed-ms>rotors/main/blade[0]/position-deg</ski-nose-rollspeed-ms>
             <ski-left-rollspeed-ms>rotors/main/blade[1]/position-deg</ski-left-rollspeed-ms>
@@ -255,6 +271,22 @@
             <rpm>engines/engine[2]/rpm</rpm>
             <crashed>sim/multiplay/generic/int[3]</crashed>
         </engine>
+
+        <securing>
+            <pitot-cover>sim/model/c172p/securing/pitot-cover-visible</pitot-cover>
+            <chocks>sim/model/c172p/securing/chock-visible</chocks>
+            <tiedowns>
+                <left>
+                    <visible>sim/model/c172p/securing/tiedownL-visible</visible>
+                </left>
+                <right>
+                    <visible>sim/model/c172p/securing/tiedownR-visible</visible>
+                </right>
+                <tail>
+                    <visible>sim/model/c172p/securing/tiedownT-visible</visible>
+                </tail>
+            </tiedowns>
+        </securing>
 
         <!-- TODO To be made MP properties in the future when we get passengers or dual-control -->
         <controls>
@@ -4579,7 +4611,7 @@
                     <value>0</value>
                 </equals>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>3</value>
                 </equals>
             </and>
@@ -4597,7 +4629,7 @@
                     <value>0</value>
                 </equals>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>3</value>
                 </equals>
             </and>
@@ -4623,7 +4655,7 @@
                     <value>0</value>
                 </equals>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>4</value>
                 </equals>
             </and>
@@ -4649,7 +4681,7 @@
                     <value>0</value>
                 </equals>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>4</value>
                 </equals>
             </and>
@@ -4668,11 +4700,11 @@
                 </equals>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>3</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>4</value>
                     </equals>
                 </or>
@@ -4692,11 +4724,11 @@
                 </equals>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>3</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>4</value>
                     </equals>
                 </or>
@@ -4719,11 +4751,11 @@
         <condition>
             <or>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>3</value>
                 </equals>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>4</value>
                 </equals>
             </or>
@@ -4738,11 +4770,11 @@
             <and>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>3</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>4</value>
                     </equals>
                 </or>
@@ -4797,7 +4829,7 @@
                     <value>2</value>
                 </equals>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>3</value>
                 </equals>
             </and>
@@ -4815,7 +4847,7 @@
                     <value>2</value>
                 </equals>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>3</value>
                 </equals>
             </and>
@@ -4833,7 +4865,7 @@
                     <value>1</value>
                 </equals>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>3</value>
                 </equals>
             </and>
@@ -4851,7 +4883,7 @@
                     <value>1</value>
                 </equals>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>3</value>
                 </equals>
             </and>
@@ -4873,7 +4905,7 @@
                     <value>2</value>
                 </equals>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>4</value>
                 </equals>
             </and>
@@ -4895,7 +4927,7 @@
                     <value>2</value>
                 </equals>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>4</value>
                 </equals>
             </and>
@@ -4917,7 +4949,7 @@
                     <value>1</value>
                 </equals>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>4</value>
                 </equals>
             </and>
@@ -4939,7 +4971,7 @@
                     <value>1</value>
                 </equals>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>4</value>
                 </equals>
             </and>
@@ -4958,11 +4990,11 @@
                 </equals>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>3</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>4</value>
                     </equals>
                 </or>
@@ -4982,11 +5014,11 @@
                 </equals>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>3</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>4</value>
                     </equals>
                 </or>
@@ -5006,11 +5038,11 @@
                 </equals>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>3</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>4</value>
                     </equals>
                 </or>
@@ -5030,11 +5062,11 @@
                 </equals>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>3</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>4</value>
                     </equals>
                 </or>
@@ -5054,7 +5086,7 @@
                     <property alias="/params/gear_nose_broken/property"/>
                 </not>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>0</value>
                 </equals>
             </and>
@@ -5071,15 +5103,15 @@
                 </not>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>1</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>2</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>5</value>
                     </equals>
                 </or>
@@ -5096,11 +5128,11 @@
                 </not>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>1</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>2</value>
                     </equals>
                 </or>
@@ -5118,19 +5150,19 @@
                 </not>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>0</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>1</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>2</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>5</value>
                     </equals>
                 </or>
@@ -5150,7 +5182,7 @@
             <and>
                 <property alias="/params/gear_nose_broken/property"/>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>0</value>
                 </equals>
             </and>
@@ -5168,15 +5200,15 @@
                 <property alias="/params/gear_nose_broken/property"/>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>1</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>2</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>5</value>
                     </equals>
                 </or>
@@ -5194,7 +5226,7 @@
                     <property alias="/params/gear_left_broken/property"/>
                 </not>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>0</value>
                 </equals>
             </and>
@@ -5209,7 +5241,7 @@
                     <property alias="/params/gear_left_broken/property"/>
                 </not>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>1</value>
                 </equals>
             </and>
@@ -5225,11 +5257,11 @@
                 </not>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>2</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>5</value>
                     </equals>
                 </or>
@@ -5246,19 +5278,19 @@
                 </not>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>0</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>1</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>2</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>5</value>
                     </equals>
                 </or>
@@ -5274,7 +5306,7 @@
             <and>
                 <property alias="/params/gear_left_broken/property"/>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>0</value>
                 </equals>
             </and>
@@ -5287,7 +5319,7 @@
             <and>
                 <property alias="/params/gear_left_broken/property"/>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>1</value>
                 </equals>
             </and>
@@ -5301,11 +5333,11 @@
                 <property alias="/params/gear_left_broken/property"/>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>2</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>5</value>
                     </equals>
                 </or>
@@ -5320,19 +5352,19 @@
                 <property alias="/params/gear_left_broken/property"/>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>0</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>1</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>2</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>5</value>
                     </equals>
                 </or>
@@ -5350,7 +5382,7 @@
                     <property alias="/params/gear_right_broken/property"/>
                 </not>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>0</value>
                 </equals>
             </and>
@@ -5365,7 +5397,7 @@
                     <property alias="/params/gear_right_broken/property"/>
                 </not>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>1</value>
                 </equals>
             </and>
@@ -5381,11 +5413,11 @@
                 </not>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>2</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>5</value>
                     </equals>
                 </or>
@@ -5402,19 +5434,19 @@
                 </not>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>0</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>1</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>2</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>5</value>
                     </equals>
                 </or>
@@ -5430,7 +5462,7 @@
             <and>
                 <property alias="/params/gear_right_broken/property"/>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>0</value>
                 </equals>
             </and>
@@ -5443,7 +5475,7 @@
             <and>
                 <property alias="/params/gear_right_broken/property"/>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>1</value>
                 </equals>
             </and>
@@ -5457,11 +5489,11 @@
                 <property alias="/params/gear_right_broken/property"/>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>2</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>5</value>
                     </equals>
                 </or>
@@ -5476,19 +5508,19 @@
                 <property alias="/params/gear_right_broken/property"/>
                 <or>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>0</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>1</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>2</value>
                     </equals>
                     <equals>
-                        <property alias="/params/bushkit/property"/>
+                        <property alias="/params/bushkit"/>
                         <value>5</value>
                     </equals>
                 </or>
@@ -5516,7 +5548,7 @@
                     <property alias="/params/gear_nose_broken/property"/>
                 </not>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>5</value>
                 </equals>
             </and>
@@ -5541,7 +5573,7 @@
             <and>
                 <property alias="/params/gear_nose_broken/property"/>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>5</value>
                 </equals>
             </and>
@@ -5571,7 +5603,7 @@
                     <property alias="/params/gear_left_broken/property"/>
                 </not>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>5</value>
                 </equals>
             </and>
@@ -5599,7 +5631,7 @@
             <and>
                 <property alias="/params/gear_left_broken/property"/>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>5</value>
                 </equals>
             </and>
@@ -5629,7 +5661,7 @@
                     <property alias="/params/gear_right_broken/property"/>
                 </not>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>5</value>
                 </equals>
             </and>
@@ -5657,7 +5689,7 @@
             <and>
                 <property alias="/params/gear_right_broken/property"/>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>5</value>
                 </equals>
             </and>
@@ -6128,7 +6160,7 @@
                     <property alias="/params/gear_nose_broken/property"/>
                 </not>
                 <not>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                 </not>
             </and>
         </condition>
@@ -6143,7 +6175,7 @@
                     <property alias="/params/gear_left_broken/property"/>
                 </not>
                 <not>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                 </not>
             </and>
         </condition>
@@ -6158,7 +6190,7 @@
                     <property alias="/params/gear_right_broken/property"/>
                 </not>
                 <not>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                 </not>
             </and>
         </condition>
@@ -6173,7 +6205,7 @@
                 <property>sim/model/c172p/fairing1</property>
                 <property alias="/params/gear_nose_broken/property"/>
                 <not>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                 </not>
             </and>
         </condition>
@@ -6186,7 +6218,7 @@
                 <property>sim/model/c172p/fairing2</property>
                 <property alias="/params/gear_left_broken/property"/>
                 <not>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                 </not>
             </and>
         </condition>
@@ -6199,7 +6231,7 @@
                 <property>sim/model/c172p/fairing3</property>
                 <property alias="/params/gear_right_broken/property"/>
                 <not>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                 </not>
             </and>
         </condition>
@@ -6924,7 +6956,7 @@
         <type>select</type>
         <object-name>rbf-pitot</object-name>
         <condition>
-            <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+            <property alias="/params/securing/pitot-cover"/>
         </condition>
     </animation>
     <animation>
@@ -6938,7 +6970,7 @@
                     <property>/sim/model/c172p/securing/pitot-cover-removable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+                <property alias="/params/securing/pitot-cover"/>
                 <value>false</value>
             </binding>
         </action>
@@ -6964,7 +6996,7 @@
                     <property>/sim/model/c172p/securing/pitot-cover-addable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+                <property alias="/params/securing/pitot-cover"/>
                 <value>true</value>
             </binding>
             <binding>
@@ -6985,7 +7017,7 @@
         </hovered>
     </animation>
 
-    <!-- regular wheel chock -->
+    <!-- Small wheel chock -->
     <model>
         <name>chock1</name>
         <path>Exterior/chock/chock.xml</path>
@@ -7019,69 +7051,19 @@
     <animation>
         <type>select</type>
         <object-name>chock1</object-name>
-        <condition>
-            <property>/sim/model/c172p/securing/smallchock-visible</property>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
         <object-name>chock2</object-name>
         <condition>
-            <property>/sim/model/c172p/securing/smallchock-visible</property>
+            <and>
+                <property alias="/params/securing/chocks"/>
+                <equals>
+                    <property alias="/params/bushkit"/>
+                    <value>0</value>
+                </equals>
+            </and>
         </condition>
     </animation>
-    <animation>
-        <type>pick</type>
-        <object-name>chock1</object-name>
-        <object-name>chock2</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-assign</command>
-                <property>/sim/model/c172p/securing/chock</property>
-                <value>false</value>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <condition>
-                    <property>/sim/model/c172p/securing/chock</property>
-                </condition>
-                <command>set-tooltip</command>
-                <tooltip-id>remove-wheel-chock</tooltip-id>
-                <label>Remove Wheel Chock</label>
-            </binding>
-        </hovered>
-    </animation>
-    <animation>
-        <type>pick</type>
-        <object-name>NoseWheel</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <condition>
-                    <property>/sim/model/c172p/securing/smallchock-addable</property> 
-                </condition>
-                <command>property-assign</command>
-                <property>sim/model/c172p/securing/chock</property>
-                <value>true</value>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <condition>
-                    <property>/sim/model/c172p/securing/smallchock-addable</property> 
-                </condition>
-                <command>set-tooltip</command>
-                <tooltip-id>secure-with-wheel-chock</tooltip-id>
-                <label>Secure With Wheel Chock</label>
-            </binding>
-        </hovered>
-    </animation>
-    
- <!-- Wooden chocks -->
+
+    <!-- Wooden chocks -->
     <model>
         <name>woodenchock</name>
         <path>Exterior/wooden-chock/woodenchock.xml</path>
@@ -7106,11 +7088,27 @@
         <type>select</type>
         <object-name>woodenchock</object-name>
         <condition>
-            <property>/sim/model/c172p/securing/woodenchock-visible</property>
+            <and>
+                <property alias="/params/securing/chocks"/>
+                <or>
+                    <equals>
+                        <property alias="/params/bushkit"/>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property alias="/params/bushkit"/>
+                        <value>2</value>
+                    </equals>
+                </or>
+            </and>
         </condition>
     </animation>
+
+    <!-- Pick animations to show/hide chocks -->
     <animation>
         <type>pick</type>
+        <object-name>chock1</object-name>
+        <object-name>chock2</object-name>
         <object-name>woodenchock</object-name>
         <action>
             <button>0</button>
@@ -7127,20 +7125,21 @@
                     <property>/sim/model/c172p/securing/chock</property>
                 </condition>
                 <command>set-tooltip</command>
-                <tooltip-id>remove-wheel-woodenchock</tooltip-id>
+                <tooltip-id>remove-wheel-chock</tooltip-id>
                 <label>Remove Wheel Chock</label>
             </binding>
         </hovered>
     </animation>
     <animation>
         <type>pick</type>
+        <object-name>NoseWheel</object-name>
         <object-name>NoseWheelBK</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/securing/woodenchock-addable</property> 
+                    <property>/sim/model/c172p/securing/chock-addable</property>
                 </condition>
                 <command>property-assign</command>
                 <property>sim/model/c172p/securing/chock</property>
@@ -7150,14 +7149,14 @@
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/securing/woodenchock-addable</property> 
+                    <property>/sim/model/c172p/securing/chock-addable</property>
                 </condition>
                 <command>set-tooltip</command>
-                <tooltip-id>secure-with-wheel-woodenchock</tooltip-id>
+                <tooltip-id>secure-with-wheel-chock</tooltip-id>
                 <label>Secure With Wheel Chock</label>
             </binding>
         </hovered>
-    </animation>  
+    </animation>
 
     <!-- Left Tiedowns -->
     <model>
@@ -7174,7 +7173,7 @@
         <type>select</type>
         <object-name>tiedownL</object-name>
         <condition>
-            <property>sim/model/c172p/securing/tiedownL-visible</property>
+            <property alias="/params/securing/tiedowns/left/visible"/>
         </condition>
     </animation>
     <animation>
@@ -7186,14 +7185,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/securing/tiedownL-visible</property>
+                <property alias="/params/securing/tiedowns/left/visible"/>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/securing/tiedownL-visible</property>
+                    <property alias="/params/securing/tiedowns/left/visible"/>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-left-tiedowns</tooltip-id>
@@ -7219,7 +7218,7 @@
                     <property>/sim/model/c172p/securing/tiedownL-addable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/c172p/securing/tiedownL-visible</property>
+                <property alias="/params/securing/tiedowns/left/visible"/>
                 <value>true</value>
             </binding>
         </action>
@@ -7250,7 +7249,7 @@
         <type>select</type>
         <object-name>tiedownR</object-name>
         <condition>
-            <property>sim/model/c172p/securing/tiedownR-visible</property>
+            <property alias="/params/securing/tiedowns/right/visible"/>
         </condition>
     </animation>
     <animation>
@@ -7262,14 +7261,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/securing/tiedownR-visible</property>
+                <property alias="/params/securing/tiedowns/right/visible"/>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/securing/tiedownR-visible</property>
+                    <property alias="/params/securing/tiedowns/right/visible"/>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-right-tiedowns</tooltip-id>
@@ -7295,7 +7294,7 @@
                     <property>/sim/model/c172p/securing/tiedownR-addable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/c172p/securing/tiedownR-visible</property>
+                <property alias="/params/securing/tiedowns/right/visible"/>
                 <value>true</value>
             </binding>
         </action>
@@ -7326,7 +7325,7 @@
         <type>select</type>
         <object-name>tiedownT</object-name>
         <condition>
-            <property>sim/model/c172p/securing/tiedownT-visible</property>
+            <property alias="/params/securing/tiedowns/tail/visible"/>
         </condition>
     </animation>
     <animation>
@@ -7338,14 +7337,14 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <property>/sim/model/c172p/securing/tiedownT-visible</property>
+                <property alias="/params/securing/tiedowns/tail/visible"/>
                 <value>false</value>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/sim/model/c172p/securing/tiedownT-visible</property>
+                    <property alias="/params/securing/tiedowns/tail/visible"/>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>remove-tail-tiedowns</tooltip-id>
@@ -7371,7 +7370,7 @@
                     <property>/sim/model/c172p/securing/tiedownT-addable</property>
                 </condition>
                 <command>property-assign</command>
-                <property>sim/model/c172p/securing/tiedownT-visible</property>
+                <property alias="/params/securing/tiedowns/tail/visible"/>
                 <value>true</value>
             </binding>
         </action>
@@ -7398,7 +7397,7 @@
         <object-name>Gearswitch</object-name>
         <condition>
             <equals>
-               <property alias="/params/bushkit/property"/>
+               <property alias="/params/bushkit"/>
                <value>4</value>
             </equals>
         </condition>
@@ -7415,7 +7414,7 @@
                     <value>1.0</value>
                 </equals>
                 <equals>
-                   <property alias="/params/bushkit/property"/>
+                   <property alias="/params/bushkit"/>
                    <value>4</value>
                 </equals>
                 <property alias="/params/cockpit/electrical/gear-amphibious"/>
@@ -7433,7 +7432,7 @@
                     <value>1.0</value>
                 </equals>
                 <equals>
-                   <property alias="/params/bushkit/property"/>
+                   <property alias="/params/bushkit"/>
                    <value>4</value>
                 </equals>
                 <property alias="/params/cockpit/electrical/gear-amphibious"/>
@@ -7451,7 +7450,7 @@
                     <value>1.0</value>
                 </equals>
                 <equals>
-                   <property alias="/params/bushkit/property"/>
+                   <property alias="/params/bushkit"/>
                    <value>4</value>
                 </equals>
                 <property alias="/params/cockpit/electrical/gear-amphibious"/>
@@ -7469,7 +7468,7 @@
                     <value>1.0</value>
                 </equals>
                 <equals>
-                   <property alias="/params/bushkit/property"/>
+                   <property alias="/params/bushkit"/>
                    <value>4</value>
                 </equals>
                 <property alias="/params/cockpit/electrical/gear-amphibious"/>
@@ -7488,7 +7487,7 @@
                     <value>0</value>
                 </equals>
                 <equals>
-                   <property alias="/params/bushkit/property"/>
+                   <property alias="/params/bushkit"/>
                    <value>4</value>
                 </equals>
                 <property alias="/params/cockpit/electrical/gear-amphibious"/>
@@ -7506,7 +7505,7 @@
                     <value>0</value>
                 </equals>
                 <equals>
-                   <property alias="/params/bushkit/property"/>
+                   <property alias="/params/bushkit"/>
                    <value>4</value>
                 </equals>
                 <property alias="/params/cockpit/electrical/gear-amphibious"/>
@@ -7524,7 +7523,7 @@
                     <value>0</value>
                 </equals>
                 <equals>
-                   <property alias="/params/bushkit/property"/>
+                   <property alias="/params/bushkit"/>
                    <value>4</value>
                 </equals>
                 <property alias="/params/cockpit/electrical/gear-amphibious"/>
@@ -7542,7 +7541,7 @@
                     <value>0</value>
                 </equals>
                 <equals>
-                   <property alias="/params/bushkit/property"/>
+                   <property alias="/params/bushkit"/>
                    <value>4</value>
                 </equals>
                 <property alias="/params/cockpit/electrical/gear-amphibious"/>
@@ -7565,7 +7564,7 @@
                     <value>1.0</value>
                 </less-than>
                 <equals>
-                    <property alias="/params/bushkit/property"/>
+                    <property alias="/params/bushkit"/>
                     <value>4</value>
                 </equals>
                 <property alias="/params/cockpit/electrical/gear-amphibious"/>

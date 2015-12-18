@@ -85,7 +85,11 @@ var TiedownPositionUpdater = {
         var elev_m = geo.elevation(me.end_point.lat(), me.end_point.lon());
         me.end_point.set_alt(elev_m or getprop("/position/ground-elev-m"));
 
-        # Call update() immediately to compute initial length
+        me.init_ref_length();
+    },
+
+    init_ref_length: func {
+        # Call update() to compute initial length
         me.update(0);
         var length = getprop("/sim/model/c172p/tiedowns", me.name, "length");
         setprop("/sim/model/c172p/tiedowns", me.name, "ref-length", length);
@@ -131,4 +135,14 @@ setlistener("/sim/signals/fdm-initialized", func {
     setlistener("/sim/model/c172p/securing/tiedownT-visible", func (node) {
         tiedown_tail_updater.enable_or_disable(node.getValue());
     }, 1, 0);
+
+    setlistener("/fdm/jsbsim/damage/repairing", func (node) {
+        # When the aircraft has been repaired (value is switched back
+        # to 0), compute the new initial length of the tiedowns
+        if (!node.getValue()) {
+            tiedown_left_updater.init_ref_length();
+            tiedown_right_updater.init_ref_length();
+            tiedown_tail_updater.init_ref_length();
+        }
+    }, 0, 0);
 });

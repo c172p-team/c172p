@@ -232,6 +232,12 @@ controls.mixtureAxis = func {
     setprop("/controls/engines/current-engine/mixture", new_value);
 };
 
+controls.stepMagnetos = func {
+    var old_value = getprop("/controls/switches/magnetos");
+    var new_value = std.max(0, std.min(old_value + arg[0], 3));
+    setprop("/controls/switches/magnetos", new_value);
+};
+
 # key 's' calls to this function when it is pressed DOWN even if I overwrite the binding in the -set.xml file!
 # fun fact: the key UP event can be overwriten!
 controls.startEngine = func(v = 1) {

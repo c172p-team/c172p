@@ -27,9 +27,12 @@ This tutorial will take you through starting the Cessna 172p.
     </presets>
 
     <init>
+    </init>
+
+    <step>
         <set>
             <property>/sim/model/c172p/brake-parking</property>
-            <value>1</value>
+            <value>true</value>
         </set>
         <set>
             <property>/controls/flight/flaps</property>
@@ -75,9 +78,50 @@ This tutorial will take you through starting the Cessna 172p.
             <property>/controls/switches/master-avionics</property>
             <value>false</value>
         </set>
-    </init>
-
-    <step>
+        <set>
+            <property>/controls/switches/master-bat</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-alt</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/taxi-light</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/landing-lights</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/anti-ice/pitot-heat</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/nav-lights</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/beacon</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/strobe</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/instruments-norm</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/controls/engines/engine/primer</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/controls/engines/engine/primer-lever</property>
+            <value>false</value>
+        </set>
     	<set>
             <property>/sim/model/door-positions/baggageDoor/position-norm</property>
             <value>0</value>
@@ -91,24 +135,24 @@ This tutorial will take you through starting the Cessna 172p.
             <value>0</value>
         </set>
         <set>
-            <property>/sim/model/c172p/chock</property>
-            <value>0</value>
+            <property>/sim/model/c172p/securing/chock</property>
+            <value>false</value>
         </set>
         <set>
-            <property>/sim/model/c172p/tiedownL</property>
-            <value>0</value>
+            <property>/sim/model/c172p/securing/tiedownL-visible</property>
+            <value>false</value>
         </set>
         <set>
-            <property>/sim/model/c172p/tiedownR</property>
-            <value>0</value>
+            <property>/sim/model/c172p/securing/tiedownR-visible</property>
+            <value>false</value>
         </set>
         <set>
-            <property>/sim/model/c172p/tiedownT</property>
-            <value>0</value>
+            <property>/sim/model/c172p/securing/tiedownT-visible</property>
+            <value>false</value>
         </set>
         <set>
-            <property>/sim/model/c172p/pitot-cover</property>
-            <value>0</value>
+            <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+            <value>false</value>
         </set>
         <set>
             <property>sim/model/c172p/engine_flag_0</property>
@@ -475,7 +519,7 @@ This tutorial will take you through starting the Cessna 172p.
 
     <step>
         <message>Open the throttle slightly. Use your joystick throttle control,
-      or PgUp to increase throttle to about 10%.</message>
+      or PgUp to increase throttle to about 20%.</message>
         <view>
             <heading-offset-deg>346.8</heading-offset-deg>
             <pitch-offset-deg>-25.8</pitch-offset-deg>
@@ -516,14 +560,14 @@ This tutorial will take you through starting the Cessna 172p.
         <exit>
             <condition>
                 <and>
-                    <greater-than>
+                    <greater-than-equals>
                         <property>/controls/engines/current-engine/throttle</property>
-                        <value>0.05</value>
-                    </greater-than>
-                    <less-than>
+                        <value>0.15</value>
+                    </greater-than-equals>
+                    <less-than-equals>
                         <property>/controls/engines/current-engine/throttle</property>
-                        <value>0.2</value>
-                    </less-than>
+                        <value>0.25</value>
+                    </less-than-equals>
                 </and>
             </condition>
         </exit>

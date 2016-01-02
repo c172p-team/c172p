@@ -300,22 +300,6 @@ var reset_system = func {
     props.globals.getNode("/fdm/jsbsim/pontoon-damage/right-pontoon", 0).setIntValue(0);
 
     setprop("/engines/active-engine/kill-engine", 0);
-    setprop("/fdm/jsbsim/contact/unit[4]/z-position", 50);
-    setprop("/fdm/jsbsim/contact/unit[5]/z-position", 50);
-
-    # Note: these separate flags exist because PUI's <radio> element
-    #       only accepts booleans.
-    var p = getprop("fdm/jsbsim/bushkit");
-    setprop("/sim/model/c172p/bushkit_flag_0",0);
-    setprop("/sim/model/c172p/bushkit_flag_1",0);
-    setprop("/sim/model/c172p/bushkit_flag_2",0);
-    setprop("/sim/model/c172p/bushkit_flag_3",0);
-    setprop("/sim/model/c172p/bushkit_flag_4",0);
-    if (p == 0) { setprop("/sim/model/c172p/bushkit_flag_0",1); }
-    if (p == 1) { setprop("/sim/model/c172p/bushkit_flag_1",1); }
-    if (p == 2) { setprop("/sim/model/c172p/bushkit_flag_2",1); }
-    if (p == 3) { setprop("/sim/model/c172p/bushkit_flag_3",1); }
-    if (p == 4) { setprop("/sim/model/c172p/bushkit_flag_4",1); }
 }
 
 ############################################

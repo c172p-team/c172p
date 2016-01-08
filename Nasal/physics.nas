@@ -60,7 +60,7 @@ var physics_loop = func
     }
     if (getprop("/fdm/jsbsim/bushkit") == 3 or getprop("/fdm/jsbsim/bushkit") == 4)
         poll_surface();
-    if ((getprop("/fdm/jsbsim/contact/unit[11]/WOW") or getprop("/fdm/jsbsim/contact/unit[12]/WOW")) and getprop("position/altitude-agl-m") < 5)
+    if (getprop("/fdm/jsbsim/contact/unit[9]/WOW") or getprop("/fdm/jsbsim/contact/unit[10]/WOW"))
         killengine();
 }
 

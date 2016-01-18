@@ -28,18 +28,13 @@ var autostart = func (msg=1) {
     var pressure_sea_level = getprop("/environment/pressure-sea-level-inhg");
     setprop("/instrumentation/altimeter/setting-inhg", pressure_sea_level);
 
+    # Set heading offset
+    var magnetic_variation = getprop("/environment/magnetic-variation-deg");
+    setprop("/instrumentation/heading-indicator/offset-deg", -magnetic_variation);
+
     # Pre-flight inspection
     setprop("/sim/model/c172p/brake-parking", 0);
-    setprop("/sim/model/c172p/securing/chock", 0);
-    setprop("/sim/model/c172p/securing/pitot-cover-visible", 0);
-    setprop("/sim/model/c172p/securing/tiedownL-visible", 0);
-    setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
-    setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
-    setprop("/engines/active-engine/oil-level", 7.0);
-    setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
-    setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);
 
-    #c172p.autoPrime();
     setprop("/controls/engines/engine[0]/primer-lever", 0);
     setprop("/controls/engines/engine/primer", 3);
 
@@ -85,18 +80,21 @@ var fuel_save_state = func {
 ##########################################
 var fuel_contamination = func {
     var chance = rand();
-    var water = math.pow(rand(),6); # that is, quantity of water is much more likely to be small than large, since it's given by x^6 (76% of the time it will be lower than 0.2)
-    if (getprop("/consumables/fuel/contamination_allowed") and (chance < 0.01)) { # if contamination allowed, then 1 in 100
+
+    # Chance of contamination is 1 %
+    if (getprop("/consumables/fuel/contamination_allowed") and chance < 0.01) {
+        # Quantity of water is much more likely to be small than large, since
+        # it's given by x^6 (76 % of the time it will be lower than 0.2)
+        var water = math.pow(rand(), 6);
+
         setprop("/consumables/fuel/tank[0]/water-contamination", water);
-        water = water + 0.2*(rand() - 0.5); # level of water in the right tank will be the same as in the left tank +- 0.1
-        if (water > 1.0) { # clipping water value in the range 0.0 - 1.0
-            water = 1.0;
-        };
-        if (water < 0.0) {
-            water = 0.0;
-        };
+
+        # level of water in the right tank will be the same as in the left tank +- 0.1
+        water = water + 0.2 * (rand() - 0.5);
+        water = std.max(0.0, std.min(water, 1.0));
         setprop("/consumables/fuel/tank[1]/water-contamination", water);
-    } else {
+    }
+    else {
         setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
         setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);
     };
@@ -106,16 +104,16 @@ var fuel_contamination = func {
 # Take Fuel Sample
 ##########################################
 var take_fuel_sample = func(index) {
-    var fuel = getprop("/consumables/fuel/tank[" ~ index ~ "]/level-gal_us");
-    var water = getprop("/consumables/fuel/tank[" ~ index ~ "]/water-contamination");
-    fuel = fuel - 0.0132086; # removing 50 ml of fuel
-    setprop("/consumables/fuel/tank[" ~ index ~ "]/level-gal_us", fuel);
-    if (water > 0.0) { # if contaminated, removes a bit of water
-        water = water - 0.2;
-        if (water < 0.0) {
-             water = 0.0;
-        };
-        setprop("/consumables/fuel/tank[" ~ index ~ "]/water-contamination", water);
+    var fuel = getprop("/consumables/fuel/tank", index, "level-gal_us");
+    var water = getprop("/consumables/fuel/tank", index, "water-contamination");
+
+    # Remove 50 ml of fuel
+    setprop("/consumables/fuel/tank", index, "level-gal_us", fuel - 0.0132086);
+
+    # Remove a bit of water if contaminated
+    if (water > 0.0) {
+        water = std.max(0.0, water - 0.2);
+        setprop("/consumables/fuel/tank", index, "water-contamination", water);
     };
 };
 
@@ -123,16 +121,16 @@ var take_fuel_sample = func(index) {
 # Return Fuel Sample
 ##########################################
 var return_fuel_sample = func(index) {
-    var fuel = getprop("/consumables/fuel/tank[" ~ index ~ "]/level-gal_us");
-    var water = getprop("/consumables/fuel/tank[" ~ index ~ "]/water-contamination");
-    fuel = fuel + 0.0132086; # removing 50 ml of fuel
-    setprop("/consumables/fuel/tank[" ~ index ~ "]/level-gal_us", fuel);
-    if (water > 0.0) { # if contaminated, removes a bit of water
-        water = water + 0.2;
-        if (water > 1.0) {
-             water = 1.0;
-        };
-        setprop("/consumables/fuel/tank[" ~ index ~ "]/water-contamination", water);
+    var fuel = getprop("/consumables/fuel/tank", index, "level-gal_us");
+    var water = getprop("/consumables/fuel/tank", index, "water-contamination");
+
+    # Add back the 50 ml of fuel
+    setprop("/consumables/fuel/tank", index, "level-gal_us", fuel + 0.0132086);
+
+    # Add back the (contaminated) water
+    if (water > 0.0) {
+        water = std.min(water + 0.2, 1.0);
+        setprop("/consumables/fuel/tank", index, "water-contamination", water);
     };
 };
 

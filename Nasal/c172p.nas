@@ -40,6 +40,25 @@ var autostart = func (msg=1) {
     setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
 
+    setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
+    setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);
+
+    # Oil level warning for lazy pro's
+    var oil_enabled = getprop("/engines/active-engine/oil_consumption_allowed");
+    var oil_level   = getprop("/engines/active-engine/oil-level");
+
+    if (oil_enabled and oil_level < 6.0)
+        logger.screen.red("Warning: low oil level! Check level via oil cap on top of engine!");
+
+    # Fuel level warnings
+    var fuel_level_left  = getprop("/consumables/fuel/tank[0]/level-norm");
+    var fuel_level_right = getprop("/consumables/fuel/tank[1]/level-norm");
+
+    if (fuel_level_left < 0.5)
+        logger.screen.red("Warning: fuel in left tank less than 50 %!");
+    if (fuel_level_right < 0.5)
+        logger.screen.red("Warning: fuel in right tank less than 50 %!");
+
     setprop("/controls/engines/engine[0]/primer-lever", 0);
     setprop("/controls/engines/engine/primer", 3);
 

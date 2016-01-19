@@ -34,6 +34,11 @@ var autostart = func (msg=1) {
 
     # Pre-flight inspection
     setprop("/sim/model/c172p/brake-parking", 0);
+    setprop("/sim/model/c172p/securing/chock", 0);
+    setprop("/sim/model/c172p/securing/pitot-cover-visible", 0);
+    setprop("/sim/model/c172p/securing/tiedownL-visible", 0);
+    setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
+    setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
 
     setprop("/controls/engines/engine[0]/primer-lever", 0);
     setprop("/controls/engines/engine/primer", 3);

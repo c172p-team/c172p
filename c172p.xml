@@ -676,8 +676,22 @@
 
     <flight_control name="FCS: c172">
         <channel name="Pitch">
-            <summer name="Pitch Trim Sum">
+            <kinematic name="fcs/elevator-cmd-norm-filtered">
                 <input>fcs/elevator-cmd-norm</input>
+                <traverse>
+                    <setting>
+                        <position>-1</position>
+                        <time>0</time>
+                    </setting>
+                    <setting>
+                        <position>1</position>
+                        <time>0.15</time>
+                    </setting>
+                </traverse>
+            </kinematic>
+
+            <summer name="Pitch Trim Sum">
+                <input>fcs/elevator-cmd-norm-filtered</input>
                 <input>fcs/pitch-trim-cmd-norm</input>
                 <clipto>
                     <min>-1</min>
@@ -710,8 +724,22 @@
         </channel>
 
         <channel name="Roll">
-            <summer name="Roll Trim Sum">
+            <kinematic name="fcs/aileron-cmd-norm-filtered">
                 <input>fcs/aileron-cmd-norm</input>
+                <traverse>
+                    <setting>
+                        <position>-1</position>
+                        <time>0</time>
+                    </setting>
+                    <setting>
+                        <position>1</position>
+                        <time>0.15</time>
+                    </setting>
+                </traverse>
+            </kinematic>
+
+            <summer name="Roll Trim Sum">
+                <input>fcs/aileron-cmd-norm-filtered</input>
                 <input>fcs/roll-trim-cmd-norm</input>
                 <clipto>
                     <min>-1</min>

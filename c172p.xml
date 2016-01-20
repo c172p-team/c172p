@@ -795,8 +795,22 @@
         </channel>
 
         <channel name="Yaw">
-            <summer name="Yaw Trim Sum">
+            <kinematic name="fcs/rudder-cmd-norm-filtered">
                 <input>fcs/rudder-cmd-norm</input>
+                <traverse>
+                    <setting>
+                        <position>-1</position>
+                        <time>0</time>
+                    </setting>
+                    <setting>
+                        <position>1</position>
+                        <time>0.15</time>
+                    </setting>
+                </traverse>
+            </kinematic>
+
+            <summer name="Yaw Trim Sum">
+                <input>fcs/rudder-cmd-norm-filtered</input>
                 <input>fcs/yaw-trim-cmd-norm</input>
                 <clipto>
                     <min>-1</min>

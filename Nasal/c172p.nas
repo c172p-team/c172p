@@ -54,10 +54,10 @@ var autostart = func (msg=1) {
     var fuel_level_left  = getprop("/consumables/fuel/tank[0]/level-norm");
     var fuel_level_right = getprop("/consumables/fuel/tank[1]/level-norm");
 
-    if (fuel_level_left < 0.5)
-        logger.screen.red("Warning: fuel in left tank less than 50 %!");
-    if (fuel_level_right < 0.5)
-        logger.screen.red("Warning: fuel in right tank less than 50 %!");
+    if (fuel_level_left < 0.25)
+        logger.screen.red("Warning: fuel in left tank less than 25%!");
+    if (fuel_level_right < 0.25)
+        logger.screen.red("Warning: fuel in right tank less than 25%!");
 
     setprop("/controls/engines/engine[0]/primer-lever", 0);
     setprop("/controls/engines/engine/primer", 3);

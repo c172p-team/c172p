@@ -676,8 +676,23 @@
 
     <flight_control name="FCS: c172">
         <channel name="Pitch">
-            <summer name="Pitch Trim Sum">
+            <kinematic name="fcs/elevator-cmd-norm-filtered">
                 <input>fcs/elevator-cmd-norm</input>
+                <traverse>
+                    <setting>
+                        <position>-1</position>
+                        <time>0</time>
+                    </setting>
+                    <setting>
+                        <position>1</position>
+                        <time>0.15</time>
+                    </setting>
+                </traverse>
+                <output>/sim/model/c172p/cockpit/yoke-elevator</output>
+            </kinematic>
+
+            <summer name="Pitch Trim Sum">
+                <input>fcs/elevator-cmd-norm-filtered</input>
                 <input>fcs/pitch-trim-cmd-norm</input>
                 <clipto>
                     <min>-1</min>
@@ -710,8 +725,23 @@
         </channel>
 
         <channel name="Roll">
-            <summer name="Roll Trim Sum">
+            <kinematic name="fcs/aileron-cmd-norm-filtered">
                 <input>fcs/aileron-cmd-norm</input>
+                <traverse>
+                    <setting>
+                        <position>-1</position>
+                        <time>0</time>
+                    </setting>
+                    <setting>
+                        <position>1</position>
+                        <time>0.15</time>
+                    </setting>
+                </traverse>
+                <output>/sim/model/c172p/cockpit/yoke-aileron</output>
+            </kinematic>
+
+            <summer name="Roll Trim Sum">
+                <input>fcs/aileron-cmd-norm-filtered</input>
                 <input>fcs/roll-trim-cmd-norm</input>
                 <clipto>
                     <min>-1</min>
@@ -767,8 +797,23 @@
         </channel>
 
         <channel name="Yaw">
-            <summer name="Yaw Trim Sum">
+            <kinematic name="fcs/rudder-cmd-norm-filtered">
                 <input>fcs/rudder-cmd-norm</input>
+                <traverse>
+                    <setting>
+                        <position>-1</position>
+                        <time>0</time>
+                    </setting>
+                    <setting>
+                        <position>1</position>
+                        <time>0.15</time>
+                    </setting>
+                </traverse>
+                <output>/sim/model/c172p/cockpit/pedals-rudder</output>
+            </kinematic>
+
+            <summer name="Yaw Trim Sum">
+                <input>fcs/rudder-cmd-norm-filtered</input>
                 <input>fcs/yaw-trim-cmd-norm</input>
                 <clipto>
                     <min>-1</min>
@@ -849,6 +894,21 @@
                 </range>
                 <output>fcs/flap-pos-norm</output>
             </aerosurface_scale>
+
+            <kinematic name="Flaps Lever">
+                <input>/controls/flight/flaps</input>
+                <traverse>
+                    <setting>
+                        <position>0</position>
+                        <time>0</time>
+                    </setting>
+                    <setting>
+                        <position>1</position>
+                        <time>1</time>
+                    </setting>
+                </traverse>
+                <output>/sim/model/c172p/cockpit/flaps-lever</output>
+            </kinematic>
         </channel>
 
         <channel name="Mixture">

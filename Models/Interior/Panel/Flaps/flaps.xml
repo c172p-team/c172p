@@ -10,24 +10,47 @@
         <object-name>rect</object-name>
     </effect>
 
+    <!-- ================================================================== -->
+    <!-- Flaps position indicator                                           -->
+    <!-- ================================================================== -->
+
     <animation>
-        <type>knob</type>
-        <property>controls/flight/flaps</property>
-        <object-name>FlapSwitch</object-name>
-        <factor>10</factor>
-        <offset-deg>0</offset-deg>
-        <drag-direction>vertical</drag-direction>
-        <drag-scale-px>20</drag-scale-px>
+        <type>translate</type>
+        <property>surface-positions/flap-pos-norm</property>
+        <object-name>FlapPos</object-name>
         <axis>
             <x>0.0</x>
-            <y>1.0</y>
-            <z>0.0</z>
+            <y>0.0</y>
+            <z>-1.0</z>
         </axis>
-        <center>
-            <x-m>-0.39</x-m>
-            <y-m>0.0</y-m>
-            <z-m>0.0</z-m>
-        </center>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.333333</ind>
+                <dep>0.022</dep>
+            </entry>
+            <entry>
+                <ind>0.666666</ind>
+                <dep>0.034</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0.045</dep>
+            </entry>
+        </interpolation>
+    </animation>
+
+    <!-- ================================================================== -->
+    <!-- Flaps lever                                                        -->
+    <!-- ================================================================== -->
+
+    <animation>
+        <type>slider</type>
+        <drag-direction>vertical</drag-direction>
+        <drag-scale-px>20</drag-scale-px>
 
         <!-- Flaps moving down -->
         <decrease>
@@ -47,20 +70,69 @@
     </animation>
 
     <animation>
-        <type>rotate</type>
-        <property>surface-positions/flap-pos-norm</property>
-        <object-name>FlapPos</object-name>
-        <factor>10</factor>
-        <offset-deg>0</offset-deg>
+        <type>translate</type>
+        <property>/sim/model/c172p/cockpit/flaps-lever-norm</property>
+        <object-name>FlapSwitch</object-name>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>-1.0</z>
+        </axis>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.333333</ind>
+                <dep>0.022</dep>
+            </entry>
+            <entry>
+                <ind>0.666666</ind>
+                <dep>0.036</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0.052</dep>
+            </entry>
+        </interpolation>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <property>/sim/model/c172p/cockpit/flaps-lever-norm</property>
+        <object-name>FlapSwitch</object-name>
         <axis>
             <x>0.0</x>
             <y>1.0</y>
             <z>0.0</z>
         </axis>
-        <center>
-            <x-m>-0.39</x-m>
-            <y-m>0.0</y-m>
-            <z-m>0.0</z-m>
-        </center>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>-0.001</dep>
+            </entry>
+            <entry>
+                <ind>0.333333</ind>
+                <dep>-0.001</dep>
+            </entry>
+            <entry>
+                <ind>0.345</ind>
+                <dep>0.0035</dep>
+            </entry>
+            <entry>
+                <ind>0.666666</ind>
+                <dep>0.0035</dep>
+            </entry>
+            <entry>
+                <ind>0.675</ind>
+                <dep>0.0055</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0.0055</dep>
+            </entry>
+        </interpolation>
     </animation>
+
 </PropertyList>

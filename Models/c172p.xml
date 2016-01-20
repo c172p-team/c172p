@@ -5790,7 +5790,6 @@
     <animation>
         <type>select</type>
         <object-name>landinglight</object-name>
-        <object-name>landinglight2</object-name>
         <!-- Damage Mod
         <object-name>landinglightBD</object-name>
         <object-name>landinglightCollapse</object-name>
@@ -5808,6 +5807,40 @@
             </and>
         </condition>
     </animation>
+
+    <!-- Taxi Light -->
+    <animation>
+        <type>select</type>
+        <object-name>taxilight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/taxi/property"/>
+                <not>
+                    <property>/sim/rendering/rembrandt/enabled</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- Recessed Light -->
+    <animation>
+        <type>select</type>
+        <object-name>landinglight2</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <or>
+                    <property alias="/params/lighting/landing/property"/>
+                    <property alias="/params/lighting/taxi/property"/>
+                </or>
+                <not>
+                    <property>/sim/rendering/rembrandt/enabled</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
     <animation>
         <type>light</type>
         <light-type>spot</light-type>
@@ -5855,6 +5888,7 @@
         <near-m>2</near-m>
         <far-m>250</far-m>
     </animation>
+
     <animation>
         <type>light</type>
         <light-type>spot</light-type>
@@ -5919,6 +5953,7 @@
     <animation>
         <type>noshadow</type>
         <object-name>landinglight</object-name>
+        <object-name>taxilight</object-name>
         <!-- Damage Mod 
         <object-name>landinglightBD</object-name>
         <object-name>landinglightCollapse</object-name>-->
@@ -5955,9 +5990,9 @@
         <object-name>landinglightBD</object-name>
         <object-name>landinglightCollapse</object-name>-->
         <center>
-            <x-m>-0.19262</x-m>
-            <y-m>-2.87186</y-m>
-            <z-m> 0.45676</z-m>
+            <x-m>-0.1926</x-m>
+            <y-m>-2.8718</y-m>
+            <z-m> 0.4567</z-m>
         </center>
         <axis>
             <x>-1</x>
@@ -5972,14 +6007,14 @@
         <max>80</max>
     </animation>
 
-    <!--Taxi Light
+    <!--Taxi Light-->
     <animation>
         <type>flash</type>
-        <object-name>TaxiLight</object-name>
+        <object-name>taxilight</object-name>
         <center>
-            <x-m>-0.20842</x-m>
-            <y-m>-2.87264</y-m>
-            <z-m> 0.52256</z-m>
+            <x-m>-0.1904</x-m>
+            <y-m>-2.8637</y-m>
+            <z-m> 0.4616</z-m>
         </center>
         <axis>
             <x>-1</x>
@@ -5992,7 +6027,7 @@
         <two-sides type="bool">false</two-sides>
         <min>0.5</min>
         <max>80</max>
-    </animation>-->
+    </animation>
 
     <!-- Strobe -->
 

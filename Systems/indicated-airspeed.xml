@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <system name="indicated-airspeed">
+        
+        <!-- Largely inspired from c182, thanks HHS81 -->
+        
+        <!-- IAS Indicated airspeed (IAS) is the airspeed indicator reading (ASIR) uncorrected for instrument, position, and other errors. 
+        From current EASA definitions: Indicated airspeed means the speed of an aircraft as shown on its pitot static airspeed indicator calibrated to reflect 
+        standard atmosphere adiabatic compressible flow at sea level uncorrected for airspeed system errors
+        Calibrated airspeed (CAS) is indicated airspeed corrected for instrument errors, position error (due to incorrect pressure at the static port) and installation errors.
+        According the POH Skyhawk C172P-1982 on Page 5-9 airspeed calibration shows a large difference between KIAS and KCAS at lower speeds than 90 and above. 
+        It seems this is not reflected by JSBSim or FlightGear in a realistic way.
+        So use this numbers and create a table which corrects the output shown on the ASI
+        -->
+
+        <channel name="indicated airspeed">
+    
+            <fcs_function name="systems/asi/indicated-airspeed">
+                <function>
+                    <table>
+                        <independentVar lookup="row">velocities/vc-kts</independentVar>
+                        <independentVar lookup="column">fcs/flap-pos-deg</independentVar>
+                        <tableData>
+                                  0     10    30
+                            0     0     0     0
+                            47    38    38    40
+                            49    40    40    42
+                            53    45    47    50
+                            55    49    50    52
+                            56    50    51    54
+                            62    60    60    61
+                            70    70    70    70
+                            80    81    81    80
+                            89    90    90    90
+                            98    100   100   100
+                            107   110   109   109
+                            117   120   120   120
+                            126   130   130   130
+                            135   140   140   140
+                            145   150   150   150
+                            154   160   160   160
+                        </tableData> 
+                    </table>  
+                </function>
+                <output>velocities/vias-kts</output>   
+            </fcs_function>
+        </channel>
+    </system>

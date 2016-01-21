@@ -133,40 +133,6 @@
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
-            
-            <checkbox>
-                <halign>left</halign>
-                <label>Allow securing aircraft</label>
-                <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                <binding>
-                    <command>dialog-apply</command>
-                </binding>
-                <binding>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/pitot-cover-visible</property>
-                    <value>false</value>
-                </binding>
-                <binding>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/chock</property>
-                    <value>false</value>
-                </binding>
-                <binding>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/tiedownL-visible</property>
-                    <value>false</value>
-                </binding>
-                <binding>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/tiedownR-visible</property>
-                    <value>false</value>
-                </binding>
-                <binding>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/tiedownT-visible</property>
-                    <value>false</value>
-                </binding>
-            </checkbox>
         </group>
 
         <hrule/>
@@ -205,91 +171,143 @@
 
         <group>
             <layout>vbox</layout>
-
+            
             <checkbox>
                 <halign>left</halign>
-                <label>Enable wheel chocks</label>
-                <property>/sim/model/c172p/securing/chock</property>
-                <live>true</live>
-                <enable>
-                    <property>/sim/model/c172p/securing/chock-can-have</property>
-                </enable>
-                <binding>
-                    <command>dialog-apply</command>
-                </binding>
-            </checkbox>
-
-            <checkbox>
-                <halign>left</halign>
-                <label>Put pitot tube cover</label>
-                <property>/sim/model/c172p/securing/pitot-cover-visible</property>
-                <live>true</live>
-                <enable>
-                    <and>
-                        <less-than>
-                            <property>velocities/groundspeed-kt</property>
-                            <value>1.0</value>
-                        </less-than>
-                        <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                    </and>
-                </enable>
+                <label>Allow securing aircraft</label>
+                <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
                 <binding>
-                    <command>property-toggle</command>
-                    <property>instrumentation/airspeed-indicator/serviceable</property>
-                </binding>
-                <binding>
-                    <condition>
-                        <not>
-                            <property>instrumentation/airspeed-indicator/serviceable</property>
-                        </not>
-                    </condition>
                     <command>property-assign</command>
-                    <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-                    <value>0.0</value>
+                    <property>sim/model/c172p/securing/pitot-cover-visible</property>
+                    <value>false</value>
                 </binding>
-            </checkbox>
-            
-            <checkbox>
-                <halign>left</halign>
-                <label>Enable left tie-down</label>
-                <property>/sim/model/c172p/securing/tiedownL-visible</property>
-                <live>true</live>
-                <enable>
-                    <property>/sim/model/c172p/securing/tiedowns-can-have</property>
-                </enable>
                 <binding>
-                    <command>dialog-apply</command>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/securing/chock</property>
+                    <value>false</value>
                 </binding>
-            </checkbox>
-            
-            <checkbox>
-                <halign>left</halign>
-                <label>Enable right tie-down</label>
-                <property>/sim/model/c172p/securing/tiedownR-visible</property>
-                <live>true</live>
-                <enable>
-                    <property>/sim/model/c172p/securing/tiedowns-can-have</property>
-                </enable>
                 <binding>
-                    <command>dialog-apply</command>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/securing/tiedownL-visible</property>
+                    <value>false</value>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/securing/tiedownR-visible</property>
+                    <value>false</value>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/securing/tiedownT-visible</property>
+                    <value>false</value>
                 </binding>
             </checkbox>
 
-            <checkbox>
-                <halign>left</halign>
-                <label>Enable tail tie-down</label>
-                <property>/sim/model/c172p/securing/tiedownT-visible</property>
-                <live>true</live>
-                <enable>
-                    <property>/sim/model/c172p/securing/tiedowns-can-have</property>
-                </enable>
-                <binding>
-                    <command>dialog-apply</command>
-                </binding>
-            </checkbox>
+            <group>
+                <layout>hbox</layout>
+
+                <!-- Small left padding -->
+                <group>
+                    <layout>vbox</layout>
+                    <padding>6</padding>
+                </group>
+
+                <group>
+                    <layout>vbox</layout>
+
+                    <checkbox>
+                        <halign>left</halign>
+                        <label>Enable wheel chocks</label>
+                        <property>/sim/model/c172p/securing/chock</property>
+                        <live>true</live>
+                        <enable>
+                            <property>/sim/model/c172p/securing/chock-can-have</property>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                    </checkbox>
+
+                    <checkbox>
+                        <halign>left</halign>
+                        <label>Put pitot tube cover</label>
+                        <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+                        <live>true</live>
+                        <enable>
+                            <and>
+                                <less-than>
+                                    <property>velocities/groundspeed-kt</property>
+                                    <value>1.0</value>
+                                </less-than>
+                                <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                            </and>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                        <binding>
+                            <command>property-toggle</command>
+                            <property>instrumentation/airspeed-indicator/serviceable</property>
+                        </binding>
+                        <binding>
+                            <condition>
+                                <not>
+                                    <property>instrumentation/airspeed-indicator/serviceable</property>
+                                </not>
+                            </condition>
+                            <command>property-assign</command>
+                            <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
+                            <value>0.0</value>
+                        </binding>
+                    </checkbox>
+                    
+                    <checkbox>
+                        <halign>left</halign>
+                        <label>Enable left tie-down</label>
+                        <property>/sim/model/c172p/securing/tiedownL-visible</property>
+                        <live>true</live>
+                        <enable>
+                            <property>/sim/model/c172p/securing/tiedowns-can-have</property>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                    </checkbox>
+                    
+                    <checkbox>
+                        <halign>left</halign>
+                        <label>Enable right tie-down</label>
+                        <property>/sim/model/c172p/securing/tiedownR-visible</property>
+                        <live>true</live>
+                        <enable>
+                            <property>/sim/model/c172p/securing/tiedowns-can-have</property>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                    </checkbox>
+
+                    <checkbox>
+                        <halign>left</halign>
+                        <label>Enable tail tie-down</label>
+                        <property>/sim/model/c172p/securing/tiedownT-visible</property>
+                        <live>true</live>
+                        <enable>
+                            <property>/sim/model/c172p/securing/tiedowns-can-have</property>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                    </checkbox>
+
+                </group>
+
+                <!-- Force group to the left -->
+                <empty><stretch>true</stretch></empty>
+            </group>
 
         </group>
 
@@ -313,6 +331,16 @@
                 <halign>left</halign>
                 <label>Human models</label>
                 <property>/sim/model/occupants</property>
+                <live>true</live>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+            
+            <checkbox>
+                <halign>left</halign>
+                <label>Show Garmin 196 GPS</label>
+                <property>/sim/model/c172p/garmin196-visible</property>
                 <live>true</live>
                 <binding>
                     <command>dialog-apply</command>
@@ -432,233 +460,238 @@
             <group>
                 <layout>hbox</layout>
 
-                <radio>
-                    <halign>left</halign>
-                    <label>Default</label>
-                    <property>sim/model/c172p/bushkit_flag_0</property>
-                    <live>true</live>
-                    <enable>
-                        <not>
-                            <property>/sim/freeze/replay-state</property>
-                        </not>
-                    </enable>
-                    <binding>
-                        <command>dialog-apply</command>
-                    </binding>
-                    <binding>
-                        <command>nasal</command>
-                        <script>
-                            setprop("fdm/jsbsim/bushkit", 0);
-                            setprop("sim/model/c172p/bushkit_flag_0",1);
-                            setprop("sim/model/c172p/bushkit_flag_1",0);
-                            setprop("sim/model/c172p/bushkit_flag_2",0);
-                            setprop("sim/model/c172p/bushkit_flag_3",0);
-                            setprop("sim/model/c172p/bushkit_flag_4",0);
-                            setprop("sim/model/c172p/bushkit_flag_5",0);
+                <group>
+                    <layout>vbox</layout>
 
-                            # Select 160 HP engine
-                            setprop("/controls/engines/active-engine", 0);
-                            setprop("sim/model/c172p/engine_flag_0", 1);
-                            setprop("sim/model/c172p/engine_flag_1", 0);
-                        </script>
-                    </binding>
-                </radio>
+                    <radio>
+                        <halign>left</halign>
+                        <label>Default</label>
+                        <property>sim/model/c172p/bushkit_flag_0</property>
+                        <live>true</live>
+                        <enable>
+                            <not>
+                                <property>/sim/freeze/replay-state</property>
+                            </not>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                        <binding>
+                            <command>nasal</command>
+                            <script>
+                                setprop("fdm/jsbsim/bushkit", 0);
+                                setprop("sim/model/c172p/bushkit_flag_0",1);
+                                setprop("sim/model/c172p/bushkit_flag_1",0);
+                                setprop("sim/model/c172p/bushkit_flag_2",0);
+                                setprop("sim/model/c172p/bushkit_flag_3",0);
+                                setprop("sim/model/c172p/bushkit_flag_4",0);
+                                setprop("sim/model/c172p/bushkit_flag_5",0);
 
-                <radio>
-                    <halign>left</halign>
-                    <label>26"</label>
-                    <property>sim/model/c172p/bushkit_flag_1</property>
-                    <live>true</live>
-                    <enable>
-                        <not>
-                            <property>/sim/freeze/replay-state</property>
-                        </not>
-                    </enable>
-                    <binding>
-                        <command>dialog-apply</command>
-                    </binding>
-                    <binding>
-                        <command>nasal</command>
-                        <script>
-                            setprop("fdm/jsbsim/bushkit", 1);
-                            setprop("sim/model/c172p/bushkit_flag_0",0);
-                            setprop("sim/model/c172p/bushkit_flag_1",1);
-                            setprop("sim/model/c172p/bushkit_flag_2",0);
-                            setprop("sim/model/c172p/bushkit_flag_3",0);
-                            setprop("sim/model/c172p/bushkit_flag_4",0);
-                            setprop("sim/model/c172p/bushkit_flag_5",0);
+                                # Select 160 HP engine
+                                setprop("/controls/engines/active-engine", 0);
+                                setprop("sim/model/c172p/engine_flag_0", 1);
+                                setprop("sim/model/c172p/engine_flag_1", 0);
+                            </script>
+                        </binding>
+                    </radio>
 
-                            # Select 160 HP engine
-                            setprop("/controls/engines/active-engine", 0);
-                            setprop("sim/model/c172p/engine_flag_0", 1);
-                            setprop("sim/model/c172p/engine_flag_1", 0);
-                        </script>
-                    </binding>
-                </radio>
+                    <radio>
+                        <halign>left</halign>
+                        <label>26"</label>
+                        <property>sim/model/c172p/bushkit_flag_1</property>
+                        <live>true</live>
+                        <enable>
+                            <not>
+                                <property>/sim/freeze/replay-state</property>
+                            </not>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                        <binding>
+                            <command>nasal</command>
+                            <script>
+                                setprop("fdm/jsbsim/bushkit", 1);
+                                setprop("sim/model/c172p/bushkit_flag_0",0);
+                                setprop("sim/model/c172p/bushkit_flag_1",1);
+                                setprop("sim/model/c172p/bushkit_flag_2",0);
+                                setprop("sim/model/c172p/bushkit_flag_3",0);
+                                setprop("sim/model/c172p/bushkit_flag_4",0);
+                                setprop("sim/model/c172p/bushkit_flag_5",0);
 
-                <radio>
-                    <halign>left</halign>
-                    <label>36"</label>
-                    <property>sim/model/c172p/bushkit_flag_2</property>
-                    <live>true</live>
-                    <enable>
-                        <not>
-                            <property>/sim/freeze/replay-state</property>
-                        </not>
-                    </enable>
-                    <binding>
-                        <command>dialog-apply</command>
-                    </binding>
-                    <binding>
-                        <command>nasal</command>
-                        <script>
-                            setprop("fdm/jsbsim/bushkit", 2);
-                            setprop("sim/model/c172p/bushkit_flag_0",0);
-                            setprop("sim/model/c172p/bushkit_flag_1",0);
-                            setprop("sim/model/c172p/bushkit_flag_2",1);
-                            setprop("sim/model/c172p/bushkit_flag_3",0);
-                            setprop("sim/model/c172p/bushkit_flag_4",0);
-                            setprop("sim/model/c172p/bushkit_flag_5",0);
+                                # Select 160 HP engine
+                                setprop("/controls/engines/active-engine", 0);
+                                setprop("sim/model/c172p/engine_flag_0", 1);
+                                setprop("sim/model/c172p/engine_flag_1", 0);
+                            </script>
+                        </binding>
+                    </radio>
 
-                            # Select 160 HP engine
-                            setprop("/controls/engines/active-engine", 0);
-                            setprop("sim/model/c172p/engine_flag_0", 1);
-                            setprop("sim/model/c172p/engine_flag_1", 0);
-                        </script>
-                    </binding>
-                </radio>
+                    <radio>
+                        <halign>left</halign>
+                        <label>36"</label>
+                        <property>sim/model/c172p/bushkit_flag_2</property>
+                        <live>true</live>
+                        <enable>
+                            <not>
+                                <property>/sim/freeze/replay-state</property>
+                            </not>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                        <binding>
+                            <command>nasal</command>
+                            <script>
+                                setprop("fdm/jsbsim/bushkit", 2);
+                                setprop("sim/model/c172p/bushkit_flag_0",0);
+                                setprop("sim/model/c172p/bushkit_flag_1",0);
+                                setprop("sim/model/c172p/bushkit_flag_2",1);
+                                setprop("sim/model/c172p/bushkit_flag_3",0);
+                                setprop("sim/model/c172p/bushkit_flag_4",0);
+                                setprop("sim/model/c172p/bushkit_flag_5",0);
+
+                                # Select 160 HP engine
+                                setprop("/controls/engines/active-engine", 0);
+                                setprop("sim/model/c172p/engine_flag_0", 1);
+                                setprop("sim/model/c172p/engine_flag_1", 0);
+                            </script>
+                        </binding>
+                    </radio>
+                </group>
+
+                <group>
+                    <layout>vbox</layout>
+
+                    <radio>
+                        <halign>left</halign>
+                        <label>Floats</label>
+                        <property>sim/model/c172p/bushkit_flag_3</property>
+                        <live>true</live>
+                        <enable>
+                            <not>
+                                <property>/sim/freeze/replay-state</property>
+                            </not>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                        <binding>
+                            <command>nasal</command>
+                            <script>
+                                setprop("fdm/jsbsim/bushkit", 3);
+                                setprop("sim/model/c172p/bushkit_flag_0",0);
+                                setprop("sim/model/c172p/bushkit_flag_1",0);
+                                setprop("sim/model/c172p/bushkit_flag_2",0);
+                                setprop("sim/model/c172p/bushkit_flag_3",1);
+                                setprop("sim/model/c172p/bushkit_flag_4",0);
+                                setprop("sim/model/c172p/bushkit_flag_5",0);
+
+                                # Select 180 HP engine
+                                setprop("/controls/engines/active-engine", 1);
+                                setprop("sim/model/c172p/engine_flag_0", 0);
+                                setprop("sim/model/c172p/engine_flag_1", 1);
+                            </script>
+                        </binding>
+                        <binding>
+                            <command>property-assign</command>
+                            <property>sim/model/c172p/securing/chock</property>
+                            <value>false</value>
+                        </binding>
+                        <binding>
+                            <command>property-assign</command>
+                            <property>sim/model/c172p/securing/tiedownL-visible</property>
+                            <value>false</value>
+                        </binding>
+                        <binding>
+                            <command>property-assign</command>
+                            <property>sim/model/c172p/securing/tiedownR-visible</property>
+                            <value>false</value>
+                        </binding>
+                        <binding>
+                            <command>property-assign</command>
+                            <property>sim/model/c172p/securing/tiedownT-visible</property>
+                            <value>false</value>
+                        </binding>
+                    </radio>
+
+                    <radio>
+                        <halign>left</halign>
+                        <label>Amphibious</label>
+                        <property>sim/model/c172p/bushkit_flag_4</property>
+                        <live>true</live>
+                        <enable>
+                            <not>
+                                <property>/sim/freeze/replay-state</property>
+                            </not>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                        <binding>
+                            <command>nasal</command>
+                            <script>
+                                setprop("fdm/jsbsim/bushkit", 4);
+                                setprop("sim/model/c172p/bushkit_flag_0",0);
+                                setprop("sim/model/c172p/bushkit_flag_1",0);
+                                setprop("sim/model/c172p/bushkit_flag_2",0);
+                                setprop("sim/model/c172p/bushkit_flag_3",0);
+                                setprop("sim/model/c172p/bushkit_flag_4",1);
+                                setprop("sim/model/c172p/bushkit_flag_5",0);
+
+                                # Select 180 HP engine
+                                setprop("/controls/engines/active-engine", 1);
+                                setprop("sim/model/c172p/engine_flag_0", 0);
+                                setprop("sim/model/c172p/engine_flag_1", 1);
+                            </script>
+                        </binding>
+                        <binding>
+                            <command>property-assign</command>
+                            <property>sim/model/c172p/securing/chock</property>
+                            <value>false</value>
+                        </binding>
+                    </radio>
+
+                    <radio>
+                        <halign>left</halign>
+                        <label>Snow Skis</label>
+                        <property>sim/model/c172p/bushkit_flag_5</property>
+                        <live>true</live>
+                        <enable>
+                            <not>
+                                <property>/sim/freeze/replay-state</property>
+                            </not>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                        <binding>
+                            <command>nasal</command>
+                            <script>
+                                setprop("fdm/jsbsim/bushkit", 5);
+                                setprop("sim/model/c172p/bushkit_flag_0",0);
+                                setprop("sim/model/c172p/bushkit_flag_1",0);
+                                setprop("sim/model/c172p/bushkit_flag_2",0);
+                                setprop("sim/model/c172p/bushkit_flag_3",0);
+                                setprop("sim/model/c172p/bushkit_flag_4",0);
+                                setprop("sim/model/c172p/bushkit_flag_5",1);
+
+                                # Select 180 HP engine
+                                setprop("/controls/engines/active-engine", 1);
+                                setprop("sim/model/c172p/engine_flag_0", 0);
+                                setprop("sim/model/c172p/engine_flag_1", 1);
+                            </script>
+                        </binding>
+                        <binding>
+                            <command>property-assign</command>
+                            <property>sim/model/c172p/securing/chock</property>
+                            <value>false</value>
+                        </binding>
+                    </radio>
+                </group>
+
             </group>
 
-            <group>
-                <layout>hbox</layout>
-
-                <radio>
-                    <halign>left</halign>
-                    <label>Floats</label>
-                    <property>sim/model/c172p/bushkit_flag_3</property>
-                    <live>true</live>
-                    <enable>
-                        <not>
-                            <property>/sim/freeze/replay-state</property>
-                        </not>
-                    </enable>
-                    <binding>
-                        <command>dialog-apply</command>
-                    </binding>
-                    <binding>
-                        <command>nasal</command>
-                        <script>
-                            setprop("fdm/jsbsim/bushkit", 3);
-                            setprop("sim/model/c172p/bushkit_flag_0",0);
-                            setprop("sim/model/c172p/bushkit_flag_1",0);
-                            setprop("sim/model/c172p/bushkit_flag_2",0);
-                            setprop("sim/model/c172p/bushkit_flag_3",1);
-                            setprop("sim/model/c172p/bushkit_flag_4",0);
-                            setprop("sim/model/c172p/bushkit_flag_5",0);
-
-                            # Select 180 HP engine
-                            setprop("/controls/engines/active-engine", 1);
-                            setprop("sim/model/c172p/engine_flag_0", 0);
-                            setprop("sim/model/c172p/engine_flag_1", 1);
-                        </script>
-                    </binding>
-                    <binding>
-                        <command>property-assign</command>
-                        <property>sim/model/c172p/securing/chock</property>
-                        <value>false</value>
-                    </binding>
-                    <binding>
-                        <command>property-assign</command>
-                        <property>sim/model/c172p/securing/tiedownL-visible</property>
-                        <value>false</value>
-                    </binding>
-                    <binding>
-                        <command>property-assign</command>
-                        <property>sim/model/c172p/securing/tiedownR-visible</property>
-                        <value>false</value>
-                    </binding>
-                    <binding>
-                        <command>property-assign</command>
-                        <property>sim/model/c172p/securing/tiedownT-visible</property>
-                        <value>false</value>
-                    </binding>
-                </radio>
-
-                <radio>
-                    <halign>left</halign>
-                    <label>Amphibious</label>
-                    <property>sim/model/c172p/bushkit_flag_4</property>
-                    <live>true</live>
-                    <enable>
-                        <not>
-                            <property>/sim/freeze/replay-state</property>
-                        </not>
-                    </enable>
-                    <binding>
-                        <command>dialog-apply</command>
-                    </binding>
-                    <binding>
-                        <command>nasal</command>
-                        <script>
-                            setprop("fdm/jsbsim/bushkit", 4);
-                            setprop("sim/model/c172p/bushkit_flag_0",0);
-                            setprop("sim/model/c172p/bushkit_flag_1",0);
-                            setprop("sim/model/c172p/bushkit_flag_2",0);
-                            setprop("sim/model/c172p/bushkit_flag_3",0);
-                            setprop("sim/model/c172p/bushkit_flag_4",1);
-                            setprop("sim/model/c172p/bushkit_flag_5",0);
-
-                            # Select 180 HP engine
-                            setprop("/controls/engines/active-engine", 1);
-                            setprop("sim/model/c172p/engine_flag_0", 0);
-                            setprop("sim/model/c172p/engine_flag_1", 1);
-                        </script>
-                    </binding>
-                    <binding>
-                        <command>property-assign</command>
-                        <property>sim/model/c172p/securing/chock</property>
-                        <value>false</value>
-                    </binding>
-                </radio>
-
-                <radio>
-                    <halign>left</halign>
-                    <label>Snow Skis</label>
-                    <property>sim/model/c172p/bushkit_flag_5</property>
-                    <live>true</live>
-                    <enable>
-                        <not>
-                            <property>/sim/freeze/replay-state</property>
-                        </not>
-                    </enable>
-                    <binding>
-                        <command>dialog-apply</command>
-                    </binding>
-                    <binding>
-                        <command>nasal</command>
-                        <script>
-                            setprop("fdm/jsbsim/bushkit", 5);
-                            setprop("sim/model/c172p/bushkit_flag_0",0);
-                            setprop("sim/model/c172p/bushkit_flag_1",0);
-                            setprop("sim/model/c172p/bushkit_flag_2",0);
-                            setprop("sim/model/c172p/bushkit_flag_3",0);
-                            setprop("sim/model/c172p/bushkit_flag_4",0);
-                            setprop("sim/model/c172p/bushkit_flag_5",1);
-
-                            # Select 180 HP engine
-                            setprop("/controls/engines/active-engine", 1);
-                            setprop("sim/model/c172p/engine_flag_0", 0);
-                            setprop("sim/model/c172p/engine_flag_1", 1);
-                        </script>
-                    </binding>
-                    <binding>
-                        <command>property-assign</command>
-                        <property>sim/model/c172p/securing/chock</property>
-                        <value>false</value>
-                    </binding>
-                </radio>
-            </group>
-            
         </group>
     </group>
 

@@ -93,6 +93,25 @@ Under the GPL. Used by shadows under ALS -->
     </filter>
 
     <filter>
+        <name>Controls Parking Brake Lever</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>2.5</max-rate-of-change>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <property>/sim/model/c172p/brake-parking</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/cockpit/parking-lever</property>
+        </output>
+    </filter>
+
+    <filter>
         <name>Spray and Wakes Effect for Pontoons</name>
         <type>gain</type>
         <enable>

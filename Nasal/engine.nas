@@ -89,21 +89,29 @@ var primerTimer = maketimer(5, func {
 # ========== oil consumption ======================
 
 var oil_consumption = maketimer(1.0, func {
-    var oil_level = getprop("/engines/active-engine/oil-level");
+    if (getprop("/engines/active-engine/oil_consumption_allowed"))
+        var oil_level = getprop("/engines/active-engine/oil-level");
+    else
+        var oil_level = 7.0;
     var rpm = getprop("/engines/active-engine/rpm");
-    # quadratic formula which outputs 1.0 for input 2300 RPM (cruise value), 0.6 for 700 RPM (idle) and 1.2 for 2700 RPM (max)
-    var rpm_factor = 0.00000012 * math.pow(rpm,2) - 0.0001 * rpm + 0.62;
-    # consumption rate defined as 1.5 quarter per 10 hours (36000 seconds) at cruise RPM
+
+    # Quadratic formula which outputs 1.0 for input 2300 RPM (cruise value),
+    # 0.6 for 700 RPM (idle) and 1.2 for 2700 RPM (max)
+    var rpm_factor = 0.00000012 * math.pow(rpm, 2) - 0.0001 * rpm + 0.62;
+
+    # Consumption rate defined as 1.5 quarter per 10 hours (36000 seconds)
+    # at cruise RPM
     var consumption_rate = 1.5 / 36000; 
+
     var low_oil_pressure_factor = 1.0;
     var low_oil_temperature_factor = 1.0;
-    
-    if ((getprop("/engines/active-engine/running")) and (getprop("/engines/active-engine/oil_consumption_allowed"))) {
+
+    if (getprop("/engines/active-engine/running")) {
         oil_level = oil_level - consumption_rate * rpm_factor;
         setprop("/engines/active-engine/oil-level", oil_level);        
     }
-    
-    # If oil gets low, pressure should lower and temperature should rise
+
+    # If oil gets low (< 5.0), pressure should drop and temperature should rise
     var oil_level_limited = std.min(oil_level, 5.0);
 
     # Should give 1.0 for oil_level = 5 and 0.1 for oil_level 4.92,

@@ -3091,7 +3091,7 @@
         </center>
     </animation>
 
-    <!-- Hide interior glass when in exterior view -->
+    <!-- Hide interior glass when in exterior view unless raining-->
     <animation>
         <type>select</type>
         <object-name>glas_interior</object-name>
@@ -3099,7 +3099,10 @@
         <object-name>rightwindow_interior</object-name>
         <object-name>glas_interior_sides</object-name>
         <condition>
-            <property>/sim/current-view/internal</property>
+            <or>
+                <property>/sim/current-view/internal</property>
+                <property>/environment/rain-norm</property>
+            </or>
         </condition>
     </animation>
 

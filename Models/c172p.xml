@@ -396,16 +396,15 @@
     <effect>
         <inherits-from>Effects/model-transparent</inherits-from>
         <object-name>landinglightcover</object-name>
-        <object-name>landinglightcoverLD</object-name>
+        <!--object-name>landinglightcoverLD</object-name>
         <object-name>landinglightcoverRD</object-name>
         <object-name>landinglightcoverBD</object-name>
-        <object-name>landinglightcoverCollapse</object-name>
+        <object-name>landinglightcoverCollapse</object-name-->
         <object-name>navlight_left</object-name>
         <object-name>navlight_right</object-name>
         <object-name>navlight_back</object-name>
         <object-name>strobe1</object-name>
         <object-name>strobe2</object-name>
-        <object-name>navlight_back</object-name>
         <object-name>BeaconOffX</object-name>
         <object-name>Propeller.Fast</object-name>
         <!-- damage mod -->
@@ -529,7 +528,10 @@
         <object-name>bolts_cabin</object-name>
         <object-name>bolts_panel</object-name>
         <object-name>bolts</object-name>
-        <object-name>seat_mount</object-name>
+        <object-name>SeatMounts.0</object-name>
+        <object-name>SeatMounts.1</object-name>
+        <object-name>SeatMounts.2</object-name>
+        <object-name>SeatMounts.3</object-name>
         <object-name>windlocket_right</object-name>
         <object-name>windlocket_left</object-name>
         <object-name>windlocketbak_right</object-name>
@@ -3087,6 +3089,21 @@
             <y-m>-0.20</y-m>
             <z-m>-0.48</z-m>
         </center>
+    </animation>
+
+    <!-- Hide interior glass when in exterior view unless raining-->
+    <animation>
+        <type>select</type>
+        <object-name>glas_interior</object-name>
+        <object-name>leftwindow_interior</object-name>
+        <object-name>rightwindow_interior</object-name>
+        <object-name>glas_interior_sides</object-name>
+        <condition>
+            <or>
+                <property>/sim/current-view/internal</property>
+                <property>/environment/rain-norm</property>
+            </or>
+        </condition>
     </animation>
 
     <!-- Fuel Selector -->
@@ -5752,6 +5769,72 @@
 
     <!-- Lights -->
 
+    <!--Nav Light Tail-->
+    <animation>
+        <type>flash</type>
+        <object-name>navlight_back</object-name>
+        <center>
+            <x-m>6.0861</x-m>
+            <y-m>0.0042</y-m>
+            <z-m>0.9722</z-m>
+        </center>
+        <axis>
+            <x>1</x> <!-- 70 deg from tail (140 deg arc / 2) -->
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <power>2.0</power>
+        <factor>35.0</factor>
+        <offset>-4.0</offset>
+        <two-sides type="bool">false</two-sides>
+        <min>0.0</min>
+        <max>7.0</max>
+    </animation>
+
+    <!--Nav Light Left-->
+    <animation>
+        <type>flash</type>
+        <object-name>navlight_left</object-name>
+        <center>
+            <x-m> 0.2111</x-m>
+            <y-m>-5.652</y-m>
+            <z-m> 0.5647</z-m>
+        </center>
+        <axis>
+            <x>-0.7</x> <!-- 35 deg from wing (110 deg arc / 2 => 55 deg from nose) -->
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <power>2.0</power>
+        <factor>12.0</factor>
+        <offset>-3.6</offset>
+        <two-sides type="bool">false</two-sides>
+        <min>0.0</min>
+        <max>3.0</max>
+    </animation>
+
+    <!--Nav Light Right-->
+    <animation>
+        <type>flash</type>
+        <object-name>navlight_right</object-name>
+        <center>
+            <x-m>0.2186</x-m>
+            <y-m>5.647</y-m>
+            <z-m>0.5618</z-m>
+        </center>
+        <axis>
+            <x>-0.7</x> <!-- 35 deg from wing (110 deg arc / 2 => 55 deg from nose) -->
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <power>2.0</power>
+        <factor>18.0</factor>
+        <offset>-5.9</offset>
+        <two-sides type="bool">false</two-sides>
+        <min>0.0</min>
+        <max>4.0</max>
+    </animation>
+
     <!-- Disable/enable different light types depending on Rembrandt -->
     <animation>
         <type>select</type>
@@ -5778,14 +5861,13 @@
     <animation>
         <type>select</type>
         <object-name>landinglight</object-name>
-        <object-name>landinglight2</object-name>
-        <!-- Damage Mod -->
+        <!-- Damage Mod
         <object-name>landinglightBD</object-name>
         <object-name>landinglightCollapse</object-name>
         <object-name>landinglight2BD</object-name>
         <object-name>landinglight2LD</object-name>
         <object-name>landinglight2RD</object-name>
-        <object-name>landinglight2Collapse</object-name>
+        <object-name>landinglight2Collapse</object-name> -->
         <nopreview/>
         <condition>
             <and>
@@ -5796,6 +5878,40 @@
             </and>
         </condition>
     </animation>
+
+    <!-- Taxi Light -->
+    <animation>
+        <type>select</type>
+        <object-name>taxilight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/taxi/property"/>
+                <not>
+                    <property>/sim/rendering/rembrandt/enabled</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- Recessed Light -->
+    <animation>
+        <type>select</type>
+        <object-name>landinglight2</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <or>
+                    <property alias="/params/lighting/landing/property"/>
+                    <property alias="/params/lighting/taxi/property"/>
+                </or>
+                <not>
+                    <property>/sim/rendering/rembrandt/enabled</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
     <animation>
         <type>light</type>
         <light-type>spot</light-type>
@@ -5843,6 +5959,7 @@
         <near-m>2</near-m>
         <far-m>250</far-m>
     </animation>
+
     <animation>
         <type>light</type>
         <light-type>spot</light-type>
@@ -5893,11 +6010,11 @@
     <animation>
         <type>select</type>
         <object-name>landinglightcover</object-name>
-        <!-- Damage Mod -->
+        <!-- Damage Mod 
         <object-name>landinglightcoverBD</object-name>
         <object-name>landinglightcoverLD</object-name>
         <object-name>landinglightcoverRD</object-name>
-        <object-name>landinglightcoverCollapse</object-name>
+        <object-name>landinglightcoverCollapse</object-name>-->
         <condition>
             <not>
                 <property alias="/params/lighting/landing/property"/>
@@ -5907,32 +6024,57 @@
     <animation>
         <type>noshadow</type>
         <object-name>landinglight</object-name>
-        <!-- Damage Mod -->
+        <object-name>taxilight</object-name>
+        <!-- Damage Mod 
         <object-name>landinglightBD</object-name>
-        <object-name>landinglightCollapse</object-name>
+        <object-name>landinglightCollapse</object-name>-->
     </animation>
+
+    <!--Landing Light-->
     <animation>
         <type>flash</type>
         <object-name>landinglight</object-name>
-        <!-- Damage Mod -->
+        <!-- Damage Mod 
         <object-name>landinglightBD</object-name>
-        <object-name>landinglightCollapse</object-name>
+        <object-name>landinglightCollapse</object-name>-->
         <center>
-            <x-m>-0.117</x-m>
-            <y-m>-2.872</y-m>
-            <z-m>0.528</z-m>
+            <x-m>-0.135</x-m>
+            <y-m>-2.940</y-m>
+            <z-m> 0.520</z-m>
         </center>
         <axis>
             <x>-1</x>
             <y>0</y>
             <z>0</z>
         </axis>
-        <power>0.5</power>
-        <factor>1</factor>
+        <power>8</power>
+        <factor>6</factor>
         <offset>0</offset>
         <two-sides type="bool">false</two-sides>
-        <min>0.01</min>
-        <max>1</max>
+        <min>0.5</min>
+        <max>80</max>
+    </animation>
+
+    <!--Taxi Light-->
+    <animation>
+        <type>flash</type>
+        <object-name>taxilight</object-name>
+        <center>
+            <x-m>-0.135</x-m>
+            <y-m>-2.750</y-m>
+            <z-m> 0.520</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <power>8</power>
+        <factor>5</factor>
+        <offset>0</offset>
+        <two-sides type="bool">false</two-sides>
+        <min>0.5</min>
+        <max>80</max>
     </animation>
 
     <!-- Strobe -->
@@ -6047,7 +6189,7 @@
         <object-name>strobe1</object-name>
         <offset-m>5.760493</offset-m>
         <axis>
-            <x>0.253912</x>
+            <x>0.293912</x>
             <y>-5.727128</y>
             <z>0.564638</z>
         </axis>
@@ -6167,16 +6309,12 @@
     <animation>
         <type>translate</type>
         <object-name>BeaconOffX</object-name>
-        <offset-m>5.588312</offset-m>
+        <offset-m>5.618312</offset-m>
         <axis>
-            <!-- MOD: Position beacon light at MEDIAN point of the object
-                <x>5.466914</x>
-                <y>0</y>
-                <z>1.15848</z>
-            -->
-            <x>5.49464</x>
+            <!-- MOD: Position beacon light at MEDIAN point of the object -->
+            <x> 5.49464</x>
             <y>-0.00000</y>
-            <z>1.09533</z>
+            <z> 1.11533</z>
             <!-- MODEND: Position beacon light at MEDIAN point of the object -->
         </axis>
     </animation>

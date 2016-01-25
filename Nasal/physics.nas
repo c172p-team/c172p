@@ -26,7 +26,8 @@ var repair_damage = func {
 
 var killengine = func
 {
-    setprop("/engines/active-engine/crash-engine", 1);
+    if (getprop("/fdm/jsbsim/settings/damage"))
+        setprop("/engines/active-engine/crash-engine", 1);
 }
 
 # Check if on water

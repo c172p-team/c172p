@@ -111,6 +111,10 @@ Under the GPL. Used by shadows under ALS -->
         </output>
     </filter>
 
+    <!-- ================================================================== -->
+    <!-- Ground and water effects                                           -->
+    <!-- ================================================================== -->
+
     <filter>
         <name>Spray and Wakes Effect for Pontoons</name>
         <type>gain</type>
@@ -327,6 +331,10 @@ Under the GPL. Used by shadows under ALS -->
         </output>
     </filter>
 
+    <!-- ================================================================== -->
+    <!-- Climate effects                                                    -->
+    <!-- ================================================================== -->
+
     <filter>
         <name>Aircraft Effect Fog Level</name>
         <type>noise-spike</type>
@@ -429,7 +437,10 @@ Under the GPL. Used by shadows under ALS -->
         </output>
     </logic>
 
-    <!-- logic for securing aircraft -->   
+    <!-- ================================================================== -->
+    <!-- Securing aircraft                                                  -->
+    <!-- ================================================================== -->
+
     <logic>
         <name>Parking Brake And Chock</name>
         <input>
@@ -615,6 +626,46 @@ Under the GPL. Used by shadows under ALS -->
         </input>
         <output>
             <property>/sim/model/c172p/securing/tiedownT-addable</property>
+        </output>
+    </logic>
+
+    <!-- ================================================================== -->
+    <!-- Lighting  -->
+    <!-- ================================================================== -->
+
+    <logic>
+        <name>Navigation Light Left Damaged</name>
+        <input>
+            <and>
+                <equals>
+                    <property>/sim/model/c172p/damage/left-wing</property>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property>/fdm/jsbsim/crash</property>
+                </not>
+            </and>
+        </input>
+        <output>
+            <property>sim/model/c172p/lighting/nav-lights/left-damaged</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Navigation Light Right Damaged</name>
+        <input>
+            <and>
+                <equals>
+                    <property>/sim/model/c172p/damage/right-wing</property>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property>/fdm/jsbsim/crash</property>
+                </not>
+            </and>
+        </input>
+        <output>
+            <property>sim/model/c172p/lighting/nav-lights/right-damaged</property>
         </output>
     </logic>
 

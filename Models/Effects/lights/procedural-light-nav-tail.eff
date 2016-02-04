@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PropertyList>
+
+    <name>procedural-light-nav-tail</name>
+    <inherits-from>Effects/procedural-light</inherits-from>
+
+    <parameters>
+        <light_color_base_r type="float">0.790</light_color_base_r>
+        <light_color_base_g type="float">0.790</light_color_base_g>
+        <light_color_base_b type="float">1.000</light_color_base_b>
+        <light_color_center_r type="float">1.0</light_color_center_r>
+        <light_color_center_g type="float">1.0</light_color_center_g>
+        <light_color_center_b type="float">1.0</light_color_center_b>
+        <intensity_scale type="float">1.0</intensity_scale>
+
+        <!-- Arc is 140 deg, is 70 deg per side -->
+        <pointing_x type="float">-1.0</pointing_x>
+        <pointing_y type="float">0.0</pointing_y>
+        <pointing_z type="float">0.0</pointing_z>
+
+        <is_directional type="bool">true</is_directional>
+        <is_strobe type="bool">false</is_strobe>
+
+        <!-- Angles are 0.0 at 0 deg from pointing direction, 1.0 at
+             90/-90 deg, and 0.0 at 180/-180 deg.
+
+             For tail navigation light we use +110/+90 .. -110/-90 for
+             the inner/outer range. This gives an arc of 140/180 deg,
+             or 70/90 deg from center.
+
+             Value = sin(angle in degrees)
+
+             0.9396926207859083 = 70 deg (* 2 = 140 deg inner angle)
+             1.0000 = 90 deg (* 2 = 180 deg outer angle)
+        -->
+        <inner_angle type="float">0.9396926207859083</inner_angle>
+        <outer_angle type="float">1.0</outer_angle>
+        <zero_angle type="float">0.982547593563</zero_angle>
+        <outer_gain type="float">0.1</outer_gain>
+    </parameters>
+
+</PropertyList>

@@ -100,6 +100,39 @@
         </offsets>
     </model>
 
+    <!-- Green navigation light on starboard side (right) -->
+    <model>
+        <name>nav-light-right</name>
+        <path>Effects/lights/procedural_light_nav_right.xml</path>
+        <offsets>
+            <x-m>0.2186</x-m>
+            <y-m>5.657</y-m>
+            <z-m>0.5618</z-m>
+        </offsets>
+    </model>
+
+    <!-- Red navigation light on port side (left) -->
+    <model>
+        <name>nav-light-left</name>
+        <path>Effects/lights/procedural_light_nav_left.xml</path>
+        <offsets>
+            <x-m>0.2186</x-m>
+            <y-m>-5.657</y-m>
+            <z-m>0.5618</z-m>
+        </offsets>
+    </model>
+
+    <!-- White navigation light on tail -->
+    <model>
+        <name>nav-light-tail</name>
+        <path>Effects/lights/procedural_light_nav_tail.xml</path>
+        <offsets>
+            <x-m>6.0961</x-m>
+            <y-m>0.0042</y-m>
+            <z-m>0.9722</z-m>
+        </offsets>
+    </model>
+
     <!-- non-Canvas remote Garmin 196 GPS (FGDATA) -->
     <!-- TODO Remove this old version, unhide and implement the Canvas version below -->
     <model>
@@ -225,9 +258,30 @@
             rplayer.initNode("sim/model/variant", 0, "INT");
 
             # Damage
-            rplayer.initNode("sim/multiplay/generic/int[14]", 0, "INT");
-            rplayer.initNode("sim/multiplay/generic/int[18]", 0, "INT");
-            rplayer.initNode("sim/multiplay/generic/int[19]", 0, "INT");
+            var wings_collapsed = rplayer.initNode("sim/multiplay/generic/int[15]", 0, "INT");
+            var wing_left_state = rplayer.initNode("sim/multiplay/generic/int[18]", 0, "INT");
+            var wing_right_state = rplayer.initNode("sim/multiplay/generic/int[19]", 0, "INT");
+
+            var move_nav_light_left  = rplayer.initNode("sim/model/c172p/lighting/nav-lights/left-damaged", 0, "BOOL");
+            var move_nav_light_right = rplayer.initNode("sim/model/c172p/lighting/nav-lights/right-damaged", 0, "BOOL");
+
+            setlistener(wing_left_state.getPath(), func (node) {
+                var move = node.getValue() == 2 and !wings_collapsed.getBoolValue();
+                move_nav_light_left.setBoolValue(move);
+            }, 1, 0);
+
+            setlistener(wing_right_state.getPath(), func (node) {
+                var move = node.getValue() == 2 and !wings_collapsed.getBoolValue();
+                move_nav_light_right.setBoolValue(move);
+            }, 1, 0);
+
+            setlistener(wings_collapsed.getPath(), func (node) {
+                var move = wing_left_state.getValue() == 2 and !node.getBoolValue();
+                move_nav_light_left.setBoolValue(move);
+
+                var move = wing_right_state.getValue() == 2 and !node.getBoolValue();
+                move_nav_light_right.setBoolValue(move);
+            }, 1, 0);
         </load>
         <unload>
             livery_update.stop();
@@ -400,26 +454,11 @@
         <object-name>landinglightcoverRD</object-name>
         <object-name>landinglightcoverBD</object-name>
         <object-name>landinglightcoverCollapse</object-name-->
-        <object-name>navlight_left</object-name>
-        <object-name>navlight_right</object-name>
-        <object-name>navlight_back</object-name>
         <object-name>strobe1</object-name>
         <object-name>strobe2</object-name>
         <object-name>BeaconOffX</object-name>
         <object-name>Propeller.Fast</object-name>
         <!-- damage mod -->
-        <object-name>navlight_leftU</object-name>
-        <object-name>navlight_leftD</object-name>
-        <object-name>navlight_leftBD</object-name>
-        <object-name>navlight_leftCollapse</object-name>
-        <object-name>navlight_leftDRB</object-name>
-        <object-name>navlight_leftGRB</object-name>
-        <object-name>navlight_rightU</object-name>
-        <object-name>navlight_rightD</object-name>
-        <object-name>navlight_rightBD</object-name>
-        <object-name>navlight_rightCollapse</object-name>
-        <object-name>navlight_rightDLB</object-name>
-        <object-name>navlight_rightGLB</object-name>
         <object-name>strobe1BD</object-name>
         <object-name>strobe2BD</object-name>
         <object-name>strobe1Collapse</object-name>
@@ -433,7 +472,7 @@
         <object-name>rightwindow</object-name>
     </effect>
 
-    <!--  Specularity fix -->
+    <!-- Specularity fix -->
     <animation>
         <type>material</type>
         <object-name>LeftWheelStrut</object-name>
@@ -3416,29 +3455,105 @@
         <max>0.5</max>
         <min>0.0</min>
     </animation>
+
+    <!-- ================================================================== -->
+    <!-- ALS Lighting                                                       -->
+    <!-- ================================================================== -->
+
     <animation>
         <type>select</type>
-        <object-name>navlight_left</object-name>
-        <object-name>navlight_right</object-name>
-        <object-name>navlight_back</object-name>
-        <!-- Damage Mod -->
-        <object-name>navlight_leftU</object-name>
-        <object-name>navlight_leftD</object-name>
-        <object-name>navlight_leftBD</object-name>
-        <object-name>navlight_leftCollapse</object-name>
-        <object-name>navlight_leftDRB</object-name>
-        <object-name>navlight_leftGRB</object-name>
-        <object-name>navlight_rightU</object-name>
-        <object-name>navlight_rightD</object-name>
-        <object-name>navlight_rightBD</object-name>
-        <object-name>navlight_rightCollapse</object-name>
-        <object-name>navlight_rightDLB</object-name>
-        <object-name>navlight_rightGLB</object-name>
+        <object-name>nav-light-left</object-name>
         <nopreview/>
         <condition>
-            <property alias="../../../params/lighting/navigation"/>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <property>/sim/rendering/shaders/skydome</property>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
         </condition>
     </animation>
+    <animation>
+        <type>select</type>
+        <object-name>nav-light-right</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <property>/sim/rendering/shaders/skydome</property>
+                <not-equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>nav-light-tail</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <property>/sim/rendering/shaders/skydome</property>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- ================================================================== -->
+    <!-- Basic And Rembrandt Lighting                                       -->
+    <!-- ================================================================== -->
+
+    <animation>
+        <type>select</type>
+        <object-name>navlight_left</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>navlight_right</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>navlight_back</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
     <animation>
         <type>spin</type>
         <object-name>Propeller</object-name>
@@ -3664,7 +3779,6 @@
         <type>rotate</type>
         <object-name>rudder</object-name>
         <object-name>rudder_1</object-name>
-        <object-name>navlight_back</object-name>
         <object-name>RearNavLightOff</object-name>
         <property>surface-positions/rudder-pos-norm</property>
         <factor>13</factor>
@@ -4415,9 +4529,7 @@
         <object-name>leftaileron</object-name>
         <object-name>flaps</object-name>
         <object-name>RightNavLight</object-name>
-        <object-name>navlight_right</object-name>
         <object-name>LeftNavLight</object-name>
-        <object-name>navlight_left</object-name>
         <object-name>landinglightcover</object-name>
         <object-name>landinglight2</object-name>
         <condition>
@@ -4445,9 +4557,7 @@
         <object-name>rightaileronCollapse</object-name>
         <object-name>leftaileronCollapse</object-name>
         <object-name>RightNavLightCollapse</object-name>
-        <object-name>navlight_rightCollapse</object-name>
         <object-name>LeftNavLightCollapse</object-name>
-        <object-name>navlight_leftCollapse</object-name>
         <object-name>landinglightcoverCollapse</object-name>
         <object-name>landinglight2Collapse</object-name>
         <condition>
@@ -4486,9 +4596,7 @@
         <object-name>rightaileronBD</object-name>
         <object-name>leftaileronBD</object-name>
         <object-name>RightNavLightBD</object-name>
-        <object-name>navlight_rightBD</object-name>
         <object-name>LeftNavLightBD</object-name>
-        <object-name>navlight_leftBD</object-name>
         <object-name>landinglightcoverBD</object-name>
         <object-name>landinglight2BD</object-name>
         <condition>
@@ -4516,9 +4624,7 @@
         <object-name>rightaileronLD</object-name>
         <object-name>leftaileronLD</object-name>
         <object-name>LeftNavLightD</object-name>
-        <object-name>navlight_leftD</object-name>
         <object-name>RightNavLightU</object-name>
-        <object-name>navlight_rightU</object-name>
         <object-name>landinglightcoverLD</object-name>
         <object-name>landinglight2LD</object-name>
         <condition>
@@ -4546,9 +4652,7 @@
         <object-name>rightaileronRD</object-name>
         <object-name>leftaileronRD</object-name>
         <object-name>RightNavLightD</object-name>
-        <object-name>navlight_rightD</object-name>
         <object-name>LeftNavLightU</object-name>
-        <object-name>navlight_leftU</object-name>
         <object-name>landinglightcoverRD</object-name>
         <object-name>landinglight2RD</object-name>
         <condition>
@@ -4574,7 +4678,6 @@
         <object-name>wing_1RDLB</object-name>
         <object-name>rightaileronRDLB</object-name>
         <object-name>RightNavLightDLB</object-name>
-        <object-name>navlight_rightDLB</object-name>
         <condition>
             <and>
                 <equals>
@@ -4599,7 +4702,6 @@
         <object-name>wing_1LDRB</object-name>
         <object-name>leftaileronLDRB</object-name>
         <object-name>LeftNavLightDRB</object-name>
-        <object-name>navlight_leftDRB</object-name>
         <object-name>landinglightcoverLDRB</object-name>
         <object-name>landinglight2LDRB</object-name>
         <condition>
@@ -4625,7 +4727,6 @@
         <object-name>wing_1RGLB</object-name>
         <object-name>rightaileronRGLB</object-name>
         <object-name>RightNavLightGLB</object-name>
-        <object-name>navlight_rightGLB</object-name>
         <condition>
             <and>
                 <equals>
@@ -4650,7 +4751,6 @@
         <object-name>wing_1LGRB</object-name>
         <object-name>leftaileronLGRB</object-name>
         <object-name>LeftNavLightGRB</object-name>
-        <object-name>navlight_leftGRB</object-name>
         <object-name>landinglightcoverLGRB</object-name>
         <object-name>landinglight2LGRB</object-name>
         <condition>
@@ -5767,72 +5867,48 @@
     </animation>
     <!-- End Damage Mod-->
 
-    <!-- Lights -->
+    <!-- ================================================================== -->
+    <!-- Lighting                                                           -->
+    <!-- ================================================================== -->
 
-    <!--Nav Light Tail-->
+    <!-- Moves the red navigation light when then left wing is damaged -->
     <animation>
-        <type>flash</type>
-        <object-name>navlight_back</object-name>
-        <center>
-            <x-m>6.0861</x-m>
-            <y-m>0.0042</y-m>
-            <z-m>0.9722</z-m>
-        </center>
+        <type>translate</type>
+        <object-name>nav-light-left</object-name>
+        <object-name>navlight_left</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
+
+        <!-- Magnitude (distance) of the vector -->
+        <factor>0.59</factor>
+        <property>sim/model/c172p/lighting/nav-lights/left-damaged</property>
+
+        <!-- The vector pointing from the original position to the
+             damaged position.
+        -->
         <axis>
-            <x>1</x> <!-- 70 deg from tail (140 deg arc / 2) -->
-            <y>0</y>
-            <z>0</z>
+            <x>0.57</x>
+            <y>0.3</y>
+            <z>1.0</z>
         </axis>
-        <power>2.0</power>
-        <factor>35.0</factor>
-        <offset>-4.0</offset>
-        <two-sides type="bool">false</two-sides>
-        <min>0.0</min>
-        <max>7.0</max>
     </animation>
 
-    <!--Nav Light Left-->
+    <!-- Moves the green navigation light when then right wing is damaged -->
     <animation>
-        <type>flash</type>
-        <object-name>navlight_left</object-name>
-        <center>
-            <x-m> 0.2111</x-m>
-            <y-m>-5.652</y-m>
-            <z-m> 0.5647</z-m>
-        </center>
-        <axis>
-            <x>-0.7</x> <!-- 35 deg from wing (110 deg arc / 2 => 55 deg from nose) -->
-            <y>-1</y>
-            <z>0</z>
-        </axis>
-        <power>2.0</power>
-        <factor>12.0</factor>
-        <offset>-3.6</offset>
-        <two-sides type="bool">false</two-sides>
-        <min>0.0</min>
-        <max>3.0</max>
-    </animation>
+        <type>translate</type>
+        <object-name>nav-light-right</object-name>
+        <object-name>navlight_right</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
 
-    <!--Nav Light Right-->
-    <animation>
-        <type>flash</type>
-        <object-name>navlight_right</object-name>
-        <center>
-            <x-m>0.2186</x-m>
-            <y-m>5.647</y-m>
-            <z-m>0.5618</z-m>
-        </center>
+        <!-- Magnitude (distance) of the vector -->
+        <factor>0.56</factor>
+        <property>sim/model/c172p/lighting/nav-lights/right-damaged</property>
+
+        <!-- The vector pointing from the original position to the
+             damaged position.
+        -->
         <axis>
-            <x>-0.7</x> <!-- 35 deg from wing (110 deg arc / 2 => 55 deg from nose) -->
-            <y>1</y>
-            <z>0</z>
+            <x>0.33</x>
+            <y>-0.05</y>
+            <z>1.0</z>
         </axis>
-        <power>2.0</power>
-        <factor>18.0</factor>
-        <offset>-5.9</offset>
-        <two-sides type="bool">false</two-sides>
-        <min>0.0</min>
-        <max>4.0</max>
     </animation>
 
     <!-- Disable/enable different light types depending on Rembrandt -->

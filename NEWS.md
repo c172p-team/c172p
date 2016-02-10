@@ -6,7 +6,7 @@ Version 2016.1
 
 * Ski's
 * Amphibious plane improvements:
-    - Added two metal bars in the cockpit
+    - Added two metal reinforcement bars in the cockpit
     - Added panel for gear deploy and retract
     - Added water rudders retraction mechanism
 * Saving state of switches is now optional
@@ -16,6 +16,7 @@ Version 2016.1
 * New sounds:
     - Rain (ambient and windshield) and thunderstorms
     - Wing damage
+    - Wheel damage
 * Windshield rain overhaul
 * Opening the baggage door displays a window which allows weight to be
   added. Baggage will be displayed if the weight is high enough
@@ -38,9 +39,10 @@ Version 2016.1
 * Fixed glass reflection in external views
 * Improved lighting, including better looking navigation lights (and
   depending on viewing angle) in ALS
-* Improved textures of instruments, primer, and cabin air/heat levers in cockpit
+* Improved textures of instruments, primer, cabin air/heat levers in cockpit, and flap lever
 * Smooth instead of instant animation of yoke, pedals, and parking brake
 * Added menu item to open a web panel in your browser, showing most instruments
+* Improved interior shadow and reflection cubes
 
 Version 3.6
 -----------

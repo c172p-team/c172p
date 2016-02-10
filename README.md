@@ -36,3 +36,7 @@ This aircraft was modified and updated in a joint effort by the following people
 * Jonathan Schellhase (dg-505): 3D modeling, exhaust smoke, checklists
 
 * Horacio: interior textures
+
+* D-ECHO: 3D model of pitot tube + cover
+
+* Jarl Arntzen (jarlarntzen): Interior shadow and reflection cubes

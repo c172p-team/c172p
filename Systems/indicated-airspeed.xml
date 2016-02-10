@@ -68,10 +68,19 @@
                         135   140   140   140
                         145   150   150   150
                         154   160   160   160
-                    </tableData> 
-                </table>  
+                    </tableData>
+                </table>
             </function>
-            <output>velocities/vias-kts</output>   
         </fcs_function>
+
+        <switch name="systems/asi/indicated-airspeed-serviceable">
+            <output>velocities/vias-kts</output>
+            <default value="systems/asi/indicated-airspeed"/>
+
+            <test logic="AND" value="0.0">
+                /sim/model/c172p/securing/pitot-cover-visible EQ 1
+            </test>
+        </switch>
+
     </channel>
 </system>

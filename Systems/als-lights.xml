@@ -236,13 +236,12 @@
     <filter>
         <name>Inst Red Factor</name>
         <type>gain</type>
-        <gain>.015</gain>
+        <gain>0.015</gain>
         <input>
             <expression>
                 <sum>
                     <property>/sim/model/c172p/lighting/comm0</property>
                     <property>/sim/model/c172p/lighting/comm1</property>
-                    <property>/instrumentation/adf[0]/power-btn</property>
                 </sum>
             </expression>
         </input>
@@ -254,13 +253,12 @@
     <filter>
         <name>Inst Blue Factor</name>
         <type>gain</type>
-        <gain>.0075</gain>
+        <gain>0.0075</gain>
         <input>
             <expression>
                 <sum>
                     <property>/sim/model/c172p/lighting/comm0</property>
                     <property>/sim/model/c172p/lighting/comm1</property>
-                    <property>/instrumentation/adf[0]/power-btn</property>
                 </sum>
             </expression>
         </input>
@@ -272,13 +270,12 @@
     <filter>
         <name>Inst Green Factor</name>
         <type>gain</type>
-        <gain>.0075</gain>
+        <gain>0.0075</gain>
         <input>
             <expression>
                 <sum>
                     <property>/sim/model/c172p/lighting/comm0</property>
                     <property>/sim/model/c172p/lighting/comm1</property>
-                    <property>/instrumentation/adf[0]/power-btn</property>
                 </sum>
             </expression>
         </input>
@@ -288,57 +285,16 @@
     </filter>
 
     <filter>
-        <name>Panel Red Factor</name>
+        <name>RGB Red Factor</name>
         <type>gain</type>
         <input>
             <property>/sim/model/c172p/lighting/ra-r</property>
             <scale>
                 <property>/sim/model/material/instruments/factor</property>
             </scale>
-        </input>
-        <output>
-            <property>/sim/model/c172p/lighting/panel-r-norm</property>
-        </output>
-    </filter>
-
-    <filter>
-        <name>Panel Green Factor</name>
-        <type>gain</type>
-        <input>
-            <property>/sim/model/c172p/lighting/ra-g</property>
-            <scale>
-                <property>/sim/model/material/instruments/factor</property>
-            </scale>
-        </input>
-        <output>
-            <property>/sim/model/c172p/lighting/panel-g-norm</property>
-        </output>
-    </filter>
-
-    <filter>
-        <name>Panel Blue Factor</name>
-        <type>gain</type>
-        <input>
-            <property>/sim/model/c172p/lighting/ra-b</property>
-            <scale>
-                <property>/sim/model/material/instruments/factor</property>
-            </scale>
-        </input>
-        <output>
-            <property>/sim/model/c172p/lighting/panel-b-norm</property>
-        </output>
-    </filter>
-
-    <filter>
-        <name>RGB Red Factor</name>
-        <type>gain</type>
-        <input>
-            <expression>
-                <sum>
-                    <property>/sim/model/c172p/lighting/panel-r-norm</property>
-                    <property>/sim/model/c172p/lighting/inst-r-norm</property>
-                </sum>
-            </expression>
+            <offset>
+                <property>/sim/model/c172p/lighting/inst-r-norm</property>
+            </offset>
         </input>
         <output>
             <property>/sim/model/c172p/lighting/rgb-ra-r-factor</property>
@@ -348,13 +304,14 @@
     <filter>
         <name>RGB Green Factor</name>
         <type>gain</type>
-       <input>
-            <expression>
-                <sum>
-                    <property>/sim/model/c172p/lighting/panel-g-norm</property>
-                    <property>/sim/model/c172p/lighting/inst-g-norm</property>
-                </sum>
-            </expression>
+        <input>
+            <property>/sim/model/c172p/lighting/ra-g</property>
+            <scale>
+                <property>/sim/model/material/instruments/factor</property>
+            </scale>
+            <offset>
+                <property>/sim/model/c172p/lighting/inst-g-norm</property>
+            </offset>
         </input>
         <output>
             <property>/sim/model/c172p/lighting/rgb-ra-g-factor</property>
@@ -364,13 +321,14 @@
     <filter>
         <name>RGB Blue Factor</name>
         <type>gain</type>
-       <input>
-            <expression>
-                <sum>
-                    <property>/sim/model/c172p/lighting/panel-b-norm</property>
-                    <property>/sim/model/c172p/lighting/inst-b-norm</property>
-                </sum>
-            </expression>
+        <input>
+            <property>/sim/model/c172p/lighting/ra-b</property>
+            <scale>
+                <property>/sim/model/material/instruments/factor</property>
+            </scale>
+            <offset>
+                <property>/sim/model/c172p/lighting/inst-b-norm</property>
+            </offset>
         </input>
         <output>
             <property>/sim/model/c172p/lighting/rgb-ra-b-factor</property>

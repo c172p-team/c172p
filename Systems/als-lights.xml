@@ -253,6 +253,26 @@
         </output>
     </filter>
 
+    <!-- Reduce the red glow from the digits of the radio stack
+         if the instrument lighting is at 100 %.
+    -->
+    <filter>
+        <name>Inst Gain As Function Of Instrument Lighting</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <table>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <entry><ind>0.0</ind><dep>1.0</dep></entry>
+                    <entry><ind>1.0</ind><dep>0.5</dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/inst-gain</property>
+        </output>
+    </filter>
+
     <filter>
         <name>RGB Red Factor</name>
         <type>gain</type>
@@ -263,6 +283,9 @@
             </scale>
             <offset>
                 <property>/sim/model/c172p/lighting/inst-r-norm</property>
+                <scale>
+                    <property>/sim/model/c172p/lighting/inst-gain</property>
+                </scale>
             </offset>
         </input>
         <output>
@@ -280,6 +303,9 @@
             </scale>
             <offset>
                 <property>/sim/model/c172p/lighting/inst-g-norm</property>
+                <scale>
+                    <property>/sim/model/c172p/lighting/inst-gain</property>
+                </scale>
             </offset>
         </input>
         <output>
@@ -297,6 +323,9 @@
             </scale>
             <offset>
                 <property>/sim/model/c172p/lighting/inst-b-norm</property>
+                <scale>
+                    <property>/sim/model/c172p/lighting/inst-gain</property>
+                </scale>
             </offset>
         </input>
         <output>

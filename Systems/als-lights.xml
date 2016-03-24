@@ -198,4 +198,139 @@
             <property>/sim/model/c172p/lighting/amphibious</property>
         </output>
     </logic>
+
+    <filter>
+        <name>Inst Red Factor</name>
+        <type>gain</type>
+        <gain>0.010</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>/sim/model/c172p/lighting/comm0</property>
+                    <property>/sim/model/c172p/lighting/comm1</property>
+                    <property>/instrumentation/adf[0]/operable</property>
+                </sum>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/inst-r-norm</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Inst Blue Factor</name>
+        <type>gain</type>
+        <gain>0.006</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>/sim/model/c172p/lighting/comm0</property>
+                    <property>/sim/model/c172p/lighting/comm1</property>
+                    <property>/instrumentation/adf[0]/operable</property>
+                </sum>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/inst-g-norm</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Inst Green Factor</name>
+        <type>gain</type>
+        <gain>0.006</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>/sim/model/c172p/lighting/comm0</property>
+                    <property>/sim/model/c172p/lighting/comm1</property>
+                    <property>/instrumentation/adf[0]/operable</property>
+                </sum>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/inst-b-norm</property>
+        </output>
+    </filter>
+
+    <!-- Reduce the red glow from the digits of the radio stack
+         if the instrument lighting is at 100 %.
+    -->
+    <filter>
+        <name>Inst Gain As Function Of Instrument Lighting</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <table>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <entry><ind>0.0</ind><dep>1.0</dep></entry>
+                    <entry><ind>1.0</ind><dep>0.5</dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/inst-gain</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>RGB Red Factor</name>
+        <type>gain</type>
+        <input>
+            <property>/sim/model/c172p/lighting/ra-r</property>
+            <scale>
+                <property>/sim/model/material/instruments/factor</property>
+            </scale>
+            <offset>
+                <property>/sim/model/c172p/lighting/inst-r-norm</property>
+                <scale>
+                    <property>/sim/model/c172p/lighting/inst-gain</property>
+                </scale>
+            </offset>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/rgb-ra-r-factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>RGB Green Factor</name>
+        <type>gain</type>
+        <input>
+            <property>/sim/model/c172p/lighting/ra-g</property>
+            <scale>
+                <property>/sim/model/material/instruments/factor</property>
+            </scale>
+            <offset>
+                <property>/sim/model/c172p/lighting/inst-g-norm</property>
+                <scale>
+                    <property>/sim/model/c172p/lighting/inst-gain</property>
+                </scale>
+            </offset>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/rgb-ra-g-factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>RGB Blue Factor</name>
+        <type>gain</type>
+        <input>
+            <property>/sim/model/c172p/lighting/ra-b</property>
+            <scale>
+                <property>/sim/model/material/instruments/factor</property>
+            </scale>
+            <offset>
+                <property>/sim/model/c172p/lighting/inst-b-norm</property>
+                <scale>
+                    <property>/sim/model/c172p/lighting/inst-gain</property>
+                </scale>
+            </offset>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/rgb-ra-b-factor</property>
+        </output>
+    </filter>
+
 </PropertyList>

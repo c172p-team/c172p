@@ -10,13 +10,15 @@
 
     <group>
         <layout>hbox</layout>
-
-        <empty><stretch>true</stretch></empty>
+        <empty>
+            <stretch>true</stretch>
+        </empty>
         <text>
             <label>Oil Level</label>
         </text>
-        <empty><stretch>true</stretch></empty>
-
+        <empty>
+            <stretch>true</stretch>
+        </empty>
         <button>
             <legend/>
             <key>Esc</key>
@@ -46,10 +48,17 @@
                 <max>7.0</max>
                 <live>true</live>
                 <enable>
-                    <less-than>
-                        <property>velocities/groundspeed-kt</property>
-                        <value>1.0</value>
-                    </less-than>
+                    <and>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                    </and>
                 </enable>
                 <property>/engines/active-engine/oil-level</property>
                 <binding>
@@ -79,17 +88,14 @@
         <layout>hbox</layout>
         <text>
             <visible>
-                <greater-than-equals>
-                    <property>velocities/groundspeed-kt</property>
-                    <value>1.0</value>
-                </greater-than-equals>
+                <property>/engines/active-engine/running</property>
             </visible>
             <color>
                 <red>0.9</red>
                 <green>0.1</green>
                 <blue>0.1</blue>
             </color>
-            <label>Dialog disabled when in movement</label>
+            <label>Slider disabled while engine is on</label>
         </text>
     </group>
     

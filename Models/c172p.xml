@@ -7922,6 +7922,9 @@
                 <condition>
                     <and>
                         <property>/engines/active-engine/oil_consumption_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
                         <equals>
                             <property>/controls/engines/active-engine</property>
                             <value>0</value>
@@ -7935,6 +7938,9 @@
                 <condition>
                     <and>
                         <property>/engines/active-engine/oil_consumption_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
                         <equals>
                             <property>/controls/engines/active-engine</property>
                             <value>1</value>
@@ -7944,11 +7950,28 @@
                 <command>dialog-show</command>
                 <dialog-name>c172p-oil-dialog-180</dialog-name>
             </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <property>/engines/active-engine/running</property>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check the oil level with the engine running!");
+                </script>
+            </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/engines/active-engine/oil_consumption_allowed</property>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                    </and>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>oil-sump</tooltip-id>

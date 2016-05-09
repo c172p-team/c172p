@@ -7925,6 +7925,12 @@
                         <not>
                             <property>/engines/active-engine/running</property>
                         </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
                         <equals>
                             <property>/controls/engines/active-engine</property>
                             <value>0</value>
@@ -7941,6 +7947,12 @@
                         <not>
                             <property>/engines/active-engine/running</property>
                         </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
                         <equals>
                             <property>/controls/engines/active-engine</property>
                             <value>1</value>
@@ -7954,12 +7966,37 @@
                 <condition>
                     <and>
                         <property>/engines/active-engine/running</property>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
                         <property>/engines/active-engine/oil_consumption_allowed</property>
                     </and>
                 </condition>
                 <command>nasal</command>
                 <script>
                     gui.popupTip("You can't check the oil level with the engine running!");
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <or>
+                                <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                                <property>/fdm/jsbsim/hydro/active-norm</property>
+                            </or>
+                        </not>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check the oil level while on the air!");
                 </script>
             </binding>
         </action>
@@ -7970,6 +8007,12 @@
                         <not>
                             <property>/engines/active-engine/running</property>
                         </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
                         <property>/engines/active-engine/oil_consumption_allowed</property>
                     </and>
                 </condition>

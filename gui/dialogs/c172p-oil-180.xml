@@ -41,7 +41,7 @@
             <layout>hbox</layout>
             <text>
                 <label>Oil Level:</label>
-                <halign>left</halign>
+                <halign>right</halign>
             </text>
             <slider>
                 <name>c172p-oil-slider-180</name>
@@ -86,17 +86,47 @@
     </group>
     
     <group>
-        <layout>hbox</layout>
+        <layout>table</layout>
         <text>
+            <row>0</row>
+            <col>0</col>
             <visible>
-                <property>/engines/active-engine/running</property>
+                <and>
+                    <or>
+                        <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                        <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                        <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                        <property>/fdm/jsbsim/hydro/active-norm</property>
+                    </or>
+                    <property>/engines/active-engine/running</property>
+                </and>
             </visible>
             <color>
                 <red>0.9</red>
                 <green>0.1</green>
                 <blue>0.1</blue>
             </color>
-            <label>Slider disabled while engine is running</label>
+            <label>Slider disabled while engine is running!</label>
+        </text>
+        <text>
+            <row>0</row>
+            <col>0</col>
+            <visible>
+                <not>
+                    <or>
+                        <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                        <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                        <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                        <property>/fdm/jsbsim/hydro/active-norm</property>
+                    </or>
+                </not>
+            </visible>
+            <color>
+                <red>0.9</red>
+                <green>0.1</green>
+                <blue>0.1</blue>
+            </color>
+            <label>Slider disabled while on the air!</label>
         </text>
     </group>
     

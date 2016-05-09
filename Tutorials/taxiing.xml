@@ -13,13 +13,13 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
     <audio-dir>Tutorials/taxiing</audio-dir>
     <timeofday>morning</timeofday>
     <presets>
-        <airport-id>KLVK</airport-id>
+        <airport-id>LEBL</airport-id>
         <on-ground>1</on-ground>
-        <runway>12</runway>
+        <runway>20</runway>
         <altitude-ft>-9999</altitude-ft>
-        <latitude-deg>37.6952</latitude-deg>
-        <longitude-deg>-121.8167</longitude-deg>
-        <heading-deg>175.0</heading-deg>
+        <latitude-deg>41.30660774</latitude-deg>
+        <longitude-deg>2.089508424</longitude-deg>
+        <heading-deg>70.0</heading-deg>
         <airspeed-kt>0</airspeed-kt>
         <glideslope-deg>0</glideslope-deg>
         <offset-azimuth-deg>0</offset-azimuth-deg>
@@ -28,40 +28,78 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
 
     <targets>
         <j1>
-            <!-- Turn right onto taxiway -->
-            <longitude-deg>-121.81664</longitude-deg>
-            <latitude-deg>37.6949</latitude-deg>
+            <!-- Turn right onto taxiway (heading 200)
+                 After this point follow the yellow line to
+                 the left towards the T intersection.
+            -->
+            <latitude-deg>41.30654875</latitude-deg>
+            <longitude-deg>2.089847887</longitude-deg>
         </j1>
         <j2>
-            <!-- Mention differential braking -->
-            <longitude-deg>-121.82258</longitude-deg>
-            <latitude-deg>37.6949</latitude-deg>
+            <!-- In front of the T intersection (heading 105).
+                 Pilot should turn left here.
+            -->
+            <latitude-deg>41.30617571</latitude-deg>
+            <longitude-deg>2.090139246</longitude-deg>
         </j2>
         <j3>
-            <!-- Left turn in taxiway -->
-            <longitude-deg>-121.8250</longitude-deg>
-            <latitude-deg>37.69498</latitude-deg>
+            <!-- We went left and now we are at a |- intersection (heading 20).
+                 We can go right to follow a curved taxiway immediately
+                 to runway 20 or we can go ahead and follow the taxiway
+                 to the very start of runway 20.
+
+                 We keep following the taxiway (*not* turning right)
+                 and taxi to a holding point in front of the start of
+                 the runway.
+            -->
+            <latitude-deg>41.30641215</latitude-deg>
+            <longitude-deg>2.090722985</longitude-deg>
         </j3>
         <a1>
-            <!-- Right turn onto taxiway A -->
-            <longitude-deg>-121.8251</longitude-deg>
-            <latitude-deg>37.694616</latitude-deg>
+            <!-- At the holding point (heading 65) -->
+            <latitude-deg>41.30904159</latitude-deg>
+            <longitude-deg>2.093153369</longitude-deg>
         </a1>
         <a2>
-            <!-- Runup aread -->
-            <longitude-deg>-121.8294</longitude-deg>
-            <latitude-deg>37.69459</latitude-deg>
+            <!-- On top of the big numbers "20" on the runway (heading 200) -->
+            <latitude-deg>41.30874899</latitude-deg>
+            <longitude-deg>2.094431857</longitude-deg>
         </a2>
     </targets>
 
-    <init>
+    <step>
+        <message></message>
+        <set>
+            <property>/instrumentation/adf/frequencies/selected-khz</property>
+            <value>340</value>
+        </set>
+        <set>
+            <property>/environment/weather-scenario</property>
+            <value>Fair weather</value>
+        </set>
         <set>
             <property>/sim/model/c172p/brake-parking</property>
             <value>1</value>
         </set>
         <set>
+            <property>/controls/switches/master-bat</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-alt</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-avionics</property>
+            <value>true</value>
+        </set>
+        <set>
             <property>/controls/flight/flaps</property>
             <value>0.0</value>
+        </set>
+        <set>
+            <property>/controls/flight/elevator-trim</property>
+            <value>0.17</value>
         </set>
         <set>
             <property>/controls/switches/magnetos</property>
@@ -72,53 +110,38 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
             <value>0.2</value>
         </set>
         <set>
-            <property>/controls/switches/starter</property>
-            <value>true</value>
+            <property>/controls/engines/engine/primer</property>
+            <value>4</value>
         </set>
-        <set>
-            <property>/instrumentation/adf/frequencies/selected-khz</property>
-            <value>340</value>
-        </set>
-        <set>
-            <property>/environment/weather-scenario</property>
-            <value>Fair weather</value>
-        </set>
-        <set>
-            <property>/controls/flight/elevator-trim</property>
-            <value>0.17</value>
-        </set>
-    </init>
+        <nasal>
+            <script>
+                setprop("/controls/engines/current-engine/mixture", 1.0);
+                setprop("/controls/switches/starter", 1);
+            </script>
+        </nasal>
+    </step>
 
     <step>
         <message>In this lesson we'll taxi the aircraft from its parking position infront of the FBO,
        along taxiways Juliet and Alpha to the run-up area near runway 07L.</message>
         <nasal>
             <script>
-                # Script to simulate holding down the starter button until the engine starts
-                var starter = func() {
-                setprop("/controls/switches/starter", 1);
-                if (!getprop("/engines/active-engine/running")) {
-                    settimer(starter, 0);
-                }
-            };
+                var listeners = std.Vector.new();
 
-            # The FDM resets the starter property on each FDM cycle.  By effectively starting
-            # a number of threads to continually keep setting the starter to true, we can
-            # get around this and give the engine the opportunity to catch.
-            starter();
-            starter();
-            starter();
-            starter();
-            starter();
+                listeners.append(setlistener("/engines/active-engine/running", func (node) {
+                    if (node.getBoolValue()) {
+                        setprop("/controls/switches/starter", 0);
+                        foreach (var listener; listeners.vector) {
+                            removelistener(listener);
+                        }
+                        listeners.clear();
+                    }
+                }, 1, 0));
             </script>
         </nasal>
     </step>
 
     <step>
-        <set>
-            <property>/controls/switches/starter</property>
-            <value>false</value>
-        </set>
         <message>I've already started the engine. Press Shift-B to release the parking brake. Throttle up to about
       20% to move forward slightly, then hold b to check that the normal brakes work.</message>
 
@@ -210,7 +233,7 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
     </step>
 
     <step>
-        <message>Release the brakes and taxi forwards.  You may need to apply a little throttle to get going. Make a right turn onto taxiway Juliet.</message>
+        <message>Release the brakes and taxi forwards.  You may need to apply a little throttle to get going. Make a right turn onto the small taxiway that leads to a T intersection.</message>
         <wait>5</wait>
 
         <error>
@@ -255,11 +278,11 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
     </step>
 
     <step>
-        <message>Continue taxiing along taxiway Juliet. Keep the nosewheel on the yellow line. Don't allow the aircraft to go too fast - use b to brake if you need to. </message>
+        <message>Continue taxiing along the taxiway. Keep the nosewheel on the yellow line. Don't allow the aircraft to go too fast - use b to brake if you need to. </message>
 
         <error>
             <message>
-        You're straying off the taxiway. Keep heading on taxiway Juliet, keeping your nosewheel on the yellow line.
+        You're straying off the taxiway. Keep heading on the taxiway, keeping your nosewheel on the yellow line.
             </message>
             <condition>
                 <or>

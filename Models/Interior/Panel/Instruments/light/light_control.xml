@@ -7,33 +7,71 @@
 
  <effect>
   <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
-   <object-name>LightKnob</object-name>
+   <object-name>radio-light-knob</object-name>
+   <object-name>panel-light-knob</object-name>
  </effect>
  
-<!--     Panel/radio light control    -->
+ <!-- Panel light knob -->
  <animation>
   <type>knob</type>
-  <object-name>LightKnob</object-name>
-  
-  <visible>true</visible>
+  <object-name>panel-light-knob</object-name>
+  <property>controls/lighting/instruments-norm</property>
+  <factor>180</factor>
+  <axis>
+    <x>-1</x>
+  </axis>
+
   <action>
     <repeatable>true</repeatable>
     <binding>
       <command>property-adjust</command>
       <property>controls/lighting/instruments-norm</property>
-      <factor>0.1</factor>
+      <factor>0.05</factor>
       <min>0</min>
       <max>1.0</max>
       <wrap>0</wrap>
     </binding>
   </action>
-  
+
   <hovered>
     <binding>
       <command>set-tooltip</command>
       <tooltip-id>lighting-brightness</tooltip-id>
       <label>Instrument Lighting: %3d%%</label>
       <property>controls/lighting/instruments-norm</property>
+      <mapping>percent</mapping>
+    </binding>
+  </hovered>
+ </animation>
+
+ <!-- Radio light knob -->
+ <animation>
+  <type>knob</type>
+  <object-name>radio-light-knob</object-name>
+  <property>controls/lighting/radio-norm</property>
+  <factor>180</factor>
+  <axis>
+    <x>-1</x>
+  </axis>
+
+  <action>
+    <repeatable>true</repeatable>
+    <binding>
+      <command>property-adjust</command>
+      <property>controls/lighting/radio-norm</property>
+      <factor>0.05</factor>
+      <min>0</min>
+      <max>1.0</max>
+      <wrap>0</wrap>
+    </binding>
+  </action>
+
+  <hovered>
+    <binding>
+      <command>set-tooltip</command>
+      <tooltip-id>lighting-brightness</tooltip-id>
+      <label>Radio Lighting: %3d%%</label>
+      <property>controls/lighting/radio-norm</property>
       <mapping>percent</mapping>
     </binding>
   </hovered>

@@ -44,9 +44,31 @@
         <type>select</type>
         <object-name>indicator</object-name>
         <condition>
-            <property>/instrumentation/adf[0]/operable</property>
+            <greater-than>
+                <property>/sim/model/c172p/lighting/adf</property>
+                <value>0.0</value>
+            </greater-than>
         </condition>
     </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>indicator</object-name>
+        <condition>
+            <not><property>sim/rendering/rembrandt/enabled</property></not>
+        </condition>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>/sim/model/c172p/lighting/adf</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <property>/sim/model/c172p/lighting/adf</property>
+    </animation>
+
     <animation>
         <type>noshadow</type>
     </animation>

@@ -216,34 +216,32 @@
     <type>select</type>
     <object-name>CommUse</object-name>
     <object-name>CommStby</object-name>
-    <condition>
-      <!--and>
-        <property alias="../../../../params/comm-serviceable"/>
-        <property alias="../../../../params/power-comm"/>
-        <greater-than>
-          <property>systems/electrical/outputs/comm[1]</property>
-          <value>6.0</value>
-        </greater-than>
-      </and-->
-        <property>/sim/model/c172p/lighting/comm1</property>
-    </condition>
-  </animation>
-
-  <animation>
-    <type>select</type>
     <object-name>NavUse</object-name>
     <object-name>NavStby</object-name>
     <condition>
-      <and>
-        <property alias="../../../../params/nav-serviceable"/>
-        <property alias="../../../../params/power-comm"/>
-        <greater-than>
-          <property>systems/electrical/outputs/comm[1]</property>
-          <value>6.0</value>
-        </greater-than>
-      </and>
+       <greater-than>
+         <property>/sim/model/c172p/lighting/comm1</property>
+         <value>0.0</value>
+       </greater-than>
     </condition>
   </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>CommUse</object-name>
+        <object-name>CommStby</object-name>
+        <object-name>NavUse</object-name>
+        <object-name>NavStby</object-name>
+        <condition>
+            <not><property>sim/rendering/rembrandt/enabled</property></not>
+        </condition>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>/sim/model/c172p/lighting/comm1</factor-prop>
+        </emission>
+    </animation>
 
   <effect>
     <inherits-from>Effects/model-transparent</inherits-from>

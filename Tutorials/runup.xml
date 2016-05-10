@@ -13,43 +13,40 @@ For more information on the before takeoff checklist, see Section 2-11 of the FA
     <audio-dir>Tutorials/startup</audio-dir>
     <timeofday>morning</timeofday>
     <presets>
-        <airport-id>KLVK</airport-id>
+        <airport-id>LEBL</airport-id>
         <on-ground>1</on-ground>
-        <runway>12</runway>
+        <runway>20</runway>
         <altitude-ft>-9999</altitude-ft>
-        <latitude-deg>37.6946</latitude-deg>
-        <longitude-deg>-121.82949</longitude-deg>
-        <heading-deg>80.0</heading-deg>
+        <latitude-deg>41.30660774</latitude-deg>
+        <longitude-deg>2.089508424</longitude-deg>
+        <heading-deg>70.0</heading-deg>
         <airspeed-kt>0</airspeed-kt>
         <glideslope-deg>0</glideslope-deg>
         <offset-azimuth-deg>0</offset-azimuth-deg>
         <offset-distance-nm>0</offset-distance-nm>
     </presets>
 
-    <init>
+    <step>
+        <message></message>
         <set>
             <property>/sim/model/c172p/brake-parking</property>
             <value>1</value>
         </set>
         <set>
+            <property>/controls/switches/master-bat</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-alt</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-avionics</property>
+            <value>true</value>
+        </set>
+        <set>
             <property>/controls/flight/flaps</property>
             <value>0.0</value>
-        </set>
-        <set>
-            <property>/controls/switches/magnetos</property>
-            <value>3</value>
-        </set>
-        <set>
-            <property>/controls/engines/current-engine/throttle</property>
-            <value>0.07</value>
-        </set>
-        <set>
-            <property>/controls/switches/starter</property>
-            <value>true</value>
-        </set>
-        <set>
-            <property>/engines/active-engine/running</property>
-            <value>true</value>
         </set>
         <set>
             <property>/instrumentation/adf/frequencies/selected-khz</property>
@@ -63,37 +60,46 @@ For more information on the before takeoff checklist, see Section 2-11 of the FA
             <property>/controls/flight/elevator-trim</property>
             <value>0.17</value>
         </set>
-    </init>
-
-    <step>
-        <message>In this lesson we'll cover the pre-takeoff checks.</message>
+        <set>
+            <property>/controls/switches/magnetos</property>
+            <value>3</value>
+        </set>
+        <set>
+            <property>/controls/engines/current-engine/throttle</property>
+            <value>0.2</value>
+        </set>
+        <set>
+            <property>/controls/engines/engine/primer</property>
+            <value>4</value>
+        </set>
         <nasal>
             <script>
-                # Script to simulate holding down the starter button until the engine starts
-                var starter = func() {
-                    setprop("/controls/switches/starter", 1);
-                    if (!getprop("/engines/active-engine/running")) {
-                        settimer(starter, 0);
-                    }
-                };
-
-                # The FDM resets the starter property on each FDM cycle.  By effectively starting
-                # a number of threads to continually keep setting the starter to true, we can
-                # get around this and give the engine the opportunity to catch.
-                starter();
-                starter();
-                starter();
-                starter();
-                starter();
+                setprop("/controls/engines/current-engine/mixture", 1.0);
+                setprop("/controls/switches/starter", 1);
             </script>
         </nasal>
     </step>
 
     <step>
-        <set>
-            <property>/controls/switches/starter</property>
-            <value>false</value>
-        </set>
+        <message>In this lesson we'll cover the pre-takeoff checks.</message>
+        <nasal>
+            <script>
+                var listeners = std.Vector.new();
+
+                listeners.append(setlistener("/engines/active-engine/running", func (node) {
+                    if (node.getBoolValue()) {
+                        setprop("/controls/switches/starter", 0);
+                        foreach (var listener; listeners.vector) {
+                            removelistener(listener);
+                        }
+                        listeners.clear();
+                    }
+                }, 1, 0));
+            </script>
+        </nasal>
+    </step>
+
+    <step>
         <message>You can access the pre-takeoff checklist by selecting Help-&gt;Checklists from the menu.</message>
         <wait>10</wait>
     </step>

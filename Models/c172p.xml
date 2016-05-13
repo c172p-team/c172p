@@ -437,6 +437,9 @@
         <object-name>rightdoor</object-name>
         <object-name>Spinner</object-name>
         <object-name>Propeller</object-name>
+        <object-name>NoseWheel</object-name>
+        <object-name>LeftWheel</object-name>
+        <object-name>RightWheel</object-name>
     </effect>
     <effect>
         <inherits-from>Effects/exterior/bumpspec-tail</inherits-from>
@@ -7922,6 +7925,15 @@
                 <condition>
                     <and>
                         <property>/engines/active-engine/oil_consumption_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
                         <equals>
                             <property>/controls/engines/active-engine</property>
                             <value>0</value>
@@ -7935,6 +7947,15 @@
                 <condition>
                     <and>
                         <property>/engines/active-engine/oil_consumption_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
                         <equals>
                             <property>/controls/engines/active-engine</property>
                             <value>1</value>
@@ -7944,11 +7965,59 @@
                 <command>dialog-show</command>
                 <dialog-name>c172p-oil-dialog-180</dialog-name>
             </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <property>/engines/active-engine/running</property>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check the oil level with the engine running!");
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <or>
+                                <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                                <property>/fdm/jsbsim/hydro/active-norm</property>
+                            </or>
+                        </not>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check the oil level while in the air!");
+                </script>
+            </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/engines/active-engine/oil_consumption_allowed</property>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                    </and>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>oil-sump</tooltip-id>

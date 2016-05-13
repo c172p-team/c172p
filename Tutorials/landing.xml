@@ -6,21 +6,21 @@
 
     <description>Landings are not optional...
 
-Land the aircraft from an altitude of 1000 ft on runway 25R at LEBL on a calm morning.
+Land the aircraft from an altitude of 1700 ft on runway 13 at Sabadell (LELL) on a calm morning.
 
 Unlike normal flight, when landing you use power alone to control descent rate. The runway should stay in the same position throughout the descent - about a third of the distance above the glare-shield.
 
-LEBL has a VASI to the left and right of runway 25R, a series of lights designed to help you judge your approach. Simply put, the VASI will display red lights if you are descending too fast (indicating that you need to increase power), and white lights if you are too high (indicating that you need to decrease power). If you are descending at the right angle, you will see three red lights and three white.
+LELL has a VASI to the left and right of runway 13, a series of lights designed to help you judge your approach. Simply put, the VASI will display red lights if you are descending too fast (indicating that you need to increase power), and white lights if you are too high (indicating that you need to decrease power). If you are descending at the right angle, you will see three red lights and three white.
 
-You start the tutorial cruising at around 1000 ft and 90 kts. To begin your descent, you will need to reduce power and drop one notch flaps. You are aiming to approach at 80 kts and 300 fpm. As you get closer, you will need to reduce power further and drop more flaps, aiming to touch down "on the numbers" at 65 kts.
+You start the tutorial cruising at around 1000 ft and 90 kts. To begin your descent, you will need to reduce power and drop one notch flaps. You are aiming to approach at 60-70 kts and 300 fpm. As you get closer, you will need to reduce power further and drop more flaps, aiming to touch down "on the numbers" at 65 kts.
   </description>
 
-    <timeofday>afternoon</timeofday>
+    <timeofday>morning</timeofday>
     <presets>
-        <airport-id>LEBL</airport-id>
+        <airport-id>LELL</airport-id>
         <on-ground>0</on-ground>
-        <runway>25R</runway>
-        <altitude-ft>1000</altitude-ft>
+        <runway>13</runway>
+        <altitude-ft>1700</altitude-ft>
         <latitude-deg>-9999</latitude-deg>
         <longitude-deg>-9999</longitude-deg>
         <!--    <heading-deg>300.0</heading-deg> -->
@@ -34,10 +34,37 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
     </presets>
 
     <step>
-        <message></message>
+        <set>
+            <property>/sim/model/c172p/securing/chock</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/tiedownL-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/tiedownR-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/tiedownT-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/flight/elevator-trim</property>
+            <value>0.05</value>
+        </set>
         <set>
             <property>/environment/weather-scenario</property>
             <value>Fair weather</value>
+        </set>
+        <set>
+                <property>instrumentation/altimeter/setting-inhg</property>
+            <value>29.95</value>
         </set>
         <set>
             <property>sim/model/c172p/engine_flag_0</property>
@@ -76,16 +103,36 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
             <value>0</value>
         </set>
         <set>
-            <property>/instrumentation/adf/frequencies/selected-khz</property>
-            <value>340</value>
+            <property>/controls/switches/starter</property>
+            <value>true</value>
         </set>
         <set>
-            <property>/controls/flight/flaps</property>
-            <value>0.0</value>
+            <property>/instrumentation/adf/frequencies/selected-khz</property>
+            <value>367</value>
+        </set>
+        <set>
+            <property>/environment/weather-scenario</property>
+            <value>Fair weather</value>
         </set>
         <set>
             <property>/sim/model/c172p/brake-parking</property>
             <value>0</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-bat</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-alt</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-avionics</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/flight/flaps</property>
+            <value>0.0</value>
         </set>
         <set>
             <property>/controls/switches/magnetos</property>
@@ -96,40 +143,56 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
             <value>0.2</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/mixture</property>
-            <value>1.0</value>
-        </set>
-        <set>
             <property>/controls/engines/engine/primer</property>
             <value>4</value>
         </set>
-        <set>
-            <property>/controls/switches/starter</property>
-            <value>true</value>
-        </set>
+        <nasal>
+            <script>
+                setprop("/controls/engines/current-engine/mixture", 1.0);
+                setprop("/controls/switches/starter", 1);
+            </script>
+        </nasal>
+        <message></message>
+        <view>
+            <heading-offset-deg>0.0</heading-offset-deg>
+            <pitch-offset-deg>-12</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.21</x-offset-m>
+            <y-offset-m>0.19</y-offset-m>
+            <field-of-view>73.6</field-of-view>
+        </view>
+        <wait>1</wait>
     </step>
 
     <step>
         <message></message>
-        <set>
-            <property>/controls/switches/starter</property>
-            <value>false</value>
-        </set>
+        <nasal>
+            <script>
+                var listeners = std.Vector.new();
+
+                listeners.append(setlistener("/engines/active-engine/running", func (node) {
+                    if (node.getBoolValue()) {
+                        setprop("/controls/switches/starter", 0);
+                        foreach (var listener; listeners.vector) {
+                            removelistener(listener);
+                        }
+                        listeners.clear();
+                    }
+                }, 1, 0));
+            </script>
+        </nasal>
         <set>
             <property>/controls/engines/current-engine/throttle</property>
-            <value>0.4</value>
+            <value>0.5</value>
         </set>
+        <wait>1</wait>
     </step>
 
     <step>
         <message>The runway is straight ahead. Reduce throttle to 50% and apply one degree of flaps.
       Stay in line with the runway about a hands-width above the glare-shield.
-      You are aiming to descend at around 500 feet per minute and 80 knots.
+      You are aiming to descend at around 300 feet per minute and 60 knots.
         </message>
-        <set>
-            <property>/controls/flight/elevator-trim</property>
-            <value>0.11</value>
-        </set>
 
         <error>
             <message>You are going too fast. Reduce power and pitch up to reduce your airspeed to 80 knots.</message>
@@ -163,10 +226,10 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
 
         <exit>
             <condition>
-                <greater-than>
+                <less-than>
                     <property>/position/latitude-deg</property>
-                    <value>37.48</value>
-                </greater-than>
+                    <value>41.539</value>
+                </less-than>
             </condition>
         </exit>
     </step>
@@ -193,10 +256,10 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
 
         <exit>
             <condition>
-                <greater-than>
+                <less-than>
                     <property>/position/latitude-deg</property>
-                    <value>37.495</value>
-                </greater-than>
+                    <value>41.531</value>
+                </less-than>
             </condition>
         </exit>
     </step>
@@ -220,16 +283,27 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
             <condition>
                 <greater-than>
                     <property>/position/latitude-deg</property>
-                    <value>37.506</value>
+                    <value>41.528</value>
                 </greater-than>
             </condition>
         </exit>
     </step>
 
     <step>
-        <message>Reduce power to idle. When you are about 10 feet above the ground,
-      smoothly bring the nose up so it is level with the horizon.
+        <message>Adjust power and pitch, so that you descend with about 65 knots. When you are about 10 feet above the ground,
+      smoothly bring the nose up so it is level with the horizon and set throttle to idle.
         </message>
+        
+        <error>
+            <message>You're going too fast! Reduce speed!</message>
+            <condition>
+                <greater-than>
+                    <property>/velocities/airspeed-kt</property>
+                    <value>90</value>
+                </greater-than>
+            </condition>
+        </error>
+
         <exit>
             <condition>
                 <less-than>
@@ -266,8 +340,20 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
         </exit>
     </step>
 
-    <end>
+    <step>
+        <message>Set the parking brake with Shift-B.</message>
+        <exit>
+            <condition>
+                <equals>
+                    <property>/sim/model/c172p/brake-parking</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
         <message>Congratulations on a successful landing.</message>
-    </end>
+    </step>
 
 </PropertyList>

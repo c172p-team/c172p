@@ -8,25 +8,23 @@
 The traffic pattern is used as a method to stop aircraft crashing into each other when near an airport.
     
 The pattern is a rectangular flight path with the runway forming one of the long sides.
+
+We will be flying at Sabadell (LELL) - a small airport in the north of Barcelona, from runway 13, on a clear day.
     
 It consists of the following sections:
-- Upwind.    Once we've taken off, we flying straight ahead on the runway heading to 500ft.
-- Crosswind. At 500ft, we turn left 90 degrees and continue climbing until we get to 1000ft.
-- Downwind.  When we reach 1000ft, we turn left again so we are parallel to the runway, reduce power and fly at 100kts. When we are "abeam the numbers" (opposite the number on the runway we intend to land on), we reduce power to 50%, drop one notch of flat and descend 100ft at 90kts.
-- Base.      We now make another left-hand turn, add another notch of flaps, and let speed continue to dissipate.
-- Final.     At the correct moment (based on visual queues),we make a final left turn to line up with the runway. We drop our final lot of flaps, descend and land.
-    
-As before, we'll be flying at KHAF, on runway 12, on a clear day.
-    
-Runway 12 does not have a VASI. Instead you will need to judge whether you are too low or too high by the view of the runway. If the runway is going away from you, you will land short. If the runway is coming towards you, you will over-shoot. Remember, you should aim to have the runway about a third of the way above the glare-shield, and adjust your rate of descent using power.
+- Upwind.    Once we've taken off, we flying straight ahead on the runway heading (130 deg) to 1000 ft with.
+- Crosswind. At 500 ft, we turn left 90 degrees to 40 deg and continue climbing until we get to 1500 ft.
+- Downwind.  When we reach 1500 ft, we turn left again so we are parallel to the runway, which is 310 deg, reduce power and fly at 100 kts. When we are "abeam the numbers" (opposite the number on the runway we intend to land on), we reduce power to 60 %, drop one notch of flat and descend 100 ft at 90 kts.
+- Base.      We now make another left-hand turn to 220 deg, add another notch of flaps, and let speed continue to dissipate to 70 knots. Because of the hills around Sabadell we need to maintain a safe altitude above the ground, resulting in a quite high and steep approach.
+- Final.     At the correct moment (based on visual queues), we make a final left turn to line up with the runway. Maks sure to stay a safe altitude above ground! We drop our final lot of flaps, descend and land.
     </description>
 
     <audio-dir>Tutorials/pattern</audio-dir>
-    <timeofday>morning</timeofday>
+    <timeofday>noon</timeofday>
     <presets>
-        <airport-id>KHAF</airport-id>
+        <airport-id>LELL</airport-id>
         <on-ground>1</on-ground>
-        <runway>12</runway>
+        <runway>13</runway>
         <altitude-ft>-9999</altitude-ft>
         <latitude-deg>-9999</latitude-deg>
         <longitude-deg>-9999</longitude-deg>
@@ -37,7 +35,63 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
         <offset-distance-nm>0</offset-distance-nm>
     </presets>
 
-    <init>
+    <step>
+        <set>
+            <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/sim/model/door-positions/leftDoor/position-norm</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/sim/model/door-positions/rightDoor/position-norm</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/chock</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/tiedownL-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/tiedownR-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/tiedownT-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/engine_flag_0</property>
+            <value>1</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/engine_flag_1</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/controls/engines/active-engine</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>instrumentation/altimeter/setting-inhg</property>
+            <value>29.95</value>
+        </set>
+        <set>
+            <property>/controls/engines/engine/primer</property>
+            <value>4</value>
+        </set>
+        <set>
+            <property>/controls/engines/current-engine/throttle</property>
+            <value>0.2</value>
+        </set>
         <set>
             <property>/controls/flight/flaps</property>
             <value>0.0</value>
@@ -51,16 +105,8 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
             <value>3</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
-            <value>0.5</value>
-        </set>
-        <set>
-            <property>/controls/switches/starter</property>
-            <value>true</value>
-        </set>
-        <set>
             <property>/instrumentation/adf/frequencies/selected-khz</property>
-            <value>340</value>
+            <value>367</value>
         </set>
         <set>
             <property>/environment/weather-scenario</property>
@@ -70,20 +116,42 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
             <property>/controls/flight/elevator-trim</property>
             <value>0.17</value>
         </set>
-    </init>
+        <nasal>
+            <script>
+                setprop("/controls/engines/current-engine/mixture", 1.0);
+                setprop("/controls/switches/starter", 1);
+            </script>
+        </nasal>
+        <message></message>
+        <view>
+            <heading-offset-deg>0.0</heading-offset-deg>
+            <pitch-offset-deg>-12</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.21</x-offset-m>
+            <y-offset-m>0.19</y-offset-m>
+            <field-of-view>73.6</field-of-view>
+        </view>
+    </step>
 
     <step>
         <message>Release the parking brakes, smoothly apply full power and start your take-off.</message>
 
-        <error>
-            <message>Apply full throttle for take-off</message>
-            <condition>
-                <less-than>
-                    <property>/controls/engines/current-engine/throttle</property>
-                    <value>0.95</value>
-                </less-than>
-            </condition>
-        </error>
+        <nasal>
+            <script>
+                var listeners = std.Vector.new();
+
+                listeners.append(setlistener("/engines/active-engine/running", func (node) {
+                    if (node.getBoolValue()) {
+                        setprop("/controls/switches/starter", 0);
+                        foreach (var listener; listeners.vector) {
+                            removelistener(listener);
+                        }
+                        listeners.clear();
+                    }
+                }, 1, 0));
+            </script>
+        </nasal>
+
         <error>
             <message>Release the parking brake using Shift B</message>
             <condition>
@@ -91,6 +159,15 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
                     <property>/sim/model/c172p/brake-parking</property>
                     <value>1</value>
                 </equals>
+            </condition>
+        </error>
+        <error>
+            <message>Apply full throttle for take-off</message>
+            <condition>
+                <less-than>
+                    <property>/controls/engines/current-engine/throttle</property>
+                    <value>0.95</value>
+                </less-than>
             </condition>
         </error>
 
@@ -123,7 +200,7 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
     </step>
 
     <step>
-        <message>Take-off at 65 knots and climb straight out on heading 120 at 600 feet per minute (about 70 knots).</message>
+        <message>Take-off at 65 knots and climb straight out on heading 130 at 600 feet per minute (about 70 knots).</message>
         <exit>
             <condition>
                 <greater-than>
@@ -135,7 +212,7 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
     </step>
 
     <step>
-        <message>Continue your climb on heading 120 at 600 feet per minute to 500 feet.</message>
+        <message>Continue your climb on heading 130 at 600 feet per minute to 1000 feet.</message>
 
         <error>
             <message>Your climb angle is too shallow - raise the nose slightly to increase your climb rate.</message>
@@ -156,20 +233,20 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
             </condition>
         </error>
         <error>
-            <message>You are heading too far left, Turn right slightly to heading 120.</message>
+            <message>You are heading too far left, Turn right slightly to heading 130.</message>
             <condition>
                 <less-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>110</value>
+                    <value>120</value>
                 </less-than>
             </condition>
         </error>
         <error>
-            <message>You are heading too far right, Turn left slightly to heading 120.</message>
+            <message>You are heading too far right, Turn left slightly to heading 130.</message>
             <condition>
                 <greater-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>130</value>
+                    <value>140</value>
                 </greater-than>
             </condition>
         </error>
@@ -178,7 +255,7 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
             <condition>
                 <less-than>
                     <property>/velocities/airspeed-kt</property>
-                    <value>69</value>
+                    <value>60</value>
                 </less-than>
             </condition>
         </error>
@@ -186,94 +263,163 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
         <exit>
             <condition>
                 <greater-than>
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>500</value>
-                </greater-than>
-            </condition>
-        </exit>
-    </step>
-
-    <step>
-        <message>Make a left turn to crosswind (heading 030) and continue climbing to 1000 feet.</message>
-
-        <exit>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        <value>900</value>
-                    </greater-than>
-                    <greater-than>
-                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>020</value>
-                    </greater-than>
-                    <less-than>
-                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>040</value>
-                    </less-than>
-                </and>
-            </condition>
-        </exit>
-    </step>
-
-    <step>
-        <message>Level off at 1000 feet and make another left turn to downwind (heading 300).</message>
-
-        <exit>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        <value>950</value>
-                    </greater-than>
-                    <greater-than>
-                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>290</value>
-                    </greater-than>
-                    <less-than>
-                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>310</value>
-                    </less-than>
-                </and>
-            </condition>
-        </exit>
-    </step>
-
-    <step>
-        <message>Reduce power to 60%, and trim for level flight. Continue flying parallel to the runway.</message>
-        <error>
-            <message>You are heading too far left, Turn right slightly to heading 300.</message>
-            <condition>
-                <less-than>
-                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>290</value>
-                </less-than>
-            </condition>
-        </error>
-        <error>
-            <message>You are heading too far right, Turn left slightly to heading 300.</message>
-            <condition>
-                <greater-than>
-                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>310</value>
-                </greater-than>
-            </condition>
-        </error>
-        <error>
-            <message>You are too high. Pattern altitude is 1000 feet.</message>
-            <condition>
-                <greater-than>
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>1100</value>
-                </greater-than>
-            </condition>
-        </error>
-        <error>
-            <message>You are too low. Pattern altitude is 1000 feet.</message>
-            <condition>
-                <less-than>
                     <property>/instrumentation/altimeter/indicated-altitude-ft</property>
                     <value>900</value>
+                </greater-than>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Make a left turn to crosswind (heading 040) and continue climbing to 1500 feet.</message>
+
+        <error>
+            <message>You're too far right. Turn left to heading 040!</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>50</value>
+                </greater-than>
+            </condition>
+        </error>
+
+        <error>
+            <message>You're too far left. Turn right to heading 040!</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>30</value>
+                </less-than>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>1400</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>030</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>050</value>
+                    </less-than>
+                </and>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Level off the aircraft at 1500 ft and maintain heading and altitude for a few more seconds</message>
+        <wait>10</wait>
+    </step>
+
+    <step>
+        <message>Now make another 90 degree left turn to downwind (heading 310).</message>
+
+        <error>
+            <message>You're getting too low. Climb to 1500 ft!</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>1400</value>
+                </less-than>
+            </condition>
+        </error>
+
+        <error>
+            <message>You're getting too high. Descent to 1500 ft!</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>1600</value>
+                </greater-than>
+            </condition>
+        </error>
+
+        <error>
+            <message>You're too far right. Turn left to heading 310!</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>320</value>
+                </greater-than>
+            </condition>
+        </error>
+
+        <error>
+            <message>You're too far left. Turn right to heading 310!</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>300</value>
+                </less-than>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>1600</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>1400</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>300</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>320</value>
+                    </less-than>
+                </and>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Reduce power to 80-85%, and trim for level flight. Continue flying parallel to the runway.</message>
+        <error>
+            <message>You are heading too far left, Turn right slightly to heading 310.</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>300</value>
+                </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are heading too far right, Turn left slightly to heading 310.</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>320</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are too high. Pattern altitude is 1500 feet.</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>1600</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are too low. Pattern altitude is 1500 feet.</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>1400</value>
                 </less-than>
             </condition>
         </error>
@@ -282,14 +428,14 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
             <condition>
                 <greater-than>
                     <property>/position/latitude-deg</property>
-                    <value>37.528</value>
+                    <value>41.544</value>
                 </greater-than>
             </condition>
         </exit>
     </step>
 
     <step>
-        <message>You are now opposite the end of the runway. Reduce power to 50%, set flaps to 10.</message>
+        <message>You are now opposite the end of the runway. Reduce power to 70%, set flaps to 10.</message>
 
         <exit>
             <condition>
@@ -300,7 +446,7 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
                     </greater-than>
                     <less-than>
                         <property>/controls/engines/current-engine/throttle</property>
-                        <value>0.55</value>
+                        <value>0.75</value>
                     </less-than>
                 </and>
             </condition>
@@ -308,14 +454,14 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
     </step>
 
     <step>
-        <message>Let the aircraft descend and slow. Continue flying a heading of 300.</message>
+        <message>Let the aircraft descend and slow down. Continue flying a heading of 310.</message>
 
         <error>
             <message>You are heading too far left, Turn right slightly to heading 300.</message>
             <condition>
                 <less-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>290</value>
+                    <value>300</value>
                 </less-than>
             </condition>
         </error>
@@ -324,16 +470,16 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
             <condition>
                 <greater-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>310</value>
+                    <value>320</value>
                 </greater-than>
             </condition>
         </error>
         <error>
-            <message>You are too high. You should be descending to around 850 feet.</message>
+            <message>You are too high. You should be descending to around 1300 feet.</message>
             <condition>
                 <greater-than>
                     <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>1100</value>
+                    <value>1350</value>
                 </greater-than>
             </condition>
         </error>
@@ -342,44 +488,52 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
             <condition>
                 <less-than>
                     <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>900</value>
+                    <value>1350</value>
                 </less-than>
             </condition>
         </exit>
     </step>
 
     <step>
-        <message>Turn left to base (heading 210), and set flaps to 20.
-      Continue to descend at around 500 feet per minute.
+        <set>
+            <property>/instrumentation/nav/frequencies/selected-mhz</property>
+            <value>112</value>
+        </set>
+        <set>
+            <property>/instrumentation/nav[0]/radials/selected-deg</property>
+            <value>127</value>
+        </set>
+        <message>Turn left to base (heading 220), and set flaps to 20.
+      Continue descending, but make sure to maintain a safe altitude above the ground! 
         </message>
 
         <exit>
             <condition>
                 <less-than>
-                    <property>/position/longitude-deg</property>
-                    <value>-122.520</value>
+                    <property>/instrumentation/nav[0]/filtered-cdiNAV0-deflection</property>
+                    <value>4</value>
                 </less-than>
             </condition>
         </exit>
     </step>
 
     <step>
-        <message>Turn onto final (heading 120), and line up with the runway.</message>
+        <message>Turn onto final (heading 130), and line up with the runway.</message>
 
         <exit>
             <condition>
                 <and>
+                    <greater-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>120</value>
+                    </greater-than>
                     <less-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
                         <value>140</value>
                     </less-than>
-                    <greater-than>
-                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>100</value>
-                    </greater-than>
                     <less-than>
                         <property>/position/latitude-deg</property>
-                        <value>37.545</value>
+                        <value>41.538</value>
                     </less-than>
                 </and>
             </condition>
@@ -387,20 +541,21 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
     </step>
 
     <step>
-        <message>Set flaps to 30. Control your descent rate using the throttle.</message>
+        <message>Set flaps to 30. Control your descent rate using the throttle.
+            Watch the VASI lights to see if you're on the correct glideslope.</message>
 
         <exit>
             <condition>
                 <less-than>
                     <property>/position/latitude-deg</property>
-                    <value>37.525</value>
+                    <value>41.528</value>
                 </less-than>
             </condition>
         </exit>
     </step>
 
     <step>
-        <message>Reduce power to idle. When you are about 10 feet above the ground,
+        <message>Slowly reduce power to idle. When you are about 10 feet above the ground,
       smoothly bring the nose up so it is just above the horizon.
         </message>
         <exit>
@@ -441,11 +596,11 @@ Runway 12 does not have a VASI. Instead you will need to judge whether you are t
         </exit>
     </step>
 
-    <end>
+    <step>
         <message>Congratulations on successfully following the pattern.
       If you want to practice more landings, you can take off again immediately.
       Don't forget to lift your flaps though! This is known as a Touch and Go.
         </message>
-    </end>
+    </step>
 
 </PropertyList>

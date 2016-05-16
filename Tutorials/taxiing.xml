@@ -13,13 +13,13 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
     <audio-dir>Tutorials/taxiing</audio-dir>
     <timeofday>morning</timeofday>
     <presets>
-        <airport-id>KLVK</airport-id>
+        <airport-id>LELL</airport-id>
         <on-ground>1</on-ground>
-        <runway>12</runway>
+        <runway>13</runway>
         <altitude-ft>-9999</altitude-ft>
-        <latitude-deg>37.6952</latitude-deg>
-        <longitude-deg>-121.8167</longitude-deg>
-        <heading-deg>175.0</heading-deg>
+        <latitude-deg>41.52158426</latitude-deg>
+        <longitude-deg>2.100607724</longitude-deg>
+        <heading-deg>40</heading-deg>
         <airspeed-kt>0</airspeed-kt>
         <glideslope-deg>0</glideslope-deg>
         <offset-azimuth-deg>0</offset-azimuth-deg>
@@ -27,41 +27,54 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
     </presets>
 
     <targets>
-        <j1>
-            <!-- Turn right onto taxiway -->
-            <longitude-deg>-121.81664</longitude-deg>
-            <latitude-deg>37.6949</latitude-deg>
-        </j1>
-        <j2>
-            <!-- Mention differential braking -->
-            <longitude-deg>-121.82258</longitude-deg>
-            <latitude-deg>37.6949</latitude-deg>
-        </j2>
-        <j3>
-            <!-- Left turn in taxiway -->
-            <longitude-deg>-121.8250</longitude-deg>
-            <latitude-deg>37.69498</latitude-deg>
-        </j3>
-        <a1>
-            <!-- Right turn onto taxiway A -->
-            <longitude-deg>-121.8251</longitude-deg>
-            <latitude-deg>37.694616</latitude-deg>
-        </a1>
-        <a2>
-            <!-- Runup aread -->
-            <longitude-deg>-121.8294</longitude-deg>
-            <latitude-deg>37.69459</latitude-deg>
-        </a2>
+        <taxi1>
+            <!-- Turn left onto taxiway (heading 320)
+                 After this point follow the yellow line.
+            -->
+            <latitude-deg>41.52200491</latitude-deg>
+            <longitude-deg>2.1010442</longitude-deg>
+        </taxi1>
+        <taxi2>
+            <!-- Run-up area.
+                 Pilot should stop here.
+            -->
+            <latitude-deg>41.5232715</latitude-deg>
+            <longitude-deg>2.100250003</longitude-deg>
+        </taxi2>
     </targets>
 
-    <init>
+    <step>
+        <set>
+            <property>/instrumentation/adf/frequencies/selected-khz</property>
+            <value>367</value>
+        </set>
+        <set>
+            <property>/environment/weather-scenario</property>
+            <value>Fair weather</value>
+        </set>
         <set>
             <property>/sim/model/c172p/brake-parking</property>
             <value>1</value>
         </set>
         <set>
+            <property>/controls/switches/master-bat</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-alt</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-avionics</property>
+            <value>true</value>
+        </set>
+        <set>
             <property>/controls/flight/flaps</property>
             <value>0.0</value>
+        </set>
+        <set>
+            <property>/controls/flight/elevator-trim</property>
+            <value>0.17</value>
         </set>
         <set>
             <property>/controls/switches/magnetos</property>
@@ -72,53 +85,47 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
             <value>0.2</value>
         </set>
         <set>
-            <property>/controls/switches/starter</property>
-            <value>true</value>
+            <property>/controls/engines/engine/primer</property>
+            <value>4</value>
         </set>
-        <set>
-            <property>/instrumentation/adf/frequencies/selected-khz</property>
-            <value>340</value>
-        </set>
-        <set>
-            <property>/environment/weather-scenario</property>
-            <value>Fair weather</value>
-        </set>
-        <set>
-            <property>/controls/flight/elevator-trim</property>
-            <value>0.17</value>
-        </set>
-    </init>
-
-    <step>
-        <message>In this lesson we'll taxi the aircraft from its parking position infront of the FBO,
-       along taxiways Juliet and Alpha to the run-up area near runway 07L.</message>
         <nasal>
             <script>
-                # Script to simulate holding down the starter button until the engine starts
-                var starter = func() {
+                setprop("/controls/engines/current-engine/mixture", 1.0);
                 setprop("/controls/switches/starter", 1);
-                if (!getprop("/engines/active-engine/running")) {
-                    settimer(starter, 0);
-                }
-            };
+            </script>
+        </nasal>
+        <message></message>
+        <view>
+            <heading-offset-deg>0.0</heading-offset-deg>
+            <pitch-offset-deg>-12</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.21</x-offset-m>
+            <y-offset-m>0.19</y-offset-m>
+            <field-of-view>73.6</field-of-view>
+        </view>
+    </step>
 
-            # The FDM resets the starter property on each FDM cycle.  By effectively starting
-            # a number of threads to continually keep setting the starter to true, we can
-            # get around this and give the engine the opportunity to catch.
-            starter();
-            starter();
-            starter();
-            starter();
-            starter();
+    <step>
+        <message>In this lesson we'll taxi the aircraft from its parking position in front of the hangar,
+       via the taxiway T-1 to the holding pont of runway 13.</message>
+        <nasal>
+            <script>
+                var listeners = std.Vector.new();
+
+                listeners.append(setlistener("/engines/active-engine/running", func (node) {
+                    if (node.getBoolValue()) {
+                        setprop("/controls/switches/starter", 0);
+                        foreach (var listener; listeners.vector) {
+                            removelistener(listener);
+                        }
+                        listeners.clear();
+                    }
+                }, 1, 0));
             </script>
         </nasal>
     </step>
 
     <step>
-        <set>
-            <property>/controls/switches/starter</property>
-            <value>false</value>
-        </set>
         <message>I've already started the engine. Press Shift-B to release the parking brake. Throttle up to about
       20% to move forward slightly, then hold b to check that the normal brakes work.</message>
 
@@ -210,20 +217,21 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
     </step>
 
     <step>
-        <message>Release the brakes and taxi forwards.  You may need to apply a little throttle to get going. Make a right turn onto taxiway Juliet.</message>
+        <message>Release the brakes and taxi forwards.  You may need to apply a little throttle to get going.
+            Taxi straight ahead until you reach the taxiway. It's ground has a darker color than the apron.</message>
         <wait>5</wait>
 
         <error>
-            <message>That's left, not right.</message>
+            <message>You're driving curves. To meet the taxiway you have to taxi straight!</message>
             <condition>
                 <or>
                     <less-than>
-                        <property>/sim/tutorials/targets/j2/direction-deg</property>
-                        <value>-135.0</value>
+                        <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                        <value>-100</value>
                     </less-than>
                     <greater-than>
-                        <property>/sim/tutorials/targets/j2/direction-deg</property>
-                        <value>135.0</value>
+                        <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                        <value>100</value>
                     </greater-than>
                 </or>
             </condition>
@@ -242,12 +250,12 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
             <condition>
                 <and>
                     <less-than>
-                        <property>/sim/tutorials/targets/j2/direction-deg</property>
-                        <value>20.0</value>
+                        <property>/sim/tutorials/targets/taxi1/distance-m</property>
+                        <value>30.0</value>
                     </less-than>
                     <greater-than>
-                        <property>/sim/tutorials/targets/j2/direction-deg</property>
-                        <value>-20.0</value>
+                        <property>/sim/tutorials/targets/taxi1/distance-m</property>
+                        <value>-30.0</value>
                     </greater-than>
                 </and>
             </condition>
@@ -255,31 +263,14 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
     </step>
 
     <step>
-        <message>Continue taxiing along taxiway Juliet. Keep the nosewheel on the yellow line. Don't allow the aircraft to go too fast - use b to brake if you need to. </message>
+        <message>Now make a left turn to about 320 degree top follow the taxiway T-1 to runway 13. Then take the first junction right where the taxiway leads onto the runway. You need to stop before you reach the runway!</message>
 
         <error>
-            <message>
-        You're straying off the taxiway. Keep heading on taxiway Juliet, keeping your nosewheel on the yellow line.
-            </message>
-            <condition>
-                <or>
-                    <less-than>
-                        <property>/sim/tutorials/targets/j2/direction-deg</property>
-                        <value>-20.0</value>
-                    </less-than>
-                    <greater-than>
-                        <property>/sim/tutorials/targets/j2/direction-deg</property>
-                        <value>20.0</value>
-                    </greater-than>
-                </or>
-            </condition>
-        </error>
-        <error>
-            <message>You're going too fast.  Reduce your throttle slightly and apply your brakes.</message>
+            <message>You're going too fast. Reduce your throttle slightly and apply your brakes.</message>
             <condition>
                 <greater-than>
                     <property>/velocities/groundspeed-kt</property>
-                    <value>10.0</value>
+                    <value>15.0</value>
                 </greater-than>
             </condition>
         </error>
@@ -287,158 +278,67 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
         <exit>
             <condition>
                 <less-than>
-                    <property>/sim/tutorials/targets/j2/distance-m</property>
-                    <value>150.0</value>
+                    <property>/sim/tutorials/targets/taxi2/distance-m</property>
+                    <value>50.0</value>
                 </less-than>
             </condition>
         </exit>
     </step>
+
     <step>
-        <message>If you need to turn very tightly, you can apply differential braking, and only brake one wheel, by pressing ',' for the left, or '.' for the right.</message>
+        <message>Set the throttle to idle and apply the parking brake</message>
+        <view>
+            <heading-offset-deg>0.0</heading-offset-deg>
+            <pitch-offset-deg>-19.7</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.2</x-offset-m>
+            <y-offset-m>0.2</y-offset-m>
+            <z-offset-m>0.4</z-offset-m>
+            <field-of-view>85.0</field-of-view>
+        </view>
 
         <error>
-            <message>
-        You're straying off the taxiway. Keep your nosewheel on the yellow line.
-            </message>
+            <message>We now have to execute the run-up checks and therefore you need to stop. Set the parking brake!</message>
             <condition>
-                <or>
-                    <less-than>
-                        <property>/sim/tutorials/targets/j3/direction-deg</property>
-                        <value>-20.0</value>
-                    </less-than>
-                    <greater-than>
-                        <property>/sim/tutorials/targets/j3/direction-deg</property>
-                        <value>20.0</value>
-                    </greater-than>
-                </or>
+                <not-equals>
+                    <property>/sim/model/c172p/brake-parking</property>
+                    <value>1</value>
+                </not-equals>
             </condition>
         </error>
+
         <error>
-            <message>You're going too fast.  Reduce your throttle slightly and apply your brakes.</message>
+            <message>Set the throttle to idle!</message>
             <condition>
                 <greater-than>
-                    <property>/velocities/groundspeed-kt</property>
-                    <value>10.0</value>
+                    <property>/controls/engines/current-engine/throttle</property>
+                    <value>0.05</value>
                 </greater-than>
-            </condition>
-        </error>
-
-        <exit>
-            <condition>
-                <less-than>
-                    <property>/sim/tutorials/targets/j3/distance-m</property>
-                    <value>100.0</value>
-                </less-than>
-            </condition>
-        </exit>
-    </step>
-    <step>
-        <message>The taxiway turns left here. Slow down by applying some brakes (b) and follow it round.</message>
-        <error>
-            <message>You're straying off the taxiway. Turn left.</message>
-            <condition>
-                <or>
-                    <less-than>
-                        <property>/sim/tutorials/targets/a1/direction-deg</property>
-                        <value>-45.0</value>
-                    </less-than>
-                    <greater-than>
-                        <property>/sim/tutorials/targets/a1/direction-deg</property>
-                        <value>45.0</value>
-                    </greater-than>
-                </or>
-            </condition>
-        </error>
-
-        <exit>
-            <condition>
-                <less-than>
-                    <property>/sim/tutorials/targets/a1/distance-m</property>
-                    <value>25.0</value>
-                </less-than>
-            </condition>
-        </exit>
-    </step>
-
-    <step>
-        <message>We're now at the intersection of taxiways Juliet, Golf and Alpha. Turn right onto taxiway Alpha.</message>
-        <error>
-            <message>That's left, not right.</message>
-            <condition>
-                <or>
-                    <less-than>
-                        <property>/sim/tutorials/targets/a2/direction-deg</property>
-                        <value>-135.0</value>
-                    </less-than>
-                    <greater-than>
-                        <property>/sim/tutorials/targets/a2/direction-deg</property>
-                        <value>135.0</value>
-                    </greater-than>
-                </or>
             </condition>
         </error>
 
         <exit>
             <condition>
                 <and>
+                    <equals>
+                        <property>/sim/model/c172p/brake-parking</property>
+                        <value>1</value>
+                    </equals>
+                    <less-than-equals>
+                        <property>/controls/engines/current-engine/throttle</property>
+                        <value>0.05</value>
+                    </less-than-equals>
                     <less-than>
-                        <property>/sim/tutorials/targets/a2/direction-deg</property>
-                        <value>20.0</value>
+                        <property>/velocities/groundspeed-kt</property>
+                        <value>1</value>
                     </less-than>
-                    <greater-than>
-                        <property>/sim/tutorials/targets/a2/direction-deg</property>
-                        <value>-20.0</value>
-                    </greater-than>
                 </and>
             </condition>
         </exit>
     </step>
 
     <step>
-        <message>Continue taxiing along taxiway Alpha to the end of the taxiway. </message>
-
-        <error>
-            <message>
-        You're straying off the taxiway. Keep heading on taxiway Alpha, keeping your nosewheel on the yellow line.
-            </message>
-            <condition>
-                <or>
-                    <less-than>
-                        <property>/sim/tutorials/targets/a2/direction-deg</property>
-                        <value>-15.0</value>
-                    </less-than>
-                    <greater-than>
-                        <property>/sim/tutorials/targets/a2/direction-deg</property>
-                        <value>15.0</value>
-                    </greater-than>
-                </or>
-            </condition>
-        </error>
-
-        <exit>
-            <condition>
-                <less-than>
-                    <property>/sim/tutorials/targets/a2/distance-m</property>
-                    <value>60.0</value>
-                </less-than>
-            </condition>
-        </exit>
-    </step>
-
-    <step>
-        <message>We've reached the run-up area. Brake slowly to a stop and set the parking brake (shift-b).</message>
-        <exit>
-            <condition>
-                <equals>
-                    <property>/sim/model/c172p/brake-parking</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-        </exit>
-    </step>
-
-    <end>
         <message>We've reached the run-up area. Well done.</message>
-    </end>
+    </step>
 
 </PropertyList>

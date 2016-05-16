@@ -5,17 +5,17 @@
     <name>Takeoff</name>
 
     <description>
-This tutorial starts from Half-Moon Bay (KHAF), a small airport on the coast near San Francisco, in clear, still, weather.
+This tutorial starts from Sabadell Airport (LELL), a medium-sized airfield in the north of Barcelona, in clear, still, weather.
     
-This tutorial will teach you how to take-off, and climb at 600 feet per minute. You will level off at 1000ft to complete the tutorial.
+This tutorial will teach you how to take-off from runway 13, and climb at 600 feet per minute. You will level off at 2000 ft to complete the tutorial.
     </description>
 
     <audio-dir>Tutorials/takeoff</audio-dir>
     <timeofday>morning</timeofday>
     <presets>
-        <airport-id>KHAF</airport-id>
+        <airport-id>LELL</airport-id>
         <on-ground>1</on-ground>
-        <runway>12</runway>
+        <runway>13</runway>
         <altitude-ft>-9999</altitude-ft>
         <latitude-deg>-9999</latitude-deg>
         <longitude-deg>-9999</longitude-deg>
@@ -26,14 +26,42 @@ This tutorial will teach you how to take-off, and climb at 600 feet per minute. 
         <offset-distance-nm>0</offset-distance-nm>
     </presets>
 
-    <init>
+    <step>
+        <set>
+            <property>/instrumentation/adf/frequencies/selected-khz</property>
+            <value>367</value>
+        </set>
+        <set>
+            <property>/environment/weather-scenario</property>
+            <value>Fair weather</value>
+        </set>
+        <set>
+            <property>instrumentation/altimeter/setting-inhg</property>
+            <value>29.95</value>
+        </set>
         <set>
             <property>/sim/model/c172p/brake-parking</property>
             <value>1</value>
         </set>
         <set>
+            <property>/controls/switches/master-bat</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-alt</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-avionics</property>
+            <value>true</value>
+        </set>
+        <set>
             <property>/controls/flight/flaps</property>
             <value>0.0</value>
+        </set>
+        <set>
+            <property>/controls/flight/elevator-trim</property>
+            <value>-0.17</value>
         </set>
         <set>
             <property>/controls/switches/magnetos</property>
@@ -44,37 +72,51 @@ This tutorial will teach you how to take-off, and climb at 600 feet per minute. 
             <value>0.2</value>
         </set>
         <set>
-            <property>/controls/switches/starter</property>
-            <value>true</value>
+            <property>/controls/engines/engine/primer</property>
+            <value>4</value>
         </set>
-        <set>
-            <property>/instrumentation/adf/frequencies/selected-khz</property>
-            <value>340</value>
-        </set>
-        <set>
-            <property>/environment/weather-scenario</property>
-            <value>Fair weather</value>
-        </set>
-        <set>
-            <property>/controls/flight/elevator-trim</property>
-            <value>0.17</value>
-        </set>
-    </init>
-
-    <step>
+        <nasal>
+            <script>
+                setprop("/controls/engines/current-engine/mixture", 1.0);
+                setprop("/controls/switches/starter", 1);
+            </script>
+        </nasal>
         <message>At the start of the take-off roll, you will control the direction of the aircraft using the
       nose-wheel steering and rudder. As the aircraft takes off, you will use the ailerons and elevator
       to control the direction and attitude of the aircraft.
         </message>
-        <wait>10</wait>
+        <view>
+            <heading-offset-deg>0.0</heading-offset-deg>
+            <pitch-offset-deg>-12</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.21</x-offset-m>
+            <y-offset-m>0.19</y-offset-m>
+            <field-of-view>73.6</field-of-view>
+        </view>
+        <wait>15</wait>
     </step>
 
     <step>
         <message>
       The nose-wheel and rudder is controlled using 0/Enter on the numeric keypad, or by using the mouse
       in "yoke" mode with the left mouse button held down.
-      To switch the mouse to yoke mode, press the right mouse button until it displays as a + sign.
+      To switch the mouse to yoke mode, press either "TAB", or the right mouse button until it displays as a + sign.
         </message>
+        <nasal>
+            <script>
+                var listeners = std.Vector.new();
+
+                listeners.append(setlistener("/engines/active-engine/running", func (node) {
+                    if (node.getBoolValue()) {
+                        setprop("/controls/switches/starter", 0);
+                        foreach (var listener; listeners.vector) {
+                            removelistener(listener);
+                        }
+                        listeners.clear();
+                    }
+                }, 1, 0));
+            </script>
+        </nasal>
         <wait>10</wait>
     </step>
 
@@ -142,7 +184,7 @@ This tutorial will teach you how to take-off, and climb at 600 feet per minute. 
     </step>
 
     <step>
-        <message>Let the aircraft lift off at 65 knots and climb straight out on heading 120 at 600 feet per minute.</message>
+        <message>Let the aircraft lift off at 65 knots and climb straight out on heading 130 at 600 feet per minute.</message>
 
         <error>
             <message>Gently raise the nose, by pressing the down key on the keypad, or moving the mouse back slightly.</message>
@@ -186,20 +228,20 @@ This tutorial will teach you how to take-off, and climb at 600 feet per minute. 
             </condition>
         </error>
         <error>
-            <message>You are heading too far left, Turn right slightly to heading 120.</message>
+            <message>You are heading too far left, Turn right slightly to heading 130.</message>
             <condition>
                 <less-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>110</value>
+                    <value>115</value>
                 </less-than>
             </condition>
         </error>
         <error>
-            <message>You are heading too far right, Turn left slightly to heading 120.</message>
+            <message>You are heading too far right, Turn left slightly to heading 130.</message>
             <condition>
                 <greater-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>130</value>
+                    <value>135</value>
                 </greater-than>
             </condition>
         </error>
@@ -217,21 +259,21 @@ This tutorial will teach you how to take-off, and climb at 600 feet per minute. 
             <condition>
                 <greater-than>
                     <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>1000</value>
+                    <value>1900</value>
                 </greater-than>
             </condition>
         </exit>
     </step>
 
     <step>
-        <message>Level off at between 1000 and 1100 feet.</message>
+        <message>Level off at between 2000 and 2200 feet.</message>
 
         <error>
             <message>You are too low</message>
             <condition>
                 <less-than>
                     <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>1000</value>
+                    <value>2000</value>
                 </less-than>
             </condition>
         </error>
@@ -240,7 +282,25 @@ This tutorial will teach you how to take-off, and climb at 600 feet per minute. 
             <condition>
                 <greater-than>
                     <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>1100</value>
+                    <value>2200</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are heading too far left, Turn right slightly to heading 130.</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>115</value>
+                </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are heading too far right, Turn left slightly to heading 130.</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>145</value>
                 </greater-than>
             </condition>
         </error>
@@ -250,11 +310,11 @@ This tutorial will teach you how to take-off, and climb at 600 feet per minute. 
                 <and>
                     <greater-than>
                         <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        <value>1000</value>
+                        <value>2000</value>
                     </greater-than>
                     <less-than>
                         <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        <value>1100</value>
+                        <value>2200</value>
                     </less-than>
                     <less-than>
                         <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
@@ -264,13 +324,21 @@ This tutorial will teach you how to take-off, and climb at 600 feet per minute. 
                         <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
                         <value>-150</value>
                     </greater-than>
+                    <greater-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>115</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>145</value>
+                    </less-than>
                 </and>
             </condition>
         </exit>
     </step>
 
-    <end>
+    <step>
         <message>Congratulations, you've successfully taken off. Now try landing!</message>
-    </end>
+    </step>
 
 </PropertyList>

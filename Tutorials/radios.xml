@@ -13,23 +13,23 @@ but the smallest airports and provides information on the current ground-level
 weather, the altimeter setting and the runway in use.
     </description>
 
-    <audio-dir>Tutorials/radio</audio-dir>
+    <audio-dir>Tutorials/startup</audio-dir>
     <timeofday>morning</timeofday>
     <presets>
-        <airport-id>KLVK</airport-id>
+        <airport-id>LEBL</airport-id>
         <on-ground>1</on-ground>
-        <runway>12</runway>
+        <runway>20</runway>
         <altitude-ft>-9999</altitude-ft>
-        <latitude-deg>37.6952</latitude-deg>
-        <longitude-deg>-121.8167</longitude-deg>
-        <heading-deg>175.0</heading-deg>
+        <latitude-deg>41.30660774</latitude-deg>
+        <longitude-deg>2.089508424</longitude-deg>
+        <heading-deg>70.0</heading-deg>
         <airspeed-kt>0</airspeed-kt>
         <glideslope-deg>0</glideslope-deg>
         <offset-azimuth-deg>0</offset-azimuth-deg>
         <offset-distance-nm>0</offset-distance-nm>
     </presets>
 
-    <init>
+    <step>
         <set>
             <property>/sim/model/c172p/brake-parking</property>
             <value>1</value>
@@ -52,7 +52,15 @@ weather, the altimeter setting and the runway in use.
         </set>
         <set>
             <property>/instrumentation/adf/frequencies/selected-khz</property>
-            <value>340</value>
+            <value>367</value>
+        </set>
+        <set>
+            <property>/instrumentation/comm[0]/frequencies/standby-mhz</property>
+            <value>118.1</value>
+        </set>
+        <set>
+            <property>/instrumentation/comm[1]/frequencies/selected-mhz</property>
+            <value>123.5</value>
         </set>
         <set>
             <property>/environment/weather-scenario</property>
@@ -62,11 +70,17 @@ weather, the altimeter setting and the runway in use.
             <property>/controls/flight/elevator-trim</property>
             <value>0.17</value>
         </set>
-    </init>
-
-    <step>
-        <message>In this lesson, you'll learn how to tune the radio to the Livermore ATIS.
+        <message>In this lesson, you'll learn how to tune the radio to the ATIS of the Airport Barcelona-El Prat,
+            which is the nearest one with ATIS.
       The radio is in the middle of the center console.</message>
+        <view>
+            <heading-offset-deg>0.0</heading-offset-deg>
+            <pitch-offset-deg>-12</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.21</x-offset-m>
+            <y-offset-m>0.19</y-offset-m>
+            <field-of-view>73.6</field-of-view>
+        </view>
         <wait>10</wait>
     </step>
 
@@ -78,92 +92,80 @@ weather, the altimeter setting and the runway in use.
     </step>
 
     <step>
-        <message>To change the standby frequency, click on the highlighted knob. The outer knob changes the number on the left of the decimal place.
-    The inner knob changes the number on the right of the decimal place.</message>
+        <message>To change the standby frequency, click on the highlighted knob.</message>
         <view>
             <field-of-view>14.0</field-of-view>
             <heading-offset-deg>336</heading-offset-deg>
-            <pitch-offset-deg>-20</pitch-offset-deg>
+            <pitch-offset-deg>-16</pitch-offset-deg>
         </view>
         <marker>
-            <x-m>-0.3444</x-m>
-            <y-m>0.0907</y-m>
-            <z-m>0.0053</z-m>
-            <scale>1.0000</scale>
+            <x-m>-0.3446</x-m>
+            <y-m>0.0669</y-m>
+            <z-m>0.049</z-m>
+            <scale>0.6364</scale>
         </marker>
     </step>
 
     <step>
-        <message>The left mouse button increases the value, while the middle button decreases it.  Alternatively, you can use your mouse wheel.</message>
+        <message>The outer knob changes the number on the left of the decimal place. The inner knob changes the number on the right of the decimal place.
+    The left mouse button increases the value, while the middle button decreases it. Alternatively, you can use your mouse wheel.</message>
         <view>
             <field-of-view>14.0</field-of-view>
             <heading-offset-deg>336</heading-offset-deg>
-            <pitch-offset-deg>-20</pitch-offset-deg>
+            <pitch-offset-deg>-16</pitch-offset-deg>
         </view>
         <marker>
-            <x-m>-0.3444</x-m>
-            <y-m>0.0907</y-m>
-            <z-m>0.0053</z-m>
-            <scale>1.0000</scale>
+            <x-m>-0.3347</x-m>
+            <y-m>0.0884</y-m>
+            <z-m>0.0398</z-m>
+            <scale>1.0661</scale>
         </marker>
     </step>
 
     <step>
-        <message>Set the standby frequency to 119.65 MHz. This is the ATIS frequency for Livermore, and is printed on sectional charts.</message>
+        <message>Set the standby frequency to 121.97 MHz. This is the ATIS frequency for Barcelona El Prat Airport, and is printed on sectional charts.</message>
         <view>
             <field-of-view>14.0</field-of-view>
             <heading-offset-deg>336</heading-offset-deg>
-            <pitch-offset-deg>-20</pitch-offset-deg>
+            <pitch-offset-deg>-16</pitch-offset-deg>
         </view>
         <marker>
-            <x-m>-0.3444</x-m>
-            <y-m>0.0907</y-m>
-            <z-m>0.0053</z-m>
-            <scale>1.0000</scale>
+            <x-m>-0.3347</x-m>
+            <y-m>0.0884</y-m>
+            <z-m>0.0398</z-m>
+            <scale>1.0661</scale>
         </marker>
 
         <exit>
             <condition>
-                <and>
-                    <greater-than>
-                        <property>/instrumentation/comm[0]/frequencies/standby-mhz</property>
-                        <value>119.64</value>
-                    </greater-than>
-                    <less-than>
-                        <property>/instrumentation/comm[0]/frequencies/standby-mhz</property>
-                        <value>119.66</value>
-                    </less-than>
-                </and>
+                <equals>
+                    <property>/instrumentation/comm/frequencies/standby-mhz</property>
+                    <value>121.975</value>
+                </equals>
             </condition>
         </exit>
     </step>
 
     <step>
-        <message>Now, switch the active and standby frequencies by pressing the swap button so the active frequency is 119.650MHz.</message>
+        <message>Now, switch the active and standby frequencies by pressing the swap button so the active frequency is 121.97 MHz.</message>
         <view>
             <field-of-view>14.0</field-of-view>
             <heading-offset-deg>336</heading-offset-deg>
-            <pitch-offset-deg>-20</pitch-offset-deg>
+            <pitch-offset-deg>-16</pitch-offset-deg>
         </view>
         <marker>
-            <x-m>-0.3444</x-m>
-            <y-m>0.0684</y-m>
-            <z-m>0.0142</z-m>
-            <scale>1.0000</scale>
+            <x-m>-0.3446</x-m>
+            <y-m>0.0669</y-m>
+            <z-m>0.049</z-m>
+            <scale>0.6364</scale>
         </marker>
 
         <exit>
             <condition>
-                <and>
-                    <greater-than>
-                        <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
-                        <value>119.64</value>
-                    </greater-than>
-                    <less-than>
-                        <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
-                        <value>119.66</value>
-                    </less-than>
-                </and>
+                <equals>
+                    <property>/instrumentation/comm[0]/frequencies/selected-mhz</property>
+                    <value>121.975</value>
+                </equals>
             </condition>
         </exit>
     </step>
@@ -174,7 +176,7 @@ weather, the altimeter setting and the runway in use.
         <view>
             <field-of-view>14.0</field-of-view>
             <heading-offset-deg>336</heading-offset-deg>
-            <pitch-offset-deg>-20</pitch-offset-deg>
+            <pitch-offset-deg>-12</pitch-offset-deg>
         </view>
         <marker>
             <x-m>-0.3494</x-m>
@@ -202,11 +204,11 @@ weather, the altimeter setting and the runway in use.
 
     <step>
         <message>Once you've heard it, you can switch it off by swapping the frequency back to standby, or toggling off the audio panel.
-      Do that now.</message>
+      Switch now off the audio panel..</message>
         <view>
             <field-of-view>14.0</field-of-view>
             <heading-offset-deg>336</heading-offset-deg>
-            <pitch-offset-deg>-20</pitch-offset-deg>
+            <pitch-offset-deg>-12</pitch-offset-deg>
         </view>
         <marker>
             <x-m>-0.3494</x-m>
@@ -217,30 +219,18 @@ weather, the altimeter setting and the runway in use.
 
         <exit>
             <condition>
-                <or>
-                    <and>
-                        <greater-than>
-                            <property>/instrumentation/comm[0]/frequencies/standby-mhz</property>
-                            <value>119.64</value>
-                        </greater-than>
-                        <less-than>
-                            <property>/instrumentation/comm[0]/frequencies/standby-mhz</property>
-                            <value>119.66</value>
-                        </less-than>
-                    </and>
-                    <equals>
-                        <property>/instrumentation/kma20/com1</property>
-                        <value>0</value>
-                    </equals>
-                </or>
+                <equals>
+                    <property>/instrumentation/kma20/com1</property>
+                    <value>0</value>
+                </equals>
             </condition>
         </exit>
     </step>
 
-    <end>
+    <step>
         <message>Great job. COMM2 is located immediately below COMM1 in the radio stack, and is tuned in the same way.
       The NAV radios work in exactly the same way, except they use a different frequency
       range, and their output goes to the navigational instruments.</message>
-    </end>
+    </step>
 
 </PropertyList>

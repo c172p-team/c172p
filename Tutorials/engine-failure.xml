@@ -7,18 +7,18 @@
     <description>Engine failure is very rare in flight simulators, but a risk in real life.
     
     
-The tutorial starts with you cruising at 3500ft over the hills of San Francisco. A total engine failure will occur, with no possibility of restart - black smoke, chunks of metal pushed out of the cowling.
+The tutorial starts with you cruising at 3500 ft over the hills of Barcelona. A total engine failure will occur, with no possibility of restart - black smoke, chunks of metal pushed out of the cowling.
     
 Glide the aircraft to the nearest airport and make a successful emergency landing. You must manage your altitude and fly a normal pattern from "abeam the numbers". Don't deploy flaps until you have the runway "made".
     
 The Cessna 172 glides at a ratio of 9:1 at a best glide speed of 65 kts IAS. The glide ratio assumes no flaps and a "windmilling" propeller. If you fly any faster or slower, or have flaps deployed, the glide rate will be worse.
     
-Both KSFO (San Francisco International) and KHAF (Half Moon Bay) are within glide distance. In real life, you would opt for the larger of the two airports, but for an extra challenge, try to land at KHAF.
+LEBL (Barcelona) is within glide distance. Try to land at LEBL.
   </description>
 
     <timeofday>dusk</timeofday>
     <presets>
-        <airport-id>KHAF</airport-id>
+        <airport-id>LEBL</airport-id>
         <on-ground>0</on-ground>
         <runway>30</runway>
         <altitude-ft>3500</altitude-ft>
@@ -34,7 +34,27 @@ Both KSFO (San Francisco International) and KHAF (Half Moon Bay) are within glid
         <fix>0</fix>
     </presets>
 
-    <init>
+    <step>
+        <set>
+            <property>/sim/model/c172p/securing/chock</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/tiedownL-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/tiedownR-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/tiedownT-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+            <value>false</value>
+        </set>
         <set>
             <property>/controls/flight/flaps</property>
             <value>0.0</value>
@@ -45,25 +65,59 @@ Both KSFO (San Francisco International) and KHAF (Half Moon Bay) are within glid
         </set>
         <set>
             <property>/controls/engines/current-engine/throttle</property>
-            <value>0.5</value>
-        </set>
-        <set>
-            <property>/controls/switches/starter</property>
-            <value>true</value>
+            <value>0.2</value>
         </set>
         <set>
             <property>/instrumentation/adf/frequencies/selected-khz</property>
-            <value>340</value>
+            <value>367</value>
         </set>
         <set>
             <property>/environment/weather-scenario</property>
             <value>Fair weather</value>
         </set>
-    </init>
+        <set>
+            <property>instrumentation/altimeter/setting-inhg</property>
+            <value>29.95</value>
+        </set>
+        <nasal>
+            <script>
+                setprop("/controls/engines/current-engine/mixture", 1.0);
+                setprop("/controls/switches/starter", 1);
+            </script>
+        </nasal>
+        <message></message>
+        <view>
+            <heading-offset-deg>0.0</heading-offset-deg>
+            <pitch-offset-deg>-12</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.21</x-offset-m>
+            <y-offset-m>0.19</y-offset-m>
+            <field-of-view>73.6</field-of-view>
+        </view>
+    </step>
 
     <step>
+        <nasal>
+            <script>
+                var listeners = std.Vector.new();
+
+                listeners.append(setlistener("/engines/active-engine/running", func (node) {
+                    if (node.getBoolValue()) {
+                        setprop("/controls/switches/starter", 0);
+                        foreach (var listener; listeners.vector) {
+                            removelistener(listener);
+                        }
+                        listeners.clear();
+                    }
+                }, 1, 0));
+            </script>
+        </nasal>
+        <set>
+            <property>/controls/engines/current-engine/throttle</property>
+            <value>0.6</value>
+        </set>
         <message>We're happily cruising along, enjoying an evenings flight.</message>
-        <wait>10</wait>
+        <wait>15</wait>
     </step>
 
     <step>
@@ -243,9 +297,9 @@ Both KSFO (San Francisco International) and KHAF (Half Moon Bay) are within glid
         </exit>
     </step>
 
-    <end>
+    <step>
         <message>Assuming the aircraft is upright and you landed on a runway,
       you walked away from a total engine failure - well done!</message>
-    </end>
+    </step>
 
 </PropertyList>

@@ -1,6 +1,21 @@
 List of features and bug fixes
 ==============================
 
+Version 2016.2
+--------------
+
+* Decreased rudder authority
+* Added propwash effect for 180 HP version
+* Improvements to the irradiance effect
+* Better oil dialog
+* Flap lever is now dragable and scrollable
+* Added normal map to wheels and other objects
+* Improvements to the heading indicator
+* Correct rudder pedal animation
+* Updated tutorial to Barcelona
+* Changed "Autostart" menu item to actually start the engine as well
+* Split instrument light knob into a knob that two knobs: one that controls the instruments, and one that controls the radio's
+
 Version 2016.1
 --------------
 

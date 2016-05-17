@@ -43,14 +43,15 @@ var autostart = func (msg=1) {
     setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
     setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);        
 
-    # Oil level
-    var oil_enabled = getprop("/engines/active-engine/oil_consumption_allowed");
-    var oil_level   = getprop("/engines/active-engine/oil-level");
-
-    if (oil_enabled and oil_level < 6.0)
+    # Setting max oil level
+    if (getprop("/controls/engines/active-engine") == 0) {
         setprop("/engines/active-engine/oil-level", 7.0);
+    } 
+    else {
+        setprop("/engines/active-engine/oil-level", 8.0);
+    };
 
-    # Fuel level
+    # Checking for minimal fuel level
     var fuel_level_left  = getprop("/consumables/fuel/tank[0]/level-norm");
     var fuel_level_right = getprop("/consumables/fuel/tank[1]/level-norm");
 

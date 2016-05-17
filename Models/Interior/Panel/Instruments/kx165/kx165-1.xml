@@ -190,10 +190,7 @@
     <object-name>NavUse</object-name>
     <object-name>NavStby</object-name>
     <condition>
-       <greater-than>
-         <property>/sim/model/c172p/lighting/comm0</property>
-         <value>0.0</value>
-       </greater-than>
+        <property>/sim/model/c172p/lighting/comm0-power</property>
     </condition>
   </animation>
 
@@ -219,7 +216,15 @@
         <object-name>NavUse</object-name>
         <object-name>NavStby</object-name>
         <condition>
-            <not><property>sim/rendering/rembrandt/enabled</property></not>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <greater-than>
+                    <property>/sim/model/c172p/lighting/comm0</property>
+                    <value>0.0</value>
+                </greater-than>
+            </and>
         </condition>
         <emission>
             <red>1.0</red>

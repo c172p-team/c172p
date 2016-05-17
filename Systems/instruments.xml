@@ -175,19 +175,29 @@
         </output>
     </filter>
 
-    <filter>
+    <logic>
         <name>Comm 0 On/Off</name>
+        <input>
+            <and>
+                <property>instrumentation/comm[0]/serviceable</property>
+                <property>instrumentation/comm[0]/power-btn</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/comm[0]</property>
+                    <value>6.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/comm0-power</property>
+        </output>
+    </logic>
+
+    <filter>
+        <name>Comm 0 Dim/Bright</name>
         <type>gain</type>
         <input>
             <condition>
-                <and>
-                    <property>instrumentation/comm[0]/serviceable</property>
-                    <property>instrumentation/comm[0]/power-btn</property>
-                    <greater-than>
-                        <property>systems/electrical/outputs/comm[0]</property>
-                        <value>6.0</value>
-                    </greater-than>
-                </and>
+                <property>/sim/model/c172p/lighting/comm0-power</property>
             </condition>
             <property>/controls/lighting/radio-norm</property>
         </input>
@@ -199,19 +209,29 @@
         </output>
     </filter>
 
-    <filter>
+    <logic>
         <name>Comm 1 On/Off</name>
+        <input>
+            <and>
+                <property>instrumentation/comm[1]/serviceable</property>
+                <property>instrumentation/comm[1]/power-btn</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/comm[1]</property>
+                    <value>6.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/comm1-power</property>
+        </output>
+    </logic>
+
+    <filter>
+        <name>Comm 1 Dim/Bright</name>
         <type>gain</type>
         <input>
             <condition>
-                <and>
-                    <property>instrumentation/comm[1]/serviceable</property>
-                    <property>instrumentation/comm[1]/power-btn</property>
-                    <greater-than>
-                        <property>systems/electrical/outputs/comm[1]</property>
-                        <value>6.0</value>
-                    </greater-than>
-                </and>
+                <property>/sim/model/c172p/lighting/comm1-power</property>
             </condition>
             <property>/controls/lighting/radio-norm</property>
         </input>
@@ -240,19 +260,29 @@
         </output>
     </filter>
 
-    <filter>
+    <logic>
         <name>DME On/Off</name>
+        <input>
+            <and>
+                <property>instrumentation/dme[0]/serviceable</property>
+                <property>instrumentation/dme[0]/power-btn</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/dme</property>
+                    <value>6.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/dme-power</property>
+        </output>
+    </logic>
+
+    <filter>
+        <name>DME Dim/Bright</name>
         <type>gain</type>
         <input>
             <condition>
-                <and>
-                    <property>instrumentation/dme[0]/serviceable</property>
-                    <property>instrumentation/dme[0]/power-btn</property>
-                    <greater-than>
-                        <property>systems/electrical/outputs/dme</property>
-                        <value>6.0</value>
-                    </greater-than>
-                </and>
+                <property>/sim/model/c172p/lighting/dme-power</property>
             </condition>
             <property>/controls/lighting/radio-norm</property>
         </input>
@@ -264,17 +294,27 @@
         </output>
     </filter>
 
-    <filter>
+    <logic>
         <name>AP On/Off</name>
+        <input>
+            <and>
+                <greater-than>
+                    <property>systems/electrical/outputs/autopilot</property>
+                    <value>6.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/ap-power</property>
+        </output>
+    </logic>
+
+    <filter>
+        <name>AP Dim/Bright</name>
         <type>gain</type>
         <input>
             <condition>
-                <and>
-                    <greater-than>
-                        <property>systems/electrical/outputs/autopilot</property>
-                        <value>6.0</value>
-                    </greater-than>
-                </and>
+                <property>/sim/model/c172p/lighting/ap-power</property>
             </condition>
             <property>/controls/lighting/radio-norm</property>
         </input>

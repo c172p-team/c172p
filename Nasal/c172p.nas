@@ -199,6 +199,7 @@ var switches_save_state = func {
         setprop("/controls/lighting/taxi-light", 0);
         setprop("/controls/lighting/landing-lights", 0);
         setprop("/controls/lighting/instruments-norm", 0.0);
+        setprop("/controls/lighting/radio-norm", 0.0);
         setprop("/controls/gear/water-rudder", 0);
         setprop("/controls/gear/water-rudder-down", 0);
         setprop("/sim/model/c172p/brake-parking", 1);

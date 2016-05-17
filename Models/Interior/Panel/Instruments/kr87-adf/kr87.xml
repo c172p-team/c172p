@@ -47,6 +47,33 @@
             <property>/instrumentation/adf[0]/operable</property>
         </condition>
     </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>indicator</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <greater-than>
+                    <property>/sim/model/c172p/lighting/adf</property>
+                    <value>0.0</value>
+                </greater-than>
+            </and>
+        </condition>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>/sim/model/c172p/lighting/adf</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <property>/sim/model/c172p/lighting/adf</property>
+    </animation>
+
     <animation>
         <type>noshadow</type>
     </animation>
@@ -58,7 +85,6 @@
 
     <animation>
         <type>material</type>
-        <object-name>Chassis</object-name>
         <object-name>Volume</object-name>
         <object-name>FRQOuter</object-name>
         <object-name>FRQInner</object-name>
@@ -71,7 +97,7 @@
           <red>0.5</red>
           <green>0.1</green>
           <blue>0.00005</blue>
-          <factor-prop>sim/model/material/instruments/factor</factor-prop>
+          <factor-prop>/sim/model/c172p/lighting/adf</factor-prop>
         </emission>
     </animation>
     

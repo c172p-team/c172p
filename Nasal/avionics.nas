@@ -111,6 +111,7 @@ aircraft.data.add(
 aircraft.data.add(
     "/controls/lighting/beacon",
     "/controls/lighting/instruments-norm",
+    "/controls/lighting/radio-norm",
     "/controls/lighting/landing-lights",
     "/controls/lighting/nav-lights",
     "/controls/lighting/strobe",

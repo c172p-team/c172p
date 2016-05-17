@@ -58,13 +58,31 @@
     <type>select</type>
     <object-name>Indicators</object-name>
     <condition>
-      <and>
-        <property alias="../../../../params/serviceable"/>
-        <property alias="../../../../params/power-btn"/>
-        <property alias="../../../../params/electrical"/>
-      </and>
+        <property>/sim/model/c172p/lighting/dme-power</property>
     </condition>
   </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>Indicators</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <greater-than>
+                    <property>/sim/model/c172p/lighting/dme</property>
+                    <value>0.0</value>
+                </greater-than>
+            </and>
+        </condition>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>/sim/model/c172p/lighting/dme</factor-prop>
+        </emission>
+    </animation>
 
   <animation>
     <type>material</type>
@@ -73,7 +91,7 @@
       <red>0.2</red>
       <green>0.04</green>
       <blue>0</blue>
-      <factor-prop>sim/model/material/instruments/factor</factor-prop>
+      <factor-prop>/sim/model/c172p/lighting/dme</factor-prop>
     </emission>
   </animation>
 
@@ -81,10 +99,10 @@
     <type>material</type>
     <object-name>Frame</object-name>
     <emission>
-      <red>0.1</red>
-      <green>0.02</green>
-      <blue>0.00001</blue>
-      <factor-prop>sim/model/material/instruments/factor</factor-prop>
+      <red>0.5</red>
+      <green>0.1</green>
+      <blue>0.00005</blue>
+      <factor-prop>/sim/model/c172p/lighting/dme</factor-prop>
     </emission>
   </animation>
 

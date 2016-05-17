@@ -24,6 +24,8 @@ var autostart = func (msg=1) {
     setprop("/consumables/fuel/tank[0]/selected", 1);
     setprop("/consumables/fuel/tank[1]/selected", 1);
 
+    setprop("/controls/flight/flaps", 0.0);
+
     # Set the altimeter
     var pressure_sea_level = getprop("/environment/pressure-sea-level-inhg");
     setprop("/instrumentation/altimeter/setting-inhg", pressure_sea_level);
@@ -41,29 +43,42 @@ var autostart = func (msg=1) {
     setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
 
     setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
-    setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);
+    setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);        
 
-    # Oil level warning for lazy pro's
+    # Setting max oil level
     var oil_enabled = getprop("/engines/active-engine/oil_consumption_allowed");
     var oil_level   = getprop("/engines/active-engine/oil-level");
+    
+    if (oil_enabled and oil_level < 6.0) {
+        if (getprop("/controls/engines/active-engine") == 0) {
+            setprop("/engines/active-engine/oil-level", 7.0);
+        } 
+        else {
+            setprop("/engines/active-engine/oil-level", 8.0);
+        };
+    };
 
-    if (oil_enabled and oil_level < 6.0)
-        logger.screen.red("Warning: low oil level! Check level via oil cap on top of engine!");
-
-    # Fuel level warnings
+    # Checking for minimal fuel level
     var fuel_level_left  = getprop("/consumables/fuel/tank[0]/level-norm");
     var fuel_level_right = getprop("/consumables/fuel/tank[1]/level-norm");
 
     if (fuel_level_left < 0.25)
-        logger.screen.red("Warning: fuel level of the left tank lower than 25%!");
+        setprop("/consumables/fuel/tank[0]/level-norm", 0.25);
     if (fuel_level_right < 0.25)
-        logger.screen.red("Warning: fuel level of the right tank lower than 25%!");
+        setprop("/consumables/fuel/tank[1]/level-norm", 0.25);
 
     setprop("/controls/engines/engine[0]/primer-lever", 0);
     setprop("/controls/engines/engine/primer", 3);
 
-    if (msg)
-        gui.popupTip("Hold down \"s\" to start the engine", 5);
+    # All set, starting engine
+    setprop("/controls/switches/starter", 1);
+    var engineRunning = setlistener("/engines/active-engine/running", func {
+        if (getprop("/engines/active-engine/running")) {
+            setprop("/controls/switches/starter", 0);
+            removelistener(engineRunning);
+        }
+    });
+
 };
 
 ##########################################

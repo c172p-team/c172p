@@ -24,6 +24,8 @@ var autostart = func (msg=1) {
     setprop("/consumables/fuel/tank[0]/selected", 1);
     setprop("/consumables/fuel/tank[1]/selected", 1);
 
+    setprop("/controls/flight/flaps", 0.0);
+
     # Set the altimeter
     var pressure_sea_level = getprop("/environment/pressure-sea-level-inhg");
     setprop("/instrumentation/altimeter/setting-inhg", pressure_sea_level);
@@ -44,12 +46,16 @@ var autostart = func (msg=1) {
     setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);        
 
     # Setting max oil level
-    if (getprop("/controls/engines/active-engine") == 0) {
-        setprop("/engines/active-engine/oil-level", 7.0);
-    } 
-    else {
-        setprop("/engines/active-engine/oil-level", 8.0);
-    };
+    var oil_enabled = getprop("/engines/active-engine/oil_consumption_allowed");
+    var oil_level   = getprop("/engines/active-engine/oil-level");
+    
+    if (oil_enabled and oil_level < 6.0)
+        if (getprop("/controls/engines/active-engine") == 0) {
+            setprop("/engines/active-engine/oil-level", 7.0);
+        } 
+        else {
+            setprop("/engines/active-engine/oil-level", 8.0);
+        };
 
     # Checking for minimal fuel level
     var fuel_level_left  = getprop("/consumables/fuel/tank[0]/level-norm");

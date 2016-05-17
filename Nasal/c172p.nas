@@ -62,8 +62,15 @@ var autostart = func (msg=1) {
     setprop("/controls/engines/engine[0]/primer-lever", 0);
     setprop("/controls/engines/engine/primer", 3);
 
-    if (msg)
-        gui.popupTip("Hold down \"s\" to start the engine", 5);
+    # All set, starting engine
+    setprop("/controls/switches/starter", 1);
+    var engineRunning = setlistener("/engines/active-engine/running", func {
+        if (getprop("/engines/active-engine/running")) {
+            setprop("/controls/switches/starter", 0);
+            removelistener(engineRunning);
+        }
+    });
+
 };
 
 ##########################################

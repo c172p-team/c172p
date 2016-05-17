@@ -181,8 +181,6 @@ var update = func {
 };
 
 setlistener("/controls/switches/starter", func {
-    if (!getprop("/fdm/jsbsim/complex"))
-        c172p.autostart(0);
     var v = getprop("/controls/switches/starter") or 0;
     if (v == 0) {
         print("Starter off");

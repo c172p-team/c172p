@@ -42,6 +42,11 @@
     <object-name>Border</object-name>
     <object-name>KnobMode</object-name>
     <object-name>vitre</object-name>
+    <object-name>off</object-name>
+    <object-name>stby</object-name>
+    <object-name>on</object-name>
+    <object-name>alt</object-name>
+    <object-name>test</object-name>
   </effect>
 
   <animation>
@@ -59,6 +64,11 @@
     <object-name>Border</object-name>
     <object-name>KnobMode</object-name>
     <object-name>vitre</object-name>
+    <object-name>off</object-name>
+    <object-name>stby</object-name>
+    <object-name>on</object-name>
+    <object-name>alt</object-name>
+    <object-name>test</object-name>
   </animation>
 
   <animation>
@@ -77,7 +87,11 @@
     <object-name>Border</object-name>
     <object-name>KnobMode</object-name>
     <object-name>vitre</object-name>
-
+    <object-name>off</object-name>
+    <object-name>stby</object-name>
+    <object-name>on</object-name>
+    <object-name>alt</object-name>
+    <object-name>test</object-name>
     <property-base>/instrumentation/transponder</property-base>
     <texture-prop>texture-file</texture-prop>
   </animation>
@@ -109,28 +123,158 @@
     </emission>
   </animation-->
 
- <animation>
-  <type>material</type>
-    <!--object-name>Dial1</object-name>
-    <object-name>Dial10</object-name>
-    <object-name>Dial100</object-name>
-    <object-name>Dial1000</object-name-->
-    <object-name>Ident</object-name>
-    <object-name>Ident-light</object-name>
-    <!--object-name>Knob1</object-name>
-    <object-name>Knob10</object-name>
-    <object-name>Knob100</object-name>
-    <object-name>Knob1000</object-name>
-    <object-name>KnobMode</object-name-->
-  <emission>
-   <red>0.5</red>
-   <green>0.1</green>
-   <blue>0.00005</blue>
-   <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
-  </emission>
- </animation>
+    <animation>
+        <type>material</type>
+        <!--object-name>Dial1</object-name>
+        <object-name>Dial10</object-name>
+        <object-name>Dial100</object-name>
+        <object-name>Dial1000</object-name-->
+        <object-name>Ident</object-name>
+        <object-name>Ident-light</object-name>
+        <!--object-name>Knob1</object-name>
+        <object-name>Knob10</object-name>
+        <object-name>Knob100</object-name>
+        <object-name>Knob1000</object-name>
+        <object-name>KnobMode</object-name-->
+        <emission>
+            <red>0.5</red>
+            <green>0.1</green>
+            <blue>0.00005</blue>
+            <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
+        </emission>
+    </animation>
 
-     <animation>
+    <!--animation>
+        <type>material</type>
+        <object-name>off</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <equals>
+                    <property>instrumentation/transponder/inputs/knob-mode</property>
+                    <value>0</value>
+                </equals>
+                <greater-than-equals>
+                    <property>/sim/model/c172p/lighting/trans</property>
+                    <value>0.0</value>
+                </greater-than-equals>
+            </and>
+        </condition>
+        <emission>
+           <red>0.5</red>
+           <green>0.1</green>
+           <blue>0.00005</blue>
+           <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
+        </emission>
+    </animation-->
+
+    <animation>
+        <type>material</type>
+        <object-name>stby</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <equals>
+                    <property>instrumentation/transponder/inputs/knob-mode</property>
+                    <value>1</value>
+                </equals>
+                <greater-than>
+                    <property>/sim/model/c172p/lighting/trans</property>
+                    <value>0.0</value>
+                </greater-than>
+            </and>
+        </condition>
+        <emission>
+           <red>0.5</red>
+           <green>0.1</green>
+           <blue>0.00005</blue>
+           <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>on</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <equals>
+                    <property>instrumentation/transponder/inputs/knob-mode</property>
+                    <value>4</value>
+                </equals>
+                <greater-than>
+                    <property>/sim/model/c172p/lighting/trans</property>
+                    <value>0.0</value>
+                </greater-than>
+            </and>
+        </condition>
+        <emission>
+           <red>0.5</red>
+           <green>0.1</green>
+           <blue>0.00005</blue>
+           <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>alt</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <equals>
+                    <property>instrumentation/transponder/inputs/knob-mode</property>
+                    <value>5</value>
+                </equals>
+                <greater-than>
+                    <property>/sim/model/c172p/lighting/trans</property>
+                    <value>0.0</value>
+                </greater-than>
+            </and>
+        </condition>
+        <emission>
+           <red>0.5</red>
+           <green>0.1</green>
+           <blue>0.00005</blue>
+           <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>test</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <equals>
+                    <property>instrumentation/transponder/inputs/knob-mode</property>
+                    <value>2</value>
+                </equals>
+                <greater-than>
+                    <property>/sim/model/c172p/lighting/trans</property>
+                    <value>0.0</value>
+                </greater-than>
+            </and>
+        </condition>
+        <emission>
+           <red>0.5</red>
+           <green>0.1</green>
+           <blue>0.00005</blue>
+           <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
         <type>material</type>
             <object-name>Dial1</object-name>
             <object-name>Dial10</object-name>
@@ -154,7 +298,7 @@
             <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
         </emission>
     </animation>
-
+    
   <animation>
     <type>noshadow</type>
     <object-name>vitre</object-name>

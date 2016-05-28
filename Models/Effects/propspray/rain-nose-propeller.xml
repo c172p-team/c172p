@@ -4,7 +4,6 @@
 
     <params>
         <prop_spray_speed_ms>engines/engine[2]/rpm</prop_spray_speed_ms>
-        <prop_spray_density>engines/engine[2]/rpm</prop_spray_density>
     </params>
 
     <particlesystem>
@@ -22,8 +21,12 @@
         <condition>
             <and>
                 <greater-than>
-                    <property alias="/params/prop_spray_density"/>
-                    <value>800.0</value>
+                    <property alias="/params/prop_spray_speed_ms"/>
+                    <value>200.0</value>
+                </greater-than>
+                <greater-than>
+                    <property>/environment/rain-norm</property>
+                    <value>0.0</value>
                 </greater-than>
                 <less-than>
                     <property>position/altitude-agl-ft</property>
@@ -79,7 +82,8 @@
 
         <counter>
             <particles-per-sec>
-                <property alias="/params/prop_spray_density"/>
+                <!-- TODO It would be nice if we could multiply with /environment/rain-norm -->
+                <property alias="/params/prop_spray_speed_ms"/>
                 <factor>0.01</factor>
                 <spread>0.01</spread>
             </particles-per-sec>

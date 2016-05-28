@@ -326,4 +326,38 @@
         </output>
     </filter>
 
+    <logic>
+        <name>Transponder On/Off</name>
+        <input>
+            <and>
+                <property>instrumentation/transponder/serviceable</property>
+                <property>instrumentation/transponder/inputs/knob-mode</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/transponder</property>
+                    <value>6.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/transponder-power</property>
+        </output>
+    </logic>
+
+    <filter>
+        <name>Transponder Dim/Bright</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/sim/model/c172p/lighting/transponder-power</property>
+            </condition>
+            <property>/controls/lighting/radio-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/trans</property>
+        </output>
+    </filter>
+
 </PropertyList>

@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <params>
+        <prop_spray_speed_ms>engines/engine[2]/rpm</prop_spray_speed_ms>
+    </params>
+
+    <particlesystem>
+        <name>rain-s</name>
+        <texture>smoke.png</texture>
+        <emissive>true</emissive>
+        <lighting>false</lighting>
+
+        <offsets>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </offsets>
+
+        <condition>
+            <and>
+                <greater-than>
+                    <property alias="/params/prop_spray_speed_ms"/>
+                    <value>200.0</value>
+                </greater-than>
+                <greater-than>
+                    <property>/environment/rain-norm</property>
+                    <value>0.0</value>
+                </greater-than>
+                <less-than>
+                    <property>position/altitude-agl-ft</property>
+                    <value>5.0</value>
+                </less-than>
+                <not>
+                    <property>/sim/current-view/internal</property>
+                </not>
+            </and>
+        </condition>
+
+        <attach>world</attach>
+
+        <placer>
+            <type>segments</type>
+            <vertex>
+                <x-m>0</x-m>
+                <y-m>0</y-m>
+                <z-m>0</z-m>
+            </vertex>
+            <vertex>
+                <x-m>1.5</x-m>
+                <y-m>0</y-m>
+                <z-m>0</z-m>
+            </vertex>
+            <vertex>
+                <x-m>3</x-m>
+                <y-m>0</y-m>
+                <z-m>0</z-m>
+            </vertex>
+        </placer>
+
+        <shooter>
+            <theta-min-deg>90</theta-min-deg>
+            <theta-max-deg>90</theta-max-deg>
+            <phi-min-deg>-15</phi-min-deg>
+            <phi-max-deg>15</phi-max-deg>
+            <speed-mps>
+                <expression>
+                    <product>
+                        <property alias="/params/prop_spray_speed_ms"/>
+                        <value>1.1</value>
+                    </product>
+                </expression>
+                <spread>1.0</spread>
+            </speed-mps>
+            <rotation-speed>
+                <x-max-deg-sec>15</x-max-deg-sec>
+                <x-min-deg-sec>-15</x-min-deg-sec>
+                <y-max-deg-sec>15</y-max-deg-sec>
+                <y-min-deg-sec>-15</y-min-deg-sec>
+                <z-max-deg-sec>15</z-max-deg-sec>
+                <z-min-deg-sec>-15</z-min-deg-sec>
+            </rotation-speed>
+        </shooter>
+
+        <counter>
+            <particles-per-sec>
+                <!-- TODO It would be nice if we could multiply with /environment/rain-norm -->
+                <property alias="/params/prop_spray_speed_ms"/>
+                <factor>0.01</factor>
+                <spread>0.01</spread>
+            </particles-per-sec>
+        </counter>
+
+        <align>billboard</align>
+
+        <particle>
+            <start>
+                <color>
+                    <red>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </red>
+                    <green>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </green>
+                    <blue>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </blue>
+                    <alpha>
+                        <value>0.05</value>
+                    </alpha>
+                </color>
+                <size>
+                    <value>0.5</value>
+                </size>
+            </start>
+            <end>
+                <color>
+                    <red>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </red>
+                    <green>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </green>
+                    <blue>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </blue>
+                    <alpha>
+                        <value>0.020</value>
+                    </alpha>
+                </color>
+                <size>
+                    <value>10</value>
+                </size>
+            </end>
+            <life-sec>
+                <value>1.5</value>
+            </life-sec>
+            <mass-kg>0.025</mass-kg>
+            <radius-m>0.125</radius-m>
+        </particle>
+
+        <program>
+            <fluid>air</fluid>
+            <gravity>true</gravity>
+            <wind>false</wind>
+        </program>
+
+    </particlesystem>
+
+</PropertyList>

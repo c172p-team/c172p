@@ -21,13 +21,14 @@
   <object-name>magsw</object-name>
  </animation>
 
-<!--		magneto switch		-->
+<!-- Magneto switch -->
  <animation>
    <type>knob</type>
-   <object-name>click-L</object-name>
-   <object-name>click-R</object-name>
+  <object-name>key</object-name>
+  <object-name>start</object-name>
+  <object-name>magsw</object-name>
    
-   <visible>false</visible>
+   <visible>true</visible>
    <action>
      <binding>
        <command>property-adjust</command>
@@ -66,9 +67,8 @@
     </binding>
   </hovered>
  </animation>
- 
 
-<!--		Starter		-->
+<!-- Starter -->
  <animation>
    <type>pick</type>
    <object-name>click-S</object-name>
@@ -107,13 +107,27 @@
   </hovered>
   
  </animation>
-<!--   key animations  -->   
+<!-- Key rotation animation -->
  <animation>
-  <name>mags-key</name>
   <type>rotate</type>
   <object-name>key</object-name>
-  <property>/controls/switches/magnetos</property>
-  <factor>30</factor>
+  <object-name>start</object-name>
+  <expression>
+  <sum>
+    <product>
+        <difference>
+            <value>1</value>
+            <property>/controls/switches/starter</property>
+        </difference>
+        <property>/controls/switches/magnetos</property>
+        <value>30</value>
+    </product>
+    <product>
+        <property>/controls/switches/starter</property>
+        <value>120</value>
+    </product>
+    </sum>
+  </expression>
   <center>
    <x-m>0.0257195</x-m>
    <y-m>3.91249e-006</y-m>
@@ -126,24 +140,4 @@
   </axis>
  </animation>
 
-<animation>
- <type>select</type>
-  <object-name>key</object-name>
-  <condition>
-   <not>
-    <property>/controls/switches/starter</property>
-   </not>
-  </condition>
-</animation>
-
-<animation>
- <type>select</type>
-  <object-name>start</object-name>
-  <condition>
-    <property>/controls/switches/starter</property>
-  </condition>
-</animation>        
-  
 </PropertyList>
-
-

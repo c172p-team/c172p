@@ -1,149 +1,144 @@
 <?xml version="1.0"?>
-
 <PropertyList>
 
- <path>magneto-switch.ac</path>
+    <path>magneto-switch.ac</path>
 
- <effect>
-   <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
-   <object-name>key</object-name>
-   <object-name>start</object-name>
-   <object-name>magsw</object-name>
-   <object-name>click-L</object-name>
-   <object-name>click-R</object-name>
-   <object-name>click-S</object-name>
- </effect>
+    <effect>
+        <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
+        <object-name>key</object-name>
+        <object-name>start</object-name>
+        <object-name>magsw</object-name>
+        <object-name>click-L</object-name>
+        <object-name>click-R</object-name>
+        <object-name>click-S</object-name>
+    </effect>
 
- <animation>
-  <type>material</type>
-  <object-name>key</object-name>
-  <object-name>start</object-name>
-  <object-name>magsw</object-name>
- </animation>
+    <animation>
+        <type>material</type>
+        <object-name>key</object-name>
+        <object-name>start</object-name>
+        <object-name>magsw</object-name>
+    </animation>
 
-<!--		magneto switch		-->
- <animation>
-   <type>knob</type>
-   <object-name>click-L</object-name>
-   <object-name>click-R</object-name>
-   
-   <visible>false</visible>
-   <action>
-     <binding>
-       <command>property-adjust</command>
-       <property>/controls/switches/magnetos</property>
-       <factor>1</factor>
-       <min>0</min>
-       <max>3</max>
-     </binding>
-   </action>
-   <increase>
-     <binding>
-       <command>nasal</command>
-       <script>c172p.click("magneto-forward")</script>
-     </binding>
-   </increase>
-   <decrease>
-     <binding>
-       <command>nasal</command>
-       <script>c172p.click("magneto-back")</script>
-     </binding>
-   </decrease>
-   <hovered>
-     <binding>
-       <command>set-tooltip</command>
-       <tooltip-id>magneto-switch</tooltip-id>
-       <label>Magnetos: %s</label>
-       <property>controls/switches/magnetos</property>
-       <mapping>nasal</mapping>
-       <script>
-         var m = arg[0];
-         if (m == 1) return 'RIGHT';
-         if (m == 2) return 'LEFT';
-         if (m == 3) return 'BOTH';
-         return 'OFF';
-       </script>
-    </binding>
-  </hovered>
- </animation>
- 
+    <!-- Magneto switch -->
+    <animation>
+        <type>knob</type>
+        <object-name>key</object-name>
+        <object-name>start</object-name>
+        <object-name>magsw</object-name>
+        <visible>true</visible>
 
-<!--		Starter		-->
- <animation>
-   <type>pick</type>
-   <object-name>click-S</object-name>
-   <visible>false</visible>
-   <action>
-     <name>starter</name>
-     <button>0</button>
-     <binding>
-       <command>property-assign</command>
-       <property>/controls/switches/starter</property>
-       <value >1</value>
-     </binding>
-     <binding>
-       <command>nasal</command>
-       <script>c172p.click("magneto-forward")</script>
-     </binding>
-     <mod-up>
-       <binding>
-         <command>property-assign</command>
-         <property>/controls/switches/starter</property>
-         <value>0</value>
-       </binding>
-       <binding>
-         <command>nasal</command>
-         <script>c172p.click("magneto-back")</script>
-       </binding>
-     </mod-up>
-   </action>
-   
-   <hovered>
-     <binding>
-       <command>set-tooltip</command>
-       <tooltip-id>starter-switch</tooltip-id>
-       <label>Engine Starter</label>
-    </binding>
-  </hovered>
-  
- </animation>
-<!--   key animations  -->   
- <animation>
-  <name>mags-key</name>
-  <type>rotate</type>
-  <object-name>key</object-name>
-  <property>/controls/switches/magnetos</property>
-  <factor>30</factor>
-  <center>
-   <x-m>0.0257195</x-m>
-   <y-m>3.91249e-006</y-m>
-   <z-m>8.14768e-006</z-m>
-  </center>
-  <axis>
-   <x>-1</x>
-   <y>0</y>
-   <z>0</z>
-  </axis>
- </animation>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/switches/magnetos</property>
+                <factor>1</factor>
+                <min>0</min>
+                <max>3</max>
+            </binding>
+        </action>
 
-<animation>
- <type>select</type>
-  <object-name>key</object-name>
-  <condition>
-   <not>
-    <property>/controls/switches/starter</property>
-   </not>
-  </condition>
-</animation>
+        <increase>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("magneto-forward")</script>
+            </binding>
+        </increase>
+        <decrease>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("magneto-back")</script>
+            </binding>
+        </decrease>
 
-<animation>
- <type>select</type>
-  <object-name>start</object-name>
-  <condition>
-    <property>/controls/switches/starter</property>
-  </condition>
-</animation>        
-  
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>magneto-switch</tooltip-id>
+                <label>Magnetos: %s</label>
+                <property>controls/switches/magnetos</property>
+                <mapping>nasal</mapping>
+                <script>
+                    var m = arg[0];
+                    if (m == 1) return 'RIGHT';
+                    if (m == 2) return 'LEFT';
+                    if (m == 3) return 'BOTH';
+                    return 'OFF';
+                </script>
+            </binding>
+        </hovered>
+    </animation>
+
+    <!-- Starter -->
+    <animation>
+        <type>pick</type>
+        <object-name>click-S</object-name>
+        <visible>false</visible>
+        <action>
+            <name>starter</name>
+            <button>0</button>
+            <binding>
+                <command>property-assign</command>
+                <property>/controls/switches/starter</property>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("magneto-forward")</script>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/controls/switches/starter</property>
+                    <value>0</value>
+                </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>c172p.click("magneto-back")</script>
+                </binding>
+            </mod-up>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>starter-switch</tooltip-id>
+                <label>Engine Starter</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <!-- Key rotation animation -->
+    <animation>
+        <type>rotate</type>
+        <object-name>key</object-name>
+        <object-name>start</object-name>
+        <expression>
+            <sum>
+                <product>
+                    <!-- 1 if starter is false, 0 if starter is true -->
+                    <difference>
+                        <value>1</value>
+                        <property>/controls/switches/starter</property>
+                    </difference>
+                    <property>/controls/switches/magnetos</property>
+                    <value>30</value>
+                </product>
+                <product>
+                    <property>/controls/switches/starter</property>
+                    <value>120</value>
+                </product>
+            </sum>
+        </expression>
+        <center>
+            <x-m>0.0257195</x-m>
+            <y-m>3.91249e-006</y-m>
+            <z-m>8.14768e-006</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
 </PropertyList>
-
-

@@ -72,21 +72,15 @@ var autostart = func (msg=1) {
 
     # All set, starting engine
     setprop("/controls/switches/starter", 1);
-
-    var engineRunning = setlistener("/engines/active-engine/running", func {
-        if (getprop("/engines/active-engine/running")) {
-            setprop("/controls/switches/starter", 0);
-            removelistener(engineRunning);
-        }
-    });        
+    setprop("/engines/active-engine/auto-start", 1);
 
     var engine_running_check_delay = 5.0;
     settimer(func {
         if (!getprop("/engines/active-engine/running")) {
             gui.popupTip("The autostart failed to start the engine. You must lean the mixture and start the engine manually.", 5);
-            setprop("/controls/switches/starter", 0);
-            removelistener(engineRunning);
         }
+        setprop("/controls/switches/starter", 0);
+        setprop("/engines/active-engine/auto-start", 0);
     }, engine_running_check_delay);
 
 };
@@ -327,13 +321,6 @@ var thunder = func (name) {
 var reset_system = func {
     if (getprop("/fdm/jsbsim/running")) {
         c172p.autostart(0);
-        setprop("/controls/switches/starter", 1);
-        var engineRunning = setlistener("/engines/active-engine/running", func {
-            if (getprop("/engines/active-engine/running")) {
-                setprop("/controls/switches/starter", 0);
-                removelistener(engineRunning);
-            }
-        });
     }
 
     # These properties are aliased to MP properties in /sim/multiplay/generic/.
@@ -495,6 +482,15 @@ setlistener("/sim/signals/fdm-initialized", func {
             fog_frost_timer.stop();
         }
     }, 1, 0);
+
+    setlistener("/engines/active-engine/running", func (node) {
+        var autostart = getprop("/engines/active-engine/auto-start");
+        var cranking  = getprop("/engines/active-engine/cranking");
+        if (autostart and cranking and node.getBoolValue()) {
+            setprop("/controls/switches/starter", 0);
+            setprop("/engines/active-engine/auto-start", 0);
+        }
+    }, 0, 0);
 
     # Checking if fuel tanks should be refilled (in case save state is off)
     fuel_save_state();

@@ -360,7 +360,7 @@ var coneR_model = {
             if (manager.getChild("model", i, 0) == nil)
                 break;
         var cones = geo.aircraft_position().set_alt(props.globals.getNode("/position/ground-elev-m").getValue());
-        geo.put_model("Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_R.ac", cones,
+        geo.put_model("Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_R.xml", cones,
         props.globals.getNode("/orientation/heading-deg").getValue());
         me.index = i;
     },
@@ -393,7 +393,7 @@ var coneL_model = {
             if (manager.getChild("model", i, 0) == nil)
                 break;
         var cones = geo.aircraft_position().set_alt(props.globals.getNode("/position/ground-elev-m").getValue());
-        geo.put_model("Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_L.ac", cones,
+        geo.put_model("Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_L.xml", cones,
         props.globals.getNode("/orientation/heading-deg").getValue());
         me.index = i;
     },
@@ -445,6 +445,20 @@ var init_common = func {
     });
 }
 settimer(init_common,0);
+
+# external electrical disconnect when groundspeed higher than 0.1ktn (replace later with distance less than 0.01...)
+ad = func {
+    groundspeed = getprop("/velocities/groundspeed-kt") or 0; 
+    if (groundspeed > 0.1) {
+        setprop("/controls/electric/external-power", "false");
+    }
+    settimer(ad, 0.1);   
+}
+init = func {
+    settimer(ad, 0.0);
+}
+
+init();	
 
 ############################################
 # Static objects: ladders

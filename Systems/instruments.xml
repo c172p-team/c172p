@@ -359,5 +359,24 @@
             <property>/sim/model/c172p/lighting/trans</property>
         </output>
     </filter>
+    
+    <filter>
+        <name>Clock: UTF to local time conversion</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <sum>
+                    <property>sim/time/utc/day-seconds</property>
+                    <property>sim/time/local-offset</property>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/c172p/local-time-seconds</property>
+        </output>
+    </filter>
 
 </PropertyList>

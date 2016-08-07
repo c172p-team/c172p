@@ -31,11 +31,6 @@ var init_electrical = func {
     # Request that the update function be called next frame
     settimer(update_electrical, 0);
     print("Electrical system initialized");
-    
-    # checking if battery should be automatically recharged
-    if (!getprop("/systems/electrical/save-battery-charge")) {    
-        battery.reset_to_full_charge();
-    };   
 }
 
 var reset_battery_and_circuit_breakers = func {
@@ -71,8 +66,8 @@ BatteryClass.new = func {
     var obj = { parents : [BatteryClass],
                 ideal_volts : 24.0,
                 ideal_amps : 30.0,
-                amp_hours : 3.1875,
-                charge_percent : getprop("/systems/electrical/battery-charge-percent") or 1.0,
+                amp_hours : 12.75,
+                charge_percent : 1.0,
                 charge_amps : 7.0 };
     setprop("/systems/electrical/battery-charge-percent", obj.charge_percent);
     return obj;
@@ -96,7 +91,7 @@ BatteryClass.apply_load = func (amps, dt) {
 
     if (new_charge_percent < 0.1 and old_charge_percent >= 0.1)
         gui.popupTip("Warning: Low battery! Enable alternator or apply external power to recharge battery!", 10);
-    me.charge_percent = new_charge_percent;
+
     setprop("/systems/electrical/battery-charge-percent", new_charge_percent);
     return me.amp_hours * new_charge_percent;
 }
@@ -357,7 +352,7 @@ var electrical_bus_1 = func() {
             # starter
             if ( getprop("controls/switches/starter") ) {
                 setprop("systems/electrical/outputs/starter", bus_volts);
-                load += 24;
+                load += 12;
             } else {
                 setprop("systems/electrical/outputs/starter", 0.0);
             }

@@ -348,6 +348,171 @@ setlistener("/engines/active-engine/killed", func (node) {
 });
 
 ############################################
+# Static objects: right safety cone
+############################################
+
+var coneR_model = {
+    index: 0,
+    add: func {
+        var manager = props.globals.getNode("/models", 1);
+        var i = 0;
+        for (; 1; i += 1)
+            if (manager.getChild("model", i, 0) == nil)
+                break;
+        var cones = geo.aircraft_position().set_alt(props.globals.getNode("/position/ground-elev-m").getValue());
+        geo.put_model("Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_R.ac", cones,
+        props.globals.getNode("/orientation/heading-deg").getValue());
+        me.index = i;
+    },
+    remove: func {
+        props.globals.getNode("/models", 1).removeChild("model", me.index);
+    },
+};
+
+var init_common = func {
+    setlistener("/sim/coneR/enable", func(n) {
+        if (n.getValue()) {
+            coneR_model.add();
+        } else  {
+            coneR_model.remove();
+        }
+    });
+}
+settimer(init_common,0);
+
+############################################
+# Static objects: left safety cone
+############################################
+
+var coneL_model = {
+    index: 0,
+    add: func {
+        var manager = props.globals.getNode("/models", 1);
+        var i = 0;
+        for (; 1; i += 1)
+            if (manager.getChild("model", i, 0) == nil)
+                break;
+        var cones = geo.aircraft_position().set_alt(props.globals.getNode("/position/ground-elev-m").getValue());
+        geo.put_model("Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_L.ac", cones,
+        props.globals.getNode("/orientation/heading-deg").getValue());
+        me.index = i;
+    },
+    remove:   func {
+        props.globals.getNode("/models", 1).removeChild("model", me.index);
+    },
+};
+
+var init_common = func {
+    setlistener("/sim/coneL/enable", func(n) {
+        if (n.getValue()) {
+            coneL_model.add();
+        } else  {
+            coneL_model.remove();
+        }
+    });
+}
+settimer(init_common,0);
+
+############################################
+# Static objects: ground power unit
+############################################
+
+var gpu_model = {
+    index: 0,
+    add: func {
+        var manager = props.globals.getNode("/models", 1);
+        var i = 0;
+        for (; 1; i += 1)
+            if (manager.getChild("model", i, 0) == nil)
+                break;
+        var gpu = geo.aircraft_position().set_alt(props.globals.getNode("/position/ground-elev-m").getValue());
+        geo.put_model("Aircraft/c172p/Models/Exterior/external-power/external-power.xml", gpu,
+        props.globals.getNode("/orientation/heading-deg").getValue());
+        me.index = i;
+    },
+    remove: func {
+        props.globals.getNode("/models", 1).removeChild("model", me.index);
+    },
+};
+
+var init_common = func {
+    setlistener("/sim/gpu/enable", func(n) {
+        if (n.getValue()) {
+            gpu_model.add();
+        } else  {
+            gpu_model.remove();
+        }
+    });
+}
+settimer(init_common,0);
+
+############################################
+# Static objects: ladders
+############################################
+
+var ladder_model = {
+    index: 0,
+    add: func {
+        var manager = props.globals.getNode("/models", 1);
+        var i = 0;
+        for (; 1; i += 1)
+            if (manager.getChild("model", i, 0) == nil)
+                break;
+        var ladder = geo.aircraft_position().set_alt(props.globals.getNode("/position/ground-elev-m").getValue());
+        geo.put_model("Aircraft/c172p/Models/Exterior/ladder/ladder.xml", ladder,
+        props.globals.getNode("/orientation/heading-deg").getValue());
+        me.index = i;
+    },
+    remove: func {
+        props.globals.getNode("/models", 1).removeChild("model", me.index);
+    },
+};
+
+var init_common = func {
+    setlistener("/sim/ladder/enable", func(n) {
+        if (n.getValue()) {
+            ladder_model.add();
+        } else  {
+            ladder_model.remove();
+        }
+    });
+}
+settimer(init_common,0);
+
+############################################
+# Static objects: fuel tank trailer
+############################################
+
+var fueltanktrailer_model = {
+    index: 0,
+    add: func {
+        var manager = props.globals.getNode("/models", 1);
+        var i = 0;
+        for (; 1; i += 1)
+            if (manager.getChild("model", i, 0) == nil)
+                break;
+        var fueltanktrailer = geo.aircraft_position().set_alt(props.globals.getNode("/position/ground-elev-m").getValue());
+        geo.put_model("Aircraft/c172p/Models/Exterior/fueltanktrailer/fueltanktrailer.ac", fueltanktrailer,
+        props.globals.getNode("/orientation/heading-deg").getValue());
+        me.index = i;
+    },
+    remove: func {
+        props.globals.getNode("/models", 1).removeChild("model", me.index);
+    },
+};
+
+var init_common = func {
+    setlistener("/sim/fueltanktrailer/enable", func(n) {
+        if (n.getValue()) {
+            fueltanktrailer_model.add();
+        } else  {
+            fueltanktrailer_model.remove();
+        }
+    });
+}
+settimer(init_common,0);
+
+############################################
 # Global loop function
 # If you need to run nasal as loop, add it in this function
 ############################################

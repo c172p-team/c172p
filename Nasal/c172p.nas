@@ -448,6 +448,11 @@ var log_fog_frost = func {
 };
 var fog_frost_timer = maketimer(30.0, log_fog_frost);
 
+var dialog_battery_reload = func {
+    electrical.reset_battery_and_circuit_breakers();
+    gui.popupTip("The battery is now fully charged!");
+}
+
 setlistener("/sim/signals/fdm-initialized", func {
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.

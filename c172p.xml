@@ -915,7 +915,7 @@
             <!-- If the engine was primed enough times and throttle
                  is in starter position, then mixture is 1.
             -->
-            <fcs_function name="fcs/mixture-primer">
+            <fcs_function name="fcs/mixture-primer-cmd">
                 <function>
                     <table>
                         <independentVar lookup="row">/controls/engines/engine/primer</independentVar>
@@ -933,6 +933,16 @@
                 </function>
             </fcs_function>
 
+            <pure_gain name="fcs/mixture-primer[0]">
+                <input>fcs/mixture-cmd-norm[0]</input>
+                <gain>fcs/mixture-primer-cmd</gain>
+            </pure_gain>
+
+            <pure_gain name="fcs/mixture-primer[1]">
+                <input>fcs/mixture-cmd-norm[1]</input>
+                <gain>fcs/mixture-primer-cmd</gain>
+            </pure_gain>
+
             <!-- Primer logic for 160 HP engine -->
             <switch name="Mixture Position 160 HP">
                 <default value="fcs/mixture-cmd-norm[0]"/>
@@ -940,7 +950,7 @@
                 <!-- Use primer if used and engine is cold. If engine
                      is warm, then the mixture lever is used.
                 -->
-                <test logic="AND" value="fcs/mixture-primer">
+                <test logic="AND" value="fcs/mixture-primer[0]">
                     /controls/engines/engine/use-primer eq 1
                     /engines/engine[0]/oil-temperature-degf le 75
                 </test>
@@ -953,7 +963,7 @@
                 <!-- Use primer if used and engine is cold. If engine
                      is warm, then the mixture lever is used.
                 -->
-                <test logic="AND" value="fcs/mixture-primer">
+                <test logic="AND" value="fcs/mixture-primer[1]">
                     /controls/engines/engine/use-primer eq 1
                     /engines/engine[1]/oil-temperature-degf le 75
                 </test>

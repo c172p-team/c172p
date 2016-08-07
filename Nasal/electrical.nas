@@ -71,7 +71,7 @@ BatteryClass.new = func {
     var obj = { parents : [BatteryClass],
                 ideal_volts : 24.0,
                 ideal_amps : 30.0,
-                amp_hours : 25.00,
+                amp_hours : 3.1875,
                 charge_percent : getprop("/systems/electrical/battery-charge-percent") or 1.0,
                 charge_amps : 7.0 };
     setprop("/systems/electrical/battery-charge-percent", obj.charge_percent);
@@ -357,7 +357,7 @@ var electrical_bus_1 = func() {
             # starter
             if ( getprop("controls/switches/starter") ) {
                 setprop("systems/electrical/outputs/starter", bus_volts);
-                load += 12;
+                load += 24;
             } else {
                 setprop("systems/electrical/outputs/starter", 0.0);
             }

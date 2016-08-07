@@ -31,6 +31,11 @@ var init_electrical = func {
     # Request that the update function be called next frame
     settimer(update_electrical, 0);
     print("Electrical system initialized");
+    
+    # checking if battery should be automatically recharged
+    if (!getprop("/systems/electrical/save-battery-charge")) {    
+        battery.reset_to_full_charge();
+    };   
 }
 
 var reset_battery_and_circuit_breakers = func {

@@ -84,7 +84,7 @@ BatteryClass.new = func {
 #
 
 BatteryClass.apply_load = func (amps, dt) {
-    var old_charge_percent = me.charge_percent;
+    var old_charge_percent = getprop("/systems/electrical/battery-charge-percent");
 
     if (getprop("/sim/freeze/replay-state"))
         return me.amp_hours * old_charge_percent;
@@ -95,7 +95,7 @@ BatteryClass.apply_load = func (amps, dt) {
     var new_charge_percent = std.max(0.0, std.min(old_charge_percent - percent_used, 1.0));
 
     if (new_charge_percent < 0.1 and old_charge_percent >= 0.1)
-        gui.popupTip("Warning: Low battery! Enable alternator or apply external power to recharge battery!", 10);       
+        gui.popupTip("Warning: Low battery! Enable alternator or apply external power to recharge battery!", 10);
     me.charge_percent = new_charge_percent;
     setprop("/systems/electrical/battery-charge-percent", new_charge_percent);
     return me.amp_hours * new_charge_percent;

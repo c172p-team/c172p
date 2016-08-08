@@ -351,180 +351,60 @@ setlistener("/engines/active-engine/killed", func (node) {
 # Static objects: right safety cone
 ############################################
 
-var coneR_model = {
-    index: 0,
+var StaticModel = {
+    new: func (name, file) {
+        var m = {
+            parents: [StaticModel],
+            index: nil,
+            model_file: file
+        };
+
+        setlistener("/sim/" ~ name ~ "/enable", func (node) {
+            if (node.getBoolValue()) {
+                m.add();
+            }
+            else {
+                m.remove();
+            }
+        });
+
+        return m;
+    },
+
     add: func {
         var manager = props.globals.getNode("/models", 1);
         var i = 0;
-        for (; 1; i += 1)
-            if (manager.getChild("model", i, 0) == nil)
+        for (; 1; i += 1) {
+            if (manager.getChild("model", i, 0) == nil) {
                 break;
-        var cones = geo.aircraft_position().set_alt(props.globals.getNode("/position/ground-elev-m").getValue());
-        geo.put_model("Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_R.xml", cones,
-        props.globals.getNode("/orientation/heading-deg").getValue());
+            }
+        }
+        var position = geo.aircraft_position().set_alt(getprop("/position/ground-elev-m"));
+        geo.put_model(me.model_file, position, getprop("/orientation/heading-deg"));
         me.index = i;
     },
+
     remove: func {
-        props.globals.getNode("/models", 1).removeChild("model", me.index);
-    },
+        if (me.index != nil) {
+            props.globals.getNode("/models", 1).removeChild("model", me.index);
+        }
+    }
 };
 
-var init_common = func {
-    setlistener("/sim/coneR/enable", func(n) {
-        if (n.getValue()) {
-            coneR_model.add();
-        } else  {
-            coneR_model.remove();
-        }
-    });
-}
-settimer(init_common,0);
-
-############################################
-# Static objects: left safety cone
-############################################
-
-var coneL_model = {
-    index: 0,
-    add: func {
-        var manager = props.globals.getNode("/models", 1);
-        var i = 0;
-        for (; 1; i += 1)
-            if (manager.getChild("model", i, 0) == nil)
-                break;
-        var cones = geo.aircraft_position().set_alt(props.globals.getNode("/position/ground-elev-m").getValue());
-        geo.put_model("Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_L.xml", cones,
-        props.globals.getNode("/orientation/heading-deg").getValue());
-        me.index = i;
-    },
-    remove:   func {
-        props.globals.getNode("/models", 1).removeChild("model", me.index);
-    },
-};
-
-var init_common = func {
-    setlistener("/sim/coneL/enable", func(n) {
-        if (n.getValue()) {
-            coneL_model.add();
-        } else  {
-            coneL_model.remove();
-        }
-    });
-}
-settimer(init_common,0);
-
-############################################
-# Static objects: ground power unit
-############################################
-
-var gpu_model = {
-    index: 0,
-    add: func {
-        var manager = props.globals.getNode("/models", 1);
-        var i = 0;
-        for (; 1; i += 1)
-            if (manager.getChild("model", i, 0) == nil)
-                break;
-        var gpu = geo.aircraft_position().set_alt(props.globals.getNode("/position/ground-elev-m").getValue());
-        geo.put_model("Aircraft/c172p/Models/Exterior/external-power/external-power.xml", gpu,
-        props.globals.getNode("/orientation/heading-deg").getValue());
-        me.index = i;
-    },
-    remove: func {
-        props.globals.getNode("/models", 1).removeChild("model", me.index);
-    },
-};
-
-var init_common = func {
-    setlistener("/sim/gpu/enable", func(n) {
-        if (n.getValue()) {
-            gpu_model.add();
-        } else  {
-            gpu_model.remove();
-        }
-    });
-}
-settimer(init_common,0);
+StaticModel.new("coneR", "Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_R.xml");
+StaticModel.new("coneL", "Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_L.xml");
+StaticModel.new("gpu", "Aircraft/c172p/Models/Exterior/external-power/external-power.xml");
+StaticModel.new("ladder", "Aircraft/c172p/Models/Exterior/ladder/ladder.xml");
+StaticModel.new("fueltanktrailer", "Aircraft/c172p/Models/Exterior/fueltanktrailer/fueltanktrailer.ac");
 
 # external electrical disconnect when groundspeed higher than 0.1ktn (replace later with distance less than 0.01...)
-ad = func {
-    groundspeed = getprop("/velocities/groundspeed-kt") or 0; 
+var ad_timer = maketimer(0.1, func {
+    groundspeed = getprop("/velocities/groundspeed-kt") or 0;
     if (groundspeed > 0.1) {
         setprop("/controls/electric/external-power", "false");
     }
-    settimer(ad, 0.1);   
-}
-init = func {
-    settimer(ad, 0.0);
-}
-
-init();	
-
-############################################
-# Static objects: ladders
-############################################
-
-var ladder_model = {
-    index: 0,
-    add: func {
-        var manager = props.globals.getNode("/models", 1);
-        var i = 0;
-        for (; 1; i += 1)
-            if (manager.getChild("model", i, 0) == nil)
-                break;
-        var ladder = geo.aircraft_position().set_alt(props.globals.getNode("/position/ground-elev-m").getValue());
-        geo.put_model("Aircraft/c172p/Models/Exterior/ladder/ladder.xml", ladder,
-        props.globals.getNode("/orientation/heading-deg").getValue());
-        me.index = i;
-    },
-    remove: func {
-        props.globals.getNode("/models", 1).removeChild("model", me.index);
-    },
-};
-
-var init_common = func {
-    setlistener("/sim/ladder/enable", func(n) {
-        if (n.getValue()) {
-            ladder_model.add();
-        } else  {
-            ladder_model.remove();
-        }
-    });
-}
-settimer(init_common,0);
-
-############################################
-# Static objects: fuel tank trailer
-############################################
-
-var fueltanktrailer_model = {
-    index: 0,
-    add: func {
-        var manager = props.globals.getNode("/models", 1);
-        var i = 0;
-        for (; 1; i += 1)
-            if (manager.getChild("model", i, 0) == nil)
-                break;
-        var fueltanktrailer = geo.aircraft_position().set_alt(props.globals.getNode("/position/ground-elev-m").getValue());
-        geo.put_model("Aircraft/c172p/Models/Exterior/fueltanktrailer/fueltanktrailer.ac", fueltanktrailer,
-        props.globals.getNode("/orientation/heading-deg").getValue());
-        me.index = i;
-    },
-    remove: func {
-        props.globals.getNode("/models", 1).removeChild("model", me.index);
-    },
-};
-
-var init_common = func {
-    setlistener("/sim/fueltanktrailer/enable", func(n) {
-        if (n.getValue()) {
-            fueltanktrailer_model.add();
-        } else  {
-            fueltanktrailer_model.remove();
-        }
-    });
-}
-settimer(init_common,0);
+});
+ad_timer.start();
 
 ############################################
 # Global loop function

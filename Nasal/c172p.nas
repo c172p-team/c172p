@@ -348,6 +348,65 @@ setlistener("/engines/active-engine/killed", func (node) {
 });
 
 ############################################
+# Static objects: right safety cone
+############################################
+
+var StaticModel = {
+    new: func (name, file) {
+        var m = {
+            parents: [StaticModel],
+            index: nil,
+            model_file: file
+        };
+
+        setlistener("/sim/" ~ name ~ "/enable", func (node) {
+            if (node.getBoolValue()) {
+                m.add();
+            }
+            else {
+                m.remove();
+            }
+        });
+
+        return m;
+    },
+
+    add: func {
+        var manager = props.globals.getNode("/models", 1);
+        var i = 0;
+        for (; 1; i += 1) {
+            if (manager.getChild("model", i, 0) == nil) {
+                break;
+            }
+        }
+        var position = geo.aircraft_position().set_alt(getprop("/position/ground-elev-m"));
+        geo.put_model(me.model_file, position, getprop("/orientation/heading-deg"));
+        me.index = i;
+    },
+
+    remove: func {
+        if (me.index != nil) {
+            props.globals.getNode("/models", 1).removeChild("model", me.index);
+        }
+    }
+};
+
+StaticModel.new("coneR", "Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_R.xml");
+StaticModel.new("coneL", "Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_L.xml");
+StaticModel.new("gpu", "Aircraft/c172p/Models/Exterior/external-power/external-power.xml");
+StaticModel.new("ladder", "Aircraft/c172p/Models/Exterior/ladder/ladder.xml");
+StaticModel.new("fueltanktrailer", "Aircraft/c172p/Models/Exterior/fueltanktrailer/fueltanktrailer.ac");
+
+# external electrical disconnect when groundspeed higher than 0.1ktn (replace later with distance less than 0.01...)
+var ad_timer = maketimer(0.1, func {
+    groundspeed = getprop("/velocities/groundspeed-kt") or 0;
+    if (groundspeed > 0.1) {
+        setprop("/controls/electric/external-power", "false");
+    }
+});
+ad_timer.start();
+
+############################################
 # Global loop function
 # If you need to run nasal as loop, add it in this function
 ############################################

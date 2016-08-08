@@ -1,0 +1,274 @@
+<?xml version="1.0"?>
+
+<!-- c172p
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as
+ published by the Free Software Foundation; either version 2 of the
+ License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ General Public License for more details.
+-->
+
+<PropertyList>
+
+    <name>ground-equipment</name>
+    <layout>vbox</layout>
+    <resizable>false</resizable>
+    <modal>false</modal>
+    <draggable>true</draggable>
+
+
+    <group>    
+        <layout>hbox</layout>
+        <empty><stretch>true</stretch></empty>
+        <text>
+            <label>Ground Equipment</label>
+        </text>        
+        <empty><stretch>true</stretch></empty>
+        <button>
+            <legend/>
+            <key>Esc</key>
+            <pref-width>16</pref-width>
+            <pref-height>16</pref-height>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>    
+    </group>
+    
+    <hrule/>
+
+    <group>
+        <layout>vbox</layout>
+        <padding>6</padding>
+
+        <group>
+            <layout>vbox</layout>
+
+            <checkbox>
+                <halign>left</halign>
+                <label>Enable ladder </label>
+                <live>true</live>
+                <property>/sim/ladder/enable</property>
+                <enable>
+                    <less-than>
+                        <property>velocities/groundspeed-kt</property>
+                        <value>0.1</value>
+                    </less-than>
+                </enable>
+                <binding>
+                    <command>property-toggle</command>
+                    <property>/sim/ladder/enable</property>
+                </binding>
+                <binding>
+                    <command>dialog-update</command>
+                </binding>
+            </checkbox>
+
+            <group>
+                <layout>hbox</layout>
+
+                <!-- Small left padding -->
+                <group>
+                    <layout>vbox</layout>
+                    <padding>6</padding>
+                </group>
+
+                <group>
+                    <layout>hbox</layout>
+                    
+                    <radio>
+                        <halign>left</halign>
+                        <label>On left side</label>
+                        <property>sim/model/c172p/ladder_position_l</property>
+                        <live>true</live>
+                        <enable>
+                            <property>/sim/ladder/enable</property>
+                        </enable>
+                        <binding>
+                        <command>dialog-update</command>
+                        </binding>
+                            <binding>
+                            <command>nasal</command>
+                            <script>
+                                setprop("sim/model/c172p/ladder_position_l", 1);
+                                setprop("sim/model/c172p/ladder_position_r", 0);
+                            </script>
+                        </binding>
+                    </radio>
+
+                    <radio>
+                        <halign>left</halign>
+                        <label>On right side</label>
+                        <enable>
+                            <property>/sim/ladder/enable</property>
+                        </enable>
+                        <property>sim/model/c172p/ladder_position_r</property>
+                        <live>true</live>
+                        <binding>
+                            <command>dialog-update</command>
+                        </binding>
+                        <binding>
+                        <command>nasal</command>
+                            <script>
+                                setprop("sim/model/c172p/ladder_position_l", 0);
+                                setprop("sim/model/c172p/ladder_position_r", 1);
+                            </script>
+                        </binding>
+                    </radio>
+                </group>
+
+                <!-- Force group to the left -->
+                <empty><stretch>true</stretch></empty>
+            </group>
+
+            <hrule/>
+
+            <checkbox>
+                <halign>left</halign>
+                <label>Place left safety cone</label>
+                <live>true</live>
+                <property>/sim/coneL/enable</property>
+                <enable>
+                    <less-than>
+                        <property>velocities/groundspeed-kt</property>
+                        <value>0.1</value>
+                    </less-than>
+                </enable>
+                <binding>
+                    <command>property-toggle</command>
+                    <property>/sim/coneL/enable</property>
+                </binding>
+                <binding>
+                    <command>dialog-update</command>
+                </binding>
+            </checkbox>
+
+            <checkbox>
+                <halign>left</halign>
+                <label>Place right safety cone</label>
+                <live>true</live>
+                <property>/sim/coneR/enable</property>
+                <enable>
+                    <less-than>
+                        <property>velocities/groundspeed-kt</property>
+                        <value>0.1</value>
+                    </less-than>
+                </enable>
+                <binding>
+                    <command>property-toggle</command>
+                    <property>/sim/coneR/enable</property>
+                </binding>
+                <binding>
+                    <command>dialog-update</command>
+                </binding>
+            </checkbox>
+
+            <hrule/>
+
+            <checkbox>
+                <halign>left</halign>
+                <label>Place Ground Power Unit</label>
+                <live>true</live>
+                <property>/sim/gpu/enable</property>
+                <enable>
+                    <and>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>0.1</value>
+                        </less-than>
+                        <not>
+                            <property>/controls/electric/external-power</property>
+                        </not>
+                    </and>
+                </enable>
+                <binding>
+                    <command>property-toggle</command>
+                    <property>/sim/gpu/enable</property>
+                </binding>
+                <binding>
+                    <command>dialog-update</command>
+                </binding>
+            </checkbox>
+
+            <group>
+                <layout>hbox</layout>
+
+                <!-- Small left padding -->
+                <group>
+                    <layout>vbox</layout>
+                    <padding>6</padding>
+                </group>
+
+                <group>
+                    <layout>vbox</layout>
+
+                    <checkbox>
+                        <halign>left</halign>
+                        <label>Connect Groud Power Unit</label>
+                        <live>true</live>
+                        <property>/controls/electric/external-power</property>
+                        <enable>
+                            <property>/sim/gpu/enable</property>
+                        </enable>
+                        <binding>
+                            <command>property-toggle</command>
+                            <property>/controls/electric/external-power</property>
+                        </binding>
+                        <binding>
+                            <command>dialog-update</command>
+                        </binding>
+                    </checkbox>
+                </group>
+
+                <!-- Force group to the left -->
+                <empty><stretch>true</stretch></empty>
+            </group>
+
+            <hrule/>
+
+            <checkbox>
+                <halign>left</halign>
+                <label>Fuel tank trailer</label>
+                <live>true</live>
+                <property>/sim/fueltanktrailer/enable</property>
+                <enable>
+                    <less-than>
+                        <property>velocities/groundspeed-kt</property>
+                        <value>0.1</value>
+                    </less-than>
+                </enable>
+                <binding>
+                    <command>property-toggle</command>
+                    <property>/sim/fueltanktrailer/enable</property>
+                </binding>
+                <binding>
+                    <command>dialog-update</command>
+                </binding>
+            </checkbox>
+        </group>
+    </group>
+
+    <hrule/>
+
+    <group>
+        <layout>hbox</layout>
+        <default-padding>6</default-padding>
+
+        <empty><stretch>true</stretch></empty>
+
+        <button>
+            <legend>Close</legend>
+            <equal>true</equal>
+            <key>Esc</key>
+            <default>true</default>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+
+</PropertyList>

@@ -126,6 +126,37 @@ var oil_consumption = maketimer(1.0, func {
 
 });
 
+# ========== carburetor icing ======================
+
+var carb_icing_function = maketimer(1.0, func {
+    if (getprop("/engines/active-engine/carb_icing_allowed")) {
+        var rpm = getprop("/engines/active-engine/rpm");
+        var dewpointC = getprop("/environment/dewpoint-degc");
+        var airtempC = getprop("/environment/temperature-degc");        
+        var factorX = 13.2 - 3.2 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
+        var factorY = 7.0 - 2.0 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);  
+        var carb_icing_rate = math.exp( math.pow((0.8 * airtempC + 0.2 * dewpointC - 45.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.2 * airtempC - 0.8 * dewpointC + 28.0),2) / (-2 * math.pow(factorY,2)));                
+        
+        # if carb heat on, the rate decreses by a certain amount
+        var carb_heat = getprop("/controls/engines/current-engine/carb-heat");
+        if (carb_heat)
+            carb_icing_rate = carb_icing_rate - 0.01;            
+        
+        # changing in carb ice according to the rate calculated above
+        var carb_ice = getprop("/engines/active-engine/carb_ice");               
+        carb_ice = carb_ice + carb_icing_rate;
+        if (carb_ice < 0.0)
+            carb_ice = 0.0;
+        if (carb_ice > 1.0)
+            carb_ice = 1.0;
+        setprop("/engines/active-engine/carb_ice", carb_ice);
+    } 
+    else {
+        var carb_ice = 0.0;
+        setprop("/engines/active-engine/carb_ice", carb_ice);
+    }; 
+});
+
 # ========== engine coughing ======================
 
 var engine_coughing = maketimer(3.0, func {
@@ -262,5 +293,6 @@ setlistener("/sim/signals/fdm-initialized", func {
     var engine_timer = maketimer(UPDATE_PERIOD, func { update(); });
     engine_timer.start();
     oil_consumption.start();
+    carb_icing_function.start();
     engine_coughing.start();
 });

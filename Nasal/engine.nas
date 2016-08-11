@@ -135,7 +135,7 @@ var carb_icing_function = maketimer(1.0, func {
         var airtempC = getprop("/environment/temperature-degc");        
         var factorX = 13.2 - 3.2 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
         var factorY = 7.0 - 2.0 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);  
-        var carb_icing_rate = math.exp( math.pow((0.8 * airtempC + 0.2 * dewpointC - 45.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.2 * airtempC - 0.8 * dewpointC + 28.0),2) / (-2 * math.pow(factorY,2)));                
+        var carb_icing_rate = math.exp( math.pow((0.6 * airtempC + 0.15 * dewpointC - 32.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.15 * airtempC - 0.6 * dewpointC + 18.0),2) / (-2 * math.pow(factorY,2))) - 0.2;        
         
         # if carb heat on, the rate decreses by a certain amount
         if (getprop("/engines/active-engine/running") and getprop("/controls/engines/current-engine/carb-heat"))
@@ -148,11 +148,14 @@ var carb_icing_function = maketimer(1.0, func {
             carb_ice = 0.0;
         if (carb_ice > 1.0)
             carb_ice = 1.0;
+            
         setprop("/engines/active-engine/carb_ice", carb_ice);
+        setprop("/engines/active-engine/carb_icing_rate", carb_icing_rate);
+        
     } 
     else {
-        var carb_ice = 0.0;
-        setprop("/engines/active-engine/carb_ice", carb_ice);
+        setprop("/engines/active-engine/carb_ice", 0.0);
+        setprop("/engines/active-engine/carb_icing_rate", 0.0);
     }; 
 });
 

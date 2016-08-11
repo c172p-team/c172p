@@ -132,31 +132,37 @@ var carb_icing_function = maketimer(1.0, func {
     if (getprop("/engines/active-engine/carb_icing_allowed")) {
         var rpm = getprop("/engines/active-engine/rpm");
         var dewpointC = getprop("/environment/dewpoint-degc");
-        var airtempC = getprop("/environment/temperature-degc");        
-        var factorX = 13.2 - 3.2 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
-        var factorY = 7.0 - 2.0 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);  
-        var carb_icing_rate = math.exp( math.pow((0.6 * airtempC + 0.15 * dewpointC - 32.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.15 * airtempC - 0.6 * dewpointC + 18.0),2) / (-2 * math.pow(factorY,2))) - 0.2;        
+        var dewpointF = dewpointC * 9.0 / 5.0 + 32;
+        var airtempF = getprop("/environment/temperature-degf");
+        var egt_temp = getprop("/engines/active-engine/egt-norm");
         
+        # the formula below attempts to modle the graph found in the POH, using RPM, airtempF and dewpointF as variables
+        var factorX = 13.2 - 3.2 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
+        var factorY = 7.0 - 2.0 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
+        var carb_icing_rate = 0.01 * (math.exp( math.pow((0.6 * airtempF + 0.3 * dewpointF - 42.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.3 * airtempF - 0.6 * dewpointF + 14.0),2) / (-2 * math.pow(factorY,2))) - 0.2);
+
         # if carb heat on, the rate decreses by a certain amount
         if (getprop("/engines/active-engine/running") and getprop("/controls/engines/current-engine/carb-heat"))
-            carb_icing_rate = carb_icing_rate - 0.01;
-        
-        # changing in carb ice according to the rate calculated above
-        var carb_ice = getprop("/engines/active-engine/carb_ice");               
-        carb_ice = carb_ice + carb_icing_rate;
+            var carb_heat_rate = -0.03 * egt_temp;
+        else
+            var carb_heat_rate = 0.0;
+
+        var carb_ice = getprop("/engines/active-engine/carb_ice");
+        # carb icing rate is multiplied by EGT temp so a cold engine at 0 RPM doens't accumulate ice
+        carb_ice = carb_ice + carb_icing_rate * egt_temp + carb_heat_rate;
         if (carb_ice < 0.0)
             carb_ice = 0.0;
         if (carb_ice > 1.0)
             carb_ice = 1.0;
-            
+
         setprop("/engines/active-engine/carb_ice", carb_ice);
         setprop("/engines/active-engine/carb_icing_rate", carb_icing_rate);
-        
-    } 
+
+    }
     else {
         setprop("/engines/active-engine/carb_ice", 0.0);
         setprop("/engines/active-engine/carb_icing_rate", 0.0);
-    }; 
+    };
 });
 
 # ========== engine coughing ======================

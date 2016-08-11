@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- ########################################
+<!--
+##########################################
 
  # DR400-regent by PAF team
  # April 2012 : Modified by PAF team
  # http://equipe-flightgear.forumactif.com
 
-##########################################-->
+##########################################
+-->
 
 <PropertyList>
 
@@ -211,10 +213,10 @@
 
     <animation>
         <type>material</type>
-            <object-name>Dial1</object-name>
-            <object-name>Dial10</object-name>
-            <object-name>Dial100</object-name>
-            <object-name>Dial1000</object-name>
+        <object-name>Dial1</object-name>
+        <object-name>Dial10</object-name>
+        <object-name>Dial100</object-name>
+        <object-name>Dial1000</object-name>
         <condition>
             <and>
                 <not>
@@ -233,331 +235,334 @@
             <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
         </emission>
     </animation>
-    
-  <animation>
-    <type>noshadow</type>
-    <object-name>vitre</object-name>
-  </animation>
 
-  <effect>
-    <inherits-from>Effects/model-transparent</inherits-from>
-    <object-name>vitre</object-name>
-    <condition>
-      <property>sim/rendering/rembrandt/enabled</property>
-    </condition>
-  </effect>
-
-  <animation> 
-    <type>rotate</type>
-    <object-name>Dial1000</object-name>
-    <!--<property>instrumentation/transponder/inputs/digit[3]</property>-->
-    <property alias="../../params/digit3"/>
-    <factor>45</factor>
-    <center>
-      <x-m>  0.01453 </x-m>
-      <y-m> -0.0185 </y-m>
-      <z-m> -0.0011345 </z-m>
-    </center>
-    <axis> 
-      <x> -1 </x>
-      <y>  0 </y>
-      <z>  0 </z>
-    </axis>
-  </animation>
-
-  <animation> 
-    <type>rotate</type>
-    <object-name>Knob1000</object-name>
-    <!--<property>instrumentation/transponder/inputs/digit[3]</property>-->
-    <property alias="../../params/digit3"/>
-    <factor>45</factor>
-    <center>
-      <x-m>  0.01453 </x-m>
-      <y-m> -0.0185 </y-m>
-      <z-m>  0.000655 </z-m>
-    </center>
-    <axis> 
-      <x> -1 </x>
-      <y>  0 </y>
-      <z>  0 </z>
-    </axis>
-  </animation>
-
-  <animation>
-    <type>knob</type>
-    <object-name>Knob1000</object-name>
-    <visible>true</visible>
-    <drag-scale-px>20</drag-scale-px>
-    <action>
-      <binding>
-        <command>property-adjust</command>
+    <animation>
+        <type>noshadow</type>
+        <object-name>vitre</object-name>
+    </animation>
+    <effect>
+        <inherits-from>Effects/model-transparent</inherits-from>
+        <object-name>vitre</object-name>
+        <condition>
+            <property>sim/rendering/rembrandt/enabled</property>
+        </condition>
+    </effect>
+    <animation>
+        <type>rotate</type>
+        <object-name>Dial1000</object-name>
         <!--<property>instrumentation/transponder/inputs/digit[3]</property>-->
-        <property alias="../../../../params/digit3"/>
-        <factor>1</factor>
-        <min>0</min>
-        <max>8</max>
-        <wrap>true</wrap>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>c172p.click("kt76a-dial")</script>
-      </binding>
-    </action>
-    <hovered>
-      <binding>
-        <command>set-tooltip</command>
-        <tooltip-id>transponder-squawk</tooltip-id>
-        <label>Squawk: %s</label>
-        <property>instrumentation/transponder/id-code</property>
-        <mapping>nasal</mapping>
-        <script>
+        <property alias="../../params/digit3"/>
+        <factor>45</factor>
+        <center>
+            <x-m>  0.01453 </x-m>
+            <y-m> -0.0185 </y-m>
+            <z-m> -0.0011345 </z-m>
+        </center>
+        <axis>
+            <x> -1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Knob1000</object-name>
+        <!--<property>instrumentation/transponder/inputs/digit[3]</property>-->
+        <property alias="../../params/digit3"/>
+        <factor>45</factor>
+        <center>
+            <x-m>  0.01453 </x-m>
+            <y-m> -0.0185 </y-m>
+            <z-m>  0.000655 </z-m>
+        </center>
+        <axis>
+            <x> -1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>Knob1000</object-name>
+        <visible>true</visible>
+        <drag-scale-px>20</drag-scale-px>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <!--<property>instrumentation/transponder/inputs/digit[3]</property>-->
+                <property alias="../../../../params/digit3"/>
+                <factor>1</factor>
+                <min>0</min>
+                <max>8</max>
+                <wrap>true</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("kt76a-dial")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>transponder-squawk</tooltip-id>
+                <label>Squawk: %s</label>
+                <property>instrumentation/transponder/id-code</property>
+                <mapping>nasal</mapping>
+                <script>
           return sprintf("%04d", arg[0]);
         </script>
-      </binding>
-    </hovered>
-  </animation>
+            </binding>
+        </hovered>
+    </animation>
 
-  <animation> 
-    <type>rotate</type>
-    <object-name>Dial100</object-name>
-    <!--<property>instrumentation/transponder/inputs/digit[2]</property>-->
-    <property alias="../../params/digit2"/>
-    <factor>45</factor>
-    <center>
-      <x-m>  0.004 </x-m>
-      <y-m>  0.0085 </y-m>
-      <z-m> -0.0011345 </z-m>
-    </center>
-    <axis> 
-      <x> -1 </x>
-      <y>  0 </y>
-      <z>  0 </z>
-    </axis>
-  </animation>
-
-  <animation> 
-    <type>rotate</type>
-    <object-name>Knob100</object-name>
-    <!--<property>instrumentation/transponder/inputs/digit[2]</property>-->
-    <property alias="../../params/digit2"/>
-    <factor>45</factor>
-    <center>
-      <x-m>  0.01453 </x-m>
-      <y-m>  0.0085 </y-m>
-      <z-m>  0.000655 </z-m>
-    </center>
-    <axis> 
-      <x> -1 </x>
-      <y>  0 </y>
-      <z>  0 </z>
-    </axis>
-  </animation>
-
-  <animation>
-    <type>knob</type>
-    <object-name>Knob100</object-name>
-    <visible>true</visible>
-    <drag-scale-px>20</drag-scale-px>
-    <action>
-      <binding>
-        <command>property-adjust</command>
+    <animation>
+        <type>rotate</type>
+        <object-name>Dial100</object-name>
         <!--<property>instrumentation/transponder/inputs/digit[2]</property>-->
-        <property alias="../../../../params/digit2"/>
-        <factor>1</factor>
-        <min>0</min>
-        <max>8</max>
-        <wrap>true</wrap>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>c172p.click("kt76a-dial")</script>
-      </binding>
-    </action>
-    <hovered>
-      <binding>
-        <command>set-tooltip</command>
-        <tooltip-id>transponder-squawk</tooltip-id>
-        <label>Squawk: %s</label>
-        <property>instrumentation/transponder/id-code</property>
-        <mapping>nasal</mapping>
-        <script>
+        <property alias="../../params/digit2"/>
+        <factor>45</factor>
+        <center>
+            <x-m>  0.004 </x-m>
+            <y-m>  0.0085 </y-m>
+            <z-m> -0.0011345 </z-m>
+        </center>
+        <axis>
+            <x> -1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Knob100</object-name>
+        <!--<property>instrumentation/transponder/inputs/digit[2]</property>-->
+        <property alias="../../params/digit2"/>
+        <factor>45</factor>
+        <center>
+            <x-m>  0.01453 </x-m>
+            <y-m>  0.0085 </y-m>
+            <z-m>  0.000655 </z-m>
+        </center>
+        <axis>
+            <x> -1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>Knob100</object-name>
+        <visible>true</visible>
+        <drag-scale-px>20</drag-scale-px>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <!--<property>instrumentation/transponder/inputs/digit[2]</property>-->
+                <property alias="../../../../params/digit2"/>
+                <factor>1</factor>
+                <min>0</min>
+                <max>8</max>
+                <wrap>true</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("kt76a-dial")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>transponder-squawk</tooltip-id>
+                <label>Squawk: %s</label>
+                <property>instrumentation/transponder/id-code</property>
+                <mapping>nasal</mapping>
+                <script>
           return sprintf("%04d", arg[0]);
         </script>
-      </binding>
-    </hovered>
-  </animation>
+            </binding>
+        </hovered>
+    </animation>
 
-  <animation> 
-    <type>rotate</type>
-    <object-name>Dial10</object-name>
-    <!--<property>instrumentation/transponder/inputs/digit[1]</property>-->
-    <property alias="../../params/digit1"/>
-    <factor>45</factor>
-    <center>
-      <x-m>  0.004 </x-m>
-      <y-m>  0.0355 </y-m>
-      <z-m> -0.0011345 </z-m>
-    </center>
-    <axis> 
-      <x> -1 </x>
-      <y>  0 </y>
-      <z>  0 </z>
-    </axis>
-  </animation>
-
-  <animation> 
-    <type>rotate</type>
-    <object-name>Knob10</object-name>
-    <!--<property>instrumentation/transponder/inputs/digit[1]</property>-->
-    <property alias="../../params/digit1"/>
-    <factor>45</factor>
-    <center>
-      <x-m>  0.01453 </x-m>
-      <y-m>  0.0355 </y-m>
-      <z-m>  0.000655 </z-m>
-    </center>
-    <axis> 
-      <x> -1 </x>
-      <y>  0 </y>
-      <z>  0 </z>
-    </axis>
-  </animation>
-
-  <animation>
-    <type>knob</type>
-    <object-name>Knob10</object-name>
-    <visible>true</visible>
-    <drag-scale-px>20</drag-scale-px>
-    <action>
-      <binding>
-        <command>property-adjust</command>
+    <animation>
+        <type>rotate</type>
+        <object-name>Dial10</object-name>
         <!--<property>instrumentation/transponder/inputs/digit[1]</property>-->
-        <property alias="../../../../params/digit1"/>
-        <factor>1</factor>
-        <min>0</min>
-        <max>8</max>
-        <wrap>true</wrap>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>c172p.click("kt76a-dial")</script>
-      </binding>
-    </action>
-    <hovered>
-      <binding>
-        <command>set-tooltip</command>
-        <tooltip-id>transponder-squawk</tooltip-id>
-        <label>Squawk: %s</label>
-        <property>instrumentation/transponder/id-code</property>
-        <mapping>nasal</mapping>
-        <script>
+        <property alias="../../params/digit1"/>
+        <factor>45</factor>
+        <center>
+            <x-m>  0.004 </x-m>
+            <y-m>  0.0355 </y-m>
+            <z-m> -0.0011345 </z-m>
+        </center>
+        <axis>
+            <x> -1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Knob10</object-name>
+        <!--<property>instrumentation/transponder/inputs/digit[1]</property>-->
+        <property alias="../../params/digit1"/>
+        <factor>45</factor>
+        <center>
+            <x-m>  0.01453 </x-m>
+            <y-m>  0.0355 </y-m>
+            <z-m>  0.000655 </z-m>
+        </center>
+        <axis>
+            <x> -1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>Knob10</object-name>
+        <visible>true</visible>
+        <drag-scale-px>20</drag-scale-px>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <!--<property>instrumentation/transponder/inputs/digit[1]</property>-->
+                <property alias="../../../../params/digit1"/>
+                <factor>1</factor>
+                <min>0</min>
+                <max>8</max>
+                <wrap>true</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("kt76a-dial")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>transponder-squawk</tooltip-id>
+                <label>Squawk: %s</label>
+                <property>instrumentation/transponder/id-code</property>
+                <mapping>nasal</mapping>
+                <script>
           return sprintf("%04d", arg[0]);
         </script>
-      </binding>
-    </hovered>
-  </animation>
+            </binding>
+        </hovered>
+    </animation>
 
-  <animation> 
-    <type>rotate</type>
-    <object-name>Dial1</object-name>
-    <!--<property>instrumentation/transponder/inputs/digit[0]</property>-->
-    <property alias="../../params/digit0"/>
-    <factor>45</factor>
-    <center>
-      <x-m>  0.004 </x-m>
-      <y-m>  0.0625 </y-m>
-      <z-m> -0.0011345 </z-m>
-    </center>
-    <axis> 
-      <x> -1 </x>
-      <y>  0 </y>
-      <z>  0 </z>
-    </axis>
-  </animation>
-
-  <animation> 
-    <type>rotate</type>
-    <object-name>Knob1</object-name>
-    <!--<property>instrumentation/transponder/inputs/digit[0]</property>-->
-    <property alias="../../params/digit0"/>
-    <factor>45</factor>
-    <center>
-      <x-m>  0.01453 </x-m>
-      <y-m>  0.0625 </y-m>
-      <z-m>  0.000655 </z-m>
-    </center>
-    <axis> 
-      <x> -1 </x>
-      <y>  0 </y>
-      <z>  0 </z>
-    </axis>
-  </animation>
-
-  <animation>
-    <type>knob</type>
-    <object-name>Knob1</object-name>
-    <visible>true</visible>
-    <drag-scale-px>20</drag-scale-px>
-    <action>
-      <binding>
-        <command>property-adjust</command>
+    <animation>
+        <type>rotate</type>
+        <object-name>Dial1</object-name>
         <!--<property>instrumentation/transponder/inputs/digit[0]</property>-->
-        <property alias="../../../../params/digit0"/>
-        <factor>1</factor>
-        <min>0</min>
-        <max>8</max>
-        <wrap>true</wrap>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>c172p.click("kt76a-dial")</script>
-      </binding>
-    </action>
-    <hovered>
-      <binding>
-        <command>set-tooltip</command>
-        <tooltip-id>transponder-squawk</tooltip-id>
-        <label>Squawk: %s</label>
-        <property>instrumentation/transponder/id-code</property>
-        <mapping>nasal</mapping>
-        <script>
+        <property alias="../../params/digit0"/>
+        <factor>45</factor>
+        <center>
+            <x-m>  0.004 </x-m>
+            <y-m>  0.0625 </y-m>
+            <z-m> -0.0011345 </z-m>
+        </center>
+        <axis>
+            <x> -1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Knob1</object-name>
+        <!--<property>instrumentation/transponder/inputs/digit[0]</property>-->
+        <property alias="../../params/digit0"/>
+        <factor>45</factor>
+        <center>
+            <x-m>  0.01453 </x-m>
+            <y-m>  0.0625 </y-m>
+            <z-m>  0.000655 </z-m>
+        </center>
+        <axis>
+            <x> -1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>Knob1</object-name>
+        <visible>true</visible>
+        <drag-scale-px>20</drag-scale-px>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <!--<property>instrumentation/transponder/inputs/digit[0]</property>-->
+                <property alias="../../../../params/digit0"/>
+                <factor>1</factor>
+                <min>0</min>
+                <max>8</max>
+                <wrap>true</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("kt76a-dial")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>transponder-squawk</tooltip-id>
+                <label>Squawk: %s</label>
+                <property>instrumentation/transponder/id-code</property>
+                <mapping>nasal</mapping>
+                <script>
           return sprintf("%04d", arg[0]);
         </script>
-      </binding>
-    </hovered>
-  </animation>
+            </binding>
+        </hovered>
+    </animation>
 
-  <animation>
-    <type>knob</type>
-    <object-name>KnobMode</object-name>
-    <visible>true</visible>
-    <drag-scale-px>20</drag-scale-px>
-    <action>
-       <binding>
-         <command>property-cycle</command>
-         <!--<property>/instrumentation/transponder/inputs/knob-mode</property>-->
-         <property alias="../../../../params/knob-mode"/>
-         <wrap>0</wrap>
-         <value>0</value> <!-- OFF -->
-         <value>1</value> <!-- SBY -->
-         <value>4</value> <!-- ON  -->
-         <value>5</value> <!-- ALT -->
-         <value>2</value> <!-- TST -->
-       </binding>
-      <binding>
-        <command>nasal</command>
-        <script>c172p.click("kt76a-mode")</script>
-      </binding>
-    </action>
-    <hovered>
-      <binding>
-        <command>set-tooltip</command>
-        <tooltip-id>transponder-mode-btn</tooltip-id>
-        <label>Mode: %s</label>
-        <!--<property>instrumentation/transponder/inputs/knob-mode</property>-->
-        <property alias="../../../../params/knob-mode"/>
-        <mapping>nasal</mapping>
-        <script>
+    <animation>
+        <type>knob</type>
+        <object-name>KnobMode</object-name>
+        <visible>true</visible>
+        <drag-scale-px>20</drag-scale-px>
+        <action>
+            <binding>
+                <command>property-cycle</command>
+                <!--<property>/instrumentation/transponder/inputs/knob-mode</property>-->
+                <property alias="../../../../params/knob-mode"/>
+                <wrap>0</wrap>
+                <value>0</value>
+                <!-- OFF -->
+                <value>1</value>
+                <!-- SBY -->
+                <value>4</value>
+                <!-- ON  -->
+                <value>5</value>
+                <!-- ALT -->
+                <value>2</value>
+                <!-- TST -->
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("kt76a-mode")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>transponder-mode-btn</tooltip-id>
+                <label>Mode: %s</label>
+                <!--<property>instrumentation/transponder/inputs/knob-mode</property>-->
+                <property alias="../../../../params/knob-mode"/>
+                <mapping>nasal</mapping>
+                <script>
           var m = arg[0];
           if(m == 1) return 'STANDBY';
           if(m == 4) return 'ON';
@@ -565,95 +570,100 @@
           if(m == 2) return 'TEST';
           return 'OFF';
         </script>
-      </binding>
-    </hovered>
-  </animation>
+            </binding>
+        </hovered>
+    </animation>
 
-  <animation> 
-    <type>rotate</type>
-    <object-name>KnobMode</object-name>
-    <!--<property>/instrumentation/transponder/inputs/knob-mode</property>-->
-    <property alias="../../params/knob-mode"/>
-    <factor>1</factor>
-    <interpolation>
-      <entry>
-        <ind>0</ind><dep>0</dep>
-      </entry>
-      <entry>
-        <ind>1</ind><dep>45</dep>
-      </entry>
-      <entry>
-        <ind>4</ind><dep>90</dep>
-      </entry>
-      <entry>
-        <ind>5</ind><dep>135</dep>
-      </entry>
-      <entry>
-        <ind>2</ind><dep>180</dep>
-      </entry>
-    </interpolation>
-    <center>
-      <x-m>  0.01453 </x-m>
-      <y-m> -0.06102 </y-m>
-      <z-m>  0.000655 </z-m>
-    </center>
-    <axis> 
-      <x> -1 </x>
-      <y>  0 </y>
-      <z>  0 </z>
-    </axis>
-  </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>KnobMode</object-name>
+        <!--<property>/instrumentation/transponder/inputs/knob-mode</property>-->
+        <property alias="../../params/knob-mode"/>
+        <factor>1</factor>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>45</dep>
+            </entry>
+            <entry>
+                <ind>4</ind>
+                <dep>90</dep>
+            </entry>
+            <entry>
+                <ind>5</ind>
+                <dep>135</dep>
+            </entry>
+            <entry>
+                <ind>2</ind>
+                <dep>180</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>  0.01453 </x-m>
+            <y-m> -0.06102 </y-m>
+            <z-m>  0.000655 </z-m>
+        </center>
+        <axis>
+            <x> -1 </x>
+            <y>  0 </y>
+            <z>  0 </z>
+        </axis>
+    </animation>
 
-  <animation>
-    <type>pick</type>
-    <visible>true</visible>
-    <object-name>Ident</object-name>
-    <action>
-      <button>0</button>
-      <repeatable>false</repeatable>
-      <binding>
-        <command>property-assign</command>
-         <!--<property>/instrumentation/transponder/inputs/ident-btn</property>-->
-         <property alias="../../../../params/ident-btn"/>
-        <value type="bool">true</value>
-      </binding>
-      <binding>
-        <command>nasal</command>
-        <script>c172p.click("kt76a-ident")</script>
-      </binding>
-      <mod-up>
-        <binding>
-          <command>property-assign</command>
-         <!--<property>/instrumentation/transponder/inputs/ident-btn</property>-->
-         <property alias="../../../../../params/ident-btn"/>
-          <value type="bool">false</value>
-        </binding>
-        <binding>
-          <command>nasal</command>
-          <script>c172p.click("kt76a-ident")</script>
-        </binding>
-      </mod-up>
-    </action>
-    <hovered>
-      <binding>
-        <command>set-tooltip</command>
-        <tooltip-id>transponder-ident</tooltip-id>
-        <label>Identify to ATC</label>
-      </binding>
-    </hovered>
-  </animation>
+    <animation>
+        <type>pick</type>
+        <visible>true</visible>
+        <object-name>Ident</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <!--<property>/instrumentation/transponder/inputs/ident-btn</property>-->
+                <property alias="../../../../params/ident-btn"/>
+                <value type="bool">true</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("kt76a-ident")</script>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>property-assign</command>
+                    <!--<property>/instrumentation/transponder/inputs/ident-btn</property>-->
+                    <property alias="../../../../../params/ident-btn"/>
+                    <value type="bool">false</value>
+                </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>c172p.click("kt76a-ident")</script>
+                </binding>
+            </mod-up>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>transponder-ident</tooltip-id>
+                <label>Identify to ATC</label>
+            </binding>
+        </hovered>
+    </animation>
 
-  <animation>
-    <type>translate</type>
-    <object-name>Ident</object-name>
-    <!--<property>/instrumentation/transponder/inputs/ident-btn</property>-->
-    <property alias="../../params/ident-btn"/>
-    <factor> 0.0018 </factor>
-    <axis>
-      <x> -1 </x>
-      <y> 0 </y>
-      <z> 0 </z>
-    </axis>
-  </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>Ident</object-name>
+        <!--<property>/instrumentation/transponder/inputs/ident-btn</property>-->
+        <property alias="../../params/ident-btn"/>
+        <factor> 0.0018 </factor>
+        <axis>
+            <x> -1 </x>
+            <y> 0 </y>
+            <z> 0 </z>
+        </axis>
+    </animation>
 
 </PropertyList>

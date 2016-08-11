@@ -1,4 +1,4 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 
 <PropertyList>
 
@@ -7,8 +7,9 @@
         <dimming>instrumentation/adf[0]/dimming-norm</dimming>
         <dial-1-khz>instrumentation/adf[0]/frequencies/dial-1-khz</dial-1-khz>
         <dial-100-khz>instrumentation/adf[0]/frequencies/dial-100-khz</dial-100-khz>
+
     </params>
-    
+
     <path>kr87.ac</path>
 
     <effect>
@@ -86,13 +87,13 @@
         <object-name>knobs.FLT</object-name>
         <object-name>knobs.SET</object-name>
         <emission>
-          <red>0.5</red>
-          <green>0.1</green>
-          <blue>0.00005</blue>
-          <factor-prop>/sim/model/c172p/lighting/adf</factor-prop>
+            <red>0.5</red>
+            <green>0.1</green>
+            <blue>0.00005</blue>
+            <factor-prop>/sim/model/c172p/lighting/adf</factor-prop>
         </emission>
     </animation>
-    
+
     <animation>
         <type>material</type>
         <object-name>indicator</object-name>
@@ -303,7 +304,7 @@
         </axis>
     </animation>
 
-    <!-- knobs and buttons -->
+    <!-- Knobs and buttons -->
     <animation>
         <type>translate</type>
         <object-name>knobs.ADF</object-name>
@@ -513,11 +514,10 @@
         </action>
     </animation>
 
-    <!-- volume knob -->
+    <!-- Volume knob -->
     <animation>
         <type>knob</type>
         <object-name>Volume</object-name>
-        
         <property>/instrumentation/adf[0]/volume-norm</property>
         <factor>-270</factor>
         <axis>
@@ -530,7 +530,6 @@
             <y-m>0.03362955</y-m>
             <z-m>-0.00472295</z-m>
         </center>
-        
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -539,8 +538,7 @@
                 <min>0</min>
                 <max>1.0</max>
             </binding>
-            
-            <!-- switch on if volume greater than 0.0 -->
+            <!-- Switch on if volume greater than 0.0 -->
             <binding>
                 <condition>
                     <greater-than>
@@ -552,8 +550,7 @@
                 <property>/instrumentation/adf[0]/power-btn</property>
                 <value type="bool">1</value>
             </binding>
-    
-            <!-- switch off if volume less than 0.1 -->
+            <!-- Switch off if volume less than 0.1 -->
             <binding>
                 <condition>
                     <less-than>
@@ -565,7 +562,6 @@
                 <property>/instrumentation/adf[0]/power-btn</property>
                 <value type="bool">0</value>
             </binding>
-
             <binding>
                 <command>nasal</command>
                 <script>c172p.click("kr87-adf-dial")</script>
@@ -573,11 +569,10 @@
         </action>
     </animation>
 
-    <!-- inner frequency (1 KHz) knob -->
+    <!-- Inner frequency (1 KHz) knob -->
     <animation>
         <type>knob</type>
         <object-name>FRQInner</object-name>
-
         <property alias="/params/dial-1-khz"/>
         <factor>-2.5</factor>
         <axis>
@@ -590,7 +585,6 @@
             <y-m>0.0629</y-m>
             <z-m>-0.0018</z-m>
         </center>
-
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -616,11 +610,10 @@
         </action>
     </animation>
 
-    <!-- outer frequency (100 KHz) knob -->
+    <!-- Outer frequency (100 KHz) knob -->
     <animation>
         <type>knob</type>
         <object-name>FRQOuter</object-name>
-
         <property alias="/params/dial-100-khz"/>
         <factor>-2.5</factor>
         <axis>

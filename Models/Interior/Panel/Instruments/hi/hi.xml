@@ -2,151 +2,143 @@
 
 <PropertyList>
 
- <path>hi.ac</path>
+    <path>hi.ac</path>
 
- <effect>
-  <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
-  <object-name>Face</object-name>
-  <object-name>Front</object-name>
-  <object-name>OBS-Knob</object-name>
-  <object-name>Hdg-Knob</object-name>
-  <object-name>HdgBug</object-name>
- </effect>
+    <effect>
+        <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
+        <object-name>Face</object-name>
+        <object-name>Front</object-name>
+        <object-name>OBS-Knob</object-name>
+        <object-name>Hdg-Knob</object-name>
+        <object-name>HdgBug</object-name>
+    </effect>
 
- <animation>
-  <type>material</type>
-  <object-name>Face</object-name>
-  <object-name>Front</object-name>
-  <object-name>HdgBug</object-name>
-  <emission>
-   <red>1.0</red>
-   <green>0.2</green>
-   <blue>0.0</blue>
-   <factor-prop>sim/model/material/instruments/factor</factor-prop>
-  </emission>
- </animation>
+    <animation>
+        <type>material</type>
+        <object-name>Face</object-name>
+        <object-name>Front</object-name>
+        <object-name>HdgBug</object-name>
+        <emission>
+            <red>1.0</red>
+            <green>0.2</green>
+            <blue>0.0</blue>
+            <factor-prop>sim/model/material/instruments/factor</factor-prop>
+        </emission>
+    </animation>
 
- <animation>
-  <type>rotate</type>
-  <object-name>Face</object-name>
-  <property>instrumentation/heading-indicator/indicated-heading-deg</property>
-  <factor>-1</factor>
-  <axis>
-   <x>-1</x>
-   <y>0</y>
-   <z>0</z>
-  </axis>
- </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>Face</object-name>
+        <property>instrumentation/heading-indicator/indicated-heading-deg</property>
+        <factor>-1</factor>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
 
- <animation>
-  <type>rotate</type>
-  <object-name>HdgBug</object-name>
-  <property>instrumentation/heading-indicator/indicated-heading-deg</property>
-  <factor>-1</factor>
-  <axis>
-   <x>-1</x>
-   <y>0</y>
-   <z>0</z>
-  </axis>
- </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>HdgBug</object-name>
+        <property>instrumentation/heading-indicator/indicated-heading-deg</property>
+        <factor>-1</factor>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
 
- <animation>
-  <type>rotate</type>
-  <object-name>HdgBug</object-name>
-   <property>autopilot/settings/heading-bug-deg</property>
-  <axis>
-   <x>-1</x>
-   <y>0</y>
-   <z>0</z>
-  </axis>
- </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>HdgBug</object-name>
+        <property>autopilot/settings/heading-bug-deg</property>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
 
-<!--     Heading Bug control    -->
- <animation>
-  <type>knob</type>
-  <object-name>Hdg-Knob</object-name>
-  <property>autopilot/settings/heading-bug-deg</property>
-  <factor>6</factor>
-  <axis>
-   <x>-1</x>
-   <y>0</y>
-   <z>0</z>
-  </axis>
-  <center>
-    <x-m>0</x-m>
-    <y-m>0.0298</y-m>
-    <z-m>-0.03</z-m>
-  </center>
-  <action>
-    <binding>
-      <command>property-adjust</command>
-      <property>autopilot/settings/heading-bug-deg</property>
-      <factor>1</factor>
-      <min>0</min>
-      <max>360</max>
-      <wrap>1</wrap>
-    </binding>
-  </action>
-  
-  <!-- faster rate of change than the default -->
-  <drag-scale-px>4</drag-scale-px>
-  <shift-repeat type="int">5</shift-repeat>
-  
-  <hovered>
-   <binding>
-     <command>set-tooltip</command>
-     <tooltip-id>heading-bug</tooltip-id>
-     <mapping>heading</mapping>
-     <label>Heading Bug: %3d</label>
-     <property>autopilot/settings/heading-bug-deg</property>
-  </binding>
-  </hovered>
- </animation>
+    <!-- Heading Bug control -->
+    <animation>
+        <type>knob</type>
+        <object-name>Hdg-Knob</object-name>
+        <property>autopilot/settings/heading-bug-deg</property>
+        <factor>6</factor>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0.0298</y-m>
+            <z-m>-0.03</z-m>
+        </center>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>autopilot/settings/heading-bug-deg</property>
+                <factor>1</factor>
+                <min>0</min>
+                <max>360</max>
+                <wrap>1</wrap>
+            </binding>
+        </action>
+        <!-- Faster rate of change than the default -->
+        <drag-scale-px>4</drag-scale-px>
+        <shift-repeat type="int">5</shift-repeat>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>heading-bug</tooltip-id>
+                <mapping>heading</mapping>
+                <label>Heading Bug: %3d</label>
+                <property>autopilot/settings/heading-bug-deg</property>
+            </binding>
+        </hovered>
+    </animation>
 
-   <!--             Heading Offset             -->
- <animation>
-  <type>knob</type>
-  <object-name>OBS-Knob</object-name>
-  <property>instrumentation/heading-indicator/offset-deg</property>
-  <factor>6</factor>
-  <axis>
-   <x>-1</x>
-   <y>0</y>
-   <z>0</z>
-  </axis>
-  <center>
-    <x-m>0</x-m>
-    <y-m>-0.0293</y-m>
-    <z-m>-0.0297</z-m>
-  </center>
-  <action>
-      <binding>
-        <command>property-adjust</command>
+    <!-- Heading Offset -->
+    <animation>
+        <type>knob</type>
+        <object-name>OBS-Knob</object-name>
         <property>instrumentation/heading-indicator/offset-deg</property>
-        <factor>1</factor>
-        <min>0</min>
-        <max>360</max>
-        <wrap>1</wrap>
-      </binding>
-    </action>
-  
-    <!-- faster rate of change than the default -->
-    <drag-scale-px>4</drag-scale-px>
-    <shift-repeat type="int">5</shift-repeat>
-    
-    <hovered>
-     <binding>
-       <command>set-tooltip</command>
-       <tooltip-id>heading-offset</tooltip-id>
-       <label>Heading Offset: %3d</label>
-       <mapping>heading</mapping>
-       <property>instrumentation/heading-indicator/offset-deg</property>
-    </binding>
-    </hovered>
- </animation>
-   
-
+        <factor>6</factor>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0</x-m>
+            <y-m>-0.0293</y-m>
+            <z-m>-0.0297</z-m>
+        </center>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/heading-indicator/offset-deg</property>
+                <factor>1</factor>
+                <min>0</min>
+                <max>360</max>
+                <wrap>1</wrap>
+            </binding>
+        </action>
+        <!-- Faster rate of change than the default -->
+        <drag-scale-px>4</drag-scale-px>
+        <shift-repeat type="int">5</shift-repeat>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>heading-offset</tooltip-id>
+                <label>Heading Offset: %3d</label>
+                <mapping>heading</mapping>
+                <property>instrumentation/heading-indicator/offset-deg</property>
+            </binding>
+        </hovered>
+    </animation>
 
 </PropertyList>
-
-

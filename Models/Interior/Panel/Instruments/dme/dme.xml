@@ -1,4 +1,5 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
+
 <!--
     Maintainer: Torsten Dreyer
 -->
@@ -25,16 +26,16 @@
     </effect>
 
     <model>
-      <path>ki266.xml</path>
-      <name>ki266</name>
-      <offsets>
-        <x-m>0.00140005</x-m>
-        <y-m>0.0274714</y-m>
-        <z-m>0.0</z-m>
-      </offsets>
+        <path>ki266.xml</path>
+        <name>ki266</name>
+        <offsets>
+            <x-m>0.00140005</x-m>
+            <y-m>0.0274714</y-m>
+            <z-m>0.0</z-m>
+        </offsets>
     </model>
 
-    <!-- the power switch -->
+    <!-- The power switch -->
     <animation>
         <type>rotate</type>
         <object-name>PowerSwitch.Lever</object-name>
@@ -57,17 +58,17 @@
         <object-name>on</object-name>
         <visible>true</visible>
         <action>
-          <button>0</button>
-          <repeatable>false</repeatable>
-          <binding>
-            <command>property-assign</command>
-            <property alias="../../../../params/power-btn"/>
-            <value>1</value>
-          </binding>
-          <binding>
-            <command>nasal</command>
-            <script>c172p.click("dme-power")</script>
-          </binding>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property alias="../../../../params/power-btn"/>
+                <value>1</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("dme-power")</script>
+            </binding>
         </action>
     </animation>
 
@@ -76,17 +77,17 @@
         <object-name>off</object-name>
         <visible>true</visible>
         <action>
-          <button>0</button>
-          <repeatable>false</repeatable>
-          <binding>
-            <command>property-assign</command>
-            <property alias="../../../../params/power-btn"/>
-            <value>0</value>
-          </binding>
-          <binding>
-            <command>nasal</command>
-            <script>c172p.click("dme-power")</script>
-          </binding>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property alias="../../../../params/power-btn"/>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("dme-power")</script>
+            </binding>
         </action>
     </animation>
 
@@ -95,20 +96,20 @@
         <object-name>PowerSwitch</object-name>
         <visible>true</visible>
         <action>
-          <button>0</button>
-          <repeatable>false</repeatable>
-          <binding>
-            <command>property-toggle</command>
-            <property alias="../../../../params/power-btn"/>
-          </binding>
-          <binding>
-            <command>nasal</command>
-            <script>c172p.click("dme-power")</script>
-          </binding>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property alias="../../../../params/power-btn"/>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("dme-power")</script>
+            </binding>
         </action>
     </animation>
 
-    <!-- the source switch -->
+    <!-- The source switch -->
     <animation>
         <type>knob</type>
         <object-name>SourceSelectorKnob</object-name>
@@ -128,62 +129,62 @@
             <z-m>0</z-m>
         </center>
         <action>
-          <binding>
-              <command>property-adjust</command>
-              <property>instrumentation/dme/switch-position</property>
-              <factor>1</factor>
-              <min>1</min>
-              <max>3</max>
-              <wrap>0</wrap>
-          </binding>
-          <binding>
-              <condition>
-                  <equals>
-                      <property>instrumentation/dme/switch-position</property>
-                      <value type="int">1</value>
-                  </equals>
-              </condition>
-              <command>property-assign</command>
-              <property>instrumentation/dme/frequencies/source</property>
-              <value>instrumentation/nav[0]/frequencies/selected-mhz</value>
-          </binding>
-          <binding>
-              <condition>
-                  <equals>
-                      <property>instrumentation/dme/switch-position</property>
-                      <value type="int">2</value>
-                  </equals>
-              </condition>
-              <command>property-assign</command>
-              <property>instrumentation/dme/frequencies/source</property>
-              <value>instrumentation/dme/frequencies/selected-mhz</value>
-          </binding>
-          <binding>
-              <condition>
-                  <equals>
-                      <property>instrumentation/dme/switch-position</property>
-                      <value type="int">2</value>
-                  </equals>
-              </condition>
-              <command>property-assign</command>
-              <property>instrumentation/dme/frequencies/selected-mhz</property>
-              <property>instrumentation/nav[0]/frequencies/selected-mhz</property>
-          </binding>
-          <binding>
-              <condition>
-                  <equals>
-                      <property>instrumentation/dme/switch-position</property>
-                      <value type="int">3</value>
-                  </equals>
-              </condition>
-              <command>property-assign</command>
-              <property>instrumentation/dme/frequencies/source</property>
-              <value>instrumentation/nav[1]/frequencies/selected-mhz</value>
-          </binding>
-          <binding>
-              <command>nasal</command>
-              <script>c172p.click("dme-source")</script>
-          </binding>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/dme/switch-position</property>
+                <factor>1</factor>
+                <min>1</min>
+                <max>3</max>
+                <wrap>0</wrap>
+            </binding>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/dme/switch-position</property>
+                        <value type="int">1</value>
+                    </equals>
+                </condition>
+                <command>property-assign</command>
+                <property>instrumentation/dme/frequencies/source</property>
+                <value>instrumentation/nav[0]/frequencies/selected-mhz</value>
+            </binding>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/dme/switch-position</property>
+                        <value type="int">2</value>
+                    </equals>
+                </condition>
+                <command>property-assign</command>
+                <property>instrumentation/dme/frequencies/source</property>
+                <value>instrumentation/dme/frequencies/selected-mhz</value>
+            </binding>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/dme/switch-position</property>
+                        <value type="int">2</value>
+                    </equals>
+                </condition>
+                <command>property-assign</command>
+                <property>instrumentation/dme/frequencies/selected-mhz</property>
+                <property>instrumentation/nav[0]/frequencies/selected-mhz</property>
+            </binding>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/dme/switch-position</property>
+                        <value type="int">3</value>
+                    </equals>
+                </condition>
+                <command>property-assign</command>
+                <property>instrumentation/dme/frequencies/source</property>
+                <value>instrumentation/nav[1]/frequencies/selected-mhz</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("dme-source")</script>
+            </binding>
         </action>
     </animation>
 

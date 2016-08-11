@@ -2,107 +2,119 @@
 
 <PropertyList>
 
-	<params>
-        <!-- IMPORTANT: int properties 14 to 19, both included, are reserved for the immat system. Do not use them! -->
-		<spray_wake_speed_kt>
-			<property>sim/multiplay/generic/float[6]</property>
-		</spray_wake_speed_kt>
+    <params>
+        <!-- IMPORTANT: int properties 14 to 19, both included, are reserved
+             for the immat system. Do not use them!
+        -->
+        <spray_wake_speed_kt>
+            <property>sim/multiplay/generic/float[6]</property>
+        </spray_wake_speed_kt>
     </params>
 
-  <particlesystem>
-    <name>right-wake</name>
+    <particlesystem>
+        <name>right-wake</name>
+        <texture>wake.png</texture>
+        <emissive>false</emissive>
+        <lighting>true</lighting>
 
-    <texture>wake.png</texture>
+        <condition>
+            <and>
+                <greater-than>
+                    <property alias="/params/spray_wake_speed_kt/property"/>
+                    <value>10</value>
+                </greater-than>
+                <less-than>
+                    <property alias="/params/spray_wake_speed_kt/property"/>
+                    <value>20</value>
+                </less-than>
+            </and>
+        </condition>
 
-    <emissive>false</emissive>
-    <lighting>true</lighting>
+        <attach>world</attach>
+        <align>billboard</align>
 
-	<condition>
-		<and>
-			<greater-than>
-				<property alias="/params/spray_wake_speed_kt/property"/>
-				<value>10</value>
-			</greater-than>
-			<less-than>
-				<property alias="/params/spray_wake_speed_kt/property"/>
-			    <value>20</value>
-			</less-than>
-		</and>
-	</condition>
+        <placer>
+            <type>point</type>
+        </placer>
 
-    <attach>world</attach>
+        <shooter>
+            <theta-min-deg>90</theta-min-deg>
+            <theta-max-deg>98</theta-max-deg>
+            <phi-min-deg>-1.5</phi-min-deg>
+            <phi-max-deg>1.5</phi-max-deg>
+            <speed-mps>
+                <property alias="/params/spray_wake_speed_kt/property"/>
+                <value>10</value>
+                <spread>2.5</spread>
+            </speed-mps>
+            <rotation-speed>
+                <x-min-deg-sec>5</x-min-deg-sec>
+                <y-min-deg-sec>5</y-min-deg-sec>
+                <z-min-deg-sec>5</z-min-deg-sec>
+                <x-max-deg-sec>25</x-max-deg-sec>
+                <y-max-deg-sec>25</y-max-deg-sec>
+                <z-max-deg-sec>25</z-max-deg-sec>
+            </rotation-speed>
+        </shooter>
 
-    <placer>
-	 <type>point</type>
-    </placer>
+        <counter>
+            <particles-per-sec>
+                <property alias="/params/spray_wake_speed_kt/property"/>
+                <factor>15</factor>
+                <spread>0</spread>
+            </particles-per-sec>
+        </counter>
 
-    <shooter>
-     <theta-min-deg>90</theta-min-deg>
-      <theta-max-deg>98</theta-max-deg>
-      <phi-min-deg>-1.5</phi-min-deg>
-      <phi-max-deg>1.5</phi-max-deg>
-      <speed-mps>
-        <property alias="/params/spray_wake_speed_kt/property"/>
-        <value>10</value>
-        <spread>2.5</spread>
-      </speed-mps>
-      <rotation-speed>
-        <x-min-deg-sec>5</x-min-deg-sec>
-        <y-min-deg-sec>5</y-min-deg-sec>
-        <z-min-deg-sec>5</z-min-deg-sec>
-        <x-max-deg-sec>25</x-max-deg-sec>
-        <y-max-deg-sec>25</y-max-deg-sec>
-        <z-max-deg-sec>25</z-max-deg-sec>
-      </rotation-speed>
-    </shooter>
-
-    <counter>
-      <particles-per-sec>
-        <property alias="/params/spray_wake_speed_kt/property"/>
-        <factor>15</factor>
-        <spread>0</spread>
-      </particles-per-sec>
-    </counter>
-
-    <align>billboard</align>
-
-    <particle>
-      <start>
-        <color>
-          <red><value>0.95</value></red>
-		  <green><value>0.95</value></green>
-		  <blue><value>0.95</value></blue>
-	      <alpha><value>0.5</value></alpha>
-        </color>
-        <size>
-          <value>0.4</value>
-        </size>
-      </start>
-      <end>
-        <color>
-          <red><value>1</value></red>
-          <green><value>1</value></green>
-          <blue><value>1</value></blue>
-          <alpha><value>0.001</value></alpha>
-        </color>
-        <size>
-          <value>3.5</value>
-        </size>
-      </end>
-      <life-sec>
-        <value>5.0</value>
-      </life-sec>
-      <mass-kg>25</mass-kg>
-      <radius-m>0.2</radius-m>
-    </particle>
-
-    <program>
-      <fluid>water</fluid>
-      <gravity>true</gravity>
-      <wind>false</wind>
-    </program>
-
-  </particlesystem>
+        <particle>
+            <start>
+                <color>
+                    <red>
+                        <value>0.95</value>
+                    </red>
+                    <green>
+                        <value>0.95</value>
+                    </green>
+                    <blue>
+                        <value>0.95</value>
+                    </blue>
+                    <alpha>
+                        <value>0.5</value>
+                    </alpha>
+                </color>
+                <size>
+                    <value>0.4</value>
+                </size>
+            </start>
+            <end>
+                <color>
+                    <red>
+                        <value>1</value>
+                    </red>
+                    <green>
+                        <value>1</value>
+                    </green>
+                    <blue>
+                        <value>1</value>
+                    </blue>
+                    <alpha>
+                        <value>0.001</value>
+                    </alpha>
+                </color>
+                <size>
+                    <value>3.5</value>
+                </size>
+            </end>
+            <life-sec>
+                <value>5.0</value>
+            </life-sec>
+            <mass-kg>25</mass-kg>
+            <radius-m>0.2</radius-m>
+        </particle>
+        <program>
+            <fluid>water</fluid>
+            <gravity>true</gravity>
+            <wind>false</wind>
+        </program>
+    </particlesystem>
 
 </PropertyList>
-

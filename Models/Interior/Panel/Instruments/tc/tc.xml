@@ -2,85 +2,88 @@
 
 <PropertyList>
 
- <path>tc.ac</path>
+    <path>tc.ac</path>
 
- <effect>
-  <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
-  <object-name>Ball</object-name>
-  <object-name>Face</object-name>
-  <object-name>Airplane</object-name>
-  <object-name>Background</object-name>
-  <object-name>Flag</object-name>
- </effect>
+    <effect>
+        <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
+        <object-name>Ball</object-name>
+        <object-name>Face</object-name>
+        <object-name>Airplane</object-name>
+        <object-name>Background</object-name>
+        <object-name>Flag</object-name>
+    </effect>
 
- <animation>
-  <type>material</type>
-  <object-name>Ball</object-name>
-  <object-name>Face</object-name>
-  <object-name>Airplane</object-name>
-  <object-name>Background</object-name>
-  <emission>
-   <red>1.0</red>
-   <green>0.2</green>
-   <blue>0.0</blue>
-   <factor-prop>/sim/model/material/instruments/factor</factor-prop>
-  </emission>
- </animation>
+    <animation>
+        <type>material</type>
+        <object-name>Ball</object-name>
+        <object-name>Face</object-name>
+        <object-name>Airplane</object-name>
+        <object-name>Background</object-name>
+        <emission>
+            <red>1.0</red>
+            <green>0.2</green>
+            <blue>0.0</blue>
+            <factor-prop>/sim/model/material/instruments/factor</factor-prop>
+        </emission>
+    </animation>
 
- <animation>
-  <type>rotate</type>
-  <object-name>Airplane</object-name>
-  <property>/instrumentation/turn-indicator/indicated-turn-rate</property>
-  <factor>20.0</factor>
-  <axis>
-   <x>-1</x>
-   <y>0</y>
-   <z>0</z>
-  </axis>
- </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>Airplane</object-name>
+        <property>/instrumentation/turn-indicator/indicated-turn-rate</property>
+        <factor>20.0</factor>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
 
- <animation>
-  <type>rotate</type>
-  <object-name>Ball</object-name>
-  <property>/instrumentation/slip-skid-ball/indicated-slip-skid</property>
-  <factor>20</factor> <!-- ini 5.729 -->
-  <!--
-   From the source for slip_skid_ball.cxx, the number returned is (-z_accel/y_accel)*10.
-   For small theta, theta~=tan(theta) when theta is in radians.  So the angle of a "ball" 
-   undergoing z_accel and y_accel hung on the end of a string makes with the verticle
-   will be approximately -z_accel/y_accel radians. Converting to degrees, multiply by
-   180/pi=57.29, or 5.729 times the returned value. Edited by Dave Perry, 2/26/06.
-   
-   Edit by Daniel Dubreuil june 2014: I'd rather say
-   Angle with the verticle (radians) -y_accel/z_accel
-   FG indicated-slip-skid = -(y_accel/z_accel)*10
-  -->
-  <min-deg>-9.3</min-deg>
-  <max-deg>9.3</max-deg>
-  <center>
-   <x-m>0</x-m>
-   <y-m>0</y-m>
-   <z-m>0.10</z-m>  <!-- 0.10 is fitted to the drawing. Initial 0.25 makes the radius of curvature for the glass tube ~10 inches and the angle +-4 deg (more sensitive) -->
-  </center>
-  <axis>
-   <x>-1</x>
-   <y>0</y>
-   <z>0</z>
-  </axis>
- </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>Ball</object-name>
+        <property>/instrumentation/slip-skid-ball/indicated-slip-skid</property>
+        <factor>20</factor>
+        <!-- ini 5.729 -->
+        <!--
+           From the source for slip_skid_ball.cxx, the number returned is (-z_accel/y_accel)*10.
+           For small theta, theta~=tan(theta) when theta is in radians.  So the angle of a "ball" 
+           undergoing z_accel and y_accel hung on the end of a string makes with the verticle
+           will be approximately -z_accel/y_accel radians. Converting to degrees, multiply by
+           180/pi=57.29, or 5.729 times the returned value. Edited by Dave Perry, 2/26/06.
+           
+           Edit by Daniel Dubreuil june 2014: I'd rather say
+           Angle with the verticle (radians) -y_accel/z_accel
+           FG indicated-slip-skid = -(y_accel/z_accel)*10
+        -->
+        <min-deg>-9.3</min-deg>
+        <max-deg>9.3</max-deg>
+        <center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0.10</z-m>
+            <!-- 0.10 is fitted to the drawing. Initial 0.25 makes the
+                 radius of curvature for the glass tube ~10 inches and
+                 the angle +-4 deg (more sensitive)
+            -->
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
 
- <animation>
-  <type>translate</type>
-  <object-name>Flag</object-name>
-  <property>/instrumentation/turn-indicator/spin</property>
-  <factor>0.0040</factor>
-  <axis>
-   <x>0</x>
-   <y>0</y>
-   <z>1</z>
-  </axis>
- </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>Flag</object-name>
+        <property>/instrumentation/turn-indicator/spin</property>
+        <factor>0.0040</factor>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
+    </animation>
 
 </PropertyList>
-
-

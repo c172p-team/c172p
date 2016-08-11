@@ -1,4 +1,5 @@
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
+
 <!--
  This file is part of FlightGear, the free flight simulator
  http://www.flightgear.org/
@@ -15,100 +16,98 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  General Public License for more details.
 -->
+
 <PropertyList>
 
-  <path>EGT.ac</path>
+    <path>EGT.ac</path>
 
-  <effect>
-    <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
-    <object-name>Needle</object-name>
-    <object-name>Bug</object-name>
-    <object-name>Face</object-name>
-  </effect>
+    <effect>
+        <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
+        <object-name>Needle</object-name>
+        <object-name>Bug</object-name>
+        <object-name>Face</object-name>
+    </effect>
 
-  <params>
-    <value>/engines/active-engine/egt-norm</value>
-    <bug>engines/engine[0]/egt-bug-norm</bug>
-  </params>
+    <params>
+        <value>/engines/active-engine/egt-norm</value>
+        <bug>engines/engine[0]/egt-bug-norm</bug>
+    </params>
 
-  <animation>
-    <type>material</type>
-    <object-name>Needle</object-name>
-    <object-name>Bug</object-name>
-    <object-name>Face</object-name>
-    <emission>
-      <red>1.0</red>
-      <green>0.2</green>
-      <blue>0.0</blue>
-      <factor-prop>sim/model/material/instruments/factor</factor-prop>
-    </emission>
-  </animation>
-    
-  <animation>
-    <type>rotate</type>
-    <object-name>Needle</object-name>
-    <property alias="../../params/value"/>
-    <factor>-90.0</factor>
-    <axis>
-      <x>1.0</x>
-      <y>0.0</y>
-      <z>0.0</z>
-    </axis>
-    <center>
-      <x-m>-0.0015</x-m>
-      <y-m>0</y-m>
-      <z-m>-0.00766508</z-m>
-    </center>
-  </animation>
+    <animation>
+        <type>material</type>
+        <object-name>Needle</object-name>
+        <object-name>Bug</object-name>
+        <object-name>Face</object-name>
+        <emission>
+            <red>1.0</red>
+            <green>0.2</green>
+            <blue>0.0</blue>
+            <factor-prop>sim/model/material/instruments/factor</factor-prop>
+        </emission>
+    </animation>
 
-  <animation>
-    <type>rotate</type>
-    <object-name>Bug</object-name>
-    <property alias="../../params/bug"/>
-    <factor>-90.0</factor>
-    <axis>
-      <x>1.0</x>
-      <y>0.0</y>
-      <z>0.0</z>
-    </axis>
-    <center>
-      <x-m>-0.0015</x-m>
-      <y-m>0</y-m>
-      <z-m>-0.00766508</z-m>
-    </center>
-  </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>Needle</object-name>
+        <property alias="../../params/value"/>
+        <factor>-90.0</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+        <center>
+            <x-m>-0.0015</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.00766508</z-m>
+        </center>
+    </animation>
 
-  <animation>
-    <type>knob</type>
-    <object-name>Knob.Pick.L</object-name>
-    <object-name>Knob.Pick.R</object-name>
+    <animation>
+        <type>rotate</type>
+        <object-name>Bug</object-name>
+        <property alias="../../params/bug"/>
+        <factor>-90.0</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+        <center>
+            <x-m>-0.0015</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.00766508</z-m>
+        </center>
+    </animation>
 
-    <action>
-      <repeatable>true</repeatable>
-      <binding>
-        <command>property-adjust</command>
-        <property alias="../../../../params/bug"/>
-        <factor>0.01</factor>
-        <min>0.0</min>
-        <max>1.0</max>
-        <wrap>0</wrap>
-      </binding>
-    </action>
-
-    <axis>
-        <x>1</x>
-        <y>0</y>
-        <z>0</z>
-    </axis>
-
-    <hovered>
-        <binding>
-            <command>set-tooltip</command>
-            <tooltip-id>egt-bug-norm</tooltip-id>
-            <label>EGT Bug: %.2f</label>
-            <property alias="/params/bug"/>
-        </binding>
-    </hovered>
-  </animation>
+    <animation>
+        <type>knob</type>
+        <object-name>Knob.Pick.L</object-name>
+        <object-name>Knob.Pick.R</object-name>
+        <action>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property alias="../../../../params/bug"/>
+                <factor>0.01</factor>
+                <min>0.0</min>
+                <max>1.0</max>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>egt-bug-norm</tooltip-id>
+                <label>EGT Bug: %.2f</label>
+                <property alias="/params/bug"/>
+            </binding>
+        </hovered>
+    </animation>
 
 </PropertyList>

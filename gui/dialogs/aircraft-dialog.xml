@@ -186,7 +186,33 @@
                 </enable>
                 <binding>
                     <command>nasal</command>
-                    <script>c172p.repair_damage();electrical.reset_battery_and_circuit_breakers();c172p.click("engine-repair", 6.0)</script>
+                    <script>
+                        c172p.repair_damage();
+                        electrical.reset_battery_and_circuit_breakers();
+                        c172p.click("engine-repair", 6.0);
+                        c172p.dialog_battery_reload();
+                    </script>
+                </binding>
+                <binding>
+                    <condition>
+                        <property>sim/model/c172p/engine_flag_0</property>
+                    </condition>
+                    <command>property-assign</command>
+                    <property>/engines/active-engine/oil-level</property>
+                    <value>7.0</value>
+                </binding>
+                <binding>
+                    <condition>
+                        <property>sim/model/c172p/engine_flag_1</property>
+                    </condition>
+                    <command>property-assign</command>
+                    <property>/engines/active-engine/oil-level</property>
+                    <value>8.0</value>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/engines/active-engine/carb_ice</property>
+                    <value>0.0</value>
                 </binding>
             </button>
         </group>

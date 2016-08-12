@@ -1,6 +1,26 @@
 List of features and bug fixes
 ==============================
 
+Version 2016.3
+--------------
+
+* Radio stack has been reworked (textures, 3D model)
+* Radio stack illumination has been vastly improved and includes a
+  daylight mode now (via RADIO LT at 0%)
+* Fix bug with airspeed indicator
+* Fix bug with the 3D model of the key in the ignition
+* Fix bug which allowed to click on external hotspots while inside the cockpit
+* Better autostart function, should work under more situations and warns
+  the user if the engine fails to start
+* The tooltip of the primer lever now shows the number of strokes
+* Clock now displays local time
+* Fix bug with battery: voltage now drains normally
+* Add battery options and recharge button to aircraft menu
+* Improved yoke model
+* New splash screen no. 1
+* Add ground equipment like safety pylons, ladder, fuel tank trailer, and
+  ground power unit
+
 Version 2016.2
 --------------
 
@@ -14,7 +34,8 @@ Version 2016.2
 * Correct rudder pedal animation
 * Updated tutorial to Barcelona
 * Changed "Autostart" menu item to actually start the engine as well
-* Split instrument light knob into a knob that two knobs: one that controls the instruments, and one that controls the radio's
+* Split instrument light knob into a knob that two knobs: one that
+  controls the instruments, and one that controls the radio's
 
 Version 2016.1
 --------------
@@ -54,7 +75,8 @@ Version 2016.1
 * Fixed glass reflection in external views
 * Improved lighting, including better looking navigation lights (and
   depending on viewing angle) in ALS
-* Improved textures of instruments, primer, cabin air/heat levers in cockpit, and flap lever
+* Improved textures of instruments, primer, cabin air/heat levers in cockpit,
+  and flap lever
 * Smooth instead of instant animation of yoke, pedals, and parking brake
 * Added menu item to open a web panel in your browser, showing most instruments
 * Improved interior shadow and reflection cubes

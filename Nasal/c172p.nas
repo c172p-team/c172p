@@ -9,6 +9,8 @@ var autostart = func (msg=1) {
         return;
     }
 
+    electrical.reset_battery_and_circuit_breakers();
+
     setprop("/controls/switches/magnetos", 3);
     setprop("/controls/engines/current-engine/throttle", 0.2);
     setprop("/controls/engines/current-engine/mixture", 0.95);

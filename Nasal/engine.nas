@@ -149,18 +149,12 @@ var carb_icing_function = maketimer(1.0, func {
         
         # carb icing rate is multiplied by an oil temp factor so a cold engine doens't accumulate ice
         var oil_temp_factor = (oil_temp - 120) / 100;
-        if (oil_temp_factor < 0.0)
-            oil_temp_factor = 0.0;
-        if (oil_temp_factor > 1.0)
-            oil_temp_factor = 1.0;
+        oil_temp_factor = std.max(0.0, std.min(oil_temp_factor, 1.0));
         var carb_icing_rate = oil_temp_factor * (carb_icing_formula + carb_heat_rate);
 
         var carb_ice = getprop("/engines/active-engine/carb_ice");
         carb_ice = carb_ice + carb_icing_rate;
-        if (carb_ice < 0.0)
-            carb_ice = 0.0;
-        if (carb_ice > 1.0)
-            carb_ice = 1.0;
+        carb_ice = std.max(0.0, std.min(carb_ice, 1.0));
 
         # this property is used to lower the RPM of the engine as ice accumulates
         var vol_eff_factor = 1.0 - 2.218 * carb_ice;
@@ -175,6 +169,7 @@ var carb_icing_function = maketimer(1.0, func {
         setprop("/engines/active-engine/carb_ice", 0.0);
         setprop("/engines/active-engine/carb_icing_rate", 0.0);
         setprop("/engines/active-engine/volumetric-efficiency-factor", 1.0);
+        setprop("/engines/active-engine/oil_temp_factor", 0.0);
     };
 });
 

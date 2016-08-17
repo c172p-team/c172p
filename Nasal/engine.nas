@@ -155,13 +155,18 @@ var carb_icing_function = maketimer(1.0, func {
         if (carb_ice > 1.0)
             carb_ice = 1.0;
 
+        # this property is used to lower the RPM of the engine as ice accumulates
+        var vol_eff_factor = 1.0 - 2.218 * carb_ice;
+
         setprop("/engines/active-engine/carb_ice", carb_ice);
         setprop("/engines/active-engine/carb_icing_rate", carb_icing_rate);
+        setprop("/engines/active-engine/volumetric-efficiency-factor", vol_eff_factor);
 
     }
     else {
         setprop("/engines/active-engine/carb_ice", 0.0);
         setprop("/engines/active-engine/carb_icing_rate", 0.0);
+        setprop("/engines/active-engine/volumetric-efficiency-factor", 1.0);
     };
 });
 

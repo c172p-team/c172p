@@ -134,22 +134,29 @@ var carb_icing_function = maketimer(1.0, func {
         var dewpointC = getprop("/environment/dewpoint-degc");
         var dewpointF = dewpointC * 9.0 / 5.0 + 32;
         var airtempF = getprop("/environment/temperature-degf");
-        var egt_temp = getprop("/engines/active-engine/egt-norm");
+        var oil_temp = getprop("/engines/active-engine/oil-temperature-degf");
         
         # the formula below attempts to modle the graph found in the POH, using RPM, airtempF and dewpointF as variables
         var factorX = 13.2 - 3.2 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
         var factorY = 7.0 - 2.0 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
-        var carb_icing_rate = 0.01 * (math.exp( math.pow((0.6 * airtempF + 0.3 * dewpointF - 42.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.3 * airtempF - 0.6 * dewpointF + 14.0),2) / (-2 * math.pow(factorY,2))) - 0.2);
-
+        var carb_icing_formula = 0.01 * (math.exp( math.pow((0.6 * airtempF + 0.3 * dewpointF - 42.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.3 * airtempF - 0.6 * dewpointF + 14.0),2) / (-2 * math.pow(factorY,2))) - 0.2);
+        
         # if carb heat on, the rate decreses by a certain amount
         if (getprop("/engines/active-engine/running") and getprop("/controls/engines/current-engine/carb-heat"))
-            var carb_heat_rate = -0.03 * egt_temp;
+            var carb_heat_rate = -0.01;
         else
             var carb_heat_rate = 0.0;
+        
+        # carb icing rate is multiplied by an oil temp factor so a cold engine doens't accumulate ice
+        var oil_temp_factor = (oil_temp - 120) / 100;
+        if (oil_temp_factor < 0.0)
+            oil_temp_factor = 0.0;
+        if (oil_temp_factor > 1.0)
+            oil_temp_factor = 1.0;
+        var carb_icing_rate = oil_temp_factor * (carb_icing_formula + carb_heat_rate);
 
         var carb_ice = getprop("/engines/active-engine/carb_ice");
-        # carb icing rate is multiplied by EGT temp so a cold engine at 0 RPM doens't accumulate ice
-        carb_ice = carb_ice + carb_icing_rate * egt_temp + carb_heat_rate;
+        carb_ice = carb_ice + carb_icing_rate;
         if (carb_ice < 0.0)
             carb_ice = 0.0;
         if (carb_ice > 1.0)
@@ -161,6 +168,7 @@ var carb_icing_function = maketimer(1.0, func {
         setprop("/engines/active-engine/carb_ice", carb_ice);
         setprop("/engines/active-engine/carb_icing_rate", carb_icing_rate);
         setprop("/engines/active-engine/volumetric-efficiency-factor", vol_eff_factor);
+        setprop("/engines/active-engine/oil_temp_factor", oil_temp_factor);
 
     }
     else {

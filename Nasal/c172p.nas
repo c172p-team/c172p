@@ -58,7 +58,7 @@ var autostart = func (msg=1) {
         };
     };
 
-    # removig any ice from the carburetor
+    # removing any ice from the carburetor
     setprop("/engines/active-engine/carb_ice", 0.0);
     setprop("/engines/active-engine/carb_icing_rate", 0.0);
     setprop("/engines/active-engine/volumetric-efficiency-factor", 1.0);

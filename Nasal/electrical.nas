@@ -9,57 +9,11 @@
 # Initialize internal values
 #
 
-var battery = nil;
-var alternator = nil;
-
-var last_time = 0.0;
-
 var vbus_volts = 0.0;
 var ebus1_volts = 0.0;
 var ebus2_volts = 0.0;
 
 var ammeter_ave = 0.0;
-
-##
-# Initialize the electrical system
-#
-
-var init_electrical = func {
-    battery = BatteryClass.new();
-    alternator = AlternatorClass.new();
-
-    # Request that the update function be called next frame
-    settimer(update_electrical, 0);
-    print("Electrical system initialized");
-    
-    # checking if battery should be automatically recharged
-    if (!getprop("/systems/electrical/save-battery-charge")) {    
-        battery.reset_to_full_charge();
-    };   
-}
-
-var reset_battery_and_circuit_breakers = func {
-    # Charge battery to 100 %
-    battery.reset_to_full_charge();
-
-    # Reset circuit breakers
-    setprop("/controls/circuit-breakers/master", 1);
-    setprop("/controls/circuit-breakers/flaps", 1);
-    setprop("/controls/circuit-breakers/pitot-heat", 1);
-    setprop("/controls/circuit-breakers/instr", 1);
-    setprop("/controls/circuit-breakers/intlt", 1);
-    setprop("/controls/circuit-breakers/navlt", 1);
-    setprop("/controls/circuit-breakers/landing", 1);
-    setprop("/controls/circuit-breakers/bcnlt", 1);
-    setprop("/controls/circuit-breakers/strobe", 1);
-    setprop("/controls/circuit-breakers/turn-coordinator", 1);
-    setprop("/controls/circuit-breakers/radio1", 1);
-    setprop("/controls/circuit-breakers/radio2", 1);
-    setprop("/controls/circuit-breakers/radio3", 1);
-    setprop("/controls/circuit-breakers/radio4", 1);
-    setprop("/controls/circuit-breakers/radio5", 1);
-    setprop("/controls/circuit-breakers/autopilot", 1);
-}
 
 ##
 # Battery model class.
@@ -205,29 +159,70 @@ AlternatorClass.get_output_amps = func {
     return me.ideal_amps * factor;
 }
 
+var battery = BatteryClass.new();
+var alternator = AlternatorClass.new();
+
+var reset_battery_and_circuit_breakers = func {
+    # Charge battery to 100 %
+    battery.reset_to_full_charge();
+
+    # Reset circuit breakers
+    setprop("/controls/circuit-breakers/master", 1);
+    setprop("/controls/circuit-breakers/flaps", 1);
+    setprop("/controls/circuit-breakers/pitot-heat", 1);
+    setprop("/controls/circuit-breakers/instr", 1);
+    setprop("/controls/circuit-breakers/intlt", 1);
+    setprop("/controls/circuit-breakers/navlt", 1);
+    setprop("/controls/circuit-breakers/landing", 1);
+    setprop("/controls/circuit-breakers/bcnlt", 1);
+    setprop("/controls/circuit-breakers/strobe", 1);
+    setprop("/controls/circuit-breakers/turn-coordinator", 1);
+    setprop("/controls/circuit-breakers/radio1", 1);
+    setprop("/controls/circuit-breakers/radio2", 1);
+    setprop("/controls/circuit-breakers/radio3", 1);
+    setprop("/controls/circuit-breakers/radio4", 1);
+    setprop("/controls/circuit-breakers/radio5", 1);
+    setprop("/controls/circuit-breakers/autopilot", 1);
+}
 
 ##
 # This is the main electrical system update function.
 #
 
-var update_electrical = func {
-    var time = getprop("/sim/time/elapsed-sec");
-    var dt = time - last_time;
-    last_time = time;
+var ElectricalSystemUpdater = {
+    new : func {
+        var m = {
+            parents: [ElectricalSystemUpdater]
+        };
+        # Request that the update function be called each frame
+        m.loop = updateloop.UpdateLoop.new(components: [m], update_period: 0.0, enable: 0);
+        return m;
+    },
 
-    update_virtual_bus( dt );
+    enable: func {
+        me.loop.reset();
+        me.loop.enable();
+    },
 
-    # Request that the update function be called again next frame
-    settimer(update_electrical, 0);
-}
+    disable: func {
+        me.loop.disable();
+    },
 
+    reset: func {
+        # Do nothing
+    },
+
+    update: func (dt) {
+        update_virtual_bus(dt);
+    }
+};
 
 ##
 # Model the system of relays and connections that join the battery,
 # alternator, starter, master/alt switches, external power supply.
 #
 
-var update_virtual_bus = func( dt ) {
+var update_virtual_bus = func (dt) {
     var serviceable = getprop("/systems/electrical/serviceable");
     var external_volts = 0.0;
     var load = 0.0;
@@ -505,11 +500,6 @@ var avionics_bus_1 = func() {
     return load;
 }
 
-
-# Setup a timer based call to initialized the electrical system as
-# soon as possible.
-settimer(init_electrical, 0);
-
 ############################ Utility function
 
 var flapsDown = controls.flapsDown;
@@ -517,3 +507,19 @@ controls.flapsDown = func(v) {
     flapsDown(v);
     c172p.click("flaps");
 };
+
+##
+# Initialize the electrical system
+#
+
+var system_updater = ElectricalSystemUpdater.new();
+
+setlistener("/sim/signals/fdm-initialized", func {
+    # checking if battery should be automatically recharged
+    if (!getprop("/systems/electrical/save-battery-charge")) {
+        battery.reset_to_full_charge();
+    };
+
+    system_updater.enable();
+    print("Electrical system initialized");
+});

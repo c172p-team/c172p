@@ -9,8 +9,14 @@ var autostart = func (msg=1) {
         return;
     }
 
+    # Reset battery charge and circuit breakers
     electrical.reset_battery_and_circuit_breakers();
 
+    # Filling fuel tanks
+    setprop("/consumables/fuel/tank[0]/selected", 1);
+    setprop("/consumables/fuel/tank[1]/selected", 1);
+
+    # Setting levers and switches for startup
     setprop("/controls/switches/magnetos", 3);
     setprop("/controls/engines/current-engine/throttle", 0.2);
     setprop("/controls/engines/current-engine/mixture", 0.95);
@@ -19,13 +25,12 @@ var autostart = func (msg=1) {
     setprop("/controls/switches/master-alt", 1);
     setprop("/controls/switches/master-avionics", 1);
 
+    # Setting lights
     setprop("/controls/lighting/nav-lights", 1);
     setprop("/controls/lighting/strobe", 1);
     setprop("/controls/lighting/beacon", 1);
 
-    setprop("/consumables/fuel/tank[0]/selected", 1);
-    setprop("/consumables/fuel/tank[1]/selected", 1);
-
+    # Setting flaps to 0
     setprop("/controls/flight/flaps", 0.0);
 
     # Set the altimeter
@@ -44,6 +49,7 @@ var autostart = func (msg=1) {
     setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
 
+    # Removing any contamination from water
     setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
     setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);        
 

@@ -506,6 +506,10 @@
                     <property>/engines/active-engine/oil-level</property>
                     <value>4.92</value>
                 </less-than>
+                <greater-than-equals>
+                    <property>/engines/active-engine/carb_ice</property>
+                    <value>0.32</value>
+                </greater-than-equals>
             </or>
         </input>
         <output>
@@ -564,11 +568,47 @@
                         <value>4.925</value>
                     </less-than>
                 </and>
+                <and>
+                    <greater-than-equals>
+                        <property>/engines/active-engine/carb_ice</property>
+                        <value>0.3</value>
+                    </greater-than-equals>
+                    <less-than>
+                        <property>/engines/active-engine/carb_ice</property>
+                        <value>0.32</value>
+                    </less-than>
+                </and>
             </or>
         </input>
         <output>
             <property>/engines/active-engine/coughing</property>
         </output>
     </logic>
+    
+    <!-- ============================================================== -->
+    <!-- Carburetor Icing drops RPM                                     -->
+    <!-- ============================================================== -->
+
+    <filter>
+        <name>Engine 160 HP Carb Icing Factor</name>
+        <type>gain</type>
+        <input>
+            <property>/engines/active-engine/volumetric-efficiency-factor</property>
+        </input>
+        <output>
+            <property>/fdm/jsbsim/propulsion/engine[0]/volumetric-efficiency</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Engine 180 HP Carb Icing Factor</name>
+        <type>gain</type>
+        <input>
+            <property>/engines/active-engine/volumetric-efficiency-factor</property>
+        </input>
+        <output>
+            <property>/fdm/jsbsim/propulsion/engine[1]/volumetric-efficiency</property>
+        </output>
+    </filter>            
 
 </PropertyList>

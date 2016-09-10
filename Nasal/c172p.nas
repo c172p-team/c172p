@@ -9,30 +9,12 @@ var autostart = func (msg=1) {
         return;
     }
 
+    # Reset battery charge and circuit breakers
+    electrical.reset_battery_and_circuit_breakers();
+
     # Filling fuel tanks
     setprop("/consumables/fuel/tank[0]/selected", 1);
     setprop("/consumables/fuel/tank[1]/selected", 1);
-
-    # Reset battery charge
-    setprop("/systems/electrical/battery-charge-percent", 1.0);
-    
-    # Reset circuit breakers
-    setprop("/controls/circuit-breakers/master", 1);
-    setprop("/controls/circuit-breakers/flaps", 1);
-    setprop("/controls/circuit-breakers/pitot-heat", 1);
-    setprop("/controls/circuit-breakers/instr", 1);
-    setprop("/controls/circuit-breakers/intlt", 1);
-    setprop("/controls/circuit-breakers/navlt", 1);
-    setprop("/controls/circuit-breakers/landing", 1);
-    setprop("/controls/circuit-breakers/bcnlt", 1);
-    setprop("/controls/circuit-breakers/strobe", 1);
-    setprop("/controls/circuit-breakers/turn-coordinator", 1);
-    setprop("/controls/circuit-breakers/radio1", 1);
-    setprop("/controls/circuit-breakers/radio2", 1);
-    setprop("/controls/circuit-breakers/radio3", 1);
-    setprop("/controls/circuit-breakers/radio4", 1);
-    setprop("/controls/circuit-breakers/radio5", 1);
-    setprop("/controls/circuit-breakers/autopilot", 1);
 
     # Setting levers and switches for startup
     setprop("/controls/switches/magnetos", 3);

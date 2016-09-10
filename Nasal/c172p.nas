@@ -9,8 +9,32 @@ var autostart = func (msg=1) {
         return;
     }
 
-    electrical.reset_battery_and_circuit_breakers();
+    # Filling fuel tanks
+    setprop("/consumables/fuel/tank[0]/selected", 1);
+    setprop("/consumables/fuel/tank[1]/selected", 1);
 
+    # Reset battery charge
+    setprop("/systems/electrical/battery-charge-percent", 1.0);
+    
+    # Reset circuit breakers
+    setprop("/controls/circuit-breakers/master", 1);
+    setprop("/controls/circuit-breakers/flaps", 1);
+    setprop("/controls/circuit-breakers/pitot-heat", 1);
+    setprop("/controls/circuit-breakers/instr", 1);
+    setprop("/controls/circuit-breakers/intlt", 1);
+    setprop("/controls/circuit-breakers/navlt", 1);
+    setprop("/controls/circuit-breakers/landing", 1);
+    setprop("/controls/circuit-breakers/bcnlt", 1);
+    setprop("/controls/circuit-breakers/strobe", 1);
+    setprop("/controls/circuit-breakers/turn-coordinator", 1);
+    setprop("/controls/circuit-breakers/radio1", 1);
+    setprop("/controls/circuit-breakers/radio2", 1);
+    setprop("/controls/circuit-breakers/radio3", 1);
+    setprop("/controls/circuit-breakers/radio4", 1);
+    setprop("/controls/circuit-breakers/radio5", 1);
+    setprop("/controls/circuit-breakers/autopilot", 1);
+
+    # Setting levers and switches for startup
     setprop("/controls/switches/magnetos", 3);
     setprop("/controls/engines/current-engine/throttle", 0.2);
     setprop("/controls/engines/current-engine/mixture", 0.95);
@@ -19,13 +43,12 @@ var autostart = func (msg=1) {
     setprop("/controls/switches/master-alt", 1);
     setprop("/controls/switches/master-avionics", 1);
 
+    # Setting lights
     setprop("/controls/lighting/nav-lights", 1);
     setprop("/controls/lighting/strobe", 1);
     setprop("/controls/lighting/beacon", 1);
 
-    setprop("/consumables/fuel/tank[0]/selected", 1);
-    setprop("/consumables/fuel/tank[1]/selected", 1);
-
+    # Setting flaps to 0
     setprop("/controls/flight/flaps", 0.0);
 
     # Set the altimeter
@@ -44,6 +67,7 @@ var autostart = func (msg=1) {
     setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
 
+    # Removing any contamination from water
     setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
     setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);        
 

@@ -88,7 +88,7 @@ var light_manager = {
 
         # color values
         me.light3_r = 0.0;
-        me.light3_g = 0.1;
+        me.light3_g = 0.05;
         me.light3_b = 0.0;
 
         # spot size
@@ -100,7 +100,7 @@ var light_manager = {
         me.light4_zpos = 2.0;
 
         # color values
-        me.light4_r = 0.1;
+        me.light4_r = 0.05;
         me.light4_g = 0.0;
         me.light4_b = 0.0;
 
@@ -287,11 +287,11 @@ setlistener("/sim/signals/fdm-initialized", func {
 
     light_manager.init();
 
-    setlistener("/sim/model/c172p/lighting/landing", func (node) {
+    setlistener("/sim/rendering/als-secondary-lights/use-landing-light-ext", func (node) {
         light_manager.enable_or_disable(node.getValue(), 1);
     }, 1, 0);
 
-    setlistener("/sim/model/c172p/lighting/taxi", func (node) {
+    setlistener("/sim/rendering/als-secondary-lights/use-taxi-light-ext", func (node) {
         light_manager.enable_or_disable(node.getValue(), 2);
     }, 1, 0);
 

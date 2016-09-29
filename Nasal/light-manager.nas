@@ -46,9 +46,13 @@ var light_manager = {
 
         # light 1 ########
         # offsets to aircraft center
-        me.light1_xpos = 23.0;
+        me.light1_xpos = 30.0;
         me.light1_ypos = 2.0;
-        me.light1_zpos = 2.0;
+        me.light1_zpos = 3.0;
+
+        #me.light1_xpos = 23.0;
+        #me.light1_ypos = 2.0;
+        #me.light1_zpos = 2.0;
 
         # color values
         me.light1_r = 0.5;
@@ -61,9 +65,12 @@ var light_manager = {
 
         # light 2 ########
         # offsets to aircraft center
-        me.light1_xpos = 20.0;
+        me.light1_xpos = 25.0;
         me.light2_ypos = 1.0;
-        me.light2_zpos = 2.0;
+        me.light2_zpos = 3.0;
+        #me.light1_xpos = 20.0;
+        #me.light2_ypos = 1.0;
+        #me.light2_zpos = 2.0;
 
         # color values
         me.light2_r = 0.4;
@@ -81,11 +88,11 @@ var light_manager = {
 
         # color values
         me.light3_r = 0.0;
-        me.light3_g = 0.2;
+        me.light3_g = 0.1;
         me.light3_b = 0.0;
 
         # spot size
-         me.light3_size = 6.0;
+         me.light3_size = 5.0;
 
         # light 4 ########
         # offsets to aircraft center
@@ -93,12 +100,12 @@ var light_manager = {
         me.light4_zpos = 2.0;
 
         # color values
-        me.light4_r = 0.2;
+        me.light4_r = 0.1;
         me.light4_g = 0.0;
         me.light4_b = 0.0;
 
         # spot size
-        me.light4_size = 6.0;
+        me.light4_size = 5.0;
 
         me.start();
     },
@@ -280,15 +287,15 @@ setlistener("/sim/signals/fdm-initialized", func {
 
     light_manager.init();
 
-    setlistener("controls/lighting/landing-lights", func (node) {
+    setlistener("/sim/model/c172p/lighting/landing", func (node) {
         light_manager.enable_or_disable(node.getValue(), 1);
     }, 1, 0);
 
-    setlistener("controls/lighting/taxi-light", func (node) {
+    setlistener("/sim/model/c172p/lighting/taxi", func (node) {
         light_manager.enable_or_disable(node.getValue(), 2);
     }, 1, 0);
 
-    setlistener("controls/lighting/nav-lights", func (node) {
+    setlistener("/sim/model/c172p/lighting/nav-lights", func (node) {
         light_manager.enable_or_disable(node.getValue(), 3);
         light_manager.enable_or_disable(node.getValue(), 4);
     }, 1, 0);

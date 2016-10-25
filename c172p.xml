@@ -14,13 +14,6 @@
         <!-- this file with comments for stall and spin to help -->
         <!-- further modifications for c172p-detailed 2015 -->
         <!-- FOR TESTS, Two-engine and Propeller choice, dany june 2015-->
-        <!-- 
-        For 180 hp, engine[1]:
-        **Manually** set Internal Properties /controls/engines/engine[1]/magnetos = 3
-        better to set original magnetos to 0 (key)
-        do not use "s" (would start engine[0], 160 hp)
-        start with controls/engines/engine[1]/starter = 1 then back to 0, or Ctrl-click on "starter = ", twice to stop starter
-         -->
         <description> Cessna C-172 </description>
     </fileheader>
 
@@ -56,7 +49,12 @@
         <ixy unit="SLUG*FT2"> -0 </ixy>
         <ixz unit="SLUG*FT2"> -0 </ixz>
         <iyz unit="SLUG*FT2"> -0 </iyz>
-        <emptywt unit="LBS"> 1500 </emptywt>
+        <!-- 
+            according to the POH, the empty weight is 1500 lbs, but that value includes 7 quarts
+            of oil (max oil for the 160hp engine). Given that 7 quarts of oil weights 12 lbs and
+            are handled separately by the oil system, the true empty weight becomes 1488 lbs 
+        -->
+        <emptywt unit="LBS"> 1488 </emptywt>
         <location name="CG" unit="IN">
             <x> 41 </x>
             <y> 0 </y>
@@ -191,8 +189,11 @@
             </location>
         </pointmass>
 
-        <!-- Extra weight due to 180 hp engine, pointmass [15]; managed by Systems/bushkit.xml -->
-        <!-- x location for empty CG at 38.1", cf. 552SP POH p.6-12, Weight and moment tabulation: 1642 lbs, 62600 lb-ins -->
+        <!-- Extra weight due to 180 hp engine, pointmass [15]; managed by Systems/bushkit.xml
+            x location for empty CG at 38.1", cf. 552SP POH p.6-12, Weight and moment tabulation: 1642 lbs, 62600 lb-ins
+            Note that, similarly to the 160hp, the weight above includes 8 quarts of oil (14 lbs), and so the total value
+            without oil is 1628 lbs 
+        -->
         <pointmass name="extra weight 180hp">
             <weight unit="LBS"> 0 </weight>
             <location name="POINTMASS" unit="IN">

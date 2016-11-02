@@ -89,10 +89,16 @@ var primerTimer = maketimer(5, func {
 # ========== oil consumption ======================
 
 var oil_consumption = maketimer(1.0, func {
-    if (getprop("/engines/active-engine/oil_consumption_allowed"))
-        var oil_level = getprop("/engines/active-engine/oil-level");
-    else
-        var oil_level = 7.0;
+    if (!getprop("/engines/active-engine/oil_consumption_allowed")) {
+        if (getprop("/controls/engines/active-engine") == 0) {
+            setprop("/engines/active-engine/oil-level", 7.0);
+        } 
+        else {
+            setprop("/engines/active-engine/oil-level", 8.0);
+        };
+    };
+    
+    var oil_level = getprop("/engines/active-engine/oil-level");
     var rpm = getprop("/engines/active-engine/rpm");
 
     # Quadratic formula which outputs 1.0 for input 2300 RPM (cruise value),

@@ -125,9 +125,31 @@
                 <property>/engines/active-engine/oil_consumption_allowed</property>
                 <live>true</live>
                 <binding>
+                    <condition>
+                        <equals>
+                            <property>/controls/engines/active-engine</property>
+                            <value type="int">0</value>
+                        </equals>
+                    </condition>
                     <command>property-assign</command>
                     <property>/engines/active-engine/oil-level</property>
                     <value>7.0</value>
+                </binding>
+                <binding>
+                    <condition>
+                        <equals>
+                            <property>/controls/engines/active-engine</property>
+                            <value type="int">1</value>
+                        </equals>
+                    </condition>
+                    <command>property-assign</command>
+                    <property>/engines/active-engine/oil-level</property>
+                    <value>8.0</value>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/engines/active-engine/oil-consumed</property>
+                    <value>0.0</value>
                 </binding>
                 <binding>
                     <command>dialog-apply</command>
@@ -139,11 +161,6 @@
                 <label>Allow carburetor icing</label>
                 <property>/engines/active-engine/carb_icing_allowed</property>
                 <live>true</live>
-                <binding>
-                    <command>property-assign</command>
-                    <property>/engines/active-engine/oil-level</property>
-                    <value>7.0</value>
-                </binding>
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
@@ -489,6 +506,11 @@
                         <property>/engines/active-engine/oil-level</property>
                         <value>7.0</value>
                     </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>/engines/active-engine/oil-consumed</property>
+                        <value>0.0</value>
+                    </binding>
                 </radio>
 
                 <radio>
@@ -525,6 +547,11 @@
                         <command>property-assign</command>
                         <property>/engines/active-engine/oil-level</property>
                         <value>8.0</value>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>/engines/active-engine/oil-consumed</property>
+                        <value>0.0</value>
                     </binding>
                 </radio>
             </group>

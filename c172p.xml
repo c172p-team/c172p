@@ -9,11 +9,10 @@
         <author> Unknown </author>
         <filecreationdate> 2002-01-01 </filecreationdate>
         <version> $Id: c172p.xml,v 1.40 June 2015 $ </version>
-        <!-- experimental stall and spin, up to flat spin March 2014 -->
+        <!-- experimental stall and spin, up to flat spin March 2014, Dany93 (Daniel Dubreuil) -->
         <!-- Source: http://forum.flightgear.org/viewtopic.php?f=25&t=21664&start=45 -->
         <!-- this file with comments for stall and spin to help -->
-        <!-- further modifications for c172p-detailed 2015 -->
-        <!-- FOR TESTS, Two-engine and Propeller choice, dany june 2015-->
+        <!-- further modifications for c172p-detailed 2015 - 2016 -->
         <description> Cessna C-172 </description>
     </fileheader>
 
@@ -49,12 +48,7 @@
         <ixy unit="SLUG*FT2"> -0 </ixy>
         <ixz unit="SLUG*FT2"> -0 </ixz>
         <iyz unit="SLUG*FT2"> -0 </iyz>
-        <!-- 
-            according to the POH, the empty weight is 1500 lbs, but that value includes 7 quarts
-            of oil (max oil for the 160hp engine). Given that 7 quarts of oil weights 12 lbs and
-            are handled separately by the oil system, the true empty weight becomes 1488 lbs 
-        -->
-        <emptywt unit="LBS"> 1488 </emptywt>
+         <emptywt unit="LBS"> 1500 </emptywt>
         <location name="CG" unit="IN">
             <x> 41 </x>
             <y> 0 </y>
@@ -203,13 +197,13 @@
             </location>
         </pointmass>
         
-        <!-- Extra weight due to oil quantity -->
-        <pointmass name="extra weight oil">
+        <!-- Loss of weight due to consumed oil -->
+        <pointmass name="consumed oil weight">
             <weight unit="LBS"> 0 </weight>
             <location name="POINTMASS" unit="IN">
-                <x> -0.886 </x>
-                <y> 0.316 </y>
-                <z> 0.082 </z>
+                <x> -19.7 </x>
+                <y> 0 </y>
+                <z> 26.6 </z>
             </location>
         </pointmass>
     </mass_balance>
@@ -1352,7 +1346,6 @@
                               0.0000	0.0000
                               0.3490	-0.0322
                         </tableData>
-                        <value>0.25</value>
                     </table>
                     <!--
                           stall and spin (1): 

@@ -89,41 +89,57 @@ var primerTimer = maketimer(5, func {
 # ========== oil consumption ======================
 
 var oil_consumption = maketimer(1.0, func {
-    if (getprop("/engines/active-engine/oil_consumption_allowed"))
+    if (getprop("/engines/active-engine/oil_consumption_allowed")) {
         var oil_level = getprop("/engines/active-engine/oil-level");
-    else
-        var oil_level = 7.0;
-    var rpm = getprop("/engines/active-engine/rpm");
+        var oil_consumed = getprop("/engines/active-engine/oil-consumed");
+        if (getprop("/controls/engines/active-engine") == 0)
+            var oil_full = 7;
+        if (getprop("/controls/engines/active-engine") == 1)
+            var oil_full = 8;
+    
+        var rpm = getprop("/engines/active-engine/rpm");
+    
+        # Quadratic formula which outputs 1.0 for input 2300 RPM (cruise value),
+        # 0.6 for 700 RPM (idle) and 1.2 for 2700 RPM (max)
+        var rpm_factor = 0.00000012 * math.pow(rpm, 2) - 0.0001 * rpm + 0.62;
+    
+        # Consumption rate defined as 1.5 quarter per 10 hours (36000 seconds)
+        # at cruise RPM
+        var consumption_rate = 1.5 / 36000; 
+    
+        var low_oil_pressure_factor = 1.0;
+        var low_oil_temperature_factor = 1.0;
+    
+        if (getprop("/engines/active-engine/running")) {
+            oil_consumed = oil_consumed + consumption_rate * rpm_factor;     
+            oil_level = oil_level - consumption_rate * rpm_factor;
+            setprop("/engines/active-engine/oil-level", oil_level);
+            setprop("/engines/active-engine/oil-consumed", oil_consumed);
+        }
 
-    # Quadratic formula which outputs 1.0 for input 2300 RPM (cruise value),
-    # 0.6 for 700 RPM (idle) and 1.2 for 2700 RPM (max)
-    var rpm_factor = 0.00000012 * math.pow(rpm, 2) - 0.0001 * rpm + 0.62;
-
-    # Consumption rate defined as 1.5 quarter per 10 hours (36000 seconds)
-    # at cruise RPM
-    var consumption_rate = 1.5 / 36000; 
-
-    var low_oil_pressure_factor = 1.0;
-    var low_oil_temperature_factor = 1.0;
-
-    if (getprop("/engines/active-engine/running")) {
-        oil_level = oil_level - consumption_rate * rpm_factor;
-        setprop("/engines/active-engine/oil-level", oil_level);        
+        var oil_lacking = oil_full - oil_level;
+        setprop("/engines/active-engine/oil-lacking", oil_lacking);
+    
+        # If oil gets low (< 5.0), pressure should drop and temperature should rise
+        var oil_level_limited = std.min(oil_level, 5.0);
+    
+        # Should give 1.0 for oil_level = 5 and 0.1 for oil_level 4.92,
+        # which is the min before the engine stops
+        low_oil_pressure_factor = 11.25 * oil_level_limited - 55.25;
+    
+        # Should give 1.0 for oil_level = 5 and 1.5 for oil_level 4.92
+        low_oil_temperature_factor = -6.25 * oil_level_limited + 32.25;
+    
+        setprop("/engines/active-engine/low-oil-pressure-factor", low_oil_pressure_factor);
+        setprop("/engines/active-engine/low-oil-temperature-factor", low_oil_temperature_factor);
     }
 
-    # If oil gets low (< 5.0), pressure should drop and temperature should rise
-    var oil_level_limited = std.min(oil_level, 5.0);
-
-    # Should give 1.0 for oil_level = 5 and 0.1 for oil_level 4.92,
-    # which is the min before the engine stops
-    low_oil_pressure_factor = 11.25 * oil_level_limited - 55.25;
-
-    # Should give 1.0 for oil_level = 5 and 1.5 for oil_level 4.92
-    low_oil_temperature_factor = -6.25 * oil_level_limited + 32.25;
-
-    setprop("/engines/active-engine/low-oil-pressure-factor", low_oil_pressure_factor);
-    setprop("/engines/active-engine/low-oil-temperature-factor", low_oil_temperature_factor);
-
+    else {
+        if (getprop("/controls/engines/active-engine") == 0)
+            setprop("/engines/active-engine/oil-level", 7);
+        if (getprop("/controls/engines/active-engine") == 1)
+            setprop("/engines/active-engine/oil-level", 8);
+    }
 });
 
 # ========== carburetor icing ======================

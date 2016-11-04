@@ -59,16 +59,9 @@ Extra weight and drag due to bush wheels, floats and 180 hp engine
         </switch>
 
         <switch name="extra-weight-180hp">
+        <!-- Basic Empty Weight difference. 160 hp: 1500 lbs, 180 hp: 1642 lbs -->
             <default value="0"/>
-            <!--
-                The weights given by the POH include full oil level. The difference without oil can be calculated as follows:
-                160hp with oil (POH value): 1500 lbs
-                160hp without oil (7 quarts = 12 lbs): 1488 lbs
-                180hp with oil (POH value): 1642 lbs
-                180hp without oil (8 quarts = 14 lbs): 1628 lbs
-                difference without oil: 140 lbs
-            -->
-            <test logic="AND" value="140">
+            <test logic="AND" value="142">
                 /controls/engines/active-engine EQ 1
             </test>
             <output>/fdm/jsbsim/inertia/pointmass-weight-lbs[15]</output>

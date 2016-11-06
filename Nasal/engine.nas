@@ -139,6 +139,7 @@ var oil_consumption = maketimer(1.0, func {
             setprop("/engines/active-engine/oil-level", 7);
         if (getprop("/controls/engines/active-engine") == 1)
             setprop("/engines/active-engine/oil-level", 8);
+        setprop("/engines/active-engine/oil-lacking", 0);
     }
 });
 

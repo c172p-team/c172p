@@ -89,13 +89,17 @@ var primerTimer = maketimer(5, func {
 # ========== oil consumption ======================
 
 var oil_consumption = maketimer(1.0, func {
+
+    var oil_level = getprop("/engines/active-engine/oil-level");
+    var oil_consumed = getprop("/engines/active-engine/oil-consumed");
+    if (getprop("/controls/engines/active-engine") == 0)
+        var oil_full = 7;
+    if (getprop("/controls/engines/active-engine") == 1)
+        var oil_full = 8;
+    var oil_lacking = oil_full - oil_level;
+    setprop("/engines/active-engine/oil-lacking", oil_lacking);
+    
     if (getprop("/engines/active-engine/oil_consumption_allowed")) {
-        var oil_level = getprop("/engines/active-engine/oil-level");
-        var oil_consumed = getprop("/engines/active-engine/oil-consumed");
-        if (getprop("/controls/engines/active-engine") == 0)
-            var oil_full = 7;
-        if (getprop("/controls/engines/active-engine") == 1)
-            var oil_full = 8;
     
         var rpm = getprop("/engines/active-engine/rpm");
     
@@ -117,9 +121,6 @@ var oil_consumption = maketimer(1.0, func {
             setprop("/engines/active-engine/oil-consumed", oil_consumed);
         }
 
-        var oil_lacking = oil_full - oil_level;
-        setprop("/engines/active-engine/oil-lacking", oil_lacking);
-    
         # If oil gets low (< 5.0), pressure should drop and temperature should rise
         var oil_level_limited = std.min(oil_level, 5.0);
     
@@ -139,7 +140,6 @@ var oil_consumption = maketimer(1.0, func {
             setprop("/engines/active-engine/oil-level", 7);
         if (getprop("/controls/engines/active-engine") == 1)
             setprop("/engines/active-engine/oil-level", 8);
-        setprop("/engines/active-engine/oil-lacking", 0);
     }
 });
 

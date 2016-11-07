@@ -89,13 +89,16 @@ var primerTimer = maketimer(5, func {
 # ========== oil consumption ======================
 
 var oil_consumption = maketimer(1.0, func {
+
+    var oil_level = getprop("/engines/active-engine/oil-level");
+    if (getprop("/controls/engines/active-engine") == 0)
+        var oil_full = 7;
+    if (getprop("/controls/engines/active-engine") == 1)
+        var oil_full = 8;
+    var oil_lacking = oil_full - oil_level;
+    setprop("/engines/active-engine/oil-lacking", oil_lacking);
+    
     if (getprop("/engines/active-engine/oil_consumption_allowed")) {
-        var oil_level = getprop("/engines/active-engine/oil-level");
-        var oil_consumed = getprop("/engines/active-engine/oil-consumed");
-        if (getprop("/controls/engines/active-engine") == 0)
-            var oil_full = 7;
-        if (getprop("/controls/engines/active-engine") == 1)
-            var oil_full = 8;
     
         var rpm = getprop("/engines/active-engine/rpm");
     
@@ -107,19 +110,14 @@ var oil_consumption = maketimer(1.0, func {
         # at cruise RPM
         var consumption_rate = 1.5 / 36000; 
     
-        var low_oil_pressure_factor = 1.0;
-        var low_oil_temperature_factor = 1.0;
-    
         if (getprop("/engines/active-engine/running")) {
-            oil_consumed = oil_consumed + consumption_rate * rpm_factor;     
             oil_level = oil_level - consumption_rate * rpm_factor;
             setprop("/engines/active-engine/oil-level", oil_level);
-            setprop("/engines/active-engine/oil-consumed", oil_consumed);
         }
 
-        var oil_lacking = oil_full - oil_level;
-        setprop("/engines/active-engine/oil-lacking", oil_lacking);
-    
+        var low_oil_pressure_factor = 1.0;
+        var low_oil_temperature_factor = 1.0;
+
         # If oil gets low (< 5.0), pressure should drop and temperature should rise
         var oil_level_limited = std.min(oil_level, 5.0);
     

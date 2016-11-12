@@ -1,6 +1,17 @@
 List of features and bug fixes
 ==============================
 
+Version 2016.4
+--------------
+
+* Improvements to the oil management (better function, oil now changes
+  CG and weight of the plane, etc.)
+* New ALS external view navigation, taxi and landing lights
+* Added fire extinguisher and ELT models
+* Bug fix for flashlight effect not illuminating the baggages
+* Bug fix for interaction with external items in one of the tutorials
+* Improvements to the autostart function
+
 Version 2016.3
 --------------
 

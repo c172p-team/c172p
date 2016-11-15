@@ -195,17 +195,11 @@ var return_fuel_sample = func(index) {
 ##########################################
 var control_surface_check_left_aileron = func {
     var auto_coordination = getprop("/controls/flight/auto-coordination");
-    setprop("/controls/flight/auto-coordination", "false");
-    interpolate("/controls/flight/aileron", 1.0, 0.3);
-    settimer(func(){
-        interpolate("/controls/flight/aileron", -1.0, 0.6);
-    }, 0.3);
-    settimer(func(){
-        interpolate("/controls/flight/aileron", 0.0, 0.3);
-    }, 0.9);
+    setprop("/controls/flight/auto-coordination", 0);
+    interpolate("/controls/flight/aileron", 1.0, 0.5, -1.0, 1.0, 0.0, 0.5);
     settimer(func(){
         setprop("/controls/flight/auto-coordination", auto_coordination);
-    }, 1.2);
+    }, 2.0);
 };
 
 ##########################################
@@ -213,43 +207,25 @@ var control_surface_check_left_aileron = func {
 ##########################################
 var control_surface_check_right_aileron = func {
     var auto_coordination = getprop("/controls/flight/auto-coordination");
-    setprop("/controls/flight/auto-coordination", "false");
-    interpolate("/controls/flight/aileron", -1.0, 0.3);
-    settimer(func(){
-        interpolate("/controls/flight/aileron", 1.0, 0.6);
-    }, 0.3);
-    settimer(func(){
-        interpolate("/controls/flight/aileron", 0.0, 0.3);
-    }, 0.9);
+    setprop("/controls/flight/auto-coordination", 0);
+    interpolate("/controls/flight/aileron", -1.0, 0.5, 1.0, 1.0, 0.0, 0.5);
     settimer(func(){
         setprop("/controls/flight/auto-coordination", auto_coordination);
-    }, 1.2);
+    }, 2.0);
 };
 
 ##########################################
 # Preflight control surface check: elevator
 ##########################################
 var control_surface_check_elevator = func {
-    interpolate("/controls/flight/elevator", 0.7, 0.5);
-    settimer(func(){
-        interpolate("/controls/flight/elevator", -0.7, 1.0);
-    }, 0.5);
-    settimer(func(){
-        interpolate("/controls/flight/elevator", 0.0, 0.5);
-    }, 1.5);
+    interpolate("/controls/flight/elevator", 1.0, 0.8, -1.0, 1.6, 0.0, 0.8);
 };
 
 ##########################################
 # Preflight control surface check: rudder
 ##########################################
 var control_surface_check_rudder = func {
-    interpolate("/controls/flight/rudder", -0.7, 0.5);
-    settimer(func(){
-        interpolate("/controls/flight/rudder", 0.7, 1.0);
-    }, 0.5);
-    settimer(func(){
-        interpolate("/controls/flight/rudder", 0.0, 0.5);
-    }, 1.5);
+    interpolate("/controls/flight/rudder", -1.0, 0.8, 1.0, 1.6, 0.0, 0.8);
 };
 
 ##########################################

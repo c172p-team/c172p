@@ -191,6 +191,44 @@ var return_fuel_sample = func(index) {
 };
 
 ##########################################
+# Preflight control surface check: left aileron
+##########################################
+var control_surface_check_left_aileron = func {
+    var auto_coordination = getprop("/controls/flight/auto-coordination");
+    setprop("/controls/flight/auto-coordination", 0);
+    interpolate("/controls/flight/aileron", 1.0, 0.5, -1.0, 1.0, 0.0, 0.5);
+    settimer(func(){
+        setprop("/controls/flight/auto-coordination", auto_coordination);
+    }, 2.0);
+};
+
+##########################################
+# Preflight control surface check: right aileron
+##########################################
+var control_surface_check_right_aileron = func {
+    var auto_coordination = getprop("/controls/flight/auto-coordination");
+    setprop("/controls/flight/auto-coordination", 0);
+    interpolate("/controls/flight/aileron", -1.0, 0.5, 1.0, 1.0, 0.0, 0.5);
+    settimer(func(){
+        setprop("/controls/flight/auto-coordination", auto_coordination);
+    }, 2.0);
+};
+
+##########################################
+# Preflight control surface check: elevator
+##########################################
+var control_surface_check_elevator = func {
+    interpolate("/controls/flight/elevator", 1.0, 0.8, -1.0, 1.6, 0.0, 0.8);
+};
+
+##########################################
+# Preflight control surface check: rudder
+##########################################
+var control_surface_check_rudder = func {
+    interpolate("/controls/flight/rudder", -1.0, 0.8, 1.0, 1.6, 0.0, 0.8);
+};
+
+##########################################
 # Switches Save State
 ##########################################
 var switches_save_state = func {

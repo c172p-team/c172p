@@ -204,7 +204,7 @@
                 </group>
 
                 <group>
-                    <layout>vbox</layout>
+                    <layout>hbox</layout>
 
                     <checkbox>
                         <halign>left</halign>
@@ -222,7 +222,33 @@
                             <command>dialog-update</command>
                         </binding>
                     </checkbox>
-                </group>
+                    
+                    <button>
+                        <halign>right</halign>
+                        <legend>Recharge battery</legend>
+                        <live>true</live>                
+                        <enable>
+                            <and>
+                                <not>
+                                    <property>/sim/freeze/replay-state</property>
+                                </not>
+                                <less-than>
+                                    <property>velocities/groundspeed-kt</property>
+                                    <value>1.0</value>
+                                </less-than>
+                                <not>
+                                    <property>/engines/active-engine/running</property>
+                                </not>
+                                <property>/controls/electric/external-power</property>
+                            </and>
+                        </enable>
+                        <binding>
+                            <command>nasal</command>
+                            <script>c172p.dialog_battery_reload();</script>
+                        </binding>
+                    </button>
+                    
+                </group>                
 
                 <!-- Force group to the left -->
                 <empty><stretch>true</stretch></empty>
@@ -249,6 +275,7 @@
                     <command>dialog-update</command>
                 </binding>
             </checkbox>
+            
         </group>
     </group>
 

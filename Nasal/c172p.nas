@@ -561,6 +561,16 @@ var dialog_battery_reload = func {
 }
 
 setlistener("/sim/signals/fdm-initialized", func {
+    # Randomize callsign of new users to avoid them blocking
+    # other new users on multiplayer
+    if (getprop("/sim/multiplay/callsign") == "callsign") {
+        var digit = func {
+            return math.round(rand()*9);
+        };
+        var new_callsign = "FG-" ~ digit() ~ digit() ~ digit() ~ digit();
+        setprop("/sim/multiplay/callsign", new_callsign);
+    };
+
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.
     aircraft.data.add("/sim/model/c172p/immat-on-panel");

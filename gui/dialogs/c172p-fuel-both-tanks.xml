@@ -1,0 +1,238 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <name>c172p-fuel-both-tanks-dialog</name>
+    <layout>vbox</layout>
+    <resizable>false</resizable>
+    <modal>false</modal>
+    <draggable>true</draggable>
+
+    <group>
+        <layout>hbox</layout>
+
+        <empty><stretch>true</stretch></empty>
+        <text>
+            <label>Fuel Tanks</label>
+        </text>
+        <empty><stretch>true</stretch></empty>
+
+        <button>
+            <legend/>
+            <key>Esc</key>
+            <pref-width>16</pref-width>
+            <pref-height>16</pref-height>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+    
+    <hrule/>
+
+    <group>
+        <layout>hbox</layout>
+        <padding>6</padding>
+                
+        <group>
+            <layout>vbox</layout>
+            <text>
+                <label>Tank</label>
+                <halign>center</halign>
+            </text>
+            <text>
+                <label>Left Tank:</label>
+                <halign>left</halign>
+            </text>
+            <text>
+                <label>Right Tank:</label>
+                <halign>left</halign>
+            </text>
+            <text>
+                <label></label>
+            </text>
+        </group>
+            
+        <group>
+            <layout>vbox</layout>
+            <text>
+                <label></label>
+                <halign>left</halign>
+            </text>
+            <slider>
+                <name>c172p-left-fuel-slider2</name>
+                <min>0</min>
+                <max>21.5</max>
+                <live>true</live>
+                <enable>
+                    <and>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                    </and>
+                </enable>
+                <property>/consumables/fuel/tank[0]/level-gal_us</property>
+                <binding>
+                    <command>dialog-apply</command>
+                    <name>c172p-left-fuel-slider2</name>
+                </binding>
+            </slider>
+            <slider>
+                <name>c172p-right-fuel-slider2</name>
+                <min>0</min>
+                <max>21.5</max>
+                <live>true</live>
+                <enable>
+                    <and>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                    </and>
+                </enable>
+                <property>/consumables/fuel/tank[1]/level-gal_us</property>
+                <binding>
+                    <command>dialog-apply</command>
+                    <name>c172p-right-fuel-slider2</name>
+                </binding>
+            </slider>
+            <text>
+                <label>Total: </label>
+                <halign>right</halign>
+            </text>
+        </group>
+            
+        <group>
+            <layout>vbox</layout>
+            <text>
+                <label>Pounds</label>
+                <halign>left</halign>
+            </text>
+            <text>
+                <label>12345</label>
+                <halign>left</halign>
+                <format>%.1f</format>
+                <live>true</live>
+                <property>/consumables/fuel/tank[0]/level-lbs</property>
+            </text>
+            <text>
+                <label>12345</label>
+                <halign>left</halign>
+                <format>%.1f</format>
+                <live>true</live>
+                <property>/consumables/fuel/tank[1]/level-lbs</property>
+            </text>
+            <text>
+                <label>12345</label>
+                <halign>left</halign>
+                <format>%.1f</format>
+                <live>true</live>
+                <property>/consumables/fuel/total-fuel-lbs</property>
+            </text>      
+        </group>
+        
+        <group>
+            <layout>vbox</layout>
+            <text>
+                <label>Gallons</label>
+                <halign>left</halign>
+            </text>
+            <text>
+                <label>12345</label>
+                <halign>left</halign>
+                <format>%.2f</format>
+                <live>true</live>
+                <property>/consumables/fuel/tank[0]/level-gal_us</property>
+            </text>
+            <text>
+                <label>12345</label>
+                <halign>left</halign>
+                <format>%.2f</format>
+                <live>true</live>
+                <property>/consumables/fuel/tank[1]/level-gal_us</property>
+            </text>
+            <text>
+                <label>12345</label>
+                <halign>left</halign>
+                <format>%.2f</format>
+                <live>true</live>
+                <property>/consumables/fuel/total-fuel-gal_us</property>
+            </text>
+        </group>
+        
+    </group>
+
+    <group>
+        <layout>table</layout>
+        <text>
+            <row>0</row>
+            <col>0</col>
+            <visible>
+                <and>
+                    <or>
+                        <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                        <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                        <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                        <property>/fdm/jsbsim/hydro/active-norm</property>
+                    </or>
+                    <property>/engines/active-engine/running</property>
+                </and>
+            </visible>
+            <color>
+                <red>0.9</red>
+                <green>0.1</green>
+                <blue>0.1</blue>
+            </color>
+            <label>Sliders disabled while engine is running!</label>
+        </text>
+        <text>
+            <row>0</row>
+            <col>0</col>
+            <visible>
+                <not>
+                    <or>
+                        <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                        <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                        <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                        <property>/fdm/jsbsim/hydro/active-norm</property>
+                    </or>
+                </not>
+            </visible>
+            <color>
+                <red>0.9</red>
+                <green>0.1</green>
+                <blue>0.1</blue>
+            </color>
+            <label>Sliders disabled while in the air!</label>
+        </text>
+    </group>
+        
+    <hrule/>
+
+    <group>
+        <layout>hbox</layout>
+        <default-padding>6</default-padding>
+        <empty><stretch>true</stretch></empty>
+        <button>
+            <legend>Close</legend>
+            <equal>true</equal>
+            <key>Esc</key>
+            <default>true</default>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+
+</PropertyList>

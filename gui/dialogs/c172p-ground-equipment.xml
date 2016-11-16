@@ -221,38 +221,21 @@
                         <binding>
                             <command>dialog-update</command>
                         </binding>
-                    </checkbox>
+                    </checkbox>                    
                     
-                    <button>
-                        <halign>right</halign>
-                        <legend>Recharge battery</legend>
-                        <live>true</live>                
-                        <enable>
-                            <and>
-                                <not>
-                                    <property>/sim/freeze/replay-state</property>
-                                </not>
-                                <less-than>
-                                    <property>velocities/groundspeed-kt</property>
-                                    <value>1.0</value>
-                                </less-than>
-                                <not>
-                                    <property>/engines/active-engine/running</property>
-                                </not>
-                                <property>/controls/electric/external-power</property>
-                            </and>
-                        </enable>
-                        <binding>
-                            <command>nasal</command>
-                            <script>c172p.dialog_battery_reload();</script>
-                        </binding>
-                    </button>
-                    
-                </group>                
+                </group>                                
 
                 <!-- Force group to the left -->
                 <empty><stretch>true</stretch></empty>
-            </group>
+            </group>            
+
+            <text>
+                <halign>center</halign>
+                <label>Battery charge: xxxx %%</label>
+                <format>Battery charge: %3.1f %%</format>
+                <live>true</live>
+                <property>/systems/electrical/battery-charge-percent-100</property>
+            </text>
 
             <hrule/>
 
@@ -281,7 +264,7 @@
                             
                 <button>
                     <halign>right</halign>
-                    <legend>Add/remove fuel</legend>
+                    <legend>Add/remove fuel...</legend>
                     <live>true</live>                
                     <enable>
                         <and>

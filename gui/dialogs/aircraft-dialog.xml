@@ -210,43 +210,6 @@
         <hrule/>
 
         <group>
-            <layout>hbox</layout>
-
-            <text>
-                <halign>left</halign>
-                <label>Battery charge: xxxx %%</label>
-                <format>Battery charge: %3.1f %%</format>
-                <live>true</live>
-                <property>/systems/electrical/battery-charge-percent-100</property>
-            </text>
-
-            <button>
-                <halign>right</halign>
-                <legend>Recharge battery</legend>
-                <enable>
-                    <and>
-                        <not>
-                            <property>/sim/freeze/replay-state</property>
-                        </not>
-                        <less-than>
-                            <property>velocities/groundspeed-kt</property>
-                            <value>1.0</value>
-                        </less-than>
-                        <not>
-                            <property>/engines/active-engine/running</property>
-                        </not>
-                    </and>
-                </enable>
-                <binding>
-                    <command>nasal</command>
-                    <script>c172p.dialog_battery_reload();</script>
-                </binding>
-            </button>               
-        </group>
-
-        <hrule/>
-
-        <group>
             <layout>vbox</layout>
             
             <checkbox>

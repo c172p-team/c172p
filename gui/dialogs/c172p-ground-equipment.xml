@@ -256,25 +256,55 @@
 
             <hrule/>
 
-            <checkbox>
-                <halign>left</halign>
-                <label>Fuel tank trailer</label>
-                <live>true</live>
-                <property>/sim/fueltanktrailer/enable</property>
-                <enable>
-                    <less-than>
-                        <property>velocities/groundspeed-kt</property>
-                        <value>0.1</value>
-                    </less-than>
-                </enable>
-                <binding>
-                    <command>property-toggle</command>
+            <group>
+                <layout>hbox</layout>
+
+                <checkbox>
+                    <halign>left</halign>
+                    <label>Fuel tank trailer</label>
+                    <live>true</live>
                     <property>/sim/fueltanktrailer/enable</property>
-                </binding>
-                <binding>
-                    <command>dialog-update</command>
-                </binding>
-            </checkbox>
+                    <enable>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>0.1</value>
+                        </less-than>
+                    </enable>
+                    <binding>
+                        <command>property-toggle</command>
+                        <property>/sim/fueltanktrailer/enable</property>
+                    </binding>
+                    <binding>
+                        <command>dialog-update</command>
+                    </binding>
+                </checkbox>
+                            
+                <button>
+                    <halign>right</halign>
+                    <legend>Add/remove fuel</legend>
+                    <live>true</live>                
+                    <enable>
+                        <and>
+                            <not>
+                                <property>/sim/freeze/replay-state</property>
+                            </not>
+                            <less-than>
+                                <property>velocities/groundspeed-kt</property>
+                                <value>1.0</value>
+                            </less-than>
+                            <not>
+                                <property>/engines/active-engine/running</property>
+                            </not>
+                            <property>/sim/fueltanktrailer/enable</property>
+                        </and>
+                    </enable>
+                    <binding>
+                        <command>dialog-show</command>
+                        <dialog-name>c172p-fuel-both-tanks-dialog</dialog-name>
+                    </binding>
+                </button>
+
+            </group>                
             
         </group>
     </group>

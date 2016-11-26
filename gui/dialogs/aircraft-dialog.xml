@@ -258,6 +258,11 @@
                 </binding>
                 <binding>
                     <command>property-assign</command>
+                    <property>sim/model/c172p/cockpit/control-lock-placed</property>
+                    <value>false</value>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
                     <property>sim/model/c172p/securing/pitot-cover-visible</property>
                     <value>false</value>
                 </binding>
@@ -294,6 +299,38 @@
 
                 <group>
                     <layout>vbox</layout>
+
+                    <checkbox>
+                        <halign>left</halign>
+                        <label>Place control lock</label>
+                        <property>sim/model/c172p/cockpit/control-lock-placed</property>
+                        <live>true</live>
+                        <enable>
+                            <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                            <greater-than>
+                                <property>sim/model/c172p/cockpit/yoke-aileron</property>
+                                <value>-0.05</value>
+                            </greater-than>
+                            <less-than>
+                                <property>sim/model/c172p/cockpit/yoke-aileron</property>
+                                <value>0.05</value>
+                            </less-than>
+                            <greater-than>
+                                <property>sim/model/c172p/cockpit/yoke-elevator</property>
+                                <value>-0.05</value>
+                            </greater-than>
+                            <less-than>
+                                <property>sim/model/c172p/cockpit/yoke-elevator</property>
+                                <value>0.05</value>
+                            </less-than>
+                            <not>
+                                <property>sim/model/hide-yoke</property>
+                            </not>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                    </checkbox>
 
                     <checkbox>
                         <halign>left</halign>

@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>Control-lock.ac</path>
+    <nopreview/>
+
+    <animation>
+        <type>select</type>
+        <object-name>ControlLock-yoke</object-name>
+        <condition>
+            <property>sim/model/c172p/cockpit/control-lock-placed</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>ControlLock-pocket</object-name>
+        <condition>
+            <not>
+                <property>sim/model/c172p/cockpit/control-lock-placed</property>
+            </not>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>ControlLock-yoke</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>sim/model/c172p/cockpit/control-lock-placed</property>
+                <value>false</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>remove-control-lock</tooltip-id>
+                <label>Remove control lock</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>ControlLock-pocket</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <greater-than>
+                        <property>sim/model/c172p/cockpit/yoke-aileron</property>
+                        <value>-0.05</value>
+                    </greater-than>
+                    <less-than>
+                        <property>sim/model/c172p/cockpit/yoke-aileron</property>
+                        <value>0.05</value>
+                    </less-than>
+                    <greater-than>
+                        <property>sim/model/c172p/cockpit/yoke-elevator</property>
+                        <value>-0.05</value>
+                    </greater-than>
+                    <less-than>
+                        <property>sim/model/c172p/cockpit/yoke-elevator</property>
+                        <value>0.05</value>
+                    </less-than>
+                    <not>
+                        <property>sim/model/hide-yoke</property>
+                    </not>
+                </condition>
+                <command>property-assign</command>
+                <property>sim/model/c172p/cockpit/control-lock-placed</property>
+                <value>true</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>place-control-lock</tooltip-id>
+                <label>Place control lock</label>
+            </binding>
+        </hovered>
+    </animation>
+
+</PropertyList>

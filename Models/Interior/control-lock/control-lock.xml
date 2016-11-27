@@ -2,8 +2,14 @@
 
 <PropertyList>
 
-    <path>Control-lock.ac</path>
+    <path>control-lock.ac</path>
     <nopreview/>
+
+    <effect>
+        <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
+        <object-name>ControlLock-pocket</object-name>
+        <object-name>ControlLock-yoke</object-name>
+    </effect>
 
     <animation>
         <type>select</type>
@@ -77,6 +83,33 @@
                 <command>property-assign</command>
                 <property>sim/model/c172p/cockpit/control-lock-placed</property>
                 <value>true</value>
+            </binding>
+            <binding>
+                <condition>
+                    <or>
+                        <less-than-equals>
+                            <property>sim/model/c172p/cockpit/yoke-aileron</property>
+                            <value>-0.05</value>
+                        </less-than-equals>
+                        <greater-than-equals>
+                            <property>sim/model/c172p/cockpit/yoke-aileron</property>
+                            <value>0.05</value>
+                        </greater-than-equals>
+                        <less-than-equals>
+                            <property>sim/model/c172p/cockpit/yoke-elevator</property>
+                            <value>-0.05</value>
+                        </less-than-equals>
+                        <greater-than-equals>
+                            <property>sim/model/c172p/cockpit/yoke-elevator</property>
+                            <value>0.05</value>
+                        </greater-than-equals>
+                    </or>
+                    <not>
+                        <property>sim/model/hide-yoke</property>
+                    </not>
+                </condition>
+                <command>nasal</command>
+                <script>screen.log.write("You have to center aileron and elevator before placing the control lock!", 1, 0.5, 0);</script>
             </binding>
         </action>
         <hovered>

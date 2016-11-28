@@ -59,57 +59,29 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <condition>
-                    <greater-than>
-                        <property>sim/model/c172p/cockpit/yoke-aileron</property>
-                        <value>-0.05</value>
-                    </greater-than>
-                    <less-than>
-                        <property>sim/model/c172p/cockpit/yoke-aileron</property>
-                        <value>0.05</value>
-                    </less-than>
-                    <greater-than>
-                        <property>sim/model/c172p/cockpit/yoke-elevator</property>
-                        <value>-0.05</value>
-                    </greater-than>
-                    <less-than>
-                        <property>sim/model/c172p/cockpit/yoke-elevator</property>
-                        <value>0.05</value>
-                    </less-than>
-                    <not>
-                        <property>sim/model/hide-yoke</property>
-                    </not>
-                </condition>
                 <command>property-assign</command>
                 <property>sim/model/c172p/cockpit/control-lock-placed</property>
                 <value>true</value>
             </binding>
             <binding>
-                <condition>
-                    <or>
-                        <less-than-equals>
-                            <property>sim/model/c172p/cockpit/yoke-aileron</property>
-                            <value>-0.05</value>
-                        </less-than-equals>
-                        <greater-than-equals>
-                            <property>sim/model/c172p/cockpit/yoke-aileron</property>
-                            <value>0.05</value>
-                        </greater-than-equals>
-                        <less-than-equals>
-                            <property>sim/model/c172p/cockpit/yoke-elevator</property>
-                            <value>-0.05</value>
-                        </less-than-equals>
-                        <greater-than-equals>
-                            <property>sim/model/c172p/cockpit/yoke-elevator</property>
-                            <value>0.05</value>
-                        </greater-than-equals>
-                    </or>
-                    <not>
-                        <property>sim/model/hide-yoke</property>
-                    </not>
-                </condition>
-                <command>nasal</command>
-                <script>screen.log.write("You have to center aileron and elevator before placing the control lock!", 1, 0.5, 0);</script>
+                <command>property-assign</command>
+                <property>sim/model/c172p/cockpit/yoke-aileron</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>sim/model/c172p/cockpit/yoke-elevator</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/flight/aileron</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>controls/flight/elevator</property>
+                <value>0</value>
             </binding>
         </action>
         <hovered>

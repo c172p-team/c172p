@@ -1,0 +1,185 @@
+<?xml version="1.0"?>
+
+<!-- c172p
+ This program is free software; you can redistribute it and/or
+ modify it under the terms of the GNU General Public License as
+ published by the Free Software Foundation; either version 2 of the
+ License, or (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ General Public License for more details.
+-->
+
+<PropertyList>
+
+    <name>c172p-about-dialog</name>
+    <layout>vbox</layout>
+    <resizable>false</resizable>
+    <modal>false</modal>
+    <draggable>true</draggable>
+
+    <group>
+        <layout>hbox</layout>
+        <empty><stretch>true</stretch></empty>
+        <text>
+            <label>About</label>
+        </text>
+        <empty><stretch>true</stretch></empty>
+        <button>
+            <legend/>
+            <key>Esc</key>
+            <pref-width>16</pref-width>
+            <pref-height>16</pref-height>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+
+    <hrule/>
+
+    <group>
+        <layout>vbox</layout>
+        <padding>6</padding>
+
+        <group>
+            <layout>hbox</layout>
+
+            <group>
+                <layout>hbox</layout>
+
+                <canvas>
+                    <name>about</name>
+
+                    <valign>fill</valign>
+                    <halign>fill</halign>
+                    <stretch>true</stretch>
+                    <pref-width>640</pref-width>
+                    <pref-height>480</pref-height>
+                    <!--height>480</height-->
+                    <nasal>
+                        <load>
+                            <![CDATA[
+
+                            # you can add your canvas-specific code here
+                            # this will get a handle to the parent canvas
+                            var my_canvas = canvas.get(cmdarg());
+
+                            var root = my_canvas.createGroup();
+                            var path = "Aircraft/c172p/gui/dialogs/c172p.jpg";
+                            var child = root.createChild("image")
+                                .setFile(path)
+                                .setSize(640, 480)
+                                .setTranslation(2,2);
+                            ]]>
+                      </load>
+                    </nasal>
+                </canvas>
+            </group>
+
+            <group>
+                <layout>vbox</layout>
+
+                <group>
+                    <layout>hbox</layout>
+                    <default-padding>6</default-padding>
+                    <text>
+                        <halign>left</halign>
+                        <label>Cessna 172P version:</label>
+                    </text>
+                    <text>
+                        <halign>left</halign>
+                        <label>1234.5-git</label>
+                        <property>/sim/aircraft-version</property>
+                    </text>
+                    <empty><stretch>true</stretch></empty>
+                </group>
+
+                <hrule/>
+
+                <text>
+                    <halign>left</halign>
+                    <label>Description:</label>
+                </text>
+
+                <textbox>
+                    <name>basic description</name>
+                    <halign>fill</halign>
+                    <stretch>true</stretch>
+                    <pref-height>180</pref-height>
+                    <height>210</height>
+                    <pref-width>300</pref-width>
+                    <editable>false</editable>
+                    <wrap>true</wrap>
+                    <live>true</live>
+                    <top-line>0</top-line>
+                    <property>/sim/long-description</property>
+                </textbox>
+
+                <empty><stretch>true</stretch></empty>
+
+                <text>
+                    <halign>left</halign>
+                    <label>Authors:</label>
+                </text>
+
+                <textbox>
+                    <name>authors</name>
+                    <halign>fill</halign>
+                    <stretch>true</stretch>
+                    <pref-height>180</pref-height>
+                    <height>210</height>
+                    <pref-width>300</pref-width>
+                    <editable>false</editable>
+                    <wrap>true</wrap>
+                    <live>true</live>
+                    <top-line>0</top-line>
+                    <property>/sim/author</property>
+                </textbox>
+            </group>
+
+        </group>
+    </group>
+        
+    <hrule/>
+
+    <group>
+        <layout>hbox</layout>
+        <default-padding>6</default-padding>
+
+        <button>
+            <halign>left</halign>
+            <legend>Wiki Page</legend>
+            <binding>
+                <command>nasal</command>
+                <script>fgcommand("open-browser", props.Node.new({"url":"http://wiki.flightgear.org/Cessna_172P"}));</script>
+            </binding>
+        </button>
+
+        <button>
+            <halign>center</halign>
+            <legend>Open Repository in Browser</legend>
+            <binding>
+                <command>nasal</command>
+                <script>fgcommand("open-browser", props.Node.new({"url":"https://github.com/Juanvvc/c172p-detailed/"}));</script>
+            </binding>
+        </button>
+
+        <empty><stretch>true</stretch></empty>
+        
+        <button>
+            <halign>right</halign>
+            <legend>Close</legend>
+            <equal>true</equal>
+            <key>Esc</key>
+            <default>true</default>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+        
+    </group>
+
+</PropertyList>

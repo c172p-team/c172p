@@ -562,6 +562,16 @@ var dialog_battery_reload = func {
 }
 
 setlistener("/sim/signals/fdm-initialized", func {
+    # Randomize callsign of new users to avoid them blocking
+    # other new users on multiplayer
+    if (getprop("/sim/multiplay/callsign") == "callsign") {
+        var digit = func {
+            return math.round(rand()*9);
+        };
+        var new_callsign = "FG-" ~ digit() ~ digit() ~ digit() ~ digit();
+        setprop("/sim/multiplay/callsign", new_callsign);
+    };
+
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.
     aircraft.data.add("/sim/model/c172p/immat-on-panel");
@@ -624,16 +634,3 @@ setlistener("/sim/signals/fdm-initialized", func {
     var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();
 });
-
-var ControlLock = func {
-
-    if (getprop("/sim/model/c172p/cockpit/control-lock-placed")) {
-        setprop("/sim/model/c172p/cockpit/yoke-aileron", 0);
-        setprop("/sim/model/c172p/cockpit/yoke-elevator", 0);
-        setprop("/controls/flight/aileron", 0);
-        setprop("/controls/flight/elevator", 0);
-    }
-
-    settimer(ControlLock,0);
-}
-setlistener("/sim/signals/fdm-initialized", ControlLock);

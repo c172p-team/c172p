@@ -431,7 +431,7 @@
             <property>/controls/engines/engine[1]/mixture</property>
         </output>
     </filter>
-    
+
     <!-- ============================================================== -->
     <!-- Carburetor Heat                                                -->
     <!-- ============================================================== -->
@@ -475,11 +475,11 @@
             <property>/controls/anti-ice/engine[1]/carb-heat</property>
         </output>
     </filter>
-    
+
     <!-- ============================================================== -->
     <!-- Fuel contamination and low oil level                           -->
     <!-- ============================================================== -->
-    
+
     <logic>
         <name>Engine Killed</name>
         <input>
@@ -516,7 +516,7 @@
             <property>/engines/active-engine/killed</property>
         </output>
     </logic>
-    
+
     <!-- Low level of fuel contamination or just above oil minimal level makes engine cough-->
     <logic>
         <name>Engine Coughing</name>
@@ -584,7 +584,7 @@
             <property>/engines/active-engine/coughing</property>
         </output>
     </logic>
-    
+
     <!-- ============================================================== -->
     <!-- Carburetor Icing drops RPM                                     -->
     <!-- ============================================================== -->
@@ -609,6 +609,52 @@
         <output>
             <property>/fdm/jsbsim/propulsion/engine[1]/volumetric-efficiency</property>
         </output>
-    </filter>            
+    </filter>
+
+    <!-- ============================================================== -->
+    <!-- Complex engine procedures                                      -->
+    <!-- ============================================================== -->
+
+    <logic>
+        <name>Complex engine procedures</name>
+        <input>
+            <property>/engines/active-engine/complex-engine-procedures</property>
+        </input>
+        <output>
+            <name>oil</name>
+            <property>/engines/active-engine/oil_consumption_allowed</property>
+        </output>
+        <output>
+            <name>carb-icing</name>
+            <property>/engines/active-engine/carb_icing_allowed</property>
+        </output>
+        <output>
+            <name>fuel-contamination</name>
+            <property>/consumables/fuel/contamination_allowed</property>
+        </output>
+    </logic>
+
+    <!-- ============================================================== -->
+    <!-- Save state of aircraft between sessions                        -->
+    <!-- ============================================================== -->
+
+    <logic>
+        <name>Save state of aircraft between sessions</name>
+        <input>
+            <property>/sim/model/c172p/save-state</property>
+        </input>
+        <output>
+            <name>fuel</name>
+            <property>/consumables/fuel/save-fuel-state</property>
+        </output>
+        <output>
+            <name>battery</name>
+            <property>/systems/electrical/save-battery-charge</property>
+        </output>
+        <output>
+            <name>instruments</name>
+            <property>/instrumentation/save-switches-state</property>
+        </output>
+    </logic>
 
 </PropertyList>

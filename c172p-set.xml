@@ -21,27 +21,18 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
     <sim include="c172p-views.xml">
         <description>Cessna 172P Skyhawk (1981 model, detailed)</description>
 
-        <long-description>The Cessna 172 Skyhawk is a four-seat, single-engine, high-wing fixed-wing aircraft. 
-      First flown in 1955 and still in production, more Cessna 172s have been built than any other aircraft.
-        </long-description>
+        <long-description>The Cessna 172 Skyhawk is a four-seat, single-engine, high-wing fixed-wing aircraft. First flown in 1955 and still in production, more Cessna 172s have been built than any other aircraft.</long-description>
 
         <fr>
-            <long-description>Le Cessna 172 Skyhawk est un avion quadriplace, monomoteur à aile haute. 
-        Il effectua son premier vol en 1955 et est toujours en production, plus de Cessna 172 ont été construits que tout autres avions.
-            </long-description>
+            <long-description>Le Cessna 172 Skyhawk est un avion quadriplace, monomoteur à aile haute. Il effectua son premier vol en 1955 et est toujours en production, plus de Cessna 172 ont été construits que tout autres avions.</long-description>
         </fr>
 
         <es>
-            <long-description>La Cessna 172 Skyhawk es un avión de cuatro plazas, monomotor y de ala alta.
-      Se empezó a producir en 1955 y, con equipos modernizados, aún sigue en producción.
-      La Cessna 172 es el avión del que unidades se han construido en la historia.
-            </long-description>
+            <long-description>La Cessna 172 Skyhawk es un avión de cuatro plazas, monomotor y de ala alta. Se empezó a producir en 1955 y, con equipos modernizados, aún sigue en producción. La Cessna 172 es el avión del que unidades se han construido en la historia.</long-description>
         </es>
 
         <it>
-            <long-description>Il Cessna 172 Skyhawk è un aereo a quattro posti, monomotore ad ala fissa alta. 
-        Ha volato per la prima volta nel 1955 ed è ancora in produzione; sono stati prodotti più Cessna 172 di qualunque altro modello di aereo.
-            </long-description>
+            <long-description>Il Cessna 172 Skyhawk è un aereo a quattro posti, monomotore ad ala fissa alta. Ha volato per la prima volta nel 1955 ed è ancora in produzione; sono stati prodotti più Cessna 172 di qualunque altro modello di aereo.</long-description>
         </it>
 
         <tags>
@@ -91,6 +82,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                 <!-- Control lock -->
                 <cockpit>
                     <control-lock-placed type="bool">false</control-lock-placed>
+                    <control-lock-visible type="bool">false</control-lock-visible>
                 </cockpit>
 
                 <!-- Registration number -->
@@ -214,6 +206,8 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                 
                 <ladder_position_l type ="int">1</ladder_position_l>
                 
+                <save-state type="bool">false</save-state>
+                
             </c172p>
 
             <hide-yoke type="bool">false</hide-yoke>
@@ -282,7 +276,10 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <path>/consumables/fuel/tank[0]/level-gal_us</path>
             <path>/consumables/fuel/tank[1]/level-gal_us</path>
             <path>/systems/electrical/save-battery-charge</path>
-            <path>/systems/electrical/battery-charge-percent</path>
+            <path>/systems/electrical/battery-charge-percent</path>            
+            <path>/sim/model/c172p/save-state</path>
+            <path>/engines/active-engine/complex-engine-procedures</path>
+            <path>/sim/model/immat</path>
         </aircraft-data>
 
         <current-view>
@@ -321,6 +318,9 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             </autopilot>
             <autopilot>
                 <path>Systems/glass-rain.xml</path>
+            </autopilot>
+            <autopilot>
+                <path>Systems/control-lock.xml</path>
             </autopilot>
 
             <property-rule n="100">
@@ -461,6 +461,10 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
         <flight>
             <aileron-trim type="double">0.027</aileron-trim>
             <rudder-trim type="double">0.0</rudder-trim>
+
+            <freeze-yoke type="bool">false</freeze-yoke>
+            <aileron-cmd type="double">0.0</aileron-cmd>
+            <elevator-cmd type="double">0.0</elevator-cmd>
         </flight>
         <engines>
             <engine n="0">
@@ -641,6 +645,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <carb_icing_rate type="double">0.0</carb_icing_rate>
             <carb_icing_allowed type="bool">false</carb_icing_allowed>
             <auto-start type="bool">false</auto-start>
+            <complex-engine-procedures type="bool">false</complex-engine-procedures>
         </active-engine>
 
         <!-- Following properties are part of a static list of properties

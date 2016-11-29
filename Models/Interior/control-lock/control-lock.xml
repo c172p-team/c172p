@@ -15,7 +15,7 @@
         <type>select</type>
         <object-name>ControlLock-yoke</object-name>
         <condition>
-            <property>sim/model/c172p/cockpit/control-lock-placed</property>
+            <property>sim/model/c172p/cockpit/control-lock-visible</property>
         </condition>
     </animation>
 
@@ -23,12 +23,10 @@
         <type>select</type>
         <object-name>ControlLock-pocket</object-name>
         <condition>
-            <and>
-                <not>
-                    <property>sim/model/c172p/cockpit/control-lock-placed</property>
-                </not>
-                <property>sim/model/c172p/securing/allow-securing-aircraft</property>
-            </and>
+            <not>
+                <property>sim/model/c172p/cockpit/control-lock-visible</property>
+            </not>
+            <property>sim/model/c172p/securing/allow-securing-aircraft</property>
         </condition>
     </animation>
 
@@ -68,22 +66,6 @@
                 <command>property-assign</command>
                 <property>sim/model/c172p/cockpit/control-lock-placed</property>
                 <value>true</value>
-            </binding>
-            <binding>
-                <condition>
-                    <property>sim/model/c172p/securing/allow-securing-aircraft</property>
-                </condition>
-                <command>property-assign</command>
-                <property>controls/flight/aileron</property>
-                <value>0</value>
-            </binding>
-            <binding>
-                <condition>
-                    <property>sim/model/c172p/securing/allow-securing-aircraft</property>
-                </condition>
-                <command>property-assign</command>
-                <property>controls/flight/elevator</property>
-                <value>0</value>
             </binding>
         </action>
         <hovered>

@@ -42,6 +42,7 @@ var autostart = func (msg=1) {
     setprop("/instrumentation/heading-indicator/offset-deg", -magnetic_variation);
 
     # Pre-flight inspection
+    setprop("/sim/model/c172p/cockpit/control-lock-placed", 0);
     setprop("/sim/model/c172p/brake-parking", 0);
     setprop("/sim/model/c172p/securing/chock", 0);
     setprop("/sim/model/c172p/securing/pitot-cover-visible", 0);
@@ -633,3 +634,16 @@ setlistener("/sim/signals/fdm-initialized", func {
     var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();
 });
+
+var ControlLock = func {
+
+    if (getprop("/sim/model/c172p/cockpit/control-lock-placed")) {
+        setprop("/sim/model/c172p/cockpit/yoke-aileron", 0);
+        setprop("/sim/model/c172p/cockpit/yoke-elevator", 0);
+        setprop("/controls/flight/aileron", 0);
+        setprop("/controls/flight/elevator", 0);
+    }
+
+    settimer(ControlLock,0);
+}
+setlistener("/sim/signals/fdm-initialized", ControlLock);

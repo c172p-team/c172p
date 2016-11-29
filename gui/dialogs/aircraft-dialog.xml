@@ -305,28 +305,16 @@
                         <label>Place control lock</label>
                         <property>sim/model/c172p/cockpit/control-lock-placed</property>
                         <live>true</live>
-                        <enable>
-                            <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                            <greater-than>
-                                <property>sim/model/c172p/cockpit/yoke-aileron</property>
-                                <value>-0.05</value>
-                            </greater-than>
-                            <less-than>
-                                <property>sim/model/c172p/cockpit/yoke-aileron</property>
-                                <value>0.05</value>
-                            </less-than>
-                            <greater-than>
-                                <property>sim/model/c172p/cockpit/yoke-elevator</property>
-                                <value>-0.05</value>
-                            </greater-than>
-                            <less-than>
-                                <property>sim/model/c172p/cockpit/yoke-elevator</property>
-                                <value>0.05</value>
-                            </less-than>
-                            <not>
-                                <property>sim/model/hide-yoke</property>
-                            </not>
-                        </enable>
+                        <binding>
+                            <command>property-assign</command>
+                            <property>controls/flight/aileron</property>
+                            <value>0</value>
+                        </binding>
+                        <binding>
+                            <command>property-assign</command>
+                            <property>controls/flight/elevator</property>
+                            <value>0</value>
+                        </binding>
                         <binding>
                             <command>dialog-apply</command>
                         </binding>

@@ -634,16 +634,3 @@ setlistener("/sim/signals/fdm-initialized", func {
     var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();
 });
-
-var ControlLock = func {
-
-    if (getprop("/sim/model/c172p/cockpit/control-lock-placed")) {
-        setprop("/sim/model/c172p/cockpit/yoke-aileron", 0);
-        setprop("/sim/model/c172p/cockpit/yoke-elevator", 0);
-        setprop("/controls/flight/aileron", 0);
-        setprop("/controls/flight/elevator", 0);
-    }
-
-    settimer(ControlLock,0);
-}
-setlistener("/sim/signals/fdm-initialized", ControlLock);

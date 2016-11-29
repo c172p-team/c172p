@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Copyright (c) 2016 onox
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<PropertyList>
+
+    <filter>
+        <name>Control Lock Aileron</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>1.0</max-rate-of-change>
+        <enable>
+            <property>/controls/flight/freeze-yoke</property>
+        </enable>
+        <input>
+            <property>/controls/flight/aileron-cmd</property>
+        </input>
+        <output>
+            <property>/controls/flight/aileron</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Control Lock Elevator</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>1.0</max-rate-of-change>
+        <enable>
+            <property>/controls/flight/freeze-yoke</property>
+        </enable>
+        <input>
+            <property>/controls/flight/elevator-cmd</property>
+        </input>
+        <output>
+            <property>/controls/flight/elevator</property>
+        </output>
+    </filter>
+
+    <state-machine>
+        <branch>/aircraft/fsm/control-lock</branch>
+
+        <!-- States -->
+        <state>
+            <name>unlocked</name>
+
+            <enter>
+                <command>property-assign</command>
+                <property>/sim/model/c172p/cockpit/control-lock-visible</property>
+                <value type="bool">false</value>
+            </enter>
+            <enter>
+                <command>property-assign</command>
+                <property>/controls/flight/freeze-yoke</property>
+                <value type="bool">false</value>
+            </enter>
+        </state>
+
+        <state>
+            <name>prepare-reset-yoke</name>
+
+            <enter>
+                <command>property-assign</command>
+                <property>/controls/flight/aileron-cmd</property>
+                <property>/controls/flight/aileron</property>
+            </enter>
+            <enter>
+                <command>property-assign</command>
+                <property>/controls/flight/elevator-cmd</property>
+                <property>/controls/flight/elevator</property>
+            </enter>
+            <enter>
+                <command>property-assign</command>
+                <property>/controls/flight/freeze-yoke</property>
+                <value type="bool">true</value>
+            </enter>
+        </state>
+
+        <state>
+            <name>reset-yoke</name>
+
+            <enter>
+                <command>property-assign</command>
+                <property>/controls/flight/aileron-cmd</property>
+                <value type="double">0.0</value>
+            </enter>
+            <enter>
+                <command>property-assign</command>
+                <property>/controls/flight/elevator-cmd</property>
+                <value type="double">0.0</value>
+            </enter>
+        </state>
+
+        <state>
+            <name>locked</name>
+
+            <enter>
+                <command>property-assign</command>
+                <property>/sim/model/c172p/cockpit/control-lock-visible</property>
+                <value type="bool">true</value>
+            </enter>
+        </state>
+
+        <!-- Transitions -->
+        <transition>
+            <name>init</name>
+            <source>unlocked</source>
+            <target>prepare-reset-yoke</target>
+            <condition>
+                <property>sim/model/c172p/cockpit/control-lock-placed</property>
+            </condition>
+        </transition>
+
+        <transition>
+            <name>prepare-center</name>
+            <source>prepare-reset-yoke</source>
+            <target>reset-yoke</target>
+            <condition>
+                <true/>
+            </condition>
+        </transition>
+
+        <transition>
+            <name>move-yoke-to-center</name>
+            <source>reset-yoke</source>
+            <target>locked</target>
+            <condition>
+                <and>
+                    <equals>
+                        <property>sim/model/c172p/cockpit/yoke-aileron</property>
+                        <value>0.0</value>
+                    </equals>
+                    <equals>
+                        <property>sim/model/c172p/cockpit/yoke-elevator</property>
+                        <value>0.0</value>
+                    </equals>
+                </and>
+            </condition>
+        </transition>
+
+        <transition>
+            <name>unlock-controls</name>
+            <source>locked</source>
+            <source>prepare-reset-yoke</source>
+            <source>reset-yoke</source>
+            <target>unlocked</target>
+            <condition>
+                <not>
+                    <property>sim/model/c172p/cockpit/control-lock-placed</property>
+                </not>
+            </condition>
+        </transition>
+    </state-machine>
+
+</PropertyList>

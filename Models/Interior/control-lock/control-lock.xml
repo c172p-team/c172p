@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>control-lock.ac</path>
+    <nopreview/>
+
+    <effect>
+        <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
+        <object-name>ControlLock-pocket</object-name>
+        <object-name>ControlLock-yoke</object-name>
+    </effect>
+
+    <animation>
+        <type>select</type>
+        <object-name>ControlLock-yoke</object-name>
+        <condition>
+            <property>sim/model/c172p/cockpit/control-lock-visible</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>ControlLock-pocket</object-name>
+        <condition>
+            <not>
+                <property>sim/model/c172p/cockpit/control-lock-visible</property>
+            </not>
+            <property>sim/model/c172p/securing/allow-securing-aircraft</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>ControlLock-yoke</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>sim/model/c172p/cockpit/control-lock-placed</property>
+                <value>false</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>remove-control-lock</tooltip-id>
+                <label>Remove control lock</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>ControlLock-pocket</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <property>sim/model/c172p/securing/allow-securing-aircraft</property>
+                </condition>
+                <command>property-assign</command>
+                <property>sim/model/c172p/cockpit/control-lock-placed</property>
+                <value>true</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>place-control-lock</tooltip-id>
+                <label>Place control lock</label>
+            </binding>
+        </hovered>
+    </animation>
+
+</PropertyList>

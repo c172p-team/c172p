@@ -149,23 +149,25 @@ var carb_icing_function = maketimer(1.0, func {
         var dewpointF = dewpointC * 9.0 / 5.0 + 32;
         var airtempF = getprop("/environment/temperature-degf");
         var oil_temp = getprop("/engines/active-engine/oil-temperature-degf");
-        var egt_norm = getprop("/engines/active-engine/egt-norm");
+        var egt_degf = getprop("/engines/active-engine/egt-degf");
         
         # the formula below attempts to modle the graph found in the POH, using RPM, airtempF and dewpointF as variables
+        # carb_icing_formula ranges from 0.0008 to -0.0002
         var factorX = 13.2 - 3.2 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
         var factorY = 7.0 - 2.0 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
-        var carb_icing_formula = 0.01 * (math.exp( math.pow((0.6 * airtempF + 0.3 * dewpointF - 42.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.3 * airtempF - 0.6 * dewpointF + 14.0),2) / (-2 * math.pow(factorY,2))) - 0.2);
+        var carb_icing_formula = 0.001 * (math.exp( math.pow((0.6 * airtempF + 0.3 * dewpointF - 42.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.3 * airtempF - 0.6 * dewpointF + 14.0),2) / (-2 * math.pow(factorY,2))) - 0.2);
         
-        # if carb heat on, the rate decreses by a certain amount
-        if (getprop("/engines/active-engine/running") and getprop("/controls/engines/current-engine/carb-heat"))
-            var carb_heat_rate = -0.03 * egt_norm;
+        # with carb heat on and a typical EGT of ~1450, the carb_heat_rate will be around -0.0012
+        if (getprop("/controls/engines/current-engine/carb-heat"))
+            var carb_heat_rate = -0.00000085 * egt_degf;
         else
             var carb_heat_rate = 0.0;
         
         # carb icing rate is multiplied by an oil temp factor so a cold engine doens't accumulate ice
+        # oil_temp_factor ranges from 0 to ~1.5
         var oil_temp_factor = (oil_temp - 60) / 200;
         oil_temp_factor = std.max(0.0, std.min(oil_temp_factor, 1.0));
-        var carb_icing_rate = oil_temp_factor * (carb_icing_formula + carb_heat_rate);
+        var carb_icing_rate = oil_temp_factor * carb_icing_formula + carb_heat_rate;
 
         var carb_ice = getprop("/engines/active-engine/carb_ice");
         carb_ice = carb_ice + carb_icing_rate;

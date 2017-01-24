@@ -199,6 +199,32 @@
     </filter>
 
     <filter>
+        <name>Engine EGT Temp</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/engines/engine[1]/egt-degf</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property>/engines/engine[0]/egt-degf</property>
+        </input>
+        <output>
+            <property>/engines/active-engine/egt-degf</property>
+        </output>
+    </filter>
+
+    <filter>
         <name>Engine EGT Norm</name>
         <type>gain</type>
         <input>
@@ -566,16 +592,6 @@
                     <less-than>
                         <property>/engines/active-engine/oil-level</property>
                         <value>4.925</value>
-                    </less-than>
-                </and>
-                <and>
-                    <greater-than-equals>
-                        <property>/engines/active-engine/carb_ice</property>
-                        <value>0.3</value>
-                    </greater-than-equals>
-                    <less-than>
-                        <property>/engines/active-engine/carb_ice</property>
-                        <value>0.32</value>
                     </less-than>
                 </and>
             </or>

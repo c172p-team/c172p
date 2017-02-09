@@ -118,15 +118,15 @@ var oil_consumption = maketimer(1.0, func {
         var low_oil_pressure_factor = 1.0;
         var low_oil_temperature_factor = 1.0;
 
-        # If oil gets low (< 5.0), pressure should drop and temperature should rise
-        var oil_level_limited = std.min(oil_level, 5.0);
+        # If oil gets low (< 3.0), pressure should drop and temperature should rise
+        var oil_level_limited = std.min(oil_level, 3.0);
     
-        # Should give 1.0 for oil_level = 5 and 0.1 for oil_level 4.92,
+        # Should give 1.0 for oil_level = 3 and 0.1 for oil_level 1.97,
         # which is the min before the engine stops
-        low_oil_pressure_factor = 11.25 * oil_level_limited - 55.25;
-    
-        # Should give 1.0 for oil_level = 5 and 1.5 for oil_level 4.92
-        low_oil_temperature_factor = -6.25 * oil_level_limited + 32.25;
+        low_oil_pressure_factor = 0.873786408 * oil_level_limited - 1.621359224;
+        
+        # Should give 1.0 for oil_level = 3 and 1.5 for oil_level 1.97
+        low_oil_temperature_factor = -0.485436893 * oil_level_limited + 2.456310679;
     
         setprop("/engines/active-engine/low-oil-pressure-factor", low_oil_pressure_factor);
         setprop("/engines/active-engine/low-oil-temperature-factor", low_oil_temperature_factor);

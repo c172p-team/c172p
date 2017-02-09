@@ -58,7 +58,7 @@ var autostart = func (msg=1) {
     var oil_enabled = getprop("/engines/active-engine/oil_consumption_allowed");
     var oil_level   = getprop("/engines/active-engine/oil-level");
     
-    if (oil_enabled and oil_level < 6.0) {
+    if (oil_enabled and oil_level < 5.0) {
         if (getprop("/controls/engines/active-engine") == 0) {
             setprop("/engines/active-engine/oil-level", 7.0);
         } 

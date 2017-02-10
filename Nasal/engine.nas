@@ -163,7 +163,7 @@ var carb_icing_function = maketimer(1.0, func {
         else
             var carb_heat_rate = 0.0;
         
-        # carb icing rate is multiplied by an oil temp factor so a cold engine doens't accumulate ice
+        # a warm engine will accumulate less oil than a cold one, which is what oil temp factor is used for
         # oil_temp_factor ranges from 0 to aprox -0.2 (at 250 oF)
         var oil_temp_factor = oil_temp / -1250;
         var carb_icing_rate = carb_icing_formula + carb_heat_rate + oil_temp_factor;

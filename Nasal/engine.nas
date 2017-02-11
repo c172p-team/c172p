@@ -192,21 +192,46 @@ var carb_icing_function = maketimer(1.0, func {
 
 # ========== engine coughing ======================
 
-var engine_coughing = maketimer(3.0, func {
+var engine_coughing = func(){
+
     var coughing = getprop("/engines/active-engine/coughing");
     var running = getprop("/engines/active-engine/running");
-    if (coughing and running) {
-        var delay = 10.0 * rand();
+    
+    if (coughing and running) {        
+        setprop("/engines/active-engine/kill-engine", 1);
+        # Bring the engine back to life after 0.25 seconds
         settimer(func {
-            setprop("/engines/active-engine/kill-engine", 1);
-
-            # Bring the engine back to life after 0.25 seconds
-            settimer(func {
-                setprop("/engines/active-engine/kill-engine", 0);
-            }, 0.25);
-        }, delay);
+            setprop("/engines/active-engine/kill-engine", 0);
+        }, 0.25);
     };
-});
+    
+    # basic value for the delay, in case no fuel contamination nor carb ice are present
+    # this will be the update value for this function
+    var delay = 2;
+    
+    # if coughing due to fuel contamination, then cough interval depends on quantity of water
+    var water_contamination0 = getprop("/consumables/fuel/tank[0]/water-contamination");
+    var water_contamination1 = getprop("/consumables/fuel/tank[1]/water-contamination");
+    var total_water_contamination = water_contamination0 + water_contamination1;
+    if (total_water_contamination > 0) {
+        # if contamination is near 0, then interval is between 17 and 20 seconds, but if contamination is near the 
+        # engine stopping value of 0.4, then interval falls to around 0.5 and 3.5 seconds
+        delay = 3.0 * rand() + 17 - 41.25 * total_water_contamination;
+    };
+    
+    # if coughing due to carb ice melting, then cough depends on quantity of ice
+    var carb_ice = getprop("/engines/active-engine/carb_ice");
+    if (carb_ice > 0) {
+        # if carb_ice is near 0, then interval is between 17 and 20 seconds, but if carb_ice is near the 
+        # engine stopping value of 0.3, then interval falls to around 0.5 and 3.5 seconds
+        delay = 3.0 * rand() + 17 - 41.25 * carb_ice;
+    };
+    
+    coughing_timer.restart(delay);
+    
+}
+
+var coughing_timer = maketimer(1, engine_coughing);
 
 # ========== Main loop ======================
 
@@ -327,5 +352,6 @@ setlistener("/sim/signals/fdm-initialized", func {
     engine_timer.start();
     oil_consumption.start();
     carb_icing_function.start();
-    engine_coughing.start();
+    coughing_timer.singleShot = 1;
+    coughing_timer.start();
 });

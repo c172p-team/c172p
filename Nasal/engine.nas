@@ -150,12 +150,13 @@ var carb_icing_function = maketimer(1.0, func {
         var airtempF = getprop("/environment/temperature-degf");
         var oil_temp = getprop("/engines/active-engine/oil-temperature-degf");
         var egt_degf = getprop("/engines/active-engine/egt-degf");
+        var engine_running = getprop("/engines/active-engine/running");
         
         # the formula below attempts to modle the graph found in the POH, using RPM, airtempF and dewpointF as variables
         # carb_icing_formula ranges from 0.65 to -0.35
         var factorX = 13.2 - 3.2 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
         var factorY = 7.0 - 2.0 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
-        var carb_icing_formula = math.exp( math.pow((0.6 * airtempF + 0.3 * dewpointF - 42.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.3 * airtempF - 0.6 * dewpointF + 14.0),2) / (-2 * math.pow(factorY,2))) - 0.35;
+        var carb_icing_formula = (math.exp( math.pow((0.6 * airtempF + 0.3 * dewpointF - 42.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.3 * airtempF - 0.6 * dewpointF + 14.0),2) / (-2 * math.pow(factorY,2))) - 0.35)  * engine_running;
         
         # with carb heat on and a typical EGT of ~1450, the carb_heat_rate will be around -1.5
         if (getprop("/controls/engines/current-engine/carb-heat"))

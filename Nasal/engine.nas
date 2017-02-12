@@ -212,7 +212,7 @@ var engine_coughing = func(){
     # if coughing due to fuel contamination, then cough interval depends on quantity of water
     var water_contamination0 = getprop("/consumables/fuel/tank[0]/water-contamination");
     var water_contamination1 = getprop("/consumables/fuel/tank[1]/water-contamination");
-    var total_water_contamination = water_contamination0 + water_contamination1;
+    var total_water_contamination = std.min((water_contamination0 + water_contamination1), 0.4);
     if (total_water_contamination > 0) {
         # if contamination is near 0, then interval is between 17 and 20 seconds, but if contamination is near the 
         # engine stopping value of 0.4, then interval falls to around 0.5 and 3.5 seconds

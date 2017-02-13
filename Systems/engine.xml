@@ -513,7 +513,7 @@
                 <property>/engines/active-engine/crashed</property>
                 <property>/engines/active-engine/kill-engine</property>
 
-                <!-- High level of fuel contamination or low level of oil kills engine -->
+                <!-- engine is killed if fuel contamination is higher than 0.2 on a selected tank -->
                 <and>
                     <property>consumables/fuel/tank[0]/selected</property>
                     <greater-than>
@@ -528,10 +528,15 @@
                         <value>0.2</value>
                     </greater-than>
                 </and>
+                
+                <!-- engine is also killed if oil level is critical. Minimum oil level in the sump for safe operation (according 
+                to Lycommings manual, page 3-10) is 2 quarts, which explains the value of 1.97 below-->
                 <less-than>
                     <property>/engines/active-engine/oil-level</property>
                     <value>1.97</value>
                 </less-than>
+                
+                <!-- engine is also killed if there is too much ice in the carburettor. Limit value is arbitrarily set to 0.32 -->
                 <greater-than-equals>
                     <property>/engines/active-engine/carb_ice</property>
                     <value>0.32</value>
@@ -548,6 +553,8 @@
         <name>Engine Coughing</name>
         <input>
             <or>
+            
+                <!-- engine coughs if fuel contamination is present on a selected tank, but lower than the critical value of 0.2 -->
                 <and>
                     <or>
                         <and>
@@ -584,6 +591,8 @@
                         </and>
                     </not>
                 </and>
+                
+                <!-- engine also coughs if ice is present in the carburettor and is melting at a noticiable rate -->
                 <and>
                     <greater-than>
                         <property>/engines/active-engine/carb_ice</property>
@@ -593,6 +602,8 @@
                         <property>/engines/active-engine/carb_icing_rate</property>
                         <value>-0.5</value>
                     </less-than>
+                    <!-- leaning the mixture while the carb ice is melting helps with the cough in RL, which is why 
+                    the egt-norm property is used here -->
                     <greater-than>
                         <property>/engines/active-engine/egt-norm</property>
                         <value>0.5</value>

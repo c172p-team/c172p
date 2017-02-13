@@ -118,15 +118,15 @@ var oil_consumption = maketimer(1.0, func {
         var low_oil_pressure_factor = 1.0;
         var low_oil_temperature_factor = 1.0;
 
-        # If oil gets low (< 5.0), pressure should drop and temperature should rise
-        var oil_level_limited = std.min(oil_level, 5.0);
+        # If oil gets low (< 3.0), pressure should drop and temperature should rise
+        var oil_level_limited = std.min(oil_level, 3.0);
     
-        # Should give 1.0 for oil_level = 5 and 0.1 for oil_level 4.92,
+        # Should give 1.0 for oil_level = 3 and 0.1 for oil_level 1.97,
         # which is the min before the engine stops
-        low_oil_pressure_factor = 11.25 * oil_level_limited - 55.25;
-    
-        # Should give 1.0 for oil_level = 5 and 1.5 for oil_level 4.92
-        low_oil_temperature_factor = -6.25 * oil_level_limited + 32.25;
+        low_oil_pressure_factor = 0.873786408 * oil_level_limited - 1.621359224;
+        
+        # Should give 1.0 for oil_level = 3 and 1.5 for oil_level 1.97
+        low_oil_temperature_factor = -0.485436893 * oil_level_limited + 2.456310679;
     
         setprop("/engines/active-engine/low-oil-pressure-factor", low_oil_pressure_factor);
         setprop("/engines/active-engine/low-oil-temperature-factor", low_oil_temperature_factor);
@@ -149,28 +149,37 @@ var carb_icing_function = maketimer(1.0, func {
         var dewpointF = dewpointC * 9.0 / 5.0 + 32;
         var airtempF = getprop("/environment/temperature-degf");
         var oil_temp = getprop("/engines/active-engine/oil-temperature-degf");
+        var egt_degf = getprop("/engines/active-engine/egt-degf");
+        var engine_running = getprop("/engines/active-engine/running");
+        var carb_ice = getprop("/engines/active-engine/carb_ice");
         
-        # the formula below attempts to modle the graph found in the POH, using RPM, airtempF and dewpointF as variables
+        # the formula below attempts to model the graph found in the POH which relates air temperature, dew point and RPM to icing
+        # conditions. The outputs of carb_icing_formula ranges from 0.65 to -0.35 (positive means ice is accumulating, negative
+        # means that ice is melting)
         var factorX = 13.2 - 3.2 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
         var factorY = 7.0 - 2.0 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
-        var carb_icing_formula = 0.01 * (math.exp( math.pow((0.6 * airtempF + 0.3 * dewpointF - 42.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.3 * airtempF - 0.6 * dewpointF + 14.0),2) / (-2 * math.pow(factorY,2))) - 0.2);
+        var carb_icing_formula = (math.exp( math.pow((0.6 * airtempF + 0.3 * dewpointF - 42.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.3 * airtempF - 0.6 * dewpointF + 14.0),2) / (-2 * math.pow(factorY,2))) - 0.35)  * engine_running;
         
-        # if carb heat on, the rate decreses by a certain amount
-        if (getprop("/engines/active-engine/running") and getprop("/controls/engines/current-engine/carb-heat"))
-            var carb_heat_rate = -0.01;
+        # the efficacy of carb heat depends on the EGT. With a typical EGT of ~1500, the carb_heat_rate will be around -1.5.
+        # This value is an educated guess of the RL effect, and should melt ice regardless of the icing rate
+        if (getprop("/controls/engines/current-engine/carb-heat"))
+            var carb_heat_rate = -0.001 * egt_degf;
         else
             var carb_heat_rate = 0.0;
         
-        # carb icing rate is multiplied by an oil temp factor so a cold engine doens't accumulate ice
-        var oil_temp_factor = (oil_temp - 120) / 100;
-        oil_temp_factor = std.max(0.0, std.min(oil_temp_factor, 1.0));
-        var carb_icing_rate = oil_temp_factor * (carb_icing_formula + carb_heat_rate);
+        # a warm engine will accumulate less ice than a cold one, which is what oil temp factor is used for. oil_temp_factor
+        # ranges from 0 to aprox -0.2 (at 250 oF). These values are educated guesses of the RL effect
+        var oil_temp_factor = oil_temp / -1250;
 
-        var carb_ice = getprop("/engines/active-engine/carb_ice");
-        carb_ice = carb_ice + carb_icing_rate;
+        # the final rate of icing or melting is then calculated by all these effects together
+        var carb_icing_rate = carb_icing_formula + carb_heat_rate + oil_temp_factor;
+
+        # since the carb_icing_rate gives an arbitrary final value, the rate is then scaled down by 0.00001 to ensure ice 
+        # accumulates as slowly as expected
+        carb_ice = carb_ice + carb_icing_rate * 0.00001;
         carb_ice = std.max(0.0, std.min(carb_ice, 1.0));
 
-        # this property is used to lower the RPM of the engine as ice accumulates
+        # this property is used to lower the RPM of the engine as ice accumulates (more ice in the carburator == less power)
         var vol_eff_factor = 1.0 - 2.218 * carb_ice;
 
         setprop("/engines/active-engine/carb_ice", carb_ice);
@@ -189,21 +198,45 @@ var carb_icing_function = maketimer(1.0, func {
 
 # ========== engine coughing ======================
 
-var engine_coughing = maketimer(3.0, func {
+var engine_coughing = func(){
+
     var coughing = getprop("/engines/active-engine/coughing");
     var running = getprop("/engines/active-engine/running");
+    
     if (coughing and running) {
-        var delay = 10.0 * rand();
+        # the code below kills the engine and then brings it back to life after 0.25 seconds, simulating a cough
+        setprop("/engines/active-engine/kill-engine", 1);
         settimer(func {
-            setprop("/engines/active-engine/kill-engine", 1);
-
-            # Bring the engine back to life after 0.25 seconds
-            settimer(func {
-                setprop("/engines/active-engine/kill-engine", 0);
-            }, 0.25);
-        }, delay);
+            setprop("/engines/active-engine/kill-engine", 0);
+        }, 0.25);
     };
-});
+    
+    # basic value for the delay (interval between consecutive coughs), in case no fuel contamination nor carb ice are present
+    var delay = 2;
+    
+    # if coughing due to fuel contamination, then cough interval depends on quantity of water
+    var water_contamination0 = getprop("/consumables/fuel/tank[0]/water-contamination");
+    var water_contamination1 = getprop("/consumables/fuel/tank[1]/water-contamination");
+    var total_water_contamination = std.min((water_contamination0 + water_contamination1), 0.4);
+    if (total_water_contamination > 0) {
+        # if contamination is near 0, then interval is between 17 and 20 seconds, but if contamination is near the 
+        # engine stopping value of 0.4, then interval falls to around 0.5 and 3.5 seconds
+        delay = 3.0 * rand() + 17 - 41.25 * total_water_contamination;
+    };
+    
+    # if coughing due to carb ice melting, then cough depends on quantity of ice in the carburettor
+    var carb_ice = getprop("/engines/active-engine/carb_ice");
+    if (carb_ice > 0) {
+        # if carb_ice is near 0, then interval is between 17 and 20 seconds, but if carb_ice is near the 
+        # engine stopping value of 0.3, then interval falls to around 0.5 and 3.5 seconds
+        delay = 3.0 * rand() + 17 - 41.25 * carb_ice;
+    };
+    
+    coughing_timer.restart(delay);
+    
+}
+
+var coughing_timer = maketimer(1, engine_coughing);
 
 # ========== Main loop ======================
 
@@ -324,5 +357,6 @@ setlistener("/sim/signals/fdm-initialized", func {
     engine_timer.start();
     oil_consumption.start();
     carb_icing_function.start();
-    engine_coughing.start();
+    coughing_timer.singleShot = 1;
+    coughing_timer.start();
 });

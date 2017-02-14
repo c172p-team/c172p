@@ -14,6 +14,10 @@ Starting this tutorial with the engine not running will NOT work!
 
     <step>
         <set>
+            <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+            <value>true</value>
+        </set>
+        <set>
             <property>/controls/switches/magnetos</property>
             <value>3</value>
         </set>
@@ -40,6 +44,14 @@ Starting this tutorial with the engine not running will NOT work!
         <set>
             <property>/environment/weather-scenario</property>
             <value>Fair weather</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/cockpit/control-lock-placed</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/cockpit/control-lock-visible</property>
+            <value>false</value>
         </set>
         <message></message>
         <view>
@@ -471,6 +483,45 @@ Starting this tutorial with the engine not running will NOT work!
                 <not>
                     <property>/controls/switches/master-bat</property>
                 </not>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <set>
+            <property>/sim/model/hide-yoke</property>
+            <value>false</value>
+        </set>
+        <message>Place the control lock.</message>
+        <view>
+            <heading-offset-deg>53.4</heading-offset-deg>
+            <pitch-offset-deg>-42.2</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>0.0</x-offset-m>
+            <y-offset-m>0.1</y-offset-m>
+            <z-offset-m>0.0</z-offset-m>
+            <field-of-view>68.4</field-of-view>
+        </view>
+        <marker>
+            <x-m>-0.2450</x-m>
+            <y-m>-0.4483</y-m>
+            <z-m>-0.4750</z-m>
+            <scale>4.0000</scale>
+        </marker>
+        <error>
+            <message>Finally, you have to place the control lock!</message>
+            <condition>
+                <not>
+                    <property>/sim/model/c172p/cockpit/control-lock-visible</property>
+                </not>
+            </condition>
+        </error>
+        <exit>
+            <condition>
+                <and>
+                    <property>/sim/model/c172p/cockpit/control-lock-placed</property>
+                    <property>/sim/model/c172p/cockpit/control-lock-visible</property>
+                </and>
             </condition>
         </exit>
     </step>

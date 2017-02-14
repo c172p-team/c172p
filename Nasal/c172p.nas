@@ -413,7 +413,7 @@ var StaticModel = {
     new: func (name, file) {
         var m = {
             parents: [StaticModel],
-            index: nil,
+            model: nil,
             model_file: file
         };
 
@@ -438,13 +438,13 @@ var StaticModel = {
             }
         }
         var position = geo.aircraft_position().set_alt(getprop("/position/ground-elev-m"));
-        geo.put_model(me.model_file, position, getprop("/orientation/heading-deg"));
-        me.index = i;
+        me.model = geo.put_model(me.model_file, position, getprop("/orientation/heading-deg"));
     },
 
     remove: func {
-        if (me.index != nil) {
-            props.globals.getNode("/models", 1).removeChild("model", me.index);
+        if (me.model != nil) {
+            me.model.remove();
+            me.model = nil;
         }
     }
 };

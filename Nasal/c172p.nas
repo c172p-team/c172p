@@ -52,8 +52,10 @@ var autostart = func (msg=1) {
 
     # Removing any contamination from water
     setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
-    setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);        
-
+    setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);
+    setprop("/consumables/fuel/tank[0]/sample-water-contamination", 0.0);
+    setprop("/consumables/fuel/tank[1]/sample-water-contamination", 0.0);
+    
     # Setting max oil level
     var oil_enabled = getprop("/engines/active-engine/oil_consumption_allowed");
     var oil_level   = getprop("/engines/active-engine/oil-level");
@@ -169,8 +171,10 @@ var take_fuel_sample = func(index) {
 
     # Remove a bit of water if contaminated
     if (water > 0.0) {
-        water = std.max(0.0, water - 0.2);
+        var sample_water = std.min(0.2, water);
+        water = water - sample_water;
         setprop("/consumables/fuel/tank", index, "water-contamination", water);
+        setprop("/consumables/fuel/tank", index, "sample-water-contamination", sample_water);
     };
 };
 
@@ -180,14 +184,16 @@ var take_fuel_sample = func(index) {
 var return_fuel_sample = func(index) {
     var fuel = getprop("/consumables/fuel/tank", index, "level-gal_us");
     var water = getprop("/consumables/fuel/tank", index, "water-contamination");
+    var sample_water = getprop("/consumables/fuel/tank", index, "sample-water-contamination");
 
     # Add back the 50 ml of fuel
     setprop("/consumables/fuel/tank", index, "level-gal_us", fuel + 0.0132086);
 
     # Add back the (contaminated) water
-    if (water > 0.0) {
-        water = std.min(water + 0.2, 1.0);
+    if (sample_water > 0.0) {
+        water = water + sample_water;
         setprop("/consumables/fuel/tank", index, "water-contamination", water);
+        setprop("/consumables/fuel/tank", index, "sample-water-contamination", 0.0);
     };
 };
 

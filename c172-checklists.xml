@@ -37,8 +37,21 @@
                 </binding>
             </item>
             <item>
-                <name>Control Lock</name>
+                <name>Control lock</name>
                 <value>REMOVE</value>
+                <value>(if existing)</value>
+                <marker>
+                    <x-m>-0.3392</x-m>
+                    <y-m>-0.2950</y-m>
+                    <z-m>-0.1667</z-m>
+                    <scale>3.9833</scale>
+                </marker>
+                <condition>
+                    <not>
+                        <property>/sim/model/c172p/cockpit/control-lock-placed</property>
+                        <property>/sim/model/c172p/cockpit/control-lock-visible</property>
+                    </not>
+                </condition>
             </item>
             <item>
                 <name>Magnetos/Ignition</name>
@@ -2666,8 +2679,26 @@
             </binding>
         </item>
         <item>
-            <name>Control Lock</name>
+            <name>Control lock</name>
             <value>INSTALL</value>
+            <value>(if existing)</value>
+            <marker>
+                <x-m>-0.2408</x-m>
+                <y-m>-0.4483</y-m>
+                <z-m>-0.4783</z-m>
+                <scale>3.7333</scale>
+            </marker>
+            <condition>
+                <or>
+                    <and>
+                        <property>/sim/model/c172p/cockpit/control-lock-placed</property>
+                        <property>/sim/model/c172p/cockpit/control-lock-visible</property>
+                    </and>
+                    <not>
+                        <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                    </not>
+                </or>
+            </condition>
         </item>
         <item>
             <name>Walker</name>

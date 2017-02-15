@@ -207,6 +207,14 @@ This tutorial will guide you through the Preflight inspection
             <property>/controls/engines/current-engine/throttle</property>
             <value>0</value>
         </set>
+        <set>
+            <property>/sim/model/c172p/cockpit/control-lock-placed</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/cockpit/control-lock-visible</property>
+            <value>true</value>
+        </set>
         <message>Welcome to Sabadell Airport. In this lesson we'll check the condition of our aircraft.</message>
         <view>
             <heading-offset-deg>0.0</heading-offset-deg>
@@ -242,6 +250,47 @@ This tutorial will guide you through the Preflight inspection
             <scale>9.0000</scale>
         </marker>
         <wait>7</wait>
+    </step>
+
+    <step>
+        <message>Remove the control lock if there exists one.</message>
+        <view>
+            <heading-offset-deg>36.4</heading-offset-deg>
+            <pitch-offset-deg>-44.2</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.0</x-offset-m>
+            <y-offset-m>0.3</y-offset-m>
+            <z-offset-m>0.1</z-offset-m>
+            <field-of-view>49.2</field-of-view>
+        </view>
+        <marker>
+            <x-m>-0.3450</x-m>
+            <y-m>-0.3133</y-m>
+            <z-m>-0.1725</z-m>
+            <scale>3.4000</scale>
+        </marker>
+        <error>
+            <message>If there is a control lock you need to remove it so that you can move the yoke!</message>
+            <condition>
+                <and>
+                    <property>/sim/model/c172p/cockpit/control-lock-placed</property>
+                    <property>/sim/model/c172p/cockpit/control-lock-visible</property>
+                </and>
+            </condition>
+        </error>
+        <exit>
+            <condition>
+                <or>
+                    <not>
+                        <property>/sim/model/c172p/cockpit/control-lock-placed</property>
+                        <property>/sim/model/c172p/cockpit/control-lock-visible</property>
+                    </not>
+                    <not>
+                        <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                    </not>
+                </or>
+            </condition>
+        </exit>
     </step>
 
     <step>

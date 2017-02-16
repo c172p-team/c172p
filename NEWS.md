@@ -1,6 +1,31 @@
 List of features and bug fixes
 ==============================
 
+Version 2017.1
+--------------
+
+* Control surfaces can be checked for free movement during preflight inspection
+* The opening of the baggage dialog was delayed as to wait for the
+  animation of the baggage door
+* Cleaning up the Aircraft Options dialog
+* Improvements to the Ground Equipment dialog
+* Callsigns of new users are automatically randomized to avoid them blocking
+  other new users on multiplayer
+* New About This Aircraft dialog, with information about the project as
+  well as relevant links
+* The pilot's yoke can now be locked with a control lock (lock can be found
+  in the bag on the left of the pilot's seat)
+* Fix bug with ADF timer in the radio stack
+* Added view for IFR training
+* Improvements to the carburetor system (icing, carb heat)
+* Improvements to the engine coughs (due to fuel contamination or carb ice)
+* Lowered limit of critical oil level according to Lycoming's manual
+* Critical oil will not cause the engine to cough, it will simply quit when
+  oil reaches the critical value of 2 quarts
+* Improved fuel contamination system (fixed some bugs)
+* More realistic bush wheels and tires
+* Fuselage shows fresnel effect
+
 Version 2016.4
 --------------
 

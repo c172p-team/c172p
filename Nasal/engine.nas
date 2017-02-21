@@ -180,7 +180,7 @@ var carb_icing_function = maketimer(1.0, func {
         carb_ice = std.max(0.0, std.min(carb_ice, 1.0));
 
         # this property is used to lower the RPM of the engine as ice accumulates (more ice in the carburator == less power)
-        var vol_eff_factor = 1.0 - 2.218 * carb_ice;
+        var vol_eff_factor = std.max(0.0, 0.85 - 1.72 * carb_ice);
 
         setprop("/engines/active-engine/carb_ice", carb_ice);
         setprop("/engines/active-engine/carb_icing_rate", carb_icing_rate);
@@ -191,7 +191,7 @@ var carb_icing_function = maketimer(1.0, func {
     else {
         setprop("/engines/active-engine/carb_ice", 0.0);
         setprop("/engines/active-engine/carb_icing_rate", 0.0);
-        setprop("/engines/active-engine/volumetric-efficiency-factor", 1.0);
+        setprop("/engines/active-engine/volumetric-efficiency-factor", 0.85);
         setprop("/engines/active-engine/oil_temp_factor", 0.0);
     };
 });

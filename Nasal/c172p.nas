@@ -72,7 +72,7 @@ var autostart = func (msg=1) {
     # removing any ice from the carburetor
     setprop("/engines/active-engine/carb_ice", 0.0);
     setprop("/engines/active-engine/carb_icing_rate", 0.0);
-    setprop("/engines/active-engine/volumetric-efficiency-factor", 1.0);
+    setprop("/engines/active-engine/volumetric-efficiency-factor", 0.85);
 
     # Checking for minimal fuel level
     var fuel_level_left  = getprop("/consumables/fuel/tank[0]/level-norm");

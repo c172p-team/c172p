@@ -133,10 +133,13 @@ var oil_consumption = maketimer(1.0, func {
     }
 
     else {
+        # if oil consumption is not allowed, the oil level is set to full and pressure and temp factors are set to 1.0
         if (getprop("/controls/engines/active-engine") == 0)
             setprop("/engines/active-engine/oil-level", 7);
         if (getprop("/controls/engines/active-engine") == 1)
             setprop("/engines/active-engine/oil-level", 8);
+        setprop("/engines/active-engine/low-oil-pressure-factor", 1.0);
+        setprop("/engines/active-engine/low-oil-temperature-factor", 1.0);
     }
 });
 

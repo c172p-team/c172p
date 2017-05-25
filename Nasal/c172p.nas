@@ -294,6 +294,20 @@ var switches_save_state = func {
 };
 
 ##########################################
+# Thermometer
+##########################################
+
+var thermometer_switch = func {
+    var val = getprop("controls/switches/thermometer-switch");
+    setprop("controls/switches/thermometer-switch", math.mod(1 + val, 3));
+    settimer(thermometer_off, 300);
+}
+
+var thermometer_off = func {
+    setprop("controls/switches/thermometer-switch", 0);
+}
+
+##########################################
 # Click Sounds
 ##########################################
 

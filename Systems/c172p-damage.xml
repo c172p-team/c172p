@@ -159,16 +159,16 @@
 
         <!-- Limits for overspeed damage -->
         <pure_gain name="damage/limits-vne-high">
-            <input>/limits/vne</input>
-            <gain>1.225</gain>
+            <input>/limits/vne</input> 
+            <gain>1.225</gain> <!--  Vne x sqrt(1.5), 194 KIAS -->
         </pure_gain>
         <pure_gain name="damage/limits-vne-medium">
             <input>/limits/vne</input>
-            <gain>1.14</gain>
+            <gain>1.14</gain> <!-- 180 KIAS -->
         </pure_gain>
         <pure_gain name="damage/limits-vne-low">
             <input>/limits/vne</input>
-            <gain>1.0</gain>
+            <gain>1.0</gain> <!-- 158 KIAS -->
         </pure_gain>
 
         <!-- Limits for over-g damage, lift-force driven -->
@@ -243,40 +243,39 @@
             <test logic="AND" value="1.0">
                 /velocities/airspeed-kt GT damage/limits-vne-high
             </test>
+
             <test logic="AND" value="1.0">
                 /velocities/airspeed-kt GT damage/limits-vne-medium
-                damage/roll-moment GT 4000.0
-                wing-damage/right-wing GT 0.0
+                damage/roll-moment GT 12000.0
             </test>
 
             <!-- Over-g -->
             <test logic="AND" value="1.0">
                 damage/force-aero-lbs GT damage/limits-lift-high
             </test>
+
             <test logic="AND" value="1.0">
                 damage/force-aero-lbs GT damage/limits-lift-medium
-                damage/roll-moment GT 4000.0
-                wing-damage/right-wing LT 1.0
-                wing-damage/right-wing GT 0.0
+                damage/roll-moment GT 8000.0
             </test>
 
             <!-- ================================================================== -->
             <!-- Heavy damage                                                       -->
             <!-- ================================================================== -->
 
-            <!-- Over-g -->
-            <test logic="AND" value="0.3">
-                damage/force-aero-lbs GT damage/limits-lift-medium
-                damage/roll-moment LT 4000.0
-                damage/roll-moment GT -4000.0
-                wing-damage/left-wing LT 0.3
-            </test>
-
             <!-- Overspeed -->
             <test logic="AND" value="0.3">
                 /velocities/airspeed-kt GT damage/limits-vne-medium
-                damage/roll-moment LT 4000.0
-                damage/roll-moment GT -4000.0
+                damage/roll-moment LT 12000.0
+                damage/roll-moment GT -12000.0
+                wing-damage/left-wing LT 0.3
+            </test>
+
+            <!-- Over-g -->
+            <test logic="AND" value="0.3">
+                damage/force-aero-lbs GT damage/limits-lift-medium
+                damage/roll-moment LT 8000.0
+                damage/roll-moment GT -8000.0
                 wing-damage/left-wing LT 0.3
             </test>
 
@@ -287,21 +286,15 @@
             <!-- Overspeed -->
             <test logic="AND" value="0.12">
                 /velocities/airspeed-kt GT damage/limits-vne-low
-                damage/roll-moment GT 4000.0
-                wing-damage/left-wing EQ 0.0
+                damage/roll-moment GT 8000.0
+                wing-damage/left-wing LT 0.12
             </test>
 
             <!-- Over-g -->
             <test logic="AND" value="0.12">
-                damage/force-aero-lbs GT damage/limits-lift-medium
-                damage/roll-moment LT 4000.0
-                damage/roll-moment GT -4000.0
-                wing-damage/left-wing EQ 0.0
-            </test>
-            <test logic="AND" value="0.12">
                 damage/force-aero-lbs GT damage/limits-lift-low
-                damage/roll-moment GT 4000.0
-                wing-damage/left-wing EQ 0.0
+                damage/roll-moment GT 8000.0
+                wing-damage/left-wing LT 0.12
             </test>
         </switch>
 
@@ -331,40 +324,39 @@
             <test logic="AND" value="1.0">
                 /velocities/airspeed-kt GT damage/limits-vne-high
             </test>
+
             <test logic="AND" value="1.0">
                 /velocities/airspeed-kt GT damage/limits-vne-medium
-                damage/roll-moment LT -4000.0
-                wing-damage/left-wing GT 0.0
+                damage/roll-moment LT -12000.0
             </test>
 
             <!-- Over-g -->
             <test logic="AND" value="1.0">
                 damage/force-aero-lbs GT damage/limits-lift-high
             </test>
+
             <test logic="AND" value="1.0">
                 damage/force-aero-lbs GT damage/limits-lift-medium
-                damage/roll-moment LT -4000.0
-                wing-damage/left-wing LT 1.0
-                wing-damage/left-wing GT 0.0
+                damage/roll-moment LT -8000.0
             </test>
 
             <!-- ================================================================== -->
             <!-- Heavy damage                                                       -->
             <!-- ================================================================== -->
 
-            <!-- Over-g -->
-            <test logic="AND" value="0.3">
-                damage/force-aero-lbs GT damage/limits-lift-medium
-                damage/roll-moment LT 4000.0
-                damage/roll-moment GT -4000.0
-                wing-damage/right-wing LT 0.3
-            </test>
-
             <!-- Overspeed -->
             <test logic="AND" value="0.3">
                 /velocities/airspeed-kt GT damage/limits-vne-medium
-                damage/roll-moment LT 4000.0
-                damage/roll-moment GT -4000.0
+                damage/roll-moment LT 12000.0
+                damage/roll-moment GT -12000.0
+                wing-damage/right-wing LT 0.3
+            </test>
+
+            <!-- Over-g -->
+            <test logic="AND" value="0.3">
+                damage/force-aero-lbs GT damage/limits-lift-medium
+                damage/roll-moment LT 8000.0
+                damage/roll-moment GT -8000.0
                 wing-damage/right-wing LT 0.3
             </test>
 
@@ -375,21 +367,15 @@
             <!-- Overspeed -->
             <test logic="AND" value="0.12">
                 /velocities/airspeed-kt GT damage/limits-vne-low
-                damage/roll-moment LT -4000.0
-                wing-damage/right-wing EQ 0.0
+                damage/roll-moment LT -8000.0
+                wing-damage/right-wing LT 0.12
             </test>
 
             <!-- Over-g -->
             <test logic="AND" value="0.12">
-                damage/force-aero-lbs GT damage/limits-lift-medium
-                damage/roll-moment LT 4000.0
-                damage/roll-moment GT -4000.0
-                wing-damage/right-wing EQ 0.0
-            </test>
-            <test logic="AND" value="0.12">
                 damage/force-aero-lbs GT damage/limits-lift-low
-                damage/roll-moment LT -4000.0
-                wing-damage/right-wing EQ 0.0
+                damage/roll-moment LT -8000.0
+                wing-damage/right-wing LT 0.12
             </test>
         </switch>
 

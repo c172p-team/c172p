@@ -376,6 +376,7 @@ var thunder = func (name) {
     }, delay_seconds);
 };
 
+var persistent = getprop("/sim/model/c172p/persistent");
 var reset_system = func {
     if (getprop("/fdm/jsbsim/running")) {
         c172p.autostart(0);
@@ -393,6 +394,13 @@ var reset_system = func {
     props.globals.getNode("/fdm/jsbsim/pontoon-damage/right-pontoon", 0).setIntValue(0);
 
     setprop("/engines/active-engine/kill-engine", 0);
+
+    if (persistent) {
+        setprop("position/latitude-deg", getprop("/sim/model/c172p/currentlat"));
+        setprop("position/longitude-deg", getprop("/sim/model/c172p/currentlon"));
+        setprop("position/altitude-ft", getprop("/sim/model/c172p/currentalt"));
+        setprop("orientation/heading-deg", getprop("/sim/model/c172p/currenthead"));
+    }
 }
 
 ############################################
@@ -470,6 +478,14 @@ ad_timer.start();
 ############################################
 var global_system_loop = func {
     c172p.physics_loop();
+
+    persistent = getprop("/sim/model/c172p/persistent");
+    if (persistent) {
+        setprop("/sim/model/c172p/currentlat", getprop("/position/latitude-deg"));
+        setprop("/sim/model/c172p/currentlon", getprop("/position/longitude-deg"));
+        setprop("/sim/model/c172p/currentalt", getprop("/position/altitude-ft"));
+        setprop("/sim/model/c172p/currenthead", getprop("/orientation/heading-deg"));
+    }
 }
 
 ##########################################

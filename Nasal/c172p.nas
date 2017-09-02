@@ -399,6 +399,10 @@ var reset_system = func {
         setprop("position/longitude-deg", getprop("/sim/model/c172p/currentlon"));
         setprop("position/altitude-ft", getprop("/sim/model/c172p/currentalt"));
         setprop("orientation/heading-deg", getprop("/sim/model/c172p/currenthead"));
+        setprop("orientation/pitch-deg", getprop("/sim/model/c172p/currentpitch"));
+        setprop("orientation/roll-deg", getprop("/sim/model/c172p/currentroll"));
+        setprop("velocities/vertical-speed-fps", getprop("/sim/model/c172p/currentvsfps"));
+        setprop("velocities/equivalent-kt", getprop("/sim/model/c172p/currenteqnt"));
     }
 }
 
@@ -483,6 +487,10 @@ var global_system_loop = func {
         setprop("/sim/model/c172p/currentlon", getprop("/position/longitude-deg"));
         setprop("/sim/model/c172p/currentalt", getprop("/position/altitude-ft"));
         setprop("/sim/model/c172p/currenthead", getprop("/orientation/heading-deg"));
+        setprop("/sim/model/c172p/currentpitch", getprop("/orientation/pitch-deg"));
+        setprop("/sim/model/c172p/currentroll", getprop("orientation/roll-deg"));
+        setprop("/sim/model/c172p/currentvsfps", getprop("velocities/vertical-speed-fps"));
+        setprop("/sim/model/c172p/currenteqnt", getprop("velocities/equivalent-kt"));
     }
 }
 

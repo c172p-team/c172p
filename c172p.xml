@@ -2,7 +2,7 @@
 <?xml-stylesheet type="text/xsl" href="http://jsbsim.sourceforge.net/JSBSim.xsl"?>
 <!-- Source: http://forum.flightgear.org/viewtopic.php?f=25&t=21664&start=45 -->
 <fdm_config name="c172" version="2.0" release="BETA"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://jsbsim.sourceforge.net/JSBSim.xsd">
 
     <fileheader>
@@ -41,7 +41,7 @@
         </location>
     </metrics>
 
-        <!-- 
+        <!--
             Cessna 172P Skyhawk 1982 (160hp) POH p.6-10, Weight and Moment:
             **Basic Empty** (= with full oil) 1467 lbs, 57300 lb-ins. Gives CG at 39.06 ins.
         -->
@@ -197,7 +197,7 @@
                 <z> 26.6 </z>
             </location>
         </pointmass>
-        
+
         <!-- Loss of weight due to lacking oil, pointmass [16]. engine.nas, c172p-engine.xml -->
         <pointmass name="lacking oil weight">
             <weight unit="LBS"> 0 </weight>
@@ -770,8 +770,8 @@
             </aerosurface_scale>
 
             <aerosurface_scale name="Right Aileron Control">
-                <input>fcs/roll-trim-sum</input>
-                <gain>-0.01745</gain>
+                <input>-fcs/roll-trim-sum</input>
+                <gain>0.01745</gain>
                 <range>
                     <min>-20</min>
                     <max>15</max>
@@ -782,8 +782,8 @@
             <aerosurface_scale name="Right Aileron Position Normalized">
                 <input>fcs/right-aileron-pos-deg</input>
                 <domain>
-                    <min>-15</min>
-                    <max>20</max>
+                    <min>-20</min>
+                    <max>15</max>
                 </domain>
                 <range>
                     <min>1</min>
@@ -1099,6 +1099,17 @@
             </product>
         </function>
 
+        <function name="fcs/aileron-pos-rad-avgd">
+            <description>Averaged aileron position</description>
+            <avg>
+                <property>fcs/left-aileron-pos-rad</property>
+                <product>
+                    <property>fcs/right-aileron-pos-rad</property>
+                    <value>-1</value>
+                </product>
+            </avg>
+        </function>
+
         <axis name="DRAG">
             <function name="aero/coefficient/CDo">
                 <description>Drag_at_zero_lift</description>
@@ -1350,7 +1361,7 @@
                         </tableData>
                     </table>
                     <!--
-                          stall and spin (1): 
+                          stall and spin (1):
                           via diedra effect.
                           Makes the higher (downwind) wing drop at forward slip
                           and worsens the spin in a skidding turn.
@@ -1386,9 +1397,9 @@
                           </tableData>
                     </table>
                     <!--
-                          stall and spin (2): 
+                          stall and spin (2):
                           less roll damping
-                      <table> 
+                      <table>
                         <independentVar lookup="row">aero/alpha-wing-rad</independentVar>
                         <tableData>
                            0.279    1
@@ -1424,13 +1435,13 @@
                         <independentVar lookup="table">aero/stall-hyst-norm</independentVar>
                         <tableData breakPoint="0">
                                     -0.15  -0.1   0    0.1   0.15
-                            0.279    1      1     1    1     1    
+                            0.279    1      1     1    1     1
                             0.297    35     30    1    30    35
                             0.5      5      5     1    5     5
                         </tableData>
                         <tableData breakPoint="1">
                                     -0.15  -0.1   0    0.1   0.15
-                            0.297    35     30    1    30    35 
+                            0.297    35     30    1    30    35
                             0.5      5      5     1    5     5
                         </tableData>
                     </table>
@@ -1443,7 +1454,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>metrics/bw-ft</property>
-                    <property>fcs/left-aileron-pos-rad</property>
+                    <property>fcs/aileron-pos-rad-avgd</property>
                     <value>0.2290</value>
                     <!--
                         stall and spin (4):
@@ -1453,7 +1464,7 @@
                         <independentVar lookup="row">aero/alpha-wing-rad</independentVar>
                         <independentVar lookup="column">aero/stall-hyst-norm</independentVar>
                         <tableData>
-                                     0     1                                        
+                                     0     1
                             0.279    1     0.3
                             0.297    0.3   0.3
                             0.611   -0.1  -0.1
@@ -1524,14 +1535,14 @@
                         <property>aero/alpha-rad</property>
                     </sin>
                     <value>-1.8000</value>
-                    <!-- 
+                    <!--
                         stall and spin (5):
                         horizontal tail stall (for flat spin)
                     -->
                     <table>
                         <independentVar lookup="row">aero/alpha-deg</independentVar>
                         <tableData>
-                            20    1  
+                            20    1
                             25    0.6
                             35    0.4
                             45    0.5
@@ -1582,7 +1593,7 @@
                     <table>
                         <independentVar lookup="row">aero/alpha-deg</independentVar>
                         <tableData>
-                            18    1   
+                            18    1
                             25    0.5
                             35    0.2
                             45    0.1
@@ -1645,7 +1656,7 @@
 
             <function name="aero/coefficient/Cnrf">
                 <description>Yaw_moment_due_to_flat_spin</description>
-                <!-- 
+                <!--
                     stall and spin (7):
                     Feedback loop on yaw rate for flat spin.
                     Accelerates the yaw rate when stalled, up to a self-maintained flat spin (like a dead leaf).
@@ -1664,15 +1675,15 @@
                         <independentVar lookup="column">aero/alpha-wing-rad</independentVar>
                         <tableData>
                                  0.279 0.4
-                            -15  0     0         
-                            -5   0     0         
-                            -3   0     -0.3      
-                            -1   0     0         
-                            0    0     0         
-                            1    0     0         
-                            3    0     0.3      
-                            5    0     0        
-                            15   0     0       
+                            -15  0     0
+                            -5   0     0
+                            -3   0     -0.3
+                            -1   0     0
+                            0    0     0
+                            1    0     0
+                            3    0     0.3
+                            5    0     0
+                            15   0     0
                         </tableData>
                     </table>
                 </product>
@@ -1688,8 +1699,8 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>metrics/bw-ft</property>
-                    <property>fcs/left-aileron-pos-rad</property>
-                    <value>-0.016</value>
+                    <property>fcs/aileron-pos-rad-avgd</property>
+                    <value>-0.048</value>
                     <table>
                         <independentVar>aero/function/total-wing-damage</independentVar>
                         <tableData>

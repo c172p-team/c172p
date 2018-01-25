@@ -8,11 +8,11 @@
     <fileheader>
         <author> Unknown </author>
         <filecreationdate> 2002-01-01 </filecreationdate>
-        <version> $Id: c172p.xml,v 1.40 June 2015 $ </version>
+        <version> $Id: c172p.xml,v 1.41 Jan 2018 $ </version>
         <!-- experimental stall and spin, up to flat spin March 2014, Dany93 (Daniel Dubreuil) -->
         <!-- Source: http://forum.flightgear.org/viewtopic.php?f=25&t=21664&start=45 -->
         <!-- this file with comments for stall and spin to help -->
-        <!-- further modifications for c172p-detailed 2015 - 2016 -->
+        <!-- further modifications for c172p-detailed 2015 - 2018 -->
         <description> Cessna C-172 </description>
     </fileheader>
 
@@ -1243,7 +1243,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>fcs/rudder-pos-rad</property>
-                    <value>0.0374</value>
+                    <value>0.150</value>
                 </product>
             </function>
         </axis>
@@ -1591,15 +1591,13 @@
                         elevator loss of efficiency when stalled
                     -->
                     <table>
-                        <independentVar lookup="row">aero/alpha-deg</independentVar>
+                        <independentVar lookup="row">fcs/elevator-pos-rad</independentVar>
+                        <independentVar lookup="column">aero/alpha-deg</independentVar>
                         <tableData>
-                            18    1
-                            25    0.5
-                            35    0.2
-                            45    0.1
-                            55    0.1
-                            65    0.1
-                            90    0.1
+                                    18  25   35     45     55      65      90
+                            -0.49   1   0.5  0.2    0.1    0.1     0.1     0.1
+                            0       1   0.6  0.3    0.15   0.1     0.1     0.1
+                            0.40    1   0.9  0.8    0.7    0.6     0.5     0.4
                         </tableData>
                     </table>
                 </product>
@@ -1700,7 +1698,7 @@
                     <property>metrics/Sw-sqft</property>
                     <property>metrics/bw-ft</property>
                     <property>fcs/aileron-pos-rad-avgd</property>
-                    <value>-0.048</value>
+                    <value>-0.016</value>
                     <table>
                         <independentVar>aero/function/total-wing-damage</independentVar>
                         <tableData>

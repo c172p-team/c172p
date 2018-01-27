@@ -1069,6 +1069,24 @@
             </product>
         </function>
 
+        <function name="aero/function/vel-propwash-fps">
+            <description> propeller induced velocity </description>
+            <sum>
+                <property>propulsion/engine/prop-induced-velocity_fps</property>
+                <property>propulsion/engine[1]/prop-induced-velocity_fps</property>
+            </sum>
+        </function>
+
+        <function name="aero/function/qbar-propwash-psf">
+            <description> q bar due to the propeller induced velocity </description>
+            <product>
+                <property>aero/function/vel-propwash-fps</property>
+                <property>aero/function/vel-propwash-fps</property>
+                <property>atmosphere/rho-slugs_ft3</property>
+                <value>0.5</value>
+            </product>
+        </function>
+
         <function name="aero/function/velocity-induced-fps">
             <description> velocity including the propulsion induced velocity.</description>
             <sum>
@@ -1639,6 +1657,24 @@
                     </table>
                 </product>
             </function>
+
+            <function name="aero/coefficient/Cnspw">
+                <description>Yaw_moment_due_to_spiraling_propwash</description>
+                <product>
+                    <property>aero/function/qbar-propwash-psf</property>
+                    <property>metrics/Sw-sqft</property>
+                    <property>metrics/bw-ft</property>
+                    <value>-0.01</value>
+                    <table>
+                        <independentVar>/instrumentation/airspeed-indicator/indicated-speed-kt</independentVar>
+                        <tableData>
+                            0    1
+                            80   1
+                            100  0
+                        </tableData>
+                    </table>
+                </product>
+            </function> 
 
             <function name="aero/coefficient/Cnr">
                 <description>Yaw_moment_due_to_yaw_rate</description>

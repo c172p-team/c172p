@@ -157,6 +157,20 @@
                     <property>gear/gear[1]/wow</property>
                     <property>gear/gear[2]/wow</property>
                 </or>
+                <or>
+                    <greater-than>
+                      <property>/gear/gear[0]/rollspeed-ms</property>
+                      <value>5</value>
+                    </greater-than>
+                    <greater-than>
+                      <property>/gear/gear[1]/rollspeed-ms</property>
+                      <value>5</value>
+                    </greater-than>
+                    <greater-than>
+                      <property>/gear/gear[2]/rollspeed-ms</property>
+                      <value>5</value>
+                    </greater-than>
+                </or>
             </condition>
             <position>
                 <x>0.5</x>
@@ -180,15 +194,31 @@
             <mode>looped</mode>
             <path>Sounds/scratch.wav</path>
             <condition>
-                <or>
-                    <!-- Broken gear touching the ground -->
-                    <property>/fdm/jsbsim/contact/unit[6]/WOW</property>
-                    <property>/fdm/jsbsim/contact/unit[7]/WOW</property>
-                    <property>/fdm/jsbsim/contact/unit[8]/WOW</property>
+                <and>
+                    <or>
+                        <!-- Broken gear touching the ground -->
+                        <property>/fdm/jsbsim/contact/unit[6]/WOW</property>
+                        <property>/fdm/jsbsim/contact/unit[7]/WOW</property>
+                        <property>/fdm/jsbsim/contact/unit[8]/WOW</property>
 
-                    <!-- Tail strike -->
-                    <property>/fdm/jsbsim/contact/unit[3]/WOW</property>
-                </or>
+                        <!-- Tail strike -->
+                        <property>/fdm/jsbsim/contact/unit[3]/WOW</property>
+                    </or>
+                    <or>
+                        <greater-than>
+                            <property>/gear/gear[0]/rollspeed-ms</property>
+                            <value>5</value>
+                        </greater-than>
+                        <greater-than>
+                            <property>/gear/gear[1]/rollspeed-ms</property>
+                            <value>5</value>
+                        </greater-than>
+                        <greater-than>
+                            <property>/gear/gear[2]/rollspeed-ms</property>
+                            <value>5</value>
+                        </greater-than>
+                    </or>
+                </and>
             </condition>
             <position>
                 <x>0.5</x>

@@ -1,6 +1,32 @@
 List of features and bug fixes
 ==============================
 
+Version 2018.1
+--------------
+
+* New images for the new splash screen and thumbnails system
+* FDM improvements:
+    - Fixed deflection angles of ailerons and roll moment due to ailerons
+    - Added spiraling propwash effect (requiring right rudder at full
+      throttle, low airspeed)
+    - Made the elevator action at high AoA asymmetric in order to take
+      into account the screening effect of the horizontal stabilizer in
+      such stall conditions
+    - Increasing the side force due to rudder, to make it consistent with
+      the exerted moment
+    - Decreasing the adverse yaw (the aileron trim gave too much
+      slip-skid-ball deviation at cruise)
+* Increased maximum rotation of yoke from 70 to 90 degrees
+* Use shift + q to reset view
+* Added avionics sound
+* Fixed bug with oil temperature and pressure gauges (they were not working
+  when complex engine procedures was toggled off)
+* Fixed bug with lighting of pontoon wake effect
+* Eliminated wingtip and tail sparks when over water
+* Eliminated sparks of broken gear while aircrafts sits on the flight deck
+  of a moving carrier
+* Fixed some bugs with the walker
+
 Version 2017.1
 --------------
 

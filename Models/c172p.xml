@@ -417,14 +417,18 @@
         <object-name>flaps</object-name>
         <object-name>leftaileron</object-name>
         <object-name>rightaileron</object-name>
-        <object-name>wing_1</object-name>
+        <object-name>wing_1.001</object-name>
+        <object-name>wing_leading_edge</object-name>
         <object-name>PitotTube</object-name>
+        <object-name>FuelCapPort</object-name>
+        <object-name>FuelCapStarboard</object-name>
+        <object-name>landinglight2</object-name>
     </effect>
     <effect>
         <inherits-from>Effects/exterior/bumpspec-fuselage</inherits-from>
         <object-name>LeftWheelStrut</object-name>
         <object-name>RightWheelStrut</object-name>
-        <object-name>baggagedoor</object-name>
+        <object-name>baggagedoorexterior</object-name>
         <object-name>charniere1</object-name>
         <object-name>charniere2</object-name>
         <object-name>charniere3</object-name>
@@ -440,6 +444,10 @@
         <object-name>NoseWheel</object-name>
         <object-name>LeftWheel</object-name>
         <object-name>RightWheel</object-name>
+        <object-name>radi_box</object-name>
+        <object-name>TieDownTail</object-name>
+        <object-name>TieDownRight</object-name>
+        <object-name>TieDownLeft</object-name>
     </effect>
     <effect>
         <inherits-from>Effects/exterior/bumpspec-tail</inherits-from>
@@ -480,7 +488,7 @@
         <type>material</type>
         <object-name>LeftWheelStrut</object-name>
         <object-name>RightWheelStrut</object-name>
-        <object-name>baggagedoor</object-name>
+        <object-name>baggagedoorexterior</object-name>
         <object-name>charniere1</object-name>
         <object-name>charniere2</object-name>
         <object-name>charniere3</object-name>
@@ -500,10 +508,12 @@
         <object-name>rightdoor</object-name>
         <object-name>rudder_1</object-name>
         <object-name>vstab</object-name>
-        <object-name>wing_1</object-name>
+        <object-name>wing_1.001</object-name>
+        <object-name>wing_leading_edge</object-name>
         <object-name>doorhandleint_right</object-name>
         <object-name>Propeller</object-name>
         <object-name>Spinner</object-name>
+        <object-name>radi_box</object-name>
         <shininess>128</shininess>
         <specular>
             <r>1</r>
@@ -519,7 +529,13 @@
 
     <!-- interior effects  -->
     <effect>
+        <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
+        <object-name>TrimWheel</object-name>
+    </effect>
+
+    <effect>
         <inherits-from>Effects/interior/c172p-interior</inherits-from>
+        <object-name>baggagedoorinterior</object-name>
         <object-name>wing_1L</object-name>
         <object-name>wing_1R</object-name>
         <object-name>Firewall</object-name>
@@ -529,7 +545,7 @@
         <object-name>doorint_right</object-name>
         <object-name>doorint_left</object-name>
         <object-name>CeilingSpeaker</object-name>
-        <object-name>TrimWheel</object-name>
+        <!--object-name>TrimWheel</object-name-->
         <object-name>ElevatorTrimPos</object-name>
         <object-name>FuelSelectorFace</object-name>
         <object-name>FuelSelectorLeft</object-name>
@@ -1043,9 +1059,9 @@
         <name>OAT-object</name>
         <path>Interior/Panel/Instruments/oat/oat.xml</path>
         <offsets>
-            <x-m>-0.0375</x-m>
             <y-m>0.44</y-m>
-            <z-m>0.482</z-m>
+            <x-m>-0.01922</x-m>
+            <z-m>0.46375</z-m>
         </offsets>
     </model>
     <!-- MODEND -->
@@ -3773,9 +3789,10 @@
     </animation>-->
     <animation>
         <type>rotate</type>
-        <object-name>rudder</object-name>
+        <object-name>rudder_0</object-name>
         <object-name>rudder_1</object-name>
         <object-name>RearNavLightOff</object-name>
+        <object-name>nav-light-tail</object-name>
         <property>surface-positions/rudder-pos-norm</property>
         <factor>13</factor>
         <axis>
@@ -4519,7 +4536,8 @@
     <!-- Wings No Damage -->
     <animation>
         <type>select</type>
-        <object-name>wing_1</object-name>
+        <object-name>wing_1.001</object-name>
+        <object-name>wing_leading_edge</object-name>
         <object-name>wing_0</object-name>
         <object-name>rightaileron</object-name>
         <object-name>leftaileron</object-name>
@@ -5966,7 +5984,9 @@
         </condition>
     </animation>
 
-    <!-- Recessed Light -->
+<!-- this is keeping the recessed light from showing unless it is on
+by removing this it showes dull when off and bright when on -->
+    <!-- Recessed Light
     <animation>
         <type>select</type>
         <object-name>landinglight2</object-name>
@@ -5982,7 +6002,7 @@
                 </not>
             </and>
         </condition>
-    </animation>
+    </animation> -->
 
     <animation>
         <type>light</type>
@@ -6505,11 +6525,12 @@
         <object-name>charniere4</object-name>
         <object-name>leftdoor</object-name>
         <object-name>rightdoor</object-name>
-        <object-name>baggagedoor</object-name>
+        <object-name>baggagedoorexterior</object-name>
         <object-name>Spinner</object-name>
         <object-name>Propeller</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
+        <object-name>radi_box</object-name>
         <!-- damage mod -->
         <object-name>RightWheelStrutBKD</object-name>
         <object-name>LeftWheelStrutBKD</object-name>
@@ -6537,7 +6558,8 @@
     <animation>
         <type>material</type>
         <!--global type="bool">true</global-->
-        <object-name>wing</object-name>
+        <object-name>wing_1.001</object-name>
+        <object-name>wing_leading_edge</object-name>
         <object-name>flaps</object-name>
         <object-name>rightaileron</object-name>
         <object-name>leftaileron</object-name>
@@ -7206,7 +7228,7 @@
         <offsets>
             <x-m>-0.19</x-m>
             <y-m>-1.525</y-m>
-            <z-m>0.337</z-m>
+            <z-m> 0.300</z-m>
         </offsets>
     </model>
     <animation>
@@ -8340,7 +8362,7 @@
         <path>Interior/FE-ELT/elt.xml</path>
         <offsets>
             <x-m>-1.30</x-m>
-            <y-m>0.0</y-m>
+            <y-m> 0.00407</y-m>
             <z-m>-0.3</z-m>
             <heading-deg>0.0</heading-deg>
         </offsets>

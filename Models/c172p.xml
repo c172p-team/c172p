@@ -470,6 +470,7 @@
         <inherits-from>Effects/exterior/bumpspec-wing</inherits-from>
         <object-name>wing_0</object-name>
         <object-name>landinglight2</object-name>
+        <object-name>landinglight1</object-name>
     </effect>
 
     <effect>
@@ -539,6 +540,7 @@
         <object-name>RightWheel</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
+        <object-name>landinglight1</object-name>
         <shininess>128</shininess>
         <specular>
             <r>1</r>
@@ -4574,7 +4576,6 @@
         <object-name>RightNavLight</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>landinglightcover</object-name>
-        <object-name>landinglight2</object-name>
         <condition>
             <and>
                 <equals>
@@ -5980,13 +5981,6 @@
     <animation>
         <type>select</type>
         <object-name>landinglight</object-name>
-        <!-- Damage Mod
-        <object-name>landinglightBD</object-name>
-        <object-name>landinglightCollapse</object-name>
-        <object-name>landinglight2BD</object-name>
-        <object-name>landinglight2LD</object-name>
-        <object-name>landinglight2RD</object-name>
-        <object-name>landinglight2Collapse</object-name> -->
         <nopreview/>
         <condition>
             <and>
@@ -6013,9 +6007,27 @@
         </condition>
     </animation>
 
-<!-- this is keeping the recessed light from showing unless it is on
-by removing this it showes dull when off and bright when on -->
-    <!-- Recessed Light
+    <!-- Recessed Light Off -->
+    <animation>
+        <type>select</type>
+        <object-name>landinglight1</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <not>
+                    <property alias="/params/lighting/landing/property"/>
+                </not>
+                <not>
+                    <property alias="/params/lighting/taxi/property"/>
+                </not>
+                <not>
+                    <property>/sim/rendering/rembrandt/enabled</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- Recessed Light  On -->
     <animation>
         <type>select</type>
         <object-name>landinglight2</object-name>
@@ -6031,7 +6043,8 @@ by removing this it showes dull when off and bright when on -->
                 </not>
             </and>
         </condition>
-    </animation> -->
+    </animation>
+
 
     <animation>
         <type>light</type>
@@ -6131,11 +6144,6 @@ by removing this it showes dull when off and bright when on -->
     <animation>
         <type>select</type>
         <object-name>landinglightcover</object-name>
-        <!-- Damage Mod 
-        <object-name>landinglightcoverBD</object-name>
-        <object-name>landinglightcoverLD</object-name>
-        <object-name>landinglightcoverRD</object-name>
-        <object-name>landinglightcoverCollapse</object-name>-->
         <condition>
             <not>
                 <property alias="/params/lighting/landing/property"/>
@@ -6146,18 +6154,12 @@ by removing this it showes dull when off and bright when on -->
         <type>noshadow</type>
         <object-name>landinglight</object-name>
         <object-name>taxilight</object-name>
-        <!-- Damage Mod 
-        <object-name>landinglightBD</object-name>
-        <object-name>landinglightCollapse</object-name>-->
     </animation>
 
     <!--Landing Light-->
     <animation>
         <type>flash</type>
         <object-name>landinglight</object-name>
-        <!-- Damage Mod 
-        <object-name>landinglightBD</object-name>
-        <object-name>landinglightCollapse</object-name>-->
         <center>
             <x-m>-0.135</x-m>
             <y-m>-2.940</y-m>

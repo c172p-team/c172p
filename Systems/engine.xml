@@ -536,6 +536,27 @@
                     <value>1.97</value>
                 </less-than>
                 
+				<!-- kill engine if the oil pressure is too low while the engine is running, according to Lycoming manaul 3-6 minimum oil pressure
+					in normal flight is 60psi, we use quite a bit below that to avoid excessive coughing during start. The engine will run for a while
+					probably at these low pressures, but if you have zero, you need to cut the engine fast! -->
+				<and>
+					<property>/engines/active-engine/running</property>
+					<not><property>/controls/switches/starter</property></not>
+					<less-than>
+						<property>/engines/active-engine/indicated-oil-pressure-psi</property>
+						<value>45</value>
+					</less-than>
+				</and>
+				
+				<!-- also kill when pressure is too high -->
+				<and>
+					<property>/engines/active-engine/running</property>
+					<greater-than>
+						<property>/engines/active-engine/indicated-oil-pressure-psi</property>
+						<value>100</value>
+					</greater-than>
+				</and>
+				
                 <!-- engine is also killed if there is too much ice in the carburettor. Limit value is arbitrarily set to 0.32 -->
                 <greater-than-equals>
                     <property>/engines/active-engine/carb_ice</property>
@@ -591,6 +612,20 @@
                         </and>
                     </not>
                 </and>
+				
+				<!-- coughing due to low oil pressure -->
+				<and>
+					<property>/engines/active-engine/running</property>
+					<not><property>/controls/switches/starter</property></not>
+					<less-than>
+						<property>/engines/active-engine/indicated-oil-pressure-psi</property>
+						<value>52.5</value>
+					</less-than>
+					<greater-than>
+						<property>/engines/active-engine/indicated-oil-pressure-psi</property>
+						<value>45</value>
+					</greater-than>
+				</and>
                 
                 <!-- engine also coughs if ice is present in the carburettor and is melting at a noticiable rate -->
                 <and>

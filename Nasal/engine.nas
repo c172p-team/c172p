@@ -143,6 +143,30 @@ var oil_consumption = maketimer(1.0, func {
     }
 });
 
+# ========== engine damage due to over-RPM =========
+# Initialize variables to reduce GC load
+var rpm = getprop("/engines/active-engine/rpm");
+var damage = 0.0;
+
+var eng_damage_function = maketimer(1.0, func {
+	if (getprop("/engines/active-engine/damage_allowed")) {
+		rpm = getprop("/engines/active-engine/rpm"); # we need to update the RPM, but we do not set the variable here to avoid GC load
+	
+		if (rpm > 2700) {
+			damage = damage + ((rpm - 2700) / 100); # 1 point of damage per 100RPM over limit added per second, so the damage increases faster the more you go over the limit
+		} else 
+			damage = damage;
+	} else { # make sure damage is always 0 if the checkbox is disabled
+		damage = 0.0; 
+	}
+	
+	# write the damage level to the property if it is greater than 0, reduces impact on performance hopefully, as there is no need to keep writing 0.0 each time
+	if (damage > 0.0 or (damage = 0.0 and getprop("/engines/active-engine/damage-level") != 0.0)) { # make sure that it writes 0.0 one time, in case you have damage and turn off the checkbox
+		setprop("/engines/active-engine/damage-level", damage);
+	} 
+		
+});
+
 # ========== carburetor icing ======================
 
 var carb_icing_function = maketimer(1.0, func {
@@ -275,6 +299,10 @@ var update = func {
             }
         }
     }
+	
+	if (getprop("/engines/active-engine/ready-oil-press-checker") == 1 and getprop("/engines/active-engine/rpm") > 900) {
+		setprop("/engines/active-engine/ready-oil-press-checker", 2); # engine is ready for use
+	}
 };
 
 setlistener("/controls/switches/starter", func {
@@ -291,11 +319,20 @@ setlistener("/controls/switches/starter", func {
             primerTimer.stop();
         }
     }
+	
+	# sorry - had to hack this to prevent coughing on startup due to the oil pressure simulation. Maybe this can be used elsewhere
+	var rpm = getprop("/engines/active-engine/rpm");
+	
+	if (rpm < 900) { # make sure it is not triggered if you accidentally hit s in the air
+		setprop("/engines/active-engine/ready-oil-press-checker", 1); # 0 = off, 1 = checker is armed, 2 = engine is running and ready
+	}
 }, 1, 0);
 
 # ================================ Initalize ====================================== 
 # Make sure all needed properties are present and accounted 
 # for, and that they have sane default values.
+
+setprop("/engines/active-engine/ready-oil-press-checker", 0);
 
 # =============== Variables ================
 
@@ -367,4 +404,5 @@ setlistener("/sim/signals/fdm-initialized", func {
     carb_icing_function.start();
     coughing_timer.singleShot = 1;
     coughing_timer.start();
+	eng_damage_function.start();
 });

@@ -541,10 +541,13 @@
 					probably at these low pressures, but if you have zero, you need to cut the engine fast! -->
 				<and>
 					<property>/engines/active-engine/running</property>
-					<not><property>/controls/switches/starter</property></not>
+					<equals>
+						<property>/engines/active-engine/ready-oil-press-checker</property>
+						<value>2</value>
+					</equals>
 					<less-than>
-						<property>/engines/active-engine/indicated-oil-pressure-psi</property>
-						<value>45</value>
+						<property>/engines/active-engine/oil-pressure-psi</property>
+						<value>40</value>
 					</less-than>
 				</and>
 				
@@ -552,7 +555,7 @@
 				<and>
 					<property>/engines/active-engine/running</property>
 					<greater-than>
-						<property>/engines/active-engine/indicated-oil-pressure-psi</property>
+						<property>/engines/active-engine/oil-pressure-psi</property>
 						<value>100</value>
 					</greater-than>
 				</and>
@@ -616,14 +619,17 @@
 				<!-- coughing due to low oil pressure -->
 				<and>
 					<property>/engines/active-engine/running</property>
-					<not><property>/controls/switches/starter</property></not>
+					<equals>
+						<property>/engines/active-engine/ready-oil-press-checker</property>
+						<value>2</value>
+					</equals>
 					<less-than>
-						<property>/engines/active-engine/indicated-oil-pressure-psi</property>
-						<value>52.5</value>
+						<property>/engines/active-engine/oil-pressure-psi</property>
+						<value>47.5</value>
 					</less-than>
 					<greater-than>
-						<property>/engines/active-engine/indicated-oil-pressure-psi</property>
-						<value>45</value>
+						<property>/engines/active-engine/oil-pressure-psi</property>
+						<value>40</value>
 					</greater-than>
 				</and>
                 
@@ -686,6 +692,10 @@
         <input>
             <property>/engines/active-engine/complex-engine-procedures</property>
         </input>
+		<output>
+			<name>damage</name>
+			<property>/engines/active-engine/damage_allowed</property>
+		</output>
         <output>
             <name>oil</name>
             <property>/engines/active-engine/oil_consumption_allowed</property>

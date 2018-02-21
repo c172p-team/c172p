@@ -331,10 +331,6 @@ setlistener("/controls/engines/mixture-all", func{
     setprop("/controls/engines/current-engine/mixture", new_value);
 }, 0, 0);
 
-#_setlistener("/controls/engines/propeller-pitch-all", func{
-#    execWithLocalCmdArg(propellerAxis,getNormalisedEngineAxisValue("/controls/engines/propeller-pitch-all"));
-#}, 0, 0);
-
 # backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has 
 # been replaced and controls.throttleAxis will not be called from the controls binding - so this is to 
 # maintain compatibility with existing joystick xml files.

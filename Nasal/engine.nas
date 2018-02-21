@@ -319,24 +319,25 @@ controls.throttleMouse = func {
 # 2018.2 introduces new "all" properties for throttle, mixture and prop pitch.
 # this is the correct way to interface with the axis based controls - use a listener
 # on the *-all property
-_setlistener("/controls/engines/throttle-all", func{
+setlistener("/controls/engines/throttle-all", func{
     var value = (1 - getprop("/controls/engines/throttle-all")) / 2;
     var new_value = std.max(0.0, std.min(value, 1.0));
     setprop("/controls/engines/current-engine/throttle", new_value);
-},0,0);
-_setlistener("/controls/engines/mixture-all", func{
+}, 0, 0);
 
+setlistener("/controls/engines/mixture-all", func{
     var value = (1 - getprop("/controls/engines/mixture-all")) / 2;
     var new_value = std.max(0.0, std.min(value, 1.0));
     setprop("/controls/engines/current-engine/mixture", new_value);
-},0,0);
+}, 0, 0);
 
 #_setlistener("/controls/engines/propeller-pitch-all", func{
 #    execWithLocalCmdArg(propellerAxis,getNormalisedEngineAxisValue("/controls/engines/propeller-pitch-all"));
-#},0,0);
+#}, 0, 0);
 
 # backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has 
-# been replaced and controls.throttleAxis will not be called from the controls binding
+# been replaced and controls.throttleAxis will not be called from the controls binding - so this is to 
+# maintain compatibility with existing joystick xml files.
 controls.throttleAxis = func {
     var value = (1 - cmdarg().getNode("setting").getValue()) / 2;
     var new_value = std.max(0.0, std.min(value, 1.0));
@@ -351,7 +352,8 @@ controls.adjMixture = func {
 };
 
 # backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has 
-# been replaced and controls.throttleAxis will not be called from the controls binding
+# been replaced and controls.throttleAxis will not be called from the controls binding - so this is to 
+# maintain compatibility with existing joystick xml files.
 controls.mixtureAxis = func {
     var value = (1 - cmdarg().getNode("setting").getValue()) / 2;
     var new_value = std.max(0.0, std.min(value, 1.0));

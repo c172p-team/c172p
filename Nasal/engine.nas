@@ -158,10 +158,13 @@ var eng_damage_function = maketimer(1.0, func {
 			damage = damage;
 	} else { # make sure damage is always 0 if the checkbox is disabled
 		damage = 0.0; 
+		if (getprop("/engines/active-engine/damage-level") != 0.0) {
+			setprop("/engines/active-engine/damage-level", 0.0);
+		}
 	}
 	
-	# write the damage level to the property if it is greater than 0, reduces impact on performance hopefully, as there is no need to keep writing 0.0 each time
-	if (damage > 0.0 or (damage = 0.0 and getprop("/engines/active-engine/damage-level") != 0.0)) { # make sure that it writes 0.0 one time, in case you have damage and turn off the checkbox
+	# write the damage level to the property if it is greater than 0, reduces impact on performance hopefully, as there is no need to keep writing 0.0 each time, that is handled above
+	if (damage > 0.0) {
 		setprop("/engines/active-engine/damage-level", damage);
 	} 
 		
@@ -332,7 +335,9 @@ setlistener("/controls/switches/starter", func {
 # Make sure all needed properties are present and accounted 
 # for, and that they have sane default values.
 
+setprop("/engines/active-engine/rpm", 0);
 setprop("/engines/active-engine/ready-oil-press-checker", 0);
+setprop("/engines/active-engine/damage-level", 0.0);
 
 # =============== Variables ================
 

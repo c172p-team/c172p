@@ -87,39 +87,73 @@ var primerTimer = maketimer(5, func {
 });
 
 # ========== oil consumption ======================
+# Thanks to HHS81 for more advanced simulation
+var service_hours = getprop("/engines/active-engine/oil-service-hours");
+var consumption_qph = 0.0;
+var rpm_factor = 0.0;
+var rpm = 0;
+var oil_level = 0;
+var oil_full = 0;
+var oil_lacking = 0;
+var oil_level_limited = 0;
+var service_hours_increase = 0;
+var service_hours_new = 0;
+var low_oil_pressure_factor = 0.0;
+var low_oil_temperature_factor = 0.0;
 
 var oil_consumption = maketimer(1.0, func {
-
-    var oil_level = getprop("/engines/active-engine/oil-level");
+	
+	oil_level = getprop("/engines/active-engine/oil-level");
     if (getprop("/controls/engines/active-engine") == 0)
-        var oil_full = 7;
+        oil_full = 7;
     if (getprop("/controls/engines/active-engine") == 1)
-        var oil_full = 8;
-    var oil_lacking = oil_full - oil_level;
+        oil_full = 8;
+    oil_lacking = oil_full - oil_level;
     setprop("/engines/active-engine/oil-lacking", oil_lacking);
     
     if (getprop("/engines/active-engine/oil_consumption_allowed")) {
     
-        var rpm = getprop("/engines/active-engine/rpm");
+        rpm = getprop("/engines/active-engine/rpm");
     
         # Quadratic formula which outputs 1.0 for input 2300 RPM (cruise value),
         # 0.6 for 700 RPM (idle) and 1.2 for 2700 RPM (max)
-        var rpm_factor = 0.00000012 * math.pow(rpm, 2) - 0.0001 * rpm + 0.62;
+        rpm_factor = 0.00000012 * math.pow(rpm, 2) - 0.0001 * rpm + 0.62;
     
-        # Consumption rate defined as 1.5 quarter per 10 hours (36000 seconds)
-        # at cruise RPM
-        var consumption_rate = 1.5 / 36000; 
-    
-        if (getprop("/engines/active-engine/running")) {
-            oil_level = oil_level - consumption_rate * rpm_factor;
-            setprop("/engines/active-engine/oil-level", oil_level);
+        # Consumption rate defined as 0.33 quarts per 1 hour (3600 seconds) (Lycoming Manual 3-6 p27)
+        # at 2350 RPM (normal cruise)
+        consumption_qph = 0.33 / 3600; 
+		
+		# Raise consumption when oil level is > 8 quarts (blowout)
+        if (oil_level > oil_full) {
+            consumption_qph = consumption_qph * 1.3;
         }
+        
+        # Consumption also raises with oil in service time (lower viscosity => more friction)
+        # (Oil should be changed at 50 hrs!)
+        # See: http://www.t-craft.org/Reference/Aircraft.Oil.Usage.pdf
+        # Hours:        0 |    10 |    25 |  50   |    75
+        # Add Qts/hr:   0 |  0.02 | 0.125 | 0.5   | 1.125
+		service_hours = getprop("/engines/active-engine/oil-service-hours");
+        service_hours_increase = 0.00020 * math.pow(service_hours, 2);
+        if (service_hours_increase > 1.5) service_hours_increase = 1.5;  # cap at that rate
+        consumption_qph = consumption_qph + service_hours_increase;
+    
+		if (getprop("/engines/active-engine/running")) {
+		    oil_level = oil_level - consumption_qph * rpm_factor;
+	        setprop("/engines/active-engine/oil-level", oil_level);
+			setprop("/engines/active-engine/oil-consume-qph", consumption_qph);
+			
+			service_hours_new = (service_hours + 1)/3600; # add one second service time
+            setprop("/engines/active-engine/oil-service-hours", service_hours_new);
+        } else {
+		    setprop("/engines/active-engine/oil-consume-qph", 0);
+		}
 
-        var low_oil_pressure_factor = 1.0;
-        var low_oil_temperature_factor = 1.0;
+        low_oil_pressure_factor = 1.0;
+        low_oil_temperature_factor = 1.0;
 
         # If oil gets low (< 3.0), pressure should drop and temperature should rise
-        var oil_level_limited = std.min(oil_level, 3.0);
+        oil_level_limited = std.min(oil_level, 3.0);
     
         # Should give 1.0 for oil_level = 3 and 0.1 for oil_level 1.97,
         # which is the min before the engine stops
@@ -140,6 +174,44 @@ var oil_consumption = maketimer(1.0, func {
             setprop("/engines/active-engine/oil-level", 8);
         setprop("/engines/active-engine/low-oil-pressure-factor", 1.0);
         setprop("/engines/active-engine/low-oil-temperature-factor", 1.0);
+    }
+});
+
+# Oil Refilling
+var oil_refill = func(){
+    var service_hours = getprop("/engines/active-engine/oil-service-hours");
+    var oil_level     = getprop("/engines/active-engine/oil-level");
+    var refilled      = oil_level - previous_oil_level;
+    #print("OIL Refill init: svcHrs=", service_hours, "; oil_level=",oil_level, "; previous_oil_level=",previous_oil_level, "; refilled=",refilled);
+    
+    if (refilled >= 0) {
+        # when refill occured, the new oil "makes the old oil younger"
+        var pct = 0;
+        if (oil_level > 0) pct = previous_oil_level / oil_level;
+        var newService_hours = service_hours * pct;
+        setprop("/engines/active-engine/oil-service-hours", newService_hours);
+        #print("OIL Refill: pct=", pct, "; service_hours=",service_hours, "; newService_hours=", newService_hours, "; previous_oil_level=", previous_oil_level, "; oil_level=",oil_level);
+    }
+    
+    previous_oil_level = oil_level;
+}
+
+# ======= Oil temperature jsbsim compensator =======
+# Currently, jsbsim oil temperature always initializes at 60°F.
+# We want an temperature that initialise to environment temperature until first start
+# and then gradually switch over to the real jsbsim value after some time.
+var calculate_real_oiltemp = maketimer(0.5, func {
+    if (!getprop("/engines/engine/already-started-in-session")) {
+        # engine is still cold
+        var temp_env        = getprop("/environment/temperature-degf") or 60;
+        var temp_jsbsim_oil = getprop("/engines/engine/oil-temperature-degf") or 60;
+        current_temp_diff   = temp_jsbsim_oil - temp_env;
+        setprop("/engines/engine/oil-temperature-env-diff", current_temp_diff);
+    } else {
+        # engine has been startet at least one time:
+        # gradually remove the difference as jsbsim adapts to real environment temperature
+        calculate_real_oiltemp.stop();
+        interpolate("/engines/engine/oil-temperature-env-diff", 0, 180); # hand over to jsbsim caluclation gradually over 2 minutes
     }
 });
 
@@ -405,9 +477,17 @@ controls.startEngine = func(v = 1) {
 setlistener("/sim/signals/fdm-initialized", func {
     var engine_timer = maketimer(UPDATE_PERIOD, func { update(); });
     engine_timer.start();
-    oil_consumption.start();
     carb_icing_function.start();
     coughing_timer.singleShot = 1;
     coughing_timer.start();
 	eng_damage_function.start();
+	
+	# ======= OIL SYSTEM INIT =======
+	var previous_oil_level = getprop("/engines/engine[0]/oil-level");
+	if (!getprop("/engines/active-engine/oil-service-hours")) {
+		 setprop("/engines/active-engine/oil-service-hours", 0);
+	}
+	oil_consumption.simulatedTime = 1;
+	oil_consumption.start();
+	calculate_real_oiltemp.start();
 });

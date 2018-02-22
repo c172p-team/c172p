@@ -1,0 +1,74 @@
+<?xml version="1.0"?>  
+
+<!-- c182s external heater
+
+Accoring to POH (4-33) one should use an external heater below 20°F / -6°C).
+The heater is implemented here as simple system:
+ - once activated, the heat is applied slowly until reaching a maximum
+ - once deactivated, additional heat cools down to 0°F.
+ - the calculated difference is then applied as offset to outside-air-temperature and engine oil temperature.
+ - these values are used by the priming code in fuel.xml to determine the correct priming value.
+
+Author: 12/2017  Benedikt Hallinger
+-->
+<system name="external-heat">
+    <channel name="External Heat">
+        <kinematic name="External Heater"> <!-- simulates heat slowly raising once heater applied -->
+            <input>/engines/active-engine/external-heat/enabled</input>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <!-- time to raise to maximum applied heat -->
+                    <position>1</position>
+                    <time>300</time> <!-- reach max output at 5 minutes (=300s) -->
+                </setting>
+            </traverse>
+            <output>/engines/active-engine/external-heat/applied-norm</output>
+        </kinematic>
+        <aerosurface_scale name="Heat degF applied"> <!-- define heat applied in degF -->
+            <input>/engines/active-engine/external-heat/applied-norm</input>
+            <gain>1.0</gain>
+            <zero_centered>false</zero_centered>
+            <domain>
+                <min>0</min>
+                <max>1</max>
+            </domain>
+            <range>
+                <min>0</min>
+                <max>77</max> <!-- 68°F = 20°C --> <!-- TODO: I currently don't know how much heat the heater outputs! currently this gives a limit of -40°C after which priming gets really hard -->
+            </range>
+            <output>/engines/active-engine/external-heat/applied-degF</output>
+        </aerosurface_scale>
+        <fcs_function name="Oil temp plus external heat">
+            <function>
+                <sum>
+                    <property>/engines/active-engine/external-heat/applied-degF</property>
+                    <property>/engines/active-engine/oil-temperature-degf-indicated</property> <!-- compensated for env-temp and low oil, see engine.xml -->
+                </sum>
+            </function>
+            <output>/engines/active-engine/oil-final-temperature-degf</output>   
+        </fcs_function>
+        
+        <!-- todo: could be modelled more realistical, since engine radiation should also have a little effect -->
+        <fcs_function name="Cowling environment air Temperature">
+            <function>
+                <sum>
+                    <property>/environment/temperature-degf</property>
+                    <property>/engines/active-engine/external-heat/applied-degF</property>
+                </sum>
+            </function>
+            <output>/engines/active-engine/cowling-air-temperature-degf</output>   
+        </fcs_function>
+        
+        <!-- todo: should be better placed in engine.xml, but is not active there... -->
+        <summer name="Engine Oil compensated environment Temperature">
+            <input>/engines/active-engine/oil-temperature-degf</input>
+            <input>-/engines/active-engine/oil-temperature-env-diff</input>
+            <output>/engines/active-engine/oil-compensated-temperature-degf</output>
+        </summer>
+    </channel>
+
+</system>

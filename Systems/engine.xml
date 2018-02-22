@@ -250,6 +250,15 @@
         <gain>
             <property>/engines/active-engine/low-oil-temperature-factor</property>
         </gain>
+		<input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property>/engines/engine[0]/oil-temperature-degf</property>
+        </input>
         <input>
             <condition>
                 <equals>
@@ -258,9 +267,6 @@
                 </equals>
             </condition>
             <property>/engines/engine[1]/oil-temperature-degf</property>
-        </input>
-        <input>
-            <property>/engines/engine[0]/oil-temperature-degf</property>
         </input>
         <output>
             <property>/engines/active-engine/oil-temperature-degf</property>
@@ -625,7 +631,7 @@
 					</equals>
 					<less-than>
 						<property>/engines/active-engine/oil-pressure-psi</property>
-						<value>47.5</value>
+						<value>42.5</value>
 					</less-than>
 					<greater-than>
 						<property>/engines/active-engine/oil-pressure-psi</property>

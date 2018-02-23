@@ -396,7 +396,10 @@ setlistener("/controls/switches/starter", func {
     }
 	
 	# sorry - had to hack this to prevent coughing on startup due to the oil pressure simulation. Maybe this can be used elsewhere
-	var rpm = getprop("/engines/active-engine/rpm");
+	 if (getprop("/controls/engines/active-engine") == 0)
+       var rpm = getprop("/engines/engine[0]/rpm");
+    if (getprop("/controls/engines/active-engine") == 1)
+		var rpm = getprop("/engines/engine[1]/rpm");
 	
 	if (rpm < 900) { # make sure it is not triggered if you accidentally hit s in the air
 		setprop("/engines/active-engine/ready-oil-press-checker", 1); # 0 = off, 1 = checker is armed, 2 = engine is running and ready
@@ -410,7 +413,6 @@ setlistener("/controls/switches/starter", func {
 setprop("/engines/active-engine/rpm", 0);
 setprop("/engines/active-engine/ready-oil-press-checker", 0);
 setprop("/engines/active-engine/damage-level", 0.0);
-
 # =============== Variables ================
 
 controls.incThrottle = func {

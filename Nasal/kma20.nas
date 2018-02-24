@@ -27,8 +27,9 @@ kma20.new = func(rootPath) {
     var obj = {};
     obj.parents = [kma20];
 
-    setlistener(rootPath ~ "/com1", func(v) {setprop("/instrumentation/comm/volume",        0.7*(v.getValue() != 0));}, 1);
-    setlistener(rootPath ~ "/com2", func(v) {setprop("/instrumentation/comm[1]/volume",     0.7*(v.getValue() != 0));}, 1);
+    # TBD MGouin: audio-enable?
+    setlistener(rootPath ~ "/com1", func(v) {setprop("/instrumentation/comm/audio-btn",         (v.getValue() != 0));}, 1);
+    setlistener(rootPath ~ "/com2", func(v) {setprop("/instrumentation/comm[1]/audio-btn",      (v.getValue() != 0));}, 1);
     setlistener(rootPath ~ "/nav1", func(v) {setprop("/instrumentation/nav/audio-btn",          (v.getValue() != 0));}, 1);
     setlistener(rootPath ~ "/nav2", func(v) {setprop("/instrumentation/nav[1]/audio-btn",       (v.getValue() != 0));}, 1);
     setlistener(rootPath ~ "/adf",  func(v) {setprop("/instrumentation/adf/ident-audible",      (v.getValue() != 0));}, 1);

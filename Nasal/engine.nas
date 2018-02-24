@@ -198,20 +198,20 @@ var oil_refill = func(){
 
 # ======= Oil temperature jsbsim compensator =======
 # Currently, jsbsim oil temperature always initializes at 60°F.
-# We want an temperature that initialise to environment temperature until first start
+# We want an temperature that initialize to environment temperature until first start
 # and then gradually switch over to the real jsbsim value after some time.
 var calculate_real_oiltemp = maketimer(0.5, func {
-    if (!getprop("/engines/engine/already-started-in-session")) {
+    if (!getprop("/engines/active-engine/already-started-in-session")) {
         # engine is still cold
         var temp_env        = getprop("/environment/temperature-degf") or 60;
-        var temp_jsbsim_oil = getprop("/engines/engine/oil-temperature-degf") or 60;
+        var temp_jsbsim_oil = getprop("/engines/active-engine/oil-temperature-degf") or 60;
         current_temp_diff   = temp_jsbsim_oil - temp_env;
-        setprop("/engines/engine/oil-temperature-env-diff", current_temp_diff);
+        setprop("/engines/active-engine/oil-temperature-env-diff", current_temp_diff);
     } else {
-        # engine has been startet at least one time:
+        # engine has been started at least one time:
         # gradually remove the difference as jsbsim adapts to real environment temperature
         calculate_real_oiltemp.stop();
-        interpolate("/engines/engine/oil-temperature-env-diff", 0, 180); # hand over to jsbsim caluclation gradually over 2 minutes
+        interpolate("/engines/active-engine/oil-temperature-env-diff", 0, 180); # hand over to jsbsim caluclation gradually over 2 minutes
     }
 });
 

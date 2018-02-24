@@ -599,6 +599,15 @@
                 <wrap>false</wrap>
             </binding>
             -->
+            <!-- TBD MGouin: This part is ugly... Is there a better way to do? -->
+            <binding>
+              <command>nasal</command>
+              <script>
+                setprop("/instrumentation/comm/volume",
+                    getprop("/instrumentation/comm/audio-enable") *
+                    getprop("/instrumentation/comm/volume-internal"));
+              </script>
+            </binding>
             <binding>
                 <command>property-assign</command>
                 <property alias="../../../../params/power-comm"/>

@@ -87,7 +87,7 @@ var primerTimer = maketimer(5, func {
 });
 
 # ========== oil consumption ======================
-# Thanks to HHS81 for more advanced simulation
+# Thanks to HHS81 (Benedikt Hallinger) for more advanced simulation
 var service_hours = getprop("/engines/active-engine/oil-service-hours");
 var consumption_qph = 0.0;
 var rpm_factor = 0.0;
@@ -133,9 +133,10 @@ var oil_consumption = maketimer(1.0, func {
         # See: http://www.t-craft.org/Reference/Aircraft.Oil.Usage.pdf
         # Hours:        0 |    10 |    25 |  50   |    75
         # Add Qts/hr:   0 |  0.02 | 0.125 | 0.5   | 1.125
-		service_hours = getprop("/engines/active-engine/oil-service-hours");
+	    service_hours = getprop("/engines/active-engine/oil-service-hours");
         service_hours_increase = 0.00020 * math.pow(service_hours, 2);
-        if (service_hours_increase > 1.5) service_hours_increase = 1.5;  # cap at that rate
+        service_hours_increase = std.min(1.5, service_hours_increase);
+	   
         consumption_qph = consumption_qph + service_hours_increase;
     
 		if (getprop("/engines/active-engine/running")) {
@@ -187,7 +188,9 @@ var oil_refill = func(){
     if (refilled >= 0) {
         # when refill occured, the new oil "makes the old oil younger"
         var pct = 0;
-        if (oil_level > 0) pct = previous_oil_level / oil_level;
+        if (oil_level > 0) {
+			pct = previous_oil_level / oil_level;
+		}
         var newService_hours = service_hours * pct;
         setprop("/engines/active-engine/oil-service-hours", newService_hours);
         #print("OIL Refill: pct=", pct, "; service_hours=",service_hours, "; newService_hours=", newService_hours, "; previous_oil_level=", previous_oil_level, "; oil_level=",oil_level);
@@ -221,25 +224,23 @@ var rpm = getprop("/engines/active-engine/rpm");
 var damage = 0.0;
 
 var eng_damage_function = maketimer(1.0, func {
-	if (getprop("/engines/active-engine/damage_allowed")) {
-		rpm = getprop("/engines/active-engine/rpm"); # we need to update the RPM, but we do not set the variable here to avoid GC load
-	
-		if (rpm > 2700) {
-			damage = damage + ((rpm - 2700) / 100); # 1 point of damage per 100RPM over limit added per second, so the damage increases faster the more you go over the limit
-		} else 
-			damage = damage;
-	} else { # make sure damage is always 0 if the checkbox is disabled
-		damage = 0.0; 
-		if (getprop("/engines/active-engine/damage-level") != 0.0) {
-			setprop("/engines/active-engine/damage-level", 0.0);
-		}
-	}
-	
-	# write the damage level to the property if it is greater than 0, reduces impact on performance hopefully, as there is no need to keep writing 0.0 each time, that is handled above
-	if (damage > 0.0) {
-		setprop("/engines/active-engine/damage-level", damage);
-	} 
-		
+    if (getprop("/engines/active-engine/damage_allowed")) {
+        rpm = getprop("/engines/active-engine/rpm"); # we need to update the RPM, but we do not set the variable here to avoid GC load
+    
+        if (rpm > 2700) {
+            damage = damage + ((rpm - 2700) / 100); # 1 point of damage per 100RPM over limit added per second, so the damage increases faster the more you go over the limit
+        }
+    } else { # make sure damage is always 0 if the checkbox is disabled
+        damage = 0.0; 
+        if (getprop("/engines/active-engine/damage-level") != 0.0) {
+            setprop("/engines/active-engine/damage-level", 0.0);
+        }
+    }
+    
+    # write the damage level to the property if it is greater than 0, reduces impact on performance hopefully, as there is no need to keep writing 0.0 each time, that is handled above
+    if (damage > 0.0) {
+        setprop("/engines/active-engine/damage-level", damage);
+    } 	
 });
 
 # ========== carburetor icing ======================

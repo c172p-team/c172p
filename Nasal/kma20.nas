@@ -27,9 +27,18 @@ kma20.new = func(rootPath) {
     var obj = {};
     obj.parents = [kma20];
 
-    # TBD MGouin: audio-enable?
-    setlistener(rootPath ~ "/com1", func(v) {setprop("/instrumentation/comm/audio-btn",         (v.getValue() != 0));}, 1);
-    setlistener(rootPath ~ "/com2", func(v) {setprop("/instrumentation/comm[1]/audio-btn",      (v.getValue() != 0));}, 1);
+    # Idea for the COM is to have volume-internal set to match the volume knob of the COM radio volume knob, while the volume (original property) is set to 0 when disabled by the KMA-20 or the volume-internal when enabled.
+    #
+    # TBD MGouin: Need to find how to keep updating volume from volume-internal
+    setlistener(rootPath ~ "/com1", func(v) {setprop("/instrumentation/comm/volume",            (v.getValue() != 0) * getprop("/instrumentation/comm[0]/volume-internal"));}, 1);
+    # TBD MGouin: needed?
+    setlistener(rootPath ~ "/com1", func(v) {setprop("/instrumentation/comm/audio-enable",      (v.getValue() != 0));}, 1);
+
+    # TBD MGouin: Need to find how to keep updating volume from volume-internal
+    setlistener(rootPath ~ "/com2", func(v) {setprop("/instrumentation/comm[1]/volume",         (v.getValue() != 0) * getprop("/instrumentation/comm[1]/volume-internal"));}, 1);
+    # TBD MGouin: needed?
+    setlistener(rootPath ~ "/com2", func(v) {setprop("/instrumentation/comm[1]/audio-enable",   (v.getValue() != 0));}, 1);
+
     setlistener(rootPath ~ "/nav1", func(v) {setprop("/instrumentation/nav/audio-btn",          (v.getValue() != 0));}, 1);
     setlistener(rootPath ~ "/nav2", func(v) {setprop("/instrumentation/nav[1]/audio-btn",       (v.getValue() != 0));}, 1);
     setlistener(rootPath ~ "/adf",  func(v) {setprop("/instrumentation/adf/ident-audible",      (v.getValue() != 0));}, 1);

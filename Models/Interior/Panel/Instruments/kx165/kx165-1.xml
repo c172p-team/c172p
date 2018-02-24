@@ -13,12 +13,13 @@
 
         aircraft.data.add(
         "instrumentation/comm[0]/volume",
+        "instrumentation/comm[0]/volume-internal",
         "instrumentation/comm[0]/frequencies/selected-mhz",
         "instrumentation/comm[0]/frequencies/standby-mhz",
         "instrumentation/comm[0]/frequencies/dial-khz",
         "instrumentation/comm[0]/frequencies/dial-mhz",
         "instrumentation/comm[0]/test-btn",
-        "instrumentation/comm[0]/audio-btn",
+        "instrumentation/comm[0]/audio-enable",
         "instrumentation/nav[0]/audio-btn",
         "instrumentation/nav[0]/power-btn",
         "instrumentation/nav[0]/frequencies/selected-mhz",
@@ -38,9 +39,10 @@
         <comm-frq-standby>instrumentation/comm[0]/frequencies/standby-mhz</comm-frq-standby>
         <comm-dial-khz>instrumentation/comm[0]/frequencies/dial-khz</comm-dial-khz>
         <comm-dial-mhz>instrumentation/comm[0]/frequencies/dial-mhz</comm-dial-mhz>
-        <comm-volume>instrumentation/comm[0]/volume</comm-volume>
+        <comm-volume>instrumentation/comm[0]/volume-internal</comm-volume>
+        <comm-volume-output>instrumentation/comm[0]/volume</comm-volume-output>
         <comm-test>instrumentation/comm[0]/test-btn</comm-test>
-        <comm-audio>instrumentation/comm[0]/audio-btn</comm-audio>
+        <comm-audio-enable>instrumentation/comm[0]/audio-enable</comm-audio-enable>
         <nav-frq-swp>instrumentation/nav[0]/frq-swap-btn</nav-frq-swp>
         <nav-frq-selected>instrumentation/nav[0]/frequencies/selected-mhz</nav-frq-selected>
         <nav-frq-standby>instrumentation/nav[0]/frequencies/standby-mhz</nav-frq-standby>
@@ -242,7 +244,7 @@
         <object-name>NavStby</object-name>
     </effect>
 
-    <!-- comm part -->
+    <!-- Comm part -->
     <animation>
         <type>translate</type>
         <object-name>CommToggle</object-name>
@@ -587,6 +589,16 @@
                 <max>1.0</max>
                 <wrap>false</wrap>
             </binding>
+            <!-- TBD MGouin check here with condition
+            <binding>
+                <command>property-adjust</command>
+                <property alias="../../../../params/comm-volume-output"/>
+                <factor>0.1</factor>
+                <min>0.0</min>
+                <max>1.0</max>
+                <wrap>false</wrap>
+            </binding>
+            -->
             <binding>
                 <command>property-assign</command>
                 <property alias="../../../../params/power-comm"/>

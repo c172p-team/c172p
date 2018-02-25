@@ -39,7 +39,7 @@ aircraft.data.add(
 # COMM1 (according to its documentation)
 aircraft.data.add(
     "instrumentation/comm[0]/power-btn",
-    "instrumentation/comm[0]/volume-internal",
+    "instrumentation/comm[0]/volume-selected",
     "instrumentation/comm[0]/frequencies/selected-mhz",
     "instrumentation/comm[0]/frequencies/standby-mhz",
     "instrumentation/comm[0]/frequencies/dial-khz",
@@ -58,7 +58,7 @@ aircraft.data.add(
 # COMM2 (according to its documentation)
 aircraft.data.add(
     "instrumentation/comm[1]/power-btn",
-    "instrumentation/comm[1]/volume-internal",
+    "instrumentation/comm[1]/volume-selected",
     "instrumentation/comm[1]/frequencies/selected-mhz",
     "instrumentation/comm[1]/frequencies/standby-mhz",
     "instrumentation/comm[1]/frequencies/dial-khz",

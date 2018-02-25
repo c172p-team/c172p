@@ -27,17 +27,17 @@ kma20.new = func(rootPath) {
     var obj = {};
     obj.parents = [kma20];
 
-    # Idea for the COM is to have volume-internal set to match the volume knob of the COM radio volume knob, while the volume (original property) is set to 0 when disabled by the KMA-20 or the volume-internal when enabled.
-    #
-    # TBD MGouin: Need to find how to keep updating volume from volume-internal
-    setlistener(rootPath ~ "/com1", func(v) {setprop("/instrumentation/comm/volume",            (v.getValue() != 0) * getprop("/instrumentation/comm[0]/volume-internal"));}, 1);
-    # TBD MGouin: needed?
-    setlistener(rootPath ~ "/com1", func(v) {setprop("/instrumentation/comm/audio-enable",      (v.getValue() != 0));}, 1);
+    # Idea for the COM is to have volume-selected set to always match the volume knob of the COM radio volume knob. The volume (original property) is set to 0 when disabled by the KMA-20 or the volume-selected when enabled.
 
-    # TBD MGouin: Need to find how to keep updating volume from volume-internal
+    # Monitor changes to COM1 switch
+    setlistener(rootPath ~ "/com1", func(v) {setprop("/instrumentation/comm/volume",            (v.getValue() != 0) * getprop("/instrumentation/comm/volume-internal"));}, 1);
+    # Monitor changes to volume selection knob of COM1
+    setlistener("/instrumentation/comm/volume-internal", func(v) {setprop("/instrumentation/comm/volume", (getprop(rootPath ~ "/com1") != 0) * getprop("/instrumentation/comm/volume-internal"));}, 1); 
+
+    # Monitor changes to COM2 switch
     setlistener(rootPath ~ "/com2", func(v) {setprop("/instrumentation/comm[1]/volume",         (v.getValue() != 0) * getprop("/instrumentation/comm[1]/volume-internal"));}, 1);
-    # TBD MGouin: needed?
-    setlistener(rootPath ~ "/com2", func(v) {setprop("/instrumentation/comm[1]/audio-enable",   (v.getValue() != 0));}, 1);
+    # Monitor changes to volume selection knob of COM2
+    setlistener("/instrumentation/comm[1]/volume-internal", func(v) {setprop("/instrumentation/comm[1]/volume", (getprop(rootPath ~ "/com2") != 0) * getprop("/instrumentation/comm[1]/volume-internal"));}, 1); 
 
     setlistener(rootPath ~ "/nav1", func(v) {setprop("/instrumentation/nav/audio-btn",          (v.getValue() != 0));}, 1);
     setlistener(rootPath ~ "/nav2", func(v) {setprop("/instrumentation/nav[1]/audio-btn",       (v.getValue() != 0));}, 1);

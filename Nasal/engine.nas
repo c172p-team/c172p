@@ -102,8 +102,8 @@ var low_oil_pressure_factor = 0.0;
 var low_oil_temperature_factor = 0.0;
 
 var oil_consumption = maketimer(1.0, func {
-	
-	oil_level = getprop("/engines/active-engine/oil-level");
+
+    oil_level = getprop("/engines/active-engine/oil-level");
     if (getprop("/controls/engines/active-engine") == 0)
         oil_full = 7;
     if (getprop("/controls/engines/active-engine") == 1)
@@ -122,8 +122,8 @@ var oil_consumption = maketimer(1.0, func {
         # Consumption rate defined as 0.33 quarts per 1 hour (3600 seconds) (Lycoming Manual 3-6 p27)
         # at 2350 RPM (normal cruise)
         consumption_qph = 0.33 / 3600; 
-		
-		# Raise consumption when oil level is > 8 quarts (blowout)
+        
+        # Raise consumption when oil level is > 8 quarts (blowout)
         if (oil_level > oil_full) {
             consumption_qph = consumption_qph * 1.3;
         }
@@ -133,22 +133,22 @@ var oil_consumption = maketimer(1.0, func {
         # See: http://www.t-craft.org/Reference/Aircraft.Oil.Usage.pdf
         # Hours:        0 |    10 |    25 |  50   |    75
         # Add Qts/hr:   0 |  0.02 | 0.125 | 0.5   | 1.125
-	    service_hours = getprop("/engines/active-engine/oil-service-hours");
+        service_hours = getprop("/engines/active-engine/oil-service-hours");
         service_hours_increase = 0.00020 * math.pow(service_hours, 2);
         service_hours_increase = std.min(1.5, service_hours_increase);
-	   
+        
         consumption_qph = consumption_qph + service_hours_increase;
     
-		if (getprop("/engines/active-engine/running")) {
-		    oil_level = oil_level - consumption_qph * rpm_factor;
-	        setprop("/engines/active-engine/oil-level", oil_level);
-			setprop("/engines/active-engine/oil-consume-qph", consumption_qph);
-			
-			service_hours_new = (service_hours + 1)/3600; # add one second service time
+        if (getprop("/engines/active-engine/running")) {
+            oil_level = oil_level - consumption_qph * rpm_factor;
+            setprop("/engines/active-engine/oil-level", oil_level);
+            setprop("/engines/active-engine/oil-consume-qph", consumption_qph);
+            
+            service_hours_new = (service_hours + 1)/3600; # add one second service time
             setprop("/engines/active-engine/oil-service-hours", service_hours_new);
         } else {
-		    setprop("/engines/active-engine/oil-consume-qph", 0);
-		}
+            setprop("/engines/active-engine/oil-consume-qph", 0);
+        }
 
         low_oil_pressure_factor = 1.0;
         low_oil_temperature_factor = 1.0;
@@ -189,8 +189,8 @@ var oil_refill = func(){
         # when refill occured, the new oil "makes the old oil younger"
         var pct = 0;
         if (oil_level > 0) {
-			pct = previous_oil_level / oil_level;
-		}
+            pct = previous_oil_level / oil_level;
+        }
         var newService_hours = service_hours * pct;
         setprop("/engines/active-engine/oil-service-hours", newService_hours);
         #print("OIL Refill: pct=", pct, "; service_hours=",service_hours, "; newService_hours=", newService_hours, "; previous_oil_level=", previous_oil_level, "; oil_level=",oil_level);
@@ -232,15 +232,9 @@ var eng_damage_function = maketimer(1.0, func {
         }
     } else { # make sure damage is always 0 if the checkbox is disabled
         damage = 0.0; 
-        if (getprop("/engines/active-engine/damage-level") != 0.0) {
-            setprop("/engines/active-engine/damage-level", 0.0);
-        }
     }
     
-    # write the damage level to the property if it is greater than 0, reduces impact on performance hopefully, as there is no need to keep writing 0.0 each time, that is handled above
-    if (damage > 0.0) {
-        setprop("/engines/active-engine/damage-level", damage);
-    } 	
+    setprop("/engines/active-engine/damage-level", damage);   
 });
 
 # ========== carburetor icing ======================
@@ -375,10 +369,10 @@ var update = func {
             }
         }
     }
-	
-	if (getprop("/engines/active-engine/ready-oil-press-checker") == 1 and getprop("/engines/active-engine/rpm") > 900) {
-		setprop("/engines/active-engine/ready-oil-press-checker", 2); # engine is ready for use
-	}
+    
+    if (getprop("/engines/active-engine/ready-oil-press-checker") == 1 and getprop("/engines/active-engine/rpm") > 900) {
+        setprop("/engines/active-engine/ready-oil-press-checker", 2); # engine is ready for use
+    }
 };
 
 setlistener("/controls/switches/starter", func {
@@ -395,16 +389,16 @@ setlistener("/controls/switches/starter", func {
             primerTimer.stop();
         }
     }
-	
-	# sorry - had to hack this to prevent coughing on startup due to the oil pressure simulation. Maybe this can be used elsewhere
-	 if (getprop("/controls/engines/active-engine") == 0)
+    
+    # sorry - had to hack this to prevent coughing on startup due to the oil pressure simulation. Maybe this can be used elsewhere
+     if (getprop("/controls/engines/active-engine") == 0)
        var rpm = getprop("/engines/engine[0]/rpm");
     if (getprop("/controls/engines/active-engine") == 1)
-		var rpm = getprop("/engines/engine[1]/rpm");
-	
-	if (rpm < 900) { # make sure it is not triggered if you accidentally hit s in the air
-		setprop("/engines/active-engine/ready-oil-press-checker", 1); # 0 = off, 1 = checker is armed, 2 = engine is running and ready
-	}
+        var rpm = getprop("/engines/engine[1]/rpm");
+    
+    if (rpm < 900) { # make sure it is not triggered if you accidentally hit s in the air
+        setprop("/engines/active-engine/ready-oil-press-checker", 1); # 0 = off, 1 = checker is armed, 2 = engine is running and ready
+    }
 }, 1, 0);
 
 # ================================ Initalize ====================================== 
@@ -483,14 +477,14 @@ setlistener("/sim/signals/fdm-initialized", func {
     carb_icing_function.start();
     coughing_timer.singleShot = 1;
     coughing_timer.start();
-	eng_damage_function.start();
-	
-	# ======= OIL SYSTEM INIT =======
-	var previous_oil_level = getprop("/engines/engine[0]/oil-level");
-	if (!getprop("/engines/active-engine/oil-service-hours")) {
-		 setprop("/engines/active-engine/oil-service-hours", 0);
-	}
-	oil_consumption.simulatedTime = 1;
-	oil_consumption.start();
-	calculate_real_oiltemp.start();
+    eng_damage_function.start();
+    
+    # ======= OIL SYSTEM INIT =======
+    var previous_oil_level = getprop("/engines/engine[0]/oil-level");
+    if (!getprop("/engines/active-engine/oil-service-hours")) {
+         setprop("/engines/active-engine/oil-service-hours", 0);
+    }
+    oil_consumption.simulatedTime = 1;
+    oil_consumption.start();
+    calculate_real_oiltemp.start();
 });

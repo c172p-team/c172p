@@ -454,6 +454,7 @@ StaticModel.new("coneL", "Aircraft/c172p/Models/Exterior/safety-cone/safety-cone
 StaticModel.new("gpu", "Aircraft/c172p/Models/Exterior/external-power/external-power.xml");
 StaticModel.new("ladder", "Aircraft/c172p/Models/Exterior/ladder/ladder.xml");
 StaticModel.new("fueltanktrailer", "Aircraft/c172p/Models/Exterior/fueltanktrailer/fueltanktrailer.ac");
+StaticModel.new("externalheater", "Aircraft/c172p/Models/Exterior/external-heater/RedDragonEnginePreHeater.ac");
 
 # external electrical disconnect when groundspeed higher than 0.1ktn (replace later with distance less than 0.01...)
 var ad_timer = maketimer(0.1, func {

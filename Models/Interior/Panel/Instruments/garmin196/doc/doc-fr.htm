@@ -1,0 +1,345 @@
+<html>
+   <body>
+      <h1 align="center">Le Garmin 196</h1>
+
+      <h2>Présentation</h2>
+      <p align="justify">
+      Le Garmin 196 est un récepteur GPS permettant de faire de la navigation. Il comporte les modes terrestres, navals et aériens. Dans le simulé, on a que les fonctions aériennes.
+      <br/>
+      <div align="center">
+         <img align="center" src="./garmin196.jpg"/>
+      </div>
+      </p>
+
+      <h2>Installation</h2>
+      <p align="justify">
+      Pour installer le Garmin 196, il faut deja déclarer le nasal dans le fichier de définition de l'avion.
+      <pre>
+&lt;nasal&gt;
+   &lt;garmin196&gt;
+      &lt;file&gt;Aircraft/Instruments-3d/garmin196/garmin196.nas&lt;/file&gt;
+   &lt;/garmin196&gt;
+&lt;/nasal&gt;
+      </pre>
+      Puis déclarer le xml décrivant l'instrument. Attention, il en existe deux (pour l'instant).Celui avec le support modelisé par Clément DE L'HAMAIDE (alias F-JJTH)
+      <pre>
+&lt;!-- Garmin196 --&gt;
+&lt;model&gt;
+   &lt;path&gt;Aircraft/Instruments-3d/garmin196/garmin196_support1.xml&lt;/path&gt;
+   &lt;offsets&gt;
+      &lt;x-m&gt;  0.235 &lt;/x-m&gt;
+      &lt;y-m&gt;  0.000 &lt;/y-m&gt;
+      &lt;z-m&gt;  0.253 &lt;/z-m&gt;
+   &lt;/offsets&gt;
+&lt;/model&gt;
+      </pre>
+      Les coordonnées correspondent a une installation dans le Tecnam P92... Pour installer uniquement le Garmin, utilisez le fichier garmin196.xml (pour une intégration dans un tableau de bord par exemple ...). Le chemin (Aircraft/Instruments-3d/garmin196/) suppose que nous avez installé le repertoire contenant l'instrument dans Aircraft/Instruments-3d/.
+      </p>
+      <h2>Utilisation</h2>
+      <h3>Description</h3>
+      <p align="justify">
+      <div align="center">
+         <img align="center" src="./description.jpg"/>
+      </div>
+      On a les éléments suivants:
+      <ul>
+         <li>Un ecran, où on va afficher les differents écrans.</li>
+         <li>Des boutons (IN, OUT, PAGE, QUIT, ENTER,MENU,NRST,D (le D avec un trait au milieu, DIRECT TO) et Power (Le bouton rouge)</li>
+         <li>Un ROCKER (le bouton avec les 4 fleches haut (UP), bas (DOWN), gauche (LEFT) et droite (RIGHT)</li>
+         <li>Une antenne située derrière. Pour faire pivoter l'antenne, LMB pour la faire tourner dans le sens anti horaire et CMB pour le sens horaire.</li>
+      </ul>
+      </p>
+      <h3>Demarrage</h3>
+      <p align="justify">
+      Au demarrage de FlightGear, le Garmin est éteint.<br/>
+      <div align="center">
+         <img align="center" src="./eteint.jpg"/>
+      </div>
+      Pour l'allumer, cliquez sur le bouton Power (LMB). Le Garmin affiche alors la page d'accueuil.
+      <div align="center">
+         <img align="center" src="./startup.jpg"/>
+      </div>
+      Cliquez sur Enter pour valider le demarrage (LMB).
+      
+      Vous arrivez alors sur la Map Page...
+      
+      A tout moment, en cliquant sur Power (CMB), vous affichez le popup de reglage de la luminosité.
+      <div align="center">
+         <img align="center" src="./luminosite.jpg"/>
+      </div>
+      Cliquez sur le rocker up ou down (LMB) pour l'ajuster. Cette luminosité est memorisée lors de l'extinction du Gamin (LMB sur Power)
+      </p>
+      
+      <h3>Map Page</h3>
+      <p align="justify">
+         <div align="center">
+            <img align="center" src="./mappage.jpg"/>
+         </div>
+         Cet écran vous permet de voir les points fixes gérés par FlightGear, a savoir :
+         <ul>
+            <li>Les aeroports</li>
+            <li>Les stations VOR</li>
+            <li>Les station NDB</li>
+            <li>Les points FIX (approches, airways ...</li>
+            <li>Bonus !!! les villes de plus de 20000 habitants. Ben oui, il a fallu faire un choix, entre le temps de chargement, la taille du fichier xml et la lisibilité de l'ecran ...</li>
+         </ul>
+         On a aussi une indication du nord en haut à gauche et l'échelle en bas à droite. Cette échelle est modifiable avec les boutons IN et OUT.
+      </p>
+      
+      <h3>Panel Page</h3>
+      <p align="justify">
+         <div align="center">
+            <img align="center" src="./panelpage.jpg"/>
+         </div>
+         Sur cet écran, on a les informations suivantes :
+         <ul>
+            <li>La vitesse sol : attention, ce n'est pas la vitesse air. Avec un vent de face, vous aurez l'impression d'aller moins vite que la vitesse air, vous risquez la sur-vitesse et vice versa en cas de vent arrière, vous irez plus vite que la vitesse air et risquez donc le decrochage.</li>
+            <li>L'altitude : C'est l'altitude réelle, par rapport au niveau de la mer. Attention, ca ne depend pas de la pression atmosphèrique. c'est encore moins la hauteur par rapport au sol.</li>
+            <li>Le cap calculé grâce au deplacement : il faut un deplacement et donc, de la vitesse pour que le Garmin puisse la calculer</li>
+	    <li>Le CDI : Course Deviation Indicator. Quand vous avez entré un plan de vol, le Garmin affiche le CDI. Cela indique la route entre le waypoint actuel et le suivant. Vous pouvez aussi voir le décalage entre votre position et cette route. Quand vous etes dans le mode DIRECT TO ou sur le dernier waypoint, le CDI est aligné avec la puce de waypoint sur le compas. Vous pouvez aussi voir un indicateur TO et FROM.
+	    <li>La barre VNAV : cette barre permet de faire des approches (attention, le Garmin n'est par fait pour permettre des approches IFR !!!). Quand un point GPS (un aeroport uniquement) est sélectionné, le Garmin calcule la pente ideale (3 degres) et affiche si vous etes au dessus ou en dessous</li>
+            <li>Le cap pour aller vers le prochain waypoint</li>
+            <li>Le taux de virage : c'est le nombre de degrés par secondes (5 degrés quand les ailes sont le long d'une des petites barres). Ce n'est pas l'inclinaison de l'avion.</li>
+            <li>La vitesse ascensionnelle</li>
+            <li>L'identification, la distance et le temps pour y arriver a la vitesse sol actuelle. Ne s'affiche que lorsqu'un point GPS a été entré (grace a un plan de vol (Active route) ou un point directe (Direct to)</li>
+         </ul>
+         
+         On passe d'un ecran a l'autre en cliquant (LMB) sur PAGE ou QUIT.
+      </p>
+      
+      <h3>Position Page</h3>
+      <p align="justify">
+         <div align="center">
+            <img align="center" src="./positionpage.jpg"/>
+         </div>
+         Sur cet écran, on a les informations suivantes :
+         <ul>
+            <li>Un affichage du cap par un bandeau déroulant</li>
+            <li>Les coordonnées de la position de l'avion (longitude et latitude)</li>
+            <li>L'heure et la date</li>
+            <li>Des infos diverses (pas paramétrable pour l'instant)
+               <ul>
+                  <li>L'id du prochain waypoint</li>
+                  <li>Le temps pour arriver au prochain waypoint</li>
+                  <li>La distance du prochain waypoint</li>
+                  <li>Le cap du prochain waypoint (en chiffre et sur le cap (la barre grise)</li>
+                  <li>La vitesse sol</li>
+                  <li>L'altitude</li>
+                  <li>Le cap </li>
+                  <li>La vitesse ascensionnelle</li>
+               </ul>
+            </li>
+            <li>Deux fausses infos : batt timer et voltage</li>
+            <li>L'identification, la distance et le temps pour y arriver a la vitesse sol actuelle. Ne s'affiche que lorsqu'un point GPS a été entré (grace a un plan de vol (Active route) ou un point directe (Direct to)</li>
+         </ul>
+         Sur la Panel Page, la Position Page et la Map Page, vous pouvez entrer votre position actuelle en cliquant sur ENTER avec le bouton du milieu de la souris (CMB).
+      </p>
+      
+      <h3>Direct To</h3>
+      <p align="justify">
+      En cliquant sur le bouton DIRECT TO, vous faites apparaître une popup. Pour naviguer entre les 3 onglets, utilisez le ROCKER LEFT et RIGHT
+      </p>
+      <h4>Onglet Aviation</h4>
+      <p align="justify">
+         Cet onglet vous permet de rechercher un waypoint(airport, vor, ndb, wpt et fix).
+         <div align="center">
+            <img align="center" src="./dto_aviation_01.jpg"/>
+         </div>
+         
+         Comme indiqué, cliquez sur ENTER.
+         <div align="center">
+            <img align="center" src="./dto_aviation_02.jpg"/>
+         </div>
+         Pour changer la lettre courante (la plus a droite dans la zone de saisie du haut), utilisez le ROCKER UP et DOWN en cliquant avec le bouton gauche (LMB) pour avancer d'une lettre ou reculer d'une lettre, et le bouton central (CMB) pour aller de 10 en 10, utilisez le ROCKER LEFT et RIGHT. La fenêtre située en dessous affichera les 5 premiers résultats commençant par les lettres entrées. Puis, cliquez sur ENTER pour passer a la liste en dessous.
+         <div align="center">
+            <img align="center" src="./dto_aviation_03.jpg"/>
+         </div>
+         La premiere ligne est selectionnée. Utilisez le ROCKER UP et DOWN pour choisir la ligne que vous voulez puis cliquez sur ENTER. Le Garmin sélectionne alors la ligne sélectionnée et la stocke dans les waypoints recents.
+         <div align="center">
+            <img align="center" src="./dto_aviation_04.jpg"/>
+         </div>
+         
+      </p>
+      
+      <h4>Onglet Recent</h4>
+      <p align="justify">
+         Cet onglet affiche les 5 derniers waypoints selectionnés dans l'onglet Aviation. Pour naviguer, utilisez le ROCKER UP et DOWN et cliquez sur ENTER pour valider la ligne sélectionnée.
+         <div align="center">
+            <img align="center" src="./dto_recent_01.jpg"/>
+         </div>
+         </p>
+      
+      <h4>Onglet User</h4>
+      <p align="justify">
+         Cet onglet affiche les 5 premiers waypoints sauvegardés. Pour naviguer, utilisez le ROCKER UP et DOWN et cliquez sur ENTER pour valider la ligne sélectionnée.
+         <div align="center">
+            <img align="center" src="./dto_user_01.jpg"/>
+         </div>
+         
+      </p>
+      
+      <h3>NRST (Nearest point)</h3>
+      <p align="justify">
+         En cliquant sur le bouton NRST, vous faites apparaître une popup. Pour naviguer entre les 5 onglets, utilisez le ROCKER LEFT et RIGHT
+         <div align="center">
+            <img align="center" src="./nrst_airport_01.jpg"/>
+         </div>
+         Les 5 onglets sont :
+         <ul>
+            <li>Airport : affiche les 5 aéroports les plus proches, avec comme informations :
+               <ul>
+                  <li>l'identifiant</li>
+                  <li>le cap pour y aller</li>
+                  <li>la distance</li>
+                  <li>la longueur de la piste la plus grande</li>
+                  <li>la fréquence de l'ATIS,ACOS ou AWOS, s'il y en a un dans cet aeroport (Sur l'image , par exemple, KHAF n'a pas d'ATIS)</li>
+               </ul>
+            </li>
+            <li>VOR : affiche les 5 VOR les plus proches, avec comme informations :
+               <ul>
+                  <li>l'identifiant</li>
+                  <li>le cap pour y aller</li>
+                  <li>la distance</li>
+                  <li>la frequence du VOR</li>
+               </ul>
+            </li>
+            <li>NDB : affiche les 5 NDB les plus proches, avec comme informations :
+               <ul>
+                  <li>l'identifiant</li>
+                  <li>le cap pour y aller</li>
+                  <li>la distance</li>
+                  <li>la frequence du NDB</li>
+               </ul>
+            </li>
+            <li>FIX : affiche les 5 FIX les plus proches, avec comme informations :
+               <ul>
+                  <li>l'identifiant</li>
+                  <li>le cap pour y aller</li>
+                  <li>la distance</li>
+               </ul>
+            </li>
+            <li>Town / User : affiche les 5 villes et/ou user waypoints les plus proches, avec comme informations (les villes et les user waypoints sont mélangés a cause de la gestion des waypoints de FlightGear ...):
+               <ul>
+                  <li>l'identifiant (en fait, son nom)</li>
+                  <li>le cap pour y aller</li>
+                  <li>la distance</li>
+               </ul>
+            </li>
+         </ul>
+         En cliquant sur le ROCKER UP et DOWN, vous naviguez dans la liste trouvée. Cliquez sur ENTER pour valider ce waypoint. Si ce waypoint ne se trouve pas encore dans les waypoint récents (dans DTO, Recent), le Garmin va stocker ce waypoint.
+      </p>
+      <h3>MENU</h3>
+      <p align="justify">
+         En cliquant sur le bouton MENU, vous faites apparaître une fenetre de menu avec 8 onglets :
+         <ul>
+            <li>GPS : un écran qui n'est la que pour faire joli ...</li>
+            <li>Flights : liste les derniers vols</li>
+            <li>Route : liste des routes stockées</li>
+            <li>Points : liste des waypoints utilisateurs</li>
+            <li>Aircraft : liste des avions avec leurs caractéristiques (vmax, entre autre)</li>
+            <li>E6B : un écran permettant de faire divers calculs</li>
+            <li>Map : un écran de parametrage du panel map.</li>
+            <li>Setup : écran (tres simplifié) permettant de changer les differentes unités de mesure , et d'autres choses.</li>
+         </ul>
+         Pour naviguer entre les 8 onglets, utilisez le ROCKER UP et DOWN, puis valider avec ENTER.
+      </p>
+      <h4>Menu GPS</h4>
+      <p align="justify">
+         Rien a signaler ni a modifier (donc la touche ENTER ne sert a rien)
+         <div align="center">
+            <img align="center" src="./menu_gps.jpg"/>
+         </div>
+      </p>
+      <h4>Menu Flights</h4>
+      <p align="justify">
+         Cet écran vous permet de revoir les 8 derniers vols. Cliquez sur ENTER (ou sur ROCKER RIGHT) pour pouvoir sélectionner une ligne.
+         <div align="center">
+            <img align="center" src="./menu_flights_01.jpg"/>
+         </div>
+         Puis cliquez sur ENTER pour afficher le résumé du vol sélectionné. QUIT ou ENTER vous ramene à l'écran précédent.
+         <div align="center">
+            <img align="center" src="./menu_flights_02.jpg"/>
+         </div>
+         L'enregistrement d'un vol commence des que la vitesse depasse 30 kt. Le garmin prend alors l'aéroport, la date et l'avion utilisé (paramétré dans le menu aircraft). Le vol s'arrête des que la vitesse passe en dessous de 30kt. Le garmin complète alors le vol avec l'aeroport d'arrivée, la distance parcourue et la durée du vol. Ces données sont alors sauvegardées.
+      </p>
+      <h4>Menu Route</h4>
+      <p align="justify">
+         Cet écran vous permet de gerer 11 plans de vol. Déplacez vous sur un plan de vol deja enregistré (ROCKER UP ou DOWN) ou sur "ENTER TO ADD ROUTE" puis cliquez sur ENTER pour modifier ce plan de vol. Le Garmin vous indiquera la route pour aller de point en point et basculera automatiquement sur le point suivant des que vous serez arrivé à proximité du point courant. En utilisant le ROCKER LEFT, vous effacerez le plan selectionné. Attention, il n'y a pas de demande de confirmation !!!
+         <div align="center">
+            <img align="center" src="./menu_routes_01.jpg"/>
+         </div>
+         En cliquant sur le ROCKER RIGHT, vous activer le plan de vol sélectionné.
+         <div align="center">
+            <img align="center" src="./menu_routes_01_bis.jpg"/>
+         </div>
+         Sur cet écran, vous pouvez sélectionner le point à modifier avec ROCKER UP et DOWN. en cliquant sur ENTER, vous pouvez modifier le point courant ou en ajouter un en selectionnant "ENTER TO ADD WAYPOINT". En cliquant sur ROCKER LEFT, vous supprimez le point sélectionné. Attention, il n'y a pas de demande de confirmation !!!
+         <div align="center">
+            <img align="center" src="./menu_routes_02.jpg"/>
+         </div>
+         En cliquant sur le ROCKER RIGHT, vous activez le plan de vol sélectionné et basculer directement sur le waypoint sélectionné. Celui-ci est celui qui va vous guider. Evidemment, vous pouvez faire de meme en vol, pour sauter un ou plusieurs waypoints par exemple.
+         <div align="center">
+            <img align="center" src="./menu_routes_02_bis.jpg"/>
+         </div>
+         Grace à cet écran, vous pouvez cherchez le point que vous souhaitez ajouter ou modifier. Cet écran fonctionne de la meme manière que l'écran de recherche Direct To , onglet Aviation.
+         <div align="center">
+            <img align="center" src="./menu_routes_03.jpg"/>
+         </div>
+         Et cerise sur le gateau, le plan de vol s'affiche sur la carte !!!
+         <div align="center">
+            <img align="center" src="./menu_routes_04.jpg"/>
+         </div>
+      </p>
+      <h4>Menu Points</h4>
+      <p align="justify">
+         Cet écran vous permet d'entrer 9 waypoints. Cliquez sur ENTER pour pouvoir sélectionner un waypoint. Sélectionnez votre waypoint avec ROCKER UP et DOWN puis ENTER pour afficher le deuxieme onglet. Vous pouvez ajouter un waypoint en placant le "curseur" sur "ENTER TO ADD WAYPOINT" puis cliquez sur ENTER. Vous pouvez aussi supprimer un waypoint en cliquant sur ROCKER LEFT. Attention, il n'y a pas de demande de confirmation !!! Attention bis, le waypoint de sera effacé sur systeme de FlightGear qu'au prochain demarrage de flightGear (il n'y a pas de fonction pour faire ca ...)
+         <div align="center">
+            <img align="center" src="./menu_points_01.jpg"/>
+         </div>
+         Sur cet onglet, ROCKER UP, DOWN, LEFT et RIGHT pour changer le nom, ROCKER UP et DOWN pour changer les valeurs des coordonnées de latitude et longitude, ENTER pour passer au champ suivant et QUIT pour aller au précédent. Apres avoir entré le dernier champ (décimales de la longitude), cliquez sur ENTER pour enregistrer ce que vous venez de faire.
+         <div align="center">
+            <img align="center" src="./menu_points_02.jpg"/>
+         </div>
+      </p>
+      <h4>Menu Aircraft</h4>
+      <p align="justify">
+         Cet écran vous permet d'entrer les vitesses de croisiere, vitesse max et consommation de carburant de 6 avions. Cliquez sur ENTER pour pouvoir sélectionner un avion. Sélectionnez votre avion avec ROCKER UP et DOWN puis ENTER pour afficher le deuxieme onglet. Vous pouvez ajouter un avion en placant le "curseur" sur "ENTER TO ADD AIRCRAFT" puis cliquez sur ENTER. Vous pouvez aussi supprimer un avion en cliquant sur ROCKER LEFT. Attention, il n'y a pas de demande de confirmation !!!
+         <div align="center">
+            <img align="center" src="./menu_aircraft_01.jpg"/>
+         </div>
+         Sur cet onglet, ROCKER UP, DOWN, LEFT et RIGHT pour changer le nom, ROCKER UP et DOWN pour changer les valeurs de vitesse et consommation, ENTER pour passer au champ suivant et QUIT pour aller au précédent. Apres avoir entré la consommation horaire, cliquez sur ENTER pour enregistrer ce que vous venez de faire.
+         <div align="center">
+            <img align="center" src="./menu_aircraft_02.jpg"/>
+         </div>
+      </p>
+      <h4>Menu E6B</h4>
+      <p align="justify">
+         Cet écran presente des données calculées par le Garmin. Dans le vrai, certaines sont entrées par l'utilisateur (temperature, true air speed, etc) et le Garmin calcule les autres. Par un soucis de facilité, j'ai décidé de calculer toutes les données. Ainsi, on a pas a s'embêter à entrer les données... Evidemment, certaines mesures (le vent par exemple) ne peuvent normalement etre calculées que si le Garmin est en mouvement. On dira que c'est une facilité ;-) .
+         <div align="center">
+            <img align="center" src="./menu_e6b.jpg"/>
+         </div>
+      </p>
+      <h4>Menu Map</h4>
+      Cet écran permet de gérer les affichages des icones du panel map. Cliquez sur ENTER puis naviguez avec les ROCKER UP et DOWN. Cocher ou décocher avec la touche ENTER. Cliquez sur QUIT pour quitter ce menu.
+      <p align="justify">
+         <div align="center">
+            <img align="center" src="./menu_map.jpg"/>
+         </div>
+      </p>
+      <h4>Menu Setup</h4>
+      <p align="justify">
+         Cet écran permet de gerer les unités de mesure des differents écrans. Cliquez sur ENTER puis naviguez avec les ROCKER UP et DOWN. Changer la valeur soulignée avec la touche ENTER. Cliquez sur QUIT pour quitter ce menu.
+         <div align="center">
+            <img align="center" src="./menu_setup_01.jpg"/>
+         </div>
+         En cliquant sur ROCKER RIGHT, vous arrivez sur cet écran qui vous permet de gerer un filtrage basique de la carte. Avec le filtrage activé, le Garmin effacera les airports, vor, etc ... au centre de la carte s'il y en a trop. Avec VNAV Indicator, vous determinez si vous voulez l'affichage ou non de la barre VNAV.
+         <div align="center">
+            <img align="center" src="./menu_setup_02.jpg"/>
+         </div>
+      </p>
+      <h2>Definitions</h2>
+      <p>
+         <b>LMB :</b> Left mouse button, bouton de gauche de la souris.
+         <b>CMB :</b> Center mouse button, bouton du milieu de la souris.
+      </p>
+   </body>
+<html>

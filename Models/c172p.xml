@@ -144,11 +144,35 @@
             <z-m> 0.0566</z-m>
             <heading-deg>-19.0</heading-deg>
         </offsets>
+        <condition>
+            <not>
+                <equals>
+                   <property alias="/params/bushkit"/>
+                   <value>4</value>
+                </equals>
+            </not>
+        </condition>
     </model>
+    <model>
+        <name>Garmin196-GPS-non-Canvas</name>
+        <path>Interior/Panel/Instruments/garmin196/garmin196.xml</path>
+        <offsets>
+            <x-m>-0.305</x-m>
+            <y-m> 0.36584</y-m>
+            <z-m> 0.0566</z-m>
+            <heading-deg>-19.0</heading-deg>
+        </offsets>
+        <condition>
+            <equals>
+               <property alias="/params/bushkit"/>
+               <value>4</value>
+            </equals>
+        </condition>
+    </model>
+
     <animation>
         <type>select</type>
         <object-name>Garmin196-GPS-non-Canvas</object-name>
-        <object-name>GPSMount</object-name>
         <condition>
             <property>/sim/model/c172p/garmin196-visible</property>
         </condition>
@@ -435,6 +459,7 @@
         <object-name>LeftWheelStrut</object-name>
         <object-name>RightWheelStrut</object-name>
         <object-name>baggagedoorexterior</object-name>
+        <object-name>baggagedoorhandle</object-name>
         <object-name>charniere1</object-name>
         <object-name>charniere2</object-name>
         <object-name>charniere3</object-name>
@@ -561,6 +586,7 @@
         <object-name>NoseWheelStrut</object-name>
         <object-name>leftdoorhandle</object-name>
         <object-name>rightdoorhandle</object-name>
+        <object-name>baggagedoorhandle</object-name>
         <shininess>128</shininess>
         <specular>
             <r>1</r>
@@ -651,7 +677,6 @@
         <object-name>SeatMounts.1</object-name>
         <object-name>SeatMounts.2</object-name>
         <object-name>SeatMounts.3</object-name>
-        <object-name>GPSMount</object-name>
     </effect>
     <effect>
         <inherits-from>Effects/interior/c172p-interior-glass-reflection-front</inherits-from>
@@ -2343,7 +2368,8 @@
 
     <animation>
         <type>pick</type>
-        <object-name>baggagedoorexterior</object-name>
+        <object-name>baggagedoorhandle</object-name>
+        <object-name>baggagedoorinterior</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -2393,6 +2419,7 @@
             </binding>
         </hovered>
     </animation>
+
     <animation>
         <type>pick</type>
         <object-name>FuelCapPort</object-name>
@@ -2440,7 +2467,6 @@
         <object-name>rightdoor</object-name>
         <object-name>rightdoorhandle</object-name>
         <object-name>rightwindow</object-name>
-        <object-name>doorhandleext_right</object-name>
         <object-name>doorint_right</object-name>
         <object-name>doorhandleint_right</object-name>
         <object-name>windlocket_right</object-name>
@@ -2540,7 +2566,6 @@
         <object-name>leftdoor</object-name>
         <object-name>leftdoorhandle</object-name>
         <object-name>leftwindow</object-name>
-        <object-name>doorhandleext_left</object-name>
         <object-name>doorint_left</object-name>
         <object-name>doorhandleint_left</object-name>
         <object-name>windlocket_left</object-name>
@@ -2775,6 +2800,36 @@
             <x2-m>1.424</x2-m>
             <y2-m>-0.445</y2-m>
             <z2-m>-0.204</z2-m>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>baggagedoorhandle</object-name>
+        <property alias="../../params/doors/baggage/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>30.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>30.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 1.84848</x-m>
+            <y-m>-0.44489</y-m>
+            <z-m>-0.43722</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
         </axis>
     </animation>
 
@@ -6764,6 +6819,7 @@
         <object-name>rightdoor</object-name>
         <object-name>rightdoorhandle</object-name>
         <object-name>baggagedoorexterior</object-name>
+        <object-name>baggagedoorhandle</object-name>
         <object-name>Spinner</object-name>
         <object-name>Propeller</object-name>
         <object-name>LeftNavLight</object-name>

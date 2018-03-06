@@ -36,7 +36,7 @@ aircraft.data.add(
     "instrumentation/kma20/knob"
 );
 
-# COMM1 (according to its documentation)
+# NAV/COMM1 (according to its documentation)
 aircraft.data.add(
     "instrumentation/comm[0]/power-btn",
     "instrumentation/comm[0]/volume-selected",
@@ -45,7 +45,7 @@ aircraft.data.add(
     "instrumentation/comm[0]/frequencies/dial-khz",
     "instrumentation/comm[0]/frequencies/dial-mhz",
     "instrumentation/comm[0]/test-btn",
-    "instrumentation/nav[0]/audio-btn",
+    "instrumentation/nav[0]/ident-audible",
     "instrumentation/nav[0]/power-btn",
     "instrumentation/nav[0]/volume",
     "instrumentation/nav[0]/frequencies/selected-mhz",
@@ -55,7 +55,7 @@ aircraft.data.add(
     "instrumentation/nav[0]/radials/selected-deg",
 );
 
-# COMM2 (according to its documentation)
+# NAV/COMM2 (according to its documentation)
 aircraft.data.add(
     "instrumentation/comm[1]/power-btn",
     "instrumentation/comm[1]/volume-selected",
@@ -64,7 +64,7 @@ aircraft.data.add(
     "instrumentation/comm[1]/frequencies/dial-khz",
     "instrumentation/comm[1]/frequencies/dial-mhz",
     "instrumentation/comm[1]/test-btn",
-    "instrumentation/nav[1]/audio-btn",
+    "instrumentation/nav[1]/ident-audible",
     "instrumentation/nav[1]/power-btn",
     "instrumentation/nav[1]/volume",
     "instrumentation/nav[1]/frequencies/selected-mhz",

@@ -39,8 +39,17 @@ kma20.new = func(rootPath) {
     # Monitor changes to volume selection knob of COM2
     setlistener("/instrumentation/comm[1]/volume-selected", func(v) {setprop("/instrumentation/comm[1]/volume", (getprop(rootPath ~ "/com2") != 0) * getprop("/instrumentation/comm[1]/volume-selected"));}, 1);
 
-    setlistener(rootPath ~ "/nav1", func(v) {setprop("/instrumentation/nav/audio-btn",          (v.getValue() != 0));}, 1);
-    setlistener(rootPath ~ "/nav2", func(v) {setprop("/instrumentation/nav[1]/audio-btn",       (v.getValue() != 0));}, 1);
+    # Idea for the NAV is to set audio-btn (original-property) to true when both KMA-20 NAV switch is active & the NAV ident is pulled (ident-audible).
+    # Monitor changes to NAV1 switch
+    setlistener(rootPath ~ "/nav1",                   func(v) {setprop("/instrumentation/nav/audio-btn", (v.getValue() != 0) and getprop("/instrumentation/nav/ident-audible"));}, 1);
+    # Monitor changes to NAV1 pull ident
+    setlistener("/instrumentation/nav/ident-audible", func(v) {setprop("/instrumentation/nav/audio-btn", (getprop(rootPath ~ "/nav1") != 0) and v.getValue());}, 1);
+
+    # Monitor changes to NAV2 switch
+    setlistener(rootPath ~ "/nav2",                      func(v) {setprop("/instrumentation/nav[1]/audio-btn", (v.getValue() != 0) and getprop("/instrumentation/nav[1]/ident-audible"));}, 1);
+    # Monitor changes to NAV2 pull ident
+    setlistener("/instrumentation/nav[1]/ident-audible", func(v) {setprop("/instrumentation/nav[1]/audio-btn", (getprop(rootPath ~ "/nav2") != 0) and v.getValue());}, 1);
+
     setlistener(rootPath ~ "/adf",  func(v) {setprop("/instrumentation/adf/ident-audible",      (v.getValue() != 0));}, 1);
     setlistener(rootPath ~ "/dme",  func(v) {setprop("/instrumentation/dme/ident",              (v.getValue() != 0));}, 1);
     setlistener(rootPath ~ "/mkr",  func(v) {setprop("/instrumentation/marker-beacon/audio-btn",(v.getValue() != 0));}, 1);

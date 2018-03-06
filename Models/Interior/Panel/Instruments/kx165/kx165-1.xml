@@ -18,7 +18,7 @@
         "instrumentation/comm[0]/frequencies/dial-khz",
         "instrumentation/comm[0]/frequencies/dial-mhz",
         "instrumentation/comm[0]/test-btn",
-        "instrumentation/nav[0]/audio-btn",
+        "instrumentation/nav[0]/ident-audible",
         "instrumentation/nav[0]/power-btn",
         "instrumentation/nav[0]/frequencies/selected-mhz",
         "instrumentation/nav[0]/frequencies/standby-mhz",
@@ -45,7 +45,7 @@
         <nav-dial-khz>instrumentation/nav[0]/frequencies/dial-khz</nav-dial-khz>
         <nav-dial-mhz>instrumentation/nav[0]/frequencies/dial-mhz</nav-dial-mhz>
         <nav-volume>instrumentation/nav[0]/volume</nav-volume>
-        <nav-audio>instrumentation/nav[0]/audio-btn</nav-audio>
+        <nav-audio>instrumentation/nav[0]/ident-audible</nav-audio>
     </params>
 
     <path>kx165.ac</path>
@@ -797,11 +797,17 @@
                 <script>c172p.click("kx165-1-dial")</script>
             </binding>
         </action>
+        <shift-action>
+            <binding>
+                <command>property-toggle</command>
+                <property alias="../../../../params/nav-audio"/>
+            </binding>
+        </shift-action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>nav-volume</tooltip-id>
-                <label>Volume: %3d%%</label>
+                <label>Volume: %3d%% (Shift-click to pull)</label>
                 <property alias="../../../../params/nav-volume"/>
                 <mapping>percent</mapping>
             </binding>

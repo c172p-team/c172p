@@ -12,13 +12,13 @@
         flightgear sessions
 
         aircraft.data.add(
-        "instrumentation/comm[1]/volume",
+        "instrumentation/comm[1]/volume-selected",
         "instrumentation/comm[1]/frequencies/selected-mhz",
         "instrumentation/comm[1]/frequencies/standby-mhz",
         "instrumentation/comm[1]/frequencies/dial-khz",
         "instrumentation/comm[1]/frequencies/dial-mhz",
         "instrumentation/comm[1]/test-btn",
-        "instrumentation/nav[1]/audio-btn",
+        "instrumentation/nav[1]/ident-audible",
         "instrumentation/nav[1]/power-btn",
         "instrumentation/nav[1]/frequencies/selected-mhz",
         "instrumentation/nav[1]/frequencies/standby-mhz",
@@ -37,7 +37,7 @@
         <comm-frq-standby>instrumentation/comm[1]/frequencies/standby-mhz</comm-frq-standby>
         <comm-dial-khz>instrumentation/comm[1]/frequencies/dial-khz</comm-dial-khz>
         <comm-dial-mhz>instrumentation/comm[1]/frequencies/dial-mhz</comm-dial-mhz>
-        <comm-volume>instrumentation/comm[1]/volume</comm-volume>
+        <comm-volume>instrumentation/comm[1]/volume-selected</comm-volume>
         <comm-test>instrumentation/comm[1]/test-btn</comm-test>
         <nav-frq-swp>instrumentation/nav[1]/frq-swap-btn</nav-frq-swp>
         <nav-frq-selected>instrumentation/nav[1]/frequencies/selected-mhz</nav-frq-selected>
@@ -45,7 +45,7 @@
         <nav-dial-khz>instrumentation/nav[1]/frequencies/dial-khz</nav-dial-khz>
         <nav-dial-mhz>instrumentation/nav[1]/frequencies/dial-mhz</nav-dial-mhz>
         <nav-volume>instrumentation/nav[1]/volume</nav-volume>
-        <nav-audio>instrumentation/nav[1]/audio-btn</nav-audio>
+        <nav-audio>instrumentation/nav[1]/ident-audible</nav-audio>
     </params>
 
     <path>kx165.ac</path>
@@ -797,11 +797,17 @@
                 <script>c172p.click("kx165-2-dial")</script>
             </binding>
         </action>
+        <shift-action>
+            <binding>
+                <command>property-toggle</command>
+                <property alias="../../../../params/nav-audio"/>
+            </binding>
+        </shift-action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>nav-volume</tooltip-id>
-                <label>Volume: %3d%%</label>
+                <label>Volume: %3d%% (Shift + click to pull)</label>
                 <property alias="../../../../params/nav-volume"/>
                 <mapping>percent</mapping>
             </binding>

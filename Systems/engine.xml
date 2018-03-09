@@ -250,7 +250,7 @@
         <gain>
             <property>/engines/active-engine/low-oil-temperature-factor</property>
         </gain>
-		<input>
+        <input>
             <condition>
                 <equals>
                     <property>/controls/engines/active-engine</property>
@@ -543,29 +543,29 @@
                 </less-than>
                 
                 <!-- kill engine if the oil pressure is too low while the engine is running, according to Lycoming manaul 3-6 minimum oil pressure
-				in normal flight is 60psi, we use quite a bit below that to avoid excessive coughing during start. The engine will run for a while
-				probably at these low pressures, but if you have zero, you need to cut the engine fast! -->
-				<and>
-					<property>/engines/active-engine/running</property>
-					<equals>
-						<property>/engines/active-engine/ready-oil-press-checker</property>
-						<value>2</value>
-					</equals>
-					<less-than>
-						<property>/engines/active-engine/oil-pressure-psi</property>
-						<value>40</value>
-					</less-than>
-				</and>
+                in normal flight is 60psi, we use quite a bit below that to avoid excessive coughing during start. The engine will run for a while
+                probably at these low pressures, but if you have zero, you need to cut the engine fast! -->
+                <and>
+                    <property>/engines/active-engine/running</property>
+                    <equals>
+                        <property>/engines/active-engine/ready-oil-press-checker</property>
+                        <value>2</value>
+                    </equals>
+                    <less-than>
+                        <property>/engines/active-engine/oil-pressure-psi</property>
+                        <value>40</value>
+                    </less-than>
+                </and>
 				
-				<!-- also kill when pressure is too high -->
-				<and>
-					<property>/engines/active-engine/running</property>
-					<greater-than>
-						<property>/engines/active-engine/oil-pressure-psi</property>
-						<value>100</value>
-					</greater-than>
-				</and>
-				
+                <!-- also kill when pressure is too high -->
+                <and>
+                    <property>/engines/active-engine/running</property>
+                    <greater-than>
+                        <property>/engines/active-engine/oil-pressure-psi</property>
+                        <value>100</value>
+                    </greater-than>
+                </and>
+
                 <!-- engine is also killed if there is too much ice in the carburettor. Limit value is arbitrarily set to 0.32 -->
                 <greater-than-equals>
                     <property>/engines/active-engine/carb_ice</property>
@@ -621,23 +621,23 @@
                         </and>
                     </not>
                 </and>
-				
-				<!-- coughing due to low oil pressure -->
-				<and>
-					<property>/engines/active-engine/running</property>
-					<equals>
-						<property>/engines/active-engine/ready-oil-press-checker</property>
-						<value>2</value>
-					</equals>
-					<less-than>
-						<property>/engines/active-engine/oil-pressure-psi</property>
-						<value>42.5</value>
-					</less-than>
-					<greater-than>
-						<property>/engines/active-engine/oil-pressure-psi</property>
-						<value>40</value>
-					</greater-than>
-				</and>
+
+                <!-- coughing due to low oil pressure -->
+                <and>
+                    <property>/engines/active-engine/running</property>
+                    <equals>
+                        <property>/engines/active-engine/ready-oil-press-checker</property>
+                        <value>2</value>
+                    </equals>
+                    <less-than>
+                        <property>/engines/active-engine/oil-pressure-psi</property>
+                        <value>42.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/engines/active-engine/oil-pressure-psi</property>
+                        <value>40</value>
+                    </greater-than>
+                </and>
                 
                 <!-- engine also coughs if ice is present in the carburettor and is melting at a noticiable rate -->
                 <and>
@@ -698,10 +698,10 @@
         <input>
             <property>/engines/active-engine/complex-engine-procedures</property>
         </input>
-		<output>
-			<name>damage</name>
-			<property>/engines/active-engine/damage_allowed</property>
-		</output>
+        <output>
+            <name>damage</name>
+            <property>/engines/active-engine/damage_allowed</property>
+        </output>
         <output>
             <name>oil</name>
             <property>/engines/active-engine/oil_consumption_allowed</property>

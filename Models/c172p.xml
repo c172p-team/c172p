@@ -105,9 +105,9 @@
         <name>nav-light-right</name>
         <path>Effects/lights/procedural_light_nav_right.xml</path>
         <offsets>
-            <x-m>0.2186</x-m>
-            <y-m>5.657</y-m>
-            <z-m>0.5618</z-m>
+            <x-m>0.09966</x-m>
+            <y-m>5.65615</y-m>
+            <z-m>0.53459</z-m>
         </offsets>
     </model>
 
@@ -116,9 +116,9 @@
         <name>nav-light-left</name>
         <path>Effects/lights/procedural_light_nav_left.xml</path>
         <offsets>
-            <x-m>0.2186</x-m>
-            <y-m>-5.657</y-m>
-            <z-m>0.5618</z-m>
+            <x-m> 0.10243</x-m>
+            <y-m>-5.65777</y-m>
+            <z-m> 0.53365</z-m>
         </offsets>
     </model>
 
@@ -137,22 +137,47 @@
     <!-- TODO Remove this old version, unhide and implement the Canvas version below -->
     <model>
         <name>Garmin196-GPS-non-Canvas</name>
-        <path>Aircraft/Instruments-3d/garmin196/garmin196.xml</path>
+        <path>Interior/Panel/Instruments/garmin196/garmin196.xml</path>
         <offsets>
-            <x-m>-0.4</x-m>
-            <y-m>0.16</y-m>
-            <z-m>0.205</z-m>
-            <heading-deg>-12.0</heading-deg>
+            <x-m>-0.305</x-m>
+            <y-m> 0.26584</y-m>
+            <z-m> 0.0566</z-m>
+            <heading-deg>-19.0</heading-deg>
         </offsets>
+        <condition>
+            <not>
+                <equals>
+                   <property alias="/params/bushkit"/>
+                   <value>4</value>
+                </equals>
+            </not>
+        </condition>
     </model>
+    <model>
+        <name>Garmin196-GPS-non-Canvas</name>
+        <path>Interior/Panel/Instruments/garmin196/garmin196.xml</path>
+        <offsets>
+            <x-m>-0.305</x-m>
+            <y-m> 0.36584</y-m>
+            <z-m> 0.0566</z-m>
+            <heading-deg>-19.0</heading-deg>
+        </offsets>
+        <condition>
+            <equals>
+               <property alias="/params/bushkit"/>
+               <value>4</value>
+            </equals>
+        </condition>
+    </model>
+
     <animation>
         <type>select</type>
         <object-name>Garmin196-GPS-non-Canvas</object-name>
         <condition>
             <property>/sim/model/c172p/garmin196-visible</property>
         </condition>
-    </animation>    
-    
+    </animation>
+
     <!-- Canvas local Garmin 196 GPS -->
     <!--<model>
         <name>Garmin196-GPS</name>
@@ -434,6 +459,7 @@
         <object-name>LeftWheelStrut</object-name>
         <object-name>RightWheelStrut</object-name>
         <object-name>baggagedoorexterior</object-name>
+        <object-name>baggagedoorhandle</object-name>
         <object-name>charniere1</object-name>
         <object-name>charniere2</object-name>
         <object-name>charniere3</object-name>
@@ -443,12 +469,16 @@
         <object-name>fairing3</object-name>
         <object-name>fuselage_1.001</object-name>
         <object-name>leftdoor</object-name>
+        <object-name>leftdoorhandle</object-name>
         <object-name>rightdoor</object-name>
+        <object-name>rightdoorhandle</object-name>
         <object-name>Spinner</object-name>
         <object-name>Propeller</object-name>
         <object-name>NoseWheel</object-name>
         <object-name>LeftWheel</object-name>
         <object-name>RightWheel</object-name>
+        <object-name>LeftWheelBrake</object-name>
+        <object-name>RightWheelBrake</object-name>
         <object-name>radi_box</object-name>
         <object-name>TieDownTail</object-name>
         <object-name>TieDownRight</object-name>
@@ -465,11 +495,14 @@
         <object-name>ruddercableports</object-name>
         <object-name>ruddercablelefthinge</object-name>
         <object-name>ruddercablerighthinge</object-name>
+        <object-name>windowframeleftext</object-name>
+        <object-name>windowframerightext</object-name>
     </effect>
     <effect>
         <inherits-from>Effects/exterior/dirt-tail</inherits-from>
         <object-name>elevatorleft</object-name>
         <object-name>elevatorright</object-name>
+        <object-name>elevatortrim</object-name>
         <object-name>hstab</object-name>
         <object-name>rudder_1</object-name>
         <object-name>vstab</object-name>
@@ -507,6 +540,8 @@
         <type>material</type>
         <object-name>LeftWheelStrut</object-name>
         <object-name>RightWheelStrut</object-name>
+        <object-name>LeftWheelBrake</object-name>
+        <object-name>RightWheelBrake</object-name>
         <object-name>baggagedoorexterior</object-name>
         <object-name>charniere1</object-name>
         <object-name>charniere2</object-name>
@@ -514,6 +549,7 @@
         <object-name>charniere4</object-name>
         <object-name>elevatorleft</object-name>
         <object-name>elevatorright</object-name>
+        <object-name>elevatortrim</object-name>
         <object-name>fairing1</object-name>
         <object-name>fairing2</object-name>
         <object-name>fairing3</object-name>
@@ -528,7 +564,6 @@
         <object-name>vstab</object-name>
         <object-name>wing_1.001</object-name>
         <object-name>wing_leading_edge</object-name>
-        <object-name>doorhandleint_right</object-name>
         <object-name>Spinner</object-name>
         <object-name>radi_box</object-name>
         <object-name>LeftNavLight</object-name>
@@ -555,6 +590,11 @@
     <animation>
         <type>material</type>
         <object-name>NoseWheelStrut</object-name>
+        <object-name>leftdoorhandle</object-name>
+        <object-name>rightdoorhandle</object-name>
+        <object-name>baggagedoorhandle</object-name>
+        <object-name>windowframeleftext</object-name>
+        <object-name>windowframerightext</object-name>
         <shininess>128</shininess>
         <specular>
             <r>1</r>
@@ -645,6 +685,8 @@
         <object-name>SeatMounts.1</object-name>
         <object-name>SeatMounts.2</object-name>
         <object-name>SeatMounts.3</object-name>
+        <object-name>windowframeleftint</object-name>
+        <object-name>windowframerightint</object-name>
     </effect>
     <effect>
         <inherits-from>Effects/interior/c172p-interior-glass-reflection-front</inherits-from>
@@ -786,8 +828,8 @@
         <path>Interior/Panel/Instruments/gear/gear-ctl.xml</path>
         <offsets>
             <x-m>-0.36</x-m>
-            <y-m>0.26</y-m>
-            <z-m>0.06</z-m>
+            <y-m> 0.26</y-m>
+            <z-m> 0.06</z-m>
         </offsets>
     </model>
 
@@ -795,27 +837,27 @@
         <name>MagCompass</name>
         <path>Interior/Panel/Instruments/mag-compass/mag-compass.xml</path>
         <offsets>
-            <x-m>-0.35</x-m>
+            <x-m>0.00</x-m>
             <y-m>0.00</y-m>
-            <z-m>0.18</z-m>
+            <z-m>0.00</z-m>
         </offsets>
     </model>
     <model>
         <name>AI</name>
         <path>Interior/Panel/Instruments/AI/AI.xml</path>
         <offsets>
-            <x-m>-0.369</x-m>
+            <x-m>-0.369  </x-m>
             <y-m>-0.22147</y-m>
-            <z-m>0.06863</z-m>
+            <z-m> 0.06863</z-m>
         </offsets>
     </model>
     <model>
         <name>Altimeter</name>
         <path>Interior/Panel/Instruments/alt/alt.xml</path>
         <offsets>
-            <x-m>-0.369</x-m>
+            <x-m>-0.369  </x-m>
             <y-m>-0.13245</y-m>
-            <z-m>0.06775</z-m>
+            <z-m> 0.06775</z-m>
         </offsets>
     </model>
     <model>
@@ -1061,7 +1103,7 @@
     </model>
     <model>
         <name>LeftYoke</name>
-        <path>Interior/Yoke/yoke.xml</path>
+        <path>Interior/Yoke/yoke-l.xml</path>
         <offsets>
             <x-m>-0.36</x-m>
             <y-m>-0.219</y-m>
@@ -1070,7 +1112,7 @@
     </model>
     <model>
         <name>RightYoke</name>
-        <path>Interior/Yoke/yoke.xml</path>
+        <path>Interior/Yoke/yoke-r.xml</path>
         <offsets>
             <x-m>-0.36</x-m>
             <y-m> 0.239</y-m>
@@ -1101,9 +1143,9 @@
         <name>OAT-object</name>
         <path>Interior/Panel/Instruments/oat/oat.xml</path>
         <offsets>
-            <y-m>0.44</y-m>
-            <x-m>-0.01922</x-m>
-            <z-m>0.46375</z-m>
+            <y-m> 0.0 </y-m>
+            <x-m> 0.0 </x-m>
+            <z-m> 0.0 </z-m>
         </offsets>
     </model>
     <!-- MODEND -->
@@ -1111,7 +1153,7 @@
     <!-- Pedals -->
     <model>
         <name>PilotPedals</name>
-        <path>Interior/Pedals/pedals.xml</path>
+        <path>Interior/Pedals/pedals-pilot.xml</path>
         <offsets>
             <x-m>-0.56</x-m>
             <y-m>-0.24</y-m>
@@ -1120,10 +1162,10 @@
     </model>
     <model>
         <name>CoPilotPedals</name>
-        <path>Interior/Pedals/pedals.xml</path>
+        <path>Interior/Pedals/pedals-copilot.xml</path>
         <offsets>
             <x-m>-0.56</x-m>
-            <y-m>0.24</y-m>
+            <y-m> 0.24</y-m>
             <z-m>-0.65</z-m>
         </offsets>
     </model>
@@ -2251,7 +2293,7 @@
     <!-- Pick animation for the doors -->
     <animation>
         <type>pick</type>
-        <object-name>rightdoor</object-name>
+        <object-name>rightdoorhandle</object-name>
         <object-name>doorhandleint_right</object-name>
         <visible>true</visible>
         <action>
@@ -2272,7 +2314,7 @@
     </animation>
     <animation>
         <type>pick</type>
-        <object-name>leftdoor</object-name>
+        <object-name>leftdoorhandle</object-name>
         <object-name>doorhandleint_left</object-name>
         <visible>true</visible>
         <action>
@@ -2295,9 +2337,7 @@
     <!-- Pick animation for the windows -->
     <animation>
         <type>pick</type>
-        <object-name>lefttwindow</object-name>
         <object-name>windlocket_left</object-name>
-        <object-name>leftwindow_interior</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -2317,9 +2357,7 @@
     </animation>
     <animation>
         <type>pick</type>
-        <object-name>rightwindow</object-name>
         <object-name>windlocket_right</object-name>
-        <object-name>rightwindow_interior</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -2340,7 +2378,7 @@
 
     <animation>
         <type>pick</type>
-        <object-name>baggagedoorexterior</object-name>
+        <object-name>baggagedoorhandle</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -2390,6 +2428,7 @@
             </binding>
         </hovered>
     </animation>
+
     <animation>
         <type>pick</type>
         <object-name>FuelCapPort</object-name>
@@ -2435,12 +2474,14 @@
     <animation>
         <type>rotate</type>
         <object-name>rightdoor</object-name>
+        <object-name>rightdoorhandle</object-name>
         <object-name>rightwindow</object-name>
-        <object-name>doorhandleext_right</object-name>
         <object-name>doorint_right</object-name>
         <object-name>doorhandleint_right</object-name>
         <object-name>windlocket_right</object-name>
         <object-name>windlocketbak_right</object-name>
+        <object-name>windowframerightint</object-name>
+        <object-name>windowframerightext</object-name>
         <!-- MOD: Added an interior window-->
         <!--object-name>rightwindow_int</object-name-->
         <object-name>rightwindow_interior</object-name>
@@ -2503,13 +2544,45 @@
 
     <animation>
         <type>rotate</type>
+        <object-name>rightdoorhandle</object-name>
+        <property alias="../../params/doors/right/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>-30.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>-30.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 0.77042</x-m>
+            <y-m> 0.51667</y-m>
+            <z-m>-0.17336</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
         <object-name>leftdoor</object-name>
+        <object-name>leftdoorhandle</object-name>
         <object-name>leftwindow</object-name>
-        <object-name>doorhandleext_left</object-name>
         <object-name>doorint_left</object-name>
         <object-name>doorhandleint_left</object-name>
         <object-name>windlocket_left</object-name>
         <object-name>windlocketbak_left</object-name>
+        <object-name>windowframeleftint</object-name>
+        <object-name>windowframeleftext</object-name>
         <!-- MOD: Added an interior window-->
         <object-name>leftwindow_int</object-name>
         <object-name>leftwindow_interior</object-name>
@@ -2570,6 +2643,36 @@
         </axis>
     </animation>
 
+    <animation>
+        <type>rotate</type>
+        <object-name>leftdoorhandle</object-name>
+        <property alias="../../params/doors/left/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>30.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>30.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 0.76986</x-m>
+            <y-m>-0.51523</y-m>
+            <z-m>-0.17366</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
     <!-- Left Window -->
     <animation>
         <type>rotate</type>
@@ -2577,6 +2680,8 @@
         <object-name>leftwindow_interior</object-name>
         <object-name>windlocket_left</object-name>
         <object-name>windlocketbak_left</object-name>
+        <object-name>windowframeleftint</object-name>
+        <object-name>windowframeleftext</object-name>
         <property alias="/params/windows/left"/>
         <interpolation>
             <entry>
@@ -2622,9 +2727,9 @@
             </entry>
         </interpolation>
         <center>
-            <x-m>0.33704</x-m>
-            <y-m>-0.51572</y-m>
-            <z-m>-0.05777</z-m>
+            <x-m> 0.3358</x-m>
+            <y-m>-0.51659</y-m>
+            <z-m>-0.04665</z-m>
         </center>
         <axis>
             <x>0</x>
@@ -2640,6 +2745,8 @@
         <object-name>rightwindow_interior</object-name>
         <object-name>windlocket_right</object-name>
         <object-name>windlocketbak_right</object-name>
+        <object-name>windowframerightint</object-name>
+        <object-name>windowframerightext</object-name>
         <property alias="/params/windows/right"/>
         <interpolation>
             <entry>
@@ -2685,9 +2792,9 @@
             </entry>
         </interpolation>
         <center>
-            <x-m>0.33704</x-m>
-            <y-m>0.51535</y-m>
-            <z-m>-0.05777</z-m>
+            <x-m> 0.3358</x-m>
+            <y-m> 0.51712</y-m>
+            <z-m>-0.04189</z-m>
         </center>
         <axis>
             <x>0</x>
@@ -2710,6 +2817,36 @@
             <x2-m>1.424</x2-m>
             <y2-m>-0.445</y2-m>
             <z2-m>-0.204</z2-m>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>baggagedoorhandle</object-name>
+        <property alias="../../params/doors/baggage/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>30.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>30.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 1.84848</x-m>
+            <y-m>-0.44489</y-m>
+            <z-m>-0.43722</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
         </axis>
     </animation>
 
@@ -3802,6 +3939,7 @@
     <animation>
         <type>rotate</type>
         <object-name>elevatorright</object-name>
+        <object-name>elevatortrim</object-name>
         <property>surface-positions/elevator-pos-norm</property>
         <interpolation>
             <entry>
@@ -3826,22 +3964,20 @@
             <z2-m>-0.42222</z2-m>
         </axis>
     </animation>
-    <!--<animation>
+    <animation>
         <type>rotate</type>
-        <object-name>ElevatorTrimTab</object-name>
+        <object-name>elevatortrim</object-name>
         <property>controls/flight/elevator-trim</property>
-        <factor>25</factor>
-        <center>
-            <x-m>5.06</x-m>
-            <y-m>1.12</y-m>
-            <z-m>-0.18</z-m>
-        </center>
+        <factor>-25</factor>
         <axis>
-            <x>0.17</x>
-            <y>-0.82</y>
-            <z>0.0</z>
+            <x1-m> 5.37238</x1-m>
+            <y1-m> 0.40405</y1-m>
+            <z1-m>-0.43873</z1-m>
+            <x2-m> 5.24803</x2-m>
+            <y2-m> 1.30441</y2-m>
+            <z2-m>-0.43157</z2-m>
         </axis>
-    </animation>-->
+    </animation>
     <animation>
         <type>rotate</type>
         <object-name>rudder_0</object-name>
@@ -4074,6 +4210,7 @@
         <object-name>fairing3</object-name>
         <object-name>RightWheelStrut</object-name>
         <object-name>RightWheel</object-name>
+        <object-name>RightWheelBrake</object-name>
         <!-- Bushkit Mod -->
         <object-name>RightWheelBK</object-name>
         <object-name>RightWheelBKs</object-name>
@@ -4107,6 +4244,7 @@
         <object-name>fairing2</object-name>
         <object-name>LeftWheelStrut</object-name>
         <object-name>LeftWheel</object-name>
+        <object-name>LeftWheelBrake</object-name>
         <!-- Bushkit Mod -->
         <object-name>LeftWheelBK</object-name>
         <object-name>LeftWheelBKs</object-name>
@@ -5575,6 +5713,7 @@
     <animation>
         <type>select</type>
         <object-name>LeftWheel</object-name>
+        <object-name>LeftWheelBrake</object-name>
         <condition>
             <and>
                 <not>
@@ -5731,6 +5870,7 @@
     <animation>
         <type>select</type>
         <object-name>RightWheel</object-name>
+        <object-name>RightWheelBrake</object-name>
         <condition>
             <and>
                 <not>
@@ -6448,9 +6588,9 @@
         <object-name>strobe1</object-name>
         <offset-m>5.760493</offset-m>
         <axis>
-            <x>0.293912</x>
-            <y>-5.727128</y>
-            <z>0.564638</z>
+            <x> 0.105</x>
+            <y>-5.65777</y>
+            <z> 0.53365</z>
         </axis>
     </animation>
     <animation>
@@ -6458,9 +6598,9 @@
         <object-name>strobe2</object-name>
         <offset-m>5.742337</offset-m>
         <axis>
-            <x>0.253912</x>
-            <y>5.708865</y>
-            <z>0.564638</z>
+            <x>0.105</x>
+            <y>5.65615</y>
+            <z>0.53459</z>
         </axis>
     </animation>
 
@@ -6696,14 +6836,19 @@
         <object-name>charniere3</object-name>
         <object-name>charniere4</object-name>
         <object-name>leftdoor</object-name>
+        <object-name>leftdoorhandle</object-name>
         <object-name>rightdoor</object-name>
+        <object-name>rightdoorhandle</object-name>
         <object-name>baggagedoorexterior</object-name>
+        <object-name>baggagedoorhandle</object-name>
         <object-name>Spinner</object-name>
         <object-name>Propeller</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
         <object-name>radi_box</object-name>
         <object-name>ruddercableports</object-name>
+        <object-name>windowframeleftext</object-name>
+        <object-name>windowframerightext</object-name>
         <!-- damage mod -->
         <object-name>RightWheelStrutBKD</object-name>
         <object-name>LeftWheelStrutBKD</object-name>
@@ -6769,6 +6914,7 @@
         <object-name>rudder_1</object-name>
         <object-name>elevatorleft</object-name>
         <object-name>elevatorright</object-name>
+        <object-name>elevatortrim</object-name>
         <property-base>sim/model/liverytail/</property-base>
         <texture-prop>texture</texture-prop>
         <texture>tail.png</texture>
@@ -8547,6 +8693,7 @@
         <type>pick</type>
         <object-name>elevatorleft</object-name>
         <object-name>elevatorright</object-name>
+        <object-name>elevatortrim</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>

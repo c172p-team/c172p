@@ -218,25 +218,6 @@ var calculate_real_oiltemp = maketimer(0.5, func {
     }
 });
 
-# ========== engine damage due to over-RPM =========
-# Initialize variables to reduce GC load
-var rpm = getprop("/engines/active-engine/rpm");
-var damage = 0.0;
-
-var eng_damage_function = maketimer(1.0, func {
-    if (getprop("/engines/active-engine/damage_allowed")) {
-        rpm = getprop("/engines/active-engine/rpm"); # we need to update the RPM, but we do not set the variable here to avoid GC load
-    
-        if (rpm > 2700) {
-            damage = damage + ((rpm - 2700) / 100); # 1 point of damage per 100RPM over limit added per second, so the damage increases faster the more you go over the limit
-        }
-    } else { # make sure damage is always 0 if the checkbox is disabled
-        damage = 0.0; 
-    }
-    
-    setprop("/engines/active-engine/damage-level", damage);   
-});
-
 # ========== carburetor icing ======================
 
 var carb_icing_function = maketimer(1.0, func {
@@ -281,7 +262,7 @@ var carb_icing_function = maketimer(1.0, func {
 
         setprop("/engines/active-engine/carb_ice", carb_ice);
         setprop("/engines/active-engine/carb_icing_rate", carb_icing_rate);
-        setprop("/engines/active-engine/volumetric-efficiency-factor", vol_eff_factor);
+        setprop("/engines/active-engine/carb-volumetric-efficiency-factor", vol_eff_factor);
         setprop("/engines/active-engine/oil_temp_factor", oil_temp_factor);
 
     }
@@ -293,6 +274,15 @@ var carb_icing_function = maketimer(1.0, func {
     };
 });
 
+# =========== engine damage =======================
+var damage_vol_eff_factor = 0.0;
+var damage = getprop("/engines/active-engine/damage-level");
+
+var engine_damage_function = maketimer(1.0, func {
+	damage = getprop("/engines/active-engine/damage-level");
+    damage_vol_eff_factor = std.max(0.0, 1.0 - (0.00166 * damage)); # returns 0 or thereabouts when damage = 600
+    setprop("/engines/active-engine/damage-volumetric-efficiency-factor", damage_vol_eff_factor);
+});
 # ========== engine coughing ======================
 
 var engine_coughing = func(){
@@ -396,7 +386,7 @@ setlistener("/controls/switches/starter", func {
     if (getprop("/controls/engines/active-engine") == 1)
         var rpm = getprop("/engines/engine[1]/rpm");
     
-	# sorry - had to hack this to prevent coughing on startup due to the oil pressure simulation. Maybe this can be used elsewhere
+    # sorry - had to hack this to prevent coughing on startup due to the oil pressure simulation. Maybe this can be used elsewhere
     if (rpm < 900) { # make sure it is not triggered if you accidentally hit s in the air
         setprop("/engines/active-engine/ready-oil-press-checker", 1); # 0 = off, 1 = checker is armed, 2 = engine is running and ready
     }
@@ -408,7 +398,7 @@ setlistener("/controls/switches/starter", func {
 
 setprop("/engines/active-engine/rpm", 0);
 setprop("/engines/active-engine/ready-oil-press-checker", 0);
-setprop("/engines/active-engine/damage-level", 0.0);
+
 # =============== Variables ================
 
 controls.incThrottle = func {
@@ -478,7 +468,7 @@ setlistener("/sim/signals/fdm-initialized", func {
     carb_icing_function.start();
     coughing_timer.singleShot = 1;
     coughing_timer.start();
-    eng_damage_function.start();
+    engine_damage_function.start();
     
     # ======= OIL SYSTEM INIT =======
     var previous_oil_level = getprop("/engines/engine[0]/oil-level");

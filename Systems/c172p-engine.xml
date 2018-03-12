@@ -25,7 +25,7 @@
 <system name="engine">
 
     <channel name="oil">
-    
+
         <fcs_function name="consumed-oil-weight">
             <function>
                 <product>
@@ -36,11 +36,11 @@
             </function>
             <output>/fdm/jsbsim/inertia/pointmass-weight-lbs[16]</output>
         </fcs_function>
-        
+
     </channel>
-    
+
     <channel name="carburetor">
-    
+
         <fcs_function name="Carb heat on causes RPM drop on 160 HP engine">
             <function>
                 <ifthen>
@@ -51,7 +51,7 @@
             </function>
             <output>/fdm/jsbsim/propulsion/engine[0]/air-intake-impedance-factor</output>
         </fcs_function>
-        
+
         <fcs_function name="Carb heat on causes RPM drop on 180 HP engine">
             <function>
                 <ifthen>
@@ -62,9 +62,9 @@
             </function>
             <output>/fdm/jsbsim/propulsion/engine[1]/air-intake-impedance-factor</output>
         </fcs_function>
-        
+
     </channel>
-    
+
     <channel name="damage">
         <fcs_function name="RPM over Redline">
             <function>
@@ -79,6 +79,60 @@
             </clipto>
             <output>/engines/active-engine/rpm-over-redline</output>
         </fcs_function>
+
+        <fcs_function name="damage level calculation">
+              <function>
+                <ifthen>
+                    <eq>
+                        <p>/engines/active-engine/damage_allowed</p>
+                        <v>1</v>
+                    </eq>
+                    <sum>
+                        <property>/engines/active-engine/damage-level</property>
+                        <product>
+                           <table>
+                                <independentVar lookup="row">/engines/active-engine/rpm-over-redline</independentVar>
+                                <tableData>
+                                    0    0
+                                  100    1
+                                  200    4
+                                  300    9
+                                  400   16
+                                  500   25
+                                  600   36
+                                  700   49
+                                  800   64
+                                  900   81
+                                 1000  100
+                                 1100  121
+                                 1200  144
+                                 1300  169
+                                 1400  196
+                                 1500  225
+                                 9999  300
+                                </tableData>
+                            </table>
+                            <property>simulation/channel-dt</property>
+                        </product>
+                    </sum>
+                    <v>0</v> <!-- this is the value if damage is disabled -->
+                </ifthen>
+            </function>
+            <output>/engines/active-engine/damage-level</output>
+        </fcs_function>
+		
+		<fcs_function>
+			<function>
+				<product>
+					<property>/engines/active-engine/carb-volumetric-efficiency-factor</property>
+					<property>/engines/active-engine/damage-volumetric-efficiency-factor</property>
+				</product>
+			</function>
+			<clipto>
+                <min>0.001</min>
+                <max>1.000</max>
+            </clipto>
+			<output>/engines/active-engine/volumetric-efficiency-factor</output>
+		</fcs_function>
     </channel>
-    
 </system>

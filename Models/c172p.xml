@@ -335,6 +335,9 @@
             <baggage>
                 <property>sim/multiplay/generic/float[2]</property>
             </baggage>
+             <oil>
+                <property>sim/multiplay/generic/float[18]</property>
+            </oil>
         </doors>
         <windows>
             <left>sim/multiplay/generic/float[3]</left>
@@ -497,7 +500,14 @@
         <object-name>ruddercablerighthinge</object-name>
         <object-name>windowframeleftext</object-name>
         <object-name>windowframerightext</object-name>
+        <object-name>oildoor</object-name>
     </effect>
+
+    <effect>
+        <inherits-from>Effects/exterior/bumpspec</inherits-from>
+        <object-name>OilCap</object-name>
+    </effect>
+
     <effect>
         <inherits-from>Effects/exterior/dirt-tail</inherits-from>
         <object-name>elevatorleft</object-name>
@@ -573,6 +583,7 @@
         <object-name>FuelCapPort</object-name>
         <object-name>FuelCapStarboard</object-name>
         <object-name>ruddercableports</object-name>
+        <object-name>oildoor</object-name>
         <shininess>116</shininess>
         <specular>
             <r>1</r>
@@ -595,6 +606,7 @@
         <object-name>baggagedoorhandle</object-name>
         <object-name>windowframeleftext</object-name>
         <object-name>windowframerightext</object-name>
+        <object-name>OilCap</object-name>
         <shininess>128</shininess>
         <specular>
             <r>1</r>
@@ -608,10 +620,15 @@
         </ambient>
     </animation>
 
-    <!-- interior effects  -->
+    <!-- interior effects -->
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/c172p-interior-radiance</inherits-from>
         <object-name>TrimWheel</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/c172p-interior-compartment</inherits-from>
+        <object-name>oilcompartment</object-name>
     </effect>
 
     <effect>
@@ -2468,6 +2485,65 @@
                 <label>Fuel Cap</label>
             </binding>
         </hovered>
+    </animation>
+
+    <!-- Oil door pick --> 
+    <animation>
+        <type>pick</type>
+        <object-name>oildoor</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.oilDoor.toggle();</script>
+            </binding>
+            <!--binding>
+                <command>nasal</command>
+                <script>c172p.click("light")</script>
+            </binding>
+            <binding>
+                <command>dialog-show</command>
+                <dialog-name>c172p-right-fuel-dialog</dialog-name>
+            </binding-->
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>oil-door</tooltip-id>
+                <label>Oil Door</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <!-- Oil door animation -->
+    <animation>
+        <type>rotate</type>
+        <object-name>oildoor</object-name>
+        <property alias="../../params/doors/oil/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>-45.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>-90.0</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x1-m>-0.80485</x1-m>
+            <y1-m> 0.23079</y1-m>
+            <z1-m> 0.16388</z1-m>
+            <x2-m>-0.88058</x2-m>
+            <y2-m> 0.2303</y2-m>
+            <z2-m> 0.16328</z2-m>
+        </axis>
     </animation>
 
     <!-- Door animation -->
@@ -6850,6 +6926,7 @@
         <object-name>ruddercableports</object-name>
         <object-name>windowframeleftext</object-name>
         <object-name>windowframerightext</object-name>
+        <object-name>oildoor</object-name>
         <!-- damage mod -->
         <object-name>RightWheelStrutBKD</object-name>
         <object-name>LeftWheelStrutBKD</object-name>
@@ -8495,7 +8572,7 @@
     </animation>
     
     <!-- oil level check -->
-    <animation>
+    <!--animation>
         <type>select</type>
         <object-name>OilDoorHotSpot</object-name>
             <condition>
@@ -8506,10 +8583,10 @@
                     </not>
                 </and>
             </condition>
-    </animation>
+    </animation-->
     <animation>
         <type>pick</type>
-        <object-name>OilDoorHotSpot</object-name>
+        <object-name>OilCap</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>

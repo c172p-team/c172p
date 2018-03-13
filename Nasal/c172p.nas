@@ -57,15 +57,15 @@ var autostart = func (msg=1) {
     setprop("/consumables/fuel/tank[1]/sample-water-contamination", 0.0);
 
     # Close oil cap and dialog
-    var show = getprop("sim/model/show-dip-stick");
-    if (show) {
-       setprop("sim/model/show-dip-stick", 0);
-       var engine = getprop("controls/engines/active-engine");
-        if (!engine)
-            fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));  
-        else
-            fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
-    }
+    #var show = getprop("sim/model/show-dip-stick");
+    #if (show) {
+    #   setprop("sim/model/show-dip-stick", 0);
+    #   var engine = getprop("controls/engines/active-engine");
+    #    if (!engine)
+    #        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));  
+    #    else
+    #        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+    #}
 
     # Setting max oil level
     var oil_enabled = getprop("/engines/active-engine/oil_consumption_allowed");
@@ -627,6 +627,10 @@ setlistener("/sim/signals/fdm-initialized", func {
     }, 1, 0);
 
     setlistener("/engines/active-engine/running", func (node) {
+
+        # Close oil cap
+        setprop("sim/model/show-dip-stick", 0);
+
         var autostart = getprop("/engines/active-engine/auto-start");
         var cranking  = getprop("/engines/active-engine/cranking");
         if (autostart and cranking and node.getBoolValue()) {

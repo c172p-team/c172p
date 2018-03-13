@@ -2497,16 +2497,11 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>nasal</command>
-                <script>c172p.oilDoor.toggle();</script>
+                <script>
+                    setprop("sim/model/show-dip-stick", 0);
+                    c172p.oilDoor.toggle();
+                </script>
             </binding>
-            <!--binding>
-                <command>nasal</command>
-                <script>c172p.click("light")</script>
-            </binding>
-            <binding>
-                <command>dialog-show</command>
-                <dialog-name>c172p-right-fuel-dialog</dialog-name>
-            </binding-->
         </action>
         <hovered>
             <binding>
@@ -8572,18 +8567,6 @@
     </animation>
     
     <!-- oil level check -->
-    <!--animation>
-        <type>select</type>
-        <object-name>OilDoorHotSpot</object-name>
-            <condition>
-                <and>
-                    <property>/engines/active-engine/oil_consumption_allowed</property>
-                    <not>
-                        <property>/sim/current-view/internal</property>
-                    </not>
-                </and>
-            </condition>
-    </animation-->
     <animation>
         <type>pick</type>
         <object-name>OilCap</object-name>
@@ -8603,17 +8586,13 @@
                             <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
                             <property>/fdm/jsbsim/hydro/active-norm</property>
                         </or>
-                        <equals>
-                            <property>/controls/engines/active-engine</property>
-                            <value>0</value>
-                        </equals>
                         <not>
                             <property>/sim/current-view/internal</property>
                         </not>
                     </and>
                 </condition>
-                <command>dialog-show</command>
-                <dialog-name>c172p-oil-dialog-160</dialog-name>
+                <command>property-toggle</command>
+                <property>sim/model/show-dip-stick</property>
             </binding>
             <binding>
                 <condition>
@@ -8628,14 +8607,30 @@
                             <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
                             <property>/fdm/jsbsim/hydro/active-norm</property>
                         </or>
-                        <equals>
-                            <property>/controls/engines/active-engine</property>
-                            <value>1</value>
-                        </equals>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
                     </and>
                 </condition>
-                <command>dialog-show</command>
-                <dialog-name>c172p-oil-dialog-180</dialog-name>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/show-dip-stick");
+                    var engine = getprop("controls/engines/active-engine");
+                    if (show)
+                    {
+                        if (!engine)
+                            fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
+                        else
+                            fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+                    }
+                    else
+                    {
+                        if (!engine)
+                            fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
+                        else
+                            fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+                    }
+                </script>
             </binding>
             <binding>
                 <condition>
@@ -8696,6 +8691,18 @@
                 <label>Oil Sump</label>
             </binding>
         </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>OilCap</object-name>
+        <property>sim/model/show-dip-stick</property>
+        <factor>0.3</factor>
+        <axis>
+            <x>.17</x>
+            <y>0.0</y>
+            <z>1.0</z>
+        </axis>
     </animation>
     
     <model>

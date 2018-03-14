@@ -626,11 +626,25 @@ setlistener("/sim/signals/fdm-initialized", func {
         }
     }, 1, 0);
 
-    setlistener("/engines/active-engine/running", func (node) {
-
-        # Close oil cap
+    # Close all caps and doors
+    setlistener("/engines/active-engine/cranking", func (node) {
         setprop("sim/model/show-dip-stick", 0);
+        setprop("sim/model/open-pfuel-cap", 0);
+        setprop("sim/model/open-pfuel-cap-sump", 0);
+        setprop("sim/model/open-pfuel-cap-fuel", 0);
+        setprop("sim/model/open-sfuel-cap", 0);
+        setprop("sim/model/open-sfuel-cap-sump", 0);
+        setprop("sim/model/open-sfuel-cap-fuel", 0);
+        setprop("sim/model/door-positions/oilDoor/position-norm", 0);
+        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
+        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));
+        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-dialog"}));
+        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));
+        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));
+    }, 0, 0);
 
+    setlistener("/engines/active-engine/running", func (node) {
         var autostart = getprop("/engines/active-engine/auto-start");
         var cranking  = getprop("/engines/active-engine/cranking");
         if (autostart and cranking and node.getBoolValue()) {

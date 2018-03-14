@@ -451,8 +451,6 @@
         <object-name>rightaileron</object-name>
         <object-name>wing_1.001</object-name>
         <object-name>PitotTube</object-name>
-        <object-name>FuelCapPort</object-name>
-        <object-name>FuelCapStarboard</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
     </effect>
@@ -508,7 +506,18 @@
 
     <effect>
         <inherits-from>Effects/exterior/bumpspec</inherits-from>
+        <object-name>oilcompartment</object-name>
         <object-name>OilCap</object-name>
+        <object-name>wing_0</object-name>
+        <object-name>landinglight2</object-name>
+        <object-name>landinglight1</object-name>
+        <object-name>wing_1Ledge</object-name>
+        <object-name>wing_1Redge</object-name>
+        <object-name>FuelCapPort</object-name>
+        <object-name>FuelCapStarboard</object-name>
+        <object-name>fuelportstarport</object-name>
+        <object-name>fuelportstarboard</object-name>
+        <object-name>fuelcompartment</object-name>
     </effect>
 
     <effect>
@@ -519,14 +528,6 @@
         <object-name>hstab</object-name>
         <object-name>rudder_1</object-name>
         <object-name>vstab</object-name>
-    </effect>
-    <effect>
-        <inherits-from>Effects/exterior/bumpspec-wing</inherits-from>
-        <object-name>wing_0</object-name>
-        <object-name>landinglight2</object-name>
-        <object-name>landinglight1</object-name>
-        <object-name>wing_1Ledge</object-name>
-        <object-name>wing_1Redge</object-name>
     </effect>
 
     <effect>
@@ -634,11 +635,6 @@
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/c172p-interior-radiance</inherits-from>
         <object-name>TrimWheel</object-name>
-    </effect>
-
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/c172p-interior-compartment</inherits-from>
-        <object-name>oilcompartment</object-name>
     </effect>
 
     <effect>
@@ -2464,8 +2460,39 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>dialog-show</command>
-                <dialog-name>c172p-left-fuel-dialog</dialog-name>
+                <condition>
+                    <and>
+                        <!--property>/engines/active-engine/oil_consumption_allowed</property-->
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
+                <command>property-toggle</command>
+                <property>sim/model/open-pfuel-cap-fuel</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/open-pfuel-cap-fuel");
+                    var cap = getprop("sim/model/open-pfuel-cap-sump");
+                    if (show) {
+                      fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));
+                      setprop("sim/model/open-pfuel-cap", 1);
+                    } else {
+                      fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));
+                      if (!cap) setprop("sim/model/open-pfuel-cap", 0);
+                    }
+                </script>
             </binding>
         </action>
         <hovered>
@@ -2484,8 +2511,39 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>dialog-show</command>
-                <dialog-name>c172p-right-fuel-dialog</dialog-name>
+                <condition>
+                    <and>
+                        <!--property>/engines/active-engine/oil_consumption_allowed</property-->
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
+                <command>property-toggle</command>
+                <property>sim/model/open-sfuel-cap-fuel</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/open-sfuel-cap-fuel");
+                    var cap = getprop("sim/model/open-sfuel-cap-sump");
+                    if (show) {
+                      fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-right-fuel-dialog"}));
+                      setprop("sim/model/open-sfuel-cap", 1);
+                    } else {
+                      fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-dialog"}));
+                      if (!cap) setprop("sim/model/open-sfuel-cap", 0);
+                    }
+                </script>
             </binding>
         </action>
         <hovered>
@@ -2497,6 +2555,30 @@
         </hovered>
     </animation>
 
+    <animation>
+        <type>translate</type>
+        <object-name>FuelCapPort</object-name>
+        <property>sim/model/open-pfuel-cap</property>
+        <factor>0.1</factor>
+        <axis>
+            <x> 0.15</x>
+            <y>-0.05</y>
+            <z> 0.5</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>FuelCapStarboard</object-name>
+        <property>sim/model/open-sfuel-cap</property>
+        <factor>0.1</factor>
+        <axis>
+            <x>0.15</x>
+            <y>0.05</y>
+            <z>0.5</z>
+        </axis>
+    </animation>
+
     <!-- Oil door pick --> 
     <animation>
         <type>pick</type>
@@ -2506,8 +2588,29 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
                 <command>nasal</command>
                 <script>
+                    var engine = getprop("controls/engines/active-engine");
+                    if (!engine)
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
+                    else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
                     setprop("sim/model/show-dip-stick", 0);
                     c172p.oilDoor.toggle();
                 </script>
@@ -2555,6 +2658,7 @@
     <animation>
         <type>rotate</type>
         <object-name>airvent</object-name>
+        <object-name>airventhole</object-name>
         <property>/environment/aircraft-effects/cabin-air-set</property>
         <interpolation>
             <entry>
@@ -8552,10 +8656,38 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/consumables/fuel/contamination_allowed</property>
+                    <and>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
                 </condition>
-                <command>dialog-show</command>
-                <dialog-name>c172p-left-fuel-sample-dialog</dialog-name>
+                <command>property-toggle</command>
+                <property>sim/model/open-pfuel-cap-sump</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/open-pfuel-cap-sump");
+                    var cap = getprop("sim/model/open-pfuel-cap-fuel");
+                    if (show) {
+                      fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));
+                      setprop("sim/model/open-pfuel-cap", 1);
+                    } else {
+                      fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));
+                      if (!cap) setprop("sim/model/open-pfuel-cap", 0);
+                    }
+                </script>
             </binding>
         </action>
         <hovered>
@@ -8592,10 +8724,38 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/consumables/fuel/contamination_allowed</property>
+                    <and>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
                 </condition>
-                <command>dialog-show</command>
-                <dialog-name>c172p-right-fuel-sample-dialog</dialog-name>
+                <command>property-toggle</command>
+                <property>sim/model/open-sfuel-cap-sump</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/open-sfuel-cap-sump");
+                    var cap = getprop("sim/model/open-sfuel-cap-fuel");
+                    if (show) {
+                      fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));
+                      setprop("sim/model/open-sfuel-cap", 1);
+                    } else {
+                      fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));
+                      if (!cap) setprop("sim/model/open-sfuel-cap", 0);
+                    }
+                </script>
             </binding>
         </action>
         <hovered>
@@ -8664,15 +8824,12 @@
                 <script>
                     var show = getprop("sim/model/show-dip-stick");
                     var engine = getprop("controls/engines/active-engine");
-                    if (show)
-                    {
+                    if (show) {
                         if (!engine)
                             fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
                         else
                             fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
-                    }
-                    else
-                    {
+                    } else {
                         if (!engine)
                             fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
                         else

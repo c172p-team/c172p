@@ -110,24 +110,24 @@ var oil_consumption = maketimer(1.0, func {
         oil_full = 8;
     oil_lacking = oil_full - oil_level;
     setprop("/engines/active-engine/oil-lacking", oil_lacking);
-    
+
     if (getprop("/engines/active-engine/oil_consumption_allowed")) {
-    
+
         rpm = getprop("/engines/active-engine/rpm");
-    
+
         # Quadratic formula which outputs 1.0 for input 2300 RPM (cruise value),
         # 0.6 for 700 RPM (idle) and 1.2 for 2700 RPM (max)
         rpm_factor = 0.00000012 * math.pow(rpm, 2) - 0.0001 * rpm + 0.62;
-    
+
         # Consumption rate defined as 0.33 quarts per 1 hour (3600 seconds) (Lycoming Manual 3-6 p27)
         # at 2350 RPM (normal cruise)
-        consumption_qph = 0.33 / 3600; 
-        
+        consumption_qph = 0.33 / 3600;
+
         # Raise consumption when oil level is > 8 quarts (blowout)
         if (oil_level > oil_full) {
             consumption_qph = consumption_qph * 1.3;
         }
-        
+
         # Consumption also raises with oil in service time (lower viscosity => more friction)
         # (Oil should be changed at 50 hrs!)
         # See: http://www.t-craft.org/Reference/Aircraft.Oil.Usage.pdf
@@ -136,14 +136,14 @@ var oil_consumption = maketimer(1.0, func {
         service_hours = getprop("/engines/active-engine/oil-service-hours");
         service_hours_increase = 0.00020 * math.pow(service_hours, 2);
         service_hours_increase = std.min(1.5, service_hours_increase);
-        
+
         consumption_qph = consumption_qph + service_hours_increase;
-    
+
         if (getprop("/engines/active-engine/running")) {
             oil_level = oil_level - consumption_qph * rpm_factor;
             setprop("/engines/active-engine/oil-level", oil_level);
             setprop("/engines/active-engine/oil-consume-qph", consumption_qph);
-            
+
             service_hours_new = (service_hours + 1)/3600; # add one second service time
             setprop("/engines/active-engine/oil-service-hours", service_hours_new);
         } else {
@@ -155,14 +155,14 @@ var oil_consumption = maketimer(1.0, func {
 
         # If oil gets low (< 3.0), pressure should drop and temperature should rise
         oil_level_limited = std.min(oil_level, 3.0);
-    
+
         # Should give 1.0 for oil_level = 3 and 0.1 for oil_level 1.97,
         # which is the min before the engine stops
         low_oil_pressure_factor = 0.873786408 * oil_level_limited - 1.621359224;
-        
+
         # Should give 1.0 for oil_level = 3 and 1.5 for oil_level 1.97
         low_oil_temperature_factor = -0.485436893 * oil_level_limited + 2.456310679;
-    
+
         setprop("/engines/active-engine/low-oil-pressure-factor", low_oil_pressure_factor);
         setprop("/engines/active-engine/low-oil-temperature-factor", low_oil_temperature_factor);
     }
@@ -184,7 +184,7 @@ var oil_refill = func(){
     var oil_level     = getprop("/engines/active-engine/oil-level");
     var refilled      = oil_level - previous_oil_level;
     #print("OIL Refill init: svcHrs=", service_hours, "; oil_level=",oil_level, "; previous_oil_level=",previous_oil_level, "; refilled=",refilled);
-    
+
     if (refilled >= 0) {
         # when refill occured, the new oil "makes the old oil younger"
         var pct = 0;
@@ -195,7 +195,7 @@ var oil_refill = func(){
         setprop("/engines/active-engine/oil-service-hours", newService_hours);
         #print("OIL Refill: pct=", pct, "; service_hours=",service_hours, "; newService_hours=", newService_hours, "; previous_oil_level=", previous_oil_level, "; oil_level=",oil_level);
     }
-    
+
     previous_oil_level = oil_level;
 }
 
@@ -230,21 +230,21 @@ var carb_icing_function = maketimer(1.0, func {
         var egt_degf = getprop("/engines/active-engine/egt-degf");
         var engine_running = getprop("/engines/active-engine/running");
         var carb_ice = getprop("/engines/active-engine/carb_ice");
-        
+
         # the formula below attempts to model the graph found in the POH which relates air temperature, dew point and RPM to icing
         # conditions. The outputs of carb_icing_formula ranges from 0.65 to -0.35 (positive means ice is accumulating, negative
         # means that ice is melting)
         var factorX = 13.2 - 3.2 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
         var factorY = 7.0 - 2.0 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
         var carb_icing_formula = (math.exp( math.pow((0.6 * airtempF + 0.3 * dewpointF - 42.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.3 * airtempF - 0.6 * dewpointF + 14.0),2) / (-2 * math.pow(factorY,2))) - 0.35)  * engine_running;
-        
+
         # the efficacy of carb heat depends on the EGT. With a typical EGT of ~1500, the carb_heat_rate will be around -1.5.
         # This value is an educated guess of the RL effect, and should melt ice regardless of the icing rate
         if (getprop("/controls/engines/current-engine/carb-heat"))
             var carb_heat_rate = -0.001 * egt_degf;
         else
             var carb_heat_rate = 0.0;
-        
+
         # a warm engine will accumulate less ice than a cold one, which is what oil temp factor is used for. oil_temp_factor
         # ranges from 0 to aprox -0.2 (at 250 oF). These values are educated guesses of the RL effect
         var oil_temp_factor = oil_temp / -1250;
@@ -252,7 +252,7 @@ var carb_icing_function = maketimer(1.0, func {
         # the final rate of icing or melting is then calculated by all these effects together
         var carb_icing_rate = carb_icing_formula + carb_heat_rate + oil_temp_factor;
 
-        # since the carb_icing_rate gives an arbitrary final value, the rate is then scaled down by 0.00001 to ensure ice 
+        # since the carb_icing_rate gives an arbitrary final value, the rate is then scaled down by 0.00001 to ensure ice
         # accumulates as slowly as expected
         carb_ice = carb_ice + carb_icing_rate * 0.00001;
         carb_ice = std.max(0.0, std.min(carb_ice, 1.0));
@@ -279,7 +279,7 @@ var damage_vol_eff_factor = 0.0;
 var damage = getprop("/engines/active-engine/damage-level");
 
 var engine_damage_function = maketimer(1.0, func {
-	damage = getprop("/engines/active-engine/damage-level");
+    damage = getprop("/engines/active-engine/damage-level");
     damage_vol_eff_factor = std.max(0.0, 1.0 - (0.00166 * damage)); # returns 0 or thereabouts when damage = 600
     setprop("/engines/active-engine/damage-volumetric-efficiency-factor", damage_vol_eff_factor);
 });
@@ -289,7 +289,7 @@ var engine_coughing = func(){
 
     var coughing = getprop("/engines/active-engine/coughing");
     var running = getprop("/engines/active-engine/running");
-    
+
     if (coughing and running) {
         # the code below kills the engine and then brings it back to life after 0.25 seconds, simulating a cough
         setprop("/engines/active-engine/kill-engine", 1);
@@ -297,30 +297,30 @@ var engine_coughing = func(){
             setprop("/engines/active-engine/kill-engine", 0);
         }, 0.25);
     };
-    
+
     # basic value for the delay (interval between consecutive coughs), in case no fuel contamination nor carb ice are present
     var delay = 2;
-    
+
     # if coughing due to fuel contamination, then cough interval depends on quantity of water
     var water_contamination0 = getprop("/consumables/fuel/tank[0]/water-contamination");
     var water_contamination1 = getprop("/consumables/fuel/tank[1]/water-contamination");
     var total_water_contamination = std.min((water_contamination0 + water_contamination1), 0.4);
     if (total_water_contamination > 0) {
-        # if contamination is near 0, then interval is between 17 and 20 seconds, but if contamination is near the 
+        # if contamination is near 0, then interval is between 17 and 20 seconds, but if contamination is near the
         # engine stopping value of 0.4, then interval falls to around 0.5 and 3.5 seconds
         delay = 3.0 * rand() + 17 - 41.25 * total_water_contamination;
     };
-    
+
     # if coughing due to carb ice melting, then cough depends on quantity of ice in the carburettor
     var carb_ice = getprop("/engines/active-engine/carb_ice");
     if (carb_ice > 0) {
-        # if carb_ice is near 0, then interval is between 17 and 20 seconds, but if carb_ice is near the 
+        # if carb_ice is near 0, then interval is between 17 and 20 seconds, but if carb_ice is near the
         # engine stopping value of 0.3, then interval falls to around 0.5 and 3.5 seconds
         delay = 3.0 * rand() + 17 - 41.25 * carb_ice;
     };
-    
+
     coughing_timer.restart(delay);
-    
+
 }
 
 var coughing_timer = maketimer(1, engine_coughing);
@@ -359,7 +359,7 @@ var update = func {
             }
         }
     }
-    
+
     if (getprop("/engines/active-engine/ready-oil-press-checker") == 1 and getprop("/engines/active-engine/rpm") > 900) {
         setprop("/engines/active-engine/ready-oil-press-checker", 2); # engine is ready for use
     }
@@ -379,21 +379,21 @@ setlistener("/controls/switches/starter", func {
             primerTimer.stop();
         }
     }
-    
-   
+
+
     if (getprop("/controls/engines/active-engine") == 0)
        var rpm = getprop("/engines/engine[0]/rpm");
     if (getprop("/controls/engines/active-engine") == 1)
         var rpm = getprop("/engines/engine[1]/rpm");
-    
+
     # sorry - had to hack this to prevent coughing on startup due to the oil pressure simulation. Maybe this can be used elsewhere
     if (rpm < 900) { # make sure it is not triggered if you accidentally hit s in the air
         setprop("/engines/active-engine/ready-oil-press-checker", 1); # 0 = off, 1 = checker is armed, 2 = engine is running and ready
     }
 }, 1, 0);
 
-# ================================ Initalize ====================================== 
-# Make sure all needed properties are present and accounted 
+# ================================ Initalize ======================================
+# Make sure all needed properties are present and accounted
 # for, and that they have sane default values.
 
 setprop("/engines/active-engine/rpm", 0);
@@ -469,7 +469,7 @@ setlistener("/sim/signals/fdm-initialized", func {
     coughing_timer.singleShot = 1;
     coughing_timer.start();
     engine_damage_function.start();
-    
+
     # ======= OIL SYSTEM INIT =======
     var previous_oil_level = getprop("/engines/engine[0]/oil-level");
     if (!getprop("/engines/active-engine/oil-service-hours")) {

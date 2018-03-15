@@ -121,12 +121,36 @@
             <output>/engines/active-engine/damage-level</output>
         </fcs_function>
 
-        <fcs_function>
+        <fcs_function name="volumetric factor calculation">
             <function>
-                <product>
-                    <property>/engines/active-engine/carb-volumetric-efficiency-factor</property>
-                    <property>/engines/active-engine/damage-volumetric-efficiency-factor</property>
-                </product>
+				<difference>
+					<v>1.0</v>
+					<product>
+						<property>/engines/active-engine/damage-level</property>
+						<v>0.00166</v>
+					</product>
+				</difference>
+            </function>
+            <clipto>
+                <min>0.0</min>
+                <max>1.0</max>
+            </clipto>
+            <output>/engines/active-engine/damage-volumetric-efficiency-factor</output>
+        </fcs_function>
+
+        <fcs_function name="summer for volumetric efficiency factor">
+            <function>
+                 <ifthen>
+                    <eq>
+                        <p>/engines/active-engine/damage_allowed</p>
+                        <v>1</v>
+                    </eq>
+                    <product>
+                        <property>/engines/active-engine/carb-volumetric-efficiency-factor</property>
+                        <property>/engines/active-engine/damage-volumetric-efficiency-factor</property>
+                    </product>
+                    <v>0.85</v>
+                </ifthen>
             </function>
             <clipto>
                 <min>0.001</min>

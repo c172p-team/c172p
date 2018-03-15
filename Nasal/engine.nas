@@ -274,15 +274,6 @@ var carb_icing_function = maketimer(1.0, func {
     };
 });
 
-# =========== engine damage =======================
-var damage_vol_eff_factor = 0.0;
-var damage = getprop("/engines/active-engine/damage-level");
-
-var engine_damage_function = maketimer(1.0, func {
-    damage = getprop("/engines/active-engine/damage-level");
-    damage_vol_eff_factor = std.max(0.0, 1.0 - (0.00166 * damage)); # returns 0 or thereabouts when damage = 600
-    setprop("/engines/active-engine/damage-volumetric-efficiency-factor", damage_vol_eff_factor);
-});
 # ========== engine coughing ======================
 
 var engine_coughing = func(){
@@ -468,7 +459,6 @@ setlistener("/sim/signals/fdm-initialized", func {
     carb_icing_function.start();
     coughing_timer.singleShot = 1;
     coughing_timer.start();
-    engine_damage_function.start();
 
     # ======= OIL SYSTEM INIT =======
     var previous_oil_level = getprop("/engines/engine[0]/oil-level");

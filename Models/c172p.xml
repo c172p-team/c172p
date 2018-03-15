@@ -2462,7 +2462,6 @@
             <binding>
                 <condition>
                     <and>
-                        <!--property>/engines/active-engine/oil_consumption_allowed</property-->
                         <not>
                             <property>/engines/active-engine/running</property>
                         </not>
@@ -2478,25 +2477,62 @@
                     </and>
                 </condition>
                 <command>property-toggle</command>
-                <property>sim/model/open-pfuel-cap-fuel</property>
+                <property>sim/model/open-pfuel-cap</property>
             </binding>
             <binding>
                 <command>nasal</command>
                 <script>
-                    var show = getprop("sim/model/open-pfuel-cap-fuel");
-                    var cap = getprop("sim/model/open-pfuel-cap-sump");
-                    if (show) {
-                      fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));
-                      setprop("sim/model/open-pfuel-cap", 1);
-                    } else {
-                      fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));
-                      if (!cap) setprop("sim/model/open-pfuel-cap", 0);
-                    }
+                    var show = getprop("sim/model/open-pfuel-cap");
+                    if (show)
+                        fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));
+                    else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/engines/active-engine/running</property>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't refuel with the engine running!", 2);
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                    </not>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't refuel while in the air!", 2);
                 </script>
             </binding>
         </action>
         <hovered>
             <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>fuel-cap-port</tooltip-id>
                 <label>Fuel Cap</label>
@@ -2513,7 +2549,6 @@
             <binding>
                 <condition>
                     <and>
-                        <!--property>/engines/active-engine/oil_consumption_allowed</property-->
                         <not>
                             <property>/engines/active-engine/running</property>
                         </not>
@@ -2529,25 +2564,62 @@
                     </and>
                 </condition>
                 <command>property-toggle</command>
-                <property>sim/model/open-sfuel-cap-fuel</property>
+                <property>sim/model/open-sfuel-cap</property>
             </binding>
             <binding>
                 <command>nasal</command>
                 <script>
-                    var show = getprop("sim/model/open-sfuel-cap-fuel");
-                    var cap = getprop("sim/model/open-sfuel-cap-sump");
-                    if (show) {
-                      fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-right-fuel-dialog"}));
-                      setprop("sim/model/open-sfuel-cap", 1);
-                    } else {
-                      fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-dialog"}));
-                      if (!cap) setprop("sim/model/open-sfuel-cap", 0);
-                    }
+                    var show = getprop("sim/model/open-sfuel-cap");
+                    if (show)
+                        fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-right-fuel-dialog"}));
+                    else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-dialog"}));
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/engines/active-engine/running</property>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't refuel with the engine running!");
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                    </not>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't refuel while in the air!");
                 </script>
             </binding>
         </action>
         <hovered>
             <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>fuel-cap-starboard</tooltip-id>
                 <label>Fuel Cap</label>
@@ -2615,9 +2687,56 @@
                     c172p.oilDoor.toggle();
                 </script>
             </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <property>/engines/active-engine/running</property>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check the oil level with the engine running!", 2);
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <or>
+                                <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                                <property>/fdm/jsbsim/hydro/active-norm</property>
+                            </or>
+                        </not>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check the oil level while in the air!", 2);
+                </script>
+            </binding>
         </action>
         <hovered>
             <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>oil-door</tooltip-id>
                 <label>Oil Door</label>
@@ -8673,27 +8792,68 @@
                     </and>
                 </condition>
                 <command>property-toggle</command>
-                <property>sim/model/open-pfuel-cap-sump</property>
+                <property>sim/model/open-pfuel-sump</property>
             </binding>
             <binding>
                 <command>nasal</command>
                 <script>
-                    var show = getprop("sim/model/open-pfuel-cap-sump");
-                    var cap = getprop("sim/model/open-pfuel-cap-fuel");
-                    if (show) {
-                      fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));
-                      setprop("sim/model/open-pfuel-cap", 1);
-                    } else {
-                      fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));
-                      if (!cap) setprop("sim/model/open-pfuel-cap", 0);
-                    }
+                    var show = getprop("sim/model/open-pfuel-sump");
+                    if (show)
+                        fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));
+                   else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <property>/engines/active-engine/running</property>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check for fuel contamination with the engine running!", 2);
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <or>
+                                <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                                <property>/fdm/jsbsim/hydro/active-norm</property>
+                            </or>
+                        </not>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check for fuel contamination while in the air!", 2);
                 </script>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/consumables/fuel/contamination_allowed</property>
+                    <and>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>left-tank-drain-sump</tooltip-id>
@@ -8741,27 +8901,68 @@
                     </and>
                 </condition>
                 <command>property-toggle</command>
-                <property>sim/model/open-sfuel-cap-sump</property>
+                <property>sim/model/open-sfuel-sump</property>
             </binding>
             <binding>
                 <command>nasal</command>
                 <script>
-                    var show = getprop("sim/model/open-sfuel-cap-sump");
-                    var cap = getprop("sim/model/open-sfuel-cap-fuel");
-                    if (show) {
-                      fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));
-                      setprop("sim/model/open-sfuel-cap", 1);
-                    } else {
-                      fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));
-                      if (!cap) setprop("sim/model/open-sfuel-cap", 0);
-                    }
+                    var show = getprop("sim/model/open-sfuel-sump");
+                    if (show)
+                        fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));
+                    else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <property>/engines/active-engine/running</property>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check for fuel contamination with the engine running!", 2);
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <or>
+                                <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                                <property>/fdm/jsbsim/hydro/active-norm</property>
+                            </or>
+                        </not>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check for fuel contamination while in the air!", 2);
                 </script>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/consumables/fuel/contamination_allowed</property>
+                    <and>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>right-tank-drain-sump</tooltip-id>
@@ -8841,18 +9042,12 @@
                 <condition>
                     <and>
                         <property>/engines/active-engine/running</property>
-                        <or>
-                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
-                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
-                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
-                            <property>/fdm/jsbsim/hydro/active-norm</property>
-                        </or>
                         <property>/engines/active-engine/oil_consumption_allowed</property>
                     </and>
                 </condition>
                 <command>nasal</command>
                 <script>
-                    gui.popupTip("You can't check the oil level with the engine running!");
+                    gui.popupTip("You can't check the oil level with the engine running!", 2);
                 </script>
             </binding>
             <binding>
@@ -8871,7 +9066,7 @@
                 </condition>
                 <command>nasal</command>
                 <script>
-                    gui.popupTip("You can't check the oil level while in the air!");
+                    gui.popupTip("You can't check the oil level while in the air!", 2);
                 </script>
             </binding>
         </action>

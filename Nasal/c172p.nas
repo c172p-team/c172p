@@ -630,11 +630,9 @@ setlistener("/sim/signals/fdm-initialized", func {
     setlistener("/engines/active-engine/cranking", func (node) {
         setprop("sim/model/show-dip-stick", 0);
         setprop("sim/model/open-pfuel-cap", 0);
-        setprop("sim/model/open-pfuel-cap-sump", 0);
-        setprop("sim/model/open-pfuel-cap-fuel", 0);
         setprop("sim/model/open-sfuel-cap", 0);
-        setprop("sim/model/open-sfuel-cap-sump", 0);
-        setprop("sim/model/open-sfuel-cap-fuel", 0);
+        setprop("sim/model/open-pfuel-sump", 0);
+        setprop("sim/model/open-sfuel-sump", 0);
         setprop("sim/model/door-positions/oilDoor/position-norm", 0);
         fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
         fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));

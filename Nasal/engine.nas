@@ -180,6 +180,7 @@ var oil_consumption = maketimer(1.0, func {
 
 # Oil Refilling
 var oil_refill = func(){
+    var previous_oil_level = getprop("/engines/active-engine/oil-level");
     var service_hours = getprop("/engines/active-engine/oil-service-hours");
     var oil_level     = getprop("/engines/active-engine/oil-level");
     var refilled      = oil_level - previous_oil_level;
@@ -262,7 +263,7 @@ var carb_icing_function = maketimer(1.0, func {
 
         setprop("/engines/active-engine/carb_ice", carb_ice);
         setprop("/engines/active-engine/carb_icing_rate", carb_icing_rate);
-        setprop("/engines/active-engine/carb-volumetric-efficiency-factor", vol_eff_factor);
+        setprop("/engines/active-engine/volumetric-efficiency-factor", vol_eff_factor);
         setprop("/engines/active-engine/oil_temp_factor", oil_temp_factor);
 
     }
@@ -461,7 +462,6 @@ setlistener("/sim/signals/fdm-initialized", func {
     coughing_timer.start();
 
     # ======= OIL SYSTEM INIT =======
-    var previous_oil_level = getprop("/engines/engine[0]/oil-level");
     if (!getprop("/engines/active-engine/oil-service-hours")) {
          setprop("/engines/active-engine/oil-service-hours", 0);
     }

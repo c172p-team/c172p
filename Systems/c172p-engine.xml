@@ -66,21 +66,20 @@
     </channel>
 
     <channel name="damage">
-        <fcs_function name="RPM over Redline">
+        <fcs_function name="/damage/rpm-over-redline">
             <function>
                 <sum>
                     <property>/engines/active-engine/rpm</property>
-                    <value>-2700</value>
+                    <value>-2750</value>
                 </sum>
             </function>
             <clipto>
                 <min>0</min>
                 <max>10000</max>
             </clipto>
-            <output>/engines/active-engine/rpm-over-redline</output>
         </fcs_function>
 
-        <fcs_function name="damage level calculation">
+        <fcs_function name="/damage/damage-level">
               <function>
                 <ifthen>
                     <eq>
@@ -88,10 +87,10 @@
                         <v>1</v>
                     </eq>
                     <sum>
-                        <property>/engines/active-engine/damage-level</property>
+                        <property>/damage/damage-level</property>
                         <product>
                            <table>
-                                <independentVar lookup="row">/engines/active-engine/rpm-over-redline</independentVar>
+                                <independentVar lookup="row">/damage/rpm-over-redline</independentVar>
                                 <tableData>
                                     0    0
                                   100    1
@@ -118,45 +117,45 @@
                     <v>0</v> <!-- this is the value if damage is disabled -->
                 </ifthen>
             </function>
-            <output>/engines/active-engine/damage-level</output>
         </fcs_function>
 
-        <fcs_function name="volumetric factor calculation">
-            <function>
-				<difference>
-					<v>1.0</v>
-					<product>
-						<property>/engines/active-engine/damage-level</property>
-						<v>0.00166</v>
-					</product>
-				</difference>
-            </function>
-            <clipto>
-                <min>0.0</min>
-                <max>1.0</max>
-            </clipto>
-            <output>/engines/active-engine/damage-volumetric-efficiency-factor</output>
-        </fcs_function>
-
-        <fcs_function name="summer for volumetric efficiency factor">
-            <function>
-                 <ifthen>
-                    <eq>
-                        <p>/engines/active-engine/damage_allowed</p>
-                        <v>1</v>
-                    </eq>
-                    <product>
-                        <property>/engines/active-engine/carb-volumetric-efficiency-factor</property>
-                        <property>/engines/active-engine/damage-volumetric-efficiency-factor</property>
-                    </product>
-                    <v>0.85</v>
-                </ifthen>
+        <fcs_function>
+            <function> <!-- derived from a graphical calculator: 0.01x pow 2 + 2.15x + 0.625 multiplied by 2.4 -->
+                <product>
+                    <sum>
+                        <product>
+                            <v>0.00008</v>
+                            <pow>
+                                <property>/damage/damage-level</property>
+                                <v>2</v>
+                            </pow>
+                        </product>
+                        <v>0.625</v>
+                    </sum>
+                    <v>2.4</v>
+                </product>
             </function>
             <clipto>
                 <min>0.001</min>
-                <max>1.000</max>
+                <max>10000</max>
             </clipto>
-            <output>/engines/active-engine/volumetric-efficiency-factor</output>
+            <output>/damage/friction-hp</output>
         </fcs_function>
+
+        <switch name="/damage/engine-0-friction-hp">
+            <default-value>1.5</default-value>
+            <test  logic="AND" value="/damage/friction-hp">
+                /controls/engines/active-engine eq 0
+            </test>
+            <output>/fdm/jsbsim/propulsion/engine[0]/friction-hp</output>
+        </switch>
+
+        <switch name="/damage/engine-1-friction-hp">
+            <default-value>1.5</default-value>
+            <test  logic="AND" value="/damage/friction-hp">
+                /controls/engines/active-engine eq 1
+            </test>
+            <output>/fdm/jsbsim/propulsion/engine[1]/friction-hp</output>
+        </switch>
     </channel>
 </system>

@@ -335,6 +335,9 @@
             <baggage>
                 <property>sim/multiplay/generic/float[2]</property>
             </baggage>
+             <oil>
+                <property>sim/multiplay/generic/float[18]</property>
+            </oil>
         </doors>
         <windows>
             <left>sim/multiplay/generic/float[3]</left>
@@ -439,19 +442,22 @@
     <!-- Normal shader effect. Separate effects required for each normal map and dirt texture -->
     <effect>
         <inherits-from>Effects/exterior/dirt-leading-edge</inherits-from>
-        <object-name>wing_leading_edge</object-name>
+        <object-name>wing_leading_edge_left</object-name>
+        <object-name>wing_leading_edge_right</object-name>
     </effect>
     <effect>
         <inherits-from>Effects/exterior/dirt-wing</inherits-from>
         <object-name>flaps</object-name>
         <object-name>leftaileron</object-name>
         <object-name>rightaileron</object-name>
-        <object-name>wing_1.001</object-name>
+        <!--object-name>wing_1.001</object-name-->
+        <object-name>wing_left</object-name>
+        <object-name>wing_center</object-name>
+        <object-name>wing_right</object-name>
         <object-name>PitotTube</object-name>
-        <object-name>FuelCapPort</object-name>
-        <object-name>FuelCapStarboard</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
+        <object-name>sumpports</object-name>
     </effect>
     <effect>
         <inherits-from>Effects/exterior/dirt-fuselage</inherits-from>
@@ -497,7 +503,28 @@
         <object-name>ruddercablerighthinge</object-name>
         <object-name>windowframeleftext</object-name>
         <object-name>windowframerightext</object-name>
+        <object-name>oildoor</object-name>
+        <object-name>vent</object-name>
+        <object-name>handle</object-name>
+        <object-name>airvent</object-name>
+        <object-name>lighttaxi</object-name>
+        <object-name>lightlanding</object-name>
     </effect>
+
+    <effect>
+        <inherits-from>Effects/exterior/bumpspec</inherits-from>
+        <object-name>oilcompartment</object-name>
+        <object-name>OilCap</object-name>
+        <object-name>wing_0</object-name>
+        <object-name>wing_1Ledge</object-name>
+        <object-name>wing_1Redge</object-name>
+        <object-name>FuelCapPort</object-name>
+        <object-name>FuelCapStarboard</object-name>
+        <object-name>fuelportstarport</object-name>
+        <object-name>fuelportstarboard</object-name>
+        <object-name>fuelcompartment</object-name>
+    </effect>
+
     <effect>
         <inherits-from>Effects/exterior/dirt-tail</inherits-from>
         <object-name>elevatorleft</object-name>
@@ -507,16 +534,9 @@
         <object-name>rudder_1</object-name>
         <object-name>vstab</object-name>
     </effect>
-    <effect>
-        <inherits-from>Effects/exterior/bumpspec-wing</inherits-from>
-        <object-name>wing_0</object-name>
-        <object-name>landinglight2</object-name>
-        <object-name>landinglight1</object-name>
-    </effect>
 
     <effect>
         <inherits-from>Effects/model-transparent</inherits-from>
-        <object-name>landinglightcover</object-name>
         <object-name>strobe1</object-name>
         <object-name>strobe2</object-name>
         <object-name>BeaconOffX</object-name>
@@ -533,6 +553,7 @@
         <object-name>glas</object-name>
         <object-name>leftwindow</object-name>
         <object-name>rightwindow</object-name>
+        <object-name>landinglightcover</object-name>
     </effect>
 
     <!-- Specularity fix -->
@@ -543,10 +564,6 @@
         <object-name>LeftWheelBrake</object-name>
         <object-name>RightWheelBrake</object-name>
         <object-name>baggagedoorexterior</object-name>
-        <object-name>charniere1</object-name>
-        <object-name>charniere2</object-name>
-        <object-name>charniere3</object-name>
-        <object-name>charniere4</object-name>
         <object-name>elevatorleft</object-name>
         <object-name>elevatorright</object-name>
         <object-name>elevatortrim</object-name>
@@ -562,17 +579,22 @@
         <object-name>rightdoor</object-name>
         <object-name>rudder_1</object-name>
         <object-name>vstab</object-name>
-        <object-name>wing_1.001</object-name>
-        <object-name>wing_leading_edge</object-name>
+       <!--object-name>wing_1.001</object-name-->
+        <object-name>wing_left</object-name>
+        <object-name>wing_center</object-name>
+        <object-name>wing_right</object-name>
+        <object-name>wing_leading_edge_left</object-name>
+        <object-name>wing_leading_edge_right</object-name>
+        <object-name>wing_1Ledge</object-name>
+        <object-name>wing_1Redge</object-name>
         <object-name>Spinner</object-name>
         <object-name>radi_box</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
-        <object-name>landinglight1</object-name>
-        <object-name>BeaconMount</object-name>
-        <object-name>FuelCapPort</object-name>
-        <object-name>FuelCapStarboard</object-name>
         <object-name>ruddercableports</object-name>
+        <object-name>oildoor</object-name>
+        <object-name>vent</object-name>
+        <object-name>airvent</object-name>
         <shininess>116</shininess>
         <specular>
             <r>1</r>
@@ -589,12 +611,24 @@
     <!-- Specularity fix -->
     <animation>
         <type>material</type>
+        <object-name>charniere1</object-name>
+        <object-name>charniere2</object-name>
+        <object-name>charniere3</object-name>
+        <object-name>charniere4</object-name>
         <object-name>NoseWheelStrut</object-name>
         <object-name>leftdoorhandle</object-name>
         <object-name>rightdoorhandle</object-name>
         <object-name>baggagedoorhandle</object-name>
         <object-name>windowframeleftext</object-name>
         <object-name>windowframerightext</object-name>
+        <object-name>FuelCapPort</object-name>
+        <object-name>FuelCapStarboard</object-name>
+        <object-name>OilCap</object-name>
+        <object-name>handle</object-name>
+        <object-name>BeaconMount</object-name>
+        <object-name>sumpports</object-name>
+        <object-name>lighttaxi</object-name>
+        <object-name>lightlanding</object-name>
         <shininess>128</shininess>
         <specular>
             <r>1</r>
@@ -608,7 +642,7 @@
         </ambient>
     </animation>
 
-    <!-- interior effects  -->
+    <!-- interior effects -->
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/c172p-interior-radiance</inherits-from>
         <object-name>TrimWheel</object-name>
@@ -697,6 +731,7 @@
         <object-name>leftwindow_interior</object-name>
         <object-name>rightwindow_interior</object-name>
         <object-name>glas_interior_sides</object-name>
+        <object-name>glas_interior_back</object-name>
     </effect>
 
     <!-- Gear Damage Spark and Smoke Mod -->
@@ -1157,7 +1192,7 @@
         <offsets>
             <x-m>-0.56</x-m>
             <y-m>-0.24</y-m>
-            <z-m>-0.65</z-m>
+            <z-m>-0.61</z-m>
         </offsets>
     </model>
     <model>
@@ -1166,7 +1201,7 @@
         <offsets>
             <x-m>-0.56</x-m>
             <y-m> 0.24</y-m>
-            <z-m>-0.65</z-m>
+            <z-m>-0.61</z-m>
         </offsets>
     </model>
 
@@ -2437,12 +2472,79 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>dialog-show</command>
-                <dialog-name>c172p-left-fuel-dialog</dialog-name>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
+                <command>property-toggle</command>
+                <property>sim/model/open-pfuel-cap</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/open-pfuel-cap");
+                    if (show)
+                        fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));
+                    else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/engines/active-engine/running</property>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't refuel with the engine running!", 2);
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                    </not>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't refuel while in the air!", 2);
+                </script>
             </binding>
         </action>
         <hovered>
             <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>fuel-cap-port</tooltip-id>
                 <label>Fuel Cap</label>
@@ -2457,17 +2559,260 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>dialog-show</command>
-                <dialog-name>c172p-right-fuel-dialog</dialog-name>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
+                <command>property-toggle</command>
+                <property>sim/model/open-sfuel-cap</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/open-sfuel-cap");
+                    if (show)
+                        fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-right-fuel-dialog"}));
+                    else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-dialog"}));
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/engines/active-engine/running</property>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't refuel with the engine running!");
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                    </not>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't refuel while in the air!");
+                </script>
             </binding>
         </action>
         <hovered>
             <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>fuel-cap-starboard</tooltip-id>
                 <label>Fuel Cap</label>
             </binding>
         </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>FuelCapPort</object-name>
+        <property>sim/model/open-pfuel-cap</property>
+        <factor>0.1</factor>
+        <axis>
+            <x> 0.15</x>
+            <y>-0.05</y>
+            <z> 0.5</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>FuelCapStarboard</object-name>
+        <property>sim/model/open-sfuel-cap</property>
+        <factor>0.1</factor>
+        <axis>
+            <x>0.15</x>
+            <y>0.05</y>
+            <z>0.5</z>
+        </axis>
+    </animation>
+
+    <!-- Oil door pick --> 
+    <animation>
+        <type>pick</type>
+        <object-name>oildoor</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    var engine = getprop("controls/engines/active-engine");
+                    if (!engine)
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
+                    else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+                    setprop("sim/model/show-dip-stick", 0);
+                    c172p.oilDoor.toggle();
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <property>/engines/active-engine/running</property>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check the oil level with the engine running!", 2);
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <or>
+                                <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                                <property>/fdm/jsbsim/hydro/active-norm</property>
+                            </or>
+                        </not>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check the oil level while in the air!", 2);
+                </script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>oil-door</tooltip-id>
+                <label>Oil Door</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <!-- Oil door animation -->
+    <animation>
+        <type>rotate</type>
+        <object-name>oildoor</object-name>
+        <property alias="../../params/doors/oil/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>-45.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>-90.0</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x1-m>-0.80485</x1-m>
+            <y1-m> 0.23079</y1-m>
+            <z1-m> 0.16388</z1-m>
+            <x2-m>-0.88058</x2-m>
+            <y2-m> 0.2303</y2-m>
+            <z2-m> 0.16328</z2-m>
+        </axis>
+    </animation>
+
+    <!-- Vent animation -->
+    <animation>
+        <type>rotate</type>
+        <object-name>airvent</object-name>
+        <object-name>airventhole</object-name>
+        <property>/environment/aircraft-effects/cabin-air-set</property>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>7.5</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>15.0</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x1-m>-0.49202</x1-m>
+            <y1-m> 0.52131</y1-m>
+            <z1-m>-0.23855</z1-m>
+            <x2-m>-0.49239</x2-m>
+            <y2-m> 0.52263</y2-m>
+            <z2-m>-0.28139</z2-m>
+        </axis>
     </animation>
 
     <!-- Door animation -->
@@ -2503,10 +2848,10 @@
         </interpolation>
         <axis>
             <x1-m>-0.117</x1-m>
-            <y1-m>0.530</y1-m>
+            <y1-m> 0.530</y1-m>
             <z1-m>-0.376</z1-m>
             <x2-m>-0.054</x2-m>
-            <y2-m>0.535</y2-m>
+            <y2-m> 0.535</y2-m>
             <z2-m>-0.117</z2-m>
         </axis>
     </animation>
@@ -3752,14 +4097,14 @@
         <property alias="/params/engine/rpm"/>
         <factor>-1</factor>
         <center>
-            <x-m>-1.79</x-m>
-            <y-m>0</y-m>
-            <z-m>-0.05</z-m>
+            <x-m>-1.96139</x-m>
+            <y-m>0.00127</y-m>
+            <z-m>-0.0519</z-m>
         </center>
         <axis>
             <x>1.0</x>
             <y>0.0</y>
-            <z>-0.05240773494</z>
+            <z>0.0</z>
         </axis>
     </animation>
     <animation>
@@ -3769,16 +4114,17 @@
         <property alias="/params/engine/rpm"/>
         <factor>-0.001</factor>
         <center>
-            <x-m>-1.79</x-m>
-            <y-m>0</y-m>
-            <z-m>-0.05</z-m>
+            <x-m>-1.96139</x-m>
+            <y-m>0.00127</y-m>
+            <z-m>-0.0519</z-m>
         </center>
         <axis>
             <x>1.0</x>
             <y>0.0</y>
-            <z>-0.05240773494</z>
+            <z>0.0</z>
         </axis>
     </animation>
+
     <animation>
         <type>rotate</type>
         <object-name>leftaileron</object-name>
@@ -4843,8 +5189,12 @@
     <!-- Wings No Damage -->
     <animation>
         <type>select</type>
-        <object-name>wing_1.001</object-name>
-        <object-name>wing_leading_edge</object-name>
+       <!--object-name>wing_1.001</object-name-->
+        <object-name>wing_left</object-name>
+        <object-name>wing_center</object-name>
+        <object-name>wing_right</object-name>
+        <object-name>wing_leading_edge_left</object-name>
+        <object-name>wing_leading_edge_right</object-name>
         <object-name>wing_0</object-name>
         <object-name>wing_1L</object-name>
         <object-name>wing_1R</object-name>
@@ -5713,7 +6063,6 @@
     <animation>
         <type>select</type>
         <object-name>LeftWheel</object-name>
-        <object-name>LeftWheelBrake</object-name>
         <condition>
             <and>
                 <not>
@@ -5765,6 +6114,7 @@
     <animation>
         <type>select</type>
         <object-name>LeftWheelStrut</object-name>
+        <object-name>LeftWheelBrake</object-name>
         <condition>
             <and>
                 <not>
@@ -5870,7 +6220,6 @@
     <animation>
         <type>select</type>
         <object-name>RightWheel</object-name>
-        <object-name>RightWheelBrake</object-name>
         <condition>
             <and>
                 <not>
@@ -5922,6 +6271,7 @@
     <animation>
         <type>select</type>
         <object-name>RightWheelStrut</object-name>
+        <object-name>RightWheelBrake</object-name>
         <condition>
             <and>
                 <not>
@@ -6262,6 +6612,7 @@
     <animation>
         <type>select</type>
         <object-name>landinglight</object-name>
+        <object-name>landinglight1</object-name>
         <nopreview/>
         <condition>
             <and>
@@ -6277,6 +6628,7 @@
     <animation>
         <type>select</type>
         <object-name>taxilight</object-name>
+        <object-name>taxilight1</object-name>
         <nopreview/>
         <condition>
             <and>
@@ -6287,45 +6639,6 @@
             </and>
         </condition>
     </animation>
-
-    <!-- Recessed Light Off -->
-    <animation>
-        <type>select</type>
-        <object-name>landinglight1</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <not>
-                    <property alias="/params/lighting/landing/property"/>
-                </not>
-                <not>
-                    <property alias="/params/lighting/taxi/property"/>
-                </not>
-                <not>
-                    <property>/sim/rendering/rembrandt/enabled</property>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Recessed Light  On -->
-    <animation>
-        <type>select</type>
-        <object-name>landinglight2</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <or>
-                    <property alias="/params/lighting/landing/property"/>
-                    <property alias="/params/lighting/taxi/property"/>
-                </or>
-                <not>
-                    <property>/sim/rendering/rembrandt/enabled</property>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
 
     <animation>
         <type>light</type>
@@ -6849,6 +7162,10 @@
         <object-name>ruddercableports</object-name>
         <object-name>windowframeleftext</object-name>
         <object-name>windowframerightext</object-name>
+        <object-name>oildoor</object-name>
+        <object-name>vent</object-name>
+        <object-name>handle</object-name>
+        <object-name>airvent</object-name>
         <!-- damage mod -->
         <object-name>RightWheelStrutBKD</object-name>
         <object-name>LeftWheelStrutBKD</object-name>
@@ -6876,11 +7193,17 @@
     <animation>
         <type>material</type>
         <!--global type="bool">true</global-->
-        <object-name>wing_1.001</object-name>
-        <object-name>wing_leading_edge</object-name>
+       <!--object-name>wing_1.001</object-name-->
+        <object-name>wing_left</object-name>
+        <object-name>wing_center</object-name>
+        <object-name>wing_right</object-name>
+        <object-name>wing_leading_edge_left</object-name>
+        <object-name>wing_leading_edge_right</object-name>
         <object-name>flaps</object-name>
         <object-name>rightaileron</object-name>
         <object-name>leftaileron</object-name>
+        <object-name>wing_1Ledge</object-name>
+        <object-name>wing_1Redge</object-name>
         <!-- damage mod -->
         <object-name>wingRD</object-name>
         <object-name>wingLD</object-name>
@@ -8435,16 +8758,85 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/consumables/fuel/contamination_allowed</property>
+                    <and>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
                 </condition>
-                <command>dialog-show</command>
-                <dialog-name>c172p-left-fuel-sample-dialog</dialog-name>
+                <command>property-toggle</command>
+                <property>sim/model/open-pfuel-sump</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/open-pfuel-sump");
+                    if (show)
+                        fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));
+                   else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <property>/engines/active-engine/running</property>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check for fuel contamination with the engine running!", 2);
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <or>
+                                <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                                <property>/fdm/jsbsim/hydro/active-norm</property>
+                            </or>
+                        </not>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check for fuel contamination while in the air!", 2);
+                </script>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/consumables/fuel/contamination_allowed</property>
+                    <and>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>left-tank-drain-sump</tooltip-id>
@@ -8475,16 +8867,85 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/consumables/fuel/contamination_allowed</property>
+                    <and>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
                 </condition>
-                <command>dialog-show</command>
-                <dialog-name>c172p-right-fuel-sample-dialog</dialog-name>
+                <command>property-toggle</command>
+                <property>sim/model/open-sfuel-sump</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/open-sfuel-sump");
+                    if (show)
+                        fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));
+                    else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <property>/engines/active-engine/running</property>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check for fuel contamination with the engine running!", 2);
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <or>
+                                <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                                <property>/fdm/jsbsim/hydro/active-norm</property>
+                            </or>
+                        </not>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check for fuel contamination while in the air!", 2);
+                </script>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/consumables/fuel/contamination_allowed</property>
+                    <and>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>right-tank-drain-sump</tooltip-id>
@@ -8495,20 +8956,8 @@
     
     <!-- oil level check -->
     <animation>
-        <type>select</type>
-        <object-name>OilDoorHotSpot</object-name>
-            <condition>
-                <and>
-                    <property>/engines/active-engine/oil_consumption_allowed</property>
-                    <not>
-                        <property>/sim/current-view/internal</property>
-                    </not>
-                </and>
-            </condition>
-    </animation>
-    <animation>
         <type>pick</type>
-        <object-name>OilDoorHotSpot</object-name>
+        <object-name>OilCap</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -8525,17 +8974,17 @@
                             <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
                             <property>/fdm/jsbsim/hydro/active-norm</property>
                         </or>
-                        <equals>
-                            <property>/controls/engines/active-engine</property>
-                            <value>0</value>
-                        </equals>
                         <not>
                             <property>/sim/current-view/internal</property>
                         </not>
+                        <equals>
+                            <property>sim/model/door-positions/oilDoor/position-norm</property>
+                            <value>1</value>
+                        </equals>
                     </and>
                 </condition>
-                <command>dialog-show</command>
-                <dialog-name>c172p-oil-dialog-160</dialog-name>
+                <command>property-toggle</command>
+                <property>sim/model/show-dip-stick</property>
             </binding>
             <binding>
                 <condition>
@@ -8550,31 +8999,38 @@
                             <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
                             <property>/fdm/jsbsim/hydro/active-norm</property>
                         </or>
-                        <equals>
-                            <property>/controls/engines/active-engine</property>
-                            <value>1</value>
-                        </equals>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
                     </and>
                 </condition>
-                <command>dialog-show</command>
-                <dialog-name>c172p-oil-dialog-180</dialog-name>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/show-dip-stick");
+                    var engine = getprop("controls/engines/active-engine");
+                    if (show) {
+                        if (!engine)
+                            fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
+                        else
+                            fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+                    } else {
+                        if (!engine)
+                            fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
+                        else
+                            fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+                    }
+                </script>
             </binding>
             <binding>
                 <condition>
                     <and>
                         <property>/engines/active-engine/running</property>
-                        <or>
-                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
-                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
-                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
-                            <property>/fdm/jsbsim/hydro/active-norm</property>
-                        </or>
                         <property>/engines/active-engine/oil_consumption_allowed</property>
                     </and>
                 </condition>
                 <command>nasal</command>
                 <script>
-                    gui.popupTip("You can't check the oil level with the engine running!");
+                    gui.popupTip("You can't check the oil level with the engine running!", 2);
                 </script>
             </binding>
             <binding>
@@ -8593,7 +9049,7 @@
                 </condition>
                 <command>nasal</command>
                 <script>
-                    gui.popupTip("You can't check the oil level while in the air!");
+                    gui.popupTip("You can't check the oil level while in the air!", 2);
                 </script>
             </binding>
         </action>
@@ -8618,6 +9074,18 @@
                 <label>Oil Sump</label>
             </binding>
         </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>OilCap</object-name>
+        <property>sim/model/show-dip-stick</property>
+        <factor>0.3</factor>
+        <axis>
+            <x>0.01</x>
+            <y>0.15</y>
+            <z>1.0</z>
+        </axis>
     </animation>
     
     <model>

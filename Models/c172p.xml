@@ -507,6 +507,8 @@
         <object-name>vent</object-name>
         <object-name>handle</object-name>
         <object-name>airvent</object-name>
+        <object-name>lighttaxi</object-name>
+        <object-name>lightlanding</object-name>
     </effect>
 
     <effect>
@@ -514,8 +516,6 @@
         <object-name>oilcompartment</object-name>
         <object-name>OilCap</object-name>
         <object-name>wing_0</object-name>
-        <object-name>landinglight2</object-name>
-        <object-name>landinglight1</object-name>
         <object-name>wing_1Ledge</object-name>
         <object-name>wing_1Redge</object-name>
         <object-name>FuelCapPort</object-name>
@@ -537,7 +537,6 @@
 
     <effect>
         <inherits-from>Effects/model-transparent</inherits-from>
-        <object-name>landinglightcover</object-name>
         <object-name>strobe1</object-name>
         <object-name>strobe2</object-name>
         <object-name>BeaconOffX</object-name>
@@ -554,6 +553,7 @@
         <object-name>glas</object-name>
         <object-name>leftwindow</object-name>
         <object-name>rightwindow</object-name>
+        <object-name>landinglightcover</object-name>
     </effect>
 
     <!-- Specularity fix -->
@@ -591,7 +591,6 @@
         <object-name>radi_box</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
-        <object-name>landinglight1</object-name>
         <object-name>ruddercableports</object-name>
         <object-name>oildoor</object-name>
         <object-name>vent</object-name>
@@ -628,6 +627,8 @@
         <object-name>handle</object-name>
         <object-name>BeaconMount</object-name>
         <object-name>sumpports</object-name>
+        <object-name>lighttaxi</object-name>
+        <object-name>lightlanding</object-name>
         <shininess>128</shininess>
         <specular>
             <r>1</r>
@@ -6611,6 +6612,7 @@
     <animation>
         <type>select</type>
         <object-name>landinglight</object-name>
+        <object-name>landinglight1</object-name>
         <nopreview/>
         <condition>
             <and>
@@ -6626,6 +6628,7 @@
     <animation>
         <type>select</type>
         <object-name>taxilight</object-name>
+        <object-name>taxilight1</object-name>
         <nopreview/>
         <condition>
             <and>
@@ -6636,45 +6639,6 @@
             </and>
         </condition>
     </animation>
-
-    <!-- Recessed Light Off -->
-    <animation>
-        <type>select</type>
-        <object-name>landinglight1</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <not>
-                    <property alias="/params/lighting/landing/property"/>
-                </not>
-                <not>
-                    <property alias="/params/lighting/taxi/property"/>
-                </not>
-                <not>
-                    <property>/sim/rendering/rembrandt/enabled</property>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Recessed Light  On -->
-    <animation>
-        <type>select</type>
-        <object-name>landinglight2</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <or>
-                    <property alias="/params/lighting/landing/property"/>
-                    <property alias="/params/lighting/taxi/property"/>
-                </or>
-                <not>
-                    <property>/sim/rendering/rembrandt/enabled</property>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
 
     <animation>
         <type>light</type>

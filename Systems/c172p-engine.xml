@@ -66,7 +66,7 @@
     </channel>
 
     <channel name="damage">
-        <fcs_function name="/damage/rpm-over-redline">
+        <fcs_function name="engine/rpm-over-redline">
             <function>
                 <sum>
                     <property>/engines/active-engine/rpm</property>
@@ -78,8 +78,21 @@
                 <max>10000</max>
             </clipto>
         </fcs_function>
+		
+		 <fcs_function name="engine/oil-temp-above-max">
+            <function>
+                <sum>
+                    <property>/engines/active-engine/oil-temperature-degf</property>
+                    <value>-245</value>
+                </sum>
+            </function>
+            <clipto>
+                <min>0</min>
+                <max>1000</max>
+            </clipto>
+        </fcs_function>
 
-        <fcs_function name="/damage/damage-level">
+        <fcs_function name="engine/damage-level">
               <function>
                 <ifthen>
                     <eq>
@@ -87,10 +100,10 @@
                         <v>1</v>
                     </eq>
                     <sum>
-                        <property>/damage/damage-level</property>
+                        <property>engine/damage-level</property>
                         <product>
                            <table>
-                                <independentVar lookup="row">/damage/rpm-over-redline</independentVar>
+                                <independentVar lookup="row">engine/rpm-over-redline</independentVar>
                                 <tableData>
                                     0    0
                                   100    1
@@ -126,7 +139,7 @@
                         <product>
                             <v>0.00008</v>
                             <pow>
-                                <property>/damage/damage-level</property>
+                                <property>engine/damage-level</property>
                                 <v>2</v>
                             </pow>
                         </product>
@@ -139,20 +152,20 @@
                 <min>0.001</min>
                 <max>10000</max>
             </clipto>
-            <output>/damage/friction-hp</output>
+            <output>engine/friction-hp</output>
         </fcs_function>
 
-        <switch name="/damage/engine-0-friction-hp">
+        <switch name="engine/engine-0-friction-hp">
             <default-value>1.5</default-value>
-            <test  logic="AND" value="/damage/friction-hp">
+            <test  logic="AND" value="engine/friction-hp">
                 /controls/engines/active-engine eq 0
             </test>
             <output>/fdm/jsbsim/propulsion/engine[0]/friction-hp</output>
         </switch>
 
-        <switch name="/damage/engine-1-friction-hp">
+        <switch name="engine/engine-1-friction-hp">
             <default-value>1.5</default-value>
-            <test  logic="AND" value="/damage/friction-hp">
+            <test  logic="AND" value="engine/friction-hp">
                 /controls/engines/active-engine eq 1
             </test>
             <output>/fdm/jsbsim/propulsion/engine[1]/friction-hp</output>

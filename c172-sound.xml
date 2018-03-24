@@ -95,15 +95,27 @@
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
         </crank>
-
-        <engine>
-            <name>engine</name>
+        
+        <engine-idle>
+            <name>engine-idle</name>
             <mode>looped</mode>
-            <path>Sounds/wasp.wav</path>
-            <property>/engines/active-engine/running</property>
+            <path>Sounds/engine-idle.wav</path>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/engines/active-engine/rpm</property>
+                        <value>10</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/engines/active-engine/rpm</property>
+                        <value>1200</value>
+                    </less-than>
+                </and>
+            </condition>
             <volume>
-                <property>/engines/active-engine/mp-osi</property>
-                <factor>0.025</factor>
+                <property>/engines/active-engine/rpm</property>
+                <factor>0.00035</factor>
+                <offset>0.05</offset>
                 <min>0.35</min>
                 <max>0.70</max>
             </volume>
@@ -112,23 +124,23 @@
             </volume>
             <pitch>
                 <property>/engines/active-engine/rpm</property>
-                <factor>0.0004</factor>
+                <factor>0.0005</factor>
                 <min>0.0</min>
                 <max>2.0</max>
                 <offset>0.01</offset>
             </pitch>
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
-        </engine>
+        </engine-idle>
 
-        <propeller>
+        <engine>
             <name>propeller</name>
             <mode>looped</mode>
-            <path>Sounds/wasp.wav</path>
+            <path>Sounds/engine.wav</path>
             <condition>
                 <greater-than>
                     <property>/engines/active-engine/rpm</property>
-                    <value>10</value>
+                    <value>1200</value>
                 </greater-than>
             </condition>
             <volume>
@@ -148,7 +160,7 @@
             </pitch>
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
-        </propeller>
+        </engine>
         
         <gyro>
             <name>gyro</name>
@@ -539,6 +551,40 @@
             <path>Sounds/lever.wav</path>
             <condition>
                 <property>/sim/model/c172p/sound/click-parking</property>
+            </condition>
+            <position>
+                <x>-0.3660</x>
+                <y>0.2000</y>
+                <z>-0.4500</z>
+            </position>
+            <reference-dist>0.2</reference-dist>
+            <max-dist>5.0</max-dist>
+        </switch>
+        
+        <switch>
+            <name>click-primer-out</name>
+            <mode>once</mode>
+            <path>Sounds/primer-out.wav</path>
+            <condition>
+                <property>/controls/engines/engine/primer-lever</property>
+            </condition>
+            <position>
+                <x>-0.3660</x>
+                <y>0.2000</y>
+                <z>-0.4500</z>
+            </position>
+            <reference-dist>0.2</reference-dist>
+            <max-dist>5.0</max-dist>
+        </switch>
+        
+        <switch>
+            <name>click-primer-in</name>
+            <mode>once</mode>
+            <path>Sounds/primer-in.wav</path>
+            <condition>
+                <not>
+                    <property>/controls/engines/engine/primer-lever</property>
+                </not>
             </condition>
             <position>
                 <x>-0.3660</x>

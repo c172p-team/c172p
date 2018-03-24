@@ -507,8 +507,6 @@
         <object-name>vent</object-name>
         <object-name>handle</object-name>
         <object-name>airvent</object-name>
-        <object-name>lighttaxi</object-name>
-        <object-name>lightlanding</object-name>
     </effect>
 
     <effect>
@@ -523,6 +521,8 @@
         <object-name>fuelportstarport</object-name>
         <object-name>fuelportstarboard</object-name>
         <object-name>fuelcompartment</object-name>
+        <object-name>lighttaxi</object-name>
+        <object-name>lightlanding</object-name>
     </effect>
 
     <effect>
@@ -570,6 +570,7 @@
         <object-name>fairing1</object-name>
         <object-name>fairing2</object-name>
         <object-name>fairing3</object-name>
+        <object-name>Axle</object-name>
         <object-name>flaps</object-name>
         <object-name>fuselage_1.001</object-name>
         <object-name>hstab</object-name>
@@ -593,6 +594,8 @@
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
         <object-name>ruddercableports</object-name>
+        <object-name>ruddercablelefthinge</object-name>
+        <object-name>ruddercablerighthinge</object-name>
         <object-name>oildoor</object-name>
         <object-name>vent</object-name>
         <object-name>airvent</object-name>
@@ -5168,45 +5171,21 @@
         </condition>
     </animation>
 
-    <!-- Wing Flaps Damage -->
-    <animation>
-        <type>select</type>
-        <object-name>flapsD</object-name>
-        <condition>
-            <or>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>0</value>
-                </not-equals>
-                <not-equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>0</value>
-                </not-equals>
-                <property alias="/params/crash/property"/>
-            </or>
-        </condition>
-    </animation>
-
     <!-- Wings No Damage -->
     <animation>
         <type>select</type>
-       <!--object-name>wing_1.001</object-name-->
         <object-name>wing_left</object-name>
-        <object-name>wing_center</object-name>
         <object-name>wing_right</object-name>
         <object-name>wing_leading_edge_left</object-name>
         <object-name>wing_leading_edge_right</object-name>
-        <object-name>wing_leading_edge_center</object-name>
         <object-name>wing_0</object-name>
-        <object-name>wing_1L</object-name>
-        <object-name>wing_1R</object-name>
-        <object-name>wing_1C</object-name>
         <object-name>rightaileron</object-name>
         <object-name>leftaileron</object-name>
-        <object-name>flaps</object-name>
         <object-name>RightNavLight</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>landinglightcover</object-name>
+        <object-name>lighttaxi</object-name>
+        <object-name>lightlanding</object-name>
         <condition>
             <and>
                 <equals>
@@ -5224,38 +5203,50 @@
         </condition>
     </animation>
 
-    <!-- Wings Both Collapsed -->
+    <!-- Wings Collapsed -->
     <animation>
         <type>select</type>
-        <object-name>wing_1Collapse</object-name>
-        <object-name>wing_0Collapse</object-name>
-        <object-name>rightaileronCollapse</object-name>
-        <object-name>leftaileronCollapse</object-name>
-        <object-name>RightNavLightCollapse</object-name>
-        <object-name>LeftNavLightCollapse</object-name>
-        <object-name>landinglightcoverCollapse</object-name>
-        <object-name>landinglight2Collapse</object-name>
+        <object-name>wing_right_C</object-name>
+        <object-name>RightNavLight_C</object-name>
+        <object-name>rightaileron_C</object-name>
+        <object-name>wing_0_C</object-name>
+        <object-name>wing_leading_edge_right_C</object-name>
+        <object-name>wing_left_C</object-name>
+        <object-name>LeftNavLight_C</object-name>
+        <object-name>leftaileron_C</object-name>
+        <object-name>wing_leading_edge_left_C</object-name>
+        <object-name>lighttaxi_C</object-name>
+        <object-name>lightlanding_C</object-name>
         <condition>
             <property alias="/params/crash/property"/>
         </condition>
     </animation>
 
-    <!-- Wings Both Broken -->
+    <!-- Wings Broken -->
     <animation>
         <type>select</type>
-        <object-name>wing_1BB</object-name>
+        <object-name>wing_center_broke_left</object-name>
         <condition>
             <and>
-                <and>
-                    <equals>
-                        <property alias="/params/wing_left_damaged/property"/>
-                        <value>1</value>
-                    </equals>
-                    <equals>
-                        <property alias="/params/wing_right_damaged/property"/>
-                        <value>1</value>
-                    </equals>
-                </and>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>wing_center_broke_right</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>1</value>
+                </equals>
                 <not>
                     <property alias="/params/crash/property"/>
                 </not>
@@ -5263,23 +5254,15 @@
         </condition>
     </animation>
 
-    <!-- Wings Both Damaged -->
+    <!-- Wings Right Damaged -->
     <animation>
         <type>select</type>
-        <object-name>wing_0BD</object-name>
-        <object-name>wing_1BD</object-name>
-        <object-name>rightaileronBD</object-name>
-        <object-name>leftaileronBD</object-name>
-        <object-name>RightNavLightBD</object-name>
-        <object-name>LeftNavLightBD</object-name>
-        <object-name>landinglightcoverBD</object-name>
-        <object-name>landinglight2BD</object-name>
+        <object-name>wing_right_D</object-name>
+        <object-name>rightaileron_D</object-name>
+        <object-name>RightNavLight_D</object-name>
+        <object-name>wing_leading_edge_right_D</object-name>
         <condition>
             <and>
-                <equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>2</value>
-                </equals>
                 <equals>
                     <property alias="/params/wing_right_damaged/property"/>
                     <value>2</value>
@@ -5294,149 +5277,19 @@
     <!-- Wings Left Damaged -->
     <animation>
         <type>select</type>
-        <object-name>wing_0LD</object-name>
-        <object-name>wing_1LD</object-name>
-        <object-name>rightaileronLD</object-name>
-        <object-name>leftaileronLD</object-name>
-        <object-name>LeftNavLightD</object-name>
-        <object-name>RightNavLightU</object-name>
-        <object-name>landinglightcoverLD</object-name>
-        <object-name>landinglight2LD</object-name>
+        <object-name>wing_0_D</object-name>
+        <object-name>wing_left_D</object-name>
+        <object-name>LeftNavLight_D</object-name>
+        <object-name>leftaileron_D</object-name>
+        <object-name>wing_leading_edge_left_D</object-name>
+        <!--object-name>landinglightcover_D</object-name-->
+        <object-name>lighttaxi_D</object-name>
+        <object-name>lightlanding_D</object-name>
         <condition>
             <and>
                 <equals>
                     <property alias="/params/wing_left_damaged/property"/>
                     <value>2</value>
-                </equals>
-                <equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>0</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Wings Right Damaged -->
-    <animation>
-        <type>select</type>
-        <object-name>wing_0RD</object-name>
-        <object-name>wing_1RD</object-name>
-        <object-name>rightaileronRD</object-name>
-        <object-name>leftaileronRD</object-name>
-        <object-name>RightNavLightD</object-name>
-        <object-name>LeftNavLightU</object-name>
-        <object-name>landinglightcoverRD</object-name>
-        <object-name>landinglight2RD</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>2</value>
-                </equals>
-                <equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>0</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Wings Left Broken Right Damaged -->
-    <animation>
-        <type>select</type>
-        <object-name>wing_1RDLB</object-name>
-        <object-name>rightaileronRDLB</object-name>
-        <object-name>RightNavLightDLB</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>2</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Wings Right Broken Left Damaged -->
-    <animation>
-        <type>select</type>
-        <object-name>wing_0LDRB</object-name>
-        <object-name>wing_1LDRB</object-name>
-        <object-name>leftaileronLDRB</object-name>
-        <object-name>LeftNavLightDRB</object-name>
-        <object-name>landinglightcoverLDRB</object-name>
-        <object-name>landinglight2LDRB</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>2</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Wings Left Broken Right Un-damaged -->
-    <animation>
-        <type>select</type>
-        <object-name>wing_1RGLB</object-name>
-        <object-name>rightaileronRGLB</object-name>
-        <object-name>RightNavLightGLB</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>0</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Wings Right Broken Left Un-damaged -->
-    <animation>
-        <type>select</type>
-        <object-name>wing_0LGRB</object-name>
-        <object-name>wing_1LGRB</object-name>
-        <object-name>leftaileronLGRB</object-name>
-        <object-name>LeftNavLightGRB</object-name>
-        <object-name>landinglightcoverLGRB</object-name>
-        <object-name>landinglight2LGRB</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>1</value>
-                </equals>
-                <equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>0</value>
                 </equals>
                 <not>
                     <property alias="/params/crash/property"/>
@@ -6798,22 +6651,12 @@
 
     <!-- Strobe -->
 
-    <!-- Damage Mod -->
     <animation>
         <type>select</type>
         <object-name>strobe1</object-name>
         <nopreview/>
         <condition>
-            <and>
-                <property alias="/params/lighting/strobes"/>
-                <equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>0</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
+            <property alias="/params/lighting/strobes"/>
         </condition>
     </animation>
     <animation>
@@ -6821,62 +6664,9 @@
         <object-name>strobe2</object-name>
         <nopreview/>
         <condition>
-            <and>
-                <property alias="/params/lighting/strobes"/>
-                <equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>0</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
+            <property alias="/params/lighting/strobes"/>
         </condition>
     </animation>
-    <animation>
-        <type>select</type>
-        <object-name>strobe1BD</object-name>
-        <condition>
-            <and>
-                <property alias="/params/lighting/strobes"/>
-                <equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>2</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>strobe2BD</object-name>
-        <condition>
-            <and>
-                <property alias="/params/lighting/strobes"/>
-                <equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>2</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>strobe1Collapse</object-name>
-        <object-name>strobe2Collapse</object-name>
-        <condition>
-            <and>
-                <property alias="/params/lighting/strobes"/>
-                <property alias="/params/crash/property"/>
-            </and>
-        </condition>
-    </animation>
-    <!-- End Damage Mod -->
 
     <Plane.014Xparams>
         <light-near>0.8</light-near>
@@ -6898,7 +6688,122 @@
         <object-name>Plane.014XGroup</object-name>
         <alpha-factor>0.001</alpha-factor>
     </animation>
+
     <animation>
+        <type>translate</type>
+        <object-name>strobe1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+        <offset-m>5.760493</offset-m>
+        <axis>
+            <x> 0.105</x>
+            <y>-5.65777</y>
+            <z> 0.53365</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>strobe2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+        <offset-m>5.742337</offset-m>
+        <axis>
+            <x>0.105</x>
+            <y>5.65615</y>
+            <z>0.53459</z>
+        </axis>
+    </animation>
+
+    <!-- Damage Mod -->
+    <animation>
+        <type>translate</type>
+        <object-name>strobe1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+        <offset-m>5.760493</offset-m>
+        <axis>
+            <x>0.293912</x>
+            <y>-5.227128</y>
+            <z>0.999938</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>strobe2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+        <offset-m>5.742337</offset-m>
+        <axis>
+            <x>0.383912</x>
+            <y>5.708865</y>
+            <z>0.999938</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>strobe1</object-name>
+        <condition>
+            <property alias="/params/crash/property"/>
+        </condition>
+        <offset-m>5.460493</offset-m>
+        <axis>
+            <x>0.153912</x>
+            <y>-5.327128</y>
+            <z>-0.799938</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>strobe2</object-name>
+        <condition>
+            <property alias="/params/crash/property"/>
+        </condition>
+        <offset-m>5.342337</offset-m>
+        <axis>
+            <x>0.283912</x>
+            <y>5.308865</y>
+            <z>-0.799938</z>
+        </axis>
+    </animation>
+    <!-- End Damage Mod -->
+
+    <!--animation>
         <type>translate</type>
         <object-name>strobe1</object-name>
         <offset-m>5.760493</offset-m>
@@ -6917,9 +6822,9 @@
             <y>5.65615</y>
             <z>0.53459</z>
         </axis>
-    </animation>
+    </animation-->
 
-    <!-- Damage Mod -->
+    <!-- Damage Mod
     <animation>
         <type>translate</type>
         <object-name>strobe1BD</object-name>
@@ -6959,29 +6864,28 @@
             <y>5.308865</y>
             <z>-0.799938</z>
         </axis>
-    </animation>
-    <!-- End Damage Mod -->
+    </animation> -->
 
     <animation>
         <type>billboard</type>
         <object-name>strobe1</object-name>
         <object-name>strobe2</object-name>
-        <!-- Damage Mod -->
+        <!-- Damage Mod
         <object-name>strobe1BD</object-name>
         <object-name>strobe2BD</object-name>
         <object-name>strobe1Collapse</object-name>
-        <object-name>strobe2Collapse</object-name>
+        <object-name>strobe2Collapse</object-name> -->
         <spherical type="bool">true</spherical>
     </animation>
     <animation>
         <type>dist-scale</type>
         <object-name>strobe1</object-name>
         <object-name>strobe2</object-name>
-        <!-- Damage Mod -->
+        <!-- Damage Mod
         <object-name>strobe1BD</object-name>
         <object-name>strobe2BD</object-name>
         <object-name>strobe1Collapse</object-name>
-        <object-name>strobe2Collapse</object-name>
+        <object-name>strobe2Collapse</object-name> -->
         <interpolation>
             <entry>
                 <ind>0</ind>
@@ -7206,27 +7110,25 @@
         <object-name>leftaileron</object-name>
         <object-name>wing_1Ledge</object-name>
         <object-name>wing_1Redge</object-name>
+
         <!-- damage mod -->
-        <object-name>wingRD</object-name>
-        <object-name>wingLD</object-name>
-        <object-name>wingBD</object-name>
-        <object-name>wingBB</object-name>
-        <object-name>wingLB</object-name>
-        <object-name>wingRB</object-name>
-        <object-name>wingCollapse</object-name>
-        <object-name>flapsD</object-name>
-        <object-name>rightaileronRD</object-name>
-        <object-name>rightaileronLD</object-name>
-        <object-name>rightaileronBD</object-name>
-        <object-name>rightaileronCollapse</object-name>
-        <object-name>rightaileronRDLB</object-name>
-        <object-name>rightaileronRGLB</object-name>
-        <object-name>leftaileronRD</object-name>
-        <object-name>leftaileronLD</object-name>
-        <object-name>leftaileronBD</object-name>
-        <object-name>leftaileronCollapse</object-name>
-        <object-name>leftaileronLDRB</object-name>
-        <object-name>leftaileronLGRB</object-name>
+        <object-name>wing_right_C</object-name>
+        <object-name>rightaileron_C</object-name>
+        <object-name>wing_leading_edge_right_C</object-name>
+        <object-name>wing_left_C</object-name>
+        <object-name>leftaileron_C</object-name>
+        <object-name>wing_leading_edge_left_C</object-name>
+        <object-name>wing_center_broke_left</object-name>
+        <object-name>wing_center_broke_right</object-name>
+        <object-name>wing_left_D</object-name>
+        <object-name>LeftNavLight_D</object-name>
+        <object-name>leftaileron_D</object-name>
+        <object-name>wing_leading_edge_left_D</object-name>
+        <object-name>wing_right_D</object-name>
+        <object-name>RightNavLight_D</object-name>
+        <object-name>rightaileron_D</object-name>
+        <object-name>wing_leading_edge_right_D</object-name>
+
         <property-base>sim/model/liverywing/</property-base>
         <texture-prop>texture</texture-prop>
         <texture>wing.png</texture>

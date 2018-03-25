@@ -541,11 +541,6 @@
         <object-name>strobe2</object-name>
         <object-name>BeaconOffX</object-name>
         <object-name>Propeller.Fast</object-name>
-        <!-- damage mod -->
-        <object-name>strobe1BD</object-name>
-        <object-name>strobe2BD</object-name>
-        <object-name>strobe1Collapse</object-name>
-        <object-name>strobe2Collapse</object-name>
     </effect>
 
     <effect>
@@ -6813,50 +6808,13 @@
     </animation>
 
     <!-- Strobe -->
-
     <animation>
         <type>select</type>
         <object-name>strobe1</object-name>
         <nopreview/>
-        <condition>
-            <property alias="/params/lighting/strobes"/>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>strobe2</object-name>
-        <nopreview/>
-        <condition>
-            <property alias="/params/lighting/strobes"/>
-        </condition>
-    </animation>
-
-    <Plane.014Xparams>
-        <light-near>0.8</light-near>
-        <light-med>3.2</light-med>
-        <light-far>160</light-far>
-    </Plane.014Xparams>
-    <animation>
-        <name>Plane.014XGroup</name>
-        <object-name>strobe1</object-name>
-        <object-name>strobe2</object-name>
-        <!-- Damage Mod -->
-        <object-name>strobe1BD</object-name>
-        <object-name>strobe2BD</object-name>
-        <object-name>strobe1Collapse</object-name>
-        <object-name>strobe2Collapse</object-name>
-    </animation>
-    <animation>
-        <type>alpha-test</type>
-        <object-name>Plane.014XGroup</object-name>
-        <alpha-factor>0.001</alpha-factor>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-        <object-name>strobe1</object-name>
         <condition>
             <and>
+                <property alias="/params/lighting/strobes"/>
                 <equals>
                     <property alias="/params/wing_left_damaged/property"/>
                     <value>0</value>
@@ -6866,6 +6824,78 @@
                 </not>
             </and>
         </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>strobe2</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>strobe1D</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>strobe2D</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <Plane.014Xparams>
+        <light-near>0.8</light-near>
+        <light-med>3.2</light-med>
+        <light-far>160</light-far>
+    </Plane.014Xparams>
+    <animation>
+        <type>alpha-test</type>
+        <object-name>strobe1</object-name>
+        <object-name>strobe2</object-name>
+        <!-- Damage Mod -->
+        <object-name>strobe1D</object-name>
+        <object-name>strobe2D</object-name>
+        <alpha-factor>0.001</alpha-factor>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>strobe1</object-name>
         <offset-m>5.760493</offset-m>
         <axis>
             <x> 0.105</x>
@@ -6876,17 +6906,6 @@
     <animation>
         <type>translate</type>
         <object-name>strobe2</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>0</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
         <offset-m>5.742337</offset-m>
         <axis>
             <x>0.105</x>
@@ -6898,157 +6917,41 @@
     <!-- Damage Mod -->
     <animation>
         <type>translate</type>
-        <object-name>strobe1</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>2</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
+        <object-name>strobe1D</object-name>
         <offset-m>5.760493</offset-m>
         <axis>
-            <x>0.293912</x>
+            <x>0.294</x>
             <y>-5.227128</y>
-            <z>0.999938</z>
+            <z>.75</z>
         </axis>
     </animation>
     <animation>
         <type>translate</type>
-        <object-name>strobe2</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>2</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
+        <object-name>strobe2D</object-name>
         <offset-m>5.742337</offset-m>
         <axis>
-            <x>0.383912</x>
+            <x>0.386</x>
             <y>5.708865</y>
-            <z>0.999938</z>
+            <z>1.1</z>
         </axis>
     </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>strobe1</object-name>
-        <condition>
-            <property alias="/params/crash/property"/>
-        </condition>
-        <offset-m>5.460493</offset-m>
-        <axis>
-            <x>0.153912</x>
-            <y>-5.327128</y>
-            <z>-0.799938</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>strobe2</object-name>
-        <condition>
-            <property alias="/params/crash/property"/>
-        </condition>
-        <offset-m>5.342337</offset-m>
-        <axis>
-            <x>0.283912</x>
-            <y>5.308865</y>
-            <z>-0.799938</z>
-        </axis>
-    </animation>
-    <!-- End Damage Mod -->
-
-    <!--animation>
-        <type>translate</type>
-        <object-name>strobe1</object-name>
-        <offset-m>5.760493</offset-m>
-        <axis>
-            <x> 0.105</x>
-            <y>-5.65777</y>
-            <z> 0.53365</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>strobe2</object-name>
-        <offset-m>5.742337</offset-m>
-        <axis>
-            <x>0.105</x>
-            <y>5.65615</y>
-            <z>0.53459</z>
-        </axis>
-    </animation-->
-
-    <!-- Damage Mod
-    <animation>
-        <type>translate</type>
-        <object-name>strobe1BD</object-name>
-        <offset-m>5.760493</offset-m>
-        <axis>
-            <x>0.293912</x>
-            <y>-5.227128</y>
-            <z>0.999938</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>strobe2BD</object-name>
-        <offset-m>5.742337</offset-m>
-        <axis>
-            <x>0.383912</x>
-            <y>5.708865</y>
-            <z>0.999938</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>strobe1Collapse</object-name>
-        <offset-m>5.460493</offset-m>
-        <axis>
-            <x>0.153912</x>
-            <y>-5.327128</y>
-            <z>-0.799938</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>strobe2Collapse</object-name>
-        <offset-m>5.342337</offset-m>
-        <axis>
-            <x>0.283912</x>
-            <y>5.308865</y>
-            <z>-0.799938</z>
-        </axis>
-    </animation> -->
 
     <animation>
         <type>billboard</type>
         <object-name>strobe1</object-name>
         <object-name>strobe2</object-name>
-        <!-- Damage Mod
-        <object-name>strobe1BD</object-name>
-        <object-name>strobe2BD</object-name>
-        <object-name>strobe1Collapse</object-name>
-        <object-name>strobe2Collapse</object-name> -->
+        <!-- Damage Mod -->
+        <object-name>strobe1D</object-name>
+        <object-name>strobe2D</object-name>
         <spherical type="bool">true</spherical>
     </animation>
     <animation>
         <type>dist-scale</type>
         <object-name>strobe1</object-name>
         <object-name>strobe2</object-name>
-        <!-- Damage Mod
-        <object-name>strobe1BD</object-name>
-        <object-name>strobe2BD</object-name>
-        <object-name>strobe1Collapse</object-name>
-        <object-name>strobe2Collapse</object-name> -->
+        <!-- Damage Mod-->
+        <object-name>strobe1D</object-name>
+        <object-name>strobe2D</object-name>
         <interpolation>
             <entry>
                 <ind>0</ind>

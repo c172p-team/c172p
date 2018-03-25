@@ -4011,6 +4011,9 @@
                     <property alias="/params/wing_left_damaged/property"/>
                     <value>1</value>
                 </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
             </and>
         </condition>
     </animation>
@@ -4026,6 +4029,9 @@
                     <property alias="/params/wing_right_damaged/property"/>
                     <value>1</value>
                 </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
             </and>
         </condition>
     </animation>
@@ -4059,6 +4065,9 @@
                     <property alias="/params/wing_left_damaged/property"/>
                     <value>1</value>
                 </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
             </and>
         </condition>
     </animation>
@@ -4076,6 +4085,9 @@
                     <property alias="/params/wing_right_damaged/property"/>
                     <value>1</value>
                 </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
             </and>
         </condition>
     </animation>
@@ -5252,10 +5264,7 @@
         <object-name>wing_0</object-name>
         <object-name>leftaileron</object-name>
         <object-name>LeftNavLight</object-name>
-
         <object-name>landinglightcover</object-name>
-        <object-name>lighttaxi</object-name>
-        <object-name>lightlanding</object-name>
         <condition>
             <and>
                 <equals>
@@ -5362,6 +5371,73 @@
                 </not>
             </and>
         </condition>
+    </animation>
+
+    <!-- Left Wing Damaged or Not -->
+    <animation>
+        <type>select</type>
+        <object-name>lighttaxi</object-name>
+        <object-name>lightlanding</object-name>
+        <condition>
+            <and>
+                <or>
+                    <equals>
+                        <property alias="/params/wing_left_damaged/property"/>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property alias="/params/wing_left_damaged/property"/>
+                        <value>2</value>
+                    </equals>
+                </or>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>lighttaxi</object-name>
+        <object-name>lighttaxi1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+        <axis>
+            <x>0.02062</x>
+            <y>0.0</y>
+            <z>0.00613</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>lightlanding</object-name>
+        <object-name>lightlanding1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+        <axis>
+            <x>0.03181</x>
+            <y>0.0</y>
+            <z>0.01843</z>
+        </axis>
     </animation>
 
     <!-- Left Pontoons Not Damaged -->
@@ -6517,6 +6593,13 @@
             <and>
                 <property>/sim/rendering/rembrandt/enabled</property>
                 <property alias="/params/lighting/landing/property"/>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
             </and>
         </condition>
     </animation>
@@ -6527,6 +6610,13 @@
             <and>
                 <property>/sim/rendering/rembrandt/enabled</property>
                 <property alias="/params/lighting/taxi/property"/>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
             </and>
         </condition>
     </animation>
@@ -6543,6 +6633,13 @@
                 <not>
                     <property>/sim/rendering/rembrandt/enabled</property>
                 </not>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
             </and>
         </condition>
     </animation>
@@ -6559,6 +6656,13 @@
                 <not>
                     <property>/sim/rendering/rembrandt/enabled</property>
                 </not>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
             </and>
         </condition>
     </animation>

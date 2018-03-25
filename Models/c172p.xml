@@ -5160,7 +5160,7 @@
         </condition>
     </animation>
 
-    <!--Prop Damaged -->
+    <!-- Prop Damaged -->
     <animation>
         <type>select</type>
         <object-name>PropellerD</object-name>
@@ -5170,18 +5170,15 @@
         </condition>
     </animation>
 
-    <!-- Wings No Damage -->
+    <!-- Left Wing No Damage -->
     <animation>
         <type>select</type>
         <object-name>wing_left</object-name>
-        <object-name>wing_right</object-name>
         <object-name>wing_leading_edge_left</object-name>
-        <object-name>wing_leading_edge_right</object-name>
         <object-name>wing_0</object-name>
-        <object-name>rightaileron</object-name>
         <object-name>leftaileron</object-name>
-        <object-name>RightNavLight</object-name>
         <object-name>LeftNavLight</object-name>
+
         <object-name>landinglightcover</object-name>
         <object-name>lighttaxi</object-name>
         <object-name>lightlanding</object-name>
@@ -5191,6 +5188,22 @@
                     <property alias="/params/wing_left_damaged/property"/>
                     <value>0</value>
                 </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- Right Wing No Damage -->
+    <animation>
+        <type>select</type>
+        <object-name>wing_right</object-name>
+        <object-name>wing_leading_edge_right</object-name>
+        <object-name>rightaileron</object-name>
+        <object-name>RightNavLight</object-name>
+        <condition>
+            <and>
                 <equals>
                     <property alias="/params/wing_right_damaged/property"/>
                     <value>0</value>
@@ -5205,18 +5218,7 @@
     <!-- Wings Collapsed -->
     <animation>
         <type>select</type>
-        <object-name>wing_right_C</object-name>
-        <object-name>RightNavLight_C</object-name>
-        <object-name>rightaileron_C</object-name>
-        <object-name>wing_0_C</object-name>
-        <object-name>wing_leading_edge_right_C</object-name>
-        <object-name>wing_left_C</object-name>
-        <object-name>LeftNavLight_C</object-name>
-        <object-name>leftaileron_C</object-name>
-        <object-name>wing_leading_edge_left_C</object-name>
-        <object-name>lighttaxi_C</object-name>
-        <object-name>lightlanding_C</object-name>
-        <object-name>landinglightcover_C</object-name>
+        <object-name>wing_collapse_group</object-name>
         <condition>
             <property alias="/params/crash/property"/>
         </condition>
@@ -5257,10 +5259,7 @@
     <!-- Wings Right Damaged -->
     <animation>
         <type>select</type>
-        <object-name>wing_right_D</object-name>
-        <object-name>rightaileron_D</object-name>
-        <object-name>RightNavLight_D</object-name>
-        <object-name>wing_leading_edge_right_D</object-name>
+        <object-name>wing_right_damage_group</object-name>
         <condition>
             <and>
                 <equals>
@@ -5277,14 +5276,7 @@
     <!-- Wings Left Damaged -->
     <animation>
         <type>select</type>
-        <object-name>wing_0_D</object-name>
-        <object-name>wing_left_D</object-name>
-        <object-name>LeftNavLight_D</object-name>
-        <object-name>leftaileron_D</object-name>
-        <object-name>wing_leading_edge_left_D</object-name>
-        <object-name>landinglightcover_D</object-name>
-        <object-name>lighttaxi_D</object-name>
-        <object-name>lightlanding_D</object-name>
+        <object-name>wing_left_damage_group</object-name>
         <condition>
             <and>
                 <equals>
@@ -6410,15 +6402,15 @@
         <object-name>navlight_left</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
 
         <!-- Magnitude (distance) of the vector -->
-        <factor>0.59</factor>
+        <factor>0.35</factor>
         <property>sim/model/c172p/lighting/nav-lights/left-damaged</property>
 
         <!-- The vector pointing from the original position to the
              damaged position.
         -->
         <axis>
-            <x>0.57</x>
-            <y>0.3</y>
+            <x>0.77</x>
+            <y>-0.05</y>
             <z>1.0</z>
         </axis>
     </animation>
@@ -6430,14 +6422,14 @@
         <object-name>navlight_right</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
 
         <!-- Magnitude (distance) of the vector -->
-        <factor>0.56</factor>
+        <factor>0.60</factor>
         <property>sim/model/c172p/lighting/nav-lights/right-damaged</property>
 
         <!-- The vector pointing from the original position to the
              damaged position.
         -->
         <axis>
-            <x>0.33</x>
+            <x>0.53</x>
             <y>-0.05</y>
             <z>1.0</z>
         </axis>
@@ -6592,15 +6584,6 @@
         <near-m>2</near-m>
         <far-m>150</far-m>
     </animation>
-    <!--animation>
-        <type>select</type>
-        <object-name>landinglightcover</object-name>
-        <condition>
-            <not>
-                <property alias="/params/lighting/landing/property"/>
-            </not>
-        </condition>
-    </animation-->
     <animation>
         <type>noshadow</type>
         <object-name>landinglight</object-name>

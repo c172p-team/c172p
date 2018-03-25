@@ -111,6 +111,44 @@ Under the GPL. Used by shadows under ALS -->
         </output>
     </filter>
 
+    <filter>
+        <name>Controls Carb Heat Lever</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>3.8</max-rate-of-change>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <property>/controls/engines/current-engine/carb-heat</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/cockpit/carb-heat-animation</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Controls Primer Lever</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>1.4</max-rate-of-change>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <property>/controls/engines/engine/primer-lever</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/cockpit/primer-lever-animation</property>
+        </output>
+    </filter>
+    
     <!-- ================================================================== -->
     <!-- Ground and water effects                                           -->
     <!-- ================================================================== -->

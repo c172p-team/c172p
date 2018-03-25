@@ -14,12 +14,7 @@
             <name>engstart</name>
             <mode>once</mode>
             <path>Sounds/engine-start.wav</path>
-            <condition>
-                <property>/engines/active-engine/running</property>
-                <not>
-                    <property>/engines/active-engine/cranking</property>
-                </not>
-            </condition>
+            <property>/engines/active-engine/running</property>
             <position>
                 <x>-1.0</x>
                 <y>0.0</y>
@@ -107,26 +102,19 @@
             <mode>looped</mode>
             <path>Sounds/engine-idle.wav</path>
             <condition>
-                <and>
-                    <property>/engines/active-engine/running</property>
-                    <greater-than>
-                        <property>/engines/active-engine/rpm</property>
-                        <value>10</value>
-                    </greater-than>
-                    <not>
-                        <property>/engines/active-engine/cranking</property>
-                    </not>
-                </and>
+                <greater-than>
+                    <property>/engines/active-engine/rpm</property>
+                    <value>10</value>
+                </greater-than>
             </condition>
             <volume>
                 <property>/sim/model/c172p/sound/volume-boost-doors</property>
             </volume>
             <volume>
-                <property>/engines/active-engine/rpm</property>
-                <factor>-0.003</factor>
-                <offset>2.6</offset>
-                <min>0.0</min>
-                <max>1.0</max>
+                <property>/sim/model/c172p/sound/volume-ramp-engine-start</property>
+            </volume>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-fader-engine-idle</property>
             </volume>
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
@@ -137,26 +125,23 @@
             <mode>looped</mode>
             <path>Sounds/engine.wav</path>
             <condition>
-                <and>
-                    <property>/engines/active-engine/running</property>
-                    <greater-than>
-                        <property>/engines/active-engine/rpm</property>
-                        <value>10</value>
-                    </greater-than>
-                    <not>
-                        <property>/engines/active-engine/cranking</property>
-                    </not>
-                </and>
+                <greater-than>
+                    <property>/engines/active-engine/rpm</property>
+                    <value>10</value>
+                </greater-than>
             </condition>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-ramp-engine-start</property>
+            </volume>
             <volume>
                 <property>/engines/active-engine/rpm</property>
                 <factor>0.000294118</factor>
                 <offset>0.205882353</offset>
                 <min>0.5</min>
                 <max>0.95</max>
-            </volume>
-            <volume>
-                <property>/sim/model/c172p/sound/volume-boost-doors</property>
             </volume>
             <pitch>
                 <property>/engines/active-engine/rpm</property>
@@ -597,6 +582,9 @@
             <condition>
                 <property>/controls/engines/engine/primer-lever</property>
             </condition>
+            <volume>
+                <factor>0.32</factor>
+            </volume>
             <position>
                 <x>-0.3660</x>
                 <y>0.3700</y>
@@ -615,6 +603,9 @@
                     <property>/controls/engines/engine/primer-lever</property>
                 </not>
             </condition>
+            <volume>
+                <factor>0.32</factor>
+            </volume>
             <position>
                 <x>-0.3660</x>
                 <y>0.3700</y>

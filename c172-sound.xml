@@ -12,8 +12,14 @@
     <fx>
         <crank>
             <name>engstart</name>
-            <path>Sounds/engstart.wav</path>
-            <property>/engines/active-engine/cranking</property>
+            <mode>once</mode>
+            <path>Sounds/engine-start.wav</path>
+            <condition>
+                <property>/engines/active-engine/running</property>
+                <not>
+                    <property>/engines/active-engine/cranking</property>
+                </not>
+            </condition>
             <position>
                 <x>-1.0</x>
                 <y>0.0</y>
@@ -24,7 +30,7 @@
                 <property>/sim/model/c172p/sound/volume-boost-doors</property>
             </volume>
             <volume>
-                <offset>0.0592</offset>
+                <offset>0.72</offset>
             </volume>
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
@@ -33,7 +39,7 @@
         <crank>
             <name>crank</name>
             <mode>looped</mode>
-            <path>Sounds/cranking.wav</path>
+            <path>Sounds/engine-crank.wav</path>
             <condition>
                 <property>/engines/active-engine/cranking</property>
                 <not>
@@ -50,7 +56,7 @@
                 <property>/sim/model/c172p/sound/volume-boost-doors</property>
             </volume>
             <volume>
-                <offset>0.0592</offset>
+                <offset>0.07</offset>
             </volume>
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
@@ -130,6 +136,18 @@
             <name>engine</name>
             <mode>looped</mode>
             <path>Sounds/engine.wav</path>
+            <condition>
+                <and>
+                    <property>/engines/active-engine/running</property>
+                    <greater-than>
+                        <property>/engines/active-engine/rpm</property>
+                        <value>10</value>
+                    </greater-than>
+                    <not>
+                        <property>/engines/active-engine/cranking</property>
+                    </not>
+                </and>
+            </condition>
             <volume>
                 <property>/engines/active-engine/rpm</property>
                 <factor>0.000294118</factor>
@@ -150,6 +168,28 @@
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
         </engine>
+        
+        <engine-cut>
+            <name>engine-cut</name>
+            <mode>once</mode>
+            <path>Sounds/engine-cut.wav</path>
+            <condition>
+                <and>
+                    <not>
+                        <property>/engines/active-engine/running</property>
+                    </not>
+                    <greater-than>
+                        <property>/engines/active-engine/egt-degf</property>
+                        <value>800</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <reference-dist>5.0</reference-dist>
+            <max-dist>200.0</max-dist>
+        </engine-cut>
         
         <gyro>
             <name>gyro</name>

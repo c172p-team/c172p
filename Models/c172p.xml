@@ -4128,21 +4128,17 @@
         </axis>
     </animation>
 
+    <!-- Rotate Non-Damaged Left Aileron -->
     <animation>
         <type>rotate</type>
         <object-name>leftaileron</object-name>
-        <!-- Damage Mod -->
-        <object-name>leftaileronRD</object-name>
-        <object-name>leftaileronLD</object-name>
-        <object-name>leftaileronBD</object-name>
-        <object-name>leftaileronCollapse</object-name>
         <property>surface-positions/left-aileron-pos-norm</property>
         <condition>
             <and>
-                <not-equals>
+                <equals>
                     <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
+                    <value>0</value>
+                </equals>
                 <not>
                     <property alias="/params/crash/property"/>
                 </not>
@@ -4171,21 +4167,58 @@
             <z2-m>0.337</z2-m>
         </axis>
     </animation>
+
+    <!-- Rotate Damaged Left Aileron -->
+    <animation>
+        <type>rotate</type>
+        <object-name>leftaileron_D</object-name>
+        <property>surface-positions/left-aileron-pos-norm</property>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+        <interpolation>
+            <entry>
+                <ind>-1.0</ind>
+                <dep>20</dep>
+            </entry>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>-15</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x1-m>1.15778</x1-m>
+            <y1-m>-2.6163</y1-m>
+            <z1-m>0.33767</z1-m>
+            <x2-m>1.05526</x2-m>
+            <y2-m>-5.42979</y2-m>
+            <z2-m>0.71097</z2-m>
+        </axis>
+    </animation>
+
+    <!-- Rotate Non-Damaged Right Aileron -->
     <animation>
         <type>rotate</type>
         <object-name>rightaileron</object-name>
-        <!-- Damage Mod -->
-        <object-name>rightaileronRD</object-name>
-        <object-name>rightaileronLD</object-name>
-        <object-name>rightaileronBD</object-name>
-        <object-name>rightaileronCollapse</object-name>
         <property>surface-positions/right-aileron-pos-norm</property>
         <condition>
             <and>
-                <less-than>
+                <equals>
                     <property alias="/params/wing_right_damaged/property"/>
-                    <value>1.0</value>
-                </less-than>
+                    <value>0</value>
+                </equals>
                 <not>
                     <property alias="/params/crash/property"/>
                 </not>
@@ -4214,6 +4247,47 @@
             <z2-m>0.459</z2-m>
         </axis>
     </animation>
+
+    <!-- Rotate Damaged Right Aileron -->
+    <animation>
+        <type>rotate</type>
+        <object-name>rightaileron_D</object-name>
+        <property>surface-positions/right-aileron-pos-norm</property>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+        <interpolation>
+            <entry>
+                <ind>-1.0</ind>
+                <dep>20</dep>
+            </entry>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>-15</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x1-m>1.15767</x1-m>
+            <y1-m>2.61617</y1-m>
+            <z1-m>0.33727</z1-m>
+            <x2-m>1.08169</x2-m>
+            <y2-m>5.39225</y2-m>
+            <z2-m>0.95676</z2-m>
+        </axis>
+    </animation>
+
     <animation>
         <type>translate</type>
         <object-name>flaps</object-name>

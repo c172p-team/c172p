@@ -12,8 +12,9 @@
     <fx>
         <crank>
             <name>engstart</name>
-            <path>Sounds/engstart.wav</path>
-            <property>/engines/active-engine/cranking</property>
+            <mode>once</mode>
+            <path>Sounds/engine-start.wav</path>
+            <property>/engines/active-engine/running</property>
             <position>
                 <x>-1.0</x>
                 <y>0.0</y>
@@ -24,7 +25,7 @@
                 <property>/sim/model/c172p/sound/volume-boost-doors</property>
             </volume>
             <volume>
-                <offset>0.0592</offset>
+                <offset>0.72</offset>
             </volume>
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
@@ -33,7 +34,7 @@
         <crank>
             <name>crank</name>
             <mode>looped</mode>
-            <path>Sounds/cranking.wav</path>
+            <path>Sounds/engine-crank.wav</path>
             <condition>
                 <property>/engines/active-engine/cranking</property>
                 <not>
@@ -50,7 +51,7 @@
                 <property>/sim/model/c172p/sound/volume-boost-doors</property>
             </volume>
             <volume>
-                <offset>0.0592</offset>
+                <offset>0.07</offset>
             </volume>
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
@@ -95,36 +96,11 @@
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
         </crank>
-
-        <engine>
-            <name>engine</name>
+        
+        <engine-idle>
+            <name>engine-idle</name>
             <mode>looped</mode>
-            <path>Sounds/wasp.wav</path>
-            <property>/engines/active-engine/running</property>
-            <volume>
-                <property>/engines/active-engine/mp-osi</property>
-                <factor>0.025</factor>
-                <min>0.35</min>
-                <max>0.70</max>
-            </volume>
-            <volume>
-                <property>/sim/model/c172p/sound/volume-boost-doors</property>
-            </volume>
-            <pitch>
-                <property>/engines/active-engine/rpm</property>
-                <factor>0.0004</factor>
-                <min>0.0</min>
-                <max>2.0</max>
-                <offset>0.01</offset>
-            </pitch>
-            <reference-dist>5.0</reference-dist>
-            <max-dist>200.0</max-dist>
-        </engine>
-
-        <propeller>
-            <name>propeller</name>
-            <mode>looped</mode>
-            <path>Sounds/wasp.wav</path>
+            <path>Sounds/engine-idle.wav</path>
             <condition>
                 <greater-than>
                     <property>/engines/active-engine/rpm</property>
@@ -132,23 +108,73 @@
                 </greater-than>
             </condition>
             <volume>
-                <property>/engines/active-engine/rpm</property>
-                <factor>0.00035</factor>
-                <offset>0.05</offset>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
             </volume>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-ramp-engine-start</property>
+            </volume>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-fader-engine-idle</property>
+            </volume>
+            <reference-dist>5.0</reference-dist>
+            <max-dist>200.0</max-dist>
+        </engine-idle>
+
+        <engine>
+            <name>engine</name>
+            <mode>looped</mode>
+            <path>Sounds/engine.wav</path>
+            <condition>
+                <greater-than>
+                    <property>/engines/active-engine/rpm</property>
+                    <value>10</value>
+                </greater-than>
+            </condition>
             <volume>
                 <property>/sim/model/c172p/sound/volume-boost-doors</property>
             </volume>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-ramp-engine-start</property>
+            </volume>
+            <volume>
+                <property>/engines/active-engine/rpm</property>
+                <factor>0.000294118</factor>
+                <offset>0.205882353</offset>
+                <min>0.5</min>
+                <max>0.95</max>
+            </volume>
             <pitch>
                 <property>/engines/active-engine/rpm</property>
-                <factor>0.0005</factor>
+                <factor>0.000434783</factor>
                 <min>0.0</min>
                 <max>2.0</max>
                 <offset>0.01</offset>
             </pitch>
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
-        </propeller>
+        </engine>
+        
+        <engine-cut>
+            <name>engine-cut</name>
+            <mode>once</mode>
+            <path>Sounds/engine-cut.wav</path>
+            <condition>
+                <and>
+                    <not>
+                        <property>/engines/active-engine/running</property>
+                    </not>
+                    <greater-than>
+                        <property>/engines/active-engine/egt-degf</property>
+                        <value>800</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <reference-dist>5.0</reference-dist>
+            <max-dist>200.0</max-dist>
+        </engine-cut>
         
         <gyro>
             <name>gyro</name>
@@ -544,6 +570,46 @@
                 <x>-0.3660</x>
                 <y>0.2000</y>
                 <z>-0.4500</z>
+            </position>
+            <reference-dist>0.2</reference-dist>
+            <max-dist>5.0</max-dist>
+        </switch>
+        
+        <switch>
+            <name>click-primer-out</name>
+            <mode>once</mode>
+            <path>Sounds/primer-out.wav</path>
+            <condition>
+                <property>/controls/engines/engine/primer-lever</property>
+            </condition>
+            <volume>
+                <factor>0.32</factor>
+            </volume>
+            <position>
+                <x>-0.3660</x>
+                <y>0.3700</y>
+                <z>-0.3500</z>
+            </position>
+            <reference-dist>0.2</reference-dist>
+            <max-dist>5.0</max-dist>
+        </switch>
+        
+        <switch>
+            <name>click-primer-in</name>
+            <mode>once</mode>
+            <path>Sounds/primer-in.wav</path>
+            <condition>
+                <not>
+                    <property>/controls/engines/engine/primer-lever</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.32</factor>
+            </volume>
+            <position>
+                <x>-0.3660</x>
+                <y>0.3700</y>
+                <z>-0.3500</z>
             </position>
             <reference-dist>0.2</reference-dist>
             <max-dist>5.0</max-dist>

@@ -105,9 +105,9 @@
         <name>nav-light-right</name>
         <path>Effects/lights/procedural_light_nav_right.xml</path>
         <offsets>
-            <x-m>0.2186</x-m>
-            <y-m>5.657</y-m>
-            <z-m>0.5618</z-m>
+            <x-m>0.09966</x-m>
+            <y-m>5.65615</y-m>
+            <z-m>0.53459</z-m>
         </offsets>
     </model>
 
@@ -116,9 +116,9 @@
         <name>nav-light-left</name>
         <path>Effects/lights/procedural_light_nav_left.xml</path>
         <offsets>
-            <x-m>0.2186</x-m>
-            <y-m>-5.657</y-m>
-            <z-m>0.5618</z-m>
+            <x-m> 0.10243</x-m>
+            <y-m>-5.65777</y-m>
+            <z-m> 0.53365</z-m>
         </offsets>
     </model>
 
@@ -137,14 +137,39 @@
     <!-- TODO Remove this old version, unhide and implement the Canvas version below -->
     <model>
         <name>Garmin196-GPS-non-Canvas</name>
-        <path>Aircraft/Instruments-3d/garmin196/garmin196.xml</path>
+        <path>Interior/Panel/Instruments/garmin196/garmin196.xml</path>
         <offsets>
-            <x-m>-0.4</x-m>
-            <y-m>0.16</y-m>
-            <z-m>0.205</z-m>
-            <heading-deg>-12.0</heading-deg>
+            <x-m>-0.305</x-m>
+            <y-m> 0.26584</y-m>
+            <z-m> 0.0566</z-m>
+            <heading-deg>-19.0</heading-deg>
         </offsets>
+        <condition>
+            <not>
+                <equals>
+                   <property alias="/params/bushkit"/>
+                   <value>4</value>
+                </equals>
+            </not>
+        </condition>
     </model>
+    <model>
+        <name>Garmin196-GPS-non-Canvas</name>
+        <path>Interior/Panel/Instruments/garmin196/garmin196.xml</path>
+        <offsets>
+            <x-m>-0.305</x-m>
+            <y-m> 0.36584</y-m>
+            <z-m> 0.0566</z-m>
+            <heading-deg>-19.0</heading-deg>
+        </offsets>
+        <condition>
+            <equals>
+               <property alias="/params/bushkit"/>
+               <value>4</value>
+            </equals>
+        </condition>
+    </model>
+
     <animation>
         <type>select</type>
         <object-name>Garmin196-GPS-non-Canvas</object-name>
@@ -310,6 +335,9 @@
             <baggage>
                 <property>sim/multiplay/generic/float[2]</property>
             </baggage>
+             <oil>
+                <property>sim/multiplay/generic/float[18]</property>
+            </oil>
         </doors>
         <windows>
             <left>sim/multiplay/generic/float[3]</left>
@@ -398,6 +426,8 @@
             <mixture>/controls/engines/current-engine/mixture</mixture>
             <carb-heat>/controls/engines/current-engine/carb-heat</carb-heat>
             <parking-lever>/sim/model/c172p/cockpit/parking-lever</parking-lever>
+            <carb-heat-animation>/sim/model/c172p/cockpit/carb-heat-animation</carb-heat-animation>
+            <primer-lever-animation>/sim/model/c172p/cockpit/primer-lever-animation</primer-lever-animation>
         </controls>
         <air-vents>
             <front-left>/controls/climate-control/overhead-vent-front-left</front-left>
@@ -411,24 +441,33 @@
     </params>
 
     <!-- exterior effects -->
-    <!-- Normal shader effect. Separate effects required for each normal map texture -->
+    <!-- Normal shader effect. Separate effects required for each normal map and dirt texture -->
     <effect>
-        <inherits-from>Effects/exterior/bumpspec-wing</inherits-from>
+        <inherits-from>Effects/exterior/dirt-leading-edge</inherits-from>
+        <object-name>wing_leading_edge_left</object-name>
+        <object-name>wing_leading_edge_right</object-name>
+    </effect>
+    <effect>
+        <inherits-from>Effects/exterior/dirt-wing</inherits-from>
         <object-name>flaps</object-name>
         <object-name>leftaileron</object-name>
         <object-name>rightaileron</object-name>
-        <object-name>wing_1.001</object-name>
-        <object-name>wing_leading_edge</object-name>
+        <!--object-name>wing_1.001</object-name-->
+        <object-name>wing_left</object-name>
+        <object-name>wing_center</object-name>
+        <object-name>wing_right</object-name>
         <object-name>PitotTube</object-name>
-        <object-name>FuelCapPort</object-name>
-        <object-name>FuelCapStarboard</object-name>
-        <object-name>landinglight2</object-name>
+        <object-name>LeftNavLight</object-name>
+        <object-name>RightNavLight</object-name>
+        <object-name>sumpports</object-name>
     </effect>
     <effect>
-        <inherits-from>Effects/exterior/bumpspec-fuselage</inherits-from>
+        <inherits-from>Effects/exterior/dirt-fuselage</inherits-from>
+        <object-name>NoseWheelStrut</object-name>
         <object-name>LeftWheelStrut</object-name>
         <object-name>RightWheelStrut</object-name>
         <object-name>baggagedoorexterior</object-name>
+        <object-name>baggagedoorhandle</object-name>
         <object-name>charniere1</object-name>
         <object-name>charniere2</object-name>
         <object-name>charniere3</object-name>
@@ -436,25 +475,63 @@
         <object-name>fairing1</object-name>
         <object-name>fairing2</object-name>
         <object-name>fairing3</object-name>
-        <object-name>fuselage_1</object-name>
+        <object-name>fuselage_1.001</object-name>
         <object-name>leftdoor</object-name>
+        <object-name>leftdoorhandle</object-name>
         <object-name>rightdoor</object-name>
+        <object-name>rightdoorhandle</object-name>
         <object-name>Spinner</object-name>
         <object-name>Propeller</object-name>
         <object-name>NoseWheel</object-name>
         <object-name>LeftWheel</object-name>
         <object-name>RightWheel</object-name>
+        <object-name>LeftWheelBrake</object-name>
+        <object-name>RightWheelBrake</object-name>
         <object-name>radi_box</object-name>
         <object-name>TieDownTail</object-name>
         <object-name>TieDownRight</object-name>
         <object-name>TieDownLeft</object-name>
+        <object-name>TransponderAntenna</object-name>
+        <object-name>Antenna_ADF</object-name>
+        <object-name>Antenna_VOR</object-name>
+        <object-name>VHFAntenna</object-name>
+        <object-name>BeaconMount</object-name>
         <object-name>Exhaust</object-name>
         <object-name>Axle</object-name>
+        <object-name>ruddercableleft</object-name>
+        <object-name>ruddercableright</object-name>
+        <object-name>ruddercableports</object-name>
+        <object-name>ruddercablelefthinge</object-name>
+        <object-name>ruddercablerighthinge</object-name>
+        <object-name>windowframeleftext</object-name>
+        <object-name>windowframerightext</object-name>
+        <object-name>oildoor</object-name>
+        <object-name>vent</object-name>
+        <object-name>handle</object-name>
+        <object-name>airvent</object-name>
+        <object-name>lighttaxi</object-name>
+        <object-name>lightlanding</object-name>
     </effect>
+
     <effect>
-        <inherits-from>Effects/exterior/bumpspec-tail</inherits-from>
+        <inherits-from>Effects/exterior/bumpspec</inherits-from>
+        <object-name>oilcompartment</object-name>
+        <object-name>OilCap</object-name>
+        <object-name>wing_0</object-name>
+        <object-name>wing_1Ledge</object-name>
+        <object-name>wing_1Redge</object-name>
+        <object-name>FuelCapPort</object-name>
+        <object-name>FuelCapStarboard</object-name>
+        <object-name>fuelportstarport</object-name>
+        <object-name>fuelportstarboard</object-name>
+        <object-name>fuelcompartment</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Effects/exterior/dirt-tail</inherits-from>
         <object-name>elevatorleft</object-name>
         <object-name>elevatorright</object-name>
+        <object-name>elevatortrim</object-name>
         <object-name>hstab</object-name>
         <object-name>rudder_1</object-name>
         <object-name>vstab</object-name>
@@ -462,11 +539,6 @@
 
     <effect>
         <inherits-from>Effects/model-transparent</inherits-from>
-        <object-name>landinglightcover</object-name>
-        <!--object-name>landinglightcoverLD</object-name>
-        <object-name>landinglightcoverRD</object-name>
-        <object-name>landinglightcoverBD</object-name>
-        <object-name>landinglightcoverCollapse</object-name-->
         <object-name>strobe1</object-name>
         <object-name>strobe2</object-name>
         <object-name>BeaconOffX</object-name>
@@ -483,6 +555,7 @@
         <object-name>glas</object-name>
         <object-name>leftwindow</object-name>
         <object-name>rightwindow</object-name>
+        <object-name>landinglightcover</object-name>
     </effect>
 
     <!-- Specularity fix -->
@@ -490,19 +563,17 @@
         <type>material</type>
         <object-name>LeftWheelStrut</object-name>
         <object-name>RightWheelStrut</object-name>
+        <object-name>LeftWheelBrake</object-name>
+        <object-name>RightWheelBrake</object-name>
         <object-name>baggagedoorexterior</object-name>
-        <object-name>charniere1</object-name>
-        <object-name>charniere2</object-name>
-        <object-name>charniere3</object-name>
-        <object-name>charniere4</object-name>
         <object-name>elevatorleft</object-name>
         <object-name>elevatorright</object-name>
+        <object-name>elevatortrim</object-name>
         <object-name>fairing1</object-name>
         <object-name>fairing2</object-name>
         <object-name>fairing3</object-name>
         <object-name>flaps</object-name>
-        <object-name>fuselage_0</object-name>
-        <object-name>fuselage_1</object-name>
+        <object-name>fuselage_1.001</object-name>
         <object-name>hstab</object-name>
         <object-name>leftaileron</object-name>
         <object-name>leftdoor</object-name>
@@ -510,14 +581,56 @@
         <object-name>rightdoor</object-name>
         <object-name>rudder_1</object-name>
         <object-name>vstab</object-name>
-        <object-name>wing_1.001</object-name>
-        <object-name>wing_leading_edge</object-name>
-        <object-name>doorhandleint_right</object-name>
-        <object-name>Propeller</object-name>
+       <!--object-name>wing_1.001</object-name-->
+        <object-name>wing_left</object-name>
+        <object-name>wing_center</object-name>
+        <object-name>wing_right</object-name>
+        <object-name>wing_leading_edge_left</object-name>
+        <object-name>wing_leading_edge_right</object-name>
+        <object-name>wing_1Ledge</object-name>
+        <object-name>wing_1Redge</object-name>
         <object-name>Spinner</object-name>
         <object-name>radi_box</object-name>
-        <object-name>Exhaust</object-name>
-        <object-name>Axle</object-name>
+        <object-name>LeftNavLight</object-name>
+        <object-name>RightNavLight</object-name>
+        <object-name>ruddercableports</object-name>
+        <object-name>oildoor</object-name>
+        <object-name>vent</object-name>
+        <object-name>airvent</object-name>
+        <shininess>116</shininess>
+        <specular>
+            <r>1</r>
+            <g>1</g>
+            <b>1</b>
+        </specular>
+        <ambient>
+            <r>1</r>
+            <g>1</g>
+            <b>1</b>
+        </ambient>
+    </animation>
+
+    <!-- Specularity fix -->
+    <animation>
+        <type>material</type>
+        <object-name>charniere1</object-name>
+        <object-name>charniere2</object-name>
+        <object-name>charniere3</object-name>
+        <object-name>charniere4</object-name>
+        <object-name>NoseWheelStrut</object-name>
+        <object-name>leftdoorhandle</object-name>
+        <object-name>rightdoorhandle</object-name>
+        <object-name>baggagedoorhandle</object-name>
+        <object-name>windowframeleftext</object-name>
+        <object-name>windowframerightext</object-name>
+        <object-name>FuelCapPort</object-name>
+        <object-name>FuelCapStarboard</object-name>
+        <object-name>OilCap</object-name>
+        <object-name>handle</object-name>
+        <object-name>BeaconMount</object-name>
+        <object-name>sumpports</object-name>
+        <object-name>lighttaxi</object-name>
+        <object-name>lightlanding</object-name>
         <shininess>128</shininess>
         <specular>
             <r>1</r>
@@ -531,9 +644,9 @@
         </ambient>
     </animation>
 
-    <!-- interior effects  -->
+    <!-- interior effects -->
     <effect>
-        <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/c172p-interior-radiance</inherits-from>
         <object-name>TrimWheel</object-name>
     </effect>
 
@@ -542,6 +655,7 @@
         <object-name>baggagedoorinterior</object-name>
         <object-name>wing_1L</object-name>
         <object-name>wing_1R</object-name>
+        <object-name>wing_1C</object-name>
         <object-name>Firewall</object-name>
         <object-name>AirVent_left</object-name>
         <object-name>AirVent_right</object-name>
@@ -607,6 +721,8 @@
         <object-name>SeatMounts.1</object-name>
         <object-name>SeatMounts.2</object-name>
         <object-name>SeatMounts.3</object-name>
+        <object-name>windowframeleftint</object-name>
+        <object-name>windowframerightint</object-name>
     </effect>
     <effect>
         <inherits-from>Effects/interior/c172p-interior-glass-reflection-front</inherits-from>
@@ -617,6 +733,7 @@
         <object-name>leftwindow_interior</object-name>
         <object-name>rightwindow_interior</object-name>
         <object-name>glas_interior_sides</object-name>
+        <object-name>glas_interior_back</object-name>
     </effect>
 
     <!-- Gear Damage Spark and Smoke Mod -->
@@ -748,8 +865,8 @@
         <path>Interior/Panel/Instruments/gear/gear-ctl.xml</path>
         <offsets>
             <x-m>-0.36</x-m>
-            <y-m>0.26</y-m>
-            <z-m>0.06</z-m>
+            <y-m> 0.26</y-m>
+            <z-m> 0.06</z-m>
         </offsets>
     </model>
 
@@ -757,27 +874,27 @@
         <name>MagCompass</name>
         <path>Interior/Panel/Instruments/mag-compass/mag-compass.xml</path>
         <offsets>
-            <x-m>-0.35</x-m>
+            <x-m>0.00</x-m>
             <y-m>0.00</y-m>
-            <z-m>0.18</z-m>
+            <z-m>0.00</z-m>
         </offsets>
     </model>
     <model>
         <name>AI</name>
         <path>Interior/Panel/Instruments/AI/AI.xml</path>
         <offsets>
-            <x-m>-0.369</x-m>
+            <x-m>-0.369  </x-m>
             <y-m>-0.22147</y-m>
-            <z-m>0.06863</z-m>
+            <z-m> 0.06863</z-m>
         </offsets>
     </model>
     <model>
         <name>Altimeter</name>
         <path>Interior/Panel/Instruments/alt/alt.xml</path>
         <offsets>
-            <x-m>-0.369</x-m>
+            <x-m>-0.369  </x-m>
             <y-m>-0.13245</y-m>
-            <z-m>0.06775</z-m>
+            <z-m> 0.06775</z-m>
         </offsets>
     </model>
     <model>
@@ -1023,7 +1140,7 @@
     </model>
     <model>
         <name>LeftYoke</name>
-        <path>Interior/Yoke/yoke.xml</path>
+        <path>Interior/Yoke/yoke-l.xml</path>
         <offsets>
             <x-m>-0.36</x-m>
             <y-m>-0.219</y-m>
@@ -1032,7 +1149,7 @@
     </model>
     <model>
         <name>RightYoke</name>
-        <path>Interior/Yoke/yoke.xml</path>
+        <path>Interior/Yoke/yoke-r.xml</path>
         <offsets>
             <x-m>-0.36</x-m>
             <y-m> 0.239</y-m>
@@ -1063,9 +1180,9 @@
         <name>OAT-object</name>
         <path>Interior/Panel/Instruments/oat/oat.xml</path>
         <offsets>
-            <y-m>0.44</y-m>
-            <x-m>-0.01922</x-m>
-            <z-m>0.46375</z-m>
+            <y-m> 0.0 </y-m>
+            <x-m> 0.0 </x-m>
+            <z-m> 0.0 </z-m>
         </offsets>
     </model>
     <!-- MODEND -->
@@ -1073,20 +1190,20 @@
     <!-- Pedals -->
     <model>
         <name>PilotPedals</name>
-        <path>Interior/Pedals/pedals.xml</path>
+        <path>Interior/Pedals/pedals-pilot.xml</path>
         <offsets>
             <x-m>-0.56</x-m>
             <y-m>-0.24</y-m>
-            <z-m>-0.65</z-m>
+            <z-m>-0.61</z-m>
         </offsets>
     </model>
     <model>
         <name>CoPilotPedals</name>
-        <path>Interior/Pedals/pedals.xml</path>
+        <path>Interior/Pedals/pedals-copilot.xml</path>
         <offsets>
             <x-m>-0.56</x-m>
-            <y-m>0.24</y-m>
-            <z-m>-0.65</z-m>
+            <y-m> 0.24</y-m>
+            <z-m>-0.61</z-m>
         </offsets>
     </model>
 
@@ -2045,6 +2162,14 @@
                 <command>nasal</command>
                 <script>c172p.pumpPrimer();</script>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("primer-in", 1.2)</script>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("primer-out", 1.2)</script>
+            </binding>
         </action>
         <hovered>
             <binding>
@@ -2058,7 +2183,7 @@
     <animation>
         <type>translate</type>
         <object-name>PrimerLever</object-name>
-        <property>/controls/engines/engine/primer-lever</property>
+        <property alias="/params/controls/primer-lever-animation"/>
         <factor>0.04</factor>
         <axis>
             <x>1.0</x>
@@ -2224,7 +2349,7 @@
     <!-- Pick animation for the doors -->
     <animation>
         <type>pick</type>
-        <object-name>rightdoor</object-name>
+        <object-name>rightdoorhandle</object-name>
         <object-name>doorhandleint_right</object-name>
         <visible>true</visible>
         <action>
@@ -2245,7 +2370,7 @@
     </animation>
     <animation>
         <type>pick</type>
-        <object-name>leftdoor</object-name>
+        <object-name>leftdoorhandle</object-name>
         <object-name>doorhandleint_left</object-name>
         <visible>true</visible>
         <action>
@@ -2268,9 +2393,7 @@
     <!-- Pick animation for the windows -->
     <animation>
         <type>pick</type>
-        <object-name>lefttwindow</object-name>
         <object-name>windlocket_left</object-name>
-        <object-name>leftwindow_interior</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -2290,9 +2413,7 @@
     </animation>
     <animation>
         <type>pick</type>
-        <object-name>rightwindow</object-name>
         <object-name>windlocket_right</object-name>
-        <object-name>rightwindow_interior</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -2313,7 +2434,7 @@
 
     <animation>
         <type>pick</type>
-        <object-name>baggagedoorexterior</object-name>
+        <object-name>baggagedoorhandle</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -2363,6 +2484,7 @@
             </binding>
         </hovered>
     </animation>
+
     <animation>
         <type>pick</type>
         <object-name>FuelCapPort</object-name>
@@ -2371,12 +2493,79 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>dialog-show</command>
-                <dialog-name>c172p-left-fuel-dialog</dialog-name>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
+                <command>property-toggle</command>
+                <property>sim/model/open-pfuel-cap</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/open-pfuel-cap");
+                    if (show)
+                        fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));
+                    else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/engines/active-engine/running</property>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't refuel with the engine running!", 2);
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                    </not>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't refuel while in the air!", 2);
+                </script>
             </binding>
         </action>
         <hovered>
             <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>fuel-cap-port</tooltip-id>
                 <label>Fuel Cap</label>
@@ -2391,12 +2580,79 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>dialog-show</command>
-                <dialog-name>c172p-right-fuel-dialog</dialog-name>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
+                <command>property-toggle</command>
+                <property>sim/model/open-sfuel-cap</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/open-sfuel-cap");
+                    if (show)
+                        fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-right-fuel-dialog"}));
+                    else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-dialog"}));
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/engines/active-engine/running</property>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't refuel with the engine running!");
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                    </not>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't refuel while in the air!");
+                </script>
             </binding>
         </action>
         <hovered>
             <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>fuel-cap-starboard</tooltip-id>
                 <label>Fuel Cap</label>
@@ -2404,16 +2660,194 @@
         </hovered>
     </animation>
 
+    <animation>
+        <type>translate</type>
+        <object-name>FuelCapPort</object-name>
+        <property>sim/model/open-pfuel-cap</property>
+        <factor>0.1</factor>
+        <axis>
+            <x> 0.15</x>
+            <y>-0.05</y>
+            <z> 0.5</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>FuelCapStarboard</object-name>
+        <property>sim/model/open-sfuel-cap</property>
+        <factor>0.1</factor>
+        <axis>
+            <x>0.15</x>
+            <y>0.05</y>
+            <z>0.5</z>
+        </axis>
+    </animation>
+
+    <!-- Oil door pick --> 
+    <animation>
+        <type>pick</type>
+        <object-name>oildoor</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    var engine = getprop("controls/engines/active-engine");
+                    if (!engine)
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
+                    else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+                    setprop("sim/model/show-dip-stick", 0);
+                    c172p.oilDoor.toggle();
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <property>/engines/active-engine/running</property>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check the oil level with the engine running!", 2);
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <or>
+                                <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                                <property>/fdm/jsbsim/hydro/active-norm</property>
+                            </or>
+                        </not>
+                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check the oil level while in the air!", 2);
+                </script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>oil-door</tooltip-id>
+                <label>Oil Door</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <!-- Oil door animation -->
+    <animation>
+        <type>rotate</type>
+        <object-name>oildoor</object-name>
+        <property alias="../../params/doors/oil/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>-45.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>-90.0</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x1-m>-0.80485</x1-m>
+            <y1-m> 0.23079</y1-m>
+            <z1-m> 0.16388</z1-m>
+            <x2-m>-0.88058</x2-m>
+            <y2-m> 0.2303</y2-m>
+            <z2-m> 0.16328</z2-m>
+        </axis>
+    </animation>
+
+    <!-- Vent animation -->
+    <animation>
+        <type>rotate</type>
+        <object-name>airvent</object-name>
+        <object-name>airventhole</object-name>
+        <property>/environment/aircraft-effects/cabin-air-set</property>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>7.5</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>15.0</dep>
+            </entry>
+        </interpolation>
+        <axis>
+            <x1-m>-0.49202</x1-m>
+            <y1-m> 0.52131</y1-m>
+            <z1-m>-0.23855</z1-m>
+            <x2-m>-0.49239</x2-m>
+            <y2-m> 0.52263</y2-m>
+            <z2-m>-0.28139</z2-m>
+        </axis>
+    </animation>
+
     <!-- Door animation -->
     <animation>
         <type>rotate</type>
         <object-name>rightdoor</object-name>
+        <object-name>rightdoorhandle</object-name>
         <object-name>rightwindow</object-name>
-        <object-name>doorhandleext_right</object-name>
         <object-name>doorint_right</object-name>
         <object-name>doorhandleint_right</object-name>
         <object-name>windlocket_right</object-name>
         <object-name>windlocketbak_right</object-name>
+        <object-name>windowframerightint</object-name>
+        <object-name>windowframerightext</object-name>
         <!-- MOD: Added an interior window-->
         <!--object-name>rightwindow_int</object-name-->
         <object-name>rightwindow_interior</object-name>
@@ -2435,10 +2869,10 @@
         </interpolation>
         <axis>
             <x1-m>-0.117</x1-m>
-            <y1-m>0.530</y1-m>
+            <y1-m> 0.530</y1-m>
             <z1-m>-0.376</z1-m>
             <x2-m>-0.054</x2-m>
-            <y2-m>0.535</y2-m>
+            <y2-m> 0.535</y2-m>
             <z2-m>-0.117</z2-m>
         </axis>
     </animation>
@@ -2476,13 +2910,45 @@
 
     <animation>
         <type>rotate</type>
+        <object-name>rightdoorhandle</object-name>
+        <property alias="../../params/doors/right/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>-30.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>-30.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 0.77042</x-m>
+            <y-m> 0.51667</y-m>
+            <z-m>-0.17336</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
         <object-name>leftdoor</object-name>
+        <object-name>leftdoorhandle</object-name>
         <object-name>leftwindow</object-name>
-        <object-name>doorhandleext_left</object-name>
         <object-name>doorint_left</object-name>
         <object-name>doorhandleint_left</object-name>
         <object-name>windlocket_left</object-name>
         <object-name>windlocketbak_left</object-name>
+        <object-name>windowframeleftint</object-name>
+        <object-name>windowframeleftext</object-name>
         <!-- MOD: Added an interior window-->
         <object-name>leftwindow_int</object-name>
         <object-name>leftwindow_interior</object-name>
@@ -2543,6 +3009,36 @@
         </axis>
     </animation>
 
+    <animation>
+        <type>rotate</type>
+        <object-name>leftdoorhandle</object-name>
+        <property alias="../../params/doors/left/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>30.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>30.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 0.76986</x-m>
+            <y-m>-0.51523</y-m>
+            <z-m>-0.17366</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
     <!-- Left Window -->
     <animation>
         <type>rotate</type>
@@ -2550,6 +3046,8 @@
         <object-name>leftwindow_interior</object-name>
         <object-name>windlocket_left</object-name>
         <object-name>windlocketbak_left</object-name>
+        <object-name>windowframeleftint</object-name>
+        <object-name>windowframeleftext</object-name>
         <property alias="/params/windows/left"/>
         <interpolation>
             <entry>
@@ -2595,9 +3093,9 @@
             </entry>
         </interpolation>
         <center>
-            <x-m>0.33704</x-m>
-            <y-m>-0.51572</y-m>
-            <z-m>-0.05777</z-m>
+            <x-m> 0.3358</x-m>
+            <y-m>-0.51659</y-m>
+            <z-m>-0.04665</z-m>
         </center>
         <axis>
             <x>0</x>
@@ -2613,6 +3111,8 @@
         <object-name>rightwindow_interior</object-name>
         <object-name>windlocket_right</object-name>
         <object-name>windlocketbak_right</object-name>
+        <object-name>windowframerightint</object-name>
+        <object-name>windowframerightext</object-name>
         <property alias="/params/windows/right"/>
         <interpolation>
             <entry>
@@ -2658,9 +3158,9 @@
             </entry>
         </interpolation>
         <center>
-            <x-m>0.33704</x-m>
-            <y-m>0.51535</y-m>
-            <z-m>-0.05777</z-m>
+            <x-m> 0.3358</x-m>
+            <y-m> 0.51712</y-m>
+            <z-m>-0.04189</z-m>
         </center>
         <axis>
             <x>0</x>
@@ -2683,6 +3183,36 @@
             <x2-m>1.424</x2-m>
             <y2-m>-0.445</y2-m>
             <z2-m>-0.204</z2-m>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>baggagedoorhandle</object-name>
+        <property alias="../../params/doors/baggage/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.5</ind>
+                <dep>30.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>30.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 1.84848</x-m>
+            <y-m>-0.44489</y-m>
+            <z-m>-0.43722</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
         </axis>
     </animation>
 
@@ -2963,7 +3493,7 @@
     <animation>
         <type>translate</type>
         <object-name>CarbHeatGroup</object-name>
-        <property alias="/params/controls/carb-heat"/>
+        <property alias="/params/controls/carb-heat-animation"/>
         <factor>0.04</factor>
         <axis>
             <x>1.0</x>
@@ -3588,14 +4118,14 @@
         <property alias="/params/engine/rpm"/>
         <factor>-1</factor>
         <center>
-            <x-m>-1.79</x-m>
-            <y-m>0</y-m>
-            <z-m>-0.05</z-m>
+            <x-m>-1.96139</x-m>
+            <y-m>0.00127</y-m>
+            <z-m>-0.0519</z-m>
         </center>
         <axis>
             <x>1.0</x>
             <y>0.0</y>
-            <z>-0.05240773494</z>
+            <z>0.0</z>
         </axis>
     </animation>
     <animation>
@@ -3605,16 +4135,17 @@
         <property alias="/params/engine/rpm"/>
         <factor>-0.001</factor>
         <center>
-            <x-m>-1.79</x-m>
-            <y-m>0</y-m>
-            <z-m>-0.05</z-m>
+            <x-m>-1.96139</x-m>
+            <y-m>0.00127</y-m>
+            <z-m>-0.0519</z-m>
         </center>
         <axis>
             <x>1.0</x>
             <y>0.0</y>
-            <z>-0.05240773494</z>
+            <z>0.0</z>
         </axis>
     </animation>
+
     <animation>
         <type>rotate</type>
         <object-name>leftaileron</object-name>
@@ -3707,11 +4238,24 @@
         <!-- Damage Mod -->
         <object-name>flapsD</object-name>
         <property>surface-positions/flap-pos-norm</property>
-        <factor>0.07</factor>
+        <factor>0.08</factor>
         <axis>
             <x>1.0</x>
             <y>0.0</y>
             <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>flaps</object-name>
+        <!-- Damage Mod -->
+        <object-name>flapsD</object-name>
+        <property>surface-positions/flap-pos-norm</property>
+        <factor>-0.10</factor>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
         </axis>
     </animation>
     <animation>
@@ -3762,6 +4306,7 @@
     <animation>
         <type>rotate</type>
         <object-name>elevatorright</object-name>
+        <object-name>elevatortrim</object-name>
         <property>surface-positions/elevator-pos-norm</property>
         <interpolation>
             <entry>
@@ -3786,28 +4331,28 @@
             <z2-m>-0.42222</z2-m>
         </axis>
     </animation>
-    <!--<animation>
+    <animation>
         <type>rotate</type>
-        <object-name>ElevatorTrimTab</object-name>
+        <object-name>elevatortrim</object-name>
         <property>controls/flight/elevator-trim</property>
-        <factor>25</factor>
-        <center>
-            <x-m>5.06</x-m>
-            <y-m>1.12</y-m>
-            <z-m>-0.18</z-m>
-        </center>
+        <factor>-25</factor>
         <axis>
-            <x>0.17</x>
-            <y>-0.82</y>
-            <z>0.0</z>
+            <x1-m> 5.37238</x1-m>
+            <y1-m> 0.40405</y1-m>
+            <z1-m>-0.43873</z1-m>
+            <x2-m> 5.24803</x2-m>
+            <y2-m> 1.30441</y2-m>
+            <z2-m>-0.43157</z2-m>
         </axis>
-    </animation>-->
+    </animation>
     <animation>
         <type>rotate</type>
         <object-name>rudder_0</object-name>
         <object-name>rudder_1</object-name>
         <object-name>RearNavLightOff</object-name>
         <object-name>nav-light-tail</object-name>
+        <object-name>ruddercablelefthinge</object-name>
+        <object-name>ruddercablerighthinge</object-name>
         <property>surface-positions/rudder-pos-norm</property>
         <factor>13</factor>
         <axis>
@@ -3819,6 +4364,118 @@
             <z2-m>1.007</z2-m>
         </axis>
     </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>ruddercableleft</object-name>
+        <property>surface-positions/rudder-pos-norm</property>
+        <factor>3</factor>
+        <center>
+            <x-m> 4.75597</x-m>
+            <y-m>-0.08369</y-m>
+            <z-m>-0.54047</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>ruddercableleft</object-name>
+        <property>surface-positions/rudder-pos-norm</property>
+        <factor>.03</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>ruddercableleft</object-name>
+        <property>surface-positions/rudder-pos-norm</property>
+        <factor>-.008</factor>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>ruddercablelefthinge</object-name>
+        <property>surface-positions/rudder-pos-norm</property>
+        <factor>40</factor>
+        <center>
+            <x-m> 4.97326</x-m>
+            <y-m>-0.03545</y-m>
+            <z-m>-0.54239</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>ruddercableright</object-name>
+        <property>surface-positions/rudder-pos-norm</property>
+        <factor>3</factor>
+        <center>
+            <x-m> 4.75019</x-m>
+            <y-m> 0.08448</y-m>
+            <z-m>-0.54046</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>ruddercableright</object-name>
+        <property>surface-positions/rudder-pos-norm</property>
+        <factor>-.03</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>ruddercableright</object-name>
+        <property>surface-positions/rudder-pos-norm</property>
+        <factor>.008</factor>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>ruddercablerighthinge</object-name>
+        <property>surface-positions/rudder-pos-norm</property>
+        <factor>40</factor>
+        <center>
+            <x-m> 4.97487</x-m>
+            <y-m> 0.03545</y-m>
+            <z-m>-0.54239</z-m>
+        </center>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
     <animation>
         <type>rotate</type>
         <object-name>fairing1</object-name>
@@ -3920,6 +4577,7 @@
         <object-name>fairing3</object-name>
         <object-name>RightWheelStrut</object-name>
         <object-name>RightWheel</object-name>
+        <object-name>RightWheelBrake</object-name>
         <!-- Bushkit Mod -->
         <object-name>RightWheelBK</object-name>
         <object-name>RightWheelBKs</object-name>
@@ -3953,6 +4611,7 @@
         <object-name>fairing2</object-name>
         <object-name>LeftWheelStrut</object-name>
         <object-name>LeftWheel</object-name>
+        <object-name>LeftWheelBrake</object-name>
         <!-- Bushkit Mod -->
         <object-name>LeftWheelBK</object-name>
         <object-name>LeftWheelBKs</object-name>
@@ -4551,16 +5210,22 @@
     <!-- Wings No Damage -->
     <animation>
         <type>select</type>
-        <object-name>wing_1.001</object-name>
-        <object-name>wing_leading_edge</object-name>
+       <!--object-name>wing_1.001</object-name-->
+        <object-name>wing_left</object-name>
+        <object-name>wing_center</object-name>
+        <object-name>wing_right</object-name>
+        <object-name>wing_leading_edge_left</object-name>
+        <object-name>wing_leading_edge_right</object-name>
         <object-name>wing_0</object-name>
+        <object-name>wing_1L</object-name>
+        <object-name>wing_1R</object-name>
+        <object-name>wing_1C</object-name>
         <object-name>rightaileron</object-name>
         <object-name>leftaileron</object-name>
         <object-name>flaps</object-name>
         <object-name>RightNavLight</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>landinglightcover</object-name>
-        <object-name>landinglight2</object-name>
         <condition>
             <and>
                 <equals>
@@ -5470,6 +6135,7 @@
     <animation>
         <type>select</type>
         <object-name>LeftWheelStrut</object-name>
+        <object-name>LeftWheelBrake</object-name>
         <condition>
             <and>
                 <not>
@@ -5626,6 +6292,7 @@
     <animation>
         <type>select</type>
         <object-name>RightWheelStrut</object-name>
+        <object-name>RightWheelBrake</object-name>
         <condition>
             <and>
                 <not>
@@ -5966,13 +6633,7 @@
     <animation>
         <type>select</type>
         <object-name>landinglight</object-name>
-        <!-- Damage Mod
-        <object-name>landinglightBD</object-name>
-        <object-name>landinglightCollapse</object-name>
-        <object-name>landinglight2BD</object-name>
-        <object-name>landinglight2LD</object-name>
-        <object-name>landinglight2RD</object-name>
-        <object-name>landinglight2Collapse</object-name> -->
+        <object-name>landinglight1</object-name>
         <nopreview/>
         <condition>
             <and>
@@ -5988,6 +6649,7 @@
     <animation>
         <type>select</type>
         <object-name>taxilight</object-name>
+        <object-name>taxilight1</object-name>
         <nopreview/>
         <condition>
             <and>
@@ -5998,26 +6660,6 @@
             </and>
         </condition>
     </animation>
-
-<!-- this is keeping the recessed light from showing unless it is on
-by removing this it showes dull when off and bright when on -->
-    <!-- Recessed Light
-    <animation>
-        <type>select</type>
-        <object-name>landinglight2</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <or>
-                    <property alias="/params/lighting/landing/property"/>
-                    <property alias="/params/lighting/taxi/property"/>
-                </or>
-                <not>
-                    <property>/sim/rendering/rembrandt/enabled</property>
-                </not>
-            </and>
-        </condition>
-    </animation> -->
 
     <animation>
         <type>light</type>
@@ -6117,11 +6759,6 @@ by removing this it showes dull when off and bright when on -->
     <animation>
         <type>select</type>
         <object-name>landinglightcover</object-name>
-        <!-- Damage Mod
-        <object-name>landinglightcoverBD</object-name>
-        <object-name>landinglightcoverLD</object-name>
-        <object-name>landinglightcoverRD</object-name>
-        <object-name>landinglightcoverCollapse</object-name>-->
         <condition>
             <not>
                 <property alias="/params/lighting/landing/property"/>
@@ -6132,18 +6769,12 @@ by removing this it showes dull when off and bright when on -->
         <type>noshadow</type>
         <object-name>landinglight</object-name>
         <object-name>taxilight</object-name>
-        <!-- Damage Mod
-        <object-name>landinglightBD</object-name>
-        <object-name>landinglightCollapse</object-name>-->
     </animation>
 
     <!--Landing Light-->
     <animation>
         <type>flash</type>
         <object-name>landinglight</object-name>
-        <!-- Damage Mod
-        <object-name>landinglightBD</object-name>
-        <object-name>landinglightCollapse</object-name>-->
         <center>
             <x-m>-0.135</x-m>
             <y-m>-2.940</y-m>
@@ -6291,9 +6922,9 @@ by removing this it showes dull when off and bright when on -->
         <object-name>strobe1</object-name>
         <offset-m>5.760493</offset-m>
         <axis>
-            <x>0.293912</x>
-            <y>-5.727128</y>
-            <z>0.564638</z>
+            <x> 0.105</x>
+            <y>-5.65777</y>
+            <z> 0.53365</z>
         </axis>
     </animation>
     <animation>
@@ -6301,9 +6932,9 @@ by removing this it showes dull when off and bright when on -->
         <object-name>strobe2</object-name>
         <offset-m>5.742337</offset-m>
         <axis>
-            <x>0.253912</x>
-            <y>5.708865</y>
-            <z>0.564638</z>
+            <x>0.105</x>
+            <y>5.65615</y>
+            <z>0.53459</z>
         </axis>
     </animation>
 
@@ -6406,11 +7037,11 @@ by removing this it showes dull when off and bright when on -->
     <animation>
         <type>translate</type>
         <object-name>BeaconOffX</object-name>
-        <offset-m>5.618312</offset-m>
+        <offset-m>5.595</offset-m>
         <axis>
             <!-- MOD: Position beacon light at MEDIAN point of the object -->
             <x> 5.49464</x>
-            <y>-0.00000</y>
+            <y> 0.00000</y>
             <z> 1.11300</z>
             <!-- MODEND: Position beacon light at MEDIAN point of the object -->
         </axis>
@@ -6539,13 +7170,23 @@ by removing this it showes dull when off and bright when on -->
         <object-name>charniere3</object-name>
         <object-name>charniere4</object-name>
         <object-name>leftdoor</object-name>
+        <object-name>leftdoorhandle</object-name>
         <object-name>rightdoor</object-name>
+        <object-name>rightdoorhandle</object-name>
         <object-name>baggagedoorexterior</object-name>
+        <object-name>baggagedoorhandle</object-name>
         <object-name>Spinner</object-name>
         <object-name>Propeller</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
         <object-name>radi_box</object-name>
+        <object-name>ruddercableports</object-name>
+        <object-name>windowframeleftext</object-name>
+        <object-name>windowframerightext</object-name>
+        <object-name>oildoor</object-name>
+        <object-name>vent</object-name>
+        <object-name>handle</object-name>
+        <object-name>airvent</object-name>
         <!-- damage mod -->
         <object-name>RightWheelStrutBKD</object-name>
         <object-name>LeftWheelStrutBKD</object-name>
@@ -6573,11 +7214,17 @@ by removing this it showes dull when off and bright when on -->
     <animation>
         <type>material</type>
         <!--global type="bool">true</global-->
-        <object-name>wing_1.001</object-name>
-        <object-name>wing_leading_edge</object-name>
+       <!--object-name>wing_1.001</object-name-->
+        <object-name>wing_left</object-name>
+        <object-name>wing_center</object-name>
+        <object-name>wing_right</object-name>
+        <object-name>wing_leading_edge_left</object-name>
+        <object-name>wing_leading_edge_right</object-name>
         <object-name>flaps</object-name>
         <object-name>rightaileron</object-name>
         <object-name>leftaileron</object-name>
+        <object-name>wing_1Ledge</object-name>
+        <object-name>wing_1Redge</object-name>
         <!-- damage mod -->
         <object-name>wingRD</object-name>
         <object-name>wingLD</object-name>
@@ -6611,6 +7258,7 @@ by removing this it showes dull when off and bright when on -->
         <object-name>rudder_1</object-name>
         <object-name>elevatorleft</object-name>
         <object-name>elevatorright</object-name>
+        <object-name>elevatortrim</object-name>
         <property-base>sim/model/liverytail/</property-base>
         <texture-prop>texture</texture-prop>
         <texture>tail.png</texture>
@@ -8131,16 +8779,85 @@ by removing this it showes dull when off and bright when on -->
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/consumables/fuel/contamination_allowed</property>
+                    <and>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
                 </condition>
-                <command>dialog-show</command>
-                <dialog-name>c172p-left-fuel-sample-dialog</dialog-name>
+                <command>property-toggle</command>
+                <property>sim/model/open-pfuel-sump</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/open-pfuel-sump");
+                    if (show)
+                        fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));
+                   else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <property>/engines/active-engine/running</property>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check for fuel contamination with the engine running!", 2);
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <or>
+                                <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                                <property>/fdm/jsbsim/hydro/active-norm</property>
+                            </or>
+                        </not>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check for fuel contamination while in the air!", 2);
+                </script>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/consumables/fuel/contamination_allowed</property>
+                    <and>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>left-tank-drain-sump</tooltip-id>
@@ -8171,16 +8888,85 @@ by removing this it showes dull when off and bright when on -->
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <property>/consumables/fuel/contamination_allowed</property>
+                    <and>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
                 </condition>
-                <command>dialog-show</command>
-                <dialog-name>c172p-right-fuel-sample-dialog</dialog-name>
+                <command>property-toggle</command>
+                <property>sim/model/open-sfuel-sump</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/open-sfuel-sump");
+                    if (show)
+                        fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));
+                    else
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <property>/engines/active-engine/running</property>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check for fuel contamination with the engine running!", 2);
+                </script>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <not>
+                            <or>
+                                <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                                <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                                <property>/fdm/jsbsim/hydro/active-norm</property>
+                            </or>
+                        </not>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>
+                    gui.popupTip("You can't check for fuel contamination while in the air!", 2);
+                </script>
             </binding>
         </action>
         <hovered>
             <binding>
                 <condition>
-                    <property>/consumables/fuel/contamination_allowed</property>
+                    <and>
+                        <property>/consumables/fuel/contamination_allowed</property>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                    </and>
                 </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>right-tank-drain-sump</tooltip-id>
@@ -8191,20 +8977,8 @@ by removing this it showes dull when off and bright when on -->
 
     <!-- oil level check -->
     <animation>
-        <type>select</type>
-        <object-name>OilDoorHotSpot</object-name>
-            <condition>
-                <and>
-                    <property>/engines/active-engine/oil_consumption_allowed</property>
-                    <not>
-                        <property>/sim/current-view/internal</property>
-                    </not>
-                </and>
-            </condition>
-    </animation>
-    <animation>
         <type>pick</type>
-        <object-name>OilDoorHotSpot</object-name>
+        <object-name>OilCap</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -8221,17 +8995,17 @@ by removing this it showes dull when off and bright when on -->
                             <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
                             <property>/fdm/jsbsim/hydro/active-norm</property>
                         </or>
-                        <equals>
-                            <property>/controls/engines/active-engine</property>
-                            <value>0</value>
-                        </equals>
                         <not>
                             <property>/sim/current-view/internal</property>
                         </not>
+                        <equals>
+                            <property>sim/model/door-positions/oilDoor/position-norm</property>
+                            <value>1</value>
+                        </equals>
                     </and>
                 </condition>
-                <command>dialog-show</command>
-                <dialog-name>c172p-oil-dialog-160</dialog-name>
+                <command>property-toggle</command>
+                <property>sim/model/show-dip-stick</property>
             </binding>
             <binding>
                 <condition>
@@ -8246,31 +9020,38 @@ by removing this it showes dull when off and bright when on -->
                             <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
                             <property>/fdm/jsbsim/hydro/active-norm</property>
                         </or>
-                        <equals>
-                            <property>/controls/engines/active-engine</property>
-                            <value>1</value>
-                        </equals>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
                     </and>
                 </condition>
-                <command>dialog-show</command>
-                <dialog-name>c172p-oil-dialog-180</dialog-name>
+                <command>nasal</command>
+                <script>
+                    var show = getprop("sim/model/show-dip-stick");
+                    var engine = getprop("controls/engines/active-engine");
+                    if (show) {
+                        if (!engine)
+                            fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
+                        else
+                            fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+                    } else {
+                        if (!engine)
+                            fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
+                        else
+                            fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+                    }
+                </script>
             </binding>
             <binding>
                 <condition>
                     <and>
                         <property>/engines/active-engine/running</property>
-                        <or>
-                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
-                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
-                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
-                            <property>/fdm/jsbsim/hydro/active-norm</property>
-                        </or>
                         <property>/engines/active-engine/oil_consumption_allowed</property>
                     </and>
                 </condition>
                 <command>nasal</command>
                 <script>
-                    gui.popupTip("You can't check the oil level with the engine running!");
+                    gui.popupTip("You can't check the oil level with the engine running!", 2);
                 </script>
             </binding>
             <binding>
@@ -8289,7 +9070,7 @@ by removing this it showes dull when off and bright when on -->
                 </condition>
                 <command>nasal</command>
                 <script>
-                    gui.popupTip("You can't check the oil level while in the air!");
+                    gui.popupTip("You can't check the oil level while in the air!", 2);
                 </script>
             </binding>
         </action>
@@ -8315,7 +9096,19 @@ by removing this it showes dull when off and bright when on -->
             </binding>
         </hovered>
     </animation>
-
+  
+    <animation>
+        <type>translate</type>
+        <object-name>OilCap</object-name>
+        <property>sim/model/show-dip-stick</property>
+        <factor>0.3</factor>
+        <axis>
+            <x>0.01</x>
+            <y>0.15</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+  
     <model>
         <name>extinguisher</name>
         <path>Interior/FE-ELT/fe.xml</path>
@@ -8389,6 +9182,7 @@ by removing this it showes dull when off and bright when on -->
         <type>pick</type>
         <object-name>elevatorleft</object-name>
         <object-name>elevatorright</object-name>
+        <object-name>elevatortrim</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>

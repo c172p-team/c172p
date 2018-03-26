@@ -19,7 +19,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 <PropertyList include="Aircraft/Generic/Human/Include/walker-include.xml">
 
     <sim include="c172p-views.xml">
-        <description>Cessna 172P Skyhawk (1981 model, detailed)</description>
+        <description>Cessna 172P Skyhawk (1982)</description>
 
         <long-description>The Cessna 172 Skyhawk is a four-seat, single-engine, high-wing fixed-wing aircraft. First flown in 1955 and still in production, more Cessna 172s have been built than any other aircraft.</long-description>
 
@@ -237,6 +237,13 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                     <y-offset-m type="float">-0.84</y-offset-m>
                 </default_exit>
             </map>
+
+            <show-dip-stick type="bool">false</show-dip-stick>
+            <open-pfuel-cap type="bool">false</open-pfuel-cap>
+            <open-sfuel-cap type="bool">false</open-sfuel-cap>
+            <open-pfuel-sump type="bool">false</open-pfuel-sump>
+            <open-sfuel-sump type="bool">false</open-sfuel-sump>
+
         </model>
 
         <!-- Walker settings -->
@@ -350,13 +357,13 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
         <systems>
             <path>Aircraft/c172p/Systems/systems.xml</path>
 
-            <autopilot>
+            <autopilot n="0">
                 <path>Systems/KAP140.xml</path>
             </autopilot>
-            <autopilot>
+            <autopilot n="1">
                 <path>Systems/glass-rain.xml</path>
             </autopilot>
-            <autopilot>
+            <autopilot n="2">
                 <path>Systems/control-lock.xml</path>
             </autopilot>
 
@@ -437,7 +444,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                 <float n="15" alias="/fdm/jsbsim/ground/nose-tyre-smoke-ground-effect-speed-kt-actual"/>
                 <float n="16" alias="/fdm/jsbsim/ground/left-tyre-smoke-ground-effect-speed-kt-actual"/>
                 <float n="17" alias="/fdm/jsbsim/ground/right-tyre-smoke-ground-effect-speed-kt-actual"/>
-                <!-- 18 unused -->
+                <float n="18" alias="/sim/model/door-positions/oilDoor/position-norm"/>
                 <!-- 19 unused -->
 
                 <!-- 0 unused -->
@@ -615,6 +622,10 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 
     <environment>
         <aircraft-effects>
+            <dirt-edge type="float">0</dirt-edge>
+            <dirt-fuselage type="float">0</dirt-fuselage>
+            <dirt-wing type="float">0</dirt-wing>
+            <dirt-tail type="float">0</dirt-tail>
             <cabin-heat-set type="double">0.0</cabin-heat-set>
             <cabin-air-set type="double">0.0</cabin-air-set>
         </aircraft-effects>
@@ -626,7 +637,12 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <config>
                 <tumble-flag archive="y" type="bool">true</tumble-flag>
             </config>
-        </attitude-indicator>
+        </attitude-indicator> <image>Models/Effects/exterior/dirt.png</image>
+            <type>2d</type>
+            <filter>linear-mipmap-linear</filter>
+            <wrap-s>repeat</wrap-s>
+            <wrap-t>repeat</wrap-t>
+            <internal-format>normalized</internal-format>
         <encoder>
             <serviceable type="bool">true</serviceable>
         </encoder>
@@ -644,6 +660,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                 <dial-khz type="int">0</dial-khz>
                 <dial-mhz type="int">0</dial-mhz>
             </frequencies>
+            <volume-selected type="double">0.7</volume-selected>
         </comm>
         <comm n="1">
             <power-btn type="bool">1</power-btn>
@@ -651,6 +668,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                 <dial-khz type="int">0</dial-khz>
                 <dial-mhz type="int">0</dial-mhz>
             </frequencies>
+            <volume-selected type="double">0.7</volume-selected>
         </comm>
         <nav n="0">
             <volume type="double">0.7</volume>
@@ -658,6 +676,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                 <dial-khz type="int">0</dial-khz>
                 <dial-mhz type="int">0</dial-mhz>
             </frequencies>
+            <ident-audible type="bool">false</ident-audible>
         </nav>
         <nav n="1">
             <volume type="double">0.7</volume>
@@ -665,6 +684,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                 <dial-khz type="int">0</dial-khz>
                 <dial-mhz type="int">0</dial-mhz>
             </frequencies>
+            <ident-audible type="bool">false</ident-audible>
         </nav>
         <magnetic-compass>
             <pitch-offset-deg type="double">-2.7</pitch-offset-deg>

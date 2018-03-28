@@ -92,7 +92,7 @@
             </clipto>
         </fcs_function>
 
-        <fcs_function name="engine/damage-level">
+        <fcs_function name="engine-damage"> <!-- it0uchpods suggests this to allow repair button to reset to 0 -->
               <function>
                 <ifthen>
                     <eq>
@@ -131,6 +131,7 @@
                     <v>0</v> <!-- this is the value if damage is disabled -->
                 </ifthen>
             </function>
+			<output>engine/damage-level</output>
         </fcs_function>
 
         <fcs_function>
@@ -156,18 +157,20 @@
             <output>engine/friction-hp</output>
         </fcs_function>
 
-        <switch name="propulsion/engine[0]/friction-hp">
+        <switch name="engine/engine-0-friction-hp">
             <default value="1.5"/>
             <test  logic="AND" value="engine/friction-hp">
                 /controls/engines/active-engine eq 0
             </test>
+			<output>/fdm/jsbsim/propulsion/engine[0]/friction-hp</output>
         </switch>
 
-        <switch name="propulsion/engine[1]/friction-hp">
+         <switch name="engine/engine-1-friction-hp">
             <default value="1.5"/>
             <test  logic="AND" value="engine/friction-hp">
                 /controls/engines/active-engine eq 1
             </test>
+			<output>/fdm/jsbsim/propulsion/engine[1]/friction-hp</output>
         </switch>
         
         <switch name="engine/damage-smoke">

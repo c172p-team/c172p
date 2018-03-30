@@ -12,6 +12,9 @@ var autostart = func (msg=1) {
     # Reset battery charge and circuit breakers
     electrical.reset_battery_and_circuit_breakers();
 
+	# Repair engine damage
+	setprop("/fdm/jsbsim/engine/damage-level", 0);
+	
     # Filling fuel tanks
     setprop("/consumables/fuel/tank[0]/selected", 1);
     setprop("/consumables/fuel/tank[1]/selected", 1);

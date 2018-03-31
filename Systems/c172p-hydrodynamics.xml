@@ -89,28 +89,6 @@
             </clipto>
         </fcs_function>
 
-        <fcs_function name="hydro/drag-tweak-factor">
-            <documentation>
-                Drag tweak factor to account for engine hp and speed.
-            </documentation>
-            <function>
-                <product>
-                    <value>1</value>
-                    <table>
-                        <independentVar lookup="row">/engines/engine[2]/rpm</independentVar>
-                        <tableData>
-                             750 5
-                             900 10
-                             950 6
-                            1000 4
-                            1100 2
-                            1200 1
-                        </tableData>
-                    </table>
-                </product>
-            </function>
-        </fcs_function>
-
         <fcs_function name="hydro/spray-wake-speed-kt">
             <function>
                 <product>
@@ -427,10 +405,19 @@
             <function>
                 <description>Drag due to displacement of float</description>
                 <product>
-                    <value>0.0150</value> <!-- Base Cd -->
+                    <!-- this original starting value is to high, making escape from the water difficult -->
+                    <!-- <value>0.0150</value> Base Cd -->
+                    <value>0.0050</value> <!-- Base Cd -->
                     <property>hydro/qbar-psf</property>
                     <property>hydro/float-beam-ft2</property>
                     <property>hydro/drag-tweak-factor</property>
+                    <table>
+                        <independentVar lookup="row">/engines/active-engine/rpm</independentVar>
+                        <tableData>
+                             800 12
+                             900 1
+                        </tableData>
+                    </table>
                     <min>
                         <quotient>
                             <!-- Reduce when planing. Needs refinement. -->
@@ -449,6 +436,25 @@
                                     <property>hydro/beta-rad</property>
                                 </sin>
                             </abs>
+                        </product>
+                    </sum>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="hydro/rudder-drag-lbs">
+            <function>
+                <description>Drag due to rudders (not reduced by planing)</description>
+                <product>
+                    <!--value>0.0036</value--> <!-- Base Cd per ft^2 of hull cross section. -->
+                    <value>0.002</value>
+                    <property>hydro/qbar-psf</property>
+                    <property>hydro/float-beam-ft2</property>
+                    <sum>
+                        <value>1.0</value>
+                        <product>  <!-- Increase drag with rudder angle. -->
+                            <value>10.0</value>
+                            <abs><property>fcs/rudder-pos-norm</property></abs>
                         </product>
                     </sum>
                 </product>
@@ -511,6 +517,7 @@
                     <sum>
                         <property>hydro/displacement-drag-lbs</property>
                         <property>hydro/planing-drag-lbs</property>
+                        <property>hydro/rudder-drag-lbs</property>
                     </sum>
                 </product>
             </function>
@@ -706,7 +713,8 @@
                     <property>hydro/qbar-u-psf</property>
                     <property>hydro/float-beam-ft3</property>
                     <property>fcs/rudder-pos-norm</property>
-                    <value>-0.025</value>
+                    <!--value>-0.025</value-->
+                    <value>-0.1</value>
                 </product>
             </function>
         </fcs_function>

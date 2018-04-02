@@ -30,22 +30,23 @@
         static/idling attitude.
     -->
 
-    <property value="32.6">metrics/hydro-rp-x-in</property>
+    <property value="-34.67">metrics/hydro-rp-x-in</property>
     <property value="0.0">metrics/hydro-rp-y-in</property>
-    <property value="38.5">metrics/hydro-rp-z-in</property>
-    <property value="9.8">metrics/hydro-beam-ft</property>
-    <property value="18.3">metrics/hydro-length-ft</property>
+    <property value="24">metrics/hydro-rp-z-in</property>
+
+    <property value="9.24">metrics/hydro-beam-ft</property>
+    <property value="16.5">metrics/hydro-length-ft</property>
 
     <documentation>
         The extreme float beam is used as the reference length and to define both
         reference area and volume.
     </documentation>
 
-    <property value="2.71">hydro/float-beam-ft</property>
-    <property value="7.34">hydro/float-beam-ft2</property>
-    <property value="19.90">hydro/float-beam-ft3</property>
-    <property value="53.94">hydro/float-beam-ft4</property>
-    <property value="18.3">hydro/hull-length-ft</property>
+    <property value="3.43">hydro/float-beam-ft</property>
+    <property value="11.76">hydro/float-beam-ft2</property>
+    <property value="40.35">hydro/float-beam-ft3</property>
+    <property value="138.41">hydro/float-beam-ft4</property>
+    <property value="16.5">hydro/hull-length-ft</property>
 
     <!-- Tweak factors. :) -->
     <property value="1.0">hydro/drag-tweak-factor</property>
@@ -114,6 +115,7 @@
                         <property>/fdm/jsbsim/contact/unit[17]/WOW</property>
                     </or>
                     <property>/velocities/groundspeed-kt</property>
+                    <property>/fdm/jsbsim/ground/solid</property>
                 </product>
             </function>
         </fcs_function>
@@ -127,6 +129,7 @@
                         <property>/fdm/jsbsim/contact/unit[18]/WOW</property>
                     </or>
                     <property>/velocities/groundspeed-kt</property>
+                    <property>/fdm/jsbsim/ground/solid</property>
                 </product>
             </function>
         </fcs_function>
@@ -324,10 +327,7 @@
                             </min>
                         </max>
                     </product>
-                    <!-- Squat is disabled as it currently misbehaves in
-                         near at rest conditions leading to strange bobbing
-                         on the water.
-                    -->
+                    <!-- Squat is disabled as it currently misbehaves in near at rest conditions leading to strange bobbing on the water. -->
                     <max>
                         <value>-0.0</value>
                         <min>
@@ -346,7 +346,7 @@
             </description>
             <function>
                 <sum>
-                    <value>-5.0</value> <!-- The float model is 3 deg offset in pitch. -->
+                    <value>-7.0</value> <!-- The float model is 3 deg offset in pitch. -->
                     <property>hydro/pitch-deg</property>
                     <product>
                         <value>1.0</value>
@@ -415,21 +415,22 @@
                 <description>Drag due to displacement of float</description>
                 <product>
                     <!-- this original starting value is to high, making escape from the water difficult -->
-                    <value>0.0150</value> <!-- Base Cd -->
+-                   <!--value>0.0150</value--> <!-- Base Cd -->
+                    <value>0.0100</value> <!-- Base Cd -->
                     <property>hydro/qbar-psf</property>
                     <property>hydro/float-beam-ft2</property>
                     <property>hydro/drag-tweak-factor</property>
-                    <max>
+					<max>
                         <value>1.0</value>
                         <product>
                             <property>hydro/power-regime</property>
                             <table>
                                 <independentVar>hydro/v-kt</independentVar>
                                 <tableData>
-                                    10	1
-                                    22	6
-                                    32	4
-                                    33	1
+                                    10  1
+                                    20  10
+                                    30  6
+                                    36  1
                                 </tableData>
                             </table>
                         </product>
@@ -462,6 +463,7 @@
             <function>
                 <description>Drag due to rudders (not reduced by planing)</description>
                 <product>
+                    <!--value>0.0036</value--> <!-- Base Cd per ft^2 of hull cross section. -->
                     <value>0.001</value>
                     <property>hydro/qbar-psf</property>
                     <property>hydro/float-beam-ft2</property>

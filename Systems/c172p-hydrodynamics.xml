@@ -478,13 +478,24 @@
                     <value>0.00025</value>
                     <property>hydro/qbar-psf</property>
                     <property>hydro/float-beam-ft2</property>
-                    <sum>
-                        <value>1.0</value>
-                        <product>  <!-- Increase drag with rudder angle. -->
+                    <!--sum>
+                        <value>1.0</value-->
+                        <!-- Increase drag with rudder angle. -->
+                        <!--product>
                             <value>10.0</value>
                             <abs><property>fcs/rudder-pos-norm</property></abs>
                         </product>
-                    </sum>
+                    </sum-->
+                    <table>
+                        <independentVar>fcs/rudder-pos-norm</independentVar>
+                        <tableData>
+                           -0.512   5
+                           -0.225   1
+                            0       1
+                            0.225   1
+                            0.486   5
+                        </tableData>
+                    </table>
                     <property>/controls/gear/water-rudder-down</property>
                 </product>
             </function>

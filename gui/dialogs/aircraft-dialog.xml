@@ -98,7 +98,7 @@
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
-	    <checkbox>
+	        <checkbox>
                 <halign>left</halign>
                 <label>Automatic mooring</label>
                 <property>/controls/mooring/automatic</property>
@@ -315,6 +315,28 @@
                         <binding>
                             <command>dialog-apply</command>
                         </binding>
+                    </checkbox>
+
+                    <checkbox>
+                        <halign>left</halign>
+                        <label>Set mooring anchor</label>
+                        <property>/controls/mooring/anchor</property>
+                        <live>true</live>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                        <binding>
+                        <command>nasal</command>
+                        <script>
+                            var lonNode = getprop("/position/longitude-deg");
+                            var latNode = getprop("/position/latitude-deg");
+                            setprop("/fdm/jsbsim/mooring/anchor-lon", lonNode);
+                            setprop("/fdm/jsbsim/mooring/anchor-lat", latNode);
+                            setprop("/fdm/jsbsim/mooring/anchor-dist", 0);
+                            setprop("/fdm/jsbsim/mooring/anchor-length", 0);
+                            setprop("/fdm/jsbsim/mooring/mooring-connected", 0);
+                        </script>
+                    </binding>
                     </checkbox>
 
                 </group>

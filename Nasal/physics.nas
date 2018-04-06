@@ -54,6 +54,36 @@ var poll_surface = func
 # stabilized within this duration.
 var bushkit_change_timeout = 3.0;
 
+var anchor_pos = geo.Coord.new();
+var aircraft_pos = geo.Coord.new();
+var anchor_dist = 0.0;
+var rope_length = 0.0;
+
+var poll_mooring = func
+{
+    if (getprop("/fdm/jsbsim/mooring/anchor-length") == 0) {
+        anchor_pos.set_latlon(getprop("/fdm/jsbsim/mooring/anchor-lat"), getprop("/fdm/jsbsim/mooring/anchor-lon"));
+        rope_length = getprop("/fdm/jsbsim/mooring/rope-length-ft");
+        anchor_dist = 0.0;
+        setprop("/fdm/jsbsim/mooring/anchor-length", 1);
+    }
+
+    if (anchor_dist < rope_length or anchor_dist == rope_length) {
+        aircraft_pos = geo.aircraft_position();
+        anchor_dist = aircraft_pos.distance_to(anchor_pos);
+    }
+
+    if (anchor_dist > rope_length) {
+        setprop("fdm/jsbsim/mooring/latitude-deg", aircraft_pos.lat());
+        setprop("fdm/jsbsim/mooring/longitude-deg", aircraft_pos.lon());
+        setprop("fdm/jsbsim/mooring/altitude-ft", getprop("/position/ground-elev-ft"));
+        setprop("fdm/jsbsim/mooring/mooring-connected", 1);
+    }
+
+    setprop("Ad-anchor-dist", anchor_dist);
+
+}
+
 var physics_loop = func
 {
     if (getprop("/sim/freeze/replay-state")) {
@@ -63,6 +93,8 @@ var physics_loop = func
         poll_surface();
     if (getprop("/fdm/jsbsim/contact/unit[9]/WOW") or getprop("/fdm/jsbsim/contact/unit[10]/WOW"))
         killengine();
+    if (getprop("/controls/mooring/anchor"))
+        poll_mooring();
 }
 
 var set_bushkit = func (bushkit) {

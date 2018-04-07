@@ -18,6 +18,9 @@ var reset_all_damage = func
     # Pontoons
     setprop("/fdm/jsbsim/pontoon-damage/left-pontoon", 0);
     setprop("/fdm/jsbsim/pontoon-damage/right-pontoon", 0);
+
+    setprop("/orientation/pitch-deg", 0);
+    setprop("/orientation/roll-deg", 0);
 }
 
 var repair_damage = func {

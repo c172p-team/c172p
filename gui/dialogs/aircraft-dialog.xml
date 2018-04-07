@@ -114,6 +114,15 @@
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>
+                        c172p.repair_damage();
+                        electrical.reset_battery_and_circuit_breakers();
+                        c172p.click("engine-repair", 6.0);
+                        c172p.dialog_battery_reload();
+                    </script>
+                </binding>
             </checkbox>
 
             <button>
@@ -123,6 +132,7 @@
                 <pref-height>28</pref-height>
                 <enable>
                     <and>
+                        <property>/fdm/jsbsim/settings/damage</property>
                         <not>
                             <property>/sim/freeze/replay-state</property>
                         </not>

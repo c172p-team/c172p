@@ -28,18 +28,19 @@ setlistener("/sim/signals/fdm-initialized",
 Mooring = {};
 
 Mooring.new = func {
-   var obj = { parents : [Mooring],
-           presets : nil,
-           seaplanes : nil,
-         };
-   obj.init();
-   return obj;
+    var obj = {
+        parents : [Mooring],
+        presets : nil,
+        seaplanes : nil,
+    };
+    obj.init();
+    return obj;
 };
 
 Mooring.init = func {
-   me.presets = props.globals.getNode("/sim/presets");
-   me.seaplanes = props.globals.getNode("/systems/mooring/route").getChildren("seaplane");
-   me.presetseaplane();
+    me.presets = props.globals.getNode("/sim/presets");
+    me.seaplanes = props.globals.getNode("/systems/mooring/route").getChildren("seaplane");
+    me.presetseaplane();
 }
 
 Mooring.setmoorage = func( index, moorage ) {
@@ -60,14 +61,13 @@ Mooring.setmoorage = func( index, moorage ) {
 }
 
 Mooring.presetseaplane = func {
-   # to search the harbor
-   if( getprop("/sim/sceneryloaded") ) {
-       settimer(func{ me.presetharbour(); },0.1);
-   }
-   # a loop waiting for an initialization
-   else {
-       settimer(func{ me.presetseaplane(); },0.1);
-   }
+    # to search the harbor
+    if( getprop("/sim/sceneryloaded") ) {
+        settimer(func{ me.presetharbour(); },0.1);
+    } else {
+        # a loop waiting for an initialization
+        settimer(func{ me.presetseaplane(); },0.1);
+    }
 }
 
 # search the port

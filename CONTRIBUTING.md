@@ -21,7 +21,7 @@ The `master` branch of this project should be used together with the development
 
 # Fixing a bug or adding a feature
 
-Before you starting creating any patches, make sure you first check the bug or feature hasn't already been reported. See the [issues](https://github.com/c172p-team/c172p-detailed/issues) page.
+Before you starting creating any patches, make sure you first check the bug or feature hasn't already been reported. See the [issues](https://github.com/c172p-team/c172p-detailed/issues) page. Beginners should consider looking for issues with the label [good first bug](https://github.com/c172p-team/c172p-detailed/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+bug%22).
 
 For the repository containing the texture files for the liveries and instruments (including their .xcf files), visit [c172p-detailed-liveries](https://github.com/gilbertohasnofb/c172p-detailed-liveries).
 

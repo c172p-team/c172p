@@ -8,10 +8,9 @@
 #   COPYRIGHT
 ############################
 #init Moorage.
-#Replace  the generic Seaboat fightgear system which is wrong, and not completed with the list of harbours.
-#This is a customized developpement done from an original idea =>  the Boeing 314A Project ( the nice and accurate FG Clipper) thanks to his unknown Author.
-
-#We are using the original harbour list which was used by the boeing314 model and using too a specific customized addon list which could be improved .
+#Replace the generic Seaboat fightgear system which is wrong, and not completed with the list of harbours.
+#This is a customized developpement done from an original idea => the Boeing 314A Project (the nice and accurate FG Clipper) thanks to his unknown Author.
+#We are using the original harbour list which was used by the boeing314 model and using too a specific customized addon list which could be improved.
 #both files are: mooring-pos_boeing314-based.xml, mooring-pos.xml
 ############################
 #Modifications:
@@ -99,12 +98,8 @@ Mooring.prepareseaplane = func{
         setprop("/controls/gear/gear-down", 0);
         settimer(func {
             setprop("/controls/switches/master-bat", 0);
-        }, 3);
+        }, 5);
     } else
         setprop("/controls/gear/gear-down", 0);
-    #controls.gearDown(-1);
-    #controls.applyParkingBrake(-1);
     setprop("fdm/jsbsim/fcs/mooring-cmd-norm",1);
-    print ("Mooring Position with Gear Retracted");
-
 }

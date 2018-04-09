@@ -85,12 +85,17 @@ var poll_hydro = func
                         setprop("/controls/mooring/anchor", 0);
                         setprop("Ac-ground-speed", ground_speed);
                         return;
-                } else {
-                    anchor_pos.set_latlon(getprop("/fdm/jsbsim/mooring/anchor-lat"), getprop("/fdm/jsbsim/mooring/anchor-lon"));
-                    rope_length = getprop("/fdm/jsbsim/mooring/rope-length-ft");
-                    anchor_dist = 0.0;
-                    setprop("/fdm/jsbsim/mooring/anchor-length", 1);
-                }
+                } else
+                    if (getprop("/engines/active-engine/running")) {
+                            gui.popupTip("Can't anchor with engine running", 5);
+                            setprop("/controls/mooring/anchor", 0);
+                            return;
+                        } else {
+                            anchor_pos.set_latlon(getprop("/fdm/jsbsim/mooring/anchor-lat"), getprop("/fdm/jsbsim/mooring/anchor-lon"));
+                            rope_length = getprop("/fdm/jsbsim/mooring/rope-length-ft");
+                            anchor_dist = 0.0;
+                            setprop("/fdm/jsbsim/mooring/anchor-length", 1);
+                        }
         }
 
         if (anchor_dist < rope_length or anchor_dist == rope_length) {

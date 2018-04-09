@@ -64,6 +64,7 @@ var poll_hydro = func
     if (getprop("/controls/mooring/anchor") and !getprop("fdm/jsbsim/mooring/mooring-connected")) {
         if (getprop("/fdm/jsbsim/mooring/anchor-length") == 0) {
             wind_from_heading = getprop("/environment/wind-from-heading-deg");
+            #wind_from_heading = getprop("/local-weather/METAR/wind-direction-deg");
             aircraft_heading = getprop("/orientation/heading-deg");
             heading_diff = math.min(math.abs(aircraft_heading-wind_from_heading),math.abs(360-aircraft_heading+wind_from_heading),math.abs(360-wind_from_heading+aircraft_heading));
             wind_speed = getprop("/environment/windsock/wind-speed-kt");
@@ -73,7 +74,7 @@ var poll_hydro = func
                 setprop("Aa-heading-diff", heading_diff);
                 return;
             } else
-		        if (wind_speed > 40) {
+		if (wind_speed > 40) {
                     gui.popupTip("Wind too high to anchor", 5);
                     setprop("/controls/mooring/anchor", 0);
                     setprop("Ab-wind-speed", wind_speed);

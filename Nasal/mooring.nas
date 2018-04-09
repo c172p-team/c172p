@@ -24,6 +24,12 @@ setlistener("/sim/signals/fdm-initialized",
             seaplane = Mooring.new();
     }
 );
+setlistener("/controls/mooring/go-to-mooring",
+    func {
+        if (getprop("/controls/mooring/allowed")==1)
+            seaplane = Mooring.new();
+    }
+);
 
 Mooring = {};
 

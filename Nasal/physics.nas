@@ -73,29 +73,26 @@ var poll_hydro = func
                 setprop("/controls/mooring/anchor", 0);
                 setprop("Aa-heading-diff", heading_diff);
                 return;
-            } else
-		if (wind_speed > 40) {
-                    gui.popupTip("Wind too high to anchor", 5);
-                    setprop("/controls/mooring/anchor", 0);
-                    setprop("Ab-wind-speed", wind_speed);
-                    return;
-                } else
-                    if (ground_speed > 10) {
-                        gui.popupTip("Moving to fast to anchor", 5);
-                        setprop("/controls/mooring/anchor", 0);
-                        setprop("Ac-ground-speed", ground_speed);
-                        return;
-                } else
-                    if (getprop("/engines/active-engine/running")) {
-                            gui.popupTip("Can't anchor with engine running", 5);
-                            setprop("/controls/mooring/anchor", 0);
-                            return;
-                        } else {
-                            anchor_pos.set_latlon(getprop("/fdm/jsbsim/mooring/anchor-lat"), getprop("/fdm/jsbsim/mooring/anchor-lon"));
-                            rope_length = getprop("/fdm/jsbsim/mooring/rope-length-ft");
-                            anchor_dist = 0.0;
-                            setprop("/fdm/jsbsim/mooring/anchor-length", 1);
-                        }
+            } elsif (wind_speed > 40) {
+                gui.popupTip("Wind too high to anchor", 5);
+                setprop("/controls/mooring/anchor", 0);
+                setprop("Ab-wind-speed", wind_speed);
+                return;
+            } elsif (ground_speed > 10) {
+                gui.popupTip("Moving to fast to anchor", 5);
+                setprop("/controls/mooring/anchor", 0);
+                setprop("Ac-ground-speed", ground_speed);
+                return;
+            } elsif (getprop("/engines/active-engine/running")) {
+                gui.popupTip("Can't anchor with engine running", 5);
+                setprop("/controls/mooring/anchor", 0);
+                return;
+            } else {
+                anchor_pos.set_latlon(getprop("/fdm/jsbsim/mooring/anchor-lat"), getprop("/fdm/jsbsim/mooring/anchor-lon"));
+                rope_length = getprop("/fdm/jsbsim/mooring/rope-length-ft");
+                anchor_dist = 0.0;
+                setprop("/fdm/jsbsim/mooring/anchor-length", 1);
+            }
         }
 
         if (anchor_dist < rope_length or anchor_dist == rope_length) {

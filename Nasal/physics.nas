@@ -106,7 +106,6 @@ var poll_hydro = func
             setprop("fdm/jsbsim/mooring/altitude-ft", getprop("/position/ground-elev-ft"));
             setprop("fdm/jsbsim/mooring/mooring-connected", 1);
         }
-        setprop("Ad-anchor-dist", anchor_dist); 
     }
 }
 

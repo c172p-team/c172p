@@ -101,13 +101,15 @@ Mooring.presetharbour = func {
 #Specific initialization of the aircraft
 Mooring.prepareseaplane = func{
     setprop("/fdm/jsbsim/settings/damage", 0);
+    setprop("/sim/model/c172p/securing/tiedownL-visible", 0);
+    setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
+    setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
     if (!getprop("/controls/switches/master-bat")) {
         setprop("/controls/switches/master-bat", 1);
         setprop("/controls/gear/gear-down", 0);
         settimer(func {
             setprop("/controls/switches/master-bat", 0);
-        }, 5);
+        }, 60);
     } else
         setprop("/controls/gear/gear-down", 0);
-    setprop("fdm/jsbsim/fcs/mooring-cmd-norm",1);
 }

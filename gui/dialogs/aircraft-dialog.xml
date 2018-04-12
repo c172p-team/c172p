@@ -842,68 +842,128 @@
                 </binding>
             </button>
         </group>
-        <group>
-            <layout>hbox</layout>
-            <checkbox>
-                <halign>left</halign>
-                <label>Set mooring anchor</label>
-                <property>/controls/mooring/anchor</property>
-                <live>true</live>
-                <enable>
-                    <and>
-                        <not>
-                            <property>/sim/freeze/replay-state</property>
-                        </not>
-                        <property>/fdm/jsbsim/hydro/active-norm</property>
-                        <or>
-                            <equals>
-                                <property>/fdm/jsbsim/bushkit</property>
-                                <value>3</value>
-                            </equals>
-                            <equals>
-                                <property>/fdm/jsbsim/bushkit</property>
-                                <value>4</value>
-                            </equals>
-                        </or>
-                    </and>
-                </enable>
-                <binding>
-                    <command>dialog-apply</command>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>
-                        var lonNode = getprop("/position/longitude-deg");
-                        var latNode = getprop("/position/latitude-deg");
-                        setprop("/fdm/jsbsim/mooring/anchor-lon", lonNode);
-                        setprop("/fdm/jsbsim/mooring/anchor-lat", latNode);
-                        setprop("/fdm/jsbsim/mooring/anchor-dist", 0);
-                        setprop("/fdm/jsbsim/mooring/anchor-length", 0);
-                        setprop("/fdm/jsbsim/mooring/mooring-connected", 0);
-                    </script>
-                </binding>
-            </checkbox>
-            <text>
-                <halign>right</halign>
-                <label>Wind:</label>
-                <enable>
+        <checkbox>
+            <halign>left</halign>
+            <label>Set mooring anchor</label>
+            <property>/controls/mooring/anchor</property>
+            <live>true</live>
+            <enable>
+                <and>
                     <not>
-                        <property>/sim/rendering/rembrandt/enabled</property>
+                        <property>/sim/freeze/replay-state</property>
                     </not>
-                </enable>
-            </text>
-            <text>
-                <halign>left</halign>
-                <property>/environment/wind-from-heading-deg</property>
-                <format>%3.0f</format>
-                <live>true</live>
-                <color>
-                    <red>0.2</red>
-                    <green>0.9</green>
-                    <blue>0.2</blue>
-                    <alpha>1</alpha>
-                </color>
-            </text>
+                    <property>/fdm/jsbsim/hydro/active-norm</property>
+                    <or>
+                        <equals>
+                            <property>/fdm/jsbsim/bushkit</property>
+                            <value>3</value>
+                        </equals>
+                        <equals>
+                            <property>/fdm/jsbsim/bushkit</property>
+                            <value>4</value>
+                        </equals>
+                    </or>
+                </and>
+            </enable>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    setprop("/fdm/jsbsim/mooring/anchor-lon", getprop("/position/longitude-deg"));
+                    setprop("/fdm/jsbsim/mooring/anchor-lat", getprop("/position/latitude-deg"));
+                    setprop("sim/anchorbuoy/enable", 0);
+                    setprop("/fdm/jsbsim/mooring/anchor-dist", 0);
+                    setprop("/fdm/jsbsim/mooring/anchor-length", 0);
+                    setprop("/fdm/jsbsim/mooring/mooring-connected", 0);
+                </script>
+            </binding>
+        </checkbox>
+        <group>
+            <layout>vbox</layout>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>Wind Dir:</label>
+                    <enable>
+                        <not>
+                            <property>/sim/rendering/rembrandt/enabled</property>
+                        </not>
+                    </enable>
+                </text>
+                <text>
+                    <property>/environment/wind-from-heading-deg</property>
+                    <format>%3.0f</format>
+                    <live>true</live>
+                    <color>
+                        <red>0.2</red>
+                        <green>0.9</green>
+                        <blue>0.2</blue>
+                        <alpha>1</alpha>
+                    </color>
+                </text>
+                <text>
+                    <label>Wind Speed:</label>
+                    <enable>
+                        <not>
+                            <property>/sim/rendering/rembrandt/enabled</property>
+                        </not>
+                    </enable>
+                </text>
+                <text>
+                    <property>/environment/windsock/wind-speed-kt</property>
+                    <format>%3.0f</format>
+                    <live>true</live>
+                    <color>
+                        <red>0.2</red>
+                        <green>0.9</green>
+                        <blue>0.2</blue>
+                        <alpha>1</alpha>
+                    </color>
+                </text>
+            </group>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>Heading:</label>
+                    <enable>
+                        <not>
+                            <property>/sim/rendering/rembrandt/enabled</property>
+                        </not>
+                    </enable>
+                </text>
+                <text>
+                    <property>/orientation/heading-deg</property>
+                    <format>%3.0f</format>
+                    <live>true</live>
+                    <color>
+                        <red>0.2</red>
+                        <green>0.9</green>
+                        <blue>0.2</blue>
+                        <alpha>1</alpha>
+                    </color>
+                </text>
+                <text>
+                    <label>Fwd Speed:</label>
+                    <enable>
+                        <not>
+                            <property>/sim/rendering/rembrandt/enabled</property>
+                        </not>
+                    </enable>
+                </text>
+                <text>
+                    <property>/fdm/jsbsim/hydro/vbx-fps</property>
+                    <format>%3.0f</format>
+                    <live>true</live>
+                    <color>
+                        <red>0.2</red>
+                        <green>0.9</green>
+                        <blue>0.2</blue>
+                        <alpha>1</alpha>
+                    </color>
+                </text>
+            </group>
         </group>
 
     </group>

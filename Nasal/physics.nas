@@ -35,7 +35,7 @@ var killengine = func
 var anchor_pos = geo.Coord.new();
 var aircraft_pos = geo.Coord.new();
 var anchor_dist = 0.0;
-var rope_length = 0.0;
+
 var heading_diff = 0.0;
 var wind_from_heading  = 0.0;
 var aircraft_heading  = 0.0;
@@ -88,20 +88,11 @@ var poll_hydro = func
                 setprop("fdm/jsbsim/mooring/latitude-deg", anchor_pos.lat());
                 setprop("fdm/jsbsim/mooring/longitude-deg", anchor_pos.lon());
                 setprop("fdm/jsbsim/mooring/altitude-ft", getprop("/position/ground-elev-ft"));
-                rope_length = getprop("/fdm/jsbsim/mooring/rope-length-ft")*0.3048;
                 anchor_dist = 0.0;
                 setprop("/fdm/jsbsim/mooring/anchor-length", 1);
                 setprop("/sim/anchorbuoy/enable", 1);
+                setprop("fdm/jsbsim/mooring/mooring-connected", 1);
             }
-        }
-
-        if (anchor_dist < rope_length or anchor_dist == rope_length) {
-            aircraft_pos = geo.aircraft_position();
-            anchor_dist = aircraft_pos.distance_to(anchor_pos);
-        }
-
-        if (anchor_dist > rope_length) {
-            setprop("fdm/jsbsim/mooring/mooring-connected", 1);
         }
     }
 
@@ -113,10 +104,11 @@ var poll_hydro = func
         var rel_bearing = (aircraft_heading - 180.0) - bearing;
         setprop("fdm/jsbsim/mooring/rope-yaw", rel_bearing);
 
-        if (anchor_dist < 9)
+        if (anchor_dist < (getprop("/fdm/jsbsim/mooring/rope-length-ft")*0.3048)-1) {
             setprop("fdm/jsbsim/mooring/rope-visible", 0);
-        else
+        } else {
             setprop("fdm/jsbsim/mooring/rope-visible", 1);
+        }
     }
 }
 

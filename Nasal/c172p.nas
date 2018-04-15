@@ -451,7 +451,7 @@ var StaticModel = {
         }
         var position = geo.aircraft_position().set_alt(getprop("/position/ground-elev-m"));
         if (me.object_name == "anchorbuoy") {
-            me.model = geo.put_model(me.model_file, getprop("/fdm/jsbsim/mooring/anchor-lat"), getprop("/fdm/jsbsim/mooring/anchor-lon"), position, getprop("/orientation/heading-deg"));
+            me.model = geo.put_model(me.model_file, getprop("/fdm/jsbsim/mooring/anchor-lat"), getprop("/fdm/jsbsim/mooring/anchor-lon"), getprop("/position/ground-elev-m"), getprop("/orientation/heading-deg"));
         } else {
             me.model = geo.put_model(me.model_file, position, getprop("/orientation/heading-deg"));
         }

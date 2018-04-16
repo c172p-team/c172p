@@ -144,7 +144,7 @@ var oil_consumption = maketimer(1.0, func {
             setprop("/engines/active-engine/oil-level", oil_level);
             setprop("/engines/active-engine/oil-consume-qph", consumption_qph);
 
-            service_hours_new = (service_hours + 1)/3600; # add one second service time
+            service_hours_new = (service_hours * 3600 + 1) / 3600; # add one second service time
             setprop("/engines/active-engine/oil-service-hours", service_hours_new);
         } else {
             setprop("/engines/active-engine/oil-consume-qph", 0);
@@ -425,8 +425,8 @@ setlistener("/controls/engines/mixture-all", func{
     setprop("/controls/engines/current-engine/mixture", new_value);
 }, 0, 0);
 
-# backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has 
-# been replaced and controls.throttleAxis will not be called from the controls binding - so this is to 
+# backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has
+# been replaced and controls.throttleAxis will not be called from the controls binding - so this is to
 # maintain compatibility with existing joystick xml files.
 controls.throttleAxis = func {
     var value = (1 - cmdarg().getNode("setting").getValue()) / 2;
@@ -441,8 +441,8 @@ controls.adjMixture = func {
     setprop("/controls/engines/current-engine/mixture", new_value);
 };
 
-# backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has 
-# been replaced and controls.throttleAxis will not be called from the controls binding - so this is to 
+# backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has
+# been replaced and controls.throttleAxis will not be called from the controls binding - so this is to
 # maintain compatibility with existing joystick xml files.
 controls.mixtureAxis = func {
     var value = (1 - cmdarg().getNode("setting").getValue()) / 2;

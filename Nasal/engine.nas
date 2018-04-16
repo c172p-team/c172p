@@ -89,7 +89,7 @@ var primerTimer = maketimer(5, func {
 # ========== oil consumption ======================
 # Thanks to HHS81 (Benedikt Hallinger) for more advanced simulation
 var service_hours = getprop("/engines/active-engine/oil-service-hours");
-var consumption_qph = 0.0;
+var consumption_qps = 0.0;
 var rpm_factor = 0.0;
 var rpm = 0;
 var oil_level = 0;
@@ -100,6 +100,11 @@ var service_hours_increase = 0;
 var service_hours_new = 0;
 var low_oil_pressure_factor = 0.0;
 var low_oil_temperature_factor = 0.0;
+
+# ======= OIL SYSTEM INIT =======
+if (!getprop("/engines/active-engine/oil-service-hours")) {
+    setprop("/engines/active-engine/oil-service-hours", 0);
+}
 
 var oil_consumption = maketimer(1.0, func {
 
@@ -121,11 +126,11 @@ var oil_consumption = maketimer(1.0, func {
 
         # Consumption rate defined as 0.33 quarts per 1 hour (3600 seconds) (Lycoming Manual 3-6 p27)
         # at 2350 RPM (normal cruise)
-        consumption_qph = 0.33 / 3600;
+        consumption_qps = 0.33 / 3600;
 
         # Raise consumption when oil level is > 8 quarts (blowout)
         if (oil_level > oil_full) {
-            consumption_qph = consumption_qph * 1.3;
+            consumption_qps = consumption_qps * 1.3;
         }
 
         # Consumption also raises with oil in service time (lower viscosity => more friction)
@@ -134,20 +139,21 @@ var oil_consumption = maketimer(1.0, func {
         # Hours:        0 |    10 |    25 |  50   |    75
         # Add Qts/hr:   0 |  0.02 | 0.125 | 0.5   | 1.125
         service_hours = getprop("/engines/active-engine/oil-service-hours");
-        service_hours_increase = 0.00020 * math.pow(service_hours, 2);
-        service_hours_increase = std.min(1.5, service_hours_increase);
-
-        consumption_qph = consumption_qph + service_hours_increase;
+        service_hours_increase_qph = 0.00020 * math.pow(service_hours, 2);
+        service_hours_increase_qph = std.min(1.5, service_hours_increase); # limit increase to 1.5 (at which point you really should think of changing it)
+        service_hours_increase_qps = service_hours_increase_qph / 3600;
+        consumption_qps = consumption_qps + service_hours_increase_qps;
 
         if (getprop("/engines/active-engine/running")) {
-            oil_level = oil_level - consumption_qph * rpm_factor;
+            oil_level = oil_level - consumption_qps * rpm_factor;
             setprop("/engines/active-engine/oil-level", oil_level);
-            setprop("/engines/active-engine/oil-consume-qph", consumption_qph);
+            setprop("/engines/active-engine/oil-consume-qps", consumption_qps);
+            setprop("/engines/active-engine/oil-consume-qph", consumption_qps * 3600);
 
             service_hours_new = (service_hours * 3600 + 1) / 3600; # add one second service time
             setprop("/engines/active-engine/oil-service-hours", service_hours_new);
         } else {
-            setprop("/engines/active-engine/oil-consume-qph", 0);
+            setprop("/engines/active-engine/oil-consume-qps", 0);
         }
 
         low_oil_pressure_factor = 1.0;
@@ -482,10 +488,6 @@ setlistener("/sim/signals/fdm-initialized", func {
     coughing_timer.singleShot = 1;
     coughing_timer.start();
 
-    # ======= OIL SYSTEM INIT =======
-    if (!getprop("/engines/active-engine/oil-service-hours")) {
-         setprop("/engines/active-engine/oil-service-hours", 0);
-    }
     oil_consumption.simulatedTime = 1;
     oil_consumption.start();
     calculate_real_oiltemp.start();

@@ -80,7 +80,6 @@ Mooring.presetseaplane = func {
 
 # search the port
 Mooring.presetharbour = func {
-    var aglft = 0.0;
     var airport = "";
     var harbour = "";
     airport = me.presets.getChild("airport-id").getValue();

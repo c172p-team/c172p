@@ -70,7 +70,7 @@ Mooring.setmoorage = func( index, moorage ) {
 
 Mooring.presetseaplane = func {
     # to search the harbor
-    if (getprop("/sim/sceneryloaded")) {
+    if(getprop("/sim/sceneryloaded")) {
         settimer(func{ me.presetharbour(); },0.1);
     } else {
         # a loop waiting for an initialization
@@ -83,13 +83,14 @@ Mooring.presetharbour = func {
     var airport = "";
     var harbour = "";
     airport = me.presets.getChild("airport-id").getValue();
-    if (airport != nil and airport != "") {
+    if(airport != nil and airport != "") {
         for(var i=0; i<size(me.seaplanes); i=i+1) {
             harbour = me.seaplanes[ i ].getChild("airport-id").getValue();
             if(harbour == airport) {
                 print("PORT ",harbour,"    Index ",i);
                 me.setmoorage( i, airport );
-                fgcommand("presets-commit", props.Node.new());
+                fgcommand("reposition");
+                #fgcommand("presets-commit", props.Node.new());
                 me.prepareseaplane();
                 break;
             }

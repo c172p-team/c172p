@@ -57,25 +57,28 @@ Mooring.setmoorage = func( index, moorage ) {
     var headingdeg = me.seaplanes[ index ].getChild("heading-deg").getValue();
     print (" LAT ",latitudedeg," LON ",longitudedeg," HEAD ",headingdeg);
 
-    # to cheat fg which overwrite the coordinates from the original airport
+    # overwrite the coordinates from the original airport
     me.presets.getChild("airport-id").setValue("");
     me.presets.getChild("latitude-deg").setValue(latitudedeg);
     me.presets.getChild("longitude-deg").setValue(longitudedeg);
     me.presets.getChild("heading-deg").setValue(headingdeg);
-
+    me.presets.getChild("roll-deg").setValue(0);
+    me.presets.getChild("pitch-deg").setValue(0);
+    me.presets.getChild("airspeed-kt").setValue(0);
     # forces the computation of ground
     me.presets.getChild("altitude-ft").setValue(-9999);
-    me.presets.getChild("airspeed-kt").setValue(0);
 }
 
 Mooring.presetseaplane = func {
     # to search the harbor
     if(getprop("/sim/sceneryloaded")) {
         settimer(func{ me.presetharbour(); },0.1);
-    } else {
-        # a loop waiting for an initialization
-        settimer(func{ me.presetseaplane(); },0.1);
     }
+    # force aircraft into proper orientation (bug in presets or reset?)
+    setlistener("/sim/signals/fdm-initialized", func {
+        setprop("/orientation/roll-deg", 0);
+        setprop("/orientation/pitch-deg", 0);
+    });
 }
 
 # search the port
@@ -91,7 +94,7 @@ Mooring.presetharbour = func {
                 me.setmoorage( i, airport );
                 fgcommand("reposition");
                 #fgcommand("presets-commit", props.Node.new());
-                me.prepareseaplane();
+                me.presetseaplane();
                 break;
             }
         }
@@ -104,6 +107,7 @@ Mooring.prepareseaplane = func{
     setprop("/sim/model/c172p/securing/tiedownL-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
+    setprop("/sim/model/c172p/securing/chock-visible", 0);
     if (!getprop("/controls/switches/master-bat")) {
         setprop("/controls/switches/master-bat", 1);
         setprop("/controls/gear/gear-down", 0);

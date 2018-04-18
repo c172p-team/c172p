@@ -78,6 +78,17 @@ Mooring.presetseaplane = func {
     setlistener("/sim/signals/fdm-initialized", func {
         setprop("/orientation/roll-deg", 0);
         setprop("/orientation/pitch-deg", 0);
+        if (!getprop("/controls/switches/master-bat")) {
+            setprop("/controls/switches/master-bat", 1);
+            setprop("/controls/gear/gear-down", 0);
+            setprop("/fdm/jsbsim/gear/gear-pos-norm", 0);
+            settimer(func {
+                setprop("/controls/switches/master-bat", 0);
+            }, 0.1);
+        } else {
+            setprop("/controls/gear/gear-down", 0);
+            setprop("/fdm/jsbsim/gear/gear-pos-norm", 0);
+        }
     });
 }
 
@@ -91,10 +102,9 @@ Mooring.presetharbour = func {
             harbour = me.seaplanes[ i ].getChild("airport-id").getValue();
             if(harbour == airport) {
                 print("PORT ",harbour,"    Index ",i);
-                me.setmoorage( i, airport );
+                me.setmoorage(i, airport);
+                #me.presetseaplane();
                 fgcommand("reposition");
-                #fgcommand("presets-commit", props.Node.new());
-                me.presetseaplane();
                 break;
             }
         }
@@ -103,17 +113,8 @@ Mooring.presetharbour = func {
 
 #Specific initialization of the aircraft
 Mooring.prepareseaplane = func{
-    setprop("/fdm/jsbsim/settings/damage", 0);
     setprop("/sim/model/c172p/securing/tiedownL-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
     setprop("/sim/model/c172p/securing/chock-visible", 0);
-    if (!getprop("/controls/switches/master-bat")) {
-        setprop("/controls/switches/master-bat", 1);
-        setprop("/controls/gear/gear-down", 0);
-        settimer(func {
-            setprop("/controls/switches/master-bat", 0);
-        }, 60);
-    } else
-        setprop("/controls/gear/gear-down", 0);
 }

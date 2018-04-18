@@ -78,6 +78,42 @@
                 <max>10000</max>
             </clipto>
         </fcs_function>
+        
+        <fcs_function name="engine/rpm-over-redline-offset"> <!-- reduce the damage threshold as damage increases -->
+              <function>
+                <product>
+                    <pow>
+                        <property>engine/damage-level</property>
+                        <v>2</v>
+                    </pow>
+                    <value>0.00075</value>
+                </product>
+            </function>
+            <clipto>
+                <min>0</min>
+                <max>10000</max>
+            </clipto>
+        </fcs_function>
+        
+        <!--<fcs_function name="engine/rpm-over-redline-adjusted">
+            <function>
+                <ifthen>
+                    <gt>
+                        <p>/engines/active-engine/rpm</p>
+                        <v>0</v>
+                    </gt>
+                    <sum>
+                        <property>engine/rpm-over-redline</property>
+                        <property>engine/rpm-over-redline-offset</property>
+                    </sum>
+                <v>0</v>
+                </ifthen>
+            </function>
+            <clipto>
+                <min>0</min>
+                <max>10000</max>
+            </clipto>
+        </fcs_function>-->
 
          <fcs_function name="engine/oil-temp-above-max">
             <function>
@@ -95,15 +131,21 @@
         <fcs_function name="engine-damage"> <!-- it0uchpods suggests this to allow repair button to reset to 0 -->
               <function>
                 <ifthen>
-                    <eq>
-                        <p>/engines/active-engine/damage_allowed</p>
-                        <v>1</v>
-                    </eq>
+                    <and>
+                        <eq>
+                            <p>settings/damage</p>
+                            <v>1</v>
+                        </eq>
+                        <eq>
+                            <p>/engines/active-engine/damage_allowed</p>
+                            <v>1</v>
+                        </eq>
+                    </and>
                     <sum>
                         <property>engine/damage-level</property>
                         <product>
                            <table>
-                                <independentVar lookup="row">engine/rpm-over-redline</independentVar>
+                                <independentVar lookup="row">engine/rpm-over-redline</independentVar> <!-- use engine/rpm-over-redline-adjusted once the offset is fixed -->
                                 <independentVar lookup="column">engine/oil-temp-above-max</independentVar>
                                 <tableData>
                                          0     50    100    250

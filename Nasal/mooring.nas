@@ -74,10 +74,11 @@ Mooring.presetseaplane = func {
     if(getprop("/sim/sceneryloaded")) {
         settimer(func{ me.presetharbour(); },0.1);
     }
-    # force aircraft into proper orientation (bug in presets or reset?)
     setlistener("/sim/signals/fdm-initialized", func {
+        # force aircraft into proper orientation (bug in presets or reset?)
         setprop("/orientation/roll-deg", 0);
         setprop("/orientation/pitch-deg", 0);
+
         if (getprop("/fdm/jsbsim/settings/damage-flag")) {
             settimer(func {
                 setprop("/fdm/jsbsim/settings/damage", 1);

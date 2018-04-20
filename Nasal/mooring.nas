@@ -78,6 +78,12 @@ Mooring.presetseaplane = func {
     setlistener("/sim/signals/fdm-initialized", func {
         setprop("/orientation/roll-deg", 0);
         setprop("/orientation/pitch-deg", 0);
+        if (getprop("/fdm/jsbsim/settings/damage-flag")) {
+            settimer(func {
+                setprop("/fdm/jsbsim/settings/damage", 1);
+                setprop("/fdm/jsbsim/settings/damage-flag", 0);
+            }, 2);
+        }
         if (!getprop("/controls/switches/master-bat")) {
             setprop("/controls/switches/master-bat", 1);
             setprop("/controls/gear/gear-down", 0);
@@ -103,7 +109,7 @@ Mooring.presetharbour = func {
             if(harbour == airport) {
                 print("PORT ",harbour,"    Index ",i);
                 me.setmoorage(i, airport);
-                #me.presetseaplane();
+                me.prepareseaplane();
                 fgcommand("reposition");
                 break;
             }
@@ -113,6 +119,10 @@ Mooring.presetharbour = func {
 
 #Specific initialization of the aircraft
 Mooring.prepareseaplane = func{
+    if (getprop("/fdm/jsbsim/settings/damage")) {
+        setprop("/fdm/jsbsim/settings/damage-flag", 1);
+        setprop("/fdm/jsbsim/settings/damage", 0);
+    }
     setprop("/sim/model/c172p/securing/tiedownL-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownT-visible", 0);

@@ -97,6 +97,7 @@ Mooring.presetseaplane = func {
             setprop("/fdm/jsbsim/gear/gear-pos-norm", 0);
         }
     });
+    settimer(func{ me.presetharbour(); },0.1);
 }
 
 # search the port

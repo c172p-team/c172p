@@ -98,7 +98,6 @@
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
-            
         </group>
 
         <hrule/>
@@ -317,7 +316,6 @@
                             <command>dialog-apply</command>
                         </binding>
                     </checkbox>
-
                 </group>
 
                 <!-- Force group to the left -->
@@ -484,9 +482,14 @@
                         <property>sim/model/c172p/bushkit_flag_0</property>
                         <live>true</live>
                         <enable>
-                            <not>
-                                <property>/sim/freeze/replay-state</property>
-                            </not>
+                            <and>
+                                <not>
+                                    <property>/sim/freeze/replay-state</property>
+                                </not>
+                                <not>
+                                    <property>fdm/jsbsim/hydro/active-norm</property>
+                                </not>
+                            </and>
                         </enable>
                         <binding>
                             <command>dialog-apply</command>
@@ -530,9 +533,14 @@
                         <property>sim/model/c172p/bushkit_flag_1</property>
                         <live>true</live>
                         <enable>
-                            <not>
-                                <property>/sim/freeze/replay-state</property>
-                            </not>
+                            <and>
+                                <not>
+                                    <property>/sim/freeze/replay-state</property>
+                                </not>
+                                <not>
+                                    <property>fdm/jsbsim/hydro/active-norm</property>
+                                </not>
+                            </and>
                         </enable>
                         <binding>
                             <command>dialog-apply</command>
@@ -576,9 +584,14 @@
                         <property>sim/model/c172p/bushkit_flag_2</property>
                         <live>true</live>
                         <enable>
-                            <not>
-                                <property>/sim/freeze/replay-state</property>
-                            </not>
+                            <and>
+                                <not>
+                                    <property>/sim/freeze/replay-state</property>
+                                </not>
+                                <not>
+                                    <property>fdm/jsbsim/hydro/active-norm</property>
+                                </not>
+                            </and>
                         </enable>
                         <binding>
                             <command>dialog-apply</command>
@@ -743,9 +756,14 @@
                         <property>sim/model/c172p/bushkit_flag_5</property>
                         <live>true</live>
                         <enable>
-                            <not>
-                                <property>/sim/freeze/replay-state</property>
-                            </not>
+                            <and>
+                                <not>
+                                    <property>/sim/freeze/replay-state</property>
+                                </not>
+                                <not>
+                                    <property>fdm/jsbsim/hydro/active-norm</property>
+                                </not>
+                            </and>
                         </enable>
                         <binding>
                             <command>dialog-apply</command>
@@ -792,6 +810,172 @@
             </group>
 
         </group>
+
+        <hrule/>
+
+        <group>
+            <layout>hbox</layout>
+            <checkbox>
+                <halign>left</halign>
+                <label>Spawn at seaport if available</label>
+                <property>/controls/mooring/automatic</property>
+                <live>true</live>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+            <button>
+                <halign>right</halign>
+                <legend>Go now</legend>
+                <pref-width>60</pref-width>
+                <pref-height>28</pref-height>
+                <enable>
+                    <and>
+                        <not>
+                            <property>/sim/freeze/replay-state</property>
+                        </not>
+                        <or>
+                            <equals>
+                                <property>/fdm/jsbsim/bushkit</property>
+                                <value>3</value>
+                            </equals>
+                            <equals>
+                                <property>/fdm/jsbsim/bushkit</property>
+                                <value>4</value>
+                            </equals>
+                        </or>
+                    </and>
+                </enable>
+                <binding>
+                    <command>property-toggle</command>
+                    <property>/controls/mooring/go-to-mooring</property>
+                </binding>
+            </button>
+        </group>
+        <checkbox>
+            <halign>left</halign>
+            <label>Set mooring anchor</label>
+            <property>/controls/mooring/anchor</property>
+            <live>true</live>
+            <enable>
+                <and>
+                    <not>
+                        <property>/sim/freeze/replay-state</property>
+                    </not>
+                    <property>/fdm/jsbsim/hydro/active-norm</property>
+                    <or>
+                        <equals>
+                            <property>/fdm/jsbsim/bushkit</property>
+                            <value>3</value>
+                        </equals>
+                        <equals>
+                            <property>/fdm/jsbsim/bushkit</property>
+                            <value>4</value>
+                        </equals>
+                    </or>
+                </and>
+            </enable>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    setprop("/fdm/jsbsim/mooring/anchor-lon", getprop("/position/longitude-deg"));
+                    setprop("/fdm/jsbsim/mooring/anchor-lat", getprop("/position/latitude-deg"));
+                    setprop("sim/anchorbuoy/enable", 0);
+                    setprop("/fdm/jsbsim/mooring/anchor-dist", 0);
+                    setprop("/fdm/jsbsim/mooring/anchor-length", 0);
+                    setprop("/fdm/jsbsim/mooring/mooring-connected", 0);
+                </script>
+            </binding>
+        </checkbox>
+        <group>
+            <layout>vbox</layout>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>Wind Dir:</label>
+                    <enable>
+                        <not>
+                            <property>/sim/rendering/rembrandt/enabled</property>
+                        </not>
+                    </enable>
+                </text>
+                <text>
+                    <property>/environment/wind-from-heading-deg</property>
+                    <format>%3.0f</format>
+                    <live>true</live>
+                    <color>
+                        <red>0.2</red>
+                        <green>0.9</green>
+                        <blue>0.2</blue>
+                        <alpha>1</alpha>
+                    </color>
+                </text>
+                <text>
+                    <label>Wind Speed:</label>
+                    <enable>
+                        <not>
+                            <property>/sim/rendering/rembrandt/enabled</property>
+                        </not>
+                    </enable>
+                </text>
+                <text>
+                    <property>/environment/windsock/wind-speed-kt</property>
+                    <format>%3.0f</format>
+                    <live>true</live>
+                    <color>
+                        <red>0.2</red>
+                        <green>0.9</green>
+                        <blue>0.2</blue>
+                        <alpha>1</alpha>
+                    </color>
+                </text>
+            </group>
+            <group>
+                <layout>hbox</layout>
+                <text>
+                    <label>Heading:</label>
+                    <enable>
+                        <not>
+                            <property>/sim/rendering/rembrandt/enabled</property>
+                        </not>
+                    </enable>
+                </text>
+                <text>
+                    <property>/orientation/heading-deg</property>
+                    <format>%3.0f</format>
+                    <live>true</live>
+                    <color>
+                        <red>0.2</red>
+                        <green>0.9</green>
+                        <blue>0.2</blue>
+                        <alpha>1</alpha>
+                    </color>
+                </text>
+                <text>
+                    <label>Fwd Speed:</label>
+                    <enable>
+                        <not>
+                            <property>/sim/rendering/rembrandt/enabled</property>
+                        </not>
+                    </enable>
+                </text>
+                <text>
+                    <property>/fdm/jsbsim/hydro/vbx-fps</property>
+                    <format>%3.0f</format>
+                    <live>true</live>
+                    <color>
+                        <red>0.2</red>
+                        <green>0.9</green>
+                        <blue>0.2</blue>
+                        <alpha>1</alpha>
+                    </color>
+                </text>
+            </group>
+        </group>
+
     </group>
 
     <hrule/>

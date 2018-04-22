@@ -425,7 +425,8 @@ var StaticModel = {
         var m = {
             parents: [StaticModel],
             model: nil,
-            model_file: file
+            model_file: file,
+	    object_name: name
         };
 
         setlistener("/sim/" ~ name ~ "/enable", func (node) {
@@ -449,7 +450,11 @@ var StaticModel = {
             }
         }
         var position = geo.aircraft_position().set_alt(getprop("/position/ground-elev-m"));
-        me.model = geo.put_model(me.model_file, position, getprop("/orientation/heading-deg"));
+        if (me.object_name == "anchorbuoy") {
+            me.model = geo.put_model(me.model_file, getprop("/fdm/jsbsim/mooring/anchor-lat"), getprop("/fdm/jsbsim/mooring/anchor-lon"), getprop("/position/ground-elev-m"), getprop("/orientation/heading-deg"));
+        } else {
+            me.model = geo.put_model(me.model_file, position, getprop("/orientation/heading-deg"));
+        }
     },
 
     remove: func {
@@ -465,6 +470,8 @@ StaticModel.new("coneL", "Aircraft/c172p/Models/Exterior/safety-cone/safety-cone
 StaticModel.new("gpu", "Aircraft/c172p/Models/Exterior/external-power/external-power.xml");
 StaticModel.new("ladder", "Aircraft/c172p/Models/Exterior/ladder/ladder.xml");
 StaticModel.new("fueltanktrailer", "Aircraft/c172p/Models/Exterior/fueltanktrailer/fueltanktrailer.ac");
+# Mooring anchor and rope
+StaticModel.new("anchorbuoy", "Aircraft/c172p/Models/Effects/pontoon/mooring.xml");
 
 # external electrical disconnect when groundspeed higher than 0.1ktn (replace later with distance less than 0.01...)
 var ad_timer = maketimer(0.1, func {

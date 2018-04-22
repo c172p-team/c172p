@@ -182,7 +182,7 @@
     <!--<model>
         <name>Garmin196-GPS</name>
         <path>Interior/Panel/garmin196/garmin196.xml</path>
-        <offsets>        
+        <offsets>
             <x-m>-0.4</x-m>
             <y-m>0.36</y-m>
             <z-m>0.205</z-m>
@@ -379,7 +379,7 @@
         </wing_right_damaged>
 
         <gear>
-            <nose-rollspeed-ms>engines/engine[7]/rpm</nose-rollspeed-ms>  
+            <nose-rollspeed-ms>engines/engine[7]/rpm</nose-rollspeed-ms>
             <left-rollspeed-ms>engines/engine[7]/n1</left-rollspeed-ms>
             <right-rollspeed-ms>engines/engine[7]/n2</right-rollspeed-ms>
         </gear>
@@ -1102,7 +1102,7 @@
         <name>vac</name>
         <path>Interior/Panel/Instruments/vac/vac.xml</path>
         <offsets>
-            <!-- MOD: Reposition VAC 
+            <!-- MOD: Reposition VAC
                  <x-m>-0.365</x-m>
                  <y-m>-0.432</y-m>
                  <z-m>0.0228</z-m>
@@ -2131,6 +2131,9 @@
     <animation>
         <type>pick</type>
         <object-name>LeftBag</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -2154,6 +2157,9 @@
     <animation>
         <type>pick</type>
         <object-name>PrimerLever</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -2196,6 +2202,9 @@
     <animation>
         <type>slider</type>
         <object-name>CabinHeat</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <drag-direction>vertical</drag-direction>
         <action>
@@ -2233,6 +2242,9 @@
     <animation>
         <type>slider</type>
         <object-name>CabinAir</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <drag-direction>vertical</drag-direction>
         <action>
@@ -2271,6 +2283,9 @@
     <animation>
         <type>slider</type>
         <object-name>AirVent_left</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <drag-direction>horizontal</drag-direction>
         <drag-scale-px>-10.0</drag-scale-px>
@@ -2310,6 +2325,9 @@
         <type>slider</type>
         <object-name>AirVent_right</object-name>
         <object-name>OAT-object</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <drag-direction>horizontal</drag-direction>
         <drag-scale-px>10.0</drag-scale-px>
@@ -2347,31 +2365,13 @@
     </animation>
 
     <!-- Pick animation for the doors -->
+
     <animation>
         <type>pick</type>
-        <object-name>rightdoorhandle</object-name>
-        <object-name>doorhandleint_right</object-name>
-        <visible>true</visible>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>nasal</command>
-                <script>c172p.rightDoor.toggle();</script>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>door-handle-r</tooltip-id>
-                <label>Right Door Open/Close</label>
-            </binding>
-        </hovered>
-    </animation>
-    <animation>
-        <type>pick</type>
-        <object-name>leftdoorhandle</object-name>
         <object-name>doorhandleint_left</object-name>
+        <condition>
+            <property>fdm/jsbsim/doors/doorL-enabled</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -2390,10 +2390,79 @@
         </hovered>
     </animation>
 
+    <animation>
+        <type>pick</type>
+        <object-name>leftdoorhandle</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.leftDoor.toggle();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>door-handle-l</tooltip-id>
+                <label>Left Door Open/Close</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>doorhandleint_right</object-name>
+        <condition>
+            <property>fdm/jsbsim/doors/doorL-enabled</property>
+        </condition>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.rightDoor.toggle();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>door-handle-r</tooltip-id>
+                <label>Right Door Open/Close</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>rightdoorhandle</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.rightDoor.toggle();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>door-handle-r</tooltip-id>
+                <label>Right Door Open/Close</label>
+            </binding>
+        </hovered>
+    </animation>
+
     <!-- Pick animation for the windows -->
     <animation>
         <type>pick</type>
         <object-name>windlocket_left</object-name>
+        <condition>
+            <property>fdm/jsbsim/doors/windowL-enabled</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -2414,6 +2483,9 @@
     <animation>
         <type>pick</type>
         <object-name>windlocket_right</object-name>
+        <condition>
+            <property>fdm/jsbsim/doors/windowL-enabled</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -2684,7 +2756,7 @@
         </axis>
     </animation>
 
-    <!-- Oil door pick --> 
+    <!-- Oil door pick -->
     <animation>
         <type>pick</type>
         <object-name>oildoor</object-name>
@@ -3220,6 +3292,9 @@
     <animation>
         <type>pick</type>
         <object-name>LandingLightSwitch</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3246,6 +3321,9 @@
     <animation>
         <type>pick</type>
         <object-name>TaxiLightSwitch</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3272,6 +3350,9 @@
     <animation>
         <type>pick</type>
         <object-name>StrobeSwitch</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3302,6 +3383,9 @@
     <animation>
         <type>pick</type>
         <object-name>MasterSwitch</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3330,6 +3414,9 @@
     <animation>
         <type>pick</type>
         <object-name>GenSwitch</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3358,6 +3445,9 @@
     <animation>
         <type>pick</type>
         <object-name>BeaconSwitch</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3384,6 +3474,9 @@
     <animation>
         <type>pick</type>
         <object-name>NavLightSwitch</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3410,6 +3503,9 @@
     <animation>
         <type>pick</type>
         <object-name>PitotHeatSwitch</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3465,6 +3561,9 @@
     <animation>
         <type>pick</type>
         <object-name>ParkingBrake</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <name>Select</name>
@@ -3504,6 +3603,9 @@
     <animation>
         <type>pick</type>
         <object-name>CarbHeatGroup</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3542,6 +3644,9 @@
         <type>slider</type>
         <object-name>Throttle</object-name>
         <object-name>ThrottleMount</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <drag-direction>vertical</drag-direction>
         <!-- no translation, we handle that seperately -->
@@ -3581,6 +3686,9 @@
         <type>slider</type>
         <object-name>Mixture</object-name>
         <object-name>MixtureMount</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <!-- no translation, we handle that seperately -->
         <drag-direction>vertical</drag-direction>
@@ -3610,6 +3718,9 @@
     <animation>
         <type>knob</type>
         <object-name>TrimWheel</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <property>controls/flight/elevator-trim</property>
         <factor>-360</factor>
         <drag-direction>vertical</drag-direction>
@@ -3726,6 +3837,9 @@
     <animation>
         <type>pick</type>
         <object-name>FuelHotspotOff</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3745,6 +3859,9 @@
     <animation>
         <type>pick</type>
         <object-name>FuelHotspotLeft</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3764,6 +3881,9 @@
     <animation>
         <type>pick</type>
         <object-name>FuelHotspotRight</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3783,6 +3903,9 @@
     <animation>
         <type>pick</type>
         <object-name>FuelHotspotBoth</object-name>
+        <condition>
+            <property>sim/current-view/internal</property>
+        </condition>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -7263,8 +7386,8 @@
     <animation>
         <type>material</type>
         <!--global type="bool">true</global-->
-        <!-- MOD: resume some to GROUP_Interior 
-        door interior objects can't be grouped because it 
+        <!-- MOD: resume some to GROUP_Interior
+        door interior objects can't be grouped because it
         is inside another group -->
         <object-name>GROUP_Interior</object-name>
         <!-- MOD: resume some to GROUP_Interior -->
@@ -7288,8 +7411,8 @@
     <animation>
         <type>material</type>
         <!--global type="bool">true</global-->
-        <!-- MOD: resume some to GROUP_InteriorParts 
-        doorhandles can't be grouped because 
+        <!-- MOD: resume some to GROUP_InteriorParts
+        doorhandles can't be grouped because
         it is inside another group -->
         <object-name>GROUP_InteriorParts</object-name>
         <!-- MODEND: resume some to GROUP_InteriorParts -->
@@ -7407,7 +7530,7 @@
             </and>
         </condition>
     </animation>
-    
+
     <!-- Passangers not visible if not enough weight on their seats or if using their view -->
     <animation>
         <type>select</type>
@@ -8031,7 +8154,7 @@
             <y-m>0.0</y-m>
             <z-m>0.028</z-m>
         </offsets>
-    </model>    
+    </model>
     <animation>
         <type>translate</type>
         <object-name>chock1</object-name>
@@ -8043,7 +8166,7 @@
             <y>0</y>
             <z>1.0</z>
         </axis>
-    </animation>        
+    </animation>
     <animation>
         <type>select</type>
         <object-name>chock1</object-name>
@@ -8079,7 +8202,7 @@
             <y>0</y>
             <z>1.0</z>
         </axis>
-    </animation>        
+    </animation>
     <animation>
         <type>select</type>
         <object-name>woodenchock</object-name>
@@ -8240,7 +8363,7 @@
                 <label>Remove Left Tie-Down</label>
             </binding>
         </hovered>
-    </animation>    
+    </animation>
     <animation>
         <type>select</type>
         <object-name>TiedownHotSpotLeft</object-name>
@@ -8296,7 +8419,7 @@
             </binding>
         </hovered>
     </animation>
-    
+
     <!-- Right Tiedowns -->
     <model>
         <name>tiedownR</name>
@@ -8352,7 +8475,7 @@
                 <label>Remove Right Tie-Down</label>
             </binding>
         </hovered>
-    </animation>    
+    </animation>
     <animation>
         <type>select</type>
         <object-name>TiedownHotSpotRight</object-name>
@@ -8778,7 +8901,7 @@
             <property>sim/panel-hotspots</property>
         </condition>
     </animation>
-    
+
     <!-- Left Tank Drain Sump -->
     <animation>
         <type>select</type>
@@ -8887,7 +9010,7 @@
             </binding>
         </hovered>
     </animation>
-    
+
     <!-- Right Tank Drain Sump -->
     <animation>
         <type>select</type>
@@ -8996,7 +9119,7 @@
             </binding>
         </hovered>
     </animation>
-    
+
     <!-- oil level check -->
     <animation>
         <type>pick</type>
@@ -9130,7 +9253,7 @@
             <z>1.0</z>
         </axis>
     </animation>
-    
+
     <model>
         <name>extinguisher</name>
         <path>Interior/FE-ELT/fe.xml</path>
@@ -9158,7 +9281,7 @@
             </and>
         </condition>
     </animation>
-    
+
    <model>
         <name>extinguisher-amphibious</name>
         <path>Interior/FE-ELT/fe2.xml</path>
@@ -9185,8 +9308,8 @@
                 </equals>
             </or>
         </condition>
-    </animation>    
-    
+    </animation>
+
     <model>
         <name>elt</name>
         <path>Interior/FE-ELT/elt.xml</path>
@@ -9197,7 +9320,7 @@
             <heading-deg>0.0</heading-deg>
         </offsets>
     </model>
-    
+
     <!-- Preflight surface checks -->
     <!-- elevator surface check -->
     <animation>
@@ -9211,7 +9334,7 @@
             <binding>
                 <condition>
                     <and>
-                        <not>            
+                        <not>
                             <property>/engines/active-engine/running</property>
                         </not>
                         <less-than>
@@ -9228,7 +9351,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- left aileron surface check -->
     <animation>
         <type>pick</type>
@@ -9239,7 +9362,7 @@
             <binding>
                 <condition>
                     <and>
-                        <not>            
+                        <not>
                             <property>/engines/active-engine/running</property>
                         </not>
                         <less-than>
@@ -9256,7 +9379,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- right aileron surface check -->
     <animation>
         <type>pick</type>
@@ -9267,7 +9390,7 @@
             <binding>
                 <condition>
                     <and>
-                        <not>            
+                        <not>
                             <property>/engines/active-engine/running</property>
                         </not>
                         <less-than>
@@ -9284,7 +9407,7 @@
             </binding>
         </action>
     </animation>
-    
+
     <!-- rudder surface check -->
     <animation>
         <type>pick</type>
@@ -9295,7 +9418,7 @@
             <binding>
                 <condition>
                     <and>
-                        <not>            
+                        <not>
                             <property>/engines/active-engine/running</property>
                         </not>
                         <less-than>

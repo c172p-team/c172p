@@ -20,9 +20,25 @@
 #init if allowed and called for
 setlistener("/sim/signals/fdm-initialized",
     func {
-        if (getprop("/controls/mooring/automatic") and getprop("/controls/mooring/allowed")) {
-            seaplane = Mooring.new();
+
+        var presets = props.globals.getNode("/sim/presets");
+        var seaplanes = props.globals.getNode("/systems/mooring/route").getChildren("seaplane");
+        var harbour = "";
+        var airport = presets.getChild("airport-id").getValue();
+        setprop("/controls/mooring/port-available", 0);
+        if(airport != nil and airport != "") {
+            for(var i=0; i<size(seaplanes); i=i+1) {
+                harbour = seaplanes[ i ].getChild("airport-id").getValue();
+                if(harbour == airport) {
+                    setprop("/controls/mooring/port-available", 1);
+                }
+            }
         }
+        settimer(func{
+            if (getprop("/controls/mooring/automatic") and getprop("/controls/mooring/allowed")) {
+                seaplane = Mooring.new();
+            }
+        },1.0);
     }
 );
 setlistener("/controls/mooring/go-to-mooring",

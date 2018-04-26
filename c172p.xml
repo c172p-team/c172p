@@ -13,6 +13,7 @@
         <!-- Source: http://forum.flightgear.org/viewtopic.php?f=25&t=21664&start=45 -->
         <!-- this file with comments for stall and spin to help -->
         <!-- further modifications for c172p-detailed 2015 - 2018 -->
+        <!-- with help and extra informations from okroth -->
         <description> Cessna 172P Skyhawk </description>
     </fileheader>
 
@@ -25,7 +26,7 @@
         <vtailarea unit="FT2"> 16.5 </vtailarea>
         <vtailarm unit="FT"> 0 </vtailarm>
         <location name="AERORP" unit="IN">
-            <x> 47 </x>
+            <x> 40.6 </x>
             <y> 0 </y>
             <z> 59.4 </z>
         </location>
@@ -47,8 +48,8 @@
         -->
     <mass_balance>
         <ixx unit="SLUG*FT2"> 948 </ixx>
-        <iyy unit="SLUG*FT2"> 1346 </iyy>
-        <izz unit="SLUG*FT2"> 1967 </izz>
+        <iyy unit="SLUG*FT2"> 1285 </iyy>
+        <izz unit="SLUG*FT2"> 1906 </izz>
         <ixy unit="SLUG*FT2"> -0 </ixy>
         <ixz unit="SLUG*FT2"> -0 </ixz>
         <iyz unit="SLUG*FT2"> -0 </iyz>
@@ -1017,7 +1018,7 @@
         </alphalimits>
 
         <hysteresis_limits unit="RAD">
-            <min>0.09</min>
+            <min>0.15</min>
             <max>0.297</max>
         </hysteresis_limits>
 
@@ -1373,14 +1374,8 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>metrics/bw-ft</property>
-                    <table>
-                        <independentVar>aero/beta-rad</independentVar>
-                        <tableData>
-                              -0.3490	0.0322
-                              0.0000	0.0000
-                              0.3490	-0.0322
-                        </tableData>
-                    </table>
+                    <property>aero/beta-rad</property>
+                    <value>-0.092</value>
                     <!--
                           stall and spin (1):
                           via diedra effect.
@@ -1405,18 +1400,8 @@
                     <property>metrics/Sw-sqft</property>
                     <property>metrics/bw-ft</property>
                     <property>aero/bi2vel</property>
-                    <table>
-                        <independentVar lookup="row">velocities/p-aero-rad_sec</independentVar>
-                        <tableData>
-                              -20     20
-                              -10     9.68
-                              -5      2.42
-                               0      0
-                               5     -2.42
-                               10    -9.68
-                               20    -20
-                          </tableData>
-                    </table>
+                    <property>velocities/p-aero-rad_sec</property>
+                    <value>-0.484</value>
                     <!--
                           stall and spin (2):
                           less roll damping
@@ -1476,7 +1461,7 @@
                     <property>metrics/Sw-sqft</property>
                     <property>metrics/bw-ft</property>
                     <property>fcs/aileron-pos-rad-avgd</property>
-                    <value>0.2290</value>
+                    <value>0.229</value>
                     <!--
                         stall and spin (4):
                         less efficient ailerons
@@ -1542,7 +1527,7 @@
                     <property>aero/qbar-psf</property>
                     <property>metrics/Sw-sqft</property>
                     <property>metrics/cbarw-ft</property>
-                    <value>0.1000</value>
+                    <value>0.1</value>
                 </product>
             </function>
 
@@ -1555,7 +1540,7 @@
                     <sin>
                         <property>aero/alpha-rad</property>
                     </sin>
-                    <value>-1.8000</value>
+                    <value>-1.8</value>
                     <!--
                         stall and spin (5):
                         horizontal tail stall (for flat spin)
@@ -1606,7 +1591,7 @@
                     <property>metrics/Sw-sqft</property>
                     <property>metrics/cbarw-ft</property>
                     <property>fcs/elevator-pos-rad</property>
-                    <value>-1.8</value>
+                    <value>-1.28</value>
                     <!--
                         stall and spin (6):
                         elevator loss of efficiency when stalled
@@ -1706,11 +1691,11 @@
                                  0.279 0.4
                             -15  0     0
                             -5   0     0
-                            -3   0     -0.3
+                            -3   0     -0.25
                             -1   0     0
                             0    0     0
                             1    0     0
-                            3    0     0.3
+                            3    0     0.25
                             5    0     0
                             15   0     0
                         </tableData>
@@ -1729,12 +1714,21 @@
                     <property>metrics/Sw-sqft</property>
                     <property>metrics/bw-ft</property>
                     <property>fcs/aileron-pos-rad-avgd</property>
-                    <value>-0.016</value>
+                    <table>
+                        <independentVar lookup="row">aero/alpha-wing-rad</independentVar>
+                        <independentVar lookup="column">aero/beta-rad</independentVar>
+                        <tableData>
+                                    -0.35        0           0.35
+                            0       -0.0216      -0.0216     -0.0216
+                            0.070   -0.039       -0.0786     -0.039
+                            0.094   -0.025       -0.0504     -0.025
+                        </tableData>
+                    </table>
                     <table>
                         <independentVar>aero/function/total-wing-damage</independentVar>
                         <tableData>
-                            0.0000	1
-                            1.0000	0
+                            0.0000  1
+                            1.0000  0
                         </tableData>
                     </table>
                 </product>

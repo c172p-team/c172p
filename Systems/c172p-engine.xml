@@ -71,6 +71,7 @@
                 <sum>
                     <property>/engines/active-engine/rpm</property>
                     <value>-2750</value>
+                    <property>engine/rpm-over-redline-offset</property>
                 </sum>
             </function>
             <clipto>
@@ -84,7 +85,7 @@
                 <product>
                     <pow>
                         <property>engine/damage-level</property>
-                        <v>2</v>
+                        <value>2</value>
                     </pow>
                     <value>0.00075</value>
                 </product>
@@ -95,27 +96,7 @@
             </clipto>
         </fcs_function>
         
-        <!--<fcs_function name="engine/rpm-over-redline-adjusted">
-            <function>
-                <ifthen>
-                    <gt>
-                        <p>/engines/active-engine/rpm</p>
-                        <v>0</v>
-                    </gt>
-                    <sum>
-                        <property>engine/rpm-over-redline</property>
-                        <property>engine/rpm-over-redline-offset</property>
-                    </sum>
-                <v>0</v>
-                </ifthen>
-            </function>
-            <clipto>
-                <min>0</min>
-                <max>10000</max>
-            </clipto>
-        </fcs_function>-->
-
-         <fcs_function name="engine/oil-temp-above-max">
+        <fcs_function name="engine/oil-temp-above-max">
             <function>
                 <sum>
                     <property>/engines/active-engine/oil-temperature-degf</property>
@@ -133,19 +114,19 @@
                 <ifthen>
                     <and>
                         <eq>
-                            <p>settings/damage</p>
-                            <v>1</v>
+                            <property>settings/damage</property>
+                            <value>1</value>
                         </eq>
                         <eq>
-                            <p>/engines/active-engine/damage_allowed</p>
-                            <v>1</v>
+                            <property>/engines/active-engine/damage_allowed</property>
+                            <value>1</value>
                         </eq>
                     </and>
                     <sum>
                         <property>engine/damage-level</property>
                         <product>
                            <table>
-                                <independentVar lookup="row">engine/rpm-over-redline</independentVar> <!-- use engine/rpm-over-redline-adjusted once the offset is fixed -->
+                                <independentVar lookup="row">engine/rpm-over-redline</independentVar>
                                 <independentVar lookup="column">engine/oil-temp-above-max</independentVar>
                                 <tableData>
                                          0     50    100    250
@@ -170,7 +151,7 @@
                             <property>simulation/channel-dt</property>
                         </product>
                     </sum>
-                    <v>0</v> <!-- this is the value if damage is disabled -->
+                    <value>0</value> <!-- this is the value if damage is disabled -->
                 </ifthen>
             </function>
             <output>engine/damage-level</output>
@@ -181,15 +162,15 @@
                 <product>
                     <sum>
                         <product>
-                            <v>0.00008</v>
+                            <value>0.00008</value>
                             <pow>
                                 <property>engine/damage-level</property>
-                                <v>2</v>
+                                <value>2</value>
                             </pow>
                         </product>
-                        <v>0.625</v>
+                        <value>0.625</value>
                     </sum>
-                    <v>2.4</v>
+                    <value>2.4</value>
                 </product>
             </function>
             <clipto>

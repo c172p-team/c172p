@@ -64,7 +64,7 @@ See [this blog post](https://chris.beams.io/posts/git-commit/) on how to write g
 Use 4 spaces indentation for the XML and Nasal files. For example, to find XML files that contain tabs, execute:
 
 ```sh
-find . -type f -name "*.xml" -exec grep -HP '\t' {}\;
+find . -type f -name "*.xml" -exec grep -HP '\t' {} \;
 ```
 
 If you think it's necessary to fully reformat an XML, execute:

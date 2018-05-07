@@ -141,7 +141,7 @@
         <offsets>
             <x-m>-0.305</x-m>
             <y-m> 0.26584</y-m>
-            <z-m> 0.0566</z-m>
+            <z-m> 0.08948</z-m>
             <heading-deg>-19.0</heading-deg>
         </offsets>
         <condition>
@@ -159,7 +159,7 @@
         <offsets>
             <x-m>-0.305</x-m>
             <y-m> 0.36584</y-m>
-            <z-m> 0.0566</z-m>
+            <z-m> 0.08948</z-m>
             <heading-deg>-19.0</heading-deg>
         </offsets>
         <condition>
@@ -473,7 +473,9 @@
         <object-name>fairing1</object-name>
         <object-name>fairing2</object-name>
         <object-name>fairing3</object-name>
-        <object-name>fuselage_1.001</object-name>
+        <object-name>fuselage</object-name>
+        <object-name>fuselage_cowling</object-name>
+        <object-name>fuselage_cowling_top</object-name>
         <object-name>leftdoor</object-name>
         <object-name>leftdoorhandle</object-name>
         <object-name>rightdoor</object-name>
@@ -509,6 +511,7 @@
         <object-name>airvent</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
+        <object-name>fuelvent</object-name>
     </effect>
 
     <effect>
@@ -570,7 +573,9 @@
         <object-name>fairing3</object-name>
         <object-name>Axle</object-name>
         <object-name>flaps</object-name>
-        <object-name>fuselage_1.001</object-name>
+        <object-name>fuselage</object-name>
+        <object-name>fuselage_cowling</object-name>
+        <object-name>fuselage_cowling_top</object-name>
         <object-name>hstab</object-name>
         <object-name>leftaileron</object-name>
         <object-name>leftdoor</object-name>
@@ -594,6 +599,7 @@
         <object-name>oildoor</object-name>
         <object-name>vent</object-name>
         <object-name>airvent</object-name>
+        <object-name>fuelvent</object-name>
         <shininess>116</shininess>
         <specular>
             <r>1</r>
@@ -834,24 +840,11 @@
     <!-- Registration number -->
     <model>
         <path>Immat/immat.xml</path>
-        <offsets>
-            <x-m> 0.0 </x-m>
-            <y-m> 0.0 </y-m>
-            <z-m> 0.0 </z-m>
-            <roll-deg>    0.0 </roll-deg>
-            <pitch-deg>   0.0 </pitch-deg>
-            <heading-deg> 0.0 </heading-deg>
-        </offsets>
     </model>
 
     <model>
         <name>MooringHarness</name>
         <path>Effects/pontoon/mooringharness.xml</path>
-        <offsets>
-            <x-m>0</x-m>
-            <y-m>0</y-m>
-            <z-m>0</z-m>
-        </offsets>
     </model>
 
     <model>
@@ -862,11 +855,6 @@
     <model>
         <name>BreakersAndAvionicsSwitch</name>
         <path>Interior/Panel/Buttons/breakers/breakers.xml</path>
-        <offsets>
-            <x-m>-0.36873</x-m>
-            <y-m>-0.30291</y-m>
-            <z-m>-0.26824</z-m>
-        </offsets>
     </model>
 
     <!-- Instrumentation -->
@@ -874,147 +862,97 @@
     <model>
         <name>Gear</name>
         <path>Interior/Panel/Instruments/gear/gear-ctl.xml</path>
-        <offsets>
-            <x-m>-0.36</x-m>
-            <y-m> 0.26</y-m>
-            <z-m> 0.06</z-m>
-        </offsets>
     </model>
 
     <model>
         <name>MagCompass</name>
         <path>Interior/Panel/Instruments/mag-compass/mag-compass.xml</path>
-        <offsets>
-            <x-m>0.00</x-m>
-            <y-m>0.00</y-m>
-            <z-m>0.00</z-m>
-        </offsets>
+        <condition>
+            <not>
+                <or>
+                    <equals>
+                        <property alias="/params/bushkit"/>
+                        <value>3</value>
+                    </equals>
+                    <equals>
+                        <property alias="/params/bushkit"/>
+                        <value>4</value>
+                    </equals>
+                </or>
+            </not>
+        </condition>
+    </model>
+    <model>
+        <name>MagCompassFloat</name>
+        <path>Interior/Panel/Instruments/mag-compass/mag-compass-float.xml</path>
+        <condition>
+            <or>
+                <equals>
+                    <property alias="/params/bushkit"/>
+                    <value>3</value>
+                </equals>
+                <equals>
+                    <property alias="/params/bushkit"/>
+                    <value>4</value>
+                </equals>
+            </or>
+        </condition>
     </model>
     <model>
         <name>AI</name>
         <path>Interior/Panel/Instruments/AI/AI.xml</path>
-        <offsets>
-            <x-m>-0.369  </x-m>
-            <y-m>-0.22147</y-m>
-            <z-m> 0.06863</z-m>
-        </offsets>
     </model>
     <model>
         <name>Altimeter</name>
         <path>Interior/Panel/Instruments/alt/alt.xml</path>
-        <offsets>
-            <x-m>-0.369  </x-m>
-            <y-m>-0.13245</y-m>
-            <z-m> 0.06775</z-m>
-        </offsets>
     </model>
     <model>
         <name>BatteryGauge</name>
         <path>Interior/Panel/Instruments/BatteryGauge/BatteryGauge.xml</path>
-        <offsets>
-            <x-m>-0.367</x-m>
-            <y-m>-0.410</y-m>
-            <z-m>-0.171</z-m>
-        </offsets>
     </model>
     <model>
         <name>Kap140</name>
         <path>Interior/Panel/Instruments/kap140/KAP140TwoAxisAlt.xml</path>
-        <offsets>
-            <x-m>-0.357879</x-m>
-            <y-m>0.115</y-m>
-            <z-m>-0.132</z-m>
-        </offsets>
     </model>
     <model>
         <name>dme</name>
         <path>Interior/Panel/Instruments/dme/dme.xml</path>
-        <offsets>
-            <x-m>-0.357</x-m>
-            <y-m>0.115</y-m>
-            <z-m>-0.088</z-m>
-        </offsets>
     </model>
     <model>
         <name>asi</name>
         <path>Interior/Panel/Instruments/asi/asi.xml</path>
-        <offsets>
-            <x-m>-0.369</x-m>
-            <y-m>-0.31185</y-m>
-            <z-m>0.06863</z-m>
-        </offsets>
     </model>
     <model>
         <name>Turn</name>
         <path>Interior/Panel/Instruments/tc/tc.xml</path>
-        <offsets>
-            <x-m>-0.369</x-m>
-            <y-m>-0.31165</y-m>
-            <z-m>-0.03574</z-m>
-        </offsets>
     </model>
     <model>
         <name>VSI</name>
         <path>Interior/Panel/Instruments/VSI/VSI.xml</path>
-        <offsets>
-            <x-m>-0.369</x-m>
-            <y-m>-0.13245</y-m>
-            <z-m>-0.0365</z-m>
-        </offsets>
     </model>
     <model>
         <name>RPM</name>
         <path>Interior/Panel/Instruments/RPM/RPM.xml</path>
-        <offsets>
-            <x-m>-0.36</x-m>
-            <y-m>-0.31190</y-m>
-            <z-m>-0.14063</z-m>
-        </offsets>
     </model>
     <model>
         <name>EGT</name>
         <path>Interior/Panel/Instruments/EGT/EGT.xml</path>
-        <offsets>
-            <x-m>-0.368</x-m>
-            <y-m>-0.1326</y-m>
-            <z-m>-0.1405</z-m>
-        </offsets>
     </model>
     <model>
         <name>hi</name>
         <path>Interior/Panel/Instruments/hi/hi.xml</path>
-        <offsets>
-            <x-m>-0.368</x-m>
-            <y-m>-0.222</y-m>
-            <z-m>-0.036</z-m>
-        </offsets>
     </model>
     <model>
         <name>avor</name>
         <path>Interior/Panel/Instruments/vor/vor.xml</path>
-        <offsets>
-            <x-m>-0.369</x-m>
-            <y-m>-0.0423</y-m>
-            <z-m>0.06863</z-m>
-        </offsets>
     </model>
     <model>
         <name>vor2</name>
         <path>Interior/Panel/Instruments/vor/vor2.xml</path>
-        <offsets>
-            <x-m>-0.369</x-m>
-            <y-m>-0.0423</y-m>
-            <z-m>-0.03574</z-m>
-        </offsets>
     </model>
     <model>
         <name>adf</name>
         <path>Interior/Panel/Instruments/kr87-adf/ki227_228.xml</path>
-        <offsets>
-            <x-m>-0.372</x-m>
-            <y-m>-0.04214</y-m>
-            <z-m>-0.14037</z-m>
-        </offsets>
     </model>
     <model>
         <name>kx165-1</name>
@@ -1027,11 +965,6 @@
                 <blue>0.0</blue>
             </params>
         </overlay>
-        <offsets>
-            <x-m>-0.364</x-m>
-            <y-m>0.113</y-m>
-            <z-m>0.051</z-m>
-        </offsets>
     </model>
     <model>
         <name>kx165-2</name>
@@ -1044,32 +977,16 @@
                 <blue>0.0</blue>
             </params>
         </overlay>
-        <offsets>
-            <x-m>-0.364</x-m>
-            <y-m>0.113</y-m>
-            <z-m>-0.002</z-m>
-        </offsets>
     </model>
     <model>
         <name>kma20</name>
         <path>Interior/Panel/Instruments/kma20/kma20.xml</path>
-        <offsets>
-            <x-m>-0.364</x-m>
-            <y-m>0.113</y-m>
-            <z-m>0.100</z-m>
-        </offsets>
     </model>
     <model>
         <name>kr87</name>
         <path>Interior/Panel/Instruments/kr87-adf/kr87.xml</path>
-        <offsets>
-            <x-m>-0.364</x-m>
-            <y-m>0.114</y-m>
-            <z-m>-0.047</z-m>
-        </offsets>
     </model>
 
-    <!-- MOD: transponder -->
     <model>
         <name>transponder</name>
         <path>Interior/Panel/Instruments/kt76a/kt76a.xml</path>
@@ -1081,120 +998,49 @@
                 <blue>0.0</blue>
             </params>
         </overlay>
-        <offsets>
-            <x-m>-0.36</x-m>
-            <y-m>0.115</y-m>
-            <z-m>-0.177</z-m>
-        </offsets>
     </model>
-    <!-- MODEND -->
 
     <model>
         <name>clock</name>
         <path>Interior/Panel/Instruments/clock/clock.xml</path>
-        <offsets>
-            <x-m>-0.364</x-m>
-            <y-m>-0.389</y-m>
-            <z-m>0.049</z-m>
-        </offsets>
     </model>
     <model>
         <name>vac</name>
         <path>Interior/Panel/Instruments/vac/vac.xml</path>
-        <offsets>
-            <!-- MOD: Reposition VAC 
-                 <x-m>-0.365</x-m>
-                 <y-m>-0.432</y-m>
-                 <z-m>0.0228</z-m>
-            -->
-            <x-m>-0.36246</x-m>
-            <y-m>-0.43197</y-m>
-            <z-m>0.02361</z-m>
-            <!-- MODEND: Reposition VAC -->
-        </offsets>
     </model>
     <model>
         <name>fuel</name>
         <path>Interior/Panel/Instruments/FuelOilAmps/c172fuel.xml</path>
-        <offsets>
-            <x-m>-0.362</x-m>
-            <y-m>-0.405</y-m>
-            <z-m>-0.013</z-m>
-        </offsets>
     </model>
     <model>
         <name>oil</name>
         <path>Interior/Panel/Instruments/FuelOilAmps/c172oil.xml</path>
-        <offsets>
-            <x-m>-0.362</x-m>
-            <y-m>-0.405</y-m>
-            <z-m>-0.058</z-m>
-        </offsets>
     </model>
     <model>
         <name>mag_sw</name>
         <path>Interior/Panel/Instruments/magneto-switch/magneto-switch.xml</path>
-        <offsets>
-            <x-m>-0.369</x-m>
-            <y-m>-0.364</y-m>
-            <z-m>-0.280</z-m>
-        </offsets>
     </model>
     <model>
         <name>PanelLight</name>
         <path>Interior/Panel/Instruments/light/light_control.xml</path>
-        <offsets>
-            <x-m>-0.36</x-m>
-            <y-m>-0.035</y-m>
-            <z-m>-0.273</z-m>
-        </offsets>
     </model>
     <model>
-        <name>LeftYoke</name>
-        <path>Interior/Yoke/yoke-l.xml</path>
-        <offsets>
-            <x-m>-0.36</x-m>
-            <y-m>-0.219</y-m>
-            <z-m>-0.130</z-m>
-        </offsets>
-    </model>
-    <model>
-        <name>RightYoke</name>
-        <path>Interior/Yoke/yoke-r.xml</path>
-        <offsets>
-            <x-m>-0.36</x-m>
-            <y-m> 0.239</y-m>
-            <z-m>-0.130</z-m>
-        </offsets>
+        <name>Yokes</name>
+        <path>Interior/Yoke/yoke.xml</path>
     </model>
     <model>
         <name>ControlLock</name>
         <path>Interior/control-lock/control-lock.xml</path>
-        <offsets>
-            <x-m>0</x-m>
-            <y-m>0</y-m>
-            <z-m>0</z-m>
-        </offsets>
     </model>
     <model>
         <name>FlapSwitch</name>
         <path>Interior/Panel/Flaps/flaps.xml</path>
-        <offsets>
-            <x-m>-0.36</x-m>
-            <y-m>0.19</y-m>
-            <z-m>-0.25</z-m>
-        </offsets>
     </model>
 
     <!-- MOD: OAT -->
     <model>
         <name>OAT-object</name>
         <path>Interior/Panel/Instruments/oat/oat.xml</path>
-        <offsets>
-            <y-m> 0.0 </y-m>
-            <x-m> 0.0 </x-m>
-            <z-m> 0.0 </z-m>
-        </offsets>
     </model>
     <!-- MODEND -->
 
@@ -1357,11 +1203,6 @@
 
     <model>
         <path>Interior/Panel/Instruments/hobbs/hobbs.xml</path>
-        <offsets>
-            <x-m>-0.36</x-m>
-            <y-m>0.42</y-m>
-            <z-m>0</z-m>
-        </offsets>
     </model>
 
     <!-- Labels activated by hotspots -->
@@ -1384,7 +1225,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.311</y-m>
-            <z-m>0.068</z-m>
+            <z-m>0.10077</z-m>
         </offsets>
     </text>
     <text>
@@ -1406,7 +1247,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.222</y-m>
-            <z-m>0.069</z-m>
+            <z-m>0.10177</z-m>
         </offsets>
     </text>
     <text>
@@ -1427,8 +1268,8 @@
         <alignment>center-center</alignment>
         <offsets>
             <x-m>-0.3</x-m>
-            <y-m>0.00</y-m>
-            <z-m>0.18</z-m>
+            <y-m>-0.02</y-m>
+            <z-m>0.225</z-m>
         </offsets>
     </text>
     <text>
@@ -1450,7 +1291,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.133</y-m>
-            <z-m>0.069</z-m>
+            <z-m>0.10177</z-m>
         </offsets>
     </text>
     <text>
@@ -1472,7 +1313,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.410</y-m>
-            <z-m>-0.171</z-m>
+            <z-m>-0.13823</z-m>
         </offsets>
     </text>
     <text>
@@ -1494,7 +1335,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>0.116</y-m>
-            <z-m>-0.122</z-m>
+            <z-m>-0.08923</z-m>
         </offsets>
     </text>
     <text>
@@ -1516,7 +1357,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m> 0.116</y-m>
-            <z-m>-0.186</z-m>
+            <z-m>-0.15323</z-m>
         </offsets>
     </text>
     <text>
@@ -1538,7 +1379,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>0.116</y-m>
-            <z-m>-0.085</z-m>
+            <z-m>-0.05223</z-m>
         </offsets>
     </text>
     <text>
@@ -1560,7 +1401,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.311</y-m>
-            <z-m>-0.037</z-m>
+            <z-m>-0.00423</z-m>
         </offsets>
     </text>
     <text>
@@ -1582,7 +1423,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.131</y-m>
-            <z-m>-0.036</z-m>
+            <z-m>-0.00323</z-m>
         </offsets>
     </text>
     <text>
@@ -1604,7 +1445,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.311</y-m>
-            <z-m>-0.142</z-m>
+            <z-m>-0.10923</z-m>
         </offsets>
     </text>
     <text>
@@ -1626,7 +1467,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.222</y-m>
-            <z-m>-0.036</z-m>
+            <z-m>-0.00323</z-m>
         </offsets>
     </text>
     <text>
@@ -1648,7 +1489,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.041</y-m>
-            <z-m>0.069</z-m>
+            <z-m>0.10177</z-m>
         </offsets>
     </text>
     <text>
@@ -1670,7 +1511,51 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.041</y-m>
-            <z-m>-0.036</z-m>
+            <z-m>-0.00323</z-m>
+        </offsets>
+    </text>
+    <text>
+        <name>LabelCOMM1</name>
+        <type type="string">literal</type>
+        <text type="string">COMM 1 / NAV 1</text>
+        <draw-text type="bool">true</draw-text>
+        <font>Helvetica.txf</font>
+        <character-size type="double">0.012</character-size>
+        <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+        <axis-alignment>yz-plane</axis-alignment>
+        <max-height>0.2</max-height>
+        <max-width>0.15</max-width>
+        <font-resolution>
+            <width type="int">32</width>
+            <height type="int">32</height>
+        </font-resolution>
+        <alignment>center-center</alignment>
+        <offsets>
+            <x-m>-0.34</x-m>
+            <y-m> 0.105 </y-m>
+            <z-m> 0.101</z-m>
+        </offsets>
+    </text>
+    <text>
+        <name>LabelCOMM2</name>
+        <type type="string">literal</type>
+        <text type="string">COMM 2 / NAV 2</text>
+        <draw-text type="bool">true</draw-text>
+        <font>Helvetica.txf</font>
+        <character-size type="double">0.012</character-size>
+        <character-aspect-ratio type="double">1.0</character-aspect-ratio>
+        <axis-alignment>yz-plane</axis-alignment>
+        <max-height>0.2</max-height>
+        <max-width>0.15</max-width>
+        <font-resolution>
+            <width type="int">32</width>
+            <height type="int">32</height>
+        </font-resolution>
+        <alignment>center-center</alignment>
+        <offsets>
+            <x-m>-0.34</x-m>
+            <y-m> 0.105</y-m>
+            <z-m> 0.047</z-m>
         </offsets>
     </text>
     <text>
@@ -1692,7 +1577,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.041</y-m>
-            <z-m>-0.141</z-m>
+            <z-m>-0.10823</z-m>
         </offsets>
     </text>
     <text>
@@ -1714,7 +1599,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>0.113</y-m>
-            <z-m>0.100</z-m>
+            <z-m>0.13277</z-m>
         </offsets>
     </text>
     <text>
@@ -1736,7 +1621,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>0.113</y-m>
-            <z-m>-0.036</z-m>
+            <z-m>-0.00323</z-m>
         </offsets>
     </text>
     <text>
@@ -1758,7 +1643,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.389</y-m>
-            <z-m>0.049</z-m>
+            <z-m>0.08177</z-m>
         </offsets>
     </text>
     <text>
@@ -1780,7 +1665,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.432</y-m>
-            <z-m>0.0228</z-m>
+            <z-m>0.05557</z-m>
         </offsets>
     </text>
     <text>
@@ -1802,7 +1687,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.405</y-m>
-            <z-m>-0.013</z-m>
+            <z-m>0.01977</z-m>
         </offsets>
     </text>
     <text>
@@ -1824,7 +1709,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.405</y-m>
-            <z-m>-0.060</z-m>
+            <z-m>-0.02723</z-m>
         </offsets>
     </text>
     <text>
@@ -1846,7 +1731,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.354</y-m>
-            <z-m>-0.250</z-m>
+            <z-m>-0.20</z-m>
         </offsets>
     </text>
     <text>
@@ -1868,7 +1753,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.454</y-m>
-            <z-m>-0.230</z-m>
+            <z-m>-0.19723</z-m>
         </offsets>
     </text>
     <text>
@@ -1890,7 +1775,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.035</y-m>
-            <z-m>-0.273</z-m>
+            <z-m>-0.24023</z-m>
         </offsets>
     </text>
     <text>
@@ -1911,8 +1796,8 @@
         <alignment>center-center</alignment>
         <offsets>
             <x-m>-0.34</x-m>
-            <y-m>0.19</y-m>
-            <z-m>-0.25</z-m>
+            <y-m> 0.16</y-m>
+            <z-m>-0.20</z-m>
         </offsets>
     </text>
     <text>
@@ -1934,7 +1819,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.20</y-m>
-            <z-m>-0.29</z-m>
+            <z-m>-0.25723</z-m>
         </offsets>
     </text>
     <text>
@@ -1956,7 +1841,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.08</y-m>
-            <z-m>-0.19</z-m>
+            <z-m>-0.15723</z-m>
         </offsets>
     </text>
     <text>
@@ -1978,7 +1863,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m>-0.02</y-m>
-            <z-m>-0.18</z-m>
+            <z-m>-0.14723</z-m>
         </offsets>
     </text>
     <text>
@@ -2000,7 +1885,7 @@
         <offsets>
             <x-m>-0.34</x-m>
             <y-m> 0.05</y-m>
-            <z-m>-0.22</z-m>
+            <z-m>-0.18723</z-m>
         </offsets>
     </text>
     <text>
@@ -2022,7 +1907,7 @@
         <offsets>
             <x-m>-0.24</x-m>
             <y-m>-0.10</y-m>
-            <z-m>-0.38</z-m>
+            <z-m>-0.34723</z-m>
         </offsets>
     </text>
 
@@ -2060,6 +1945,8 @@
         <object-name>LabelMixture</object-name>
         <object-name>LabelTrim</object-name>
         <object-name>LabelPrimer</object-name>
+        <object-name>LabelCOMM1</object-name>
+        <object-name>LabelCOMM2</object-name>
         <emission>
             <red>1.0</red>
             <green>0.8</green>
@@ -2101,6 +1988,8 @@
         <object-name>LabelTrim</object-name>
         <object-name>LabelPanelLight</object-name>
         <object-name>LabelPrimer</object-name>
+        <object-name>LabelCOMM1</object-name>
+        <object-name>LabelCOMM2</object-name>
         <condition>
             <property>sim/panel-hotspots</property>
         </condition>
@@ -2115,8 +2004,7 @@
     </animation>
     <animation>
         <name>ControlsGroup</name>
-        <object-name>LeftYoke</object-name>
-        <object-name>RightYoke</object-name>
+        <object-name>Yokes</object-name>
         <object-name>CarbHeatGroup</object-name>
         <object-name>Throttle</object-name>
         <object-name>Mixture</object-name>
@@ -3457,9 +3345,9 @@
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.36</x-m>
-            <y-m>-0.20</y-m>
-            <z-m>-0.33</z-m>
+            <x-m>-0.56245</x-m>
+            <y-m>-0.20409</y-m>
+            <z-m>-0.29935</z-m>
         </center>
     </animation>
     <animation>
@@ -3621,7 +3509,7 @@
         <center>
             <x-m>-0.406</x-m>
             <y-m>-0.20</y-m>
-            <z-m>-0.48</z-m>
+            <z-m>-0.44723</z-m>
         </center>
         <action>
             <binding>
@@ -3655,7 +3543,7 @@
         <center>
             <x-m>-0.406</x-m>
             <y-m>-0.20</y-m>
-            <z-m>-0.48</z-m>
+            <z-m>-0.44723</z-m>
         </center>
     </animation>
 
@@ -3812,9 +3700,9 @@
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.363</x-m>
-            <y-m>0</y-m>
-            <z-m>-0.221</z-m>
+            <x-m>-0.36618</x-m>
+            <y-m>-0.15321</y-m>
+            <z-m>-0.18813</z-m>
         </center>
     </animation>
     <animation>
@@ -3828,9 +3716,9 @@
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.363</x-m>
-            <y-m>0</y-m>
-            <z-m>-0.221</z-m>
+            <x-m>-0.36618</x-m>
+            <y-m>-0.12817</y-m>
+            <z-m>-0.18778</z-m>
         </center>
     </animation>
     <animation>
@@ -3844,9 +3732,9 @@
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.363</x-m>
-            <y-m>0</y-m>
-            <z-m>-0.269</z-m>
+            <x-m>-0.36618</x-m>
+            <y-m>-0.20504</y-m>
+            <z-m>-0.23543</z-m>
         </center>
     </animation>
     <animation>
@@ -3860,9 +3748,9 @@
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.363</x-m>
-            <y-m>0</y-m>
-            <z-m>-0.269</z-m>
+            <x-m>-0.36618</x-m>
+            <y-m>-0.17895</y-m>
+            <z-m>-0.23543</z-m>
         </center>
     </animation>
     <animation>
@@ -3876,9 +3764,9 @@
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.363</x-m>
-            <y-m>0</y-m>
-            <z-m>-0.269</z-m>
+            <x-m>-0.36618</x-m>
+            <y-m>-0.15321</y-m>
+            <z-m>-0.23543</z-m>
         </center>
     </animation>
     <animation>
@@ -3892,9 +3780,9 @@
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.363</x-m>
-            <y-m>0</y-m>
-            <z-m>-0.269</z-m>
+            <x-m>-0.36618</x-m>
+            <y-m>-0.12817</y-m>
+            <z-m>-0.23543</z-m>
         </center>
     </animation>
 
@@ -3913,8 +3801,8 @@
         </axis>
         <center>
             <x-m>-0.36529</x-m>
-            <y-m>0</y-m>
-            <z-m>-0.23981</z-m>
+            <y-m>-0.40573</y-m>
+            <z-m>-0.20683</z-m>
         </center>
     </animation>
 
@@ -3931,8 +3819,8 @@
         </axis>
         <center>
             <x-m>-0.36529</x-m>
-            <y-m>0</y-m>
-            <z-m>-0.23971</z-m>
+            <y-m>-0.4211 </y-m>
+            <z-m>-0.20693</z-m>
         </center>
     </animation>
     <!-- MODEND: MASTER/GEN 3/3 -->
@@ -7137,8 +7025,9 @@
         <object-name>fairing1</object-name>
         <object-name>fairing2</object-name>
         <object-name>fairing3</object-name>
-        <object-name>fuselage_0</object-name>
-        <object-name>fuselage_1</object-name>
+        <object-name>fuselage</object-name>
+        <object-name>fuselage_cowling</object-name>
+        <object-name>fuselage_cowling_top</object-name>
         <object-name>charniere1</object-name>
         <object-name>charniere2</object-name>
         <object-name>charniere3</object-name>
@@ -8190,9 +8079,9 @@
         <name>tiedownL</name>
         <path>Exterior/tiedowns/tiedownL.xml</path>
         <offsets>
-            <x-m>0.1188</x-m>
-            <y-m>-2.2998</y-m>
-            <z-m>0.4008</z-m>
+            <x-m> 0.10907</x-m>
+            <y-m>-2.285  </y-m>
+            <z-m> 0.388  </z-m>
             <heading-deg>-90.0</heading-deg>
         </offsets>
     </model>
@@ -8302,9 +8191,9 @@
         <name>tiedownR</name>
         <path>Exterior/tiedowns/tiedownR.xml</path>
         <offsets>
-            <x-m>0.1188</x-m>
-            <y-m>2.2998</y-m>
-            <z-m>0.4008</z-m>
+            <x-m>0.10597</x-m>
+            <y-m>2.272  </y-m>
+            <z-m>0.3845 </z-m>
             <heading-deg>90.0</heading-deg>
         </offsets>
     </model>
@@ -8414,9 +8303,9 @@
         <name>tiedownT</name>
         <path>Exterior/tiedowns/tiedownT.xml</path>
         <offsets>
-            <x-m>4.7116</x-m>
-            <y-m>0.0</y-m>
-            <z-m>-0.6663</z-m>
+            <x-m> 4.6955 </x-m>
+            <y-m>-0.00184</y-m>
+            <z-m>-0.677  </z-m>
             <heading-deg>180.0</heading-deg>
         </offsets>
     </model>
@@ -8718,9 +8607,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>0</x-m>
-            <y-m>0.015</y-m>
-            <z-m>-0.018</z-m>
+            <x-m>-0.35592</x-m>
+            <y-m> 0.27517</y-m>
+            <z-m> 0.07507</z-m>
         </center>
     </animation>
 
@@ -8735,48 +8624,6 @@
                 <property>controls/gear/gear-down</property>
             </binding>
         </action>
-    </animation>
-
-    <!-- TEXT OSG -->
-    <text>
-        <name>textosg</name>
-        <type type="string">literal</type>
-        <text type="string">Gear</text>
-        <draw-text type="bool">true</draw-text>
-        <font>Helvetica.txf</font>
-        <character-size type="double">0.014</character-size>
-        <character-aspect-ratio type="double">1.0</character-aspect-ratio>
-        <axis-alignment>yz-plane</axis-alignment>
-        <max-height>0.06</max-height>
-        <max-width>0.05</max-width>
-        <font-resolution>
-            <width type="int">64</width>
-            <height type="int">64</height>
-        </font-resolution>
-        <alignment>center-center</alignment>
-        <offsets>
-            <x-m>  0.005 </x-m>
-            <y-m>  0.000 </y-m>
-            <z-m>  0.000 </z-m>
-        </offsets>
-    </text>
-
-    <animation>
-        <type>material</type>
-        <object-name>textosg</object-name>
-        <emission>
-            <red>   0.8 </red>
-            <green> 0.8 </green>
-            <blue>  0.0 </blue>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>textosg</object-name>
-        <condition>
-            <property>sim/panel-hotspots</property>
-        </condition>
     </animation>
     
     <!-- Left Tank Drain Sump -->

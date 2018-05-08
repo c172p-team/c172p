@@ -272,6 +272,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <path>/engines/active-engine/oil-level</path>
             <path>/fdm/jsbsim/engine/damage-level</path>
             <path>/fdm/jsbsim/settings/damage</path>
+            <path>/fdm/jsbsim/settings/damage-flag</path>
             <path>/fdm/jsbsim/bushkit</path>
             <path>/controls/engines/active-engine</path>
             <path>/environment/aircraft-effects/cabin-heat-set</path>
@@ -289,6 +290,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <path>/sim/model/c172p/save-state</path>
             <path>/engines/active-engine/complex-engine-procedures</path>
             <path>/sim/model/immat</path>
+            <path>/controls/mooring/automatic</path>
         </aircraft-data>
 
         <current-view>
@@ -512,8 +514,8 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 
     <controls>
         <flight>
-            <aileron-trim type="double">0.02</aileron-trim>
-            <rudder-trim type="double">0.013</rudder-trim>
+            <aileron-trim type="double">0.044</aileron-trim>
+            <rudder-trim type="double">0.02</rudder-trim>
 
             <freeze-yoke type="bool">false</freeze-yoke>
             <aileron-cmd type="double">0.0</aileron-cmd>
@@ -575,6 +577,12 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <water-rudder-down type="double">0</water-rudder-down>
             <brake-parking type="bool">true</brake-parking>
         </gear>
+        <mooring>
+            <automatic type="bool">false</automatic>
+            <anchor type="bool">false</anchor>
+            <go-to-mooring type="bool">false</go-to-mooring>
+            <port-available type="bool">false</port-available>
+        </mooring>
     </controls>
 
     <autopilot>
@@ -867,6 +875,9 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
         <garmin196>
             <file>Aircraft/Instruments-3d/garmin196/garmin196.nas</file>
         </garmin196>
+        <mooring>
+            <file>Aircraft/c172p/Nasal/mooring.nas</file>
+        </mooring>
     </nasal>
 
     <payload>
@@ -1036,6 +1047,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             </damage>
             <settings>
                 <damage type="bool">true</damage>
+                <damage-flag type="bool">false</damage-flag>
             </settings>
         </jsbsim>
     </fdm>
@@ -1051,6 +1063,13 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <save-battery-charge type="bool">false</save-battery-charge>
 
         </electrical>
+        <mooring>
+            <boat-id></boat-id>
+            <dialog></dialog>
+            <moorage-id></moorage-id>
+            <route include="Systems/mooring-pos.xml"/>
+            <state></state>
+        </mooring>
     </systems>
 
 </PropertyList>

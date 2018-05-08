@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<!--
+  Short S.23 flying boat flight model for JSBSim.
+
+    Copyright (C) 2010  Anders Gidenstam  (anders(at)gidenstam.org)
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+  
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+  
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+<system name="mooring-jsbsim">
+
+    <documentation>
+        This system models a mooring system with a fixed length mooring line.
+
+        NOTE: Currently the system only works in FlightGear and require that the
+        mooring bollard is located at the visual reference point (VRP).
+
+        Usage:
+
+        Define the following properties:
+
+        mooring/rope-spring-coeff-lbs_ft
+        mooring/max-rope-force-lbs
+        mooring/rope-length-ft
+
+        Define the following external forces:
+
+        <force name="mooring-north" frame="LOCAL">
+            <location unit="">
+                <x> 0.0 </x>
+                <y> 0.0 </y>
+                <z> 0.0 </z>
+            </location>
+            <direction>
+                <x> 1.0 </x>
+                <y> 0.0 </y>
+                <z> 0.0 </z>
+            </direction>
+        </force>
+        <force name="mooring-east" frame="LOCAL">
+            <location unit="">
+                <x> 0.0 </x>
+                <y> 0.0 </y>
+                <z> 0.0 </z>
+            </location>
+            <direction>
+                <x> 0.0 </x>
+                <y> 1.0 </y>
+                <z> 0.0 </z>
+            </direction>
+        </force>
+        <force name="mooring-down" frame="LOCAL">
+            <location unit="">
+                <x> 0.0 </x>
+                <y> 0.0 </y>
+                <z> 1.0 </z>
+            </location>
+            <direction>
+                <x> 1.0 </x>
+                <y> 0.0 </y>
+                <z> 0.0 </z>
+            </direction>
+        </force>
+
+    </documentation>
+
+    <!-- INTERFACE PROPERTIES -->
+
+    <!--  Mooring actions -->
+    <property value="0.0"> mooring/mooring-connected </property>
+
+    <!--  Mooring buoy location. Note: Geodetic latitude and altitude. -->
+    <property value="0.0"> mooring/latitude-deg  </property>
+    <property value="0.0"> mooring/longitude-deg </property>
+    <property value="0.0"> mooring/altitude-ft </property>
+
+    <!--  Mooring rope -->
+    <property value="952"> mooring/rope-spring-coeff-lbs_ft </property>
+    <property value="2000"> mooring/max-rope-force-lbs </property>
+    <property value="35"> mooring/rope-length-ft </property>
+
+    <channel name="Mooring Forces">
+
+        <fcs_function name="mooring/latitude-diff-ft">
+            <function>
+                <product>
+                    <value> -364560.0 </value>
+                    <difference>
+                        <property> /position/latitude-deg </property>
+                        <property> mooring/latitude-deg </property>
+                    </difference>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="mooring/longitude-diff-ft">
+            <function>
+            <product>
+                <value> -364560.0 </value> <!-- Bougus conversion factor. -->
+                <difference>
+                    <property> /position/longitude-deg </property>
+                    <property> mooring/longitude-deg </property>
+                </difference>
+            </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="mooring/altitude-diff-ft">
+            <function>
+                <difference>
+                    <property> /position/altitude-ft </property>
+                    <property> mooring/altitude-ft </property>
+                </difference>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="mooring/total-distance-ft">
+            <function>
+                <pow>
+                    <sum>
+                        <pow>
+                            <property> mooring/latitude-diff-ft </property>
+                            <value> 2.0 </value>
+                        </pow>
+                        <pow>
+                            <property> mooring/longitude-diff-ft </property>
+                            <value> 2.0 </value>
+                        </pow>
+                        <pow>
+                            <property> mooring/altitude-diff-ft </property>
+                            <value> 2.0 </value>
+                        </pow>
+                    </sum>
+                    <value> 0.5 </value>
+                </pow>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="mooring/rope-force-lbs">
+            <function>
+                <product>
+                    <property> mooring/mooring-connected </property>
+                    <property> mooring/rope-spring-coeff-lbs_ft </property>
+                    <max>
+                        <difference>
+                            <property> mooring/total-distance-ft </property>
+                            <property> mooring/rope-length-ft </property>
+                        </difference>
+                        <value> 0.0 </value>
+                    </max>
+                </product>
+            </function>
+            <clipto>
+                <min> 0.0 </min>
+                <max> mooring/max-rope-force-lbs </max>
+            </clipto>
+        </fcs_function>
+
+        <fcs_function name="mooring/total-force-lbs">
+            <function>
+                <property> mooring/rope-force-lbs </property>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="mooring/force-north-lbs">
+            <function>
+                <product>
+                    <property> mooring/mooring-connected </property>
+                    <product>
+                        <property> mooring/total-force-lbs </property>
+                        <quotient>
+                            <property> mooring/latitude-diff-ft </property>
+                            <property> mooring/total-distance-ft </property>
+                        </quotient>
+                    </product>
+                </product>
+            </function>
+            <output> external_reactions/mooring-north/magnitude </output>
+        </fcs_function>
+
+        <fcs_function name="mooring/force-east-lbs">
+            <function>
+                <product>
+                    <property> mooring/mooring-connected </property>
+                    <product>
+                        <property> mooring/total-force-lbs </property>
+                        <quotient>
+                            <property> mooring/longitude-diff-ft </property>
+                            <property> mooring/total-distance-ft </property>
+                        </quotient>
+                    </product>
+                </product>
+            </function>
+            <output> external_reactions/mooring-east/magnitude </output>
+        </fcs_function>
+
+        <fcs_function name="mooring/force-down-lbs">
+            <function>
+                <product>
+                    <property> mooring/mooring-connected </property>
+                    <product>
+                        <property> mooring/total-force-lbs </property>
+                        <quotient>
+                            <property> mooring/altitude-diff-ft </property>
+                            <property> mooring/total-distance-ft </property>
+                        </quotient>
+                    </product>
+                </product>
+            </function>
+            <output> external_reactions/mooring-down/magnitude </output>
+        </fcs_function>
+
+    </channel>  
+
+</system>

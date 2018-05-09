@@ -357,6 +357,14 @@ var update = func {
             }
         }
     }
+    
+    var active_engine = getprop("/controls/engines/active-engine");
+    var rpm = getprop("/engines/engine", active_engine, "rpm");
+
+    # sorry - had to hack this to prevent coughing on startup due to the oil pressure simulation. Maybe this can be used elsewhere
+    if (rpm < 900 and getprop("/controls/switches/starter") == 1) { # make sure it is not triggered if you accidentally hit s in the air
+        setprop("/engines/active-engine/ready-oil-press-checker", 1); # 0 = off, 1 = checker is armed, 2 = engine is running and ready
+    }
 
     if (getprop("/engines/active-engine/ready-oil-press-checker") == 1 and getprop("/engines/active-engine/rpm") > 900) {
         setprop("/engines/active-engine/ready-oil-press-checker", 2); # engine is ready for use
@@ -376,17 +384,6 @@ setlistener("/controls/switches/starter", func {
         if (primerTimer.isRunning) {
             primerTimer.stop();
         }
-    }
-
-
-    if (getprop("/controls/engines/active-engine") == 0)
-       var rpm = getprop("/engines/engine[0]/rpm");
-    if (getprop("/controls/engines/active-engine") == 1)
-        var rpm = getprop("/engines/engine[1]/rpm");
-
-    # sorry - had to hack this to prevent coughing on startup due to the oil pressure simulation. Maybe this can be used elsewhere
-    if (rpm < 900) { # make sure it is not triggered if you accidentally hit s in the air
-        setprop("/engines/active-engine/ready-oil-press-checker", 1); # 0 = off, 1 = checker is armed, 2 = engine is running and ready
     }
 }, 1, 0);
 

@@ -641,8 +641,8 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>comm-volume</tooltip-id>
-                <label>Volume: %3d%%</label>
+                <tooltip-id>comm2-volume</tooltip-id>
+                <label>COM2 Volume: %d%%</label>
                 <property alias="../../../../params/comm-volume"/>
                 <mapping>percent</mapping>
             </binding>
@@ -691,6 +691,13 @@
                 <script>c172p.click("kx165-2-dial")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>comm2-kHz</tooltip-id>
+                <label>Adjust COM2 kHz</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -734,6 +741,13 @@
                 <script>c172p.click("kx165-2-dial")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>comm2-MHz</tooltip-id>
+                <label>Adjust COM2 MHz</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -769,6 +783,13 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>comm2-toggle</tooltip-id>
+                <label>Swap COM2 frequencies</label>
+            </binding>
+        </hovered>
     </animation>
 
     <!-- Nav part -->
@@ -810,10 +831,24 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>nav-volume</tooltip-id>
-                <label>Volume: %3d%% (Shift + click to pull)</label>
+                <tooltip-id>nav2-volume</tooltip-id>
+                <label>%s</label>
+                <measure-text>NAV2 Volume: 100% ; Ident disabled (Shift + click to pull)</measure-text>
                 <property alias="../../../../params/nav-volume"/>
-                <mapping>percent</mapping>
+                <mapping>nasal</mapping>
+                <script>
+                    var v = arg[0];
+                    var a = getprop("/instrumentation/nav[1]/ident-audible");
+
+                    var s = "NAV2 Volume: ";
+                    s = s ~ sprintf("%3d", (v * 100) + .1); # rounding errors
+                    s = s ~ "% ; Ident ";
+                    if (a)
+                        s = s ~ "enabled (Shift + click to push)";
+                    else
+                        s = s ~ "disabled (Shift + click to pull)";
+                    return s;
+                </script>
             </binding>
         </hovered>
     </animation>
@@ -860,6 +895,13 @@
                 <script>c172p.click("kx165-2-dial")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>nav2-kHz</tooltip-id>
+                <label>Adjust NAV2 kHz</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -903,6 +945,13 @@
                 <script>c172p.click("kx165-2-dial")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>nav2-MHz</tooltip-id>
+                <label>Adjust NAV2 MHz</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -938,6 +987,13 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>nav2-toggle</tooltip-id>
+                <label>Swap NAV2 frequencies</label>
+            </binding>
+        </hovered>
     </animation>
 
 </PropertyList>

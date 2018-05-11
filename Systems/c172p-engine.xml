@@ -25,7 +25,7 @@
 <system name="engine">
 
     <channel name="oil">
-    
+
         <fcs_function name="consumed-oil-weight">
             <function>
                 <product>
@@ -36,11 +36,11 @@
             </function>
             <output>/fdm/jsbsim/inertia/pointmass-weight-lbs[16]</output>
         </fcs_function>
-        
+
     </channel>
-    
+
     <channel name="carburetor">
-    
+
         <fcs_function name="Carb heat on causes RPM drop on 160 HP engine">
             <function>
                 <ifthen>
@@ -51,7 +51,7 @@
             </function>
             <output>/fdm/jsbsim/propulsion/engine[0]/air-intake-impedance-factor</output>
         </fcs_function>
-        
+
         <fcs_function name="Carb heat on causes RPM drop on 180 HP engine">
             <function>
                 <ifthen>
@@ -62,7 +62,147 @@
             </function>
             <output>/fdm/jsbsim/propulsion/engine[1]/air-intake-impedance-factor</output>
         </fcs_function>
-        
+
     </channel>
-    
+
+    <channel name="damage">
+        <fcs_function name="engine/rpm-over-redline">
+            <function>
+                <sum>
+                    <property>/engines/active-engine/rpm</property>
+                    <value>-2750</value>
+                    <property>engine/rpm-over-redline-offset</property>
+                </sum>
+            </function>
+            <clipto>
+                <min>0</min>
+                <max>10000</max>
+            </clipto>
+        </fcs_function>
+        
+        <fcs_function name="engine/rpm-over-redline-offset"> <!-- reduce the damage threshold as damage increases -->
+              <function>
+                <product>
+                    <pow>
+                        <property>engine/damage-level</property>
+                        <value>2</value>
+                    </pow>
+                    <value>0.00075</value>
+                </product>
+            </function>
+            <clipto>
+                <min>0</min>
+                <max>10000</max>
+            </clipto>
+        </fcs_function>
+        
+        <fcs_function name="engine/oil-temp-above-max">
+            <function>
+                <sum>
+                    <property>/engines/active-engine/oil-temperature-degf</property>
+                    <value>-245</value>
+                </sum>
+            </function>
+            <clipto>
+                <min>0</min>
+                <max>1000</max>
+            </clipto>
+        </fcs_function>
+
+        <fcs_function name="engine-damage"> <!-- it0uchpods suggests this to allow repair button to reset to 0 -->
+              <function>
+                <ifthen>
+                    <and>
+                        <eq>
+                            <property>settings/damage</property>
+                            <value>1</value>
+                        </eq>
+                        <eq>
+                            <property>/engines/active-engine/damage_allowed</property>
+                            <value>1</value>
+                        </eq>
+                    </and>
+                    <sum>
+                        <property>engine/damage-level</property>
+                        <product>
+                           <table>
+                                <independentVar lookup="row">engine/rpm-over-redline</independentVar>
+                                <independentVar lookup="column">engine/oil-temp-above-max</independentVar>
+                                <tableData>
+                                         0     50    100    250
+                                    0    0      1      9     16
+                                  100    1      2     16     50
+                                  200    4      5     25     65
+                                  300    9     10     36     82
+                                  400   16     17     49    101
+                                  500   25     25     64    122
+                                  600   36     37     81    145
+                                  700   49     50    100    170
+                                  800   64     65    121    197
+                                  900   81     82    144    226
+                                 1000  100    101    169    256
+                                 1100  121    123    196    289
+                                 1200  144    147    225    324
+                                 1300  169    175    256    361
+                                 1400  196    199    289    400
+                                 1500  225    228    324    441
+                                </tableData>
+                            </table>
+                            <property>simulation/channel-dt</property>
+                        </product>
+                    </sum>
+                    <value>0</value> <!-- this is the value if damage is disabled -->
+                </ifthen>
+            </function>
+            <output>engine/damage-level</output>
+        </fcs_function>
+
+        <fcs_function>
+            <function> <!-- derived from a graphical calculator: 0.01x pow 2 + 2.15x + 0.625 multiplied by 2.4 -->
+                <product>
+                    <sum>
+                        <product>
+                            <value>0.00008</value>
+                            <pow>
+                                <property>engine/damage-level</property>
+                                <value>2</value>
+                            </pow>
+                        </product>
+                        <value>0.625</value>
+                    </sum>
+                    <value>2.4</value>
+                </product>
+            </function>
+            <clipto>
+                <min>1.5</min>
+                <max>10000</max>
+            </clipto>
+            <output>engine/friction-hp</output>
+        </fcs_function>
+
+        <switch name="engine/engine-0-friction-hp">
+            <default value="1.5"/>
+            <test  logic="AND" value="engine/friction-hp">
+                /controls/engines/active-engine eq 0
+            </test>
+            <output>/fdm/jsbsim/propulsion/engine[0]/friction-hp</output>
+        </switch>
+
+         <switch name="engine/engine-1-friction-hp">
+            <default value="1.5"/>
+            <test  logic="AND" value="engine/friction-hp">
+                /controls/engines/active-engine eq 1
+            </test>
+            <output>/fdm/jsbsim/propulsion/engine[1]/friction-hp</output>
+        </switch>
+        
+        <switch name="engine/damage-smoke">
+            <default value="0"/>
+            <test  logic="AND" value="1">
+                /fdm/jsbsim/engine/damage-level GT 100
+                /engines/active-engine/running EQ 1
+            </test>
+            <output>/aircraft/effects/damage-smoke-visible</output>
+        </switch>
+    </channel>
 </system>

@@ -5,3 +5,4 @@ var leftWindow = aircraft.door.new( "/sim/model/door-positions/leftWindow", 2, 0
 var rightWindow = aircraft.door.new( "/sim/model/door-positions/rightWindow", 2, 0 );
 var baggageDoor = aircraft.door.new( "/sim/model/door-positions/baggageDoor", 2, 0 );
 var oilDoor = aircraft.door.new( "/sim/model/door-positions/oilDoor", 1, 0 );
+var gloveboxDoor = aircraft.door.new( "/sim/model/door-positions/gloveboxDoor", 1, 0 );

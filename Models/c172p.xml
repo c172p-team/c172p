@@ -335,9 +335,12 @@
             <baggage>
                 <property>sim/multiplay/generic/float[2]</property>
             </baggage>
-             <oil>
+            <oil>
                 <property>sim/multiplay/generic/float[18]</property>
             </oil>
+            <glovebox>
+                <property>sim/multiplay/generic/float[19]</property>
+            </glovebox>
         </doors>
         <windows>
             <left>sim/multiplay/generic/float[3]</left>
@@ -730,6 +733,8 @@
         <object-name>windowframeleftint</object-name>
         <object-name>windowframerightint</object-name>
         <object-name>accport</object-name>
+        <object-name>gloveboxdoor</object-name>
+        <object-name>gloveboxlock</object-name>
     </effect>
     <effect>
         <inherits-from>Effects/interior/c172p-interior-glass-reflection-front</inherits-from>
@@ -2733,6 +2738,90 @@
             <x2-m>-0.49239</x2-m>
             <y2-m> 0.52263</y2-m>
             <z2-m>-0.28139</z2-m>
+        </axis>
+    </animation>
+
+    <!-- Pick animation for the gloveboxlock and door -->
+    <animation>
+        <type>pick</type>
+        <object-name>gloveboxdoor</object-name>
+        <object-name>gloveboxlock</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.gloveboxDoor.toggle();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>door-handle-glovebox</tooltip-id>
+                <label>Glovebox Open/Close</label>
+            </binding>
+        </hovered>
+    </animation>
+    <!-- Glovebox door animation -->
+    <animation>
+        <type>rotate</type>
+        <object-name>gloveboxdoor</object-name>
+        <object-name>gloveboxlock</object-name>
+        <property alias="../../params/doors/glovebox/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.20</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.55</ind>
+                <dep>-40.0</dep>
+            </entry>
+            <entry>
+                <ind>1</ind>
+                <dep>-80</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-0.36927</x-m>
+            <y-m> 0.38169</y-m>
+            <z-m>-0.25797</z-m>
+        </center>
+         <axis>
+            <x> 0.0</x>
+            <y>-1.0</y>
+            <z> 0.0</z>
+        </axis>
+    </animation>
+    <!-- Glovebox lock animation -->
+    <animation>
+        <type>rotate</type>
+        <object-name>gloveboxlock</object-name>
+        <property alias="../../params/doors/glovebox/property"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>.10</ind>
+                <dep>-22.5.0</dep>
+            </entry>
+            <entry>
+                <ind>.20</ind>
+                <dep>-45.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-0.36369</x-m>
+            <y-m> 0.38077</y-m>
+            <z-m>-0.20765</z-m>
+        </center>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
         </axis>
     </animation>
 

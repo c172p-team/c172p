@@ -48,15 +48,23 @@
         <nav-audio>instrumentation/nav[1]/ident-audible</nav-audio>
     </params>
 
-    <path>kx165.ac</path>
+    <path>kx165-2.ac</path>
 
     <effect>
         <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
         <object-name>CommKnobs</object-name>
         <object-name>CommKHz</object-name>
         <object-name>CommMHz</object-name>
-        <object-name>CommToggle</object-name>
         <object-name>CommVolume</object-name>
+        <object-name>NavKnobs</object-name>
+        <object-name>NavKHz</object-name>
+        <object-name>NavMHz</object-name>
+        <object-name>NavVolume</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>../../../../Effects/interior/c172p-interior</inherits-from>
+        <object-name>CommToggle</object-name>
         <object-name>CommStby</object-name>
         <object-name>CommStby100K</object-name>
         <object-name>CommStby100M</object-name>
@@ -71,11 +79,7 @@
         <object-name>CommUse10M</object-name>
         <object-name>CommUse1M</object-name>
         <object-name>CommUseDot</object-name>
-        <object-name>NavKnobs</object-name>
-        <object-name>NavKHz</object-name>
-        <object-name>NavMHz</object-name>
         <object-name>NavToggle</object-name>
-        <object-name>NavVolume</object-name>
         <object-name>NavStby</object-name>
         <object-name>NavStby100K</object-name>
         <object-name>NavStby100M</object-name>
@@ -572,9 +576,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>0.0188947</x-m>
-            <y-m>-0.0620002</y-m>
-            <z-m>-0.0139999</z-m>
+            <x-m>-0.34509</x-m>
+            <y-m> 0.05097</y-m>
+            <z-m> 0.01597</z-m>
         </center>
         <action>
             <binding>
@@ -637,8 +641,8 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>comm-volume</tooltip-id>
-                <label>Volume: %3d%%</label>
+                <tooltip-id>comm2-volume</tooltip-id>
+                <label>COM2 Volume: %d%%</label>
                 <property alias="../../../../params/comm-volume"/>
                 <mapping>percent</mapping>
             </binding>
@@ -656,9 +660,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>0.0320882</x-m>
-            <y-m>-0.022</y-m>
-            <z-m>-0.012</z-m>
+            <x-m>-0.34727</x-m>
+            <y-m> 0.09097</y-m>
+            <z-m> 0.01797</z-m>
         </center>
         <action>
             <binding>
@@ -687,6 +691,13 @@
                 <script>c172p.click("kx165-2-dial")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>comm2-kHz</tooltip-id>
+                <label>Adjust COM2 kHz</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -700,9 +711,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>0.0320882</x-m>
-            <y-m>-0.022</y-m>
-            <z-m>-0.012</z-m>
+            <x-m>-0.34727</x-m>
+            <y-m> 0.09097</y-m>
+            <z-m> 0.01797</z-m>
         </center>
         <action>
             <binding>
@@ -730,6 +741,13 @@
                 <script>c172p.click("kx165-2-dial")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>comm2-MHz</tooltip-id>
+                <label>Adjust COM2 MHz</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -765,6 +783,13 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>comm2-toggle</tooltip-id>
+                <label>Swap COM2 frequencies</label>
+            </binding>
+        </hovered>
     </animation>
 
     <!-- Nav part -->
@@ -779,9 +804,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>0.0188946</x-m>
-            <y-m>0.0180001</y-m>
-            <z-m>-0.0139999</z-m>
+            <x-m>-0.35009</x-m>
+            <y-m> 0.13097</y-m>
+            <z-m> 0.01597</z-m>
         </center>
         <action>
             <binding>
@@ -806,10 +831,24 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>nav-volume</tooltip-id>
-                <label>Volume: %3d%% (Shift + click to pull)</label>
+                <tooltip-id>nav2-volume</tooltip-id>
+                <label>%s</label>
+                <measure-text>NAV2 Volume: 100% ; Ident disabled (Shift + click to pull)</measure-text>
                 <property alias="../../../../params/nav-volume"/>
-                <mapping>percent</mapping>
+                <mapping>nasal</mapping>
+                <script>
+                    var v = arg[0];
+                    var a = getprop("/instrumentation/nav[1]/ident-audible");
+
+                    var s = "NAV2 Volume: ";
+                    s = s ~ sprintf("%3d", (v * 100) + .1); # rounding errors
+                    s = s ~ "% ; Ident ";
+                    if (a)
+                        s = s ~ "enabled (Shift + click to push)";
+                    else
+                        s = s ~ "disabled (Shift + click to pull)";
+                    return s;
+                </script>
             </binding>
         </hovered>
     </animation>
@@ -825,9 +864,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>0.0320882</x-m>
-            <y-m>0.058</y-m>
-            <z-m>-0.012</z-m>
+            <x-m>-0.34574</x-m>
+            <y-m> 0.17097</y-m>
+            <z-m> 0.01797</z-m>
         </center>
         <action>
             <binding>
@@ -856,6 +895,13 @@
                 <script>c172p.click("kx165-2-dial")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>nav2-kHz</tooltip-id>
+                <label>Adjust NAV2 kHz</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -869,9 +915,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>0.0320882</x-m>
-            <y-m>0.058</y-m>
-            <z-m>-0.012</z-m>
+            <x-m>-0.34574</x-m>
+            <y-m> 0.17097</y-m>
+            <z-m> 0.01797</z-m>
         </center>
         <action>
             <binding>
@@ -899,6 +945,13 @@
                 <script>c172p.click("kx165-2-dial")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>nav2-MHz</tooltip-id>
+                <label>Adjust NAV2 MHz</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -934,47 +987,13 @@
                 </binding>
             </mod-up>
         </action>
-    </animation>
-
-    <!-- TEXT OSG -->
-    <text>
-        <name>textosg</name>
-        <type type="string">literal</type>
-        <text type="string">COMM 2 / NAV 2</text>
-        <draw-text type="bool">true</draw-text>
-        <font>Helvetica.txf</font>
-        <character-size type="double">0.014</character-size>
-        <character-aspect-ratio type="double">1.0</character-aspect-ratio>
-        <axis-alignment>yz-plane</axis-alignment>
-        <max-height>0.06</max-height>
-        <max-width>0.15</max-width>
-        <font-resolution>
-            <width type="int">64</width>
-            <height type="int">64</height>
-        </font-resolution>
-        <alignment>center-center</alignment>
-        <offsets>
-            <x-m>  0.015 </x-m>
-            <y-m>  0.000 </y-m>
-            <z-m>  0.015 </z-m>
-        </offsets>
-    </text>
-    <animation>
-        <type>material</type>
-        <object-name>textosg</object-name>
-        <emission>
-            <red>   0.8 </red>
-            <green> 0.8 </green>
-            <blue>  0.0 </blue>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>textosg</object-name>
-        <condition>
-            <property>sim/panel-hotspots</property>
-        </condition>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>nav2-toggle</tooltip-id>
+                <label>Swap NAV2 frequencies</label>
+            </binding>
+        </hovered>
     </animation>
 
 </PropertyList>

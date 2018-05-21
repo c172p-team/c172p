@@ -254,13 +254,19 @@
             <condition>
                 <equals>
                     <property>/controls/engines/active-engine</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property>/engines/engine[0]/oil-temperature-degf</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
                     <value>1</value>
                 </equals>
             </condition>
             <property>/engines/engine[1]/oil-temperature-degf</property>
-        </input>
-        <input>
-            <property>/engines/engine[0]/oil-temperature-degf</property>
         </input>
         <output>
             <property>/engines/active-engine/oil-temperature-degf</property>
@@ -528,14 +534,38 @@
                         <value>0.2</value>
                     </greater-than>
                 </and>
-                
-                <!-- engine is also killed if oil level is critical. Minimum oil level in the sump for safe operation (according 
-                to Lycommings manual, page 3-10) is 2 quarts, which explains the value of 1.97 below-->
+
+                <!-- engine is also killed if oil level is critical. Minimum oil level in the sump for safe operation (according
+                to Lycomings manual, page 3-10) is 2 quarts, which explains the value of 1.97 below-->
                 <less-than>
                     <property>/engines/active-engine/oil-level</property>
                     <value>1.97</value>
                 </less-than>
-                
+
+                <!-- kill engine if the oil pressure is too low while the engine is running, according to Lycoming manaul 3-6 minimum oil pressure
+                in normal flight is 60psi, we use quite a bit below that to avoid excessive coughing during start. The engine will run for a while
+                probably at these low pressures, but if you have zero, you need to cut the engine fast! -->
+                <and>
+                    <property>/engines/active-engine/running</property>
+                    <equals>
+                        <property>/engines/active-engine/ready-oil-press-checker</property>
+                        <value>2</value>
+                    </equals>
+                    <less-than>
+                        <property>/engines/active-engine/oil-pressure-psi</property>
+                        <value>20</value> <!-- POH 2-3, our 172 has the Rochester gauge installed -->
+                    </less-than>
+                </and>
+
+                <!-- also kill when pressure is too high (simulates pipes bursting under extreme pressure)-->
+                <and>
+                    <property>/engines/active-engine/running</property>
+                    <greater-than>
+                        <property>/engines/active-engine/oil-pressure-psi</property>
+                        <value>120</value> <!-- POH 2-5 -->
+                    </greater-than>
+                </and>
+
                 <!-- engine is also killed if there is too much ice in the carburettor. Limit value is arbitrarily set to 0.32 -->
                 <greater-than-equals>
                     <property>/engines/active-engine/carb_ice</property>
@@ -553,7 +583,7 @@
         <name>Engine Coughing</name>
         <input>
             <or>
-            
+
                 <!-- engine coughs if fuel contamination is present on a selected tank, but lower than the critical value of 0.2 -->
                 <and>
                     <or>
@@ -591,7 +621,24 @@
                         </and>
                     </not>
                 </and>
-                
+
+                <!-- coughing due to low oil pressure -->
+                <and>
+                    <property>/engines/active-engine/running</property>
+                    <equals>
+                        <property>/engines/active-engine/ready-oil-press-checker</property>
+                        <value>2</value>
+                    </equals>
+                    <less-than>
+                        <property>/engines/active-engine/oil-pressure-psi</property>
+                        <value>22.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/engines/active-engine/oil-pressure-psi</property>
+                        <value>20</value>
+                    </greater-than>
+                </and>
+
                 <!-- engine also coughs if ice is present in the carburettor and is melting at a noticiable rate -->
                 <and>
                     <greater-than>
@@ -602,7 +649,7 @@
                         <property>/engines/active-engine/carb_icing_rate</property>
                         <value>-0.5</value>
                     </less-than>
-                    <!-- leaning the mixture while the carb ice is melting helps with the cough in RL, which is why 
+                    <!-- leaning the mixture while the carb ice is melting helps with the cough in RL, which is why
                     the egt-norm property is used here -->
                     <greater-than>
                         <property>/engines/active-engine/egt-norm</property>
@@ -651,6 +698,10 @@
         <input>
             <property>/engines/active-engine/complex-engine-procedures</property>
         </input>
+        <output>
+            <name>damage</name>
+            <property>/engines/active-engine/damage_allowed</property>
+        </output>
         <output>
             <name>oil</name>
             <property>/engines/active-engine/oil_consumption_allowed</property>

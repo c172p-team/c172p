@@ -13,11 +13,15 @@
 
     <effect>
         <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
-        <object-name>indicator</object-name>
-        <object-name>Chassis</object-name>
         <object-name>Volume</object-name>
         <object-name>FRQOuter</object-name>
         <object-name>FRQInner</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>../../../../Effects/interior/c172p-interior</inherits-from>
+        <object-name>indicator</object-name>
+        <object-name>Chassis</object-name>
         <object-name>knobs.ADF</object-name>
         <object-name>knobs.BFO</object-name>
         <object-name>knobs.FRQ</object-name>
@@ -48,7 +52,7 @@
         </condition>
     </animation>
 
-    <animation>
+    <animation>a3af2ab7f49382b8a63041cec1a7ff4cd1487b96
         <type>material</type>
         <object-name>indicator</object-name>
         <condition>
@@ -331,6 +335,16 @@
                 <script>c172p.click("kr87-adf")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>adf-adf-mode</tooltip-id>
+                <label>ADF Mode: %s</label>
+                <property>/instrumentation/adf[0]/adf-btn</property>
+                <mapping>nasal</mapping>
+                <script>return arg[0] ? "ADF" : "ANT";</script>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -360,6 +374,16 @@
                 <script>c172p.click("kr87-adf")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>adf-adf-mode</tooltip-id>
+                <label>ADF BFO: %s</label>
+                <property>/instrumentation/adf[0]/bfo-btn</property>
+                <mapping>nasal</mapping>
+                <script>return arg[0] ? "Enabled" : "Disabled";</script>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -421,6 +445,13 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>adf-swap</tooltip-id>
+                <label>Swap ADF frequencies</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -470,6 +501,13 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>adf-flt-et</tooltip-id>
+                <label>Flight / Elapsed Timer</label>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -511,6 +549,13 @@
                 </binding>
             </mod-up>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>adf-set</tooltip-id>
+                <label>Reset Elapsed Timer</label>
+            </binding>
+        </hovered>
     </animation>
 
     <!-- Volume knob -->
@@ -525,9 +570,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>0.0188946</x-m>
-            <y-m>0.03362955</y-m>
-            <z-m>-0.00472295</z-m>
+            <x-m>-0.35034</x-m>
+            <y-m> 0.14736</y-m>
+            <z-m>-0.01904</z-m>
         </center>
         <action>
             <binding>
@@ -566,9 +611,18 @@
                 <script>c172p.click("kr87-adf-dial")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>adf-volume</tooltip-id>
+                <label>Volume: %d%%</label>
+                <property>/instrumentation/adf[0]/volume-norm</property>
+                <mapping>percent</mapping>
+            </binding>
+        </hovered>
     </animation>
 
-    <!-- Inner frequency (1 KHz) knob -->
+    <!-- Inner frequency (1 kHz) knob -->
     <animation>
         <type>knob</type>
         <object-name>FRQInner</object-name>
@@ -580,9 +634,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>0.0371</x-m>
-            <y-m>0.0629</y-m>
-            <z-m>-0.0018</z-m>
+            <x-m>-0.33714</x-m>
+            <y-m> 0.17663</y-m>
+            <z-m>-0.01618</z-m>
         </center>
         <action>
             <binding>
@@ -607,6 +661,13 @@
                 <script>c172p.click("kr87-adf-dial")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>adf-kHz</tooltip-id>
+                <label>Adjust ADF frequency by 1 kHz</label>
+            </binding>
+        </hovered>
     </animation>
 
     <!-- Outer frequency (100 KHz) knob -->
@@ -621,9 +682,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>0.0371</x-m>
-            <y-m>0.0629</y-m>
-            <z-m>-0.0018</z-m>
+            <x-m>-0.33714</x-m>
+            <y-m> 0.17663</y-m>
+            <z-m>-0.01618</z-m>
         </center>
         <action>
             <binding>
@@ -648,6 +709,13 @@
                 <script>c172p.click("kr87-adf-dial")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>adf-100kHz</tooltip-id>
+                <label>Adjust ADF frequency by 100 kHz</label>
+            </binding>
+        </hovered>
     </animation>
 
 </PropertyList>

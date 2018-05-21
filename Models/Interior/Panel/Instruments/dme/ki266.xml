@@ -39,7 +39,7 @@
     <path>ki266.ac</path>
 
     <effect>
-        <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
+        <inherits-from>../../../../Effects/interior/c172p-interior</inherits-from>
         <object-name>ModeSwitch</object-name>
         <object-name>Frame</object-name>
         <object-name>Background</object-name>
@@ -144,8 +144,6 @@
     <animation>
         <type>pick</type>
         <object-name>ModeSwitch</object-name>
-        <object-name>Min</object-name>
-        <object-name>Kts</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -159,6 +157,20 @@
                 <script>c172p.click("dme-mode")</script>
             </binding>
         </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>min-kts</tooltip-id>
+                <label>Mode: %s</label>
+                <property alias="../../../../params/min-kts"/>
+                <mapping>nasal</mapping>
+                <script>
+                  var m = arg[0];
+                  if (m) return 'KTS';
+                  return 'MIN';
+                </script>
+            </binding>
+        </hovered>
     </animation>
 
     <!-- Distance display, allways on.

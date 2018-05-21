@@ -62,7 +62,7 @@ var autostart = func (msg=1) {
     #   setprop("sim/model/show-dip-stick", 0);
     #   var engine = getprop("controls/engines/active-engine");
     #    if (!engine)
-    #        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));  
+    #        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
     #    else
     #        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
     #}
@@ -70,11 +70,11 @@ var autostart = func (msg=1) {
     # Setting max oil level
     var oil_enabled = getprop("/engines/active-engine/oil_consumption_allowed");
     var oil_level   = getprop("/engines/active-engine/oil-level");
-    
+
     if (oil_enabled and oil_level < 5.0) {
         if (getprop("/controls/engines/active-engine") == 0) {
             setprop("/engines/active-engine/oil-level", 7.0);
-        } 
+        }
         else {
             setprop("/engines/active-engine/oil-level", 8.0);
         };
@@ -139,10 +139,10 @@ controls.applyParkingBrake = func (v) {
 # Fuel Save State
 ##########################################
 var fuel_save_state = func {
-    if (!getprop("/consumables/fuel/save-fuel-state")) {    
+    if (!getprop("/consumables/fuel/save-fuel-state")) {
         setprop("/consumables/fuel/tank[0]/level-gal_us", 20);
         setprop("/consumables/fuel/tank[1]/level-gal_us", 20);
-    };    
+    };
 };
 
 ##########################################
@@ -301,7 +301,7 @@ var switches_save_state = func {
         setprop("/environment/aircraft-effects/cabin-air-set", 0.0);
         setprop("/consumables/fuel/tank[0]/selected", 1);
         setprop("/consumables/fuel/tank[1]/selected", 1);
-    };    
+    };
 };
 
 ##########################################
@@ -425,7 +425,8 @@ var StaticModel = {
         var m = {
             parents: [StaticModel],
             model: nil,
-            model_file: file
+            model_file: file,
+	    object_name: name
         };
 
         setlistener("/sim/" ~ name ~ "/enable", func (node) {
@@ -449,7 +450,11 @@ var StaticModel = {
             }
         }
         var position = geo.aircraft_position().set_alt(getprop("/position/ground-elev-m"));
-        me.model = geo.put_model(me.model_file, position, getprop("/orientation/heading-deg"));
+        if (me.object_name == "anchorbuoy") {
+            me.model = geo.put_model(me.model_file, getprop("/fdm/jsbsim/mooring/anchor-lat"), getprop("/fdm/jsbsim/mooring/anchor-lon"), getprop("/position/ground-elev-m"), getprop("/orientation/heading-deg"));
+        } else {
+            me.model = geo.put_model(me.model_file, position, getprop("/orientation/heading-deg"));
+        }
     },
 
     remove: func {
@@ -465,6 +470,10 @@ StaticModel.new("coneL", "Aircraft/c172p/Models/Exterior/safety-cone/safety-cone
 StaticModel.new("gpu", "Aircraft/c172p/Models/Exterior/external-power/external-power.xml");
 StaticModel.new("ladder", "Aircraft/c172p/Models/Exterior/ladder/ladder.xml");
 StaticModel.new("fueltanktrailer", "Aircraft/c172p/Models/Exterior/fueltanktrailer/fueltanktrailer.ac");
+StaticModel.new("externalheater", "Aircraft/c172p/Models/Exterior/external-heater/RedDragonEnginePreHeater.ac");
+
+# Mooring anchor and rope
+StaticModel.new("anchorbuoy", "Aircraft/c172p/Models/Effects/pontoon/mooring.xml");
 
 # external electrical disconnect when groundspeed higher than 0.1ktn (replace later with distance less than 0.01...)
 var ad_timer = maketimer(0.1, func {
@@ -604,7 +613,7 @@ setlistener("/sim/signals/fdm-initialized", func {
             setprop("/autopilot/KAP140/settings/target-alt-ft", kap140.altPreselect);
         }
     });
-    
+
     setlistener("/sim/model/c172p/cabin-air-temp-in-range", func (node) {
         if (node.getValue()) {
             cabin_temp_timer.stop();
@@ -653,13 +662,13 @@ setlistener("/sim/signals/fdm-initialized", func {
 
     # Checking if fuel tanks should be refilled (in case save state is off)
     fuel_save_state();
-    
+
     # Checking if switches should be moved back to default position (in case save state is off)
     switches_save_state();
-    
+
     # Checking if fuel contamination is allowed, and if so generating a random situation
     fuel_contamination();
-    
+
     # Listening for lightning strikes
     setlistener("/environment/lightning/lightning-pos-y", thunder);
 

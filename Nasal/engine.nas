@@ -87,47 +87,88 @@ var primerTimer = maketimer(5, func {
 });
 
 # ========== oil consumption ======================
+# Thanks to HHS81 (Benedikt Hallinger) for more advanced simulation
+var service_hours = getprop("/engines/active-engine/oil-service-hours");
+var consumption_qps = 0.0;
+var rpm_factor = 0.0;
+var rpm = 0;
+var oil_level = 0;
+var oil_full = 0;
+var oil_lacking = 0;
+var oil_level_limited = 0;
+var service_hours_increase = 0;
+var service_hours_new = 0;
+var low_oil_pressure_factor = 0.0;
+var low_oil_temperature_factor = 0.0;
+
+# ======= OIL SYSTEM INIT =======
+if (!getprop("/engines/active-engine/oil-service-hours")) {
+    setprop("/engines/active-engine/oil-service-hours", 0);
+}
 
 var oil_consumption = maketimer(1.0, func {
 
-    var oil_level = getprop("/engines/active-engine/oil-level");
+    oil_level = getprop("/engines/active-engine/oil-level");
     if (getprop("/controls/engines/active-engine") == 0)
-        var oil_full = 7;
+        oil_full = 7;
     if (getprop("/controls/engines/active-engine") == 1)
-        var oil_full = 8;
-    var oil_lacking = oil_full - oil_level;
+        oil_full = 8;
+    oil_lacking = oil_full - oil_level;
     setprop("/engines/active-engine/oil-lacking", oil_lacking);
-    
+
     if (getprop("/engines/active-engine/oil_consumption_allowed")) {
-    
-        var rpm = getprop("/engines/active-engine/rpm");
-    
+
+        rpm = getprop("/engines/active-engine/rpm");
+
         # Quadratic formula which outputs 1.0 for input 2300 RPM (cruise value),
         # 0.6 for 700 RPM (idle) and 1.2 for 2700 RPM (max)
-        var rpm_factor = 0.00000012 * math.pow(rpm, 2) - 0.0001 * rpm + 0.62;
-    
-        # Consumption rate defined as 1.5 quarter per 10 hours (36000 seconds)
-        # at cruise RPM
-        var consumption_rate = 1.5 / 36000; 
-    
-        if (getprop("/engines/active-engine/running")) {
-            oil_level = oil_level - consumption_rate * rpm_factor;
-            setprop("/engines/active-engine/oil-level", oil_level);
+        rpm_factor = 0.00000012 * math.pow(rpm, 2) - 0.0001 * rpm + 0.62;
+
+        # Consumption rate defined as 0.33 quarts per 1 hour (3600 seconds) (Lycoming Manual 3-6 p27)
+        # at 2350 RPM (normal cruise)
+        consumption_qps = 0.33 / 3600;
+
+        # Raise consumption when oil level is > 8 quarts (blowout)
+        if (oil_level > oil_full) {
+            consumption_qps = consumption_qps * 1.3;
         }
 
-        var low_oil_pressure_factor = 1.0;
-        var low_oil_temperature_factor = 1.0;
+        # Consumption also raises with oil in service time (lower viscosity => more friction)
+        # (Oil should be changed at 50 hrs!)
+        # See: http://www.t-craft.org/Reference/Aircraft.Oil.Usage.pdf
+        # Hours:        0 |    10 |    25 |  50   |    75
+        # Add Qts/hr:   0 |  0.02 | 0.125 | 0.5   | 1.125
+        service_hours = getprop("/engines/active-engine/oil-service-hours");
+        service_hours_increase_qph = 0.00020 * math.pow(service_hours, 2);
+        service_hours_increase_qph = std.min(1.5, service_hours_increase); # limit increase to 1.5 (at which point you really should think of changing it)
+        service_hours_increase_qps = service_hours_increase_qph / 3600;
+        consumption_qps = consumption_qps + service_hours_increase_qps;
+
+        if (getprop("/engines/active-engine/running")) {
+            oil_level = oil_level - consumption_qps * rpm_factor;
+            setprop("/engines/active-engine/oil-level", oil_level);
+            setprop("/engines/active-engine/oil-consume-qps", consumption_qps);
+            setprop("/engines/active-engine/oil-consume-qph", consumption_qps * 3600);
+
+            service_hours_new = (service_hours * 3600 + 1) / 3600; # add one second service time
+            setprop("/engines/active-engine/oil-service-hours", service_hours_new);
+        } else {
+            setprop("/engines/active-engine/oil-consume-qps", 0);
+        }
+
+        low_oil_pressure_factor = 1.0;
+        low_oil_temperature_factor = 1.0;
 
         # If oil gets low (< 3.0), pressure should drop and temperature should rise
-        var oil_level_limited = std.min(oil_level, 3.0);
-    
+        oil_level_limited = std.min(oil_level, 3.0);
+
         # Should give 1.0 for oil_level = 3 and 0.1 for oil_level 1.97,
         # which is the min before the engine stops
         low_oil_pressure_factor = 0.873786408 * oil_level_limited - 1.621359224;
-        
+
         # Should give 1.0 for oil_level = 3 and 1.5 for oil_level 1.97
         low_oil_temperature_factor = -0.485436893 * oil_level_limited + 2.456310679;
-    
+
         setprop("/engines/active-engine/low-oil-pressure-factor", low_oil_pressure_factor);
         setprop("/engines/active-engine/low-oil-temperature-factor", low_oil_temperature_factor);
     }
@@ -143,6 +184,47 @@ var oil_consumption = maketimer(1.0, func {
     }
 });
 
+# Oil Refilling
+var oil_refill = func(){
+    var previous_oil_level = getprop("/engines/active-engine/oil-level");
+    var service_hours = getprop("/engines/active-engine/oil-service-hours");
+    var oil_level     = getprop("/engines/active-engine/oil-level");
+    var refilled      = oil_level - previous_oil_level;
+    #print("OIL Refill init: svcHrs=", service_hours, "; oil_level=",oil_level, "; previous_oil_level=",previous_oil_level, "; refilled=",refilled);
+
+    if (refilled >= 0) {
+        # when refill occured, the new oil "makes the old oil younger"
+        var pct = 0;
+        if (oil_level > 0) {
+            pct = previous_oil_level / oil_level;
+        }
+        var newService_hours = service_hours * pct;
+        setprop("/engines/active-engine/oil-service-hours", newService_hours);
+        #print("OIL Refill: pct=", pct, "; service_hours=",service_hours, "; newService_hours=", newService_hours, "; previous_oil_level=", previous_oil_level, "; oil_level=",oil_level);
+    }
+
+    previous_oil_level = oil_level;
+}
+
+# ======= Oil temperature jsbsim compensator =======
+# Currently, jsbsim oil temperature always initializes at 60°F.
+# We want an temperature that initialize to environment temperature until first start
+# and then gradually switch over to the real jsbsim value after some time.
+var calculate_real_oiltemp = maketimer(0.5, func {
+    if (!getprop("/engines/active-engine/already-started-in-session")) {
+        # engine is still cold
+        var temp_env        = getprop("/environment/temperature-degf") or 60;
+        var temp_jsbsim_oil = getprop("/engines/active-engine/oil-temperature-degf") or 60;
+        current_temp_diff   = temp_jsbsim_oil - temp_env;
+        setprop("/engines/active-engine/oil-temperature-env-diff", current_temp_diff);
+    } else {
+        # engine has been started at least one time:
+        # gradually remove the difference as jsbsim adapts to real environment temperature
+        calculate_real_oiltemp.stop();
+        interpolate("/engines/active-engine/oil-temperature-env-diff", 0, 180); # hand over to jsbsim caluclation gradually over 2 minutes
+    }
+});
+
 # ========== carburetor icing ======================
 
 var carb_icing_function = maketimer(1.0, func {
@@ -155,21 +237,21 @@ var carb_icing_function = maketimer(1.0, func {
         var egt_degf = getprop("/engines/active-engine/egt-degf");
         var engine_running = getprop("/engines/active-engine/running");
         var carb_ice = getprop("/engines/active-engine/carb_ice");
-        
+
         # the formula below attempts to model the graph found in the POH which relates air temperature, dew point and RPM to icing
         # conditions. The outputs of carb_icing_formula ranges from 0.65 to -0.35 (positive means ice is accumulating, negative
         # means that ice is melting)
         var factorX = 13.2 - 3.2 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
         var factorY = 7.0 - 2.0 * math.atan2 ( ((rpm - 2000.0) * 0.008), 1);
         var carb_icing_formula = (math.exp( math.pow((0.6 * airtempF + 0.3 * dewpointF - 42.0),2) / (-2 * math.pow(factorX,2))) * math.exp( math.pow((0.3 * airtempF - 0.6 * dewpointF + 14.0),2) / (-2 * math.pow(factorY,2))) - 0.35)  * engine_running;
-        
+
         # the efficacy of carb heat depends on the EGT. With a typical EGT of ~1500, the carb_heat_rate will be around -1.5.
         # This value is an educated guess of the RL effect, and should melt ice regardless of the icing rate
         if (getprop("/controls/engines/current-engine/carb-heat"))
             var carb_heat_rate = -0.001 * egt_degf;
         else
             var carb_heat_rate = 0.0;
-        
+
         # a warm engine will accumulate less ice than a cold one, which is what oil temp factor is used for. oil_temp_factor
         # ranges from 0 to aprox -0.2 (at 250 oF). These values are educated guesses of the RL effect
         var oil_temp_factor = oil_temp / -1250;
@@ -177,7 +259,7 @@ var carb_icing_function = maketimer(1.0, func {
         # the final rate of icing or melting is then calculated by all these effects together
         var carb_icing_rate = carb_icing_formula + carb_heat_rate + oil_temp_factor;
 
-        # since the carb_icing_rate gives an arbitrary final value, the rate is then scaled down by 0.00001 to ensure ice 
+        # since the carb_icing_rate gives an arbitrary final value, the rate is then scaled down by 0.00001 to ensure ice
         # accumulates as slowly as expected
         carb_ice = carb_ice + carb_icing_rate * 0.00001;
         carb_ice = std.max(0.0, std.min(carb_ice, 1.0));
@@ -205,7 +287,7 @@ var engine_coughing = func(){
 
     var coughing = getprop("/engines/active-engine/coughing");
     var running = getprop("/engines/active-engine/running");
-    
+
     if (coughing and running) {
         # the code below kills the engine and then brings it back to life after 0.25 seconds, simulating a cough
         setprop("/engines/active-engine/kill-engine", 1);
@@ -213,30 +295,30 @@ var engine_coughing = func(){
             setprop("/engines/active-engine/kill-engine", 0);
         }, 0.25);
     };
-    
+
     # basic value for the delay (interval between consecutive coughs), in case no fuel contamination nor carb ice are present
     var delay = 2;
-    
+
     # if coughing due to fuel contamination, then cough interval depends on quantity of water
     var water_contamination0 = getprop("/consumables/fuel/tank[0]/water-contamination");
     var water_contamination1 = getprop("/consumables/fuel/tank[1]/water-contamination");
     var total_water_contamination = std.min((water_contamination0 + water_contamination1), 0.4);
     if (total_water_contamination > 0) {
-        # if contamination is near 0, then interval is between 17 and 20 seconds, but if contamination is near the 
+        # if contamination is near 0, then interval is between 17 and 20 seconds, but if contamination is near the
         # engine stopping value of 0.4, then interval falls to around 0.5 and 3.5 seconds
         delay = 3.0 * rand() + 17 - 41.25 * total_water_contamination;
     };
-    
+
     # if coughing due to carb ice melting, then cough depends on quantity of ice in the carburettor
     var carb_ice = getprop("/engines/active-engine/carb_ice");
     if (carb_ice > 0) {
-        # if carb_ice is near 0, then interval is between 17 and 20 seconds, but if carb_ice is near the 
+        # if carb_ice is near 0, then interval is between 17 and 20 seconds, but if carb_ice is near the
         # engine stopping value of 0.3, then interval falls to around 0.5 and 3.5 seconds
         delay = 3.0 * rand() + 17 - 41.25 * carb_ice;
     };
-    
+
     coughing_timer.restart(delay);
-    
+
 }
 
 var coughing_timer = maketimer(1, engine_coughing);
@@ -275,6 +357,18 @@ var update = func {
             }
         }
     }
+    
+    var active_engine = getprop("/controls/engines/active-engine");
+    var rpm = getprop("/engines/engine", active_engine, "rpm");
+
+    # sorry - had to hack this to prevent coughing on startup due to the oil pressure simulation. Maybe this can be used elsewhere
+    if (rpm < 900 and getprop("/controls/switches/starter") == 1) { # make sure it is not triggered if you accidentally hit s in the air
+        setprop("/engines/active-engine/ready-oil-press-checker", 1); # 0 = off, 1 = checker is armed, 2 = engine is running and ready
+    }
+
+    if (getprop("/engines/active-engine/ready-oil-press-checker") == 1 and getprop("/engines/active-engine/rpm") > 900) {
+        setprop("/engines/active-engine/ready-oil-press-checker", 2); # engine is ready for use
+    }
 };
 
 setlistener("/controls/switches/starter", func {
@@ -293,9 +387,12 @@ setlistener("/controls/switches/starter", func {
     }
 }, 1, 0);
 
-# ================================ Initalize ====================================== 
-# Make sure all needed properties are present and accounted 
+# ================================ Initalize ======================================
+# Make sure all needed properties are present and accounted
 # for, and that they have sane default values.
+
+setprop("/engines/active-engine/rpm", 0);
+setprop("/engines/active-engine/ready-oil-press-checker", 0);
 
 # =============== Variables ================
 
@@ -331,8 +428,8 @@ setlistener("/controls/engines/mixture-all", func{
     setprop("/controls/engines/current-engine/mixture", new_value);
 }, 0, 0);
 
-# backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has 
-# been replaced and controls.throttleAxis will not be called from the controls binding - so this is to 
+# backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has
+# been replaced and controls.throttleAxis will not be called from the controls binding - so this is to
 # maintain compatibility with existing joystick xml files.
 controls.throttleAxis = func {
     var value = (1 - cmdarg().getNode("setting").getValue()) / 2;
@@ -347,8 +444,8 @@ controls.adjMixture = func {
     setprop("/controls/engines/current-engine/mixture", new_value);
 };
 
-# backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has 
-# been replaced and controls.throttleAxis will not be called from the controls binding - so this is to 
+# backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has
+# been replaced and controls.throttleAxis will not be called from the controls binding - so this is to
 # maintain compatibility with existing joystick xml files.
 controls.mixtureAxis = func {
     var value = (1 - cmdarg().getNode("setting").getValue()) / 2;
@@ -384,8 +481,11 @@ controls.startEngine = func(v = 1) {
 setlistener("/sim/signals/fdm-initialized", func {
     var engine_timer = maketimer(UPDATE_PERIOD, func { update(); });
     engine_timer.start();
-    oil_consumption.start();
     carb_icing_function.start();
     coughing_timer.singleShot = 1;
     coughing_timer.start();
+
+    oil_consumption.simulatedTime = 1;
+    oil_consumption.start();
+    calculate_real_oiltemp.start();
 });

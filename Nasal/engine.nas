@@ -9,6 +9,12 @@
 
 var UPDATE_PERIOD = 0.3;
 
+# =============================== Init Engine =======================================
+# users on discord reported bug
+if (!getprop("/engines/active-engine/damage_allowed")) {
+    setprop("/engines/active-engine/damage_allowed", 0);
+}
+
 # =============================== Hobbs meter =======================================
 
 # this property is saved by aircraft.timer
@@ -488,4 +494,5 @@ setlistener("/sim/signals/fdm-initialized", func {
     oil_consumption.simulatedTime = 1;
     oil_consumption.start();
     calculate_real_oiltemp.start();
+	
 });

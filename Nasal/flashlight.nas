@@ -24,3 +24,9 @@ var toggle_flashlight = func {
         gui.popupTip("Enable ALS for ALS Flashlight", 5);
     }
 };
+
+var toggle_domelight = func {
+    var old_value = getprop("/sim/model/c172p/lighting/dome-norm");
+    var new_value = math.mod(old_value + 1, 3);
+    setprop("/sim/model/c172p/lighting/dome-norm", new_value);
+};

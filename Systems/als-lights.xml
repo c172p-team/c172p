@@ -481,4 +481,84 @@
         </output>
     </filter>
 
+    <filter>
+        <name>Light Map Panel Factor</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <property>/sim/model/c172p/lighting/panel-norm</property>
+                </sum>
+            </expression>
+        </input>
+        <output>
+           <property>/sim/model/lightmap/panel/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Light Map Instruments Factor</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <expression>
+                <sum>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <property>/sim/model/c172p/lighting/instrument-norm</property>
+                </sum>
+            </expression>
+        </input>
+        <output>
+           <property>/sim/model/lightmap/instruments/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Light Map Dome Red</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <condition>
+                <equals>
+                    <!--expression>
+                        <product>
+                            <property>/sim/model/material/dome/factor</property-->
+                            <property>/sim/model/c172p/lighting/dome-norm</property>
+                        <!--/product>
+                    </expression-->
+                    <value>1.0</value>
+                </equals>
+            </condition>
+            <value>1.2</value>
+        </input>
+        <output>
+           <property>/sim/model/lightmap/dome/red/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Light Map Dome White</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <condition>
+                <equals>
+                    <!--expression>
+                        <product>
+                            <property>/sim/model/material/dome/factor</property-->
+                            <property>/sim/model/c172p/lighting/dome-norm</property>
+                        <!--/product>
+                    </expression-->
+                    <value>2.0</value>
+                </equals>
+            </condition>
+            <value>1.0</value>
+        </input>
+        <output>
+           <property>/sim/model/lightmap/dome/white/factor</property>
+        </output>
+    </filter>
+
 </PropertyList>

@@ -777,6 +777,157 @@
         <object-name>glas_interior_back</object-name>
     </effect>
 
+    <!-- Hide DomeLightWhite when not on-->
+    <animation>
+        <type>select</type>
+        <object-name>DomeLightWhite</object-name>
+        <condition>
+            <greater-than>
+                <property>/sim/model/lightmap/dome/white/factor</property>
+                <value>0.0</value>
+            </greater-than>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>DomeLightWhite</object-name>
+        <emission>
+            <red>  1.00</red>
+            <green>0.80</green>
+            <blue> 0.50</blue>
+            <factor-prop>/sim/model/lightmap/dome/white/factor</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Dome Light White Switch -->
+    <!--animation>
+        <type>knob</type>
+        <object-name>O6-light-switch</object-name>
+        <property>/sim/model/lightmap/dome/white/switch</property>
+        <factor>-45</factor>
+        <offset-deg>90</offset-deg>
+        <center>
+            <x-m>-11.8605</x-m>
+            <y-m> -0.5276</y-m>
+            <z-m> 0.3192</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>/sim/model/lightmap/dome/white/switch</property>
+                <factor>1</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var selection = getprop("/sim/model/lightmap/dome/white/switch");
+                    if (selection == 0)
+                    {
+                        setprop("/sim/model/lightmap/dome/white/factor", 0);
+                    }
+                    else if (selection == 1)
+                    {
+                        setprop("/fdm/jsbsim/systems/light/cabinlight3-intensity",
+                           getprop("/fdm/jsbsim/systems/light/cabinlight36r-intensity"));
+                        setprop("/fdm/jsbsim/systems/light/cabinlight6-intensity", 0);
+                    }
+                </script>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>SpaceShuttle.click("avionics")</script>
+            </binding>
+        </action>
+        <hovered>
+          <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>dome-white-light-switch</tooltip-id>
+                <label>White Dome Light: %s</label>
+                <property>/sim/model/lightmap/dome/white/switch</property>
+                <mapping>nasal</mapping>
+                <script>
+                    var modes = ['On', 'Off'];
+                    return modes[arg[0]];
+                </script>
+          </binding>
+        </hovered>
+    </animation-->
+
+    <!-- Dome Light White Knob -->
+    <!--animation>
+        <type>knob</type>
+        <object-name>O6-light-knob</object-name>
+        <property>/sim/model/c172p/lighting/dome-white-norm</property>
+        <offset-deg>-190</offset-deg>
+        <factor>290</factor>
+        <axis>
+            <x>-.2</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
+        <center>
+            <x-m>-11.8634</x-m>
+            <y-m> -0.4732 </y-m>
+            <z-m>  0.3181 </z-m>
+        </center>
+        <action>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>/sim/model/c172p/lighting/dome-white-norm</property>
+                <factor>0.1</factor>
+                <min>0</min>
+                <max>1</max>
+                <wrap>0</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    var selection = getprop("/sim/model/lightmap/dome/white/switch");
+                    if (selection == 0)
+                    {
+                        setprop("/sim/model/c172p/lighting/dome-white-norm",
+                            getprop("/fdm/jsbsim/systems/light/cabinlight36r-intensity"));
+                        setprop("/fdm/jsbsim/systems/light/cabinlight3-intensity", 0);
+                    }
+                    else if (selection == 1)
+                    {
+                        setprop("/fdm/jsbsim/systems/light/cabinlight3-intensity", 0);
+                        setprop("/fdm/jsbsim/systems/light/cabinlight6-intensity", 0);
+                    }
+                    else if (selection == 2)
+                    {
+                        setprop("/fdm/jsbsim/systems/light/cabinlight3-intensity",
+                            getprop("/fdm/jsbsim/systems/light/cabinlight36r-intensity"));
+                        setprop("/fdm/jsbsim/systems/light/cabinlight6-intensity", 0);
+                    }
+                </script>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>SpaceShuttle.click("knob")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>O6-light-knob</tooltip-id>
+                <label>Light Brightness: %3d%%</label>
+                <property>/fdm/jsbsim/systems/light/cabinlight36r-intensity</property>
+                <mapping>percent</mapping>
+            </binding>
+        </hovered>
+    </animation-->
+
     <!-- Gear Damage Spark and Smoke Mod -->
     <model>
         <path>Effects/damage/nose_gear.xml</path>
@@ -944,7 +1095,7 @@
     </model>
     <model>
         <name>dme</name>
-        <path>Interior/Panel/Instruments/dme/dme.xml</path>
+        <path>Interior/Panel/Instruments/dme/ki266.xml</path>
     </model>
     <model>
         <name>asi</name>

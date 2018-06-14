@@ -120,6 +120,8 @@ aircraft.data.add(
     "/controls/switches/master-bat",
     "/controls/switches/master-alt",
     "/controls/switches/master-avionics",
+    "/controls/switches/dome-red",
+    "/controls/switches/dome-white",
 );
 
 # Other controls

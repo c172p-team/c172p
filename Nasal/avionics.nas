@@ -155,4 +155,5 @@ aircraft.data.add(
     "/controls/circuit-breakers/radio5",
     "/controls/circuit-breakers/strobe",
     "/controls/circuit-breakers/turn-coordinator",
+    "/controls/circuit-breakers/cabin",
 );

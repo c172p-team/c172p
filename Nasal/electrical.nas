@@ -183,6 +183,7 @@ var reset_battery_and_circuit_breakers = func {
     setprop("/controls/circuit-breakers/radio4", 1);
     setprop("/controls/circuit-breakers/radio5", 1);
     setprop("/controls/circuit-breakers/autopilot", 1);
+    setprop("/controls/circuit-breakers/cabin", 1);
 }
 
 ##
@@ -318,7 +319,7 @@ var electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/aircond", bus_volts);
         load += bus_volts / 57;
     } else {
-        setprop("/systems/electrical/outputs/cabin-lights", 0.0);
+        setprop("/systems/electrical/outputs/aircond", 0.0);
     }
     
     # Flaps
@@ -338,7 +339,7 @@ var electrical_bus_1 = func() {
     }
 
     # Cabin Lights Power
-    if ( getprop("/controls/circuit-breakers/cabin-lights-pwr") ) {
+    if ( getprop("/controls/circuit-breakers/cabin") ) {
         setprop("/systems/electrical/outputs/cabin-lights", bus_volts);
         load += bus_volts / 57;
     } else {

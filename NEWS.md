@@ -1,6 +1,58 @@
 List of features and bug fixes
 ==============================
 
+Version 2018.2
+--------------
+
+**Features**:
+
+* Major overhaul of the 3D model, including:
+    * Thicker wings with a more rounded leading edge
+    * Improved taxi and landing lights, VHF antennas and recessed fuel caps
+    * Model ribs to show through broken wing
+    * Improvements to tail and rudder, including animated rudder cables
+    * Cowling now protrudes around the nose
+    * Front windshield redesign to allow for proper vent fittings
+    * Tie-down connections on the wing look a little more realistic
+    * Added a vent line pipe to the left wing
+    * New landing gear strut steps and improved strut to fuselage connection
+    * Improved textures of air intake, cockpit bars, trim wheel, propeller, glare shield, tires
+    * Add two sided prop blur to livery system
+    * Moved panel upwards
+    * Improved flap model and animation
+    * New exterior door handles and relocated bottom door hinges
+    * Added GPS device with a new texture and added mount
+    * Added rudder pedal push rod model, sump port models, animated cabin air vent, engine compartment vent, wing vent holes, elevator trim tab
+    * New disc brakes, cowling handhold, animated oil door and cap, animated fuel caps
+* Improved ground equipment
+* The f key can be used to toggle the flash light
+* Changes to the FDM:
+     * Allow aerodynamic interaction between the aircraft and AI traffic models
+     * Make the pitch axis less sensitive to control. Increase the adverse yaw, also results in a better slip-skid-ball behaviour
+* Added a new HD livery: N73429
+* Improved sounds:
+    * Better engine sound based on a real recording 
+    * New idle engine sound which is cross-faded with the regular engine sound so that it is only perceived at low RPMs. It has that characteristic "rumbling" of low RPM
+    * New crank and engine start sounds, much improved from the default ones. In particular, the engine now starts with a large "thump" just like a real engine does
+    * New sound for when the engine is cut, also based on a real 172 recording
+    * New sounds for the primer lever, a low volume squeak sound based on reference videos of startup procedures
+* Added registrations to the bottom wing of all liveries
+* Implemented engine damage when flying at a RPM higher than the red mark
+* More advanced oil management and consumption calculation
+* Improved hydrodynamic modeling
+* Support mooring (including rope and buoy animation) and spawning at a seaport
+
+**Fixes**:
+
+* Animation of primer and carburettor heat levers so that they don't just flip between their binary positions
+* Autopilot buttons are now animated
+* Applied shadow effect to more objects in the cabin
+* Fixed a bug with the control lock being added to a hidden yoke
+* Fix some switches in the KMA 20 instrument changing the dials in the two radio's below it
+* Improved DME clickspots
+* Nose wheel is no longer buried in the ground
+* Fix collision of beacon lights with beacon lamp model
+
 Version 2018.1
 --------------
 

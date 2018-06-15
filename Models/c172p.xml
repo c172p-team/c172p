@@ -170,11 +170,94 @@
         </condition>
     </model>
 
+    <model>
+        <name>GPS-Model</name>
+        <path>Interior/Panel/Instruments/garmin196/gpsmodel.xml</path>
+    </model>
+
+    <animation>
+        <type>pick</type>
+        <object-name>gloveboxfull</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    setprop("/controls/lighting/gps-norm", 0);
+                    setprop("/sim/model/c172p/lighting/gps-norm", 0);
+                    setprop("/instrumentation/garmin196/serviceable",0);
+                    setprop("/instrumentation/garmin196/status",0);
+                    setprop("/instrumentation/garmin196/popup_status",0);
+                    #c172p.click("cb");
+                </script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>gloveboxfull</tooltip-id>
+                <label>Mount GPS: %s</label>
+                <mapping>on-off</mapping>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>glovebox</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    setprop("/controls/lighting/gps-norm", 0);
+                    setprop("/sim/model/c172p/lighting/gps-norm", 0);
+                    setprop("/instrumentation/garmin196/serviceable",0);
+                    setprop("/instrumentation/garmin196/status",0);
+                    setprop("/instrumentation/garmin196/popup_status",0);
+                    #c172p.click("cb");
+                </script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>glovebox</tooltip-id>
+                <label>Put Away GPS: %s</label>
+                <mapping>on-off</mapping>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </binding>
+        </hovered>
+    </animation>
+
     <animation>
         <type>select</type>
         <object-name>Garmin196-GPS-non-Canvas</object-name>
+        <object-name>glovebox</object-name>
         <condition>
             <property>/sim/model/c172p/garmin196-visible</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>gloveboxfull</object-name>
+        <object-name>gpsmodel</object-name>
+        <condition>
+            <not>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </not>
         </condition>
     </animation>
 
@@ -693,6 +776,8 @@
         <object-name>accport</object-name>
         <object-name>glovebox</object-name>
         <object-name>gloveboxlock</object-name>
+        <object-name>gloveboxfull</object-name>
+        <object-name>gpsmodel</object-name>
         <object-name>autopilot_breaker</object-name>
         <object-name>radio5_breaker</object-name>
         <object-name>radio4_breaker</object-name>

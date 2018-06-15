@@ -276,7 +276,6 @@ var switches_save_state = func {
         setprop("/controls/circuit-breakers/radio5", 1);
         setprop("/controls/circuit-breakers/strobe", 1);
         setprop("/controls/circuit-breakers/turn-coordinator", 1);
-        setprop("/controls/circuit-breakers/cabin", 1);
         setprop("/controls/switches/master-avionics", 0);
         setprop("/controls/switches/starter", 0);
         setprop("/controls/switches/master-alt", 0);
@@ -293,6 +292,7 @@ var switches_save_state = func {
         setprop("/controls/lighting/radio-norm", 0.0);
         setprop("/controls/lighting/dome-white-norm", 0.0);
         setprop("/controls/lighting/dome-norm", 0.0);
+        setprop("/controls/lighting/gps-norm", 0.0);
         setprop("/controls/gear/water-rudder", 0);
         setprop("/controls/gear/water-rudder-down", 0);
         setprop("/sim/model/c172p/brake-parking", 1);

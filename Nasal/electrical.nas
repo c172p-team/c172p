@@ -337,14 +337,6 @@ var electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/pitot-heat", 0.0);
     }
 
-    # Cabin Lights Power
-    if ( getprop("/controls/circuit-breakers/intlt") ) {
-        setprop("/systems/electrical/outputs/cabin-lights", bus_volts);
-        load += bus_volts / 57;
-    } else {
-        setprop("/systems/electrical/outputs/cabin-lights", 0.0);
-    }
-
     # Instrument Power: ignition, fuel, oil temperature
     if ( getprop("/controls/circuit-breakers/instr") ) {
         setprop("/systems/electrical/outputs/instr-ignition-switch", bus_volts);
@@ -368,9 +360,11 @@ var electrical_bus_1 = func() {
     # Interior lights
     if ( getprop("/controls/circuit-breakers/intlt") ) {
         setprop("/systems/electrical/outputs/instrument-lights", bus_volts);
+        setprop("/systems/electrical/outputs/cabin-lights", bus_volts);
         load += bus_volts / 57;
     } else {
         setprop("/systems/electrical/outputs/instrument-lights", 0.0);
+        setprop("/systems/electrical/outputs/cabin-lights", 0.0);
     }    
 
     # Landing Light Power

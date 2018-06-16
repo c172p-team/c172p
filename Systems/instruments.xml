@@ -433,11 +433,19 @@
         <gain>1.3</gain>
         <input>
             <expression>
-                <sum>
-                    <property>/sim/model/material/instruments/factor</property>
-                    <property>/sim/model/c172p/lighting/panel-norm</property>
-                </sum>
+                <difference>
+                    <sum>
+                        <property>/sim/model/material/instruments/factor</property>
+                        <property>/sim/model/c172p/lighting/panel-norm</property>
+                    </sum>
+                    <difference>
+                        <property>/rendering/scene/diffuse/red</property>
+                        <value>.5</value>
+                    </difference>
+                </difference>
             </expression>
+            <min>0.0</min>
+            <max>1.3</max>
         </input>
         <output>
            <property>/sim/model/lightmap/panel/factor</property>
@@ -450,11 +458,19 @@
         <gain>1.0</gain>
         <input>
             <expression>
-                <sum>
-                    <property>/sim/model/material/instruments/factor</property>
-                    <property>/sim/model/c172p/lighting/instrument-norm</property>
-                </sum>
+                <difference>
+                    <sum>
+                        <property>/sim/model/material/instruments/factor</property>
+                        <property>/sim/model/c172p/lighting/instrument-norm</property>
+                    </sum>
+                    <difference>
+                        <property>/rendering/scene/diffuse/red</property>
+                        <value>.6</value>
+                    </difference>
+                </difference>
             </expression>
+            <min>0.0</min>
+            <max>1.0</max>
         </input>
         <output>
            <property>/sim/model/lightmap/instruments/factor</property>

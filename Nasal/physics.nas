@@ -133,6 +133,8 @@ var physics_loop = func
         poll_hydro();
     if (getprop("/fdm/jsbsim/contact/unit[9]/WOW") or getprop("/fdm/jsbsim/contact/unit[10]/WOW"))
         killengine();
+    if (getprop("/sim/time/sun-angle-rad") > 1.52)
+        setprop("/sim/rendering/shadow-volume", 0);
 }
 
 var set_bushkit = func (bushkit) {

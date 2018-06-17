@@ -170,11 +170,102 @@
         </condition>
     </model>
 
+    <model>
+        <name>GPS-Model</name>
+        <path>Interior/Panel/Instruments/garmin196/gpsmodel.xml</path>
+    </model>
+
+    <animation>
+        <type>pick</type>
+        <object-name>gloveboxfull</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    setprop("/controls/lighting/gps-norm", 0);
+                    setprop("/sim/model/c172p/lighting/gps-norm", 0);
+                    setprop("/instrumentation/garmin196/serviceable",0);
+                    setprop("/instrumentation/garmin196/status",0);
+                    setprop("/instrumentation/garmin196/popup_status",0);
+                    #c172p.click("cb");
+                </script>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("gps_to_glove_compartment", 1.6)</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>gloveboxfull</tooltip-id>
+                <label>Mount GPS: %s</label>
+                <mapping>on-off</mapping>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>glovebox</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    setprop("/controls/lighting/gps-norm", 0);
+                    setprop("/sim/model/c172p/lighting/gps-norm", 0);
+                    setprop("/instrumentation/garmin196/serviceable",0);
+                    setprop("/instrumentation/garmin196/status",0);
+                    setprop("/instrumentation/garmin196/popup_status",0);
+                    #c172p.click("cb");
+                </script>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("gps_to_glove_compartment", 1.6)</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>glovebox</tooltip-id>
+                <label>Put Away GPS: %s</label>
+                <mapping>on-off</mapping>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </binding>
+        </hovered>
+    </animation>
+
     <animation>
         <type>select</type>
         <object-name>Garmin196-GPS-non-Canvas</object-name>
+        <object-name>glovebox</object-name>
         <condition>
             <property>/sim/model/c172p/garmin196-visible</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>gloveboxfull</object-name>
+        <object-name>gpsmodel</object-name>
+        <condition>
+            <not>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </not>
         </condition>
     </animation>
 
@@ -691,7 +782,6 @@
         <object-name>LeftBag</object-name>
         <object-name>bolts</object-name>
         <object-name>accport</object-name>
-        <object-name>glovebox</object-name>
         <object-name>gloveboxlock</object-name>
         <object-name>autopilot_breaker</object-name>
         <object-name>radio5_breaker</object-name>
@@ -728,6 +818,8 @@
         <object-name>panel_1_1_right</object-name>
         <object-name>Panel_0</object-name>
         <object-name>gloveboxdoor</object-name>
+        <object-name>glovebox</object-name>
+        <object-name>gloveboxfull</object-name>
     </effect>
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-fuel-selector</inherits-from>
@@ -776,6 +868,149 @@
         <object-name>glas_interior_sides</object-name>
         <object-name>glas_interior_back</object-name>
     </effect>
+
+    <!-- Dome Light White -->
+    <animation>
+        <type>material</type>
+        <object-name>DomeLightWhite</object-name>
+        <emission>
+            <red>  0.697</red>
+            <green>0.689</green>
+            <blue> 0.445</blue>
+            <factor-prop>/sim/model/lightmap/dome/white/factor</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Dome Light Red -->
+    <animation>
+        <type>material</type>
+        <object-name>DomeLightRed</object-name>
+        <emission>
+            <red>  1.0</red>
+            <green>0.0</green>
+            <blue> 0.0</blue>
+            <factor-prop>/sim/model/lightmap/dome/red/factor</factor-prop>
+        </emission>
+    </animation>
+
+    <!-- Dome Light Red Switch -->
+    <animation>
+        <type>translate</type>
+        <object-name>DomeSwitchRed</object-name>
+        <property>/controls/switches/dome-red</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>DomeSwitchRed</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/switches/dome-red</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>dome-red</tooltip-id>
+                <label>Red Dome Light: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/switches/dome-red</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <!-- Dome Light White Switch -->
+    <animation>
+        <type>translate</type>
+        <object-name>DomeSwitchWhite</object-name>
+        <property>/controls/switches/dome-white</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>DomeSwitchWhite</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/switches/dome-white</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>dome-white</tooltip-id>
+                <label>White Dome Light: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/switches/dome-white</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <!-- Dome Light White Slider -->
+    <animation>
+        <type>translate</type>
+        <object-name>DomeSliderWhite</object-name>
+        <property>/controls/lighting/dome-white-norm</property>
+        <factor>-0.025</factor>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>slider</type>
+        <object-name>DomeSliderWhite</object-name>
+        <visible>true</visible>
+        <drag-direction>horizontal</drag-direction>
+        <action>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>/controls/lighting/dome-white-norm</property>
+                <factor>0.10</factor>
+                <min>0</min>
+                <max>1.0</max>
+                <wrap>0</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>dome-white-brightness</tooltip-id>
+                <label>White Dome Lighting: %3d%%</label>
+                <property>/controls/lighting/dome-white-norm</property>
+                <mapping>percent</mapping>
+            </binding>
+        </hovered>
+    </animation>
 
     <!-- Gear Damage Spark and Smoke Mod -->
     <model>
@@ -944,7 +1179,7 @@
     </model>
     <model>
         <name>dme</name>
-        <path>Interior/Panel/Instruments/dme/dme.xml</path>
+        <path>Interior/Panel/Instruments/dme/ki266.xml</path>
     </model>
     <model>
         <name>asi</name>
@@ -2043,7 +2278,6 @@
         <object-name>CarbHeatGroup</object-name>
         <object-name>Throttle</object-name>
         <object-name>Mixture</object-name>
-        <object-name>FlapSwitchGroup</object-name>
         <object-name>TrimWheel</object-name>
         <object-name>PilotPedals</object-name>
         <object-name>CoPilotPedals</object-name>
@@ -2061,6 +2295,10 @@
             <binding>
                 <command>dialog-show</command>
                 <dialog-name>checklist</dialog-name>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("checklist1", 1.2)</script>
             </binding>
         </action>
         <hovered>
@@ -2771,6 +3009,14 @@
             <binding>
                 <command>nasal</command>
                 <script>c172p.gloveboxDoor.toggle();</script>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("glove_compartment_opening", 1.2)</script>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("glove_compartment_closing", 1.2)</script>
             </binding>
         </action>
         <hovered>
@@ -4559,96 +4805,96 @@
         <type>rotate</type>
         <object-name>TaxiLightSwitch</object-name>
         <property>controls/lighting/taxi-light</property>
-        <factor>-25</factor>
+        <factor>-50</factor>
         <axis>
             <x>0.0</x>
             <y>1.0</y>
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.36618</x-m>
-            <y-m>-0.15321</y-m>
-            <z-m>-0.18813</z-m>
+            <x-m>-0.36819</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.18854</z-m>
         </center>
     </animation>
     <animation>
         <type>rotate</type>
         <object-name>LandingLightSwitch</object-name>
         <property>controls/lighting/landing-lights</property>
-        <factor>-25</factor>
+        <factor>-50</factor>
         <axis>
             <x>0.0</x>
             <y>1.0</y>
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.36618</x-m>
-            <y-m>-0.12817</y-m>
-            <z-m>-0.18778</z-m>
+            <x-m>-0.36819</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.18854</z-m>
         </center>
     </animation>
     <animation>
         <type>rotate</type>
         <object-name>PitotHeatSwitch</object-name>
         <property>controls/anti-ice/pitot-heat</property>
-        <factor>-25</factor>
+        <factor>-50</factor>
         <axis>
             <x>0.0</x>
             <y>1.0</y>
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.36618</x-m>
-            <y-m>-0.20504</y-m>
-            <z-m>-0.23543</z-m>
+            <x-m>-0.36818</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.23619</z-m>
         </center>
     </animation>
     <animation>
         <type>rotate</type>
         <object-name>NavLightSwitch</object-name>
         <property>controls/lighting/nav-lights</property>
-        <factor>-25</factor>
+        <factor>-50</factor>
         <axis>
             <x>0.0</x>
             <y>1.0</y>
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.36618</x-m>
-            <y-m>-0.17895</y-m>
-            <z-m>-0.23543</z-m>
+            <x-m>-0.36818</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.23619</z-m>
         </center>
     </animation>
     <animation>
         <type>rotate</type>
         <object-name>BeaconSwitch</object-name>
         <property>controls/lighting/beacon</property>
-        <factor>-25</factor>
+        <factor>-50</factor>
         <axis>
             <x>0.0</x>
             <y>1.0</y>
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.36618</x-m>
-            <y-m>-0.15321</y-m>
-            <z-m>-0.23543</z-m>
+            <x-m>-0.36818</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.23619</z-m>
         </center>
     </animation>
     <animation>
         <type>rotate</type>
         <object-name>StrobeSwitch</object-name>
         <property>controls/lighting/strobe</property>
-        <factor>-25</factor>
+        <factor>-50</factor>
         <axis>
             <x>0.0</x>
             <y>1.0</y>
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.36618</x-m>
-            <y-m>-0.12817</y-m>
-            <z-m>-0.23543</z-m>
+            <x-m>-0.36818</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.23619</z-m>
         </center>
     </animation>
 
@@ -4659,16 +4905,16 @@
         <type>rotate</type>
         <object-name>MasterSwitch</object-name>
         <property>controls/switches/master-bat</property>
-        <factor>-25</factor>
+        <factor>-37</factor>
         <axis>
             <x>0.0</x>
             <y>1.0</y>
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.36529</x-m>
-            <y-m>-0.40573</y-m>
-            <z-m>-0.20683</z-m>
+            <x-m>-0.36849</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.20595</z-m>
         </center>
     </animation>
 
@@ -4677,16 +4923,16 @@
         <type>rotate</type>
         <object-name>GenSwitch</object-name>
         <property>controls/switches/master-alt</property>
-        <factor>-25</factor>
+        <factor>-37</factor>
         <axis>
             <x>0.0</x>
             <y>1.0</y>
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.36529</x-m>
-            <y-m>-0.4211 </y-m>
-            <z-m>-0.20693</z-m>
+            <x-m>-0.36849</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.20595</z-m>
         </center>
     </animation>
     <!-- MODEND: MASTER/GEN 3/3 -->

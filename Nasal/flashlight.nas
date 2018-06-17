@@ -25,8 +25,33 @@ var toggle_flashlight = func {
     }
 };
 
+# Dome lights
 var toggle_domelight = func {
     var old_value = getprop("/sim/model/c172p/lighting/dome-norm");
-    var new_value = math.mod(old_value + 1, 3);
+    var new_value = math.mod(old_value + 1, 4);
     setprop("/sim/model/c172p/lighting/dome-norm", new_value);
+    if (new_value == 1) {
+        setprop("/controls/switches/dome-red", 1);
+        setprop("/controls/lighting/radio-norm", 1);
+        setprop("/controls/switches/dome-white", 0);
+        setprop("/controls/lighting/dome-white-norm", 0);
+    }
+    if (new_value == 2) {
+        setprop("/controls/switches/dome-white", 1);
+        setprop("/controls/lighting/dome-white-norm", 1);
+        setprop("/controls/switches/dome-red", 0);
+        setprop("/controls/lighting/radio-norm", 0);
+    }
+    if (new_value == 3)  {
+        setprop("/controls/switches/dome-white", 1);
+        setprop("/controls/lighting/dome-white-norm", 1);
+        setprop("/controls/switches/dome-red", 1);
+        setprop("/controls/lighting/radio-norm", 1);
+    }
+    if (new_value == 0)  {
+        setprop("/controls/switches/dome-white", 0);
+        setprop("/controls/lighting/dome-white-norm", 0);
+        setprop("/controls/switches/dome-red", 0);
+        setprop("/controls/lighting/radio-norm", 0);
+    }
 };

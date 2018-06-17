@@ -30,6 +30,15 @@ var autostart = func (msg=1) {
     setprop("/controls/lighting/strobe", 1);
     setprop("/controls/lighting/beacon", 1);
 
+    # Setting instrument lights if needed
+    if (getprop("/controls/lighting/instruments-norm") == 0) {
+        var light_level = 1-getprop("/rendering/scene/diffuse/red");
+        if (light_level > .6) {
+            if (light_level > .8) light_level = .8;
+            setprop("/controls/lighting/instruments-norm", light_level);
+        }
+    }
+
     # Setting flaps to 0
     setprop("/controls/flight/flaps", 0.0);
 
@@ -281,6 +290,8 @@ var switches_save_state = func {
         setprop("/controls/switches/master-alt", 0);
         setprop("/controls/switches/master-bat", 0);
         setprop("/controls/switches/magnetos", 0);
+        setprop("/controls/switches/dome-white", 0);
+        setprop("/controls/switches/dome-red", 0);
         setprop("/controls/lighting/nav-lights", 0);
         setprop("/controls/lighting/beacon", 0);
         setprop("/controls/lighting/strobe", 0);
@@ -288,6 +299,9 @@ var switches_save_state = func {
         setprop("/controls/lighting/landing-lights", 0);
         setprop("/controls/lighting/instruments-norm", 0.0);
         setprop("/controls/lighting/radio-norm", 0.0);
+        setprop("/controls/lighting/dome-white-norm", 0.0);
+        setprop("/controls/lighting/dome-norm", 0.0);
+        setprop("/controls/lighting/gps-norm", 0.0);
         setprop("/controls/gear/water-rudder", 0);
         setprop("/controls/gear/water-rudder-down", 0);
         setprop("/sim/model/c172p/brake-parking", 1);

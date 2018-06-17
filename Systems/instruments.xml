@@ -410,4 +410,138 @@
         </output>
     </filter>
 
+    <filter>
+        <name>GPS Night Mode</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/instrumentation/garmin196/status</property>
+            </condition>
+            <property>/controls/lighting/gps-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/instrumentation/garmin196/lite</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Light Map Panel Factor</name>
+        <type>gain</type>
+        <gain>1.2</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <value>0.0</value>
+                </greater-than>
+            </condition>
+            <expression>
+                <product>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <difference>
+                        <value>1.7</value>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </difference>
+                </product>
+            </expression>
+            <min>0.0</min>
+            <max>1.2</max>
+        </input>
+        <output>
+           <property>/sim/model/lightmap/panel/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Light Map Instruments Factor</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <value>0.0</value>
+                </greater-than>
+            </condition>
+            <expression>
+                <product>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <difference>
+                        <value>1.9</value>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </difference>
+                </product>
+            </expression>
+            <min>0.0</min>
+            <max>0.9</max>
+        </input>
+        <output>
+           <property>/sim/model/lightmap/instruments/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Light Map Dome Red</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <equals>
+                        <property>/controls/switches/dome-red</property>
+                        <value>1.0</value>
+                    </equals>
+                </and>
+            </condition>
+            <expression>
+                <product>
+                    <property>/controls/lighting/radio-norm</property>
+                    <value>1.2</value>
+                </product>
+            </expression>
+        </input>
+        <output>
+           <property>/sim/model/lightmap/dome/red/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Light Map Dome White</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <equals>
+                        <property>/controls/switches/dome-white</property>
+                        <value>1.0</value>
+                    </equals>
+                </and>
+            </condition>
+            <property>/controls/lighting/dome-white-norm</property>
+        </input>
+        <output>
+           <property>/sim/model/lightmap/dome/white/factor</property>
+        </output>
+    </filter>
+
 </PropertyList>

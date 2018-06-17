@@ -3,7 +3,7 @@
 <PropertyList>
   <name>Garmin196</name>
   <path>garmin196.ac</path>
-  
+
   <animation>
     <type>material</type>
     <object-name>ecran.startup</object-name>
@@ -71,11 +71,22 @@
     <object-name>menu.setup.mask</object-name>
     <object-name>menu.setup.filter</object-name>
     <object-name>menu.setup.filter.mask</object-name>
+    <condition>
+        <and>
+            <not>
+                <property>sim/rendering/rembrandt/enabled</property>
+            </not>
+            <greater-than>
+                <property>/instrumentation/garmin196/lite</property>
+                <value>0.0</value>
+            </greater-than>
+        </and>
+    </condition>
     <emission>
       <blue>  1 </blue>
       <red>   1 </red>
       <green> 1 </green>
-      <factor-prop>/instrumentation/garmin196/light</factor-prop>
+      <factor-prop>/instrumentation/garmin196/lite</factor-prop>
     </emission>
   </animation>
 
@@ -138,6 +149,17 @@
     <object-name>menu.e6b.density-altitude.text</object-name>
     <object-name>menu.points.profile.latitude_virgule.text</object-name>
     <object-name>menu.points.profile.longitude_virgule.text</object-name>
+    <condition>
+        <and>
+            <not>
+                <property>sim/rendering/rembrandt/enabled</property>
+            </not>
+            <greater-than>
+                <property>/instrumentation/garmin196/lite</property>
+                <value>0.0</value>
+            </greater-than>
+        </and>
+    </condition>
     <ambient>
       <red>0</red>
       <green>0</green>
@@ -148,8 +170,14 @@
       <green>0</green>
       <blue>0</blue>
     </diffuse>
+    <emission>
+      <blue>  1 </blue>
+      <red>   1 </red>
+      <green> 1 </green>
+      <factor-prop>/instrumentation/garmin196/lite</factor-prop>
+    </emission>
   </animation>
-  
+
   <!-- interior effects  -->
   <effect>
     <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-gps</inherits-from>
@@ -174,7 +202,6 @@
 
   <effect>
     <inherits-from>Aircraft/c172p/Models/Effects/interior/c172p-interior-gps</inherits-from>
-    <object-name>ecran.startup.version</object-name>
     <object-name>coque.inter</object-name>
     <object-name>ecran.off</object-name>
     <object-name>GPSMount</object-name>
@@ -183,11 +210,22 @@
   <animation>
     <type>material</type>
     <object-name>ecran.off</object-name>
+    <condition>
+        <and>
+            <not>
+                <property>sim/rendering/rembrandt/enabled</property>
+            </not>
+            <greater-than>
+                <property>/instrumentation/garmin196/lite</property>
+                <value>0.0</value>
+            </greater-than>
+        </and>
+    </condition>
     <emission>
       <blue>  1 </blue>
       <red>   1 </red>
       <green> 1 </green>
-      <factor-prop>/instrumentation/garmin196/light</factor-prop>
+      <factor-prop>/instrumentation/garmin196/lite</factor-prop>
     </emission>
   </animation>
 
@@ -220,6 +258,7 @@
   
   <!--phosphorescence-->
   <animation>
+    <type>material</type>
     <object-name>rocker.up</object-name>
     <object-name>rocker.down</object-name>
     <object-name>rocker.left</object-name>
@@ -232,21 +271,44 @@
     <object-name>button.menu</object-name>
     <object-name>button.nrst</object-name>
     <object-name>button.dto</object-name>
-    <type>material</type>
+    <condition>
+        <and>
+            <not>
+                <property>sim/rendering/rembrandt/enabled</property>
+            </not>
+            <greater-than>
+                <property>/instrumentation/garmin196/lite</property>
+                <value>0.0</value>
+            </greater-than>
+        </and>
+    </condition>
     <emission>
       <blue>  0.0 </blue>
       <red>   0.0 </red>
       <green> 0.2 </green>
+      <factor-prop>/instrumentation/garmin196/lite</factor-prop>
     </emission>
   </animation>
   
   <animation>
     <object-name>button.power</object-name>
     <type>material</type>
+    <condition>
+        <and>
+            <not>
+                <property>sim/rendering/rembrandt/enabled</property>
+            </not>
+            <greater-than>
+                <property>/instrumentation/garmin196/lite</property>
+                <value>0.0</value>
+            </greater-than>
+        </and>
+    </condition>
     <emission>
       <blue>  0.0 </blue>
       <red>   0.2 </red>
       <green> 0.0 </green>
+      <factor-prop>/instrumentation/garmin196/lite</factor-prop>
     </emission>
   </animation>
   
@@ -313,16 +375,18 @@
     <type>pick</type>
     <object-name>button.power</object-name>
     <action>
-    <button>0</button>
-    <repeatable>false</repeatable>
-    <binding>
-      <command>nasal</command>
-      <script>garmin196.power(0);</script>
-    </binding>
+        <button>0</button>
+        <repeatable>false</repeatable>
+        <binding>
+            <command>nasal</command>
+            <script>
+                garmin196.power(0);
+            </script>
+        </binding>
     </action>
   </animation>
   
-  <animation>
+  <!--animation>
     <type>pick</type>
     <object-name>button.power</object-name>
     <action>
@@ -333,7 +397,7 @@
       <script>garmin196.power(1);</script>
     </binding>
     </action>
-  </animation>
+  </animation-->
   
   <animation>
     <type>pick</type>

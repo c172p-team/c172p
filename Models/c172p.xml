@@ -893,7 +893,7 @@
         </emission>
     </animation>
 
-    <!-- Dome Light Red Switch -->
+    <!-- Dome Light Post/Integral Switch -->
     <animation>
         <type>translate</type>
         <object-name>DomeSwitchRed</object-name>
@@ -905,29 +905,28 @@
             <z>0.0</z>
         </axis>
     </animation>
-
     <animation>
-        <type>pick</type>
+        <type>slider</type>
         <object-name>DomeSwitchRed</object-name>
         <visible>true</visible>
+        <drag-direction>horizontal</drag-direction>
         <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
+            <repeatable>true</repeatable>
             <binding>
-                <command>property-toggle</command>
+                <command>property-adjust</command>
                 <property>/controls/switches/dome-red</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>c172p.click("cb")</script>
+                <factor>1</factor>
+                <min>0</min>
+                <max>2</max>
+                <wrap>0</wrap>
             </binding>
         </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>dome-red</tooltip-id>
-                <label>Red Dome Light: %s</label>
-                <mapping>on-off</mapping>
+                <tooltip-id>lighting-mode</tooltip-id>
+                <label>Lighting Mode: %s</label>
+                <mapping>Post-Off-Integral</mapping>
                 <property>/controls/switches/dome-red</property>
             </binding>
         </hovered>

@@ -893,7 +893,7 @@
         </emission>
     </animation>
 
-    <!-- Dome Light Red Switch -->
+    <!-- Dome Light Post/Integral Switch -->
     <animation>
         <type>translate</type>
         <object-name>DomeSwitchRed</object-name>
@@ -905,29 +905,28 @@
             <z>0.0</z>
         </axis>
     </animation>
-
     <animation>
-        <type>pick</type>
+        <type>slider</type>
         <object-name>DomeSwitchRed</object-name>
         <visible>true</visible>
+        <drag-direction>horizontal</drag-direction>
         <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
+            <repeatable>true</repeatable>
             <binding>
-                <command>property-toggle</command>
+                <command>property-adjust</command>
                 <property>/controls/switches/dome-red</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>c172p.click("cb")</script>
+                <factor>1</factor>
+                <min>0</min>
+                <max>2</max>
+                <wrap>0</wrap>
             </binding>
         </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>dome-red</tooltip-id>
-                <label>Red Dome Light: %s</label>
-                <mapping>on-off</mapping>
+                <tooltip-id>lighting-mode</tooltip-id>
+                <label>Lighting Mode: %s</label>
+                <mapping>Post-Off-Integral</mapping>
                 <property>/controls/switches/dome-red</property>
             </binding>
         </hovered>
@@ -8865,6 +8864,223 @@
             <z>0</z>
         </axis>
     </animation>
+
+    <!-- Amphibious Gear Instrumentation -->
+    <animation>
+        <type>select</type>
+        <object-name>Switch.nut</object-name>
+        <object-name>Dim.bezel</object-name>
+        <object-name>Dim.toggle</object-name>
+        <object-name>Plane</object-name>
+        <object-name>Wgear.bezel</object-name>
+        <object-name>Gearswitch</object-name>
+        <object-name>Case</object-name>
+        <condition>
+            <equals>
+               <property alias="/params/bushkit"/>
+               <value>4</value>
+            </equals>
+        </condition>
+    </animation>
+
+    <!--  Gear Down - land -->
+    <animation>
+        <type>select</type>
+        <object-name>nosedn1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/front-left-position-norm"/>
+                    <value>1.0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit"/>
+                   <value>4</value>
+                </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>nosedn2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/front-right-position-norm"/>
+                    <value>1.0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit"/>
+                   <value>4</value>
+                </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>maindn1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/rear-left-position-norm"/>
+                    <value>1.0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit"/>
+                   <value>4</value>
+                </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>maindn2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/rear-right-position-norm"/>
+                    <value>1.0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit"/>
+                   <value>4</value>
+                </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
+            </and>
+        </condition>
+    </animation>
+
+    <!--  Gear Up - water -->
+    <animation>
+        <type>select</type>
+        <object-name>noseup1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/front-left-position-norm"/>
+                    <value>0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit"/>
+                   <value>4</value>
+                </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>noseup2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/front-right-position-norm"/>
+                    <value>0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit"/>
+                   <value>4</value>
+                </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>mainup1</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/rear-left-position-norm"/>
+                    <value>0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit"/>
+                   <value>4</value>
+                </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>mainup2</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property alias="/params/gear-amphibious/rear-right-position-norm"/>
+                    <value>0</value>
+                </equals>
+                <equals>
+                   <property alias="/params/bushkit"/>
+                   <value>4</value>
+                </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- in transit -->
+    <animation>
+        <type>select</type>
+        <object-name>pump</object-name>
+        <condition>
+            <and>
+                <greater-than>
+                    <property alias="/params/gear-amphibious/front-left-position-norm"/>
+                    <value>0</value>
+                </greater-than>
+                <less-than>
+                    <property alias="/params/gear-amphibious/front-left-position-norm"/>
+                    <value>1.0</value>
+                </less-than>
+                <equals>
+                    <property alias="/params/bushkit"/>
+                    <value>4</value>
+                </equals>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Gearswitch</object-name>
+        <property>controls/gear/gear-down</property>
+        <factor>180</factor>
+        <axis>
+            <x>-1</x>
+            <y> 0</y>
+            <z> 0</z>
+        </axis>
+        <center>
+            <x-m>-0.35593</x-m>
+            <y-m> 0.28001</y-m>
+            <z-m> 0.07485</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>Switch.nut</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/gear/gear-down</property>
+            </binding>
+        </action>
+    </animation>
     <!-- END MOD: Pontoon Gear -->
 
     <!-- Baggage models -->
@@ -9520,222 +9736,6 @@
                 <label>Secure With Tie-Down</label>
             </binding>
         </hovered>
-    </animation>
-
-    <!-- Amphibious Gear Instrumentation -->
-    <animation>
-        <type>select</type>
-        <object-name>Switch.nut</object-name>
-        <object-name>Dim.bezel</object-name>
-        <object-name>Dim.toggle</object-name>
-        <object-name>Plane</object-name>
-        <object-name>Wgear.bezel</object-name>
-        <object-name>Gearswitch</object-name>
-        <condition>
-            <equals>
-               <property alias="/params/bushkit"/>
-               <value>4</value>
-            </equals>
-        </condition>
-    </animation>
-
-    <!--  Gear Down - land -->
-    <animation>
-        <type>select</type>
-        <object-name>nosedn1</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/gear-amphibious/front-left-position-norm"/>
-                    <value>1.0</value>
-                </equals>
-                <equals>
-                   <property alias="/params/bushkit"/>
-                   <value>4</value>
-                </equals>
-                <property alias="/params/cockpit/electrical/gear-amphibious"/>
-            </and>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>nosedn2</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/gear-amphibious/front-right-position-norm"/>
-                    <value>1.0</value>
-                </equals>
-                <equals>
-                   <property alias="/params/bushkit"/>
-                   <value>4</value>
-                </equals>
-                <property alias="/params/cockpit/electrical/gear-amphibious"/>
-            </and>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>maindn1</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/gear-amphibious/rear-left-position-norm"/>
-                    <value>1.0</value>
-                </equals>
-                <equals>
-                   <property alias="/params/bushkit"/>
-                   <value>4</value>
-                </equals>
-                <property alias="/params/cockpit/electrical/gear-amphibious"/>
-            </and>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>maindn2</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/gear-amphibious/rear-right-position-norm"/>
-                    <value>1.0</value>
-                </equals>
-                <equals>
-                   <property alias="/params/bushkit"/>
-                   <value>4</value>
-                </equals>
-                <property alias="/params/cockpit/electrical/gear-amphibious"/>
-            </and>
-        </condition>
-    </animation>
-
-    <!--  Gear Up - water -->
-    <animation>
-        <type>select</type>
-        <object-name>noseup1</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/gear-amphibious/front-left-position-norm"/>
-                    <value>0</value>
-                </equals>
-                <equals>
-                   <property alias="/params/bushkit"/>
-                   <value>4</value>
-                </equals>
-                <property alias="/params/cockpit/electrical/gear-amphibious"/>
-            </and>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>noseup2</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/gear-amphibious/front-right-position-norm"/>
-                    <value>0</value>
-                </equals>
-                <equals>
-                   <property alias="/params/bushkit"/>
-                   <value>4</value>
-                </equals>
-                <property alias="/params/cockpit/electrical/gear-amphibious"/>
-            </and>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>mainup1</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/gear-amphibious/rear-left-position-norm"/>
-                    <value>0</value>
-                </equals>
-                <equals>
-                   <property alias="/params/bushkit"/>
-                   <value>4</value>
-                </equals>
-                <property alias="/params/cockpit/electrical/gear-amphibious"/>
-            </and>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>mainup2</object-name>
-        <condition>
-            <and>
-                <equals>
-                    <property alias="/params/gear-amphibious/rear-right-position-norm"/>
-                    <value>0</value>
-                </equals>
-                <equals>
-                   <property alias="/params/bushkit"/>
-                   <value>4</value>
-                </equals>
-                <property alias="/params/cockpit/electrical/gear-amphibious"/>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- in transit -->
-    <animation>
-        <type>select</type>
-        <object-name>pump</object-name>
-        <condition>
-            <and>
-                <greater-than>
-                    <property alias="/params/gear-amphibious/front-left-position-norm"/>
-                    <value>0</value>
-                </greater-than>
-                <less-than>
-                    <property alias="/params/gear-amphibious/front-left-position-norm"/>
-                    <value>1.0</value>
-                </less-than>
-                <equals>
-                    <property alias="/params/bushkit"/>
-                    <value>4</value>
-                </equals>
-                <property alias="/params/cockpit/electrical/gear-amphibious"/>
-            </and>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>rotate</type>
-        <object-name>Gearswitch</object-name>
-        <property>controls/gear/gear-down</property>
-        <factor>180</factor>
-        <axis>
-            <x>-1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-        <center>
-            <x-m>-0.35592</x-m>
-            <y-m> 0.27517</y-m>
-            <z-m> 0.07507</z-m>
-        </center>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>Switch.nut</object-name>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>controls/gear/gear-down</property>
-            </binding>
-        </action>
     </animation>
   
     <!-- Left Tank Drain Sump -->

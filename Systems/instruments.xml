@@ -410,6 +410,25 @@
         </output>
     </filter>
 
+    <logic>
+        <name>Amphibious Panel Lights On/Off</name>
+        <input>
+            <and>
+                <less-than>
+                    <property>systems/electrical/outputs/instrument-lights</property>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property>systems/electrical/outputs/instrument-lights</property>
+                    <value>20.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/amphibious</property>
+        </output>
+    </logic>
+
     <filter>
         <name>GPS Night Mode</name>
         <type>gain</type>
@@ -424,6 +443,62 @@
         </input>
         <output>
             <property>/instrumentation/garmin196/lite</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Instruments Lighting Post</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <equals>
+                        <property>/controls/switches/dome-red</property>
+                        <value>0</value>
+                    </equals>
+                </and>
+            </condition>
+            <property>/controls/lighting/instruments-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/material/instruments/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Instruments Lighting Integral</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <property>/controls/lighting/radio-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/material/instruments/integral-factor</property>
         </output>
     </filter>
 
@@ -480,67 +555,6 @@
         </input>
         <output>
            <property>/sim/model/lightmap/instruments/factor</property>
-        </output>
-    </filter>
-
-    <filter>
-        <name>Light Map Dome Red</name>
-        <type>gain</type>
-        <gain>1.0</gain>
-        <input>
-            <condition>
-                <and>
-                    <less-than>
-                        <property>/systems/electrical/outputs/cabin-lights</property>
-                        <value>31.5</value>
-                    </less-than>
-                    <greater-than>
-                        <property>/systems/electrical/outputs/cabin-lights</property>
-                        <value>20.0</value>
-                    </greater-than>
-                    <equals>
-                        <property>/controls/switches/dome-red</property>
-                        <value>1.0</value>
-                    </equals>
-                </and>
-            </condition>
-            <expression>
-                <product>
-                    <property>/controls/lighting/radio-norm</property>
-                    <value>1.2</value>
-                </product>
-            </expression>
-        </input>
-        <output>
-           <property>/sim/model/lightmap/dome/red/factor</property>
-        </output>
-    </filter>
-
-    <filter>
-        <name>Light Map Dome White</name>
-        <type>gain</type>
-        <gain>1.0</gain>
-        <input>
-            <condition>
-                <and>
-                    <less-than>
-                        <property>/systems/electrical/outputs/cabin-lights</property>
-                        <value>31.5</value>
-                    </less-than>
-                    <greater-than>
-                        <property>/systems/electrical/outputs/cabin-lights</property>
-                        <value>20.0</value>
-                    </greater-than>
-                    <equals>
-                        <property>/controls/switches/dome-white</property>
-                        <value>1.0</value>
-                    </equals>
-                </and>
-            </condition>
-            <property>/controls/lighting/dome-white-norm</property>
-        </input>
-        <output>
-           <property>/sim/model/lightmap/dome/white/factor</property>
         </output>
     </filter>
 

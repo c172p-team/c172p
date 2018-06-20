@@ -31,7 +31,7 @@ var toggle_domelight = func {
     var new_value = math.mod(old_value + 1, 4);
     setprop("/sim/model/c172p/lighting/dome-norm", new_value);
     if (new_value == 1) {
-        setprop("/controls/switches/dome-red", 1);
+        setprop("/controls/switches/dome-red", 2);
         setprop("/controls/lighting/radio-norm", 1);
         setprop("/controls/switches/dome-white", 0);
         setprop("/controls/lighting/dome-white-norm", 0);
@@ -45,7 +45,7 @@ var toggle_domelight = func {
     if (new_value == 3)  {
         setprop("/controls/switches/dome-white", 1);
         setprop("/controls/lighting/dome-white-norm", 1);
-        setprop("/controls/switches/dome-red", 1);
+        setprop("/controls/switches/dome-red", 2);
         setprop("/controls/lighting/radio-norm", 1);
     }
     if (new_value == 0)  {

@@ -926,7 +926,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>lighting-mode</tooltip-id>
                 <label>Lighting Mode: %s</label>
-                <mapping>Post-Off-Integral</mapping>
+                <mapping>Post-Both-Flood</mapping>
                 <property>/controls/switches/dome-red</property>
             </binding>
         </hovered>
@@ -8871,7 +8871,7 @@
         <object-name>Switch.nut</object-name>
         <object-name>Dim.bezel</object-name>
         <object-name>Dim.toggle</object-name>
-        <object-name>Plane</object-name>
+        <object-name>GearAdvisory</object-name>
         <object-name>Wgear.bezel</object-name>
         <object-name>Gearswitch</object-name>
         <object-name>Case</object-name>
@@ -8881,6 +8881,29 @@
                <value>4</value>
             </equals>
         </condition>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>GearAdvisory</object-name>
+        <condition>
+            <and>
+                <greater-than>
+                    <property>/velocities/airspeed-kt</property>
+                    <value>10</value>
+                </greater-than>
+                <less-than>
+                   <property>/velocities/airspeed-kt</property>
+                   <value>70</value>
+                </less-than>
+                <property alias="/params/cockpit/electrical/gear-amphibious"/>
+            </and>
+        </condition>
+        <emission>
+            <red>1</red>
+            <green>0.26</green>
+            <blue>0.05</blue>
+        </emission>
     </animation>
 
     <!--  Gear Down - land -->
@@ -9056,22 +9079,22 @@
         <type>rotate</type>
         <object-name>Gearswitch</object-name>
         <property>controls/gear/gear-down</property>
-        <factor>180</factor>
+        <factor>45</factor>
         <axis>
-            <x>-1</x>
-            <y> 0</y>
+            <x> 0</x>
+            <y> 1</y>
             <z> 0</z>
         </axis>
         <center>
-            <x-m>-0.35593</x-m>
-            <y-m> 0.28001</y-m>
-            <z-m> 0.07485</z-m>
+            <x-m>-0.35905</x-m>
+            <y-m> 0.27999</y-m>
+            <z-m> 0.0751</z-m>
         </center>
     </animation>
 
     <animation>
         <type>pick</type>
-        <object-name>Switch.nut</object-name>
+        <object-name>Gearswitch</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>

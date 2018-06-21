@@ -920,14 +920,22 @@
                 <max>2</max>
                 <wrap>0</wrap>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
         </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>lighting-mode</tooltip-id>
-                <label>Lighting Mode: %s</label>
-                <mapping>Post-Both-Flood</mapping>
                 <property>/controls/switches/dome-red</property>
+                <label>Lighting Mode: %s</label>
+                <mapping>nasal</mapping>
+                <script>
+                    var modes = ['POST', 'BOTH', 'FLOOD'];
+                    return modes[arg[0]];
+                </script>
             </binding>
         </hovered>
     </animation>

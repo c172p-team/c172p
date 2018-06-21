@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>clock-2.ac</path>
+
+    <effect>
+        <inherits-from>../../../../Effects/interior/c172p-interior</inherits-from>
+        <object-name>DigitalClock</object-name>
+        <object-name>KnobLeft</object-name>
+        <object-name>KnobCenter</object-name>
+        <object-name>KnobRight</object-name>
+    </effect>
+    
+    <animation>
+        <type>select</type>
+        <object-name>DigitalClock</object-name>
+        <object-name>KnobLeft</object-name>
+        <object-name>KnobCenter</object-name>
+        <object-name>KnobRight</object-name>
+        <object-name>HR.001</object-name>
+        <object-name>HR.002</object-name>
+        <object-name>MN.001</object-name>
+        <object-name>MN.002</object-name>
+        <object-name>M877.colon</object-name>
+        <condition>
+            <equals>
+                <property>sim/model/c172p/aerotechlc2-visible</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </animation>
+    
+    <animation>
+        <type>material</type>
+        <object-name>DigitalClock</object-name>
+        <object-name>HR.001</object-name>
+        <object-name>HR.002</object-name>
+        <object-name>MN.001</object-name>
+        <object-name>MN.002</object-name>
+        <emission>
+            <red>1.0</red>
+            <green>0.95</green>
+            <blue>0.88</blue>
+            <factor-prop>controls/lighting/radio-norm</factor-prop>
+        </emission>
+    </animation>
+    
+    <animation>
+        <type>select</type>
+        <object-name>M877.colon</object-name>
+        <condition>
+            <property>instrumentation/clock/lc2/power</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>HR.001</object-name>
+        <condition>
+            <property>instrumentation/clock/lc2/digit[3]</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>HR.002</object-name>
+        <condition>
+            <property>instrumentation/clock/lc2/digit[2]</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>MN.001</object-name>
+        <condition>
+            <property>instrumentation/clock/lc2/digit[1]</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>MN.002</object-name>
+        <condition>
+            <property>instrumentation/clock/lc2/digit[0]</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>textranslate</type>
+        <object-name>HR.001</object-name>
+        <property>instrumentation/clock/lc2/indicated-hour</property>
+        <factor>0.01</factor>
+        <step>10</step>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>textranslate</type>
+        <object-name>HR.002</object-name>
+        <property>instrumentation/clock/lc2/indicated-hour</property>
+        <factor>0.1</factor>
+        <step>1</step>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>textranslate</type>
+        <object-name>MN.001</object-name>
+        <property>instrumentation/clock/lc2/indicated-min</property>
+        <factor>0.01</factor>
+        <step>10</step>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>textranslate</type>
+        <object-name>MN.002</object-name>
+        <property>instrumentation/clock/lc2/indicated-min</property>
+        <factor>0.1</factor>
+        <step>1</step>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>KnobCenter</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>clock.astrotech.select_display();</script>
+            </binding>
+        </action>
+    </animation>
+</PropertyList>

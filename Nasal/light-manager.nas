@@ -116,12 +116,12 @@ var light_manager = {
         me.light5_zpos = 2.0;
 
         # color values
-        me.light5_r = 0.2;
-        me.light5_g = 0.2;
-        me.light5_b = 0.2;
+        me.light5_r = 0.3;
+        me.light5_g = 0.3;
+        me.light5_b = 0.3;
 
         # spot size
-        me.light5_size = 17.0;
+        me.light5_size = 20.0;
 
         me.light_manager_timer = maketimer(0.0, func{me.update()});
         
@@ -278,7 +278,7 @@ setlistener("/sim/signals/fdm-initialized", func {
     setlistener("/sim/model/c172p/lighting/nav-lights/right-on", func (node) {
         light_manager.enable_or_disable(node.getValue(), 2);
     }, 1, 0);
-    setlistener("/sim/model/lightmap/dome/white/factor", func (node) {
+    setlistener("/sim/model/c172p/lighting/courtesy-lights/courtesy-on", func (node) {
         light_manager.enable_or_disable(node.getValue(), 4);
     }, 1, 0);
 });

@@ -187,10 +187,44 @@
                     </equals>
                 </and>
             </condition>
-            <property>/controls/lighting/dome-white-norm</property>
+            <expression>
+                <table>
+                    <property>/controls/lighting/dome-white-norm</property>
+                    <entry><ind>0.0</ind><dep>.5</dep></entry>
+                    <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                </table>
+            </expression>
         </input>
         <output>
            <property>/sim/model/lightmap/dome/white/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Courtesy Dome White</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <equals>
+                        <property>/controls/switches/dome-white</property>
+                        <value>1.0</value>
+                    </equals>
+                </and>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>
+           <property>/sim/model/c172p/lighting/courtesy-lights/courtesy-on</property>
         </output>
     </filter>
 
@@ -495,6 +529,13 @@
         <output>
             <property>/sim/model/c172p/lighting/rgb-ra-b-factor</property>
         </output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>.25</gain>
+        <input>/sim/model/lightmap/dome/white/factor</input>
+        <output>/sim/model/c172p/lighting/white-dome-proc</output>
     </filter>
 
 </PropertyList>

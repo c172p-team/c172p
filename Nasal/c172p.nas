@@ -299,7 +299,7 @@ var switches_save_state = func {
         setprop("/controls/lighting/landing-lights", 0);
         setprop("/controls/lighting/instruments-norm", 0.0);
         setprop("/controls/lighting/radio-norm", 0.0);
-        setprop("/controls/lighting/dome-white-norm", 0.0);
+        setprop("/controls/lighting/dome-white-norm", 1.0);
         setprop("/controls/lighting/dome-norm", 0.0);
         setprop("/controls/lighting/gps-norm", 0.0);
         setprop("/controls/gear/water-rudder", 0);

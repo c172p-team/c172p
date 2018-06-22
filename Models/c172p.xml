@@ -876,7 +876,7 @@
             <red>  0.697</red>
             <green>0.689</green>
             <blue> 0.445</blue>
-            <factor-prop>/sim/model/c172p/lighting/courtesy-lights/courtesy-on</factor-prop>
+            <factor-prop>/sim/model/lighting/courtesy/factor</factor-prop>
         </emission>
     </animation>
 
@@ -888,7 +888,7 @@
             <red>  0.697</red>
             <green>0.689</green>
             <blue> 0.445</blue>
-            <factor-prop>/sim/model/lightmap/dome/white/factor</factor-prop>
+            <factor-prop>/sim/model/lightmap/dome/factor</factor-prop>
         </emission>
     </animation>
 
@@ -900,7 +900,7 @@
             <red>  1.0</red>
             <green>0.0</green>
             <blue> 0.0</blue>
-            <factor-prop>/sim/model/lightmap/dome/red/factor</factor-prop>
+            <factor-prop>/sim/model/lightmap/flood/factor</factor-prop>
         </emission>
     </animation>
 
@@ -1031,32 +1031,32 @@
 
     <!-- Procedural Interior Lights -->
     <model>
-        <path>Effects/interior/procedural_light_overhead_console.xml</path>
+        <path>Effects/interior/procedural_light_dome.xml</path>
         <offsets>
             <x-m> 0.48 </x-m>
             <y-m> 0.00 </y-m>
             <z-m> 0.405 </z-m>
         </offsets>
         <condition>
-            <equals>
-                <property>/controls/switches/dome-white</property>
-                <value>1</value>
-            </equals>
+            <greater-that>
+                <property>/sim/model/lightmap/dome/factor</property>
+                <value>0</value>
+            </greater-that>
         </condition>
     </model>
 
     <model>
-        <path>Effects/interior/procedural_light_red_floodlight.xml</path>
+        <path>Effects/interior/procedural_light_floodlight.xml</path>
         <offsets>
             <x-m> 0.325 </x-m>
             <y-m> 0.00 </y-m>
             <z-m> 0.425 </z-m>
         </offsets>
         <condition>
-            <equals>
-                <property>/controls/switches/dome-red</property>
-                <value>1</value>
-            </equals>
+            <greater-that>
+                <property>/sim/model/lightmap/flood/factor</property>
+                <value>0</value>
+            </greater-that>
         </condition>
     </model>
 
@@ -1069,7 +1069,7 @@
         </offsets>
         <condition>
             <equals>
-                <property>/sim/model/c172p/lighting/courtesy-lights/courtesy-on</property>
+                <property>/sim/model/lighting/courtesy/factor</property>
                 <value>1</value>
             </equals>
         </condition>
@@ -1084,7 +1084,7 @@
         </offsets>
         <condition>
             <equals>
-                <property>/sim/model/c172p/lighting/courtesy-lights/courtesy-on</property>
+                <property>/sim/model/lighting/courtesy/factor</property>
                 <value>1</value>
             </equals>
         </condition>

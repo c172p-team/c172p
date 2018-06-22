@@ -278,7 +278,7 @@ setlistener("/sim/signals/fdm-initialized", func {
     setlistener("/sim/model/c172p/lighting/nav-lights/right-on", func (node) {
         light_manager.enable_or_disable(node.getValue(), 2);
     }, 1, 0);
-    setlistener("/sim/model/c172p/lighting/courtesy-lights/courtesy-on", func (node) {
+    setlistener("/sim/model/lighting/courtesy/factor", func (node) {
         light_manager.enable_or_disable(node.getValue(), 4);
     }, 1, 0);
 });

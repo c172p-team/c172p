@@ -551,7 +551,7 @@
         <object-name>wing_center</object-name>
         <object-name>wing_right</object-name>
         <object-name>PitotTube</object-name>
-        <object-name>sumpports</object-name>
+        <object-name>courtesyoff</object-name>
     </effect>
     <effect>
         <inherits-from>Effects/exterior/dirt-fuselage</inherits-from>
@@ -725,7 +725,7 @@
         <object-name>OilCap</object-name>
         <object-name>handle</object-name>
         <object-name>BeaconMount</object-name>
-        <object-name>sumpports</object-name>
+        <object-name>courtesyoff</object-name>
         <object-name>lighttaxi</object-name>
         <object-name>lightlanding</object-name>
         <object-name>LeftNavLight</object-name>
@@ -868,11 +868,22 @@
         <object-name>glas_interior_back</object-name>
     </effect>
 
+    <!-- Courtesy Light -->
+    <animation>
+        <type>material</type>
+        <object-name>courtesyon</object-name>
+        <emission>
+            <red>  0.697</red>
+            <green>0.689</green>
+            <blue> 0.445</blue>
+            <factor-prop>/sim/model/c172p/lighting/courtesy-lights/courtesy-on</factor-prop>
+        </emission>
+    </animation>
+
     <!-- Dome Light White -->
     <animation>
         <type>material</type>
         <object-name>DomeLightWhite</object-name>
-        <object-name>courtesyon</object-name>
         <emission>
             <red>  0.697</red>
             <green>0.689</green>
@@ -1018,16 +1029,62 @@
         </hovered>
     </animation>
 
+    <!-- Procedural Interior Lights -->
     <model>
         <path>Effects/interior/procedural_light_overhead_console.xml</path>
         <offsets>
-            <x-m> 0.47 </x-m>
+            <x-m> 0.48 </x-m>
             <y-m> 0.00 </y-m>
-            <z-m> 0.39 </z-m>
+            <z-m> 0.41 </z-m>
         </offsets>
         <condition>
             <equals>
                 <property>/controls/switches/dome-white</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </model>
+
+    <model>
+        <path>Effects/interior/procedural_light_red_floodlight.xml</path>
+        <offsets>
+            <x-m> 0.31 </x-m>
+            <y-m> 0.00 </y-m>
+            <z-m> 0.42 </z-m>
+        </offsets>
+        <condition>
+            <equals>
+                <property>/controls/switches/dome-red</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </model>
+
+    <model>
+        <path>Effects/interior/procedural_light_courtesy.xml</path>
+        <offsets>
+            <x-m> 0.74 </x-m>
+            <y-m> 1.66 </y-m>
+            <z-m> 0.32 </z-m>
+        </offsets>
+        <condition>
+            <equals>
+                <property>/sim/model/c172p/lighting/courtesy-lights/courtesy-on</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </model>
+
+    <model>
+        <path>Effects/interior/procedural_light_courtesy.xml</path>
+        <offsets>
+            <x-m> 0.74 </x-m>
+            <y-m> -1.64 </y-m>
+            <z-m> 0.32 </z-m>
+        </offsets>
+        <condition>
+            <equals>
+                <property>/sim/model/c172p/lighting/courtesy-lights/courtesy-on</property>
                 <value>1</value>
             </equals>
         </condition>

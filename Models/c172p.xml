@@ -3983,7 +3983,11 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>c172p.click("master")</script>
+                <script>
+                    var master_state = getprop("/controls/switches/master-bat");
+                    if (!master_state) setprop("/controls/switches/master-alt", 0);
+                    c172p.click("master");
+                </script>
             </binding>
         </action>
         <hovered>
@@ -4011,7 +4015,11 @@
             </binding>
             <binding>
                 <command>nasal</command>
-                <script>c172p.click("master")</script>
+                <script>
+                    var alt_state = getprop("/controls/switches/master-alt");
+                    if (alt_state) setprop("/controls/switches/master-bat", 1);
+                    c172p.click("master");
+                </script>
             </binding>
         </action>
         <hovered>

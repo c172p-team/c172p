@@ -28,27 +28,25 @@ var toggle_flashlight = func {
 # Dome lights
 var toggle_domelight = func {
     var old_value = getprop("/sim/model/c172p/lighting/dome-norm");
-    var new_value = math.mod(old_value + 1, 4);
+    var new_value = math.mod(old_value + 1, 5);
     setprop("/sim/model/c172p/lighting/dome-norm", new_value);
     if (new_value == 1) {
         setprop("/controls/switches/dome-red", 0);
-        if (getprop("/controls/lighting/instruments-norm") == 0)
-            setprop("/controls/lighting/instruments-norm", .8);
         setprop("/controls/switches/dome-white", 0);
     }
     if (new_value == 2) {
         setprop("/controls/switches/dome-red", 1);
-        if (getprop("/controls/lighting/instruments-norm") == 0)
-            setprop("/controls/lighting/instruments-norm", .8);
         setprop("/controls/switches/dome-white", 0);
     }
     if (new_value == 3) {
-        setprop("/controls/switches/dome-red", 0);
-        if (getprop("/controls/lighting/instruments-norm") == 0)
-            setprop("/controls/lighting/instruments-norm", .8);
+        setprop("/controls/switches/dome-red", 2);
+        setprop("/controls/switches/dome-white", 0);
+    }
+    if (new_value == 4) {
+        setprop("/controls/switches/dome-red", 2);
         setprop("/controls/switches/dome-white", 1);
     }
-    if (new_value == 0)  {
+    if (new_value == 5)  {
         setprop("/controls/switches/dome-white", 0);
         setprop("/controls/switches/dome-red", 0);
     }

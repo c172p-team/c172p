@@ -50,7 +50,6 @@ var toggle_domelight = func {
     }
     if (new_value == 0)  {
         setprop("/controls/switches/dome-white", 0);
-        setprop("/controls/lighting/dome-white-norm", 0);
-        setprop("/controls/lighting/instruments-norm", 0);
+        setprop("/controls/switches/dome-red", 0);
     }
 };

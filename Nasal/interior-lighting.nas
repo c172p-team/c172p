@@ -21,33 +21,29 @@ var toggle_flashlight = func {
         setprop("/sim/rendering/als-secondary-lights/use-flashlight", new_value);
     }
     else {
-        gui.popupTip("Enable ALS for ALS Flashlight", 6);
+        gui.popupTip("Enable ALS for ALS Flashlight", 4);
     }
 };
 
 # Dome lights
 var toggle_domelight = func {
     var old_value = getprop("/sim/model/c172p/lighting/dome-norm");
-    var new_value = math.mod(old_value + 1, 5);
+    var new_value = math.mod(old_value + 1, 4);
     setprop("/sim/model/c172p/lighting/dome-norm", new_value);
-    if (new_value == 1) {
+    if (new_value == 0) {
         setprop("/controls/switches/dome-red", 0);
         setprop("/controls/switches/dome-white", 0);
     }
-    if (new_value == 2) {
+    if (new_value == 1) {
         setprop("/controls/switches/dome-red", 1);
+        setprop("/controls/switches/dome-white", 0);
+    }
+    if (new_value == 2) {
+        setprop("/controls/switches/dome-red", 2);
         setprop("/controls/switches/dome-white", 0);
     }
     if (new_value == 3) {
         setprop("/controls/switches/dome-red", 2);
-        setprop("/controls/switches/dome-white", 0);
-    }
-    if (new_value == 4) {
-        setprop("/controls/switches/dome-red", 2);
         setprop("/controls/switches/dome-white", 1);
-    }
-    if (new_value == 5)  {
-        setprop("/controls/switches/dome-white", 0);
-        setprop("/controls/switches/dome-red", 0);
     }
 };

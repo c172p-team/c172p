@@ -36,7 +36,7 @@ var init_variables = func{
   props.globals.getNode("/instrumentation/garmin196/dto_display/y_char",1).setIntValue(0);
   
   ##init saveable variables
-  props.globals.getNode("/instrumentation/garmin196/antenne-deg",1).setDoubleValue(30);
+  props.globals.getNode("/instrumentation/garmin196/antenne-deg",1).setDoubleValue(150);
   props.globals.getNode("/instrumentation/garmin196/light",1).setDoubleValue(30);
   props.globals.getNode("/instrumentation/garmin196/max-speed",1).setDoubleValue(150);
   props.globals.getNode("/instrumentation/garmin196/cruise-speed",1).setDoubleValue(120);

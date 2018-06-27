@@ -37,7 +37,7 @@ var autostart = func (msg=1) {
             if (light_level > .8) light_level = .8;
             setprop("/controls/lighting/instruments-norm", light_level);
         }
-        setprop("/controls/switches/dome-red", 0);
+        setprop("/controls/switches/dome-red", 1);
     }
 
     # Setting flaps to 0

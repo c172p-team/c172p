@@ -31,12 +31,13 @@ var autostart = func (msg=1) {
     setprop("/controls/lighting/beacon", 1);
 
     # Setting instrument lights if needed
-    if (getprop("/controls/lighting/instruments-norm") == 0) {
-        var light_level = 1-getprop("/rendering/scene/diffuse/red");
-        if (light_level > .6) {
+    var light_level = 1-getprop("/rendering/scene/diffuse/red");
+    if (light_level > .6) {
+        if (getprop("/controls/lighting/instruments-norm") == 0) {
             if (light_level > .8) light_level = .8;
             setprop("/controls/lighting/instruments-norm", light_level);
         }
+        setprop("/controls/switches/dome-red", 1);
     }
 
     # Setting flaps to 0

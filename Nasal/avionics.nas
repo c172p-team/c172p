@@ -120,6 +120,8 @@ aircraft.data.add(
     "/controls/switches/master-bat",
     "/controls/switches/master-alt",
     "/controls/switches/master-avionics",
+    "/controls/switches/dome-red",
+    "/controls/switches/dome-white",
 );
 
 # Other controls
@@ -155,4 +157,5 @@ aircraft.data.add(
     "/controls/circuit-breakers/radio5",
     "/controls/circuit-breakers/strobe",
     "/controls/circuit-breakers/turn-coordinator",
+    "/controls/circuit-breakers/cabin",
 );

@@ -134,28 +134,101 @@
     </logic>
 
     <filter>
-        <name>Instruments Lighting</name>
+        <name>Light Map Dome Red</name>
         <type>gain</type>
+        <gain>1.2</gain>
         <input>
             <condition>
                 <and>
                     <less-than>
-                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
                         <value>31.5</value>
                     </less-than>
                     <greater-than>
-                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
                         <value>20.0</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/controls/switches/dome-red</property>
+                        <value>0</value>
                     </greater-than>
                 </and>
             </condition>
-            <property>/controls/lighting/instruments-norm</property>
-        </input>
-        <input>
-            <value>0.0</value>
+            <expression>
+                <product>
+                    <property>/controls/lighting/instruments-norm</property>
+                    <table>
+                        <property>/rendering/scene/diffuse/red</property>
+                        <entry><ind>0.0</ind><dep>1.0</dep></entry>
+                        <entry><ind>1.0</ind><dep>0.75</dep></entry>
+                    </table>
+                </product>
+            </expression>
         </input>
         <output>
-            <property>/sim/model/material/instruments/factor</property>
+           <property>/sim/model/lightmap/flood/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Light Map Dome White</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <equals>
+                        <property>/controls/switches/dome-white</property>
+                        <value>1.0</value>
+                    </equals>
+                </and>
+            </condition>
+            <expression>
+                <table>
+                    <property>/controls/lighting/dome-white-norm</property>
+                    <entry><ind>0.0</ind><dep>.5</dep></entry>
+                    <entry><ind>1.0</ind><dep>.85</dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>
+           <property>/sim/model/lightmap/dome/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Courtesy Dome White</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <equals>
+                        <property>/controls/switches/dome-white</property>
+                        <value>1.0</value>
+                    </equals>
+                </and>
+            </condition>
+            <value>1</value>
+        </input>
+        <output>
+           <property>/sim/model/lighting/courtesy/factor</property>
         </output>
     </filter>
 
@@ -265,25 +338,6 @@
         </input>
         <output>
             <property>/sim/model/c172p/lighting/nav-lights/right-on</property>
-        </output>
-    </logic>
-
-    <logic>
-        <name>Amphibious Panel Lights On/Off</name>
-        <input>
-            <and>
-                <less-than>
-                    <property>systems/electrical/outputs/instrument-lights</property>
-                    <value>31.5</value>
-                </less-than>
-                <greater-than>
-                    <property>systems/electrical/outputs/instrument-lights</property>
-                    <value>20.0</value>
-                </greater-than>
-            </and>
-        </input>
-        <output>
-            <property>/sim/model/c172p/lighting/amphibious</property>
         </output>
     </logic>
 
@@ -479,6 +533,51 @@
         <output>
             <property>/sim/model/c172p/lighting/rgb-ra-b-factor</property>
         </output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>.25</gain>
+        <input>/sim/model/lightmap/dome/factor</input>
+        <output>/sim/model/c172p/lighting/dome-proc</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>.2</gain>
+        <input>/sim/model/lightmap/flood/factor</input>
+        <output>/sim/model/c172p/lighting/flood-proc</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>.25</gain>
+        <input>/sim/model/lighting/courtesy/factor</input>
+        <output>/sim/model/c172p/lighting/courtesy-proc</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>.35</gain>
+        <input>
+            <expression>
+                <product>
+                    <table>
+                        <property>/sim/model/material/instruments/factor</property>
+                        <entry><ind>0.0</ind><dep>0.0</dep></entry>
+                        <entry><ind>0.4</ind><dep>0.1</dep></entry>
+                        <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                    </table>
+                    <difference>
+                        <value>1.6</value>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </difference>
+                </product>
+            </expression>
+            <min>0.0</min>
+            <max>1.0</max>
+        </input>
+        <output>/sim/model/c172p/lighting/instrument-proc</output>
     </filter>
 
 </PropertyList>

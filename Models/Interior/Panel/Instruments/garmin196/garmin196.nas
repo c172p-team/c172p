@@ -36,7 +36,7 @@ var init_variables = func{
   props.globals.getNode("/instrumentation/garmin196/dto_display/y_char",1).setIntValue(0);
   
   ##init saveable variables
-  props.globals.getNode("/instrumentation/garmin196/antenne-deg",1).setDoubleValue(30);
+  props.globals.getNode("/instrumentation/garmin196/antenne-deg",1).setDoubleValue(150);
   props.globals.getNode("/instrumentation/garmin196/light",1).setDoubleValue(30);
   props.globals.getNode("/instrumentation/garmin196/max-speed",1).setDoubleValue(150);
   props.globals.getNode("/instrumentation/garmin196/cruise-speed",1).setDoubleValue(120);
@@ -328,23 +328,46 @@ var main_loop = func{
 
 var nyi = func (x) { gui.popupTip(x ~ ": not yet implemented", 3); }
 
-var power = func (x){
-  var serviceable = getprop("/instrumentation/garmin196/serviceable");
-  if(x==0){
-    if(serviceable==1){
-      setprop("/instrumentation/garmin196/serviceable",0);
-      setprop("/instrumentation/garmin196/status",0);
-      setprop("/instrumentation/garmin196/popup_status",0);
-    }else{
-      setprop("/instrumentation/garmin196/serviceable",1);
-      setprop("/instrumentation/garmin196/status",1);
-    }
-  }
-  
-  if(x==1 and serviceable==1){
-    setprop("/instrumentation/garmin196/popup_status",1)
-  }
+#var power = func (x){
+#  var serviceable = getprop("/instrumentation/garmin196/serviceable");
+#  if(x==0){
+#    if(serviceable==1){
+#      setprop("/instrumentation/garmin196/serviceable",0);
+#      setprop("/instrumentation/garmin196/status",0);
+#      setprop("/instrumentation/garmin196/popup_status",0);
+#    }else{
+#      setprop("/instrumentation/garmin196/serviceable",1);
+#      setprop("/instrumentation/garmin196/status",1);
+#      toggle_gps_nightmode();
+#    }
+#  }
+#  
+#  if(x==1 and serviceable==1){
+#    setprop("/instrumentation/garmin196/popup_status",1)
+#  }
+#
+#}
 
+var power = func{
+    var old_value = getprop("/sim/model/c172p/lighting/gps-norm");
+    var new_value = math.mod(old_value + 1, 3);
+    setprop("/sim/model/c172p/lighting/gps-norm", new_value);
+    if (new_value == 1) {
+        setprop("/controls/lighting/gps-norm", 0);
+        setprop("/instrumentation/garmin196/serviceable",1);
+        setprop("/instrumentation/garmin196/status",1);
+    }
+    if (new_value == 2) {
+        setprop("/controls/lighting/gps-norm", 1);
+        setprop("/instrumentation/garmin196/serviceable",1);
+        setprop("/instrumentation/garmin196/status",1);
+    }
+    if (new_value == 0)  {
+        setprop("/controls/lighting/gps-norm", 0);
+        setprop("/instrumentation/garmin196/serviceable",0);
+        setprop("/instrumentation/garmin196/status",0);
+        setprop("/instrumentation/garmin196/popup_status",0);
+    }
 }
 
 var in = func (x){

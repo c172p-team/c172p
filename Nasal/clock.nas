@@ -13,7 +13,7 @@
         m.et_running=0;
         m.et_frozen=0;
         m.et_elapsed=0;
-        m.ft_start_time=0;
+		m.et_pause_time=0;
     m.ft_running=0;
         m.modetext =["LT","ET"];
         m.lc2 = props.globals.initNode(prop1);
@@ -35,7 +35,7 @@
     },
     
 #### displayed mode  ####
-    select_display : func(){
+    select_mode : func(){
         if(me.set_mode==0){
             me.MODE +=1;
             if(me.MODE>1)me.MODE -=2;
@@ -50,24 +50,34 @@
         }
     },
 #### set displayed mode  ####
-    set_time : func(){
-        me.set_mode=1-me.set_mode;
-    },
-#### CTL button action ####
-    control_action : func(){
-        if(me.set_mode==0){
-           if(me.MODE==1){
-                if(me.et_running==0 and me.et_frozen==0){
-                me.et_start_time=getprop("/sim/time/elapsed-sec");
-                    me.et_running=1;
-                }elsif(me.et_frozen==0){
-                    me.et_running=0;
-                    me.et_frozen=1;
-                }elsif(me.et_frozen==1){
+    left_knob : func(){
+        if(me.MODE==1){
+            if(me.et_running==0 and me.et_frozen==1){ # reset
                     me.et_start_time=getprop("/sim/time/elapsed-sec");
                     me.et_frozen=0;
                     me.et_elapsed=0;
                     me.et_running=0;
+            }
+        } else {
+            me.set_mode=1-me.set_mode;
+        }
+    },
+#### CTL button action ####
+    right_knob : func(){
+        if(me.set_mode==0){
+           if(me.MODE==1){
+                if(me.et_running==0 and me.et_frozen==0){ # start
+                    me.et_start_time=getprop("/sim/time/elapsed-sec");
+                    me.et_running=1;
+                }elsif(me.et_frozen==0 and me.et_running==1){ # pause
+                    me.et_running=0;
+                    me.et_frozen=1;
+                    me.et_pause_time=getprop("/sim/time/elapsed-sec");
+                }elsif(me.et_frozen==1 and me.et_running==0){ # unpause
+                    me.et_start_time= me.et_pause_time;
+					me.et_pause_time = 0;
+                    me.et_running=1;
+                    me.et_frozen=0;
                 }
             }
         }else{
@@ -92,7 +102,7 @@
 #### elapsed time  ####
     update_ET : func(){
         if(me.et_running!=0){
-        me.et_elapsed=getprop("/sim/time/elapsed-sec") - me.et_start_time;
+            me.et_elapsed=getprop("/sim/time/elapsed-sec") - me.et_start_time;
         }
         var ethour = me.et_elapsed/3600;
         var hr= int(ethour);
@@ -111,7 +121,7 @@
 #### update clock  ####
     update_clock : func{
         var pwr=me.power.getValue();
-        if(me.set_mode==0){
+        if(me.set_mode==0 and me.et_frozen==0){
             pwr=1-pwr;
         }else{
             pwr=1;

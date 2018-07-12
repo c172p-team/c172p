@@ -562,23 +562,6 @@ setlistener("/pax/right-passenger/present", update_pax, 0, 0);
 setlistener("/pax/pilot/present", update_pax, 0, 0);
 update_pax();
 
-var update_securing = func {
-    var state = 0;
-    state = bits.switch(state, 0, getprop("/sim/model/c172p/securing/pitot-cover-visible"));
-    state = bits.switch(state, 1, getprop("/sim/model/c172p/securing/chock-visible"));
-    state = bits.switch(state, 2, getprop("/sim/model/c172p/securing/tiedownL-visible"));
-    state = bits.switch(state, 3, getprop("/sim/model/c172p/securing/tiedownR-visible"));
-    state = bits.switch(state, 4, getprop("/sim/model/c172p/securing/tiedownT-visible"));
-    setprop("/payload/securing-state", state);
-};
-
-setlistener("/sim/model/c172p/securing/pitot-cover-visible", update_securing, 0, 0);
-setlistener("/sim/model/c172p/securing/chock-visible", update_securing, 0, 0);
-setlistener("/sim/model/c172p/securing/tiedownL-visible", update_securing, 0, 0);
-setlistener("/sim/model/c172p/securing/tiedownR-visible", update_securing, 0, 0);
-setlistener("/sim/model/c172p/securing/tiedownT-visible", update_securing, 0, 0);
-update_securing();
-
 var log_cabin_temp = func {
     if (getprop("/sim/model/c172p/enable-fog-frost")) {
         var temp_degc = getprop("/fdm/jsbsim/heat/cabin-air-temp-degc");

@@ -141,8 +141,8 @@ Mooring.prepareseaplane = func{
         setprop("/fdm/jsbsim/settings/damage-flag", 1);
         setprop("/fdm/jsbsim/settings/damage", 0);
     }
-    setprop("/sim/model/c172p/securing/tiedownL-visible", 0);
-    setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
-    setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
-    setprop("/sim/model/c172p/securing/chock-visible", 0);
+    setprop("/aircraft/securing/left-tiedown-visible", 0);
+    setprop("/aircraft/securing/right-tiedown-visible", 0);
+    setprop("/aircraft/securing/tail-tiedown-visible", 0);
+    setprop("/aircraft/securing/wheel-chock-visible", 0);
 }

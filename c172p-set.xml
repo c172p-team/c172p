@@ -194,16 +194,8 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                     <!-- property that decides if chockes, pitot cover and tiedowns are allowed or not -->
                     <allow-securing-aircraft type="bool">false</allow-securing-aircraft>
 
-                    <!-- RBF: pitot cover "remove before flight" -->
-                    <pitot-cover-visible type="bool">false</pitot-cover-visible>
-
                     <!-- chocks used to secure the front gear -->
                     <chock type="bool">false</chock>
-
-                    <!-- tiedowns attached to the wings used to secure plane -->
-                    <tiedownL-visible type="bool">false</tiedownL-visible>
-                    <tiedownR-visible type="bool">false</tiedownR-visible>
-                    <tiedownT-visible type="bool">false</tiedownT-visible>
 
                     <!-- Parking brakes -->
                     <brake-parking type="bool">true</brake-parking>
@@ -266,11 +258,11 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <path>/sim/model/occupants</path>
             <path>/sim/model/c172p/securing/allow-securing-aircraft</path>
             <path>/sim/model/c172p/cockpit/control-lock-placed</path>
-            <path>/sim/model/c172p/securing/pitot-cover-visible</path>
+            <path>/aircraft/securing/pitot-cover-visible</path>
             <path>/sim/model/c172p/securing/chock</path>
-            <path>/sim/model/c172p/securing/tiedownL-visible</path>
-            <path>/sim/model/c172p/securing/tiedownR-visible</path>
-            <path>/sim/model/c172p/securing/tiedownT-visible</path>
+            <path>/aircraft/securing/left-tiedown-visible</path>
+            <path>/aircraft/securing/right-tiedown-visible</path>
+            <path>/aircraft/securing/tail-tiedown-visible</path>
             <path>/sim/model/c172p/brake-parking</path>
             <path>/sim/model/c172p/enable-fog-frost</path>
             <path>/sim/model/c172p/garmin196-visible</path>
@@ -468,7 +460,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                 <int n="6" alias="/fdm/jsbsim/gear/unit[0]/broken"/>
                 <int n="7" alias="/fdm/jsbsim/gear/unit[1]/broken"/>
                 <int n="8" alias="/fdm/jsbsim/gear/unit[2]/broken"/>
-                <int n="9" alias="/payload/securing-state"/>
+                <!-- 9 unused -->
                 <int n="10" alias="/fdm/jsbsim/pontoon-damage/left-pontoon"/>
                 <int n="11" alias="/fdm/jsbsim/pontoon-damage/right-pontoon"/>
                 <int n="12" alias="/sim/model/c172p/lighting/beacon/enabled"/>
@@ -485,6 +477,13 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 
                 <!-- Effects -->
                 <bool n="0" alias="/aircraft/effects/damage-smoke-visible"/>
+
+                <!-- Securing -->
+                <bool n="1" alias="/aircraft/securing/left-tiedown-visible"/>
+                <bool n="2" alias="/aircraft/securing/right-tiedown-visible"/>
+                <bool n="3" alias="/aircraft/securing/tail-tiedown-visible"/>
+                <bool n="4" alias="/aircraft/securing/pitot-cover-visible"/>
+                <bool n="5" alias="/aircraft/securing/wheel-chock-visible"/>
             </generic>
         </multiplay>
 
@@ -521,6 +520,16 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
         <effects>
             <damage-smoke-visible type="bool">false</damage-smoke-visible>
         </effects>
+
+        <securing>
+            <!-- Pitot cover with "remove before flight" label -->
+            <pitot-cover-visible type="bool">false</pitot-cover-visible>
+
+            <!-- Tiedowns attached to the wings used to secure plane -->
+            <left-tiedown-visible type="bool">false</left-tiedown-visible>
+            <right-tiedown-visible type="bool">false</right-tiedown-visible>
+            <tail-tiedown-visible type="bool">false</tail-tiedown-visible>
+        </securing>
     </aircraft>
 
     <controls>
@@ -935,7 +944,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <!-- WARNING: Max baggage "by the book" is 120lbs or less! -->
         </weight>
         <pax-state type="int">0</pax-state>
-        <securing-state type="int">0</securing-state>
     </payload>
 
     <limits>

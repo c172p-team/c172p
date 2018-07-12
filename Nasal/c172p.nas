@@ -55,10 +55,10 @@ var autostart = func (msg=1) {
     setprop("/sim/model/c172p/cockpit/control-lock-placed", 0);
     setprop("/sim/model/c172p/brake-parking", 0);
     setprop("/sim/model/c172p/securing/chock", 0);
-    setprop("/sim/model/c172p/securing/pitot-cover-visible", 0);
-    setprop("/sim/model/c172p/securing/tiedownL-visible", 0);
-    setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
-    setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
+    setprop("/aircraft/securing/pitot-cover-visible", 0);
+    setprop("/aircraft/securing/left-tiedown-visible", 0);
+    setprop("/aircraft/securing/right-tiedown-visible", 0);
+    setprop("/aircraft/securing/tail-tiedown-visible", 0);
 
     # Removing any contamination from water
     setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);

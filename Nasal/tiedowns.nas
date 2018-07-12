@@ -124,15 +124,15 @@ var tiedown_right_updater = TiedownPositionUpdater.new("right");
 var tiedown_tail_updater  = TiedownPositionUpdater.new("tail");
 
 setlistener("/sim/signals/fdm-initialized", func {
-    setlistener("/sim/model/c172p/securing/tiedownL-visible", func (node) {
+    setlistener("/aircraft/securing/left-tiedown-visible", func (node) {
         tiedown_left_updater.enable_or_disable(node.getValue());
     }, 1, 0);
 
-    setlistener("/sim/model/c172p/securing/tiedownR-visible", func (node) {
+    setlistener("/aircraft/securing/right-tiedown-visible", func (node) {
         tiedown_right_updater.enable_or_disable(node.getValue());
     }, 1, 0);
 
-    setlistener("/sim/model/c172p/securing/tiedownT-visible", func (node) {
+    setlistener("/aircraft/securing/tail-tiedown-visible", func (node) {
         tiedown_tail_updater.enable_or_disable(node.getValue());
     }, 1, 0);
 

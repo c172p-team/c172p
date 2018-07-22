@@ -1446,27 +1446,6 @@
             </and>
         </condition>
     </model>
-    <model>
-        <name>lvled</name>
-        <path>Effects/interior/procedural_light_instruments_small.xml</path>
-        <offsets>
-            <x-m>-0.35</x-m>
-            <y-m>-0.363</y-m>
-            <z-m>-0.15832</z-m>
-        </offsets>
-        <condition>
-            <and>
-                <greater-than>
-                    <property>/sim/model/material/instruments/factor</property>
-                    <value>0</value>
-                </greater-than>
-                <greater-than>
-                    <property>/sim/rendering/shaders/model</property>
-                    <value>1</value>
-                </greater-than>
-            </and>
-        </condition>
-    </model>
 
     <!-- Low voltage LED -->
     <animation>
@@ -1481,6 +1460,37 @@
             <y>-0.6320</y>
         </axis>
     </animation>
+    <animation>
+        <type>material</type>
+        <object-name>LowVoltageLed</object-name>
+        <emission>
+            <red>  0.7</red>
+            <green>0.5</green>
+            <blue> 0.5</blue>
+            <factor-prop>/instrumentation/low-voltage-led</factor-prop>
+        </emission>
+    </animation>
+    <model>
+        <name>lvled</name>
+        <path>Effects/interior/procedural_light_instruments_small.xml</path>
+        <offsets>
+            <x-m>-0.35</x-m>
+            <y-m>-0.363</y-m>
+            <z-m>-0.15832</z-m>
+        </offsets>
+        <condition>
+            <and>
+                <greater-than>
+                    <property>/instrumentation/low-voltage-led</property>
+                    <value>0</value>
+                </greater-than>
+                <greater-than>
+                    <property>/sim/rendering/shaders/model</property>
+                    <value>1</value>
+                </greater-than>
+            </and>
+        </condition>
+    </model>
 
 
     <!-- Gear Damage Spark and Smoke Mod -->

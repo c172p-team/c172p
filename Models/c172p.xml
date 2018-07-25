@@ -133,6 +133,26 @@
         </offsets>
     </model>
 
+    <model>
+        <name>strobe-light-left</name>
+        <path>Aircraft/c172p/Models/Effects/lights/procedural_light_left_strobe.xml</path>
+        <offsets>
+            <x-m> 0.15</x-m>
+            <y-m>-5.66</y-m>
+            <z-m> 0.53365</z-m>
+        </offsets>
+     </model>
+
+    <model>
+        <name>strobe-light-right</name>
+        <path>Aircraft/c172p/Models/Effects/lights/procedural_light_right_strobe.xml</path>
+        <offsets>
+            <x-m>0.15</x-m>
+            <y-m>5.66</y-m>
+            <z-m>0.53459</z-m>
+        </offsets>
+     </model>
+
     <!-- non-Canvas remote Garmin 196 GPS (FGDATA) -->
     <!-- TODO Remove this old version, unhide and implement the Canvas version below -->
     <model>
@@ -1767,6 +1787,7 @@
         <name>Yokes</name>
         <path>Interior/Yoke/yoke.xml</path>
     </model>
+
     <model>
         <name>ControlLock</name>
         <path>Interior/control-lock/control-lock.xml</path>
@@ -5985,6 +6006,40 @@
             </and>
         </condition>
     </animation>
+    <animation>
+        <type>select</type>
+        <object-name>strobe-light-left</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property>/sim/rendering/shaders/skydome</property>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>strobe-light-right</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property>/sim/rendering/shaders/skydome</property>
+                <not-equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
 
     <!-- ================================================================== -->
     <!-- Basic And Rembrandt Lighting                                       -->
@@ -8524,6 +8579,44 @@
         </axis>
     </animation>
 
+    <!-- Moves the left strobe light when then left wing is damaged -->
+    <animation>
+        <type>translate</type>
+        <object-name>strobe-light-left</object-name>
+
+        <!-- Magnitude (distance) of the vector -->
+        <factor>0.35</factor>
+        <property>sim/model/c172p/lighting/nav-lights/left-damaged</property>
+
+        <!-- The vector pointing from the original position to the
+             damaged position.
+        -->
+        <axis>
+            <x>0.77</x>
+            <y>-0.05</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
+    <!-- Moves the right strobe light when then right wing is damaged -->
+    <animation>
+        <type>translate</type>
+        <object-name>strobe-light-right</object-name>
+
+        <!-- Magnitude (distance) of the vector -->
+        <factor>0.60</factor>
+        <property>sim/model/c172p/lighting/nav-lights/right-damaged</property>
+
+        <!-- The vector pointing from the original position to the
+             damaged position.
+        -->
+        <axis>
+            <x>0.53</x>
+            <y>-0.05</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
     <!-- Disable/enable different light types depending on Rembrandt -->
     <animation>
         <type>select</type>
@@ -8764,6 +8857,9 @@
                 <not>
                     <property alias="/params/crash/property"/>
                 </not>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
             </and>
         </condition>
     </animation>
@@ -8780,6 +8876,9 @@
                 </equals>
                 <not>
                     <property alias="/params/crash/property"/>
+                </not>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
                 </not>
             </and>
         </condition>
@@ -8799,6 +8898,9 @@
                 <not>
                     <property alias="/params/crash/property"/>
                 </not>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
             </and>
         </condition>
     </animation>
@@ -8815,6 +8917,9 @@
                 </equals>
                 <not>
                     <property alias="/params/crash/property"/>
+                </not>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
                 </not>
             </and>
         </condition>

@@ -7,6 +7,7 @@
     <params>
         <aileron>/sim/model/c172p/cockpit/yoke-aileron</aileron>
         <elevator>/sim/model/c172p/cockpit/yoke-elevator</elevator>
+        <elevatornorm>/sim/model/c172p/cockpit/yoke-elevator-norm</elevatornorm>
     </params>
 
     <effect>
@@ -14,12 +15,14 @@
         <object-name>LeftYoke</object-name>
         <object-name>LeftYokeMount</object-name>
         <object-name>LeftYokeMain</object-name>
+        <object-name>YokeCordLeft</object-name>
     </effect>
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-yoke-r</inherits-from>
         <object-name>RightYoke</object-name>
         <object-name>RightYokeMount</object-name>
         <object-name>RightYokeMain</object-name>
+        <object-name>YokeCordRight</object-name>
     </effect>
 
     <animation>
@@ -111,6 +114,57 @@
                 <label>Show/Hide Yoke</label>
             </binding>
         </hovered>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>YokeCordLeft</object-name>
+        <property>sim/model/c172p/cockpit/yoke-aileron</property>
+        <factor>-13</factor>
+        <center>
+            <x-m>-0.36129</x-m>
+            <y-m>-0.22133</y-m>
+            <z-m>-0.13909</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>YokeCordLeft</object-name>
+        <property>sim/model/c172p/cockpit/yoke-aileron-abs</property>
+        <factor>-12.0</factor>
+        <center>
+            <x-m>-0.36129</x-m>
+            <y-m>-0.22133</y-m>
+            <z-m>-0.13909</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>scale</type>
+        <object-name>YokeCordLeft</object-name>
+        <object-name>YokeCordRight</object-name>
+        <property alias="/params/elevatornorm"/>
+        <center>
+            <x-m>-0.36129</x-m>
+            <y-m>-0.22133</y-m>
+            <z-m>-0.13909</z-m>
+        </center>
+        <x-min>0.0</x-min>
+        <y-min>1</y-min>
+        <z-min>1</z-min>
+        <x-factor>1.0</x-factor>
+        <y-factor>0.0</y-factor>
+        <z-factor>0.0</z-factor>
     </animation>
 
 </PropertyList>

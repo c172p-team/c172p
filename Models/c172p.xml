@@ -3519,10 +3519,16 @@
             </binding>
             <binding>
                 <condition>
-                    <equals>
-                        <property>/sim/model/door-positions/baggageDoor/position-norm</property>
-                        <value>0</value>
-                    </equals>
+                    <and>
+                        <equals>
+                            <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                            <value>0</value>
+                        </equals>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>1.0</value>
+                        </less-than>
+                    </and>
                 </condition>
                 <command>nasal</command>
                 <script>

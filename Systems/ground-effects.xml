@@ -692,4 +692,116 @@ Under the GPL. Used by shadows under ALS -->
         </output>
     </logic>
 
+    <!-- ================================================================== -->
+    <!-- Max range for doors and baggage doors  -->
+    <!-- ================================================================== -->
+
+    <filter>
+        <name>Effective range for right door</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <product>
+                    <property>/sim/model/door-positions/rightDoor/position-norm</property>
+                    <max>
+                        <min>
+                            <difference>
+                                <value>1.0</value>
+                                <product>
+                                    <sum>
+                                        <property>/velocities/airspeed-kt</property>
+                                        <sin>
+                                            <product>
+                                                <value>1.07</value>
+                                                <property>/velocities/airspeed-kt</property>
+                                            </product>
+                                        </sin>
+                                    </sum>
+                                    <value>0.01</value>
+                                </product>
+                            </difference>
+                            <value>1.0</value>
+                        </min>
+                        <value>0.51</value>
+                    </max>
+                </product>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/door-positions/rightDoor/position-norm-effective</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Effective range for left door</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <product>
+                    <property>/sim/model/door-positions/leftDoor/position-norm</property>
+                    <max>
+                        <min>
+                            <difference>
+                                <value>1.0</value>
+                                <product>
+                                    <sum>
+                                        <property>/velocities/airspeed-kt</property>
+                                        <sin>
+                                            <product>
+                                                <value>1.38</value>
+                                                <property>/velocities/airspeed-kt</property>
+                                            </product>
+                                        </sin>
+                                    </sum>
+                                    <value>0.01</value>
+                                </product>
+                            </difference>
+                            <value>1.0</value>
+                        </min>
+                        <value>0.51</value>
+                    </max>
+                </product>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/door-positions/leftDoor/position-norm-effective</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Effective range for baggage door</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <product>
+                    <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                    <max>
+                        <min>
+                            <difference>
+                                <value>1.0</value>
+                                <product>
+                                    <sum>
+                                        <property>/velocities/airspeed-kt</property>
+                                        <sin>
+                                            <product>
+                                                <value>0.73</value>
+                                                <property>/velocities/airspeed-kt</property>
+                                            </product>
+                                        </sin>
+                                    </sum>
+                                    <value>0.02</value>
+                                </product>
+                            </difference>
+                            <value>1.0</value>
+                        </min>
+                        <value>0.02</value>
+                    </max>
+                </product>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/door-positions/baggageDoor/position-norm-effective</property>
+        </output>
+    </filter>
+
 </PropertyList>

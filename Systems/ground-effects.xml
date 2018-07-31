@@ -693,6 +693,91 @@ Under the GPL. Used by shadows under ALS -->
     </logic>
 
     <!-- ================================================================== -->
+    <!-- Checking if doors are opened or closed in order to skip or not     -->
+    <!-- the internal handle animation                                      -->
+    <!-- ================================================================== -->
+
+    <filter>
+        <name>Right door opened</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <or>
+                    <equals>
+                        <property>/sim/model/door-positions/rightDoor/position-norm</property>
+                        <value>1.0</value>
+                    </equals>
+                    <equals>
+                        <property>/sim/model/door-positions/rightDoor/position-norm</property>
+                        <value>0.0</value>
+                    </equals>
+                </or>
+            </condition>
+        </enable>
+        <input>
+            <condition>
+                <equals>
+                    <property>/sim/model/door-positions/rightDoor/position-norm</property>
+                    <value>1.0</value>
+                </equals>
+            </condition>
+            <value>1.0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/sim/model/door-positions/rightDoor/position-norm</property>
+                    <value>0.0</value>
+                </equals>
+            </condition>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/door-positions/rightDoor/opened</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Left door opened</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <or>
+                    <equals>
+                        <property>/sim/model/door-positions/leftDoor/position-norm</property>
+                        <value>1.0</value>
+                    </equals>
+                    <equals>
+                        <property>/sim/model/door-positions/leftDoor/position-norm</property>
+                        <value>0.0</value>
+                    </equals>
+                </or>
+            </condition>
+        </enable>
+        <input>
+            <condition>
+                <equals>
+                    <property>/sim/model/door-positions/leftDoor/position-norm</property>
+                    <value>1.0</value>
+                </equals>
+            </condition>
+            <value>1.0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/sim/model/door-positions/leftDoor/position-norm</property>
+                    <value>0.0</value>
+                </equals>
+            </condition>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/door-positions/leftDoor/opened</property>
+        </output>
+    </filter>
+
+    <!-- ================================================================== -->
     <!-- Max range for doors and baggage doors  -->
     <!-- ================================================================== -->
 

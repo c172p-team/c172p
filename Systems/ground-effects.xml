@@ -694,7 +694,7 @@ Under the GPL. Used by shadows under ALS -->
 
     <!-- ================================================================== -->
     <!-- Checking if doors are opened or closed in order to skip or not     -->
-    <!-- the internal handle animation                                      -->
+    <!-- the handle animation                                               -->
     <!-- ================================================================== -->
 
     <filter>
@@ -774,6 +774,46 @@ Under the GPL. Used by shadows under ALS -->
         </input>
         <output>
             <property>/sim/model/door-positions/leftDoor/opened</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Baggage door opened</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <or>
+                    <equals>
+                        <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                        <value>1.0</value>
+                    </equals>
+                    <equals>
+                        <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                        <value>0.0</value>
+                    </equals>
+                </or>
+            </condition>
+        </enable>
+        <input>
+            <condition>
+                <equals>
+                    <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                    <value>1.0</value>
+                </equals>
+            </condition>
+            <value>1.0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                    <value>0.0</value>
+                </equals>
+            </condition>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/door-positions/baggageDoor/opened</property>
         </output>
     </filter>
 

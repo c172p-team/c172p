@@ -3408,7 +3408,6 @@
     <animation>
         <type>pick</type>
         <object-name>rightdoorhandle</object-name>
-        <object-name>doorhandleint_right</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3422,14 +3421,66 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>door-handle-r</tooltip-id>
-                <label>Right Door Open/Close</label>
+                <label>Open/Close Right Door</label>
             </binding>
         </hovered>
     </animation>
     <animation>
         <type>pick</type>
+        <object-name>doorhandleint_right</object-name>
+        <condition>
+            <equals>
+                <property>/sim/model/door-positions/rightDoor/opened</property>
+                <value>0.0</value>
+            </equals>
+        </condition>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.rightDoor.toggle();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>door-handle-int-r</tooltip-id>
+                <label>Open Right Door</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>doorintstrapright</object-name>
+        <condition>
+            <equals>
+                <property>/sim/model/door-positions/rightDoor/opened</property>
+                <value>1.0</value>
+            </equals>
+        </condition>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.rightDoor.toggle();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>door-strap-r</tooltip-id>
+                <label>Close Right Door</label>
+            </binding>
+        </hovered>
+    </animation>
+    
+    <animation>
+        <type>pick</type>
         <object-name>leftdoorhandle</object-name>
-        <object-name>doorhandleint_left</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3443,7 +3494,59 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>door-handle-l</tooltip-id>
-                <label>Left Door Open/Close</label>
+                <label>Open/Close Left Door</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>doorhandleint_left</object-name>
+        <condition>
+            <equals>
+                <property>/sim/model/door-positions/leftDoor/opened</property>
+                <value>0.0</value>
+            </equals>
+        </condition>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.leftDoor.toggle();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>door-handle-int-l</tooltip-id>
+                <label>Open Left Door</label>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>pick</type>
+        <object-name>doorintstrapleft</object-name>
+        <condition>
+            <equals>
+                <property>/sim/model/door-positions/leftDoor/opened</property>
+                <value>1.0</value>
+            </equals>
+        </condition>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.leftDoor.toggle();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>door-strap-l</tooltip-id>
+                <label>Close Left Door</label>
             </binding>
         </hovered>
     </animation>
@@ -3465,7 +3568,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>window-handle-l</tooltip-id>
-                <label>Left Window Open/Close</label>
+                <label>Open/Close Left Window</label>
             </binding>
         </hovered>
     </animation>
@@ -3485,7 +3588,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>window-handle-r</tooltip-id>
-                <label>Right Window Open/Close</label>
+                <label>Open/Close Right Window</label>
             </binding>
         </hovered>
     </animation>

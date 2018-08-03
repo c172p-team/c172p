@@ -580,20 +580,23 @@
         <output>/sim/model/c172p/lighting/instrument-proc</output>
     </filter>
     <filter>
-        <name>Interior Glass Glare Factor</name>
+        <name>Interior Side Glass Glare Factor</name>
         <type>gain</type>
         <gain>1</gain>
         <input>
             <expression>
-                <product>
+                <sum>
                     <table>
                         <property>/sim/model/lightmap/dome/factor</property>
                         <entry><ind>0.0</ind><dep>0.1</dep></entry>
                         <entry><ind>0.3</ind><dep>0.2</dep></entry>
                         <entry><ind>1.0</ind><dep>0.9</dep></entry>
                     </table>
-                </product>
+                    <property>/rendering/scene/diffuse/red</property>
+                </sum>
             </expression>
+            <min>0.1</min>
+            <max>0.9</max>
         </input>
         <output>/sim/model/lightmap/dome/factor-glassglare</output>
     </filter>

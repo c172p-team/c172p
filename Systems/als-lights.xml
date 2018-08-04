@@ -134,7 +134,7 @@
     </logic>
 
     <filter>
-        <name>Light Map Dome Red</name>
+        <name>Light Map Flood Red</name>
         <type>gain</type>
         <gain>1.2</gain>
         <input>
@@ -580,7 +580,7 @@
         <output>/sim/model/c172p/lighting/instrument-proc</output>
     </filter>
     <filter>
-        <name>Interior Side Glass Glare Factor</name>
+        <name>Interior Glass Glare Factor Dome</name>
         <type>gain</type>
         <gain>1</gain>
         <input>
@@ -599,6 +599,65 @@
             <max>0.9</max>
         </input>
         <output>/sim/model/lightmap/dome/factor-glassglare</output>
+    </filter>
+    <filter>
+        <name>Interior Glass Glare Factor Post</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <sum>
+                    <table>
+                        <property>/controls/lighting/instruments-norm</property>
+                        <entry><ind>0.0</ind><dep>0.0</dep></entry>
+                        <entry><ind>0.7</ind><dep>0.05</dep></entry>
+                        <entry><ind>1.0</ind><dep>0.1</dep></entry>
+                    </table>
+                    <property>/rendering/scene/diffuse/red</property>
+                </sum>
+            </expression>
+            <min>0.0</min>
+            <max>0.1</max>
+        </input>
+        <output>/sim/model/lightmap/post/factor-glassglare</output>
+    </filter>
+    <filter>
+        <name>Interior Glass Glare Factor Flood</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <sum>
+                    <table>
+                        <property>/controls/lighting/instruments-norm</property>
+                        <entry><ind>0.0</ind><dep>0.0</dep></entry>
+                        <entry><ind>0.7</ind><dep>0.025</dep></entry>
+                        <entry><ind>1.0</ind><dep>0.05</dep></entry>
+                    </table>
+                    <property>/rendering/scene/diffuse/red</property>
+                </sum>
+            </expression>
+            <min>0.0</min>
+            <max>0.3</max>
+        </input>
+        <output>/sim/model/lightmap/flood/factor-glassglare</output>
+    </filter>
+    <filter>
+        <name>Interior Glass Glare Factor Combined</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <expression>
+                <sum>
+                   <property>/sim/model/lightmap/dome/factor-glassglare</property>
+                   <property>/sim/model/lightmap/post/factor-glassglare</property>
+                   <property>/sim/model/lightmap/flood/factor-glassglare</property>
+                </sum>
+            </expression>
+            <min>0.1</min>
+            <max>0.9</max>
+        </input>
+        <output>/sim/model/lightmap/combined/factor-glassglare</output>
     </filter>
 
 </PropertyList>

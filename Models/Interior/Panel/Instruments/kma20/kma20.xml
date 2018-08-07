@@ -515,10 +515,55 @@
     </animation>
 
     <animation>
+        <type>knob</type>
+        <object-name>SENS</object-name>
+        <drag-direction>vertical</drag-direction>
+        <drag-scale-px>30</drag-scale-px>
+        <property alias="../../params/sens"/>
+        <factor>15</factor>
+        <axis>
+            <y>1</y>
+        </axis>
+        <center>
+            <x-m>-0.35072</x-m>
+            <z-m> 0.1402</z-m>
+        </center>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property alias="../../../../params/sens"/>
+                <factor>-1</factor>
+                <min>-1</min>
+                <max>0</max>
+                <wrap>0</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("kma20")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>kma20-sens</tooltip-id>
+                <label>Marker Beacon Sensitivity: %s</label>
+                <property alias="../../../../params/sens"/>
+                <mapping>nasal</mapping>
+                <script>
+                    var m = arg[0];
+                    if (m == -1) return "HIGH";
+                    if (m == 0) return "LOW";
+                    return "TEST";
+                </script>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
         <type>rotate</type>
         <object-name>SENS</object-name>
         <property alias="../../params/sens"/>
-        <factor>30</factor>
+        <factor>15</factor>
         <axis>
             <y>1</y>
         </axis>

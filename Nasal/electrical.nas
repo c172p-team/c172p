@@ -400,15 +400,16 @@ var electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/nav-lights", 0.0);
     }
 
-          
     # Strobe Lights Power
     if ( getprop("/controls/circuit-breakers/strobe") and getprop("/controls/lighting/strobe" ) ) {
         setprop("/systems/electrical/outputs/strobe", bus_volts);
+        setprop("/systems/electrical/outputs/strobe-norm", (bus_volts/24));
         load += bus_volts / 14;
     } else {
         setprop("/systems/electrical/outputs/strobe", 0.0);
+        setprop("/systems/electrical/outputs/strobe-norm", 0.0);
     }
-    
+
     # Turn Coordinator and directional gyro Power
     if ( getprop("/controls/circuit-breakers/turn-coordinator") ) {
         setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);

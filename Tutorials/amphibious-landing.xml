@@ -529,18 +529,18 @@ You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet
     </step>
 
     <step>
-        <message>Turn onto final heading 45, line up with the water runway 4W at PHNL in Keehi Lagoon.</message>
+        <message>Turn onto final heading 60, line up with the water runway 4W at PHNL in Keehi Lagoon.</message>
 
         <exit>
             <condition>
                 <and>
                     <greater-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>30</value>
+                        <value>45</value>
                     </greater-than>
                     <less-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>60</value>
+                        <value>75</value>
                     </less-than>
                 </and>
             </condition>
@@ -621,7 +621,7 @@ You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet
         <message>Execute landing.</message>
 
         <error>
-            <message>Gently touch down in the water.</message>
+            <message>Continue approach then gently touch down in the water.</message>
             <condition>
                 <equals>
                     <property>/fdm/jsbsim/hydro/active-norm</property>
@@ -632,11 +632,57 @@ You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet
 
         <exit>
             <condition>
-                <less-than>
-                    <property>/velocities/airspeed-kt</property>
-                    <value>15.0</value>
-                </less-than>
+                <equals>
+                    <property>/fdm/jsbsim/hydro/active-norm</property>
+                    <value>1</value>
+                </equals>
             </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Lower water rudders for better control.</message>
+
+        <error>
+            <message>Lower water rudders.</message>
+            <condition>
+                <equals>
+                    <property>/controls/gear/water-rudder</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </error>
+        <error>
+            <message>Settle back into the water.</message>
+            <condition>
+                <equals>
+                    <property>/fdm/jsbsim/hydro/active-norm</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </error>
+
+        <exit>
+            <and>
+                <condition>
+                    <less-than>
+                        <property>/velocities/groundspeed-kt</property>
+                        <value>15.0</value>
+                    </less-than>
+                </condition>
+                <condition>
+                    <equals>
+                        <property>/controls/gear/water-rudder</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
+                <condition>
+                    <equals>
+                        <property>/fdm/jsbsim/hydro/active-norm</property>
+                        <value>1</value>
+                    </equals>
+                </condition>
+            </and>
         </exit>
     </step>
 

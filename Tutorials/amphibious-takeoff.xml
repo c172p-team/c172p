@@ -1,0 +1,887 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <name>Amphibious Takeoff</name>
+
+    <description>
+This tutorial starts from Hilo International Airport, Hawaii (PHNL), a seaplane airfield located in Oahu's Keehi Lagoon, Honolulu, Hawaii in clear, still, weather.
+    
+By now you should be proficient in the preflight checklist, startup proceedures, determining the appropriate taxing route to the desired runway, take-off, flying a pattern and landing.
+
+You will taxi and take-off from the water runway 4W at PHNL, climb at 600 feet per minute leveling off at 1000 ft., turn left to enter the pattern, left again to land at PHNL to complete the tutorial.
+    </description>
+
+    <audio-dir>Tutorials/amphibious</audio-dir>
+    <timeofday>morning</timeofday>
+
+    <presets>
+        <airport-id>PHNL</airport-id>
+        <on-ground>0</on-ground>
+        <altitude-ft>1</altitude-ft>
+        <latitude-deg type="double">21.317</latitude-deg>
+        <longitude-deg type="double">-157.912</longitude-deg>
+        <heading-deg type="double">70</heading-deg>
+        <airspeed-kt>0</airspeed-kt>
+        <glideslope-deg>0</glideslope-deg>
+        <offset-azimuth-deg>0</offset-azimuth-deg>
+        <offset-distance-nm>0</offset-distance-nm>
+    </presets>
+
+    <targets>
+        <taxi1>
+            <!-- Turn left or right onto runway 4W or 22W (heading ??? or ???) -->
+            <latitude-deg>21.3160321</latitude-deg>
+            <longitude-deg>-157.9080665</longitude-deg>
+        </taxi1>
+    </targets>
+
+    <step>
+        <message>Damage has been turned off. You may turn it on now for more realism.</message>
+        <set>
+            <property>/fdm/jsbsim/settings/damage</property>
+            <value>0</value>
+        </set>
+        <nasal>
+            <script>
+                var listeners = std.Vector.new();
+
+                listeners.append(setlistener("/sim/signals/fdm-initialized", func (node) {
+                    if (node.getBoolValue()) {
+                        setprop("/controls/switches/starter", 0);
+                        setprop("/controls/switches/master-bat", 1);
+                        setprop("/controls/switches/master-alt", 1);
+                        setprop("/controls/gear/gear-down", 0);
+                        setprop("/fdm/jsbsim/gear/gear-pos-norm", 0);
+                        setprop("/orientation/heading-deg", getprop("/environment/wind-from-heading-deg"));
+                        setprop("/fdm/jsbsim/mooring/anchor-lon", getprop("/position/longitude-deg"));
+                        setprop("/fdm/jsbsim/mooring/anchor-lat", getprop("/position/latitude-deg"));
+                        setprop("sim/anchorbuoy/enable", 0);
+                        setprop("/fdm/jsbsim/mooring/anchor-dist", 0);
+                        setprop("/fdm/jsbsim/mooring/anchor-length", 0);
+                        setprop("/fdm/jsbsim/mooring/mooring-connected", 0);
+                        foreach (var listener; listeners.vector) {
+                            removelistener(listener);
+                        }
+                        listeners.clear();
+                    }
+                }, 1, 0));
+            </script>
+        </nasal>
+        <set>
+            <property>/controls/flight/flaps</property>
+            <value>0.0</value>
+        </set>
+        <set>
+            <property>/controls/switches/magnetos</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/controls/engines/current-engine/throttle</property>
+            <value>0.0</value>
+        </set>
+        <set>
+            <property>/engines/active-engine/running</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/instrumentation/adf/frequencies/selected-khz</property>
+            <value>367</value>
+        </set>
+        <set>
+            <property>/environment/weather-scenario</property>
+            <value>Fair weather</value>
+        </set>
+        <set>
+            <property>/controls/flight/elevator-trim</property>
+            <value>0.17</value>
+        </set>
+        <set>
+            <property>/consumables/fuel/tank[0]/selected</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/consumables/fuel/tank[1]/selected</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/anti-ice/engine/carb-heat</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-avionics</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-bat</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-alt</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/taxi-light</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/landing-lights</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/anti-ice/pitot-heat</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/nav-lights</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/beacon</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/strobe</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/lighting/instruments-norm</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/controls/engines/engine/primer</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/controls/engines/engine/primer-lever</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/sim/model/door-positions/leftDoor/position-norm</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/sim/model/door-positions/rightDoor/position-norm</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/chock</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/tiedownL-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/tiedownR-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/tiedownT-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/engine_flag_0</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/engine_flag_1</property>
+            <value>1</value>
+        </set>
+        <set>
+            <property>/controls/engines/active-engine</property>
+            <value>1</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_0</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_1</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_2</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_3</property>
+            <value>1</value>
+        </set>
+        <set>
+            <property>sim/model/c172p/bushkit_flag_4</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>fdm/jsbsim/bushkit</property>
+            <value>4</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/cockpit/control-lock-placed</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/cockpit/control-lock-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/brake-parking</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/controls/mooring/anchor</property>
+            <value>1</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-gear</property>
+            <value>false</value>
+        </set>
+    </step>
+
+    <step>
+        <message>Please go through your preflight, determine taxi route to runway 4W then release the mooring anchor.</message>
+        <set>
+            <property>/controls/switches/starter</property>
+            <value>false</value>
+        </set>
+
+        <wait>10</wait>
+
+        <error>
+            <message>When ready release the mooring anchor under "Mooring Parameters".</message>
+            <condition>
+                <equals>
+                    <property>/controls/mooring/anchor</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <equals>
+                    <property>/controls/mooring/anchor</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Start the engine.</message>
+
+        <error>
+            <message>Turn pontoon master power switch on.</message>
+            <condition>
+                <equals>
+                    <property>/controls/switches/master-gear</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </error>
+        <error>
+            <message>Your gear must be up to take off.</message>
+            <condition>
+                <equals>
+                    <property>/controls/gear/gear-down</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/engines/active-engine/running</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>/controls/switches/master-gear</property>
+                        <value>1</value>
+                    </equals>
+                    <equals>
+                        <property>/controls/gear/gear-down</property>
+                        <value>0</value>
+                    </equals>
+                </and>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Taxi towards water runway 4W until you reach the threshhold.</message>
+
+        <error>
+            <message>You're off course. To reach the runway turn to the left slightly.</message>
+            <condition>
+                <less-than>
+                    <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                    <value>-10</value>
+                </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>You're off course. To reach the runway turn to the right slightly.</message>
+            <condition>
+                <greater-than>
+                    <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                    <value>10</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
+            <message>To increase steering control lower your pontoon rudders [R].</message>
+            <condition>
+                <equals>
+                    <property>/controls/gear/water-rudder</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <or>
+                    <less-than>
+                        <property>/sim/tutorials/targets/taxi1/distance-m</property>
+                        <value>30.0</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/sim/tutorials/targets/taxi1/distance-m</property>
+                        <value>-30.0</value>
+                    </greater-than>
+                </or>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Taxi towards water runway 4W until you reach the threshhold.</message>
+
+        <error>
+            <message>You're off course. To reach the runway turn to the left slightly.</message>
+            <condition>
+                <less-than>
+                    <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                    <value>-10</value>
+                </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>You're off course. To reach the runway turn to the right slightly.</message>
+            <condition>
+                <greater-than>
+                    <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                    <value>10</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
+            <message>To increase steering control lower your pontoon rudders [R].</message>
+            <condition>
+                <equals>
+                    <property>/controls/gear/water-rudder</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <or>
+                    <less-than>
+                        <property>/sim/tutorials/targets/taxi1/distance-m</property>
+                        <value>30.0</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/sim/tutorials/targets/taxi1/distance-m</property>
+                        <value>-30.0</value>
+                    </greater-than>
+                </or>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Line up on a takeoff course of 70, smoothly apply full power, control direction using rudder.</message>
+
+        <error>
+            <message>Your gear must be up to take off.</message>
+            <condition>
+                <equals>
+                    <property>/controls/gear/gear-down</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </error>
+        <error>
+            <message>Apply full throttle for take-off.</message>
+            <condition>
+                <less-than>
+                    <property>/controls/engines/current-engine/throttle</property>
+                    <value>0.95</value>
+                </less-than>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <greater-than>
+                    <property>/velocities/airspeed-kt</property>
+                    <value>5.0</value>
+                </greater-than>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Slight forward pressure to get on step.</message>
+
+        <error>
+            <message>You are heading too far left, turn right slightly to heading 70.</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>55</value>
+                </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are heading too far right, turn left slightly to heading 70.</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>85</value>
+                </greater-than>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/velocities/airspeed-kt</property>
+                        <value>45.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>65</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>55</value>
+                    </greater-than>
+                </and>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Let the aircraft lift off at 65 knots, climb straight out on heading 70, 600 feet per minute.</message>
+
+        <error>
+            <message>Gently raise the nose.</message>
+            <condition>
+                <equals>
+                    <property>/fdm/jsbsim/hydro/active-norm</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                        <value>300</value>
+                    </greater-than>
+                    <equals>
+                        <property>/fdm/jsbsim/hydro/active-norm</property>
+                        <value>0</value>
+                    </equals>
+                    <less-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>85</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>55</value>
+                    </greater-than>
+                </and>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Continue your climb on heading 70 at 600 feet per minute to 1000 feet.</message>
+
+        <error>
+            <message>You are heading too far left, turn right slightly to heading 70.</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>55</value>
+                </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are heading too far right, turn left slightly to heading 70.</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>85</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
+            <message>Raise your pontoon rudders now [r].</message>
+            <condition>
+                <equals>
+                    <property>/controls/gear/water-rudder</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>900</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>1100</value>
+                    </less-than>
+                    <less-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>85</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>55</value>
+                    </greater-than>
+                    <equals>
+                        <property>/controls/gear/water-rudder</property>
+                        <value>0</value>
+                    </equals>
+                </and>   
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Level off between 900 and 1100 feet.</message>
+
+        <error>
+            <message>You are too low</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>900</value>
+                </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are too high</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>1100</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are heading too far left, turn right slightly to heading 70.</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>55</value>
+                </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are heading too far right, turn left slightly to heading 70.</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>85</value>
+                </greater-than>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>900</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>1100</value>
+                    </less-than>
+                    <less-than>
+                        <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                        <value>300</value>
+                    </less-than>
+                    <greater-than>
+                        <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                        <value>-300</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>55</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>85</value>
+                    </less-than>
+                </and>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Turn cross leg heading 300, enter pattern to land on runway 22R at PHNL.</message>
+
+        <wait>15</wait>
+
+        <error>
+            <message>You're too far right. Turn left to heading 300.</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>315</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
+            <message>You're too far left. Turn right to heading 300.</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>285</value>
+                </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are too high. Pattern altitude is 1000 feet.</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>1100</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are too low. Pattern altitude is 1000 feet.</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>900</value>
+                </less-than>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>900</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>1100</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>285</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>315</value>
+                    </less-than>
+                </and>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Continue cross leg heading 300</message>
+
+        <error>
+            <message>You're too far right. Turn left to heading 300.</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>315</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
+            <message>You're too far left. Turn right to heading 300.</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>285</value>
+                </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are too high. Pattern altitude is 1000 feet.</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>1100</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
+            <message>You are too low. Pattern altitude is 1000 feet.</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>900</value>
+                </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>Check throttle.</message>
+            <condition>
+                 <greater-than>
+                    <property>/controls/engines/current-engine/throttle</property>
+                    <value>0.85</value>
+                </greater-than>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <greater-than>
+                    <property>/position/latitude-deg</property>
+                    <value>21.35230392</value>
+                </greater-than>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Turn onto final heading 223, line up with the runway 22R at PHNL.</message>
+
+        <exit>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>208</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>238</value>
+                    </less-than>
+                </and>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Execute power and flap regime for landing.</message>
+
+        <error>
+            <message>Check throttle.</message>
+            <condition>
+                <greater-than>
+                    <property>/controls/engines/current-engine/throttle</property>
+                    <value>0.85</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
+            <message>Set some flaps.</message>
+            <condition>
+                <less-than>
+                    <property>/controls/flight/flaps</property>
+                    <value>0.3</value>
+                </less-than>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/controls/engines/current-engine/throttle</property>
+                        <value>0.9</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/controls/flight/flaps</property>
+                        <value>0</value>
+                    </greater-than>
+                </and>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Check gear advisory.</message>
+
+        <error>
+            <message>Lower pontoon landing gear.</message>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/velocities/groundspeed-kt</property>
+                        <value>10</value>
+                    </greater-than>
+                    <less-than>
+                       <property>/velocities/groundspeed-kt</property>
+                       <value>70</value>
+                    </less-than>
+                    <equals>
+                        <property>/controls/gear/gear-down</property>
+                        <value>0</value>
+                    </equals>
+                </and>
+            </condition>
+        </error>
+        <exit>
+            <condition>
+                <equals>
+                    <property>/controls/gear/gear-down</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Execute landing.</message>
+
+        <exit>
+            <condition>
+                <less-than>
+                    <property>/velocities/airspeed-kt</property>
+                    <value>15.0</value>
+                </less-than>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Congratulations on successfully executing a water taxi and take off, following a pattern and a ground landing with the amphibious varient.</message>
+    </step>
+
+</PropertyList>

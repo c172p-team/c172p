@@ -10106,17 +10106,62 @@
         </condition>
     </animation>
 
+    <!-- Dim Toggle Switch -->
+    <animation>
+        <type>pick</type>
+        <object-name>Dim.toggle</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/switches/master-gear</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("avionics")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>pontoon-gear-switch</tooltip-id>
+                <label>Pontoon Master Power: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/switches/master-gear</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Dim.toggle</object-name>
+        <property>/controls/switches/master-gear</property>
+        <factor>30</factor>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+        <center>
+            <x-m>-0.35939</x-m>
+            <y-m> 0.22687</y-m>
+            <z-m> 0.09171</z-m>
+        </center>
+    </animation>
+
     <animation>
         <type>material</type>
         <object-name>GearAdvisory</object-name>
         <condition>
             <and>
                 <greater-than>
-                    <property>/velocities/airspeed-kt</property>
+                    <property>/velocities/groundspeed-kt</property>
                     <value>10</value>
                 </greater-than>
                 <less-than>
-                   <property>/velocities/airspeed-kt</property>
+                   <property>/velocities/groundspeed-kt</property>
                    <value>70</value>
                 </less-than>
                 <property alias="/params/cockpit/electrical/gear-amphibious"/>
@@ -10139,11 +10184,11 @@
         <condition>
             <and>
                 <greater-than>
-                    <property>/velocities/airspeed-kt</property>
+                    <property>/velocities/groundspeed-kt</property>
                     <value>10</value>
                 </greater-than>
                 <less-than>
-                   <property>/velocities/airspeed-kt</property>
+                   <property>/velocities/groundspeed-kt</property>
                    <value>70</value>
                 </less-than>
                 <property alias="/params/cockpit/electrical/gear-amphibious"/>

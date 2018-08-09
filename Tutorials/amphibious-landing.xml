@@ -7,9 +7,11 @@
     <description>
 This tutorial starts from Hilo International Airport, Hawaii (PHNL) and finishes at the seaplane airfield located in Oahu's Keehi Lagoon, Honolulu, Hawaii in clear, still, weather.
 
-By now you should be proficient in the preflight checklist, startup proceedures, determining the appropriate taxing route to the desired runway, take-off, flying a pattern and landing.
+By now you should be proficient in the preflight checklist, startup proceedures, determining the appropriate taxing route to the desired runway, takeoff, flying a pattern and landing.
 
-You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet per minute leveling off at 1000 ft., turn left to enter the pattern, left again to a landing at water runway 4W at PHNL.
+You will start lined up on runway 22R, takeoff on heading 232, climb at 600 feet per minute leveling off at 1000 ft., turn left to enter the pattern, left again to a landing on water runway 4W at PHNL.
+
+You are expected to know the approximate position of the mooring location in this area, tutorial guidance in taxing to this location will be limited.
     </description>
 
     <audio-dir>Tutorials/amphibious</audio-dir>
@@ -31,12 +33,19 @@ You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet
         <parking-requested>true</parking-requested>
     </presets>
 
+    <targets>
+        <taxi1>
+            <!-- Turn left and taxi to mooring location -->
+            <latitude-deg>21.31670172</latitude-deg>
+            <longitude-deg>-157.9124451</longitude-deg>
+        </taxi1>
+    </targets>
 
     <step>
-        <message>You are linedup ready for take-off</message>
-               <set>
+        <message>If damage is off, you may turn it on now for more realism.</message>
+        <set>
             <property>/instrumentation/adf/frequencies/selected-khz</property>
-            <value>332</value> <!-- PAHOA NDB -->
+            <value>242</value> <!-- EWABE NDB -->
         </set>
         <set>
             <property>/environment/weather-scenario</property>
@@ -190,6 +199,11 @@ You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet
             <property>/controls/switches/master-gear</property>
             <value>true</value>
         </set>
+    </step>
+
+    <step>
+        <message>You are lined up ready for takeoff</message>
+
         <nasal>
             <script>
                 setprop("/controls/engines/current-engine/mixture", 1.0);
@@ -200,14 +214,14 @@ You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet
     </step>
 
     <step>
-        <message>Release the parking brakes and take-off</message>
+        <message>Release the parking brakes and takeoff</message>
         <set>
             <property>/controls/switches/starter</property>
             <value>false</value>
         </set>
 
         <error>
-            <message>Release the parking brake using Shift B</message>
+            <message>Release the parking brake.</message>
             <condition>
                 <equals>
                     <property>/sim/model/c172p/brake-parking</property>
@@ -230,7 +244,7 @@ You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet
             </condition>
         </error>
         <error>
-            <message>Apply full throttle for take-off.</message>
+            <message>Apply full throttle for takeoff.</message>
             <condition>
                 <less-than>
                     <property>/controls/engines/current-engine/throttle</property>
@@ -473,7 +487,7 @@ You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet
         <message>Continue cross leg heading 145</message>
 
         <error>
-            <message>You're too far right. Turn left to heading 300.</message>
+            <message>You're too far right. Turn left to heading 145.</message>
             <condition>
                 <greater-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
@@ -482,7 +496,7 @@ You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet
             </condition>
         </error>
         <error>
-            <message>You're too far left. Turn right to heading 300.</message>
+            <message>You're too far left. Turn right to heading 145.</message>
             <condition>
                 <less-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
@@ -621,6 +635,15 @@ You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet
         <message>Execute landing.</message>
 
         <error>
+            <message>Check throttle.</message>
+            <condition>
+                <greater-than>
+                    <property>/controls/engines/current-engine/throttle</property>
+                    <value>0.65</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
             <message>Continue approach then gently touch down in the water.</message>
             <condition>
                 <equals>
@@ -644,7 +667,7 @@ You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet
         <message>Lower water rudders for better control.</message>
 
         <error>
-            <message>Lower water rudders.</message>
+            <message>Lower water rudders [R].</message>
             <condition>
                 <equals>
                     <property>/controls/gear/water-rudder</property>
@@ -667,7 +690,7 @@ You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet
                 <condition>
                     <less-than>
                         <property>/velocities/groundspeed-kt</property>
-                        <value>15.0</value>
+                        <value>20.0</value>
                     </less-than>
                 </condition>
                 <condition>
@@ -687,7 +710,142 @@ You will start linedup on runway 22R, take-off on heading 232, climb at 600 feet
     </step>
 
     <step>
-        <message>Congratulations on successfully executing a ground take off, following a pattern to a water landing with the amphibious varient.</message>
+        <message>Taxi off of runway towards mooring location.</message>
+
+        <error>
+            <message>To increase steering control lower your pontoon rudders [R].</message>
+            <condition>
+                <equals>
+                    <property>/controls/gear/water-rudder</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </error>
+        <error>
+            <message>You're off course. To reach the mooring location turn to the left.</message>
+            <condition>
+                <less-than>
+                    <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                    <value>-20</value>
+                </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>You're off course. To reach the mooring location turn to the right.</message>
+            <condition>
+                <greater-than>
+                    <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                    <value>20</value>
+                </greater-than>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                        <value>20</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                        <value>-20</value>
+                    </greater-than>
+                </and>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Continue taxiing towards mooring location.</message>
+
+        <error>
+            <message>To increase steering control lower your pontoon rudders [R].</message>
+            <condition>
+                <equals>
+                    <property>/controls/gear/water-rudder</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <less-than>
+                    <property>/sim/tutorials/targets/taxi1/distance-m</property>
+                    <value>100.0</value>
+                </less-than>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Prepare to set mooring anchor.</message>
+
+        <error>
+            <message>Kill engine and face into the wind using momentum.</message>
+            <condition>
+                <equals>
+                    <property>/engines/active-engine/running</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </error>
+        <error>
+            <message>When ready [Set] the mooring anchor under "Mooring Parameters".</message>
+            <condition>
+                <equals>
+                    <property>/controls/mooring/anchor</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </error>
+        <error>
+            <message>Can't anchor with with forward speed greater than 7.</message>
+            <condition>
+                <greater-than>
+                    <property>/fdm/jsbsim/hydro/vbx-fps</property>
+                    <value>7</value>
+                </greater-than>
+            </condition>
+        </error>
+        <error>
+            <message>Start engine briefly to gain momentum.</message>
+            <condition>
+                <less-than>
+                    <property>/fdm/jsbsim/hydro/vbx-fps</property>
+                    <value>2</value>
+                </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>Wind speed is too great to set mooring anchor.</message>
+            <condition>
+                <greater-than>
+                    <property>/environment/windsock/wind-speed-kt</property>
+                    <value>40</value>
+                </greater-than>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <or>
+                    <greater-than>
+                        <property>/environment/windsock/wind-speed-kt</property>
+                        <value>40</value>
+                    </greater-than>
+                    <equals>
+                        <property>/controls/mooring/anchor</property>
+                        <value>1</value>
+                    </equals>
+                </or>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Congratulations on successfully executing a ground take off, following a pattern to a water landing and then setting the mooring anchor.</message>
     </step>
 
 </PropertyList>

@@ -7,9 +7,11 @@
     <description>
 This tutorial starts from Hilo International Airport, Hawaii (PHNL), a seaplane airfield located in Oahu's Keehi Lagoon, Honolulu, Hawaii in clear, still, weather.
     
-By now you should be proficient in the preflight checklist, startup proceedures, determining the appropriate taxing route to the desired runway, take-off, flying a pattern and landing.
+By now you should be proficient in the preflight checklist, startup proceedures, determining the appropriate taxing route to the desired runway, takeoff, flying a pattern and landing.
 
-You will taxi and take-off from the water runway 4W at PHNL on heading 70, climb at 600 feet per minute leveling off at 1000 ft., turn left to enter the pattern, left again to land at PHNL to complete the tutorial.
+You will taxi and takeoff from water runway 4W at PHNL on heading 70, climb at 600 feet per minute leveling off at 1000 ft., turn left to enter the pattern, left again to land at PHNL to complete the tutorial.
+
+You are expected to know the approximate position of runway 4W/22W, tutorial guidance in taxing to this runway will be limited.
     </description>
 
     <audio-dir>Tutorials/amphibious</audio-dir>
@@ -33,7 +35,7 @@ You will taxi and take-off from the water runway 4W at PHNL on heading 70, climb
 
     <targets>
         <taxi1>
-            <!-- Turn left or right onto runway 4W or 22W (heading ??? or ???) -->
+            <!-- Turn right onto runway 4W -->
             <latitude-deg>21.3160321</latitude-deg>
             <longitude-deg>-157.9080665</longitude-deg>
         </taxi1>
@@ -89,7 +91,7 @@ You will taxi and take-off from the water runway 4W at PHNL on heading 70, climb
         </set>
         <set>
             <property>/instrumentation/adf/frequencies/selected-khz</property>
-            <value>367</value>
+            <value>242</value> <!-- EWABE NDB -->
         </set>
         <set>
             <property>/environment/weather-scenario</property>
@@ -268,6 +270,16 @@ You will taxi and take-off from the water runway 4W at PHNL on heading 70, climb
             </condition>
         </error>
 
+        <error>
+            <message>Do not start engine until the mooring anchor has been released.</message>
+            <condition>
+                <equals>
+                    <property>/engines/active-engine/running</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </error>
+
         <exit>
             <condition>
                 <equals>
@@ -321,28 +333,10 @@ You will taxi and take-off from the water runway 4W at PHNL on heading 70, climb
     </step>
 
     <step>
-        <message>Taxi towards water runway 4W until you reach the threshhold.</message>
+        <message>Lower water rudders for better control.</message>
 
         <error>
-            <message>You're off course. To reach the runway turn to the left slightly.</message>
-            <condition>
-                <less-than>
-                    <property>/sim/tutorials/targets/taxi1/direction-deg</property>
-                    <value>-10</value>
-                </less-than>
-            </condition>
-        </error>
-        <error>
-            <message>You're off course. To reach the runway turn to the right slightly.</message>
-            <condition>
-                <greater-than>
-                    <property>/sim/tutorials/targets/taxi1/direction-deg</property>
-                    <value>10</value>
-                </greater-than>
-            </condition>
-        </error>
-        <error>
-            <message>To increase steering control lower your pontoon rudders [R].</message>
+            <message>Lower water rudders [R].</message>
             <condition>
                 <equals>
                     <property>/controls/gear/water-rudder</property>
@@ -353,16 +347,10 @@ You will taxi and take-off from the water runway 4W at PHNL on heading 70, climb
 
         <exit>
             <condition>
-                <or>
-                    <less-than>
-                        <property>/sim/tutorials/targets/taxi1/distance-m</property>
-                        <value>30.0</value>
-                    </less-than>
-                    <greater-than>
-                        <property>/sim/tutorials/targets/taxi1/distance-m</property>
-                        <value>-30.0</value>
-                    </greater-than>
-                </or>
+                <equals>
+                    <property>/controls/gear/water-rudder</property>
+                    <value>1</value>
+                </equals>
             </condition>
         </exit>
     </step>
@@ -371,23 +359,52 @@ You will taxi and take-off from the water runway 4W at PHNL on heading 70, climb
         <message>Taxi towards water runway 4W until you reach the threshhold.</message>
 
         <error>
-            <message>You're off course. To reach the runway turn to the left slightly.</message>
+            <message>To increase steering control lower your pontoon rudders [R].</message>
+            <condition>
+                <equals>
+                    <property>/controls/gear/water-rudder</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </error>
+        <error>
+            <message>You're off course. To reach the runway turn to the left.</message>
             <condition>
                 <less-than>
                     <property>/sim/tutorials/targets/taxi1/direction-deg</property>
-                    <value>-10</value>
+                    <value>-20</value>
                 </less-than>
             </condition>
         </error>
         <error>
-            <message>You're off course. To reach the runway turn to the right slightly.</message>
+            <message>You're off course. To reach the runway turn to the right.</message>
             <condition>
                 <greater-than>
                     <property>/sim/tutorials/targets/taxi1/direction-deg</property>
-                    <value>10</value>
+                    <value>20</value>
                 </greater-than>
             </condition>
         </error>
+
+        <exit>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                        <value>20</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                        <value>-20</value>
+                    </greater-than>
+                </and>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Continue Taxing towards water runway 4W/22W until you reach the threshhold.</message>
+
         <error>
             <message>To increase steering control lower your pontoon rudders [R].</message>
             <condition>
@@ -398,18 +415,12 @@ You will taxi and take-off from the water runway 4W at PHNL on heading 70, climb
             </condition>
         </error>
 
-        <exit>
+       <exit>
             <condition>
-                <or>
-                    <less-than>
-                        <property>/sim/tutorials/targets/taxi1/distance-m</property>
-                        <value>30.0</value>
-                    </less-than>
-                    <greater-than>
-                        <property>/sim/tutorials/targets/taxi1/distance-m</property>
-                        <value>-30.0</value>
-                    </greater-than>
-                </or>
+                <less-than>
+                    <property>/sim/tutorials/targets/taxi1/distance-m</property>
+                    <value>100.0</value>
+                </less-than>
             </condition>
         </exit>
     </step>
@@ -427,7 +438,7 @@ You will taxi and take-off from the water runway 4W at PHNL on heading 70, climb
             </condition>
         </error>
         <error>
-            <message>Apply full throttle for take-off.</message>
+            <message>Apply full throttle for takeoff.</message>
             <condition>
                 <less-than>
                     <property>/controls/engines/current-engine/throttle</property>
@@ -871,20 +882,20 @@ You will taxi and take-off from the water runway 4W at PHNL on heading 70, climb
     </step>
 
     <step>
-        <message>Execute landing.</message>
+        <message>Execute approach and landing.</message>
 
         <exit>
             <condition>
                 <less-than>
                     <property>/velocities/groundspeed-kt</property>
-                    <value>15.0</value>
+                    <value>10.0</value>
                 </less-than>
             </condition>
         </exit>
     </step>
 
     <step>
-        <message>Congratulations on successfully executing a water taxi and take off, following a pattern to a ground landing with the amphibious varient.</message>
+        <message>Congratulations on successfully executing a water taxi and take off, then following a pattern to a ground landing.</message>
     </step>
 
 </PropertyList>

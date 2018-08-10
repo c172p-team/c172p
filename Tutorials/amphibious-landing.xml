@@ -11,7 +11,7 @@ By now you should be proficient in the preflight checklist, startup proceedures,
 
 You will start lined up on runway 22R, takeoff on heading 223, climb at 600 feet per minute leveling off at 1000 ft., turn left to enter the pattern, left again to a landing on water runway 4W at PHNL.
 
-You are expected to know the approximate position of the mooring location in this area, tutorial guidance in taxing to this location will be limited.
+Pay attention to the heading bug on landing it will approximate the mooring position.
     </description>
 
     <audio-dir>Tutorials/amphibious</audio-dir>
@@ -430,136 +430,7 @@ You are expected to know the approximate position of the mooring location in thi
     </step>
 
     <step>
-        <message>Turn left cross leg heading 145, enter pattern to land on runway 22R at PHNL.</message>
-        <set>
-            <property>/autopilot/settings/heading-bug-deg</property>
-            <value>145</value>
-        </set>
-
-        <wait>15</wait>
-
-        <error>
-            <message>You're too far right. Turn left to heading 145.</message>
-            <condition>
-                <greater-than>
-                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>160</value>
-                </greater-than>
-            </condition>
-        </error>
-        <error>
-            <message>You're too far left. Turn right to heading 145.</message>
-            <condition>
-                <less-than>
-                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>130</value>
-                </less-than>
-            </condition>
-        </error>
-        <error>
-            <message>You are too high. Pattern altitude is 1000 feet.</message>
-            <condition>
-                <greater-than>
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>1100</value>
-                </greater-than>
-            </condition>
-        </error>
-        <error>
-            <message>You are too low. Pattern altitude is 1000 feet.</message>
-            <condition>
-                <less-than>
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>900</value>
-                </less-than>
-            </condition>
-        </error>
-
-        <exit>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        <value>900</value>
-                    </greater-than>
-                    <less-than>
-                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        <value>1100</value>
-                    </less-than>
-                    <greater-than>
-                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>130</value>
-                    </greater-than>
-                    <less-than>
-                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>160</value>
-                    </less-than>
-                </and>
-            </condition>
-        </exit>
-    </step>
-
-    <step>
-        <message>Continue cross leg heading 145</message>
-
-        <error>
-            <message>You're too far right. Turn left to heading 145.</message>
-            <condition>
-                <greater-than>
-                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>160</value>
-                </greater-than>
-            </condition>
-        </error>
-        <error>
-            <message>You're too far left. Turn right to heading 145.</message>
-            <condition>
-                <less-than>
-                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>130</value>
-                </less-than>
-            </condition>
-        </error>
-        <error>
-            <message>You are too high. Pattern altitude is 1000 feet.</message>
-            <condition>
-                <greater-than>
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>1100</value>
-                </greater-than>
-            </condition>
-        </error>
-        <error>
-            <message>You are too low. Pattern altitude is 1000 feet.</message>
-            <condition>
-                <less-than>
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>900</value>
-                </less-than>
-            </condition>
-        </error>
-        <error>
-            <message>Check throttle.</message>
-            <condition>
-                 <greater-than>
-                    <property>/controls/engines/current-engine/throttle</property>
-                    <value>0.85</value>
-                </greater-than>
-            </condition>
-        </error>
-
-        <exit>
-            <condition>
-                <greater-than>
-                    <property>/position/latitude-deg</property>
-                    <value>21.28</value>
-                </greater-than>
-            </condition>
-        </exit>
-    </step>
-
-    <step>
-        <message>Turn onto final heading 50, line up with the water runway 4W at PHNL in Keehi Lagoon.</message>
+        <message>Execute a 180 degree left turn onto final heading 043.4, line up with the water runway 4W at PHNL in Keehi Lagoon.</message>
 
         <set>
             <property>/autopilot/settings/heading-bug-deg</property>
@@ -571,11 +442,11 @@ You are expected to know the approximate position of the mooring location in thi
                 <and>
                     <greater-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>35</value>
+                        <value>28</value>
                     </greater-than>
                     <less-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>65</value>
+                        <value>58</value>
                     </less-than>
                 </and>
             </condition>
@@ -737,7 +608,7 @@ You are expected to know the approximate position of the mooring location in thi
     </step>
 
     <step>
-        <message>Taxi off of runway towards mooring location.</message>
+        <message>Taxi off of runway following your heading bug towards mooring location.</message>
 
         <nasal>
             <script>
@@ -791,9 +662,9 @@ You are expected to know the approximate position of the mooring location in thi
     </step>
 
     <step>
-        <message>Continue taxiing towards mooring location.</message>
+        <message>Continue taxiing towards mooring location using your heading bug.</message>
 
-        <error>
+        <!--error>
             <message>Hint: look at your heading bug.</message>
             <nasal>
                 <script>
@@ -806,7 +677,7 @@ You are expected to know the approximate position of the mooring location in thi
                     <value>100.0</value>
                 </greater-than>
             </condition>
-        </error>
+        </error-->
 
         <exit>
             <condition>

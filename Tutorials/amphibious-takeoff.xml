@@ -9,9 +9,9 @@ This tutorial starts from Hilo International Airport, Hawaii (PHNL), a seaplane 
     
 By now you should be proficient in the preflight checklist, startup proceedures, determining the appropriate taxing route to the desired runway, takeoff, flying a pattern and landing.
 
-You will taxi and takeoff from water runway 4W at PHNL on heading 70, climb at 600 feet per minute leveling off at 1000 ft., turn left to enter the pattern, left again to land at PHNL to complete the tutorial.
+You will taxi and takeoff from water runway 4W at PHNL on heading 043.4, climb at 600 feet per minute leveling off at 1000 ft., turn left to enter the pattern, left again to land at PHNL to complete the tutorial.
 
-You are expected to know the approximate position of runway 4W/22W, tutorial guidance in taxing to this runway will be limited.
+Pay attention to the heading bug on taxxing it will approximate the threshold position of runway 4W.
     </description>
 
     <audio-dir>Tutorials/amphibious</audio-dir>
@@ -348,7 +348,7 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
     </step>
 
     <step>
-        <message>Lower water rudders for better control.</message>
+        <message>Lower water rudders for better control [R].</message>
 
         <error>
             <message>Lower water rudders [R].</message>
@@ -371,7 +371,7 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
     </step>
 
     <step>
-        <message>Taxi towards water runway 4W until you reach the threshhold.</message>
+        <message>Taxi towards water runway 4W using the heading bug until you reach the threshhold.</message>
 
         <nasal>
             <script>
@@ -425,9 +425,9 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
     </step>
 
     <step>
-        <message>Continue taxiing towards water runway 4W/22W until you reach the threshhold.</message>
+        <message>Continue taxiing towards water runway 4W following your heading bug until you reach the threshhold.</message>
 
-        <error>
+        <!--error>
             <message>Hint: look at your heading bug.</message>
             <nasal>
                 <script>
@@ -440,7 +440,7 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
                     <value>100.0</value>
                 </greater-than>
             </condition>
-        </error>
+        </error-->
 
        <exit>
             <condition>
@@ -453,11 +453,11 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
     </step>
 
     <step>
-        <message>Line up on a takeoff course of 70, smoothly apply full power, control direction using rudder.</message>
+        <message>Line up on a takeoff course of 043.4, smoothly apply full power, control direction using rudder.</message>
 
         <set>
             <property>/autopilot/settings/heading-bug-deg</property>
-            <value>70</value>
+            <value>43.4</value>
         </set>
 
         <error>
@@ -493,20 +493,20 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
         <message>Slight forward pressure to get on step.</message>
 
         <error>
-            <message>You are heading too far left, turn right slightly to heading 70.</message>
+            <message>You are heading too far left, turn right slightly to heading 043.</message>
             <condition>
                 <less-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>55</value>
+                    <value>28</value>
                 </less-than>
             </condition>
         </error>
         <error>
-            <message>You are heading too far right, turn left slightly to heading 70.</message>
+            <message>You are heading too far right, turn left slightly to heading 043.</message>
             <condition>
                 <greater-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>85</value>
+                    <value>58</value>
                 </greater-than>
             </condition>
         </error>
@@ -520,11 +520,11 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
                     </greater-than>
                     <less-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>65</value>
+                        <value>58</value>
                     </less-than>
                     <greater-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>55</value>
+                        <value>28</value>
                     </greater-than>
                 </and>
             </condition>
@@ -532,7 +532,7 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
     </step>
 
     <step>
-        <message>Let the aircraft lift off at 65 knots, climb straight out on heading 70, 600 feet per minute.</message>
+        <message>Let the aircraft lift off at 65 knots, climb straight out on heading 043.4, 600 feet per minute.</message>
 
         <error>
             <message>Gently raise the nose.</message>
@@ -557,11 +557,11 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
                     </equals>
                     <less-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>85</value>
+                        <value>58</value>
                     </less-than>
                     <greater-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>55</value>
+                        <value>28</value>
                     </greater-than>
                 </and>
             </condition>
@@ -569,23 +569,23 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
     </step>
 
     <step>
-        <message>Continue your climb on heading 70 at 600 feet per minute to 1000 feet.</message>
+        <message>Continue your climb on heading 043.4 at 600 feet per minute to 1000 feet.</message>
 
         <error>
-            <message>You are heading too far left, turn right slightly to heading 70.</message>
+            <message>You are heading too far left, turn right slightly to heading 043.</message>
             <condition>
                 <less-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>55</value>
+                    <value>28</value>
                 </less-than>
             </condition>
         </error>
         <error>
-            <message>You are heading too far right, turn left slightly to heading 70.</message>
+            <message>You are heading too far right, turn left slightly to heading 043.</message>
             <condition>
                 <greater-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>85</value>
+                    <value>58</value>
                 </greater-than>
             </condition>
         </error>
@@ -612,11 +612,11 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
                     </less-than>
                     <less-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>85</value>
+                        <value>58</value>
                     </less-than>
                     <greater-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>55</value>
+                        <value>28</value>
                     </greater-than>
                     <equals>
                         <property>/controls/gear/water-rudder</property>
@@ -649,20 +649,20 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
             </condition>
         </error>
         <error>
-            <message>You are heading too far left, turn right slightly to heading 70.</message>
+            <message>You are heading too far left, turn right slightly to heading 043.</message>
             <condition>
                 <less-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>55</value>
+                    <value>28</value>
                 </less-than>
             </condition>
         </error>
         <error>
-            <message>You are heading too far right, turn left slightly to heading 70.</message>
+            <message>You are heading too far right, turn left slightly to heading 043.</message>
             <condition>
                 <greater-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>85</value>
+                    <value>58</value>
                 </greater-than>
             </condition>
         </error>
@@ -688,11 +688,15 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
                     </greater-than>
                     <greater-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>55</value>
+                        <value>28</value>
                     </greater-than>
                     <less-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>85</value>
+                        <value>58</value>
+                    </less-than>
+                    <less-than>
+                        <property>/position/longitude-deg</property>
+                        <value>-157.8756975</value>
                     </less-than>
                 </and>
             </condition>
@@ -700,125 +704,7 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
     </step>
 
     <step>
-        <message>Turn left cross leg heading 300, enter pattern to land on runway 22R at PHNL.</message>
-
-        <set>
-            <property>/autopilot/settings/heading-bug-deg</property>
-            <value>300</value>
-        </set>
-
-        <wait>15</wait>
-
-        <error>
-            <message>You are too high. Pattern altitude is 1000 feet.</message>
-            <condition>
-                <greater-than>
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>1100</value>
-                </greater-than>
-            </condition>
-        </error>
-        <error>
-            <message>You are too low. Pattern altitude is 1000 feet.</message>
-            <condition>
-                <less-than>
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>900</value>
-                </less-than>
-            </condition>
-        </error>
-
-        <exit>
-            <condition>
-                <or>
-                    <and>
-                        <greater-than>
-                            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                            <value>900</value>
-                        </greater-than>
-                        <less-than>
-                            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                            <value>1100</value>
-                        </less-than>
-                        <greater-than>
-                            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                            <value>285</value>
-                        </greater-than>
-                        <less-than>
-                            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                            <value>315</value>
-                        </less-than>
-                    </and>
-                    <greater-than>
-                        <property>/position/longitude-deg</property>
-                        <value>8634016</value>
-                    </greater-than>
-                </or>
-            </condition>
-        </exit>
-    </step>
-
-    <step>
-        <message>Continue cross leg heading 300</message>
-
-        <error>
-            <message>You're too far right. Turn left to heading 300.</message>
-            <condition>
-                <greater-than>
-                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>315</value>
-                </greater-than>
-            </condition>
-        </error>
-        <error>
-            <message>You're too far left. Turn right to heading 300.</message>
-            <condition>
-                <less-than>
-                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>285</value>
-                </less-than>
-            </condition>
-        </error>
-        <error>
-            <message>You are too high. Pattern altitude is 1000 feet.</message>
-            <condition>
-                <greater-than>
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>1100</value>
-                </greater-than>
-            </condition>
-        </error>
-        <error>
-            <message>You are too low. Pattern altitude is 1000 feet.</message>
-            <condition>
-                <less-than>
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>900</value>
-                </less-than>
-            </condition>
-        </error>
-        <error>
-            <message>Check throttle.</message>
-            <condition>
-                 <greater-than>
-                    <property>/controls/engines/current-engine/throttle</property>
-                    <value>0.85</value>
-                </greater-than>
-            </condition>
-        </error>
-
-        <exit>
-            <condition>
-                <greater-than>
-                    <property>/position/latitude-deg</property>
-                    <value>21.33723919</value>
-                </greater-than>
-            </condition>
-        </exit>
-    </step>
-
-    <step>
-        <message>Turn onto final heading 223, line up with the runway 22R at PHNL.</message>
+        <message>Execute a 180 left turn onto final heading 223.4, line up with the runway 22R at PHNL.</message>
 
         <set>
             <property>/autopilot/settings/heading-bug-deg</property>

@@ -12,7 +12,7 @@
             <property>/systems/electrical/battery-charge-percent-100</property>
         </output>
     </filter>
-    
+
     <logic>
         <name>Low Voltage LED</name>
         <input>
@@ -25,12 +25,37 @@
                     <property>systems/electrical/amps</property>
                     <value>0.0</value>
                 </less-than>
-                
+
             </and>
         </input>
         <output>
             <property>/instrumentation/low-voltage-led</property>
         </output>
     </logic>
+
+    <filter>
+        <type>gain</type>
+        <name>Avionics switch flicks to off if circuit breaker pops out</name>
+        <enable>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/controls/circuit-breakers/master</property>
+                        <value>0.0</value>
+                    </equals>
+                    <greater-than>
+                        <property>systems/electrical/volts</property>
+                        <value>0.0</value>
+                    </greater-than>
+                </and>
+            </condition>
+        </enable>
+        <input>
+            <value>false</value>
+        </input>
+        <output>
+            <property>/controls/switches/master-avionics</property>
+        </output>
+    </filter>
 
 </PropertyList>

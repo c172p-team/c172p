@@ -34,11 +34,11 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
     </presets>
 
     <targets>
-        <taxi1>
+        <runway>
             <!-- Turn right onto runway 4W -->
-            <latitude-deg>21.3160321</latitude-deg>
-            <longitude-deg>-157.9080665</longitude-deg>
-        </taxi1>
+            <latitude-deg>21.31335723</latitude-deg>
+            <longitude-deg>-157.9157261</longitude-deg>
+        </runway>
     </targets>
 
     <step>
@@ -249,6 +249,14 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
             <property>/controls/switches/master-gear</property>
             <value>false</value>
         </set>
+        <view>
+            <heading-offset-deg>0.0</heading-offset-deg>
+            <pitch-offset-deg>-12</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.21</x-offset-m>
+            <y-offset-m>0.19</y-offset-m>
+            <field-of-view>73.6</field-of-view>
+        </view>
     </step>
 
     <step>
@@ -271,7 +279,8 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
         </error>
 
         <error>
-            <message>Do not start engine until the mooring anchor has been released.</message>
+            <message>Do not start engine until the mooring anchor has been released.
+                    Turn it off or you will damage your aircraft.</message>
             <condition>
                 <equals>
                     <property>/engines/active-engine/running</property>
@@ -282,10 +291,16 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
 
         <exit>
             <condition>
-                <equals>
-                    <property>/controls/mooring/anchor</property>
-                    <value>0</value>
-                </equals>
+                <and>
+                    <equals>
+                        <property>/controls/mooring/anchor</property>
+                        <value>0</value>
+                    </equals>
+                    <equals>
+                        <property>/engines/active-engine/running</property>
+                        <value>0</value>
+                    </equals>
+                </and>
             </condition>
         </exit>
     </step>
@@ -294,7 +309,7 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
         <message>Start the engine.</message>
 
         <error>
-            <message>Turn pontoon master power switch on.</message>
+            <message>Turn amphibious landing gear system power switch on.</message>
             <condition>
                 <equals>
                     <property>/controls/switches/master-gear</property>
@@ -358,29 +373,36 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
     <step>
         <message>Taxi towards water runway 4W until you reach the threshhold.</message>
 
+        <nasal>
+            <script>
+                setprop("/autopilot/settings/heading-bug-deg", getprop("/sim/tutorials/targets/runway/heading-deg"));
+            </script>
+        </nasal>
+
         <error>
-            <message>To increase steering control lower your pontoon rudders [R].</message>
-            <condition>
-                <equals>
-                    <property>/controls/gear/water-rudder</property>
-                    <value>0</value>
-                </equals>
-            </condition>
-        </error>
-        <error>
-            <message>You're off course. To reach the runway turn to the left.</message>
+            <message>You're off course. To reach the runway turn to the left (hint: look at your heading bug).</message>
+            <nasal>
+                <script>
+                    setprop("/autopilot/settings/heading-bug-deg", getprop("/sim/tutorials/targets/runway/heading-deg"));
+                </script>
+            </nasal>
             <condition>
                 <less-than>
-                    <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                    <property>/sim/tutorials/targets/runway/direction-deg</property>
                     <value>-20</value>
                 </less-than>
             </condition>
         </error>
         <error>
-            <message>You're off course. To reach the runway turn to the right.</message>
+            <message>You're off course. To reach the runway turn to the right (hint: look at your heading bug).</message>
+            <nasal>
+                <script>
+                    setprop("/autopilot/settings/heading-bug-deg", getprop("/sim/tutorials/targets/runway/heading-deg"));
+                </script>
+            </nasal>
             <condition>
                 <greater-than>
-                    <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                    <property>/sim/tutorials/targets/runway/direction-deg</property>
                     <value>20</value>
                 </greater-than>
             </condition>
@@ -390,11 +412,11 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
             <condition>
                 <and>
                     <less-than>
-                        <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                        <property>/sim/tutorials/targets/runway/direction-deg</property>
                         <value>20</value>
                     </less-than>
                     <greater-than>
-                        <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                        <property>/sim/tutorials/targets/runway/direction-deg</property>
                         <value>-20</value>
                     </greater-than>
                 </and>
@@ -403,22 +425,27 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
     </step>
 
     <step>
-        <message>Continue Taxing towards water runway 4W/22W until you reach the threshhold.</message>
+        <message>Continue taxiing towards water runway 4W/22W until you reach the threshhold.</message>
 
         <error>
-            <message>To increase steering control lower your pontoon rudders [R].</message>
+            <message>Hint: look at your heading bug.</message>
+            <nasal>
+                <script>
+                    setprop("/autopilot/settings/heading-bug-deg", getprop("/sim/tutorials/targets/runway/heading-deg"));
+                </script>
+            </nasal>
             <condition>
-                <equals>
-                    <property>/controls/gear/water-rudder</property>
-                    <value>0</value>
-                </equals>
+                <greater-than>
+                    <property>/sim/tutorials/targets/runway/distance-m</property>
+                    <value>100.0</value>
+                </greater-than>
             </condition>
         </error>
 
        <exit>
             <condition>
                 <less-than>
-                    <property>/sim/tutorials/targets/taxi1/distance-m</property>
+                    <property>/sim/tutorials/targets/runway/distance-m</property>
                     <value>100.0</value>
                 </less-than>
             </condition>
@@ -427,6 +454,11 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
 
     <step>
         <message>Line up on a takeoff course of 70, smoothly apply full power, control direction using rudder.</message>
+
+        <set>
+            <property>/autopilot/settings/heading-bug-deg</property>
+            <value>70</value>
+        </set>
 
         <error>
             <message>Your gear must be up to take off.</message>
@@ -670,26 +702,13 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
     <step>
         <message>Turn left cross leg heading 300, enter pattern to land on runway 22R at PHNL.</message>
 
+        <set>
+            <property>/autopilot/settings/heading-bug-deg</property>
+            <value>300</value>
+        </set>
+
         <wait>15</wait>
 
-        <error>
-            <message>You're too far right. Turn left to heading 300.</message>
-            <condition>
-                <greater-than>
-                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>315</value>
-                </greater-than>
-            </condition>
-        </error>
-        <error>
-            <message>You're too far left. Turn right to heading 300.</message>
-            <condition>
-                <less-than>
-                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>285</value>
-                </less-than>
-            </condition>
-        </error>
         <error>
             <message>You are too high. Pattern altitude is 1000 feet.</message>
             <condition>
@@ -711,24 +730,30 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
 
         <exit>
             <condition>
-                <and>
+                <or>
+                    <and>
+                        <greater-than>
+                            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                            <value>900</value>
+                        </greater-than>
+                        <less-than>
+                            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                            <value>1100</value>
+                        </less-than>
+                        <greater-than>
+                            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                            <value>285</value>
+                        </greater-than>
+                        <less-than>
+                            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                            <value>315</value>
+                        </less-than>
+                    </and>
                     <greater-than>
-                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        <value>900</value>
+                        <property>/position/longitude-deg</property>
+                        <value>8634016</value>
                     </greater-than>
-                    <less-than>
-                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        <value>1100</value>
-                    </less-than>
-                    <greater-than>
-                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>285</value>
-                    </greater-than>
-                    <less-than>
-                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>315</value>
-                    </less-than>
-                </and>
+                </or>
             </condition>
         </exit>
     </step>
@@ -786,7 +811,7 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
             <condition>
                 <greater-than>
                     <property>/position/latitude-deg</property>
-                    <value>21.35230392</value>
+                    <value>21.33723919</value>
                 </greater-than>
             </condition>
         </exit>
@@ -794,6 +819,11 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
 
     <step>
         <message>Turn onto final heading 223, line up with the runway 22R at PHNL.</message>
+
+        <set>
+            <property>/autopilot/settings/heading-bug-deg</property>
+            <value>223</value>
+        </set>
 
         <exit>
             <condition>
@@ -824,12 +854,18 @@ You are expected to know the approximate position of runway 4W/22W, tutorial gui
             </condition>
         </error>
         <error>
-            <message>Set some flaps.</message>
+            <message>Set some flaps at appropriate speed.</message>
             <condition>
-                <less-than>
-                    <property>/controls/flight/flaps</property>
-                    <value>0.3</value>
-                </less-than>
+                <and>
+                    <less-than>
+                        <property>/controls/flight/flaps</property>
+                        <value>0.3</value>
+                    </less-than>
+                    <less-than>
+                        <property>/velocities/airspeed-kt</property>
+                        <value>110</value>
+                    </less-than>
+                </and>
             </condition>
         </error>
 

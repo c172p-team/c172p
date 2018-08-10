@@ -9,7 +9,7 @@ This tutorial starts from Hilo International Airport, Hawaii (PHNL) and finishes
 
 By now you should be proficient in the preflight checklist, startup proceedures, determining the appropriate taxing route to the desired runway, takeoff, flying a pattern and landing.
 
-You will start lined up on runway 22R, takeoff on heading 232, climb at 600 feet per minute leveling off at 1000 ft., turn left to enter the pattern, left again to a landing on water runway 4W at PHNL.
+You will start lined up on runway 22R, takeoff on heading 223, climb at 600 feet per minute leveling off at 1000 ft., turn left to enter the pattern, left again to a landing on water runway 4W at PHNL.
 
 You are expected to know the approximate position of the mooring location in this area, tutorial guidance in taxing to this location will be limited.
     </description>
@@ -23,7 +23,7 @@ You are expected to know the approximate position of the mooring location in thi
         <altitude-ft>-9999</altitude-ft>
         <latitude-deg type="double">21.32982026</latitude-deg>
         <longitude-deg type="double">-157.907044</longitude-deg>
-        <heading-deg type="double">232.853</heading-deg>
+        <heading-deg type="double">223</heading-deg>
         <airspeed-kt>0</airspeed-kt>
         <glideslope-deg>0</glideslope-deg>
         <offset-azimuth-deg>0</offset-azimuth-deg>
@@ -34,11 +34,11 @@ You are expected to know the approximate position of the mooring location in thi
     </presets>
 
     <targets>
-        <taxi1>
+        <mooring>
             <!-- Turn left and taxi to mooring location -->
             <latitude-deg>21.31670172</latitude-deg>
             <longitude-deg>-157.9124451</longitude-deg>
-        </taxi1>
+        </mooring>
     </targets>
 
     <step>
@@ -46,6 +46,10 @@ You are expected to know the approximate position of the mooring location in thi
         <set>
             <property>/instrumentation/adf/frequencies/selected-khz</property>
             <value>242</value> <!-- EWABE NDB -->
+        </set>
+        <set>
+            <property>/autopilot/settings/heading-bug-deg</property>
+            <value>223</value>
         </set>
         <set>
             <property>/environment/weather-scenario</property>
@@ -199,6 +203,14 @@ You are expected to know the approximate position of the mooring location in thi
             <property>/controls/switches/master-gear</property>
             <value>true</value>
         </set>
+        <view>
+            <heading-offset-deg>0.0</heading-offset-deg>
+            <pitch-offset-deg>-12</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.21</x-offset-m>
+            <y-offset-m>0.19</y-offset-m>
+            <field-of-view>73.6</field-of-view>
+        </view>
     </step>
 
     <step>
@@ -232,7 +244,7 @@ You are expected to know the approximate position of the mooring location in thi
     </step>
 
     <step>
-        <message>Takeoff course of 232, smoothly apply full power, control direction using rudder.</message>
+        <message>Takeoff course of 223, smoothly apply full power, control direction using rudder.</message>
 
         <error>
             <message>Your gear must be down to take off.</message>
@@ -264,7 +276,7 @@ You are expected to know the approximate position of the mooring location in thi
     </step>
 
     <step>
-        <message>Let the aircraft lift off at 65 knots, climb straight out on heading 232, 600 feet per minute.</message>
+        <message>Let the aircraft lift off at 65 knots, climb straight out on heading 223, 600 feet per minute.</message>
 
         <exit>
             <condition>
@@ -275,11 +287,11 @@ You are expected to know the approximate position of the mooring location in thi
                     </greater-than>
                     <less-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>247</value>
+                        <value>238</value>
                     </less-than>
                     <greater-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>207</value>
+                        <value>208</value>
                     </greater-than>
                 </and>
             </condition>
@@ -287,23 +299,23 @@ You are expected to know the approximate position of the mooring location in thi
     </step>
 
     <step>
-        <message>Continue your climb on heading 232 at 600 feet per minute to 1000 feet.</message>
+        <message>Continue your climb on heading 223 at 600 feet per minute to 1000 feet.</message>
 
         <error>
-            <message>You are heading too far left, turn right slightly to heading 232.</message>
+            <message>You are heading too far left, turn right slightly to heading 223.</message>
             <condition>
                 <less-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>207</value>
+                    <value>208</value>
                 </less-than>
             </condition>
         </error>
         <error>
-            <message>You are heading too far right, turn left slightly to heading 232.</message>
+            <message>You are heading too far right, turn left slightly to heading 223.</message>
             <condition>
                 <greater-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>247</value>
+                    <value>238</value>
                 </greater-than>
             </condition>
         </error>
@@ -330,11 +342,11 @@ You are expected to know the approximate position of the mooring location in thi
                     </less-than>
                     <less-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>247</value>
+                        <value>238</value>
                     </less-than>
                     <greater-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>207</value>
+                        <value>208</value>
                     </greater-than>
                     <equals>
                         <property>/controls/gear/gear-down</property>
@@ -367,20 +379,20 @@ You are expected to know the approximate position of the mooring location in thi
             </condition>
         </error>
         <error>
-            <message>You are heading too far left, turn right slightly to heading 232.</message>
+            <message>You are heading too far left, turn right slightly to heading 223.</message>
             <condition>
                 <less-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>207</value>
+                    <value>208</value>
                 </less-than>
             </condition>
         </error>
         <error>
-            <message>You are heading too far right, turn left slightly to heading 232.</message>
+            <message>You are heading too far right, turn left slightly to heading 223.</message>
             <condition>
                 <greater-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>247</value>
+                    <value>238</value>
                 </greater-than>
             </condition>
         </error>
@@ -419,6 +431,10 @@ You are expected to know the approximate position of the mooring location in thi
 
     <step>
         <message>Turn left cross leg heading 145, enter pattern to land on runway 22R at PHNL.</message>
+        <set>
+            <property>/autopilot/settings/heading-bug-deg</property>
+            <value>145</value>
+        </set>
 
         <wait>15</wait>
 
@@ -543,18 +559,23 @@ You are expected to know the approximate position of the mooring location in thi
     </step>
 
     <step>
-        <message>Turn onto final heading 60, line up with the water runway 4W at PHNL in Keehi Lagoon.</message>
+        <message>Turn onto final heading 50, line up with the water runway 4W at PHNL in Keehi Lagoon.</message>
+
+        <set>
+            <property>/autopilot/settings/heading-bug-deg</property>
+            <value>50</value>
+        </set>
 
         <exit>
             <condition>
                 <and>
                     <greater-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>45</value>
+                        <value>35</value>
                     </greater-than>
                     <less-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>75</value>
+                        <value>65</value>
                     </less-than>
                 </and>
             </condition>
@@ -573,13 +594,19 @@ You are expected to know the approximate position of the mooring location in thi
                 </greater-than>
             </condition>
         </error>
-        <error>
-            <message>Set some flaps.</message>
+       <error>
+            <message>Set some flaps at appropriate speed.</message>
             <condition>
-                <less-than>
-                    <property>/controls/flight/flaps</property>
-                    <value>0.3</value>
-                </less-than>
+                <and>
+                    <less-than>
+                        <property>/controls/flight/flaps</property>
+                        <value>0.3</value>
+                    </less-than>
+                    <less-than>
+                        <property>/velocities/airspeed-kt</property>
+                        <value>110</value>
+                    </less-than>
+                </and>
             </condition>
         </error>
 
@@ -712,29 +739,36 @@ You are expected to know the approximate position of the mooring location in thi
     <step>
         <message>Taxi off of runway towards mooring location.</message>
 
+        <nasal>
+            <script>
+                setprop("/autopilot/settings/heading-bug-deg", getprop("/sim/tutorials/targets/mooring/heading-deg"));
+            </script>
+        </nasal>
+
         <error>
-            <message>To increase steering control lower your pontoon rudders [R].</message>
-            <condition>
-                <equals>
-                    <property>/controls/gear/water-rudder</property>
-                    <value>0</value>
-                </equals>
-            </condition>
-        </error>
-        <error>
-            <message>You're off course. To reach the mooring location turn to the left.</message>
+            <message>You're off course. To reach the mooring location turn to the left (hint: look at your heading bug).</message>
+            <nasal>
+                <script>
+                    setprop("/autopilot/settings/heading-bug-deg", getprop("/sim/tutorials/targets/mooring/heading-deg"));
+                </script>
+            </nasal>
             <condition>
                 <less-than>
-                    <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                    <property>/sim/tutorials/targets/mooring/direction-deg</property>
                     <value>-20</value>
                 </less-than>
             </condition>
         </error>
         <error>
-            <message>You're off course. To reach the mooring location turn to the right.</message>
+            <message>You're off course. To reach the mooring location turn to the right (hint: look at your heading bug).</message>
+            <nasal>
+                <script>
+                    setprop("/autopilot/settings/heading-bug-deg", getprop("/sim/tutorials/targets/mooring/heading-deg"));
+                </script>
+            </nasal>
             <condition>
                 <greater-than>
-                    <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                    <property>/sim/tutorials/targets/mooring/direction-deg</property>
                     <value>20</value>
                 </greater-than>
             </condition>
@@ -744,11 +778,11 @@ You are expected to know the approximate position of the mooring location in thi
             <condition>
                 <and>
                     <less-than>
-                        <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                        <property>/sim/tutorials/targets/mooring/direction-deg</property>
                         <value>20</value>
                     </less-than>
                     <greater-than>
-                        <property>/sim/tutorials/targets/taxi1/direction-deg</property>
+                        <property>/sim/tutorials/targets/mooring/direction-deg</property>
                         <value>-20</value>
                     </greater-than>
                 </and>
@@ -760,19 +794,24 @@ You are expected to know the approximate position of the mooring location in thi
         <message>Continue taxiing towards mooring location.</message>
 
         <error>
-            <message>To increase steering control lower your pontoon rudders [R].</message>
+            <message>Hint: look at your heading bug.</message>
+            <nasal>
+                <script>
+                    setprop("/autopilot/settings/heading-bug-deg", getprop("/sim/tutorials/targets/mooring/heading-deg"));
+                </script>
+            </nasal>
             <condition>
-                <equals>
-                    <property>/controls/gear/water-rudder</property>
-                    <value>0</value>
-                </equals>
+                <greater-than>
+                    <property>/sim/tutorials/targets/mooring/distance-m</property>
+                    <value>100.0</value>
+                </greater-than>
             </condition>
         </error>
 
         <exit>
             <condition>
                 <less-than>
-                    <property>/sim/tutorials/targets/taxi1/distance-m</property>
+                    <property>/sim/tutorials/targets/mooring/distance-m</property>
                     <value>100.0</value>
                 </less-than>
             </condition>
@@ -780,10 +819,21 @@ You are expected to know the approximate position of the mooring location in thi
     </step>
 
     <step>
-        <message>Prepare to set mooring anchor.</message>
+        <message>Prepare to set mooring anchor by killing the engine and opening the "Mooring Parameters" menu.</message>
+
+        <nasal>
+            <script>
+                setprop("/autopilot/settings/heading-bug-deg", getprop("/environment/wind-from-heading-deg"));
+            </script>
+        </nasal>
 
         <error>
             <message>Kill engine and face into the wind using momentum.</message>
+            <nasal>
+                <script>
+                    setprop("/autopilot/settings/heading-bug-deg", getprop("/environment/wind-from-heading-deg"));
+                </script>
+            </nasal>
             <condition>
                 <equals>
                     <property>/engines/active-engine/running</property>
@@ -791,8 +841,28 @@ You are expected to know the approximate position of the mooring location in thi
                 </equals>
             </condition>
         </error>
+
+        <exit>
+            <condition>
+                <equals>
+                    <property>/engines/active-engine/running</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Get ready to drop the mooring anchor.</message>
+
+        <nasal>
+            <script>
+                setprop("/autopilot/settings/heading-bug-deg", getprop("/environment/wind-from-heading-deg"));
+            </script>
+        </nasal>
+
         <error>
-            <message>When ready [Set] the mooring anchor under "Mooring Parameters".</message>
+            <message>Face into the wind and [Set] the mooring anchor under "Mooring Parameters" (hint: look at your heading bug).</message>
             <condition>
                 <equals>
                     <property>/controls/mooring/anchor</property>
@@ -810,12 +880,26 @@ You are expected to know the approximate position of the mooring location in thi
             </condition>
         </error>
         <error>
-            <message>Start engine briefly to gain momentum.</message>
+            <message>If needed start engine briefly to gain momentum.</message>
             <condition>
                 <less-than>
                     <property>/fdm/jsbsim/hydro/vbx-fps</property>
-                    <value>2</value>
+                    <value>3</value>
                 </less-than>
+            </condition>
+        </error>
+        <error>
+            <message>Kill engine and face into the wind using momentum.</message>
+            <nasal>
+                <script>
+                    setprop("/autopilot/settings/heading-bug-deg", getprop("/environment/wind-from-heading-deg"));
+                </script>
+            </nasal>
+            <condition>
+                <equals>
+                    <property>/engines/active-engine/running</property>
+                    <value>1</value>
+                </equals>
             </condition>
         </error>
         <error>

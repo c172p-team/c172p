@@ -197,8 +197,8 @@
                 <value>REMOVE</value>
                 <marker>
                     <x-m>-0.2000</x-m>
-                    <y-m>-1.5190</y-m>
-                    <z-m>0.4471</z-m>
+                    <y-m>-1.5339</y-m>
+                    <z-m>0.4000</z-m>
                     <scale>3.1983</scale>
                 </marker>
                 <condition>
@@ -246,10 +246,10 @@
                 <name>Left tie-down</name>
                 <value>REMOVE</value>
                 <marker>
-                    <x-m>0.1198</x-m>
-                    <y-m>-2.3124</y-m>
-                    <z-m>0.3909</z-m>
-                    <scale>2.7686</scale>
+                    <x-m>0.1058</x-m>
+                    <y-m>-2.2413</y-m>
+                    <z-m>0.3578</z-m>
+                    <scale>1.6116</scale>
                 </marker>
                 <condition>
                     <not>
@@ -351,7 +351,7 @@
                     <x-m>4.7000</x-m>
                     <y-m>-0.0033</y-m>
                     <z-m>-0.6678</z-m>
-                    <scale>5.5620</scale>
+                    <scale>8.1901</scale>
                 </marker>
                 <condition>
                     <not>
@@ -399,10 +399,10 @@
                 <name>Right tie-down</name>
                 <value>REMOVE</value>
                 <marker>
-                    <x-m>0.1198</x-m>
-                    <y-m>2.3124</y-m>
-                    <z-m>0.3909</z-m>
-                    <scale>2.7686</scale>
+                    <x-m>0.0644</x-m>
+                    <y-m>2.2537</y-m>
+                    <z-m>0.3636</z-m>
+                    <scale>1.8595</scale>
                 </marker>
                 <condition>
                     <not>
@@ -2746,7 +2746,7 @@
         <item>
             <name>Control lock</name>
             <value>INSTALL</value>
-            <value>(if existing)</value>
+            <value>(if existing, if not unhide yoke)</value>
             <marker>
                 <x-m>-0.2408</x-m>
                 <y-m>-0.4483</y-m>
@@ -2762,8 +2762,29 @@
                     <not>
                         <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
                     </not>
+                    <property>/sim/model/hide-yoke</property>
                 </or>
             </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>/sim/model/hide-yoke</property>
+                <value type="bool">false</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                <value type="bool">true</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/sim/model/c172p/cockpit/control-lock-visible</property>
+                <value type="bool">true</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/sim/model/c172p/cockpit/control-lock-placed</property>
+                <value type="bool">true</value>
+            </binding>
         </item>
         <item>
             <name>Walker</name>
@@ -2781,8 +2802,8 @@
             <value>COVER</value>
             <marker>
                 <x-m>-0.2000</x-m>
-                <y-m>-1.5190</y-m>
-                <z-m>0.4471</z-m>
+                <y-m>-1.5339</y-m>
+                <z-m>0.4000</z-m>
                 <scale>3.1983</scale>
             </marker>
             <condition>
@@ -2816,10 +2837,10 @@
             <name>Left tie-down</name>
             <value>SECURED</value>
             <marker>
-                <x-m>0.1198</x-m>
-                <y-m>-2.3124</y-m>
-                <z-m>0.3909</z-m>
-                <scale>2.7686</scale>
+                <x-m>0.1058</x-m>
+                <y-m>-2.2413</y-m>
+                <z-m>0.3578</z-m>
+                <scale>1.6116</scale>
             </marker>
             <condition>
                 <or>
@@ -2882,10 +2903,10 @@
             <name>Right tie-down</name>
             <value>SECURED</value>
             <marker>
-                <x-m>0.1198</x-m>
-                <y-m>2.3124</y-m>
-                <z-m>0.3909</z-m>
-                <scale>2.7686</scale>
+                <x-m>0.0644</x-m>
+                <y-m>2.2537</y-m>
+                <z-m>0.3636</z-m>
+                <scale>1.8595</scale>
             </marker>
             <condition>
                 <or>
@@ -2921,7 +2942,7 @@
                 <x-m>4.7000</x-m>
                 <y-m>-0.0033</y-m>
                 <z-m>-0.6678</z-m>
-                <scale>5.5620</scale>
+                <scale>8.1901</scale>
             </marker>
             <condition>
                 <or>

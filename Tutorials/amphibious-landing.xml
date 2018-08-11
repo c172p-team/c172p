@@ -424,7 +424,12 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
                         <value>247</value>
                     </less-than>
+                    <greater-than>
+                        <property>/position/longitude-deg</property>
+                        <value>-157.9550502</value>
+                    </greater-than>
                 </and>
+
             </condition>
         </exit>
     </step>
@@ -608,7 +613,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
     </step>
 
     <step>
-        <message>Taxi off of runway following your heading bug towards mooring location.</message>
+        <message>Taxi off of runway following your heading bug towards the mooring location.</message>
 
         <nasal>
             <script>
@@ -662,22 +667,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
     </step>
 
     <step>
-        <message>Continue taxiing towards mooring location using your heading bug.</message>
-
-        <!--error>
-            <message>Hint: look at your heading bug.</message>
-            <nasal>
-                <script>
-                    setprop("/autopilot/settings/heading-bug-deg", getprop("/sim/tutorials/targets/mooring/heading-deg"));
-                </script>
-            </nasal>
-            <condition>
-                <greater-than>
-                    <property>/sim/tutorials/targets/mooring/distance-m</property>
-                    <value>100.0</value>
-                </greater-than>
-            </condition>
-        </error-->
+        <message>Continue taxiing towards mooring location following your heading bug.</message>
 
         <exit>
             <condition>
@@ -690,7 +680,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
     </step>
 
     <step>
-        <message>Prepare to set mooring anchor by killing the engine and opening the "Mooring Parameters" menu.</message>
+        <message>Prepare to set mooring anchor by killing the engine, opening the "Mooring Parameters" menu and immediately turn into the wind.</message>
 
         <nasal>
             <script>

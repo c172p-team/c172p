@@ -55,6 +55,7 @@ var autostart = func (msg=1) {
     setprop("/sim/model/c172p/cockpit/control-lock-placed", 0);
     setprop("/sim/model/c172p/brake-parking", 0);
     setprop("/sim/model/c172p/securing/chock", 0);
+    setprop("/sim/model/c172p/securing/cowl-plugs-visible", 0);
     setprop("/sim/model/c172p/securing/pitot-cover-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownL-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownR-visible", 0);

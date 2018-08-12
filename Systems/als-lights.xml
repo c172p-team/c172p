@@ -659,5 +659,63 @@
         </input>
         <output>/sim/model/lightmap/combined/factor-glassglare</output>
     </filter>
+    <filter>
+        <name>Gear Glare Dim</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <and>
+                    <property>/controls/lighting/gearled</property>
+                    <property>/sim/model/c172p/lighting/amphibious</property>
+                </and>
+            </condition>
+            <value>.35</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/controls/lighting/gearled</property>
+                        <value>0</value>
+                    </equals>
+                    <property>/sim/model/c172p/lighting/amphibious</property>
+                </and>
+            </condition>
+            <value>.175</value>
+        </input>
+        <output>
+            <property>/controls/lighting/factor-ledglare</property>
+        </output>
+    </filter>
+    <filter>
+        <name>Gear Led Dim</name>
+        <type>gain</type>
+        <gain>1</gain>
+        <input>
+            <condition>
+                <and>
+                    <property>/controls/lighting/gearled</property>
+                    <property>/sim/model/c172p/lighting/amphibious</property>
+                </and>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/controls/lighting/gearled</property>
+                        <value>0</value>
+                    </equals>
+                    <property>/sim/model/c172p/lighting/amphibious</property>
+                </and>
+            </condition>
+            <value>.35</value>
+        </input>
+        <output>
+            <property>/controls/lighting/factor-led</property>
+        </output>
+    </filter>
 
 </PropertyList>

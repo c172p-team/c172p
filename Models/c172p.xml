@@ -1501,7 +1501,7 @@
     </animation>
     <model>
         <name>lvled</name>
-        <path>Effects/interior/procedural_light_indicator_led_orange.xml</path>
+        <path>Effects/interior/procedural_light_indicator_led_lowvoltage.xml</path>
         <offsets>
             <x-m>-0.35</x-m>
             <y-m>-0.363</y-m>
@@ -10107,17 +10107,60 @@
         </condition>
     </animation>
 
+    <!-- Dim Toggle Switch -->
+    <animation>
+        <type>pick</type>
+        <object-name>Dim.toggle</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/lighting/gearled</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("avionics")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>led-dim-switch</tooltip-id>
+                <label>Dim Gear Panel LED's</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Dim.toggle</object-name>
+        <property>/controls/lighting/gearled</property>
+        <factor>30</factor>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+        <center>
+            <x-m>-0.35939</x-m>
+            <y-m> 0.22687</y-m>
+            <z-m> 0.09171</z-m>
+        </center>
+    </animation>
+
     <animation>
         <type>material</type>
         <object-name>GearAdvisory</object-name>
         <condition>
             <and>
                 <greater-than>
-                    <property>/velocities/airspeed-kt</property>
+                    <property>/velocities/groundspeed-kt</property>
                     <value>10</value>
                 </greater-than>
                 <less-than>
-                   <property>/velocities/airspeed-kt</property>
+                   <property>/velocities/groundspeed-kt</property>
                    <value>70</value>
                 </less-than>
                 <property alias="/params/cockpit/electrical/gear-amphibious"/>
@@ -10127,6 +10170,7 @@
             <red>1</red>
             <green>0.26</green>
             <blue>0.05</blue>
+            <factor-prop>/controls/lighting/factor-led</factor-prop>
         </emission>
     </animation>
     <model>
@@ -10140,11 +10184,11 @@
         <condition>
             <and>
                 <greater-than>
-                    <property>/velocities/airspeed-kt</property>
+                    <property>/velocities/groundspeed-kt</property>
                     <value>10</value>
                 </greater-than>
                 <less-than>
-                   <property>/velocities/airspeed-kt</property>
+                   <property>/velocities/groundspeed-kt</property>
                    <value>70</value>
                 </less-than>
                 <property alias="/params/cockpit/electrical/gear-amphibious"/>
@@ -10178,6 +10222,7 @@
             </and>
         </condition>
     </animation>
+
     <model>
         <name>nosedn1led</name>
         <path>Effects/interior/procedural_light_indicator_led_green.xml</path>
@@ -10566,6 +10611,25 @@
             </and>
         </condition>
     </model>
+
+    <animation>
+        <type>material</type>
+        <object-name>noseup1</object-name>
+        <object-name>noseup2</object-name>
+        <object-name>mainup1</object-name>
+        <object-name>mainup2</object-name>
+        <object-name>nosedn1</object-name>
+        <object-name>nosedn2</object-name>
+        <object-name>maindn1</object-name>
+        <object-name>maindn2</object-name>
+        <object-name>pump</object-name>
+        <emission>
+            <red>  .3</red>
+            <green>.3</green>
+            <blue> .3</blue>
+            <factor-prop>/controls/lighting/factor-led</factor-prop>
+        </emission>
+    </animation>
 
     <animation>
         <type>rotate</type>

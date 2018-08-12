@@ -215,7 +215,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
             <pitch-offset-deg>-12</pitch-offset-deg>
             <roll-offset-deg>0.0</roll-offset-deg>
             <x-offset-m>-0.21</x-offset-m>
-            <y-offset-m>0.19</y-offset-m>
+            <y-offset-m>0.23</y-offset-m>
             <field-of-view>73.6</field-of-view>
         </view>
     </step>
@@ -263,7 +263,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
             </condition>
         </error>
         <error>
-            <message>Your gear must be down to take off.</message>
+            <message>Your gear must be down to take off Shift+[g].</message>
             <condition>
                 <equals>
                     <property>/controls/gear/gear-down</property>
@@ -345,7 +345,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
             </condition>
         </error>
         <error>
-            <message>Raise your landing gear now.</message>
+            <message>Raise your landing gear now [g].</message>
             <condition>
                 <equals>
                     <property>/controls/gear/gear-down</property>
@@ -459,10 +459,16 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
 
         <exit>
             <condition>
-                <greater-than>
-                    <property>/position/longitude-deg</property>
-                    <value>-157.9550502</value>
-                </greater-than>
+                <or>
+                    <greater-than>
+                        <property>/position/longitude-deg</property>
+                        <value>-157.9550502</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/sim/tutorials/targets/mooring</property>
+                        <value>5240</value>
+                    <greater-than>
+                </or>
             </condition>
         </exit>
     </step>
@@ -530,6 +536,10 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
                         <property>/controls/flight/flaps</property>
                         <value>0</value>
                     </greater-than>
+                    <less-than>
+                       <property>/velocities/groundspeed-kt</property>
+                       <value>70</value>
+                    </less-than>
                 </and>
             </condition>
         </exit>
@@ -548,13 +558,9 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
             </condition>
         </error>
         <error>
-            <message>Raise pontoon landing gear.</message>
+            <message>Raise pontoon landing gear [g].</message>
             <condition>
                 <and>
-                    <greater-than>
-                        <property>/velocities/groundspeed-kt</property>
-                        <value>10</value>
-                    </greater-than>
                     <less-than>
                        <property>/velocities/groundspeed-kt</property>
                        <value>70</value>

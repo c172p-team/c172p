@@ -365,6 +365,7 @@
             var securing_state_path = rplayer.getNode("sim/multiplay/generic/int[9]").getPath();
 
             var pitot_cover   = rplayer.initNode("sim/model/c172p/securing/pitot-cover-visible", 0, "BOOL");
+            var cowl_plugs    = rplayer.initNode("sim/model/c172p/securing/cowl-plugs-visible", 0, "BOOL");
             var wheel_chock   = rplayer.initNode("sim/model/c172p/securing/chock-visible", 0, "BOOL");
             var left_tiedown  = rplayer.initNode("sim/model/c172p/securing/tiedownL-visible", 0, "BOOL");
             var right_tiedown = rplayer.initNode("sim/model/c172p/securing/tiedownR-visible", 0, "BOOL");
@@ -377,6 +378,7 @@
                 left_tiedown.setBoolValue(bits.test(state, 2));
                 right_tiedown.setBoolValue(bits.test(state, 3));
                 tail_tiedown.setBoolValue(bits.test(state, 4));
+                cowl_plugs.setBoolValue(bits.test(state, 5));
             }, 1, 0);
 
             # Make sure human occupants are always visible in remote aircraft
@@ -521,6 +523,7 @@
         <securing>
             <pitot-cover>sim/model/c172p/securing/pitot-cover-visible</pitot-cover>
             <chocks>sim/model/c172p/securing/chock-visible</chocks>
+            <cowl-plugs>sim/model/c172p/securing/cowl-plugs-visible</cowl-plugs>
             <tiedowns>
                 <left>
                     <visible>sim/model/c172p/securing/tiedownL-visible</visible>
@@ -10805,6 +10808,111 @@
                 <command>set-tooltip</command>
                 <tooltip-id>put-pitot-tube-cap</tooltip-id>
                 <label>Put Pitot Tube Cap</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <!-- Cowl Plugs -->
+    <model>
+        <name>CowlPlugs</name>
+        <path>Exterior/cowlplugs/cowlplugs.xml</path>
+    </model>
+
+    <animation>
+        <type>select</type>
+        <object-name>CowlPlugs</object-name>
+        <condition>
+            <property alias="/params/securing/cowl-plugs"/>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>CowlPlugHotSpot</object-name>
+        <condition>
+            <property>/sim/model/c172p/securing/cowl-plugs-addable</property>
+            <or>
+                <not>
+                    <property>/sim/current-view/internal</property>
+                </not>
+                <property>/nasal/tutorial/loaded</property>
+            </or>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>CowlPlugs</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/securing/cowl-plugs-removable</property>
+                    <or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                        <property>/nasal/tutorial/loaded</property>
+                    </or>
+                </condition>
+                <command>property-assign</command>
+                <property>/sim/model/c172p/securing/cowl-plugs-visible</property>
+                <value>false</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/securing/cowl-plugs-removable</property>
+                    <or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                        <property>/nasal/tutorial/loaded</property>
+                    </or>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>remove-cowl-plugs</tooltip-id>
+                <label>Remove Cowl Plugs</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>CowlPlugHotSpot</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/securing/cowl-plugs-addable</property>
+                    <or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                        <property>/nasal/tutorial/loaded</property>
+                    </or>
+                </condition>
+                <command>property-assign</command>
+                <property>sim/model/c172p/securing/cowl-plugs-visible</property>
+                <value>true</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/securing/cowl-plugs-addable</property>
+                    <or>
+                        <not>
+                            <property>/sim/current-view/internal</property>
+                        </not>
+                        <property>/nasal/tutorial/loaded</property>
+                    </or>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>put-cowl-plugs</tooltip-id>
+                <label>Put Cowl Plugs</label>
             </binding>
         </hovered>
     </animation>

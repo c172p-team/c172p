@@ -78,7 +78,7 @@
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
-            
+
             <checkbox>
                 <halign>left</halign>
                 <label>Save state of aircraft between sessions</label>
@@ -88,7 +88,7 @@
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
-            
+
             <checkbox>
                 <halign>left</halign>
                 <label>Complex engine procedures and failures</label>
@@ -138,6 +138,10 @@
                         <not>
                             <property>/engines/active-engine/running</property>
                         </not>
+                        <equals>
+                            <property>/engines/active-engine/rpm</property>
+                            <value>0</value>
+                        </equals>
                     </and>
                 </enable>
                 <binding>
@@ -182,7 +186,7 @@
 
         <group>
             <layout>vbox</layout>
-            
+
             <checkbox>
                 <halign>left</halign>
                 <label>Allow securing aircraft</label>
@@ -198,6 +202,11 @@
                 <binding>
                     <command>property-assign</command>
                     <property>sim/model/c172p/securing/pitot-cover-visible</property>
+                    <value>false</value>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/securing/cowl-plugs-visible</property>
                     <value>false</value>
                 </binding>
                 <binding>
@@ -262,6 +271,28 @@
 
                     <checkbox>
                         <halign>left</halign>
+                        <label>Put cowl plugs</label>
+                        <property>/sim/model/c172p/securing/cowl-plugs-visible</property>
+                        <live>true</live>
+                        <enable>
+                            <and>
+                                <not>
+                                    <property>/engines/active-engine/running</property>
+                                </not>
+                                <equals>
+                                    <property>/engines/active-engine/rpm</property>
+                                    <value>0</value>
+                                </equals>
+                                <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                            </and>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                    </checkbox>
+
+                    <checkbox>
+                        <halign>left</halign>
                         <label>Put pitot tube cover</label>
                         <property>/sim/model/c172p/securing/pitot-cover-visible</property>
                         <live>true</live>
@@ -278,7 +309,7 @@
                             <command>dialog-apply</command>
                         </binding>
                     </checkbox>
-                    
+
                     <checkbox>
                         <halign>left</halign>
                         <label>Enable left tie-down</label>
@@ -291,7 +322,7 @@
                             <command>dialog-apply</command>
                         </binding>
                     </checkbox>
-                    
+
                     <checkbox>
                         <halign>left</halign>
                         <label>Enable right tie-down</label>

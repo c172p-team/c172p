@@ -11,7 +11,7 @@ This tutorial will take you through that process.
 !!!CAUTION!!!
 Starting this tutorial with the engine not running will NOT work!
     </description>
-    
+
     <presets>
         <airport-id>PHTO</airport-id>
         <on-ground>1</on-ground>
@@ -87,6 +87,42 @@ Starting this tutorial with the engine not running will NOT work!
             <value>false</value>
         </set>
         <set>
+            <property>/controls/switches/master-alt</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-bat</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-avionics</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/lighting/beacon</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/lighting/nav-lights</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/lighting/strobe</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/lighting/taxi-light</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/lighting/landing-lights</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/anti-ice/pitot-heat</property>
+            <value>false</value>
+        </set>
+        <set>
             <property>/controls/flight/flaps</property>
             <value>0.0</value>
         </set>
@@ -151,24 +187,28 @@ Starting this tutorial with the engine not running will NOT work!
             <value>0</value>
         </set>
         <set>
-            <property>/sim/model/c172p/chock</property>
-            <value>0</value>
+            <property>/sim/model/c172p/securing/chock</property>
+            <value>false</value>
         </set>
         <set>
-            <property>/sim/model/c172p/tiedownL</property>
-            <value>0</value>
+            <property>/sim/model/c172p/securing/cowl-plugs-visible</property>
+            <value>false</value>
         </set>
         <set>
-            <property>/sim/model/c172p/tiedownR</property>
-            <value>0</value>
+            <property>/sim/model/c172p/securing/tiedownL-visible</property>
+            <value>false</value>
         </set>
         <set>
-            <property>/sim/model/c172p/tiedownT</property>
-            <value>0</value>
+            <property>/sim/model/c172p/securing/tiedownR-visible</property>
+            <value>false</value>
         </set>
         <set>
-            <property>/sim/model/c172p/pitot-cover</property>
-            <value>0</value>
+            <property>/sim/model/c172p/securing/tiedownT-visible</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+            <value>false</value>
         </set>
         <wait>10</wait>
 
@@ -594,11 +634,10 @@ Starting this tutorial with the engine not running will NOT work!
             <z-offset-m>1.1</z-offset-m>
             <field-of-view>85.0</field-of-view>
         </view>
-
         <marker>
-            <x-m>0.3584</x-m>
-            <y-m>-0.7984</y-m>
-            <z-m>-0.0344</z-m>
+            <x-m>0.12517</x-m>
+            <y-m>-0.82538</y-m>
+            <z-m>-0.10231</z-m>
             <scale>4.3427</scale>
         </marker>
         <error>
@@ -626,15 +665,15 @@ Starting this tutorial with the engine not running will NOT work!
             <heading-offset-deg>140.0</heading-offset-deg>
             <pitch-offset-deg>3.9</pitch-offset-deg>
             <roll-offset-deg>0.0</roll-offset-deg>
-            <x-offset-m>-0.9</x-offset-m>
+            <x-offset-m>-1.0</x-offset-m>
             <y-offset-m>0.4</y-offset-m>
-            <z-m>0.4107</z-m>
+            <z-offset-m>-1.0</z-offset-m>
             <field-of-view>85.0</field-of-view>
         </view>
         <marker>
             <x-m>-0.2000</x-m>
             <y-m>-1.5190</y-m>
-            <z-m>0.4471</z-m>
+            <z-m>0.3900</z-m>
             <scale>3.1983</scale>
         </marker>
         <error>
@@ -718,6 +757,38 @@ Starting this tutorial with the engine not running will NOT work!
     </step>
 
     <step>
+        <message>Place the cowl plugs.</message>
+        <view>
+            <heading-offset-deg>220.0</heading-offset-deg>
+            <pitch-offset-deg>-21.5</pitch-offset-deg>
+            <roll-offset-deg>0.1</roll-offset-deg>
+            <x-offset-m>-1.3</x-offset-m>
+            <y-offset-m>0.3</y-offset-m>
+            <z-offset-m>-3.0</z-offset-m>
+            <field-of-view>77.0</field-of-view>
+        </view>
+        <marker>
+            <x-m>-1.7</x-m>
+            <y-m>0.0</y-m>
+            <z-m>-0.0519</z-m>
+            <scale>30.0</scale>
+        </marker>
+        <error>
+            <message>You must place the cowl plugs.</message>
+            <condition>
+                <not>
+                    <property>sim/model/c172p/securing/cowl-plugs-visible</property>
+                </not>
+            </condition>
+        </error>
+        <exit>
+            <condition>
+                <property>sim/model/c172p/securing/cowl-plugs-visible</property>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
         <message>Attach the right tiedown.</message>
         <view>
             <heading-offset-deg>220.0</heading-offset-deg>
@@ -787,7 +858,7 @@ Starting this tutorial with the engine not running will NOT work!
             <property>/nasal/tutorial/loaded</property>
             <value>false</value>
         </set>
-        <message>Congratulations! You finally made it! Now let's go and have a beer...</message>
+        <message>Congratulations! Your aircraft is secured.</message>
         <view>
             <heading-offset-deg>313.2</heading-offset-deg>
             <pitch-offset-deg>-7.0</pitch-offset-deg>

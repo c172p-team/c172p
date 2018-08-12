@@ -34,6 +34,10 @@ This tutorial will guide you through the Preflight inspection
             <value>true</value>
         </set>
         <set>
+            <property>/engines/active-engine/complex-engine-procedures</property>
+            <value>true</value>
+        </set>
+        <set>
             <property>/engines/active-engine/running</property>
             <value>false</value>
         </set>
@@ -151,6 +155,10 @@ This tutorial will guide you through the Preflight inspection
         </set>
         <set>
             <property>/sim/model/c172p/securing/chock</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/securing/cowl-plugs-visible</property>
             <value>true</value>
         </set>
         <set>
@@ -582,10 +590,10 @@ This tutorial will guide you through the Preflight inspection
             <field-of-view>85.0</field-of-view>
         </view>
         <marker>
-            <x-m>0.3719</x-m>
-            <y-m>-0.8107</y-m>
-            <z-m>-0.0223</z-m>
-            <scale>2.7851</scale>
+            <x-m>0.12517</x-m>
+            <y-m>-0.82538</y-m>
+            <z-m>-0.10231</z-m>
+            <scale>4.3427</scale>
         </marker>
         <error>
             <message>Close the door!</message>
@@ -617,11 +625,10 @@ This tutorial will guide you through the Preflight inspection
             <z-offset-m>-1.0</z-offset-m>
             <field-of-view>85.0</field-of-view>
         </view>
-
         <marker>
             <x-m>-0.2000</x-m>
             <y-m>-1.5190</y-m>
-            <z-m>0.3917</z-m>
+            <z-m>0.3900</z-m>
             <scale>3.1983</scale>
         </marker>
         <error>
@@ -662,7 +669,7 @@ This tutorial will guide you through the Preflight inspection
             </condition>
         </error>
         <exit>
-            <condition>            
+            <condition>
                 <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
             </condition>
         </exit>
@@ -694,7 +701,7 @@ This tutorial will guide you through the Preflight inspection
         <message>The fuel is light blue. You can return the sample to the tank.</message>
         <error>
             <message>Return the sample to the tank!</message>
-            <condition>            
+            <condition>
                 <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
             </condition>
         </error>
@@ -795,12 +802,6 @@ This tutorial will guide you through the Preflight inspection
             <z-offset-m>2.3</z-offset-m>
             <field-of-view>72.0</field-of-view>
         </view>
-                <marker>
-            <x-m>1.8521</x-m>
-            <y-m>-0.5678</y-m>
-            <z-m>-0.3942</z-m>
-            <scale>4.3719</scale>
-        </marker>
         <error>
             <message>Close the baggage door!</message>
             <condition>
@@ -963,7 +964,7 @@ This tutorial will guide you through the Preflight inspection
             </condition>
         </error>
         <exit>
-            <condition>            
+            <condition>
                 <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
             </condition>
         </exit>
@@ -995,7 +996,7 @@ This tutorial will guide you through the Preflight inspection
         <message>The fuel is light blue. You can return the sample to the tank.</message>
         <error>
             <message>Return the sample to the tank!</message>
-            <condition>            
+            <condition>
                 <property>/consumables/fuel/tank[1]/fuel-sample-taken</property>
             </condition>
         </error>
@@ -1010,6 +1011,12 @@ This tutorial will guide you through the Preflight inspection
 
     <step>
         <message>Check the oil level.</message>
+        <marker>
+            <x-m>-0.87</x-m>
+            <y-m>0.31</y-m>
+            <z-m>0.155</z-m>
+            <scale>4.9421</scale>
+        </marker>
         <view>
             <heading-offset-deg>110.7</heading-offset-deg>
             <pitch-offset-deg>-19.6</pitch-offset-deg>
@@ -1019,12 +1026,6 @@ This tutorial will guide you through the Preflight inspection
             <z-offset-m>-1.2</z-offset-m>
             <field-of-view>79.6</field-of-view>
         </view>
-        <marker>
-            <x-m>-0.9570</x-m>
-            <y-m>0.6000</y-m>
-            <z-m>0.2802</z-m>
-            <scale>5.9421</scale>
-        </marker>
         <nasal>
             <script>fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));</script>
         </nasal>
@@ -1039,6 +1040,14 @@ This tutorial will guide you through the Preflight inspection
         </error>
         <exit>
             <condition>
+                <equals>
+                    <property>sim/model/door-positions/oilDoor/position-norm</property>
+                    <value>1.0</value>
+                </equals>
+                <equals>
+                    <property>sim/model/show-dip-stick</property>
+                    <value>1.0</value>
+                </equals>
                 <greater-than>
                     <property>/engines/active-engine/oil-level</property>
                     <value>6.0</value>
@@ -1048,8 +1057,57 @@ This tutorial will guide you through the Preflight inspection
     </step>
 
     <step>
-        <message>The oil level is good.</message>
-        <wait>3</wait>
+        <message>The oil level is good. Close the oil door.</message>
+        <marker>
+            <x-m>-0.87</x-m>
+            <y-m>0.31</y-m>
+            <z-m>0.155</z-m>
+            <scale>4.9421</scale>
+        </marker>
+        <exit>
+            <condition>
+                <equals>
+                    <property>sim/model/door-positions/oilDoor/position-norm</property>
+                    <value>0.0</value>
+                </equals>
+                <equals>
+                    <property>sim/model/show-dip-stick</property>
+                    <value>0.0</value>
+                </equals>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Remove the cowl plugs.</message>
+        <view>
+            <heading-offset-deg>220.0</heading-offset-deg>
+            <pitch-offset-deg>-21.5</pitch-offset-deg>
+            <roll-offset-deg>0.1</roll-offset-deg>
+            <x-offset-m>-1.3</x-offset-m>
+            <y-offset-m>0.3</y-offset-m>
+            <z-offset-m>-3.0</z-offset-m>
+            <field-of-view>77.0</field-of-view>
+        </view>
+        <marker>
+            <x-m>-1.7</x-m>
+            <y-m>0.0</y-m>
+            <z-m>-0.0519</z-m>
+            <scale>30.0</scale>
+        </marker>
+        <error>
+            <message>You must remove the cowl plugs.</message>
+            <condition>
+                <property>sim/model/c172p/securing/cowl-plugs-visible</property>
+            </condition>
+        </error>
+        <exit>
+            <condition>
+                <not>
+                    <property>sim/model/c172p/securing/cowl-plugs-visible</property>
+                </not>
+            </condition>
+        </exit>
     </step>
 
     <step>
@@ -1163,10 +1221,10 @@ This tutorial will guide you through the Preflight inspection
             <field-of-view>75.0</field-of-view>
         </view>
         <marker>
-            <x-m>0.0678</x-m>
-            <y-m>-0.6091</y-m>
-            <z-m>-0.1025</z-m>
-            <scale>2.3223</scale>
+            <x-m>0.12517</x-m>
+            <y-m>-0.82538</y-m>
+            <z-m>-0.10231</z-m>
+            <scale>4.3427</scale>
         </marker>
         <error>
             <message>Close the door!</message>

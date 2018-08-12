@@ -76,7 +76,7 @@
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
         </crank>
-        
+
         <crank>
             <name>killed</name>
             <path>Sounds/coughing.wav</path>
@@ -96,7 +96,7 @@
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
         </crank>
-        
+
         <engine-idle>
             <name>engine-idle</name>
             <mode>looped</mode>
@@ -153,7 +153,7 @@
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
         </engine>
-        
+
         <engine-cut>
             <name>engine-cut</name>
             <mode>once</mode>
@@ -175,7 +175,7 @@
             <reference-dist>5.0</reference-dist>
             <max-dist>200.0</max-dist>
         </engine-cut>
-        
+
         <gyro>
             <name>gyro</name>
             <mode>looped</mode>
@@ -334,7 +334,7 @@
         <flap>
             <name>flaps</name>
             <mode>in-transit</mode>
-            <path>Sounds/flaps.wav</path>
+            <path>Sounds/flaps-motor.wav</path>
             <property>surface-positions/flap-pos-norm</property>
             <position>
                 <x>0.5</x>
@@ -342,7 +342,7 @@
                 <z>0.5</z>
             </position>
             <volume>
-                <factor>0.8</factor>
+                <factor>1.8</factor>
             </volume>
             <reference-dist>1.0</reference-dist>
             <max-dist>200.0</max-dist>
@@ -574,7 +574,7 @@
             <reference-dist>0.2</reference-dist>
             <max-dist>5.0</max-dist>
         </switch>
-        
+
         <switch>
             <name>click-primer-out</name>
             <mode>once</mode>
@@ -593,7 +593,7 @@
             <reference-dist>0.2</reference-dist>
             <max-dist>5.0</max-dist>
         </switch>
-        
+
         <switch>
             <name>click-primer-in</name>
             <mode>once</mode>
@@ -650,7 +650,7 @@
         <switch>
             <name>click-flaps</name>
             <mode>once</mode>
-            <path>Sounds/keys2.wav</path>
+            <path>Sounds/flaps-click.wav</path>
             <condition>
                 <property>/sim/model/c172p/sound/click-flaps</property>
             </condition>
@@ -659,6 +659,9 @@
                 <y>-0.1900</y>
                 <z>-0.3500</z>
             </position>
+            <volume>
+                <factor>0.4</factor>
+            </volume>
             <reference-dist>0.2</reference-dist>
             <max-dist>5.0</max-dist>
         </switch>
@@ -971,7 +974,7 @@
                 <factor>0.2</factor>
             </volume>
         </dial>
-        
+
         <dial>
             <name>dial-radio-lighting</name>
             <mode>in-transit</mode>
@@ -988,7 +991,7 @@
                 <factor>0.2</factor>
             </volume>
         </dial>
-        
+
         <dial>
             <name>dial-horizon-offset</name>
             <mode>in-transit</mode>
@@ -1005,7 +1008,7 @@
                 <factor>0.2</factor>
             </volume>
         </dial>
-        
+
         <dial>
             <name>dial-heading-offset</name>
             <mode>in-transit</mode>
@@ -1022,7 +1025,7 @@
                 <factor>0.2</factor>
             </volume>
         </dial>
-        
+
         <dial>
             <name>dial-heading-bug</name>
             <mode>in-transit</mode>
@@ -1039,7 +1042,7 @@
                 <factor>0.2</factor>
             </volume>
         </dial>
-        
+
         <dial>
             <name>dial-altimeter</name>
             <mode>in-transit</mode>
@@ -1056,7 +1059,7 @@
                 <factor>0.2</factor>
             </volume>
         </dial>
-        
+
         <dial>
             <name>dial-nav0-radial</name>
             <mode>in-transit</mode>
@@ -1073,7 +1076,7 @@
                 <factor>0.2</factor>
             </volume>
         </dial>
-        
+
         <dial>
             <name>dial-nav1-radial</name>
             <mode>in-transit</mode>
@@ -1090,7 +1093,7 @@
                 <factor>0.2</factor>
             </volume>
         </dial>
-        
+
         <dial>
             <name>dial-adf-rotation</name>
             <mode>in-transit</mode>
@@ -1107,7 +1110,7 @@
                 <factor>0.2</factor>
             </volume>
         </dial>
-        
+
         <dial>
             <name>dial-egt-rotation</name>
             <mode>in-transit</mode>
@@ -1124,7 +1127,7 @@
                 <factor>0.2</factor>
             </volume>
         </dial>
-        
+
         <dial>
             <name>dial-trim-wheel</name>
             <mode>in-transit</mode>
@@ -1256,6 +1259,94 @@
             <max-dist>50.0</max-dist>
         </baggage-door-closing>
 
+        <left-window-opening>
+            <name>left-window-opening</name>
+            <mode>once</mode>
+            <path>Sounds/window-opening.wav</path>
+            <condition>
+                <greater-than>
+                    <property>/sim/model/door-positions/leftWindow/position-norm</property>
+                    <value>0.4</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>0.75</x>
+                <y>0.6</y>
+                <z>-0.35</z>
+            </position>
+            <volume>
+                <factor>0.7</factor>
+            </volume>
+            <reference-dist>0.2</reference-dist>
+            <max-dist>50.0</max-dist>
+        </left-window-opening>
+
+        <left-window-closing>
+            <name>left-window-closing</name>
+            <mode>once</mode>
+            <path>Sounds/window-closing.wav</path>
+            <condition>
+                <less-than>
+                    <property>/sim/model/door-positions/leftWindow/position-norm</property>
+                    <value>0.5</value>
+                </less-than>
+            </condition>
+            <position>
+                <x>0.75</x>
+                <y>0.6</y>
+                <z>-0.35</z>
+            </position>
+            <volume>
+                <factor>0.55</factor>
+            </volume>
+            <reference-dist>0.2</reference-dist>
+            <max-dist>50.0</max-dist>
+        </left-window-closing>
+
+        <right-window-opening>
+            <name>right-window-opening</name>
+            <mode>once</mode>
+            <path>Sounds/window-opening.wav</path>
+            <condition>
+                <greater-than>
+                    <property>/sim/model/door-positions/rightWindow/position-norm</property>
+                    <value>0.4</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>0.75</x>
+                <y>-0.6</y>
+                <z>-0.35</z>
+            </position>
+            <volume>
+                <factor>0.7</factor>
+            </volume>
+            <reference-dist>0.2</reference-dist>
+            <max-dist>50.0</max-dist>
+        </right-window-opening>
+
+        <right-window-closing>
+            <name>right-window-closing</name>
+            <mode>once</mode>
+            <path>Sounds/window-closing.wav</path>
+            <condition>
+                <less-than>
+                    <property>/sim/model/door-positions/rightWindow/position-norm</property>
+                    <value>0.5</value>
+                </less-than>
+            </condition>
+            <position>
+                <x>0.75</x>
+                <y>-0.6</y>
+                <z>-0.35</z>
+            </position>
+            <volume>
+                <factor>0.55</factor>
+            </volume>
+            <reference-dist>0.2</reference-dist>
+            <max-dist>50.0</max-dist>
+        </right-window-closing>
+
         <pontoon-fast-left>
             <name>pontoon-fast-left</name>
             <mode>looped</mode>
@@ -1381,7 +1472,7 @@
                 <property>/sim/model/c172p/sound/volume-boost-doors-thunder1</property>
             </volume>
         </thunder1>
-        
+
         <thunder2>
             <name>thunder2</name>
             <mode>once</mode>
@@ -1391,7 +1482,7 @@
                 <property>/sim/model/c172p/sound/volume-boost-doors-thunder2</property>
             </volume>
         </thunder2>
-        
+
         <thunder3>
             <name>thunder3</name>
             <mode>once</mode>
@@ -1640,7 +1731,7 @@
             <reference-dist>2.5</reference-dist>
             <max-dist>200.0</max-dist>
         </damage-gear-right>
-        
+
         <switch>
             <name>click-checklist1</name>
             <mode>once</mode>
@@ -1659,7 +1750,7 @@
             <reference-dist>0.2</reference-dist>
             <max-dist>5.0</max-dist>
         </switch>
-        
+
         <switch>
             <name>click-checklist2</name>
             <mode>once</mode>
@@ -1678,7 +1769,7 @@
             <reference-dist>0.2</reference-dist>
             <max-dist>5.0</max-dist>
         </switch>
-        
+
         <switch>
             <name>click-control_lock</name>
             <mode>once</mode>
@@ -1702,7 +1793,7 @@
             <reference-dist>0.2</reference-dist>
             <max-dist>5.0</max-dist>
         </switch>
-        
+
         <switch>
             <name>click-glove_compartment_opening</name>
             <mode>once</mode>
@@ -1721,7 +1812,7 @@
             <reference-dist>0.2</reference-dist>
             <max-dist>5.0</max-dist>
         </switch>
-        
+
         <switch>
             <name>click-glove_compartment_closing</name>
             <mode>once</mode>
@@ -1746,7 +1837,7 @@
             <reference-dist>0.2</reference-dist>
             <max-dist>5.0</max-dist>
         </switch>
-        
+
         <switch>
             <name>click-gps_to_glove_compartment</name>
             <mode>once</mode>
@@ -1771,7 +1862,47 @@
             <reference-dist>0.2</reference-dist>
             <max-dist>5.0</max-dist>
         </switch>
-        
+
+        <switch>
+            <name>click-water-rudder-out</name>
+            <mode>once</mode>
+            <path>Sounds/water-rudder-out.wav</path>
+            <condition>
+                <property>/controls/gear/water-rudder</property>
+            </condition>
+            <volume>
+                <factor>0.32</factor>
+            </volume>
+            <position>
+                <x>-0.3660</x>
+                <y>0.0</y>
+                <z>-0.3500</z>
+            </position>
+            <reference-dist>0.2</reference-dist>
+            <max-dist>5.0</max-dist>
+        </switch>
+
+        <switch>
+            <name>click-water-rudder-in</name>
+            <mode>once</mode>
+            <path>Sounds/water-rudder-in.wav</path>
+            <condition>
+                <not>
+                    <property>/controls/gear/water-rudder</property>
+                </not>
+            </condition>
+            <volume>
+                <factor>0.32</factor>
+            </volume>
+            <position>
+                <x>-0.3660</x>
+                <y>0.0</y>
+                <z>-0.3500</z>
+            </position>
+            <reference-dist>0.2</reference-dist>
+            <max-dist>5.0</max-dist>
+        </switch>
+
     </fx>
 
 </PropertyList>

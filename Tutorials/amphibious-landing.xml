@@ -5,11 +5,13 @@
     <name>Amphibious Landing</name>
 
     <description>
-This tutorial starts from Hilo International Airport, Hawaii (PHNL) and finishes at the seaplane airfield located in Oahu's Keehi Lagoon, Honolulu, Hawaii in clear, still, weather.
+This tutorial starts from Hilo International Airport (PHNL) and finishes at the seaplane airfield located in Oahu's Keehi Lagoon, Honolulu, Hawaii in clear, still, weather.
 
-By now you should be proficient in the preflight checklist, startup proceedures, determining the appropriate taxing route to the desired runway, takeoff, flying a pattern and landing.
+By now you should be proficient in the preflight checklist, startup proceedures, determining the appropriate taxiing route to the desired runway, takeoff, flying a pattern and landing.
 
-You will start lined up on runway 22R, takeoff on heading 223, climb at 600 feet per minute leveling off at 1000 ft., turn left to enter the pattern, left again to a landing on water runway 4W at PHNL.
+You will start lined up on runway 22R, takeoff on heading 223, climb at 600 feet per minute leveling off at 1000 ft., turn left 180 degree onto final heading 043 and landing on water runway 4W at PHNL.
+
+Water runway 4W/22W is parallel and immediately adjacent to land based runway 4R/22L.
 
 Pay attention to the heading bug on landing it will approximate the mooring position.
     </description>
@@ -35,7 +37,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
 
     <targets>
         <mooring>
-            <!-- Turn left and taxi to mooring location -->
+            <!-- Mooring location -->
             <latitude-deg>21.31670172</latitude-deg>
             <longitude-deg>-157.9124451</longitude-deg>
         </mooring>
@@ -203,6 +205,11 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
             <property>/controls/switches/master-gear</property>
             <value>true</value>
         </set>
+        <set>
+            <property>/controls/gear/water-rudder</property>
+            <value>false</value>
+        </set>
+
         <view>
             <heading-offset-deg>0.0</heading-offset-deg>
             <pitch-offset-deg>-12</pitch-offset-deg>
@@ -461,7 +468,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
     </step>
 
     <step>
-        <message>Execute a 180 degree left turn onto final heading 043.4, line up with the water runway 4W at PHNL in Keehi Lagoon.</message>
+        <message>Execute a 180 degree left turn onto final heading 043, line up with water runway 4W at PHNL in Keehi Lagoon.</message>
 
         <set>
             <property>/autopilot/settings/heading-bug-deg</property>
@@ -602,10 +609,10 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
     </step>
 
     <step>
-        <message>Lower water rudders for better control.</message>
+        <message>Lower water rudders for better control Shift+[r].</message>
 
         <error>
-            <message>Lower water rudders [R].</message>
+            <message>Lower water rudders Shift+[r].</message>
             <condition>
                 <equals>
                     <property>/controls/gear/water-rudder</property>
@@ -657,7 +664,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
         </nasal>
 
         <error>
-            <message>You're off course. To reach the mooring location turn to the left (hint: look at your heading bug).</message>
+            <message>You're off course. To reach the mooring location turn to the left following your heading bug.</message>
             <nasal>
                 <script>
                     setprop("/autopilot/settings/heading-bug-deg", getprop("/sim/tutorials/targets/mooring/heading-deg"));
@@ -671,7 +678,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
             </condition>
         </error>
         <error>
-            <message>You're off course. To reach the mooring location turn to the right (hint: look at your heading bug).</message>
+            <message>You're off course. To reach the mooring location turn to the right following your heading bug.</message>
             <nasal>
                 <script>
                     setprop("/autopilot/settings/heading-bug-deg", getprop("/sim/tutorials/targets/mooring/heading-deg"));
@@ -715,7 +722,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
     </step>
 
     <step>
-        <message>Prepare to set mooring anchor by killing the engine, opening the "Mooring Parameters" menu and immediately turn into the wind.</message>
+        <message>Prepare to set mooring anchor by immediately turning into the wind by following the heading bug, shut off the engine and open the "Mooring Parameters" menu.</message>
 
         <nasal>
             <script>
@@ -724,7 +731,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
         </nasal>
 
         <error>
-            <message>Kill engine and face into the wind using momentum.</message>
+            <message>Face into the wind (follow the heading bug) and shut off your engine.</message>
             <nasal>
                 <script>
                     setprop("/autopilot/settings/heading-bug-deg", getprop("/environment/wind-from-heading-deg"));
@@ -758,7 +765,7 @@ Pay attention to the heading bug on landing it will approximate the mooring posi
         </nasal>
 
         <error>
-            <message>Face into the wind and [Set] the mooring anchor under "Mooring Parameters" (hint: look at your heading bug).</message>
+            <message>Face into the wind following your heading bug or using info from the "Mooring Parameters" menu, [Set] the mooring anchor under "Mooring Parameters".</message>
             <condition>
                 <equals>
                     <property>/controls/mooring/anchor</property>

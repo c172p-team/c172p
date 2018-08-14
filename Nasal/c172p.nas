@@ -304,6 +304,7 @@ var switches_save_state = func {
         setprop("/controls/lighting/dome-white-norm", 1.0);
         setprop("/controls/lighting/dome-norm", 0.0);
         setprop("/controls/lighting/gps-norm", 0.0);
+        setprop("/controls/lighting/gearled", 0);
         setprop("/controls/gear/water-rudder", 0);
         setprop("/controls/gear/water-rudder-down", 0);
         setprop("/sim/model/c172p/brake-parking", 1);

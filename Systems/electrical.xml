@@ -12,5 +12,25 @@
             <property>/systems/electrical/battery-charge-percent-100</property>
         </output>
     </filter>
+    
+    <logic>
+        <name>Low Voltage LED</name>
+        <input>
+            <and>
+                <greater-than>
+                    <property>systems/electrical/volts</property>
+                    <value>0.0</value>
+                </greater-than>
+                <less-than>
+                    <property>systems/electrical/amps</property>
+                    <value>0.0</value>
+                </less-than>
+                
+            </and>
+        </input>
+        <output>
+            <property>/instrumentation/low-voltage-led</property>
+        </output>
+    </logic>
 
 </PropertyList>

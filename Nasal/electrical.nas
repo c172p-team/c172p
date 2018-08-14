@@ -318,7 +318,7 @@ var electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/aircond", bus_volts);
         load += bus_volts / 57;
     } else {
-        setprop("/systems/electrical/outputs/cabin-lights", 0.0);
+        setprop("/systems/electrical/outputs/aircond", 0.0);
     }
     
     # Flaps
@@ -335,14 +335,6 @@ var electrical_bus_1 = func() {
         load += bus_volts / 28;
     } else {
         setprop("/systems/electrical/outputs/pitot-heat", 0.0);
-    }
-
-    # Cabin Lights Power
-    if ( getprop("/controls/circuit-breakers/cabin-lights-pwr") ) {
-        setprop("/systems/electrical/outputs/cabin-lights", bus_volts);
-        load += bus_volts / 57;
-    } else {
-        setprop("/systems/electrical/outputs/cabin-lights", 0.0);
     }
 
     # Instrument Power: ignition, fuel, oil temperature
@@ -368,9 +360,11 @@ var electrical_bus_1 = func() {
     # Interior lights
     if ( getprop("/controls/circuit-breakers/intlt") ) {
         setprop("/systems/electrical/outputs/instrument-lights", bus_volts);
+        setprop("/systems/electrical/outputs/cabin-lights", bus_volts);
         load += bus_volts / 57;
     } else {
         setprop("/systems/electrical/outputs/instrument-lights", 0.0);
+        setprop("/systems/electrical/outputs/cabin-lights", 0.0);
     }    
 
     # Landing Light Power
@@ -406,15 +400,16 @@ var electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/nav-lights", 0.0);
     }
 
-          
     # Strobe Lights Power
     if ( getprop("/controls/circuit-breakers/strobe") and getprop("/controls/lighting/strobe" ) ) {
         setprop("/systems/electrical/outputs/strobe", bus_volts);
+        setprop("/systems/electrical/outputs/strobe-norm", (bus_volts/24));
         load += bus_volts / 14;
     } else {
         setprop("/systems/electrical/outputs/strobe", 0.0);
+        setprop("/systems/electrical/outputs/strobe-norm", 0.0);
     }
-    
+
     # Turn Coordinator and directional gyro Power
     if ( getprop("/controls/circuit-breakers/turn-coordinator") ) {
         setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);

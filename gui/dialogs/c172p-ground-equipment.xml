@@ -291,6 +291,40 @@
         </group>
     </group>
 
+    <group>
+        <layout>vbox</layout>
+            <padding>6</padding>
+            <checkbox>
+                <halign>left</halign>
+                <label>External heater applied</label>
+                <live>true</live>
+                <property>/engines/active-engine/external-heat/enabled</property>
+                <enable>
+                    <and>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>0.1</value>
+                        </less-than>
+                        <less-than>
+                            <property>/engines/active-engine/thruster/rpm</property>
+                            <value>0.0001</value>
+                        </less-than>
+                    </and>
+                </enable>
+                <binding>
+                    <command>property-toggle</command>
+                    <property>/engines/active-engine/external-heat/enabled</property>
+                </binding>
+                <binding>
+                    <command>property-toggle</command>
+                    <property>/sim/externalheater/enable</property>
+                </binding>
+                <binding>
+                    <command>dialog-update</command>
+                </binding>
+            </checkbox>
+        </group>
+
     <hrule/>
 
     <group>

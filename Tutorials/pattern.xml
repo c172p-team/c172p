@@ -9,30 +9,32 @@ The traffic pattern is used as a method to stop aircraft crashing into each othe
     
 The pattern is a rectangular flight path with the runway forming one of the long sides.
 
-We will be flying at Sabadell (LELL) - a small airport in the north of Barcelona, from runway 13, on a clear day.
+We will be flying at Hilo (PHTO) from runway 21, on a clear day.
     
 It consists of the following sections:
-- Upwind.    Once we've taken off, we flying straight ahead on the runway heading (130 deg) to 1000 ft with.
-- Crosswind. At 500 ft, we turn left 90 degrees to 40 deg and continue climbing until we get to 1500 ft.
-- Downwind.  When we reach 1500 ft, we turn left again so we are parallel to the runway, which is 310 deg, reduce power and fly at 100 kts. When we are "abeam the numbers" (opposite the number on the runway we intend to land on), we reduce power to 60 %, drop one notch of flat and descend 100 ft at 90 kts.
-- Base.      We now make another left-hand turn to 220 deg, add another notch of flaps, and let speed continue to dissipate to 70 knots. Because of the hills around Sabadell we need to maintain a safe altitude above the ground, resulting in a quite high and steep approach.
+- Upwind.    Once we've taken off, we flying straight ahead on the runway heading (220 deg) to 1000 ft.
+- Crosswind. At 500 ft, we turn right 90 degrees to 310 deg and continue climbing until we get to 1500 ft.
+- Downwind.  When we reach 1500 ft, we turn left again so we are parallel to the runway, which is 40 deg, reduce power and fly at 100 kts. When we are "abeam the numbers" (opposite the number on the runway we intend to land on), we reduce power to 60 %, drop one notch of flat and descend 100 ft at 90 kts.
+- Base.      We now make another right-hand turn to 130 deg, add another notch of flaps, and let speed continue to dissipate to 70 knots.
 - Final.     At the correct moment (based on visual queues), we make a final left turn to line up with the runway. Maks sure to stay a safe altitude above ground! We drop our final lot of flaps, descend and land.
     </description>
 
     <audio-dir>Tutorials/pattern</audio-dir>
     <timeofday>noon</timeofday>
     <presets>
-        <airport-id>LELL</airport-id>
+        <airport-id>PHTO</airport-id>
         <on-ground>1</on-ground>
-        <runway>13</runway>
         <altitude-ft>-9999</altitude-ft>
-        <latitude-deg>-9999</latitude-deg>
-        <longitude-deg>-9999</longitude-deg>
-        <heading-deg>0</heading-deg>
+        <latitude-deg>19.72415017471669</latitude-deg>
+        <longitude-deg>-155.0518970894882</longitude-deg>
+        <heading-deg>220</heading-deg>
         <airspeed-kt>0</airspeed-kt>
         <glideslope-deg>0</glideslope-deg>
         <offset-azimuth-deg>0</offset-azimuth-deg>
         <offset-distance-nm>0</offset-distance-nm>
+        <airport-requested>true</airport-requested>
+        <runway-requested>true</runway-requested>
+        <parking-requested>true</parking-requested>
     </presets>
 
     <step>
@@ -95,6 +97,14 @@ It consists of the following sections:
         <set>
             <property>/controls/flight/flaps</property>
             <value>0.0</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-bat</property>
+            <value>true</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-alt</property>
+            <value>true</value>
         </set>
         <set>
             <property>/sim/model/c172p/brake-parking</property>
@@ -208,7 +218,7 @@ It consists of the following sections:
     </step>
 
     <step>
-        <message>Take-off at 65 knots and climb straight out on heading 130 at 600 feet per minute (about 70 knots).</message>
+        <message>Take-off at 65 knots and climb straight out on heading 220 at 600 feet per minute (about 70 knots).</message>
         <exit>
             <condition>
                 <greater-than>
@@ -220,7 +230,7 @@ It consists of the following sections:
     </step>
 
     <step>
-        <message>Continue your climb on heading 130 at 600 feet per minute to 1000 feet.</message>
+        <message>Continue your climb on heading 220 at 600 feet per minute to 1000 feet.</message>
 
         <error>
             <message>Your climb angle is too shallow - raise the nose slightly to increase your climb rate.</message>
@@ -241,20 +251,20 @@ It consists of the following sections:
             </condition>
         </error>
         <error>
-            <message>You are heading too far left, Turn right slightly to heading 130.</message>
+            <message>You are heading too far left, Turn right slightly to heading 220.</message>
             <condition>
                 <less-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>120</value>
+                    <value>210</value>
                 </less-than>
             </condition>
         </error>
         <error>
-            <message>You are heading too far right, Turn left slightly to heading 130.</message>
+            <message>You are heading too far right, Turn left slightly to heading 220.</message>
             <condition>
                 <greater-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>140</value>
+                    <value>230</value>
                 </greater-than>
             </condition>
         </error>
@@ -279,75 +289,7 @@ It consists of the following sections:
     </step>
 
     <step>
-        <message>Make a left turn to crosswind (heading 040) and continue climbing to 1500 feet.</message>
-
-        <error>
-            <message>You're too far right. Turn left to heading 040!</message>
-            <condition>
-                <greater-than>
-                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>50</value>
-                </greater-than>
-            </condition>
-        </error>
-
-        <error>
-            <message>You're too far left. Turn right to heading 040!</message>
-            <condition>
-                <less-than>
-                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>30</value>
-                </less-than>
-            </condition>
-        </error>
-
-        <exit>
-            <condition>
-                <and>
-                    <greater-than>
-                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        <value>1400</value>
-                    </greater-than>
-                    <greater-than>
-                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>030</value>
-                    </greater-than>
-                    <less-than>
-                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>050</value>
-                    </less-than>
-                </and>
-            </condition>
-        </exit>
-    </step>
-
-    <step>
-        <message>Level off the aircraft at 1500 ft and maintain heading and altitude for a few more seconds</message>
-        <wait>10</wait>
-    </step>
-
-    <step>
-        <message>Now make another 90 degree left turn to downwind (heading 310).</message>
-
-        <error>
-            <message>You're getting too low. Climb to 1500 ft!</message>
-            <condition>
-                <less-than>
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>1400</value>
-                </less-than>
-            </condition>
-        </error>
-
-        <error>
-            <message>You're getting too high. Descent to 1500 ft!</message>
-            <condition>
-                <greater-than>
-                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                    <value>1600</value>
-                </greater-than>
-            </condition>
-        </error>
+        <message>Make a right turn to crosswind (heading 310) and continue climbing to 1500 feet.</message>
 
         <error>
             <message>You're too far right. Turn left to heading 310!</message>
@@ -372,10 +314,6 @@ It consists of the following sections:
         <exit>
             <condition>
                 <and>
-                    <less-than>
-                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        <value>1600</value>
-                    </less-than>
                     <greater-than>
                         <property>/instrumentation/altimeter/indicated-altitude-ft</property>
                         <value>1400</value>
@@ -394,22 +332,94 @@ It consists of the following sections:
     </step>
 
     <step>
-        <message>Reduce power to 80-85%, and trim for level flight. Continue flying parallel to the runway.</message>
+        <message>Level off the aircraft at 1500 ft and maintain heading and altitude for a few more seconds</message>
+        <wait>10</wait>
+    </step>
+
+    <step>
+        <message>Now make another 90 degree right turn to downwind (heading 40).</message>
+
         <error>
-            <message>You are heading too far left, Turn right slightly to heading 310.</message>
+            <message>You're getting too low. Climb to 1500 ft!</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>1400</value>
+                </less-than>
+            </condition>
+        </error>
+
+        <error>
+            <message>You're getting too high. Descent to 1500 ft!</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                    <value>1600</value>
+                </greater-than>
+            </condition>
+        </error>
+
+        <error>
+            <message>You're too far right. Turn left to heading 40!</message>
+            <condition>
+                <greater-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>50</value>
+                </greater-than>
+            </condition>
+        </error>
+
+        <error>
+            <message>You're too far left. Turn right to heading 40!</message>
             <condition>
                 <less-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>300</value>
+                    <value>30</value>
+                </less-than>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>1600</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                        <value>1400</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>30</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                        <value>50</value>
+                    </less-than>
+                </and>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Reduce power to 80-85%, and trim for level flight. Continue flying parallel to the runway.</message>
+        <error>
+            <message>You are heading too far left, Turn right slightly to heading 40.</message>
+            <condition>
+                <less-than>
+                    <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                    <value>30</value>
                 </less-than>
             </condition>
         </error>
         <error>
-            <message>You are heading too far right, Turn left slightly to heading 310.</message>
+            <message>You are heading too far right, Turn left slightly to heading 40.</message>
             <condition>
                 <greater-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>320</value>
+                    <value>50</value>
                 </greater-than>
             </condition>
         </error>
@@ -436,7 +446,7 @@ It consists of the following sections:
             <condition>
                 <greater-than>
                     <property>/position/latitude-deg</property>
-                    <value>41.544</value>
+                    <value>19.74</value>
                 </greater-than>
             </condition>
         </exit>
@@ -462,23 +472,23 @@ It consists of the following sections:
     </step>
 
     <step>
-        <message>Let the aircraft descend and slow down. Continue flying a heading of 310.</message>
+        <message>Let the aircraft descend and slow down. Continue flying a heading of 40.</message>
 
         <error>
-            <message>You are heading too far left, Turn right slightly to heading 300.</message>
+            <message>You are heading too far left, Turn right slightly to heading 40.</message>
             <condition>
                 <less-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>300</value>
+                    <value>30</value>
                 </less-than>
             </condition>
         </error>
         <error>
-            <message>You are heading too far right, Turn left slightly to heading 300.</message>
+            <message>You are heading too far right, Turn left slightly to heading 40.</message>
             <condition>
                 <greater-than>
                     <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                    <value>320</value>
+                    <value>50</value>
                 </greater-than>
             </condition>
         </error>
@@ -511,7 +521,7 @@ It consists of the following sections:
             <property>/instrumentation/nav[0]/radials/selected-deg</property>
             <value>127</value>
         </set>
-        <message>Turn left to base (heading 220), and set flaps to 20.
+        <message>Turn left to base (heading 130), and set flaps to 20.
       Continue descending, but make sure to maintain a safe altitude above the ground! 
         </message>
 
@@ -526,22 +536,22 @@ It consists of the following sections:
     </step>
 
     <step>
-        <message>Turn onto final (heading 130), and line up with the runway.</message>
+        <message>Turn onto final (heading 220), and line up with the runway.</message>
 
         <exit>
             <condition>
                 <and>
                     <greater-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>120</value>
+                        <value>200</value>
                     </greater-than>
                     <less-than>
                         <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>140</value>
+                        <value>240</value>
                     </less-than>
                     <less-than>
                         <property>/position/latitude-deg</property>
-                        <value>41.538</value>
+                        <value>19.74</value>
                     </less-than>
                 </and>
             </condition>
@@ -549,14 +559,13 @@ It consists of the following sections:
     </step>
 
     <step>
-        <message>Set flaps to 30. Control your descent rate using the throttle.
-            Watch the VASI lights to see if you're on the correct glideslope.</message>
+        <message>Set flaps to 30. Control your descent rate using the throttle.</message>
 
         <exit>
             <condition>
                 <less-than>
                     <property>/position/latitude-deg</property>
-                    <value>41.528</value>
+                    <value>19.72</value>
                 </less-than>
             </condition>
         </exit>

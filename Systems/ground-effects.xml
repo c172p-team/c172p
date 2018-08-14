@@ -148,7 +148,26 @@ Under the GPL. Used by shadows under ALS -->
             <property>/sim/model/c172p/cockpit/primer-lever-animation</property>
         </output>
     </filter>
-    
+
+    <filter>
+        <name>Water Rudder Animation</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>3.5</max-rate-of-change>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
+        <input>
+            <property>/controls/gear/water-rudder</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/cockpit/water-rudder-animation</property>
+        </output>
+    </filter>
+
     <!-- ================================================================== -->
     <!-- Ground and water effects                                           -->
     <!-- ================================================================== -->
@@ -585,6 +604,41 @@ Under the GPL. Used by shadows under ALS -->
         </output>
     </logic>
 
+    <!-- logic for cowl plugs -->
+    <logic>
+        <name>Cowl Plugs Addable</name>
+        <input>
+            <and>
+                <not>
+                    <property>/sim/model/c172p/securing/cowl-plugs-visible</property>
+                </not>
+                <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                <not>
+                    <property>/engines/active-engine/running</property>
+                </not>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/securing/cowl-plugs-addable</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Cowl Plugs Removable</name>
+        <input>
+            <and>
+                <property>/sim/model/c172p/securing/cowl-plugs-visible</property>
+                <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                <not>
+                    <property>/engines/active-engine/running</property>
+                </not>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/securing/cowl-plugs-removable</property>
+        </output>
+    </logic>
+
     <!-- logic for tiedowns -->
     <logic>
         <name>Tiedowns Can Have</name>
@@ -691,5 +745,242 @@ Under the GPL. Used by shadows under ALS -->
             <property>sim/model/c172p/lighting/nav-lights/right-damaged</property>
         </output>
     </logic>
+
+    <!-- ================================================================== -->
+    <!-- Checking if doors are opened or closed in order to skip or not     -->
+    <!-- the handle animation                                               -->
+    <!-- ================================================================== -->
+
+    <filter>
+        <name>Right door opened</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <or>
+                    <equals>
+                        <property>/sim/model/door-positions/rightDoor/position-norm</property>
+                        <value>1.0</value>
+                    </equals>
+                    <equals>
+                        <property>/sim/model/door-positions/rightDoor/position-norm</property>
+                        <value>0.0</value>
+                    </equals>
+                </or>
+            </condition>
+        </enable>
+        <input>
+            <condition>
+                <equals>
+                    <property>/sim/model/door-positions/rightDoor/position-norm</property>
+                    <value>1.0</value>
+                </equals>
+            </condition>
+            <value>1.0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/sim/model/door-positions/rightDoor/position-norm</property>
+                    <value>0.0</value>
+                </equals>
+            </condition>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/door-positions/rightDoor/opened</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Left door opened</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <or>
+                    <equals>
+                        <property>/sim/model/door-positions/leftDoor/position-norm</property>
+                        <value>1.0</value>
+                    </equals>
+                    <equals>
+                        <property>/sim/model/door-positions/leftDoor/position-norm</property>
+                        <value>0.0</value>
+                    </equals>
+                </or>
+            </condition>
+        </enable>
+        <input>
+            <condition>
+                <equals>
+                    <property>/sim/model/door-positions/leftDoor/position-norm</property>
+                    <value>1.0</value>
+                </equals>
+            </condition>
+            <value>1.0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/sim/model/door-positions/leftDoor/position-norm</property>
+                    <value>0.0</value>
+                </equals>
+            </condition>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/door-positions/leftDoor/opened</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Baggage door opened</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <or>
+                    <equals>
+                        <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                        <value>1.0</value>
+                    </equals>
+                    <equals>
+                        <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                        <value>0.0</value>
+                    </equals>
+                </or>
+            </condition>
+        </enable>
+        <input>
+            <condition>
+                <equals>
+                    <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                    <value>1.0</value>
+                </equals>
+            </condition>
+            <value>1.0</value>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                    <value>0.0</value>
+                </equals>
+            </condition>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/door-positions/baggageDoor/opened</property>
+        </output>
+    </filter>
+
+    <!-- ================================================================== -->
+    <!-- Max range for doors and baggage doors  -->
+    <!-- ================================================================== -->
+
+    <filter>
+        <name>Effective range for right door</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <product>
+                    <property>/sim/model/door-positions/rightDoor/position-norm</property>
+                    <max>
+                        <min>
+                            <difference>
+                                <value>1.0</value>
+                                <product>
+                                    <sum>
+                                        <property>/velocities/airspeed-kt</property>
+                                        <sin>
+                                            <product>
+                                                <value>1.07</value>
+                                                <property>/velocities/airspeed-kt</property>
+                                            </product>
+                                        </sin>
+                                    </sum>
+                                    <value>0.01</value>
+                                </product>
+                            </difference>
+                            <value>1.0</value>
+                        </min>
+                        <value>0.51</value>
+                    </max>
+                </product>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/door-positions/rightDoor/position-norm-effective</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Effective range for left door</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <product>
+                    <property>/sim/model/door-positions/leftDoor/position-norm</property>
+                    <max>
+                        <min>
+                            <difference>
+                                <value>1.0</value>
+                                <product>
+                                    <sum>
+                                        <property>/velocities/airspeed-kt</property>
+                                        <sin>
+                                            <product>
+                                                <value>1.38</value>
+                                                <property>/velocities/airspeed-kt</property>
+                                            </product>
+                                        </sin>
+                                    </sum>
+                                    <value>0.01</value>
+                                </product>
+                            </difference>
+                            <value>1.0</value>
+                        </min>
+                        <value>0.51</value>
+                    </max>
+                </product>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/door-positions/leftDoor/position-norm-effective</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Effective range for baggage door</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <product>
+                    <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                    <max>
+                        <min>
+                            <difference>
+                                <value>1.0</value>
+                                <product>
+                                    <sum>
+                                        <property>/velocities/airspeed-kt</property>
+                                        <sin>
+                                            <product>
+                                                <value>0.73</value>
+                                                <property>/velocities/airspeed-kt</property>
+                                            </product>
+                                        </sin>
+                                    </sum>
+                                    <value>0.02</value>
+                                </product>
+                            </difference>
+                            <value>1.0</value>
+                        </min>
+                        <value>0.02</value>
+                    </max>
+                </product>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/door-positions/baggageDoor/position-norm-effective</property>
+        </output>
+    </filter>
 
 </PropertyList>

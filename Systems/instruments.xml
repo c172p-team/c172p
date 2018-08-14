@@ -125,13 +125,13 @@
                     <value>12.0</value>
                 </greater-than>
             </condition>
-            <property>/engines/active-engine/oil-temperature-degf</property>
+            <property>/engines/active-engine/oil-final-temperature-degf</property>
         </input>
         <input>
             <value>0.0</value>
         </input>
         <output>
-            <property>/engines/active-engine/indicated-oil-temperature-degf</property>
+            <property>/engines/active-engine/indicated-oil-final-temperature-degf</property>
         </output>
     </filter>
 
@@ -407,6 +407,153 @@
         </input>
         <output>
             <property>/sim/model/c172p/local-time-seconds</property>
+        </output>
+    </filter>
+
+    <logic>
+        <name>Amphibious Panel Lights On/Off</name>
+        <input>
+            <and>
+                <less-than>
+                    <property>systems/electrical/outputs/instrument-lights</property>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property>systems/electrical/outputs/instrument-lights</property>
+                    <value>20.0</value>
+                </greater-than>
+                <property>/controls/switches/master-avionics</property>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/amphibious</property>
+        </output>
+    </logic>
+
+    <filter>
+        <name>GPS Night Mode</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/instrumentation/garmin196/status</property>
+            </condition>
+            <property>/controls/lighting/gps-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/instrumentation/garmin196/lite</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Instruments Lighting Integral</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                </and>
+            </condition>
+            <property>/controls/lighting/radio-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/material/instruments/integral-factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Instruments Lighting Post</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/controls/switches/dome-red</property>
+                        <value>2</value>
+                    </less-than>
+                </and>
+            </condition>
+            <property>/controls/lighting/instruments-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/sim/model/material/instruments/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Light Map Panel Factor</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <value>0.0</value>
+                </greater-than>
+            </condition>
+            <expression>
+                <product>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <table>
+                        <property>/rendering/scene/diffuse/red</property>
+                        <entry><ind>0.0</ind><dep>1.0</dep></entry>
+                        <entry><ind>1.0</ind><dep>0.75</dep></entry>
+                    </table>
+                </product>
+            </expression>
+        </input>
+        <output>
+           <property>/sim/model/lightmap/panel/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Light Map Instruments Factor</name>
+        <type>gain</type>
+        <gain>0.9</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <value>0.0</value>
+                </greater-than>
+            </condition>
+            <expression>
+                <product>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <table>
+                        <property>/rendering/scene/diffuse/red</property>
+                        <entry><ind>0.0</ind><dep>1.0</dep></entry>
+                        <entry><ind>1.0</ind><dep>0.75</dep></entry>
+                    </table>
+                </product>
+            </expression>
+        </input>
+        <output>
+           <property>/sim/model/lightmap/instruments/factor</property>
         </output>
     </filter>
 

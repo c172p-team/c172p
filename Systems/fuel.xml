@@ -8,6 +8,7 @@ Fuel system for 2 different engines at choice, JSBSim FDM
 -->
 
 <system name="fuel">
+    <property type="bool" value="0">/engines/active-engine/already-started-in-session</property>
 
     <!-- *********************************************************************************** -->
     <!-- Main tanks: 0 and 1                                                                 -->
@@ -131,6 +132,24 @@ Fuel system for 2 different engines at choice, JSBSim FDM
             <input>-fuel/from-tank1-to-tank3</input>
             <output>propulsion/tank[1]/external-flow-rate-pps</output>
         </summer>
+    </channel>
+    
+    <channel name="fuel-system">
+        <switch name="/engines/active-engine/already-started-in-session">
+            <default value="0"/>
+            <test logic="AND" value="/engines/active-engine/already-started-in-session">
+                /engines/active-engine/already-started-in-session GT 0
+            </test>
+            <test logic="AND" value="1">
+                /controls/engines/active-engine EQ 0
+                /fdm/jsbsim/propulsion/engine[0]/set-running GT 0
+            </test>
+             <test logic="AND" value="1">
+                /controls/engines/active-engine EQ 1
+                /fdm/jsbsim/propulsion/engine[1]/set-running GT 0
+            </test>
+            <output>/engines/active-engine/already-started-in-session</output>
+        </switch>
     </channel>
 
 </system>

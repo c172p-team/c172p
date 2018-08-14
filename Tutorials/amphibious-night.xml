@@ -72,6 +72,8 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
                         setprop("/fdm/jsbsim/mooring/anchor-dist", 0);
                         setprop("/fdm/jsbsim/mooring/anchor-length", 0);
                         setprop("/fdm/jsbsim/mooring/mooring-connected", 0);
+                        setprop("/controls/switches/master-bat", 0);
+                        setprop("/controls/switches/master-alt", 0);
                         foreach (var listener; listeners.vector) {
                             removelistener(listener);
                         }
@@ -293,7 +295,6 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
                 </equals>
             </condition>
         </error>
-
         <error>
             <message>Do not start engine until the mooring anchor has been released.
                     Turn it off or you will damage your aircraft.</message>
@@ -322,8 +323,58 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
     </step>
 
     <step>
+        <message>Use your flashlight to help you see enough to power up your aircraf, press [f] key twice.</message>
+    </step>
+
+    <step>
+        <message>Click the battery master switch to turn it on.</message>
+
+        <exit>
+            <condition>
+                <property>controls/switches/master-bat</property>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
         <message>Start the engine.</message>
 
+        <wait>5</wait>
+
+        <error>
+            <message>Click the alternator master switch to turn it on.</message>
+            <condition>
+                <not>
+                    <property>/controls/switches/master-alt</property>
+                </not>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <and>
+                    <property>/controls/switches/master-alt</property>
+                    <equals>
+                        <property>/engines/active-engine/running</property>
+                        <value>1</value>
+                    </equals>
+                </and>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>Lower water rudders for better control Shift+[r].</message>
+
+        <error>
+            <message>Lower water rudders now Shift+[r].</message>
+            <condition>
+                <equals>
+                    <property>/controls/gear/water-rudder</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </error>
         <error>
             <message>Turn avionics system power switch on.</message>
             <condition>
@@ -347,7 +398,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
             <condition>
                 <and>
                     <equals>
-                        <property>/engines/active-engine/running</property>
+                        <property>/controls/gear/water-rudder</property>
                         <value>1</value>
                     </equals>
                     <equals>
@@ -359,29 +410,6 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
                         <value>0</value>
                     </equals>
                 </and>
-            </condition>
-        </exit>
-    </step>
-
-    <step>
-        <message>Lower water rudders for better control Shift+[r].</message>
-
-        <error>
-            <message>Lower water rudders now Shift+[r].</message>
-            <condition>
-                <equals>
-                    <property>/controls/gear/water-rudder</property>
-                    <value>0</value>
-                </equals>
-            </condition>
-        </error>
-
-        <exit>
-            <condition>
-                <equals>
-                    <property>/controls/gear/water-rudder</property>
-                    <value>1</value>
-                </equals>
             </condition>
         </exit>
     </step>
@@ -431,6 +459,15 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
                 </not>
             </condition>
         </error>
+        <error>
+            <message>Turn off your flashlight, press [f] key until off.</message>
+            <condition>
+                <greater-than>
+                    <property>/sim/rendering/als-secondary-lights/use-flashlight</property>
+                    <value>0</value>
+                </greater-than>
+            </condition>
+        </error>
    
         <exit>
             <condition>
@@ -440,6 +477,10 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
                     <property>/controls/lighting/nav-lights</property>
                     <property>/controls/lighting/beacon</property>
                     <property>/controls/lighting/strobe</property>
+                    <equals>
+                        <property>/sim/rendering/als-secondary-lights/use-flashlight</property>
+                        <value>0</value>
+                    </equals>
                 </and>
             </condition>
         </exit>
@@ -822,7 +863,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
                         <value>-157.8756975</value>
                     </less-than>
                     <greater-than>
-                        <property>/sim/tutorials/targets/runway</property>
+                        <property>/sim/tutorials/targets/runway/distance-m</property>
                         <value>5690</value>
                     </greater-than>
                 </or>
@@ -1158,7 +1199,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
                         <value>-157.9550502</value>
                     </greater-than>
                     <greater-than>
-                        <property>/sim/tutorials/targets/mooring</property>
+                        <property>/sim/tutorials/targets/mooring/distance-m</property>
                         <value>5240</value>
                     </greater-than>
                 </or>

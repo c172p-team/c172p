@@ -821,32 +821,38 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
 
         <exit>
             <condition>
-                <and>
+                <or>
+                    <and>
+                        <greater-than>
+                            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                            <value>900</value>
+                        </greater-than>
+                        <less-than>
+                            <property>/instrumentation/altimeter/indicated-altitude-ft</property>
+                            <value>1100</value>
+                        </less-than>
+                        <less-than>
+                            <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                            <value>300</value>
+                        </less-than>
+                        <greater-than>
+                            <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
+                            <value>-300</value>
+                        </greater-than>
+                        <greater-than>
+                            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                            <value>28</value>
+                        </greater-than>
+                        <less-than>
+                            <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
+                            <value>58</value>
+                        </less-than>
+                    </and>
                     <greater-than>
-                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        <value>900</value>
+                        <property>/sim/tutorials/targets/runway/distance-m</property>
+                        <value>5690</value>
                     </greater-than>
-                    <less-than>
-                        <property>/instrumentation/altimeter/indicated-altitude-ft</property>
-                        <value>1100</value>
-                    </less-than>
-                    <less-than>
-                        <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
-                        <value>300</value>
-                    </less-than>
-                    <greater-than>
-                        <property>instrumentation/vertical-speed-indicator/indicated-speed-fpm</property>
-                        <value>-300</value>
-                    </greater-than>
-                    <greater-than>
-                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>28</value>
-                    </greater-than>
-                    <less-than>
-                        <property>/instrumentation/heading-indicator/indicated-heading-deg</property>
-                        <value>58</value>
-                    </less-than>
-                </and>
+                </or>
             </condition>
         </exit>
     </step>

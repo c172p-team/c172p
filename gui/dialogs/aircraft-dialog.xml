@@ -78,7 +78,7 @@
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
-            
+
             <checkbox>
                 <halign>left</halign>
                 <label>Save state of aircraft between sessions</label>
@@ -88,7 +88,7 @@
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
-            
+
             <checkbox>
                 <halign>left</halign>
                 <label>Complex engine procedures and failures</label>
@@ -98,7 +98,6 @@
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
-            
         </group>
 
         <hrule/>
@@ -108,11 +107,17 @@
 
             <checkbox>
                 <halign>left</halign>
-                <label>Damage</label>
+                <label>Enable damage</label>
                 <property>/fdm/jsbsim/settings/damage</property>
                 <live>true</live>
                 <binding>
                     <command>dialog-apply</command>
+                </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>
+                        c172p.repair_damage();
+                    </script>
                 </binding>
             </checkbox>
 
@@ -133,6 +138,10 @@
                         <not>
                             <property>/engines/active-engine/running</property>
                         </not>
+                        <equals>
+                            <property>/engines/active-engine/rpm</property>
+                            <value>0</value>
+                        </equals>
                     </and>
                 </enable>
                 <binding>
@@ -165,6 +174,11 @@
                     <property>/engines/active-engine/carb_ice</property>
                     <value>0.0</value>
                 </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>/fdm/jsbsim/engine/damage-level</property>
+                    <value>0</value>
+                </binding>
             </button>
         </group>
 
@@ -172,11 +186,12 @@
 
         <group>
             <layout>vbox</layout>
-            
+
             <checkbox>
                 <halign>left</halign>
                 <label>Allow securing aircraft</label>
                 <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                <live>true</live>
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
@@ -188,6 +203,11 @@
                 <binding>
                     <command>property-assign</command>
                     <property>sim/model/c172p/securing/pitot-cover-visible</property>
+                    <value>false</value>
+                </binding>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/securing/cowl-plugs-visible</property>
                     <value>false</value>
                 </binding>
                 <binding>
@@ -252,6 +272,28 @@
 
                     <checkbox>
                         <halign>left</halign>
+                        <label>Put cowl plugs</label>
+                        <property>/sim/model/c172p/securing/cowl-plugs-visible</property>
+                        <live>true</live>
+                        <enable>
+                            <and>
+                                <not>
+                                    <property>/engines/active-engine/running</property>
+                                </not>
+                                <equals>
+                                    <property>/engines/active-engine/rpm</property>
+                                    <value>0</value>
+                                </equals>
+                                <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                            </and>
+                        </enable>
+                        <binding>
+                            <command>dialog-apply</command>
+                        </binding>
+                    </checkbox>
+
+                    <checkbox>
+                        <halign>left</halign>
                         <label>Put pitot tube cover</label>
                         <property>/sim/model/c172p/securing/pitot-cover-visible</property>
                         <live>true</live>
@@ -268,7 +310,7 @@
                             <command>dialog-apply</command>
                         </binding>
                     </checkbox>
-                    
+
                     <checkbox>
                         <halign>left</halign>
                         <label>Enable left tie-down</label>
@@ -281,7 +323,7 @@
                             <command>dialog-apply</command>
                         </binding>
                     </checkbox>
-                    
+
                     <checkbox>
                         <halign>left</halign>
                         <label>Enable right tie-down</label>
@@ -307,7 +349,6 @@
                             <command>dialog-apply</command>
                         </binding>
                     </checkbox>
-
                 </group>
 
                 <!-- Force group to the left -->
@@ -474,9 +515,14 @@
                         <property>sim/model/c172p/bushkit_flag_0</property>
                         <live>true</live>
                         <enable>
-                            <not>
-                                <property>/sim/freeze/replay-state</property>
-                            </not>
+                            <and>
+                                <not>
+                                    <property>/sim/freeze/replay-state</property>
+                                </not>
+                                <not>
+                                    <property>fdm/jsbsim/hydro/active-norm</property>
+                                </not>
+                            </and>
                         </enable>
                         <binding>
                             <command>dialog-apply</command>
@@ -520,9 +566,14 @@
                         <property>sim/model/c172p/bushkit_flag_1</property>
                         <live>true</live>
                         <enable>
-                            <not>
-                                <property>/sim/freeze/replay-state</property>
-                            </not>
+                            <and>
+                                <not>
+                                    <property>/sim/freeze/replay-state</property>
+                                </not>
+                                <not>
+                                    <property>fdm/jsbsim/hydro/active-norm</property>
+                                </not>
+                            </and>
                         </enable>
                         <binding>
                             <command>dialog-apply</command>
@@ -566,9 +617,14 @@
                         <property>sim/model/c172p/bushkit_flag_2</property>
                         <live>true</live>
                         <enable>
-                            <not>
-                                <property>/sim/freeze/replay-state</property>
-                            </not>
+                            <and>
+                                <not>
+                                    <property>/sim/freeze/replay-state</property>
+                                </not>
+                                <not>
+                                    <property>fdm/jsbsim/hydro/active-norm</property>
+                                </not>
+                            </and>
                         </enable>
                         <binding>
                             <command>dialog-apply</command>
@@ -733,9 +789,14 @@
                         <property>sim/model/c172p/bushkit_flag_5</property>
                         <live>true</live>
                         <enable>
-                            <not>
-                                <property>/sim/freeze/replay-state</property>
-                            </not>
+                            <and>
+                                <not>
+                                    <property>/sim/freeze/replay-state</property>
+                                </not>
+                                <not>
+                                    <property>fdm/jsbsim/hydro/active-norm</property>
+                                </not>
+                            </and>
                         </enable>
                         <binding>
                             <command>dialog-apply</command>
@@ -781,6 +842,39 @@
 
             </group>
 
+        </group>
+
+        <hrule/>
+
+        <group>
+            <layout>hbox</layout>
+            <checkbox>
+                <halign>left</halign>
+                <label>Spawn at seaport if available</label>
+                <property>/controls/mooring/automatic</property>
+                <live>true</live>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+            <button>
+                <halign>right</halign>
+                <legend>Go now</legend>
+                <pref-width>60</pref-width>
+                <pref-height>28</pref-height>
+                <enable>
+                    <and>
+                        <property>/controls/mooring/allowed</property>
+                        <not>
+                            <property>/sim/freeze/replay-state</property>
+                        </not>
+                    </and>
+                </enable>
+                <binding>
+                    <command>property-toggle</command>
+                    <property>/controls/mooring/go-to-mooring</property>
+                </binding>
+            </button>
         </group>
     </group>
 

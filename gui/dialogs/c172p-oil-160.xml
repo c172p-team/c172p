@@ -25,13 +25,19 @@
             <pref-width>16</pref-width>
             <pref-height>16</pref-height>
             <binding>
+                <command>nasal</command>
+                <script>
+                    setprop("sim/model/show-dip-stick", 0);
+                </script>
+            </binding>
+            <binding>
                 <command>dialog-close</command>
             </binding>
         </button>
     </group>
 
     <hrule/>
-    
+
     <group>
         <layout>vbox</layout>
         <padding>6</padding>
@@ -42,7 +48,7 @@
                 <label>Oil Level:</label>
                 <halign>right</halign>
             </text>
-            <slider>                
+            <slider>
                 <name>c172p-oil-slider-160</name>
                 <min>0</min>
                 <max>7.0</max>
@@ -65,6 +71,10 @@
                     <command>dialog-apply</command>
                     <name>c172p-oil-slider-160</name>
                 </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>c172p.oil_refill();</script>
+                </binding>
             </slider>
             <group>
                 <layout>hbox</layout>
@@ -83,7 +93,23 @@
             </group>
         </group>
     </group>
-    
+
+    <group>
+        <layout>hbox</layout>
+        <padding>6</padding>
+        <text>
+            <label>Oil in service: </label>
+            <halign>left</halign>
+        </text>
+        <text>
+            <label>123</label>
+            <halign>left</halign>
+            <format>%.2f hours</format>
+            <live>true</live>
+            <property>/engines/active-engine/oil-service-hours</property>
+        </text>
+    </group>
+
     <group>
         <layout>table</layout>
         <text>
@@ -128,9 +154,9 @@
             <label>Slider disabled while in the air!</label>
         </text>
     </group>
-    
+
     <hrule/>
-    
+
     <group>
         <layout>table</layout>
         <text>
@@ -182,8 +208,35 @@
             </color>
             <label>Critical oil level!</label>
         </text>
+        <text>
+            <row>1</row>
+            <col>0</col>
+            <visible>
+                <less-than>
+                    <property>/engines/active-engine/oil-service-hours</property>
+                    <value>50</value>
+                </less-than>
+            </visible>
+            <label>Oil age ok!</label>
+        </text>
+        <text>
+            <row>1</row>
+            <col>0</col>
+            <visible>
+                <greater-than-equals>
+                    <property>/engines/active-engine/oil-service-hours</property>
+                    <value>50</value>
+                </greater-than-equals>
+            </visible>
+            <color>
+                <red>0.95</red>
+                <green>0.0</green>
+                <blue>0.0</blue>
+            </color>
+            <label>Replace oil!</label>
+        </text>
     </group>
-        
+
     <hrule/>
 
     <group>
@@ -195,6 +248,12 @@
             <equal>true</equal>
             <key>Esc</key>
             <default>true</default>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    setprop("sim/model/show-dip-stick", 0);
+                </script>
+            </binding>
             <binding>
                 <command>dialog-close</command>
             </binding>

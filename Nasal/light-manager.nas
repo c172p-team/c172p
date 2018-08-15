@@ -40,6 +40,14 @@ var light_manager = {
     light4_b: 0.0,
     light4_size: 0.0,
 
+    light5_xpos: 0.0,
+    light5_ypos: 0.0,
+    light5_zpos: 0.0,
+    light5_r: 0.0,
+    light5_g: 0.0,
+    light5_b: 0.0,
+    light5_size: 0.0,
+
     init: func {
         # define your lights here
 
@@ -70,11 +78,12 @@ var light_manager = {
         me.light2_b = 0.4;
 
         # spot size
-         me.light2_size = 16.0;
-         me.light2_stretch = 1.5;
+        me.light2_size = 16.0;
+        me.light2_stretch = 1.5;
 
         # light 3 ########
         # offsets to aircraft center
+        me.light3_xpos = 1.5;
         me.light3_ypos = -6.0;
         me.light3_zpos = 2.0;
 
@@ -88,6 +97,7 @@ var light_manager = {
 
         # light 4 ########
         # offsets to aircraft center
+        me.light4_xpos = 1.5;
         me.light4_ypos = 6.0;
         me.light4_zpos = 2.0;
 
@@ -98,19 +108,34 @@ var light_manager = {
 
         # spot size
         me.light4_size = 5.0;
-        
+
+        # light 5 ######## star
+        # offsets to aircraft center
+        me.light5_xpos = 0.7;
+        me.light5_ypos = 0;
+        me.light5_zpos = 2.0;
+
+        # color values
+        me.light5_r = 0.3;
+        me.light5_g = 0.3;
+        me.light5_b = 0.3;
+
+        # spot size
+        me.light5_size = 20.0;
+
         me.light_manager_timer = maketimer(0.0, func{me.update()});
         
         me.start();
     },
 
     start: func {
-        setprop("/sim/rendering/als-secondary-lights/num-lightspots", 4);
+        setprop("/sim/rendering/als-secondary-lights/num-lightspots", 5);
 
         setprop("/sim/rendering/als-secondary-lights/lightspot/size", me.light1_size);
         setprop("/sim/rendering/als-secondary-lights/lightspot/size[1]", me.light2_size);
         setprop("/sim/rendering/als-secondary-lights/lightspot/size[2]", me.light3_size);
         setprop("/sim/rendering/als-secondary-lights/lightspot/size[3]", me.light4_size);
+        setprop("/sim/rendering/als-secondary-lights/lightspot/size[4]", me.light4_size);
 
         setprop("/sim/rendering/als-secondary-lights/lightspot/stretch", me.light1_stretch);
         setprop("/sim/rendering/als-secondary-lights/lightspot/stretch[1]", me.light2_stretch);
@@ -198,6 +223,18 @@ var light_manager = {
         setprop("/sim/rendering/als-secondary-lights/lightspot/eyerel-y-m[3]", delta_y);
         setprop("/sim/rendering/als-secondary-lights/lightspot/eyerel-z-m[3]", delta_z);
 
+        # light 5 position
+        apos.set_lat(lat + (me.light5_xpos * ch + me.light5_ypos * sh) / me.lat_to_m);
+        apos.set_lon(lon + (me.light5_xpos * sh - me.light5_ypos * ch) / me.lon_to_m);
+
+        delta_x = (apos.lat() - vpos.lat()) * me.lat_to_m;
+        delta_y = -(apos.lon() - vpos.lon()) * me.lon_to_m;
+        delta_z = apos.alt() - vpos.alt();
+
+        setprop("/sim/rendering/als-secondary-lights/lightspot/eyerel-x-m[4]", delta_x);
+        setprop("/sim/rendering/als-secondary-lights/lightspot/eyerel-y-m[4]", delta_y);
+        setprop("/sim/rendering/als-secondary-lights/lightspot/eyerel-z-m[4]", delta_z);
+
     },   
 
     switch_position: func(light, lightr, lightg, lightb) {
@@ -216,6 +253,8 @@ var light_manager = {
                 me.switch_position(light_num, me.light3_r, me.light3_g, me.light3_b);
             if (light_num == 3)
                 me.switch_position(light_num, me.light4_r, me.light4_g, me.light4_b);
+            if (light_num == 4)
+                me.switch_position(light_num, me.light5_r, me.light5_g, me.light5_b);
         } else {
             me.switch_position(light_num, 0.0, 0.0, 0.0);
         }
@@ -230,13 +269,16 @@ setlistener("/sim/signals/fdm-initialized", func {
     setlistener("/sim/rendering/als-secondary-lights/use-landing-light-ext", func (node) {
         light_manager.enable_or_disable(node.getValue(), 0);
     }, 1, 0);
-
     setlistener("/sim/rendering/als-secondary-lights/use-taxi-light-ext", func (node) {
         light_manager.enable_or_disable(node.getValue(), 1);
     }, 1, 0);
-
-    setlistener("/sim/model/c172p/lighting/nav-lights", func (node) {
-        light_manager.enable_or_disable(node.getValue(), 2);
+    setlistener("/sim/model/c172p/lighting/nav-lights/left-on", func (node) {
         light_manager.enable_or_disable(node.getValue(), 3);
+    }, 1, 0);
+    setlistener("/sim/model/c172p/lighting/nav-lights/right-on", func (node) {
+        light_manager.enable_or_disable(node.getValue(), 2);
+    }, 1, 0);
+    setlistener("/sim/model/lighting/courtesy/factor", func (node) {
+        light_manager.enable_or_disable(node.getValue(), 4);
     }, 1, 0);
 });

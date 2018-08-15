@@ -309,5 +309,53 @@
         -->
         <max-rate-of-change>20.0</max-rate-of-change>
     </filter>
+    
+    <filter>
+        <name>Volume ramp for engine start</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <min>
+                    <max>
+                        <product>
+                            <property>/engines/active-engine/rpm</property>
+                            <value>0.001</value>
+                        </product>
+                        <value>0.0</value>
+                    </max>
+                    <value>1.0</value>
+                </min>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/c172p/sound/volume-ramp-engine-start</property>
+        </output>
+    </filter>
+    
+    
+    <filter>
+        <name>Volume fader for idle engine sound</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <min>
+                    <max>
+                        <sum>
+                            <product>
+                                <property>/engines/active-engine/rpm</property>
+                                <value>-0.000769231</value>
+                            </product>
+                            <value>1.923076923</value>
+                        </sum>
+                        <value>0.0</value>  
+                    </max>
+                    <value>1.0</value>
+                </min>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/c172p/sound/volume-fader-engine-idle</property>
+        </output>
+    </filter>
 
 </PropertyList>

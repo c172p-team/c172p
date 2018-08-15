@@ -7,7 +7,7 @@ Development thread: http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 
 Creating a release: see the [wiki page "Release process and versioning"](https://github.com/Juanvvc/c172p-detailed/wiki/Release-process-and-versioning) how to do a release.
 
-![Cessna 172P](http://s30.postimg.org/gl82bkjc1/fgfs_screen_003.png)
+![Cessna 172P](https://user-images.githubusercontent.com/5700795/39962145-773906d4-563e-11e8-8a15-6bfb8b29ef98.png)
 
 For the repository containing the texture files for the liveries and instruments (including their .xcf files), visit: https://github.com/gilbertohasnofb/c172p-detailed-liveries
 

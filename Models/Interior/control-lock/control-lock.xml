@@ -6,7 +6,7 @@
     <nopreview/>
 
     <effect>
-        <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-controllock</inherits-from>
         <object-name>ControlLock-pocket</object-name>
         <object-name>ControlLock-yoke</object-name>
     </effect>
@@ -42,6 +42,10 @@
                 <property>sim/model/c172p/cockpit/control-lock-placed</property>
                 <value>false</value>
             </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("control_lock", 1.2)</script>
+            </binding>
         </action>
         <hovered>
             <binding>
@@ -61,11 +65,18 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
+                    <not>
+                        <property>sim/model/hide-yoke</property>
+                    </not>
                     <property>sim/model/c172p/securing/allow-securing-aircraft</property>
                 </condition>
                 <command>property-assign</command>
                 <property>sim/model/c172p/cockpit/control-lock-placed</property>
                 <value>true</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("control_lock", 1.2)</script>
             </binding>
         </action>
         <hovered>

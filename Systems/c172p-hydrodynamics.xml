@@ -20,6 +20,8 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
+    Modifications: April 2018
+    Dany93 (Daniel Dubreuil), wlbragg (Wayne Bragg)
 -->
 
 <system name="c172p hydrodynamics">
@@ -29,9 +31,10 @@
     <!-- NOTE: The HRP has been moved forward by 10 in to improve the
         static/idling attitude.
     -->
-    <property value="32.6">metrics/hydro-rp-x-in</property>
+    <property value="-30">metrics/hydro-rp-x-in</property>
     <property value="0.0">metrics/hydro-rp-y-in</property>
-    <property value="38.5">metrics/hydro-rp-z-in</property>
+    <property value="34">metrics/hydro-rp-z-in</property>
+
     <property value="9.8">metrics/hydro-beam-ft</property>
     <property value="18.3">metrics/hydro-length-ft</property>
 
@@ -44,6 +47,8 @@
     <property value="7.34">hydro/float-beam-ft2</property>
     <property value="19.90">hydro/float-beam-ft3</property>
     <property value="53.94">hydro/float-beam-ft4</property>
+
+
     <property value="18.3">hydro/hull-length-ft</property>
 
     <!-- Tweak factors. :) -->
@@ -129,6 +134,14 @@
                 </product>
             </function>
         </fcs_function>
+
+        <switch name="power-regime">
+            <default value="0"/>
+            <test logic="AND" value="1">
+                /engines/active-engine/rpm LT 1300
+            </test>
+            <output>/fdm/jsbsim/hydro/power-regime</output>
+        </switch>
 
     </channel>
 
@@ -338,6 +351,17 @@
             <function>
                 <sum>
                     <value>-3.0</value> <!-- The float model is 3 deg offset in pitch. -->
+                    <product>
+                        <property>hydro/power-regime</property>
+                        <table>
+                            <independentVar>hydro/v-kt</independentVar>
+                            <tableData>
+                                 5	-0
+                                25  -5
+                                35  -0
+                            </tableData>
+                        </table>
+                    </product>
                     <property>hydro/pitch-deg</property>
                     <product>
                         <value>1.0</value>
@@ -409,6 +433,22 @@
                     <property>hydro/qbar-psf</property>
                     <property>hydro/float-beam-ft2</property>
                     <property>hydro/drag-tweak-factor</property>
+                    <max>
+                        <value>1.0</value>
+                        <product>
+                            <property>hydro/power-regime</property>
+                            <table>
+                                <independentVar>hydro/v-kt</independentVar>
+                                <tableData>
+                                    10	1
+                                    15	8
+                                    20  4
+                                    30	3
+                                    36  1
+                                </tableData>
+                            </table>
+                        </product>
+                    </max>
                     <min>
                         <quotient>
                             <!-- Reduce when planing. Needs refinement. -->
@@ -429,6 +469,28 @@
                             </abs>
                         </product>
                     </sum>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="hydro/rudder-drag-lbs">
+            <function>
+                <description>Drag due to rudders (not reduced by planing)</description>
+                <product>
+                    <value>0.00025</value>
+                    <property>hydro/qbar-psf</property>
+                    <property>hydro/float-beam-ft2</property>
+                    <table>
+                        <independentVar>fcs/rudder-pos-norm</independentVar>
+                        <tableData>
+                           -0.512   5
+                           -0.225   1
+                            0       1
+                            0.225   1
+                            0.486   5
+                        </tableData>
+                    </table>
+                    <property>/controls/gear/water-rudder-down</property>
                 </product>
             </function>
         </fcs_function>
@@ -489,6 +551,7 @@
                     <sum>
                         <property>hydro/displacement-drag-lbs</property>
                         <property>hydro/planing-drag-lbs</property>
+                        <property>hydro/rudder-drag-lbs</property>
                     </sum>
                 </product>
             </function>
@@ -684,7 +747,7 @@
                     <property>hydro/qbar-u-psf</property>
                     <property>hydro/float-beam-ft3</property>
                     <property>fcs/rudder-pos-norm</property>
-                    <value>-0.025</value>
+                    <value>-0.085</value>
                 </product>
             </function>
         </fcs_function>
@@ -811,8 +874,8 @@
                             -45  0.7
                             -8   1                
                             0.0  1
-                            12   1
-                            45   0.7
+                            12   0.1
+                            45   0.07
                             90   0
                         </tableData>
                     </table>
@@ -929,7 +992,7 @@
             </documentation>
             <function>
                 <product>
-                    <value>0.004</value>
+                    <value>0.001</value>
                     <property>hydro/qbar-u-psf</property>
                     <property>hydro/buoyancy-roll-moment-lbsft</property>
                     <table>

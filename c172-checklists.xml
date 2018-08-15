@@ -186,19 +186,260 @@
                     <property>sim/walker/key-triggers/outside-toggle</property>
                 </binding>
             </item>
-        </page>
-        <page>
             <item>
                 <name></name>
                 <value>NOW GOING AROUND THE AIRCRAFT</value>
+            </item>
+            <item>
+                <name>Baggage door</name>
+                <value>LOCK</value>
+                <marker>
+                    <x-m>1.7562</x-m>
+                    <y-m>-0.4521</y-m>
+                    <z-m>-0.4000</z-m>
+                    <scale>11.0000</scale>
+                </marker>
+                <condition>
+                    <equals>
+                        <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                        <value>0.0</value>
+                    </equals>
+                </condition>
+                <binding>
+                    <command>nasal</command>
+                    <script>c172p.baggageDoor.close();</script>
+                </binding>
+            </item>
+            <item>
+                <name>Beacon light</name>
+                <value>CHECK</value>
+                <marker>
+                    <x-m>5.4942</x-m>
+                    <y-m>0.0000</y-m>
+                    <z-m>1.1132</z-m>
+                    <scale>7.0000</scale>
+                </marker>
+            </item>
+            <item>
+                <name>Empennage</name>
+                <value>CHECK FOR DAMAGE</value>
+            </item>
+            <item>
+                <name>Elevator/Rudder</name>
+                <value>CHECK FOR FREEDOM OF MOVEMENT</value>
+            </item>
+        </page>
+        <page>
+            <item>
+                <name>Tail tie-down</name>
+                <value>REMOVE</value>
+                <marker>
+                    <x-m>4.7000</x-m>
+                    <y-m>-0.0033</y-m>
+                    <z-m>-0.6678</z-m>
+                    <scale>8.1901</scale>
+                </marker>
+                <condition>
+                    <not>
+                        <property>sim/model/c172p/securing/tiedownT-visible</property>
+                    </not>
+                </condition>
+                <binding>
+                    <condition>
+                        <not>
+                            <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                        </not>
+                    </condition>
+                    <command>property-assign</command>
+                    <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                    <value type="bool">true</value>
+                </binding>
+                <binding>
+                    <condition>
+                        <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                    </condition>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/securing/tiedownT-visible</property>
+                    <value type="bool">false</value>
+                </binding>
+            </item>
+            <item>
+                <name>Right Aileron</name>
+                <value>CHECK FOR FREEDOM OF MOVEMENT</value>
+            </item>
+            <item>
+                <name>Right Wingtip</name>
+                <value>CHECK CONDITION</value>
+                <value>CHECK LAMPS</value>
+            </item>
+            <item>
+                <name>Right Wing</name>
+                <value>CHECK FOR DAMAGE</value>
+            </item>
+            <item>
+                <name>Right tie-down</name>
+                <value>REMOVE</value>
+                <marker>
+                    <x-m>0.1198</x-m>
+                    <y-m>2.2624</y-m>
+                    <z-m>0.3609</z-m>
+                    <scale>2.7686</scale>
+                </marker>
+                <condition>
+                    <not>
+                        <property>sim/model/c172p/securing/tiedownR-visible</property>
+                    </not>
+                </condition>
+                <binding>
+                    <condition>
+                        <not>
+                            <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                        </not>
+                    </condition>
+                    <command>property-assign</command>
+                    <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                    <value type="bool">true</value>
+                </binding>
+                <binding>
+                    <condition>
+                        <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                    </condition>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/securing/tiedownR-visible</property>
+                    <value type="bool">false</value>
+                </binding>
+            </item>
+            <item>
+                <name>Right Fuel Tank Sump</name>
+                <value>CHECK FOR WATER CONTAMINATION</value>
+                <value>(HAS TO BE LIGHT BLUE)</value>
+                <marker>
+                    <x-m>0.1909</x-m>
+                    <y-m>1.7000</y-m>
+                    <z-m>0.3587</z-m>
+                    <scale>6.4050</scale>
+                </marker>
+                <condition>
+                    <equals>
+                        <property>/consumables/fuel/tank[1]/water-contamination</property>
+                        <value>0.0</value>
+                    </equals>
+                </condition>
+            </item>
+            <item>
+                <name>Right Main Wheel</name>
+                <value>CHECK FOR TIRE PRESSURE</value>
+                <value>CHECK BRAKES FOR LEAKING BRAKE FLUID</value>
+            </item>
+            <item>
+                <name>Oil level</name>
+                <value>CHECK</value>
+                <marker>
+                    <x-m>-0.8645</x-m>
+                    <y-m>0.3322</y-m>
+                    <z-m>0.1587</z-m>
+                    <scale>5.0000</scale>
+                </marker>
+                <condition>
+                    <greater-than>
+                        <property>/engines/active-engine/oil-level</property>
+                        <value>6.0</value>
+                    </greater-than>
+                </condition>
+            </item>
+            <item>
+                <name>Propeller/Spinner</name>
+                <value>CHECK FOR CONDITION</value>
+            </item>
+            <item>
+                <name>Cowl Plugs</name>
+                <value>REMOVED</value>
+                <marker>
+                  <x-m>-1.7</x-m>
+                  <y-m>0.0</y-m>
+                  <z-m>-0.0519</z-m>
+                  <scale>30.0</scale>
+                </marker>
+                <condition>
+                    <not>
+                        <property>sim/model/c172p/securing/cowl-plugs-visible</property>
+                    </not>
+                </condition>
+                <binding>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/securing/cowl-plugs-visible</property>
+                    <value type="bool">false</value>
+                </binding>
+            </item>
+        </page>
+        <page>
+            <item>
+                <name>Nose wheel</name>
+                <value>CHECK DAMPER</value>
+                <value>CHECK TIRE PRESSURE</value>
+            </item>
+            <item>
+                <name>Wheel Chocks</name>
+                <value>REMOVED</value>
+                <marker>
+                  <x-m>-1.26</x-m>
+                  <y-m>0.0</y-m>
+                  <z-m>-1.3</z-m>
+                  <scale>6.1983</scale>
+                </marker>
+                <condition>
+                    <not>
+                        <property>sim/model/c172p/securing/chock</property>
+                    </not>
+                </condition>
+                <binding>
+                    <condition>
+                        <not>
+                            <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                        </not>
+                    </condition>
+                    <command>property-assign</command>
+                    <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                    <value type="bool">true</value>
+                </binding>
+                <binding>
+                    <condition>
+                        <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                    </condition>
+                    <command>property-assign</command>
+                    <property>sim/model/c172p/securing/chock</property>
+                    <value type="bool">false</value>
+                </binding>
+            </item>
+            <item>
+                <name>Left Fuel Tank Sump</name>
+                <value>CHECK FOR WATER CONTAMINATION</value>
+                <value>(HAS TO BE LIGHT BLUE)</value>
+                <marker>
+                    <x-m>0.1909</x-m>
+                    <y-m>-1.7000</y-m>
+                    <z-m>0.3587</z-m>
+                    <scale>6.4050</scale>
+                </marker>
+                <condition>
+                    <equals>
+                        <property>/consumables/fuel/tank[0]/water-contamination</property>
+                        <value>0.0</value>
+                    </equals>
+                </condition>
+            </item>
+            <item>
+                <name>Left Main Wheel</name>
+                <value>CHECK FOR TIRE PRESSURE</value>
+                <value>CHECK BRAKES FOR LEAKING BRAKE FLUID</value>
             </item>
             <item>
                 <name>Pitot tube cover</name>
                 <value>REMOVE</value>
                 <marker>
                     <x-m>-0.2000</x-m>
-                    <y-m>-1.5339</y-m>
-                    <z-m>0.4000</z-m>
+                    <y-m>-1.5190</y-m>
+                    <z-m>0.3900</z-m>
                     <scale>3.1983</scale>
                 </marker>
                 <condition>
@@ -226,30 +467,13 @@
                 </binding>
             </item>
             <item>
-                <name>Fuel</name>
-                <value>CHECK FOR WATER CONTAMINATION</value>
-                <value>(HAS TO BE LIGHT BLUE)</value>
-                <marker>
-                    <x-m>0.1909</x-m>
-                    <y-m>-1.7000</y-m>
-                    <z-m>0.3587</z-m>
-                    <scale>6.4050</scale>
-                </marker>
-                <condition>
-                    <equals>
-                        <property>/consumables/fuel/tank[0]/water-contamination</property>
-                        <value>0.0</value>
-                    </equals>
-                </condition>
-            </item>
-            <item>
                 <name>Left tie-down</name>
                 <value>REMOVE</value>
                 <marker>
-                    <x-m>0.1058</x-m>
-                    <y-m>-2.2413</y-m>
-                    <z-m>0.3578</z-m>
-                    <scale>1.6116</scale>
+                    <x-m>0.1198</x-m>
+                    <y-m>-2.2624</y-m>
+                    <z-m>0.3609</z-m>
+                    <scale>2.7686</scale>
                 </marker>
                 <condition>
                     <not>
@@ -298,204 +522,6 @@
             <item>
                 <name>Left Aileron</name>
                 <value>CHECK FOR FREEDOM OF MOVEMENT</value>
-            </item>
-            <item>
-                <name>Left Main Wheel</name>
-                <value>CHECK FOR TIRE PRESSURE</value>
-                <value>CHECK BRAKES FOR LEAKING BRAKE FLUID</value>
-            </item>
-            <item>
-                <name>Baggage door</name>
-                <value>LOCK</value>
-                <marker>
-                    <x-m>1.7562</x-m>
-                    <y-m>-0.4521</y-m>
-                    <z-m>-0.4000</z-m>
-                    <scale>11.0000</scale>
-                </marker>
-                <condition>
-                    <equals>
-                        <property>/sim/model/door-positions/baggageDoor/position-norm</property>
-                        <value>0.0</value>
-                    </equals>
-                </condition>
-                <binding>
-                    <command>nasal</command>
-                    <script>c172p.baggageDoor.close();</script>
-                </binding>
-            </item>
-            <item>
-                <name>Empennage</name>
-                <value>CHECK FOR DAMAGE</value>
-            </item>
-            <item>
-                <name>Elevator/Rudder</name>
-                <value>CHECK FOR FREEDOM OF MOVEMENT</value>
-            </item>
-            <item>
-                <name>Beacon light</name>
-                <value>CHECK</value>
-                <marker>
-                    <x-m>5.4942</x-m>
-                    <y-m>0.0000</y-m>
-                    <z-m>1.1132</z-m>
-                    <scale>7.0000</scale>
-                </marker>
-            </item>
-        </page>
-        <page>
-            <item>
-                <name>Tail tie-down</name>
-                <value>REMOVE</value>
-                <marker>
-                    <x-m>4.7000</x-m>
-                    <y-m>-0.0033</y-m>
-                    <z-m>-0.6678</z-m>
-                    <scale>8.1901</scale>
-                </marker>
-                <condition>
-                    <not>
-                        <property>sim/model/c172p/securing/tiedownT-visible</property>
-                    </not>
-                </condition>
-                <binding>
-                    <condition>
-                        <not>
-                            <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                        </not>
-                    </condition>
-                    <command>property-assign</command>
-                    <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                    <value type="bool">true</value>
-                </binding>
-                <binding>
-                    <condition>
-                        <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                    </condition>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/tiedownT-visible</property>
-                    <value type="bool">false</value>
-                </binding>
-            </item>
-            <item>
-                <name>Right Main Wheel</name>
-                <value>CHECK FOR TIRE PRESSURE</value>
-                <value>CHECK BRAKES FOR LEAKING BRAKE FLUID</value>
-            </item>
-            <item>
-                <name>Right Aileron</name>
-                <value>CHECK FOR FREEDOM OF MOVEMENT</value>
-            </item>
-            <item>
-                <name>Right Wingtip</name>
-                <value>CHECK CONDITION</value>
-                <value>CHECK LAMPS</value>
-            </item>
-            <item>
-                <name>Right Wing</name>
-                <value>CHECK FOR DAMAGE</value>
-            </item>
-            <item>
-                <name>Right tie-down</name>
-                <value>REMOVE</value>
-                <marker>
-                    <x-m>0.0644</x-m>
-                    <y-m>2.2537</y-m>
-                    <z-m>0.3636</z-m>
-                    <scale>1.8595</scale>
-                </marker>
-                <condition>
-                    <not>
-                        <property>sim/model/c172p/securing/tiedownR-visible</property>
-                    </not>
-                </condition>
-                <binding>
-                    <condition>
-                        <not>
-                            <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                        </not>
-                    </condition>
-                    <command>property-assign</command>
-                    <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                    <value type="bool">true</value>
-                </binding>
-                <binding>
-                    <condition>
-                        <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                    </condition>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/tiedownR-visible</property>
-                    <value type="bool">false</value>
-                </binding>
-            </item>
-            <item>
-                <name>Fuel</name>
-                <value>CHECK FOR WATER CONTAMINATION</value>
-                <value>(HAS TO BE LIGHT BLUE)</value>
-                <marker>
-                    <x-m>0.1909</x-m>
-                    <y-m>1.7000</y-m>
-                    <z-m>0.3587</z-m>
-                    <scale>6.4050</scale>
-                </marker>
-                <condition>
-                    <equals>
-                        <property>/consumables/fuel/tank[1]/water-contamination</property>
-                        <value>0.0</value>
-                    </equals>
-                </condition>
-            </item>
-            <item>
-                <name>Oil level</name>
-                <value>CHECK</value>
-                <marker>
-                    <x-m>-0.8645</x-m>
-                    <y-m>0.3322</y-m>
-                    <z-m>0.1587</z-m>
-                    <scale>5.0000</scale>
-                </marker>
-                <condition>
-                    <greater-than>
-                        <property>/engines/active-engine/oil-level</property>
-                        <value>6.0</value>
-                    </greater-than>
-                </condition>
-            </item>
-            <item>
-                <name>Propeller/Spinner</name>
-                <value>CHECK FOR CONDITION</value>
-            </item>
-            <item>
-                <name>Nose wheel</name>
-                <value>CHECK DAMPER</value>
-                <value>CHECK TIRE PRESSURE</value>
-            </item>
-            <item>
-                <name>Wheel Chocks</name>
-                <value>REMOVED</value>
-                <condition>
-                    <not>
-                        <property>sim/model/c172p/securing/chock</property>
-                    </not>
-                </condition>
-                <binding>
-                    <condition>
-                        <not>
-                            <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                        </not>
-                    </condition>
-                    <command>property-assign</command>
-                    <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                    <value type="bool">true</value>
-                </binding>
-                <binding>
-                    <condition>
-                        <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                    </condition>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/chock</property>
-                    <value type="bool">false</value>
-                </binding>
             </item>
             <item>
                 <name>Walker</name>
@@ -2802,8 +2828,8 @@
             <value>COVER</value>
             <marker>
                 <x-m>-0.2000</x-m>
-                <y-m>-1.5339</y-m>
-                <z-m>0.4000</z-m>
+                <y-m>-1.5190</y-m>
+                <z-m>0.3900</z-m>
                 <scale>3.1983</scale>
             </marker>
             <condition>
@@ -2837,10 +2863,10 @@
             <name>Left tie-down</name>
             <value>SECURED</value>
             <marker>
-                <x-m>0.1058</x-m>
-                <y-m>-2.2413</y-m>
-                <z-m>0.3578</z-m>
-                <scale>1.6116</scale>
+                <x-m>0.1198</x-m>
+                <y-m>-2.2624</y-m>
+                <z-m>0.3609</z-m>
+                <scale>2.7686</scale>
             </marker>
             <condition>
                 <or>
@@ -2872,6 +2898,12 @@
         <item>
             <name>Wheel Chocks</name>
             <value>PLACED</value>
+            <marker>
+                <x-m>-1.11492</x-m>
+                <y-m>0.0</y-m>
+                <z-m>-1.18892</z-m>
+                <scale>11.4983</scale>
+            </marker>
             <condition>
                 <or>
                     <property>sim/model/c172p/securing/chock</property>
@@ -2900,13 +2932,31 @@
             </binding>
         </item>
         <item>
+            <name>Cowl Plugs</name>
+            <value>PLACED</value>
+            <marker>
+              <x-m>-1.7</x-m>
+              <y-m>0.0</y-m>
+              <z-m>-0.0519</z-m>
+              <scale>30.0</scale>
+            </marker>
+            <condition>
+                <property>sim/model/c172p/securing/cowl-plugs-visible</property>
+            </condition>
+            <binding>
+                <command>property-assign</command>
+                <property>sim/model/c172p/securing/cowl-plugs-visible</property>
+                <value type="bool">true</value>
+            </binding>
+        </item>
+        <item>
             <name>Right tie-down</name>
             <value>SECURED</value>
             <marker>
-                <x-m>0.0644</x-m>
-                <y-m>2.2537</y-m>
-                <z-m>0.3636</z-m>
-                <scale>1.8595</scale>
+                <x-m>0.1198</x-m>
+                <y-m>2.2624</y-m>
+                <z-m>0.3609</z-m>
+                <scale>2.7686</scale>
             </marker>
             <condition>
                 <or>

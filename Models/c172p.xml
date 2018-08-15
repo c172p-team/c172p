@@ -3612,22 +3612,16 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <or>
+                    <and>
                         <equals>
                             <property>/sim/model/door-positions/baggageDoor/position-norm</property>
-                            <value>1</value>
+                            <value>0</value>
                         </equals>
-                        <and>
-                            <equals>
-                                <property>/sim/model/door-positions/baggageDoor/position-norm</property>
-                                <value>0</value>
-                            </equals>
-                            <less-than>
-                                <property>velocities/groundspeed-kt</property>
-                                <value>1.0</value>
-                            </less-than>
-                        </and>
-                    </or>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>1.0</value>
+                        </less-than>
+                    </and>
                 </condition>
                 <command>nasal</command>
                 <script>c172p.baggageDoor.toggle();</script>
@@ -3656,8 +3650,69 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>door-handle-baggage</tooltip-id>
-                <label>Baggage Door Open/Close</label>
+                <tooltip-id>oppen-baggage-door</tooltip-id>
+                <label>Open Baggage Door</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>BaggageDoorHotSpot</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                    <value>1</value>
+                </equals>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>1.0</value>
+                </less-than>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>BaggageDoorHotSpot</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <and>
+                        <equals>
+                            <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                            <value>1</value>
+                        </equals>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>1.0</value>
+                        </less-than>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>c172p.baggageDoor.toggle();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <and>
+                        <equals>
+                            <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                            <value>1</value>
+                        </equals>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>1.0</value>
+                        </less-than>
+                    </and>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>close-baggage-door</tooltip-id>
+                <label>Close Baggage Door</label>
             </binding>
         </hovered>
     </animation>

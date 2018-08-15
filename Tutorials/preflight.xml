@@ -225,6 +225,22 @@ This tutorial will guide you through the Preflight inspection
             <property>/sim/model/c172p/cockpit/control-lock-visible</property>
             <value>true</value>
         </set>
+        <set>
+            <property>/sim/model/c172p/control-surfaces/elevator-checked</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/control-surfaces/left-aileron-checked</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/control-surfaces/right-aileron-checked</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/c172p/control-surfaces/rudder-checked</property>
+            <value>false</value>
+        </set>
         <message>Welcome to Hilo Airport. In this lesson we'll check the condition of our aircraft.</message>
         <view>
             <heading-offset-deg>0.0</heading-offset-deg>
@@ -589,12 +605,11 @@ This tutorial will guide you through the Preflight inspection
             <z-offset-m>1.1</z-offset-m>
             <field-of-view>85.0</field-of-view>
         </view>
-
         <marker>
-            <x-m>0.12517</x-m>
+            <x-m>0.11517</x-m>
             <y-m>-0.82538</y-m>
-            <z-m>-0.10231</z-m>
-            <scale>4.3427</scale>
+            <z-m>-0.11231</z-m>
+            <scale>5.3427</scale>
         </marker>
         <error>
             <message>Close the door!</message>
@@ -656,12 +671,18 @@ This tutorial will guide you through the Preflight inspection
             <z-offset-m>8.4</z-offset-m>
             <field-of-view>61.0</field-of-view>
         </view>
+        <error>
+            <message>Check the elevator by clicking on it!</message>
+            <condition>
+                <condition>
+                    <not>
+                        <property>/sim/model/c172p/control-surfaces/elevator-checked</property>
+                    </not>
+                </condition>
+        </error>
         <exit>
             <condition>
-                <not-equals>
-                    <property>/controls/flight/elevator</property>
-                    <value>0.0</value>
-                </not-equals>
+                <property>/sim/model/c172p/control-surfaces/elevator-checked</property>
             </condition>
         </exit>
     </step>
@@ -679,10 +700,7 @@ This tutorial will guide you through the Preflight inspection
         </view>
         <exit>
             <condition>
-                <not-equals>
-                    <property>/controls/flight/rudder</property>
-                    <value>0.0</value>
-                </not-equals>
+                <property>/sim/model/c172p/control-surfaces/rudder-checked</property>
             </condition>
         </exit>
     </step>
@@ -732,10 +750,7 @@ This tutorial will guide you through the Preflight inspection
         </view>
         <exit>
             <condition>
-                <not-equals>
-                    <property>/controls/flight/aileron</property>
-                    <value>0.0</value>
-                </not-equals>
+                <property>/sim/model/c172p/control-surfaces/right-aileron-checked</property>
             </condition>
         </exit>
     </step>
@@ -1182,7 +1197,21 @@ This tutorial will guide you through the Preflight inspection
     </step>
 
     <step>
-        <message>Left wing: Not damaged. Landing light, strobe and red nav light ok. Wingtip ok.</message>
+        <message>Landing lights are ok.</message>
+        <view>
+            <heading-offset-deg>140.0</heading-offset-deg>
+            <pitch-offset-deg>-13.2</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-2.4</x-offset-m>
+            <y-offset-m>0.4</y-offset-m>
+            <z-offset-m>-0.8</z-offset-m>
+            <field-of-view>85.0</field-of-view>
+        </view>
+        <wait>5</wait>
+    </step>
+
+    <step>
+        <message>Left wing: Not damaged. Strobe and red nav light ok. Wingtip ok.</message>
         <view>
             <heading-offset-deg>233.7</heading-offset-deg>
             <pitch-offset-deg>-5.9</pitch-offset-deg>
@@ -1208,10 +1237,7 @@ This tutorial will guide you through the Preflight inspection
         </view>
         <exit>
             <condition>
-                <not-equals>
-                    <property>/controls/flight/aileron</property>
-                    <value>0.0</value>
-                </not-equals>
+                <property>/sim/model/c172p/control-surfaces/left-aileron-checked</property>
             </condition>
         </exit>
     </step>
@@ -1263,12 +1289,11 @@ This tutorial will guide you through the Preflight inspection
             <z-offset-m>0.4</z-offset-m>
             <field-of-view>75.0</field-of-view>
         </view>
-
         <marker>
-            <x-m>0.12517</x-m>
+            <x-m>0.11517</x-m>
             <y-m>-0.82538</y-m>
-            <z-m>-0.10231</z-m>
-            <scale>4.3427</scale>
+            <z-m>-0.11231</z-m>
+            <scale>5.3427</scale>
         </marker>
         <error>
             <message>Close the door!</message>

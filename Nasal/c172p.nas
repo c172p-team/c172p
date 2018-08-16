@@ -660,6 +660,7 @@ setlistener("/sim/signals/fdm-initialized", func {
         setprop("sim/model/open-pfuel-sump", 0);
         setprop("sim/model/open-sfuel-sump", 0);
         setprop("sim/model/door-positions/oilDoor/position-norm", 0);
+        setprop("sim/model/c172p/securing/cowl-plugs-visible", 0);
         fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
         fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
         fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));

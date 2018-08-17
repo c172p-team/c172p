@@ -601,6 +601,7 @@
         <object-name>rightdoorhandle</object-name>
         <object-name>Spinner</object-name>
         <object-name>Propeller</object-name>
+        <object-name>PropellerCowlPlugs</object-name>
         <object-name>NoseWheel</object-name>
         <object-name>LeftWheel</object-name>
         <object-name>RightWheel</object-name>
@@ -3611,22 +3612,16 @@
             <repeatable>false</repeatable>
             <binding>
                 <condition>
-                    <or>
+                    <and>
                         <equals>
                             <property>/sim/model/door-positions/baggageDoor/position-norm</property>
-                            <value>1</value>
+                            <value>0</value>
                         </equals>
-                        <and>
-                            <equals>
-                                <property>/sim/model/door-positions/baggageDoor/position-norm</property>
-                                <value>0</value>
-                            </equals>
-                            <less-than>
-                                <property>velocities/groundspeed-kt</property>
-                                <value>1.0</value>
-                            </less-than>
-                        </and>
-                    </or>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>1.0</value>
+                        </less-than>
+                    </and>
                 </condition>
                 <command>nasal</command>
                 <script>c172p.baggageDoor.toggle();</script>
@@ -3655,8 +3650,69 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>door-handle-baggage</tooltip-id>
-                <label>Baggage Door Open/Close</label>
+                <tooltip-id>oppen-baggage-door</tooltip-id>
+                <label>Open Baggage Door</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>BaggageDoorHotSpot</object-name>
+        <condition>
+            <and>
+                <equals>
+                    <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                    <value>1</value>
+                </equals>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>1.0</value>
+                </less-than>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>BaggageDoorHotSpot</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <condition>
+                    <and>
+                        <equals>
+                            <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                            <value>1</value>
+                        </equals>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>1.0</value>
+                        </less-than>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script>c172p.baggageDoor.toggle();</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <condition>
+                    <and>
+                        <equals>
+                            <property>/sim/model/door-positions/baggageDoor/position-norm</property>
+                            <value>1</value>
+                        </equals>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>1.0</value>
+                        </less-than>
+                    </and>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>close-baggage-door</tooltip-id>
+                <label>Close Baggage Door</label>
             </binding>
         </hovered>
     </animation>
@@ -6119,37 +6175,6 @@
         <max-m>60</max-m>
     </animation>
 
-    <!-- Airframe -->
-    <animation>
-        <type>select</type>
-        <object-name>Propeller</object-name>
-        <condition>
-            <less-than>
-                <property alias="/params/engine/rpm"/>
-                <value>500</value>
-            </less-than>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>Propeller.Fast</object-name>
-        <nopreview/>
-        <condition>
-            <greater-than>
-                <property alias="/params/engine/rpm"/>
-                <value>400</value>
-            </greater-than>
-        </condition>
-    </animation>
-    <animation>
-        <type>blend</type>
-        <object-name>Propeller.Fast</object-name>
-        <property alias="/params/engine/rpm"/>
-        <factor>0.0004</factor>
-        <max>0.5</max>
-        <min>0.0</min>
-    </animation>
-
     <!-- ================================================================== -->
     <!-- ALS Lighting                                                       -->
     <!-- ================================================================== -->
@@ -6294,41 +6319,6 @@
                 </not>
             </and>
         </condition>
-    </animation>
-
-    <animation>
-        <type>spin</type>
-        <object-name>Propeller</object-name>
-        <object-name>Spinner</object-name>
-        <property alias="/params/engine/rpm"/>
-        <factor>-1</factor>
-        <center>
-            <x-m>-1.96139</x-m>
-            <y-m>0.00127</y-m>
-            <z-m>-0.0519</z-m>
-        </center>
-        <axis>
-            <x>1.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>spin</type>
-        <object-name>Propeller.Fast</object-name>
-        <object-name>Spinner</object-name>
-        <property alias="/params/engine/rpm"/>
-        <factor>-0.001</factor>
-        <center>
-            <x-m>-1.96139</x-m>
-            <y-m>0.00127</y-m>
-            <z-m>-0.0519</z-m>
-        </center>
-        <axis>
-            <x>1.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-        </axis>
     </animation>
 
     <!-- Rotate Non-Damaged Left Aileron -->
@@ -7428,13 +7418,90 @@
     <animation>
         <type>select</type>
         <object-name>Propeller</object-name>
+        <condition>
+             <and>
+                <less-than>
+                    <property alias="/params/engine/rpm"/>
+                    <value>500</value>
+                </less-than>
+                <not>
+                    <property alias="/params/securing/cowl-plugs"/>
+                </not>
+                <not>
+                    <property alias="/params/engine/crashed"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
         <object-name>Spinner</object-name>
-        <object-name>Propeller.Fast</object-name>
         <condition>
             <not>
                 <property alias="/params/engine/crashed"/>
             </not>
         </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>Propeller.Fast</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <greater-than>
+                    <property alias="/params/engine/rpm"/>
+                    <value>400</value>
+                </greater-than>
+                <not>
+                    property alias="/params/securing/cowl-plugs"/>
+                </not>
+                <not>
+                    <property alias="/params/engine/crashed"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>blend</type>
+        <object-name>Propeller.Fast</object-name>
+        <property alias="/params/engine/rpm"/>
+        <factor>0.0004</factor>
+        <max>0.5</max>
+        <min>0.0</min>
+    </animation>
+    <animation>
+        <type>spin</type>
+        <object-name>Propeller</object-name>
+        <object-name>Spinner</object-name>
+        <property alias="/params/engine/rpm"/>
+        <factor>-1</factor>
+        <center>
+            <x-m>-1.96139</x-m>
+            <y-m>0.00127</y-m>
+            <z-m>-0.0519</z-m>
+        </center>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>spin</type>
+        <object-name>Propeller.Fast</object-name>
+        <object-name>Spinner</object-name>
+        <property alias="/params/engine/rpm"/>
+        <factor>-0.001</factor>
+        <center>
+            <x-m>-1.96139</x-m>
+            <y-m>0.00127</y-m>
+            <z-m>-0.0519</z-m>
+        </center>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
     </animation>
 
     <!-- Prop Damaged -->
@@ -9375,6 +9442,7 @@
         <object-name>baggagedoorhandle</object-name>
         <object-name>Spinner</object-name>
         <object-name>Propeller</object-name>
+        <object-name>PropellerCowlPlugs</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
         <object-name>radi_box</object-name>
@@ -10828,7 +10896,12 @@
         <type>select</type>
         <object-name>CowlPlugs</object-name>
         <condition>
-            <property alias="/params/securing/cowl-plugs"/>
+            <and>
+                <property alias="/params/securing/cowl-plugs"/>
+                <not>
+                    <property alias="/params/engine/crashed"/>
+                </not>
+            </and>
         </condition>
     </animation>
     <animation>
@@ -10928,9 +11001,9 @@
         <name>chock1</name>
         <path>Exterior/chock/chock.xml</path>
         <offsets>
-            <x-m>-0.02</x-m>
+            <x-m>-0.01</x-m>
             <y-m>0.0</y-m>
-            <z-m>0.032</z-m>
+            <z-m>0.008</z-m>
         </offsets>
     </model>
     <model>
@@ -10939,7 +11012,7 @@
         <offsets>
             <x-m>0.32</x-m>
             <y-m>0.0</y-m>
-            <z-m>0.028</z-m>
+            <z-m>0.020</z-m>
         </offsets>
     </model>
     <animation>
@@ -10974,9 +11047,9 @@
         <name>woodenchock</name>
         <path>Exterior/wooden-chock/woodenchock.xml</path>
         <offsets>
-            <x-m>-0.027</x-m>
+            <x-m>-0.029</x-m>
             <y-m>0.0</y-m>
-            <z-m>-0.088</z-m>
+            <z-m>-0.08</z-m>
         </offsets>
     </model>
     <animation>

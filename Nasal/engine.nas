@@ -342,7 +342,7 @@ var update = func {
     elsif (usePrimer and !engine_running and getprop("/engines/active-engine/oil-temperature-degf") <= 75) {
         # Mixture is controlled by start conditions
         var primer = getprop("/controls/engines/engine/primer");
-        if (!getprop("/fdm/jsbsim/fcs/mixture-primer-cmd") and getprop("/controls/switches/starter")) {
+        if (!getprop("/fdm/jsbsim/fcs/mixture-primer-cmd") and getprop("/controls/switches/starter") and getprop("/controls/switches/master-bat")) {
             if (primer < 3) {
                 print("Use the primer!");
                 gui.popupTip("Use the primer!");

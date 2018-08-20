@@ -12,9 +12,10 @@
         m.et_countdown=0;
         m.et_running=0;
         m.et_frozen=0;
+        m.et_offset=0;
         m.et_elapsed=0;
-		m.et_pause_time=0;
-    m.ft_running=0;
+        m.et_pause_time=0;
+        m.ft_running=0;
         m.modetext =["LT","ET"];
         m.lc2 = props.globals.initNode(prop1);
         m.fmeter_sec=m.lc2.initNode("flight-meter-sec",0,"DOUBLE");
@@ -53,8 +54,9 @@
     left_knob : func(){
         if(me.MODE==1){
             if(me.et_running==0 and me.et_frozen==1){ # reset
-                    me.et_start_time=getprop("/sim/time/elapsed-sec");
+                    me.et_start_time = getprop("/sim/time/elapsed-sec");
                     me.et_frozen=0;
+                    me.et_offset=0;
                     me.et_elapsed=0;
                     me.et_running=0;
             }
@@ -65,7 +67,12 @@
 #### CTL button action ####
     right_knob : func(){
         if(me.set_mode==0){
-           if(me.MODE==1){
+            if(me.MODE==0){
+                me.MODE=2;
+                settimer(func(){
+                    me.MODE=0;
+                },1.5);
+            }elsif(me.MODE==1){
                 if(me.et_running==0 and me.et_frozen==0){ # start
                     me.et_start_time=getprop("/sim/time/elapsed-sec");
                     me.et_running=1;
@@ -74,8 +81,8 @@
                     me.et_frozen=1;
                     me.et_pause_time=getprop("/sim/time/elapsed-sec");
                 }elsif(me.et_frozen==1 and me.et_running==0){ # unpause
-                    me.et_start_time= me.et_pause_time;
-					me.et_pause_time = 0;
+                    me.et_start_time=me.et_start_time + me.et_offset;
+                    me.et_pause_time=0;
                     me.et_running=1;
                     me.et_frozen=0;
                 }
@@ -83,19 +90,12 @@
         }else{
             if(me.MODE==0){
                 me.set_lt();
-            }elsif(me.MODE==1){
-                me.set_et();
             }
         }
     },
 
 #### set LT  ####
     set_lt : func(){
-    # TODO
-    },
-
-#### set ET  ####
-    set_et : func(){
     # TODO
     },
 
@@ -128,17 +128,24 @@
         }
         me.power.setValue(pwr);
         
+        if (me.et_frozen==1) {
+            me.et_offset=getprop("/sim/time/elapsed-sec") - me.et_pause_time;
+        }
         if(me.flip==0){
             me.update_ET();
         }
         
-        if(me.MODE == 0) {
+        if(me.MODE == 0){
             me.HR.setValue(getprop("/instrumentation/clock/local-hour"));
             me.MN.setValue(getprop("/instrumentation/clock/indicated-min"));
-        }elsif(me.MODE == 1) {
+        }elsif(me.MODE==1){
             me.HR.setValue(me.ET_HR.getValue());
             me.MN.setValue(me.ET_MN.getValue());
+        }elsif(me.MODE==2){
+            me.HR.setValue(getprop("/sim/time/real/month"));
+            me.MN.setValue(getprop("/sim/time/real/day"));
         }
+        
         if(me.set_mode==1){
             var flsh=me.digit[me.digit_to_set].getValue();
             flsh=1-flsh;
@@ -156,10 +163,12 @@ var astrotech=lc2.new("instrumentation/clock/lc2");
 
 setlistener("/sim/signals/fdm-initialized", func {
     settimer(update,2);
-    print("Astro Tech LC-2 Chronometer ... Check");
+    print("Astro Tech LC-2 Chronometer Loaded");
 });
 
 var update = func{
 astrotech.update_clock();
 settimer(update,0.5);
 }
+
+

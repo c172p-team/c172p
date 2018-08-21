@@ -605,6 +605,9 @@ var dialog_battery_reload = func {
 }
 
 setlistener("/sim/signals/fdm-initialized", func {
+    #check for state being called
+    var state = getprop("/sim/aircraft-state");
+
     # Randomize callsign of new users to avoid them blocking
     # other new users on multiplayer
     if (getprop("/sim/multiplay/callsign") == "callsign") {

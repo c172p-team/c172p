@@ -605,6 +605,9 @@ var dialog_battery_reload = func {
 }
 
 setlistener("/sim/signals/fdm-initialized", func {
+    #check for state being called
+    var state = getprop("/sim/aircraft-state");
+
     # Randomize callsign of new users to avoid them blocking
     # other new users on multiplayer
     if (getprop("/sim/multiplay/callsign") == "callsign") {
@@ -615,10 +618,15 @@ setlistener("/sim/signals/fdm-initialized", func {
         setprop("/sim/multiplay/callsign", new_callsign);
     };
 
-    # Use Nasal to make some properties persistent. <aircraft-data> does
-    # not work reliably.
-    aircraft.data.add("/sim/model/c172p/immat-on-panel");
-    aircraft.data.load();
+    #check for state being called
+    var state = getprop("/sim/aircraft-state") or 0;
+
+    if (!state) {
+        # Use Nasal to make some properties persistent. <aircraft-data> does
+        # not work reliably.
+        aircraft.data.add("/sim/model/c172p/immat-on-panel");
+        aircraft.data.load();
+    }
 
     # Initialize mass limits
     set_limits(props.globals.getNode("/controls/engines/active-engine"));
@@ -678,19 +686,24 @@ setlistener("/sim/signals/fdm-initialized", func {
         }
     }, 0, 0);
 
-    # Checking if fuel tanks should be refilled (in case save state is off)
-    fuel_save_state();
-
-    # Checking if switches should be moved back to default position (in case save state is off)
-    switches_save_state();
-
-    # Checking if fuel contamination is allowed, and if so generating a random situation
-    fuel_contamination();
-
     # Listening for lightning strikes
     setlistener("/environment/lightning/lightning-pos-y", thunder);
 
+    if (!state) {
+
+        # Checking if fuel tanks should be refilled (in case save state is off)
+        fuel_save_state();
+
+        # Checking if switches should be moved back to default position (in case save state is off)
+        switches_save_state();
+
+        # Checking if fuel contamination is allowed, and if so generating a random situation
+        fuel_contamination();
+    }
+
     reset_system();
+    c172p.state_manager(state);
+
     var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();
 });

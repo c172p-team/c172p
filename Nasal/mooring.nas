@@ -148,5 +148,5 @@ Mooring.prepareseaplane = func{
     setprop("/sim/model/c172p/securing/tiedownL-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
-    setprop("/sim/model/c172p/securing/chock-visible", 0);
+    setprop("/sim/model/c172p/securing/chock", 0);
 }

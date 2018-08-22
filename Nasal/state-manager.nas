@@ -40,7 +40,7 @@ var state_manager = func (state) {
         setprop("/controls/engines/current-engine/throttle", 0.0);
         setprop("/controls/engines/current-engine/mixture", 0.0);
         setprop("/sim/model/c172p/securing/pitot-cover-visible", 1);
-        setprop("/sim/model/c172p/securing/chock-visible", 1);
+        setprop("/sim/model/c172p/securing/chock", 1);
         setprop("/sim/model/c172p/securing/cowl-plugs-visible", 1);
         setprop("/sim/model/c172p/cockpit/control-lock-placed", 1);
     }
@@ -93,7 +93,7 @@ var state_manager = func (state) {
         setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
         setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
         setprop("/sim/model/c172p/securing/pitot-cover-visible", 0);
-        setprop("/sim/model/c172p/securing/chock-visible", 0);
+        setprop("/sim/model/c172p/securing/chock", 0);
         setprop("/sim/model/c172p/securing/cowl-plugs-visible", 0);
         setprop("/sim/model/c172p/cockpit/control-lock-placed", 0);
         setprop("/fdm/jsbsim/running", 0);
@@ -132,5 +132,7 @@ var state_manager = func (state) {
             }
         }, engine_running_check_delay);
     }
+
+    if (state == "Saved") c172p.resume_state();
 
 };

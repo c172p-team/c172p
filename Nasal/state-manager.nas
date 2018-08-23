@@ -76,10 +76,21 @@ var state_manager = func (state) {
         setprop("/fdm/jsbsim/bushkit", 5);
     }
 
-    if (state == "Running") {
+    if (state == "Running" or state == "Night") {
         setprop("/sim/model/c172p/brake-parking", 1);
         setprop("/controls/flight/flaps", 0.0);
         setprop("/controls/gear/gear-down", 1);
+    }
+
+    if (state == "Night") {
+        setprop("/controls/switches/master-avionics", 1);
+        setprop("/controls/lighting/taxi-light", 1);
+        #setprop("/controls/lighting/landing-lights", 1);
+        setprop("/controls/lighting/nav-lights", 1);
+        setprop("/controls/lighting/beacon", 1);
+        setprop("/controls/lighting/strobe", 1);
+        setprop("/controls/lighting/instruments-norm", .5);
+        setprop("/controls/lighting/radio-norm", .4);
     }
 
     if (state == "Tahoe") {
@@ -103,7 +114,7 @@ var state_manager = func (state) {
         setprop("/sim/model/c172p/brake-parking", 0);
     }
 
-    if (state == "Approach" or state == "Cruise" or state == "Running" or state == "Tahoe" or state == "Kachemak" or state == "Glacier" or state == "Mountain") {
+    if (state == "Approach" or state == "Cruise" or state == "Running" or state == "Night" or state == "Tahoe" or state == "Kachemak" or state == "Glacier" or state == "Mountain") {
         setprop("/sim/model/c172p/securing/tiedownL-visible", 0);
         setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
         setprop("/sim/model/c172p/securing/tiedownT-visible", 0);

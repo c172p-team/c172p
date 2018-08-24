@@ -123,6 +123,12 @@ var state_manager = func (state) {
         setprop("/controls/lighting/radio-norm", .4);
     }
 
+    if (state == "kachemak") {
+        setprop("/sim/model/variant", 4);
+        setprop("/fdm/jsbsim/bushkit", 4);
+        setprop("/controls/engines/active-engine", 1);
+    }
+
     if (state == "tahoe") {
         setprop("/sim/model/variant", 3);
         setprop("/fdm/jsbsim/bushkit", 3);

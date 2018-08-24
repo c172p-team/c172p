@@ -94,16 +94,12 @@ var state_manager = func (state) {
         setprop("/controls/engines/active-engine", 1);
         setprop("/sim/model/c172p/brake-parking", 1);
         setprop("/controls/flight/flaps", 0.0);
-        setprop("/sim/model/variant", 1);
-        setprop("/fdm/jsbsim/bushkit", 1);
     }
 
     if (state == "glacier") {
         setprop("/controls/engines/active-engine", 1);
         setprop("/sim/model/c172p/brake-parking", 0);
         setprop("/controls/flight/flaps", 0.0);
-        setprop("/sim/model/variant", 5);
-        setprop("/fdm/jsbsim/bushkit", 5);
     }
 
     if (state == "take-off" or state == "night") {
@@ -124,14 +120,10 @@ var state_manager = func (state) {
     }
 
     if (state == "kachemak") {
-        setprop("/sim/model/variant", 4);
-        setprop("/fdm/jsbsim/bushkit", 4);
         setprop("/controls/engines/active-engine", 1);
     }
 
     if (state == "tahoe") {
-        setprop("/sim/model/variant", 3);
-        setprop("/fdm/jsbsim/bushkit", 3);
         setprop("/controls/engines/active-engine", 0);
     }
 
@@ -185,6 +177,22 @@ var state_manager = func (state) {
             }
             if (state == "cruise") {
                 setprop("/controls/engines/current-engine/throttle", 0.80);
+            }
+            if (state == "mountain") {
+                setprop("/sim/model/variant", 1);
+                setprop("/fdm/jsbsim/bushkit", 1);
+            }
+            if (state == "glacier") {
+                setprop("/sim/model/variant", 5);
+                setprop("/fdm/jsbsim/bushkit", 5);
+            }
+            if (state == "kachemak") {
+                setprop("/sim/model/variant", 4);
+                setprop("/fdm/jsbsim/bushkit", 4);
+            }
+            if (state == "tahoe") {
+                setprop("/sim/model/variant", 3);
+                setprop("/fdm/jsbsim/bushkit", 3);
             }
         }, engine_running_check_delay);
     }

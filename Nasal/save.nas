@@ -204,10 +204,25 @@ var save_state = func {
 
     setprop("/save/valid", 1);
 
+    # the scenario description
+
+    var timestring = getprop("/sim/time/real/year");
+    timestring = timestring~ "-"~getprop("/sim/time/real/month");
+    timestring = timestring~ "-"~getprop("/sim/time/real/day");
+    timestring = timestring~ "-"~getprop("/sim/time/real/hour");
+
+    var minute = getprop("/sim/time/real/minute");
+    if (minute < 10) {minute = "0"~minute;}
+    timestring = timestring~ ":"~minute;
+
+    var description = getprop("/sim/gui/dialogs/c172p/save/description");
+
+    setprop("/save/description", description);
+    setprop("/save/timestring", timestring);
+
     # save state to specified file
 
-    var filename = "save1.xml";
-    #var filename = getprop("/sim/gui/dialogs/c172pSave/save/filename");
+    var filename = getprop("/sim/gui/dialogs/c172p/save/filename");
     var path = getprop("/sim/fg-home") ~ "/aircraft-data/c172pSave/"~filename;
     var nodeSave = props.globals.getNode("/save", 0);
     io.write_properties(path, nodeSave);
@@ -215,21 +230,17 @@ var save_state = func {
     print("Current state written to ", filename, " !");
 }
 
-#can be converted to multiple saved state files
 var read_state_from_file = func (filename) {
-    var path = getprop("/sim/fg-home") ~ "/aircraft-data/c172pSave/"~filename;
-    var readNode = props.globals.getNode("/save", 0);
-    io.read_properties(path, readNode);
-}
-
-var resume_state = func {
 
     # read state from specified file
 
-    var filename = "save1.xml";
     var path = getprop("/sim/fg-home") ~ "/aircraft-data/c172pSave/"~filename;
     var readNode = props.globals.getNode("/save", 0);
     io.read_properties(path, readNode);
+
+}
+
+var resume_state = func {
 
     var validfile = getprop("/save/valid");
 

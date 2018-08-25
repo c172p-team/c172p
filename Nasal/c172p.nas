@@ -691,6 +691,11 @@ setlistener("/sim/signals/fdm-initialized", func {
     setlistener("/environment/lightning/lightning-pos-y", thunder);
 
     reset_system();
+
+    #check for state being called
+    var state = getprop("/sim/aircraft-state") or 0;
+    c172p.state_manager(state);
+
     var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();
 });

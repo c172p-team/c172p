@@ -47,6 +47,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 
         <status>advanced production</status>
         <aircraft-version>2018.3-git</aircraft-version>
+        <minimum-fg-version>2018.2.0</minimum-fg-version>
         <rating>
             <FDM type="int">4</FDM>
             <systems type="int">5</systems>
@@ -556,8 +557,26 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <invert-mouse-wheel type="bool">true</invert-mouse-wheel>
         </mouse>
 
-        <state include="states/c172-approach-overlay.xml" n="0"/>
-        <state include="states/c172-cruise-overlay.xml" n="1"/>
+        <gui>
+            <dialogs>
+                <c172p>
+                    <save>
+                        <filename type="string">save1.xml</filename>
+                    </save>
+                </c172p>
+            </dialogs>
+        </gui>
+
+        <state include="states/c172p-cruise-overlay.xml" n="0"/>
+        <state include="states/c172p-parked-overlay.xml" n="1"/>
+        <state include="states/c172p-secured-overlay.xml" n="2"/>
+        <state include="states/c172p-running-overlay.xml" n="3"/>
+        <state include="states/c172p-glacier-overlay.xml" n="4"/>
+        <state include="states/c172p-mountain-overlay.xml" n="5"/>
+        <state include="states/c172p-tahoe-overlay.xml" n="6"/>
+        <state include="states/c172p-kachemak-overlay.xml" n="7"/>
+        <state include="states/c172p-night-overlay.xml" n="8"/>
+        <state include="states/c172p-automatic-overlay.xml" n="9"/>
 
     </sim>
 
@@ -920,6 +939,9 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <file>Nasal/physics.nas</file>
             <file>Nasal/tiedowns.nas</file>
             <file>Nasal/views.nas</file>
+            <file>Nasal/state-manager.nas</file>
+            <file>Nasal/save.nas</file>
+            <file>Nasal/dialogs.nas</file>
         </c172p>
         <electrical>
             <file>Nasal/electrical.nas</file>
@@ -1124,6 +1146,10 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
         </jsbsim>
     </fdm>
     <!-- End Damage Mod -->
+
+    <save>
+        <valid type="bool">false</valid>
+    </save>
 
     <systems>
         <electrical>

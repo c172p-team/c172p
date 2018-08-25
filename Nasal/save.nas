@@ -443,7 +443,12 @@ var resume_state = func {
         setprop("/sim/presets/heading-deg", heading);
     }
 
-fgcommand("reposition");
+    setprop("/sim/aircraft-state", "");
+    setprop("/sim/presets/onground", "");
+    setprop("/sim/presets/parkpos", "");
+    setprop("/sim/presets/runway", "");
+
+    fgcommand("reposition");
 
     var heading_delay = 5.0;
     var altitude_delay = 2.0;

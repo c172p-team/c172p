@@ -1,33 +1,45 @@
+
+#####################
+#DONT FORGET preset glideslope-deg for cruise
+#maybe
+#<airport-requested>true</airport-requested>
+#<runway-requested>true</runway-requested>
+#<parking-requested>true</parking-requested>
+#######################
+
+
+
 var state_manager = func (state) {
 
     var onground = getprop("/sim/presets/onground") or "";
+    var newstate = "";
 
     if (!onground) {
-        shortstate = "approach";
+        newstate = "approach";
     }
 
-    if (shortstate == "Parked, secured") {
-        state = "secured";
+    if (state == "Parked, secured") {
+        newstate = "secured";
     }
 
     if (state == "Ready for Take-off, lights on") {
-        shortstate = "night";
+        newstate = "night";
     }
 
     if (state == "Alaska Mountain Top, bush tires") {
-        shortstate = "mountain";
+        newstate = "mountain";
     }
 
     if (state == "Columbia Glacier, skis") {
-        shortstate = "glacier";
+        newstate = "glacier";
     }
 
     if (state == "Lake Tahoe, floats") {
-        shortstate = "tahoe";
+        newstate = "tahoe";
     }
 
     if (state == "Kachemak Bay, amphibious") {
-        shortstate = "kachemak";
+        newstate = "kachemak";
     }
 
     if (state == "cruise") {
@@ -35,12 +47,12 @@ var state_manager = func (state) {
         setprop("/controls/gear/gear-down", 0);
     }
 
-    if (shortstate == "approach") {
+    if (newstate == "approach") {
         setprop("/controls/flight/flaps", 1.0);
         setprop("/controls/gear/gear-down", 1);
     }
 
-    if (shortstate == "secured") {
+    if (newstate == "secured") {
         setprop("/sim/model/c172p/securing/tiedownL-visible", 1);
         setprop("/sim/model/c172p/securing/tiedownR-visible", 1);
         setprop("/sim/model/c172p/securing/tiedownT-visible", 1);
@@ -64,7 +76,7 @@ var state_manager = func (state) {
         setprop("/consumables/fuel/tank[1]/selected", 1);
     }
 
-    if (shortstate == "secured" or state == "parking") {
+    if (newstate == "secured" or state == "parking") {
         setprop("/sim/model/c172p/brake-parking", 1);
         setprop("/fdm/jsbsim/running", 0);
         setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]", 0);
@@ -87,7 +99,7 @@ var state_manager = func (state) {
         setprop("/controls/engines/current-engine/mixture", 0.0);
     }
 
-    if (shortstate == "mountain") {
+    if (newstate == "mountain") {
         setprop("/controls/engines/active-engine", 1);
         setprop("/sim/model/c172p/brake-parking", 1);
         setprop("/controls/flight/flaps", 0.0);
@@ -95,7 +107,7 @@ var state_manager = func (state) {
         setprop("/fdm/jsbsim/bushkit", 1);
     }
 
-    if (shortstate == "glacier") {
+    if (newstate == "glacier") {
         setprop("/controls/engines/active-engine", 1);
         setprop("/sim/model/c172p/brake-parking", 0);
         setprop("/controls/flight/flaps", 0.0);
@@ -103,13 +115,13 @@ var state_manager = func (state) {
         setprop("/fdm/jsbsim/bushkit", 5);
     }
 
-    if (state == "take-off" or shortstate == "night") {
+    if (state == "take-off" or newstate == "night") {
         setprop("/sim/model/c172p/brake-parking", 1);
         setprop("/controls/flight/flaps", 0.0);
         setprop("/controls/gear/gear-down", 1);
     }
 
-    if (shortstate == "night") {
+    if (newstate == "night") {
         setprop("/controls/switches/master-avionics", 1);
         setprop("/controls/lighting/taxi-light", 1);
         #setprop("/controls/lighting/landing-lights", 1);
@@ -120,28 +132,28 @@ var state_manager = func (state) {
         setprop("/controls/lighting/radio-norm", .4);
     }
 
-    if (shortstate == "kachemak") {
+    if (newstate == "kachemak") {
         setprop("/controls/engines/active-engine", 1);
         setprop("/sim/model/variant", 4);
         setprop("/fdm/jsbsim/bushkit", 4);
     }
 
-    if (shortstate == "tahoe") {
+    if (newstate == "tahoe") {
         setprop("/controls/engines/active-engine", 0);
         setprop("/sim/model/variant", 3);
         setprop("/fdm/jsbsim/bushkit", 3);
     }
 
-    if (shortstate == "tahoe" or shortstate == "kachemak") {
+    if (newstate == "tahoe" or newstate == "kachemak") {
         setprop("/controls/flight/flaps", 1.0);
         setprop("/controls/gear/gear-down", 0);
     }
 
-    if (shortstate == "approach" or shortstate == "tahoe" or shortstate == "kachemak" or state == "cruise") {
+    if (newstate == "approach" or newstate == "tahoe" or newstate == "kachemak" or state == "cruise") {
         setprop("/sim/model/c172p/brake-parking", 0);
     }
 
-    if (shortstate == "approach" or state == "cruise" or state == "take-off" or shortstate == "night" or shortstate == "tahoe" or shortstate == "kachemak" or shortstate == "glacier" or shortstate == "mountain") {
+    if (newstate == "approach" or state == "cruise" or state == "take-off" or newstate == "night" or newstate == "tahoe" or newstate == "kachemak" or newstate == "glacier" or newstate == "mountain") {
         setprop("/sim/model/c172p/securing/tiedownL-visible", 0);
         setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
         setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
@@ -177,7 +189,7 @@ var state_manager = func (state) {
             setprop("/controls/switches/starter", 0);
             setprop("/engines/active-engine/auto-start", 0);
 
-            if (shortstate == "approach" or shortstate == "tahoe" or shortstate == "kachemak") {
+            if (newstate == "approach" or newstate == "tahoe" or newstate == "kachemak") {
                 setprop("/controls/engines/current-engine/throttle", 0.65);
             }
             if (state == "cruise") {

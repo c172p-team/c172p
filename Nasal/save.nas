@@ -251,20 +251,20 @@ var resume_state = func {
         return;
     }
 
-    var lat = getprop("/save/latitude-deg");
-    setprop("/position/latitude-deg", lat);
-    var lon = getprop("/save/longitude-deg");
-    setprop("/position/longitude-deg", lon);
-    var pitch = getprop("/save/pitch-deg");
-    setprop("/orientation/pitch-deg", pitch);
-    var roll = getprop("/save/roll-deg");
-    setprop("/orientation/roll-deg", roll);
-    var uBody = getprop("/save/uBody-fps");
-    setprop("/velocities/uBody-fps", uBody);
-    var vBody = getprop("/save/vBody-fps");
-    setprop("/velocities/vBody-fps", vBody);
-    var wBody = getprop("/save/wBody-fps");
-    setprop("/velocities/wBody-fps", wBody);
+    #var lat = getprop("/save/latitude-deg");
+    #setprop("/position/latitude-deg", lat);
+    #var lon = getprop("/save/longitude-deg");
+    #setprop("/position/longitude-deg", lon);
+    #var pitch = getprop("/save/pitch-deg");
+    #setprop("/orientation/pitch-deg", pitch);
+    #var roll = getprop("/save/roll-deg");
+    #setprop("/orientation/roll-deg", roll);
+    #var uBody = getprop("/save/uBody-fps");
+    #setprop("/velocities/uBody-fps", uBody);
+    #var vBody = getprop("/save/vBody-fps");
+    #setprop("/velocities/vBody-fps", vBody);
+    #var wBody = getprop("/save/wBody-fps");
+    #setprop("/velocities/wBody-fps", wBody);
 
     var tank1sel = getprop("/save/tank1-select");
     var tank2sel = getprop("/save/tank2-select");
@@ -415,7 +415,35 @@ var resume_state = func {
     var anchor = getprop("/save/anchor");
     var damage = getprop("/save/damage");
     var heading = getprop("/save/heading-deg");
-    var altitude = getprop("/save/altitude-ft");
+    #var altitude = getprop("/save/altitude-ft");
+
+    var lat = getprop("/save/latitude-deg");
+    setprop("/sim/presets/latitude-deg", lat);
+    var lon = getprop("/save/longitude-deg");
+    setprop("/sim/presets/longitude-deg", lon);
+    var pitch = getprop("/save/pitch-deg");
+    setprop("/sim/presets/pitch-deg", pitch);
+    var roll = getprop("/save/roll-deg");
+    setprop("/sim/presets/roll-deg", roll);
+    var uBody = getprop("/save/uBody-fps");
+    setprop("/sim/presets/uBody-fps", uBody);
+    var vBody = getprop("/save/vBody-fps");
+    setprop("/sim/presets/vBody-fps", vBody);
+    var wBody = getprop("/save/wBody-fps");
+    setprop("/sim/presets/wBody-fps", wBody);
+    setprop("/sim/presets/on-ground", 1);
+    setprop("/sim/presets/altitude-ft", -9999);
+    setprop("/sim/presets/airspeed-kt", 0);
+
+    #airport-requested true
+    #runway-requested true
+    #parking-requested true
+
+    if (!anchor) {
+        setprop("/sim/presets/heading-deg", heading);
+    }
+
+fgcommand("reposition");
 
     var heading_delay = 5.0;
     var altitude_delay = 2.0;
@@ -435,15 +463,16 @@ var resume_state = func {
             setprop("/orientation/heading-deg", headwind);
             setprop("/controls/mooring/anchor", anchor);
         }, heading_delay);
-    } else {
-        setprop("/orientation/heading-deg", heading);
     }
+    #else {
+        #setprop("/orientation/heading-deg", heading);
+    #}
 
-    if (!hydro) {
-        settimer(func {
-            setprop("/position/altitude-ft", altitude);
-        }, altitude_delay);
-    }
+    #if (!hydro) {
+     #   settimer(func {
+     #       setprop("/position/altitude-ft", altitude);
+     #   }, altitude_delay);
+    #}
 
     settimer(func {
         setprop("/fdm/jsbsim/settings/damage", damage);

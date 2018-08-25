@@ -41,9 +41,6 @@ var save_state = func {
     var wBody = getprop("/velocities/wBody-fps");
     setprop("/save/wBody-fps", wBody);
 
-    var hydro = getprop("/fdm/jsbsim/hydro/active-norm");
-    setprop("/save/hydro", hydro);
-
     var tank1sel = getprop("/consumables/fuel/tank[0]/selected");
     var tank2sel = getprop("/consumables/fuel/tank[1]/selected");
     setprop("/save/tank1-select", tank1sel);
@@ -193,6 +190,8 @@ var save_state = func {
     var cabair = getprop("/environment/aircraft-effects/cabin-air-set");
     setprop("/save/cabair", cabair);
 
+    var anchorconnect = getprop("/fdm/jsbsim/mooring/mooring-connected");
+    setprop("/save/anchorconnect", anchorconnect);
     var anchor = getprop("/controls/mooring/anchor");
     setprop("/save/anchor", anchor);
     if (anchor) {
@@ -250,21 +249,6 @@ var resume_state = func {
         gui.popupTip("Valid saved state file not found, reverting to automatic state!", 5.0);
         return;
     }
-
-    #var lat = getprop("/save/latitude-deg");
-    #setprop("/position/latitude-deg", lat);
-    #var lon = getprop("/save/longitude-deg");
-    #setprop("/position/longitude-deg", lon);
-    #var pitch = getprop("/save/pitch-deg");
-    #setprop("/orientation/pitch-deg", pitch);
-    #var roll = getprop("/save/roll-deg");
-    #setprop("/orientation/roll-deg", roll);
-    #var uBody = getprop("/save/uBody-fps");
-    #setprop("/velocities/uBody-fps", uBody);
-    #var vBody = getprop("/save/vBody-fps");
-    #setprop("/velocities/vBody-fps", vBody);
-    #var wBody = getprop("/save/wBody-fps");
-    #setprop("/velocities/wBody-fps", wBody);
 
     var tank1sel = getprop("/save/tank1-select");
     var tank2sel = getprop("/save/tank2-select");
@@ -411,8 +395,11 @@ var resume_state = func {
     var cabair = getprop("/save/cabair");
     setprop("/environment/aircraft-effects/cabin-air-set", cabair);
 
-    var hydro = getprop("/save/hydro");
     var anchor = getprop("/save/anchor");
+    setprop("/controls/mooring/anchor", anchor);
+    var anchorconnect = getprop("/save/anchorconnect");
+    setprop("/fdm/jsbsim/mooring/mooring-connected", anchorconnect);
+
     var damage = getprop("/save/damage");
     var heading = getprop("/save/heading-deg");
     #var altitude = getprop("/save/altitude-ft");
@@ -435,11 +422,7 @@ var resume_state = func {
     setprop("/sim/presets/altitude-ft", -9999);
     setprop("/sim/presets/airspeed-kt", 0);
 
-    #airport-requested true
-    #runway-requested true
-    #parking-requested true
-
-    if (!anchor) {
+    if (!anchorconnect) {
         setprop("/sim/presets/heading-deg", heading);
     }
 
@@ -447,37 +430,33 @@ var resume_state = func {
     setprop("/sim/presets/onground", "");
     setprop("/sim/presets/parkpos", "");
     setprop("/sim/presets/runway", "");
+    #airport-requested true
+    #runway-requested true
+    #parking-requested true
 
     fgcommand("reposition");
 
-    var heading_delay = 5.0;
-    var altitude_delay = 2.0;
+    var heading_delay = 3.0;
+    var mooring_delay = 4.0;
     var damage_delay = 5.0;
 
-    if (anchor) {
-        var anchorlon = getprop("/save/anchorlon");
-        var anchorlat = getprop("/save/anchorlat");
-        setprop("/fdm/jsbsim/mooring/anchor-lon", anchorlon);
-        setprop("/fdm/jsbsim/mooring/anchor-lat", anchorlat);
-        setprop("/sim/anchorbuoy/enable", 0);
-        setprop("/fdm/jsbsim/mooring/anchor-dist", 0);
-        setprop("/fdm/jsbsim/mooring/anchor-length", 0);
-        setprop("/fdm/jsbsim/mooring/mooring-connected", 0);
+    if (anchorconnect) {
         settimer(func {
             var headwind = getprop("/environment/wind-from-heading-deg");
             setprop("/orientation/heading-deg", headwind);
-            setprop("/controls/mooring/anchor", anchor);
         }, heading_delay);
+        settimer(func {
+            var anchorlon = getprop("/save/anchorlon");
+            var anchorlat = getprop("/save/anchorlat");
+            setprop("/fdm/jsbsim/mooring/anchor-lon", anchorlon);
+            setprop("/fdm/jsbsim/mooring/anchor-lat", anchorlat);
+            setprop("/sim/anchorbuoy/enable", 0);
+            setprop("/fdm/jsbsim/mooring/anchor-dist", 0);
+            setprop("/fdm/jsbsim/mooring/anchor-length", 0);
+            setprop("/fdm/jsbsim/mooring/mooring-connected", 0);
+            setprop("/controls/mooring/anchor", anchor);
+        }, mooring_delay);
     }
-    #else {
-        #setprop("/orientation/heading-deg", heading);
-    #}
-
-    #if (!hydro) {
-     #   settimer(func {
-     #       setprop("/position/altitude-ft", altitude);
-     #   }, altitude_delay);
-    #}
 
     settimer(func {
         setprop("/fdm/jsbsim/settings/damage", damage);

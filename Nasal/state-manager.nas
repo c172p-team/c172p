@@ -1,12 +1,5 @@
-
-#####################
-#DONT FORGET preset glideslope-deg for cruise
-#maybe
-#<airport-requested>true</airport-requested>
-#<runway-requested>true</runway-requested>
-#<parking-requested>true</parking-requested>
-#######################
-
+# c172p state manager system
+# by Wayne Bragg 2018
 
 
 var state_manager = func (state) {

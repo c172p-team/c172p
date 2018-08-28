@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+    <name>save</name>
+    <layout>vbox</layout>
+    <default-padding>1</default-padding>
+    <modal>false</modal>
+    <width>500</width>
+
+    <group>
+        <layout>hbox</layout>
+        <empty><stretch>true</stretch></empty>
+        <text><label>Save and Resume</label></text>
+        <empty><stretch>true</stretch></empty>
+        <button>
+            <legend/>
+            <key>Esc</key>
+            <pref-width>16</pref-width>
+            <pref-height>16</pref-height>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+
+    <hrule/>
+
+    <group>
+        <layout>table</layout>
+
+        <text>
+            <row>0</row>
+            <col>0</col>
+            <label>Slot</label>
+        </text>
+
+        <text>
+            <row>0</row>
+            <col>1</col>
+            <label>Description</label>
+        </text>
+
+        <text>
+            <row>0</row>
+            <col>2</col>
+            <label>Time</label>
+        </text>
+
+        <list>
+            <name>save-slots</name>
+            <row>1</row>
+            <col>0</col>
+            <pref-height>110</pref-height>
+            <property>/sim/gui/dialogs/c172p/save/selected</property>
+            <value>Slot 1</value>
+            <value>Slot 2</value>
+            <value>Slot 3</value>
+            <value>Slot 4</value>
+            <value>Slot 5</value>
+            <binding>
+                <command>dialog-apply</command>
+                <object-name>save-slots</object-name>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>read_description()</script>
+            </binding>
+            <binding>
+                <command>dialog-update</command>
+                <object-name>save-description</object-name>
+            </binding>
+        </list>
+
+        <textbox>
+            <row>1</row>
+            <col>1</col>
+            <name>save-description</name>
+            <halign>fill</halign>
+            <stretch>true</stretch>
+            <pref-width>200</pref-width>
+            <pref-height>100</pref-height>
+            <slider>0</slider>
+            <editable>true</editable>
+            <wrap>true</wrap>
+            <live>false</live>
+            <property>/sim/gui/dialogs/c172p/save/description</property>
+        </textbox>
+
+        <textbox>
+            <row>1</row>
+            <col>2</col>
+            <name>save-timestamp</name>
+            <halign>fill</halign>
+            <stretch>true</stretch>
+            <pref-width>150</pref-width>
+            <pref-height>100</pref-height>
+            <slider>0</slider>
+            <editable>false</editable>
+            <wrap>true</wrap>
+            <live>true</live>
+            <property>/sim/gui/dialogs/c172p/save/timestamp</property>
+        </textbox>
+    </group>
+
+    <empty>
+        <pref-height>4</pref-height>
+    </empty>
+
+    <hrule/>
+
+    <empty>
+        <pref-height>4</pref-height>
+    </empty>
+
+    <group>
+        <layout>table</layout>
+
+        <button>
+            <row>0</row>
+            <col>0</col>
+            <legend>Save</legend>
+            <binding>
+                <command>dialog-apply</command>
+                <object-name>save-description</object-name>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.save_state()</script>
+            </binding>
+        </button>
+
+        <button>
+            <row>0</row>
+            <col>1</col>
+            <legend>Resume</legend>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.resume_state()</script>
+            </binding>
+        </button>
+    </group>
+
+    <empty>
+        <pref-height>12</pref-height>
+    </empty>
+
+    <hrule/>
+
+    <group>
+        <layout>hbox</layout>
+        <default-padding>6</default-padding>
+
+        <empty><stretch>true</stretch></empty>
+
+        <button>
+            <legend>Close</legend>
+            <equal>true</equal>
+            <key>Esc</key>
+            <default>true</default>
+            <binding>
+                <command>dialog-close</command>
+            </binding>
+        </button>
+    </group>
+
+    <nasal>
+        <open>
+            var read_description = func {
+                setprop("/save/description", "");
+
+                var string = "";
+                var sel_slot = getprop("/sim/gui/dialogs/c172p/save/selected");
+
+                if (sel_slot == "Slot 1") {string = "save1.xml";}
+                    else if (sel_slot == "Slot 2") {string = "save2.xml";}
+                    else if (sel_slot == "Slot 3") {string = "save3.xml";}
+                    else if (sel_slot == "Slot 4") {string = "save4.xml";}
+                    else if (sel_slot == "Slot 5") {string = "save5.xml";}
+
+                c172p.read_state_from_file(string);
+
+                var description = getprop("/save/description");
+                var timestamp = getprop("/save/timestring");
+
+                setprop("/sim/gui/dialogs/c172p/save/description", description);
+                setprop("/sim/gui/dialogs/c172p/save/timestamp", timestamp);
+                setprop("/sim/gui/dialogs/c172p/save/filename", string);
+            }
+        </open>
+    </nasal>
+
+</PropertyList>

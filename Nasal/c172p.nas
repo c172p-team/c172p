@@ -680,6 +680,12 @@ setlistener("/sim/signals/fdm-initialized", func {
     setlistener("/environment/lightning/lightning-pos-y", thunder);
 
     reset_system();
+
+    var onground = getprop("/sim/presets/onground") or "";
+    if (!onground) {
+        onapproach_manager();
+    }
+
     var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();
 });

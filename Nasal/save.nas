@@ -285,6 +285,9 @@ var resume_state = func {
     setprop("/sim/presets/onground", "");
     setprop("/sim/presets/parkpos", "");
     setprop("/sim/presets/runway", "");
+    setprop("/sim/presets/airport-requested", 1);
+    setprop("/sim/presets/runway-requested", 1);
+    setprop("/sim/presets/parking-requested", 1);
     #airport-requested true
     #runway-requested true
     #parking-requested true
@@ -293,6 +296,11 @@ var resume_state = func {
 
     var load_delay = 2.0;
     settimer(func {
+
+        #var lat = getprop("/save/latitude-deg");
+        #setprop("/position/latitude-deg", lat);
+        #var lon = getprop("/save/longitude-deg");
+        #setprop("/position/longitude-deg", lon);
 
         var tank1sel = getprop("/save/tank1-select");
         var tank2sel = getprop("/save/tank2-select");

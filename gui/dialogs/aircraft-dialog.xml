@@ -189,172 +189,102 @@
 
             <checkbox>
                 <halign>left</halign>
-                <label>Allow securing aircraft</label>
-                <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
+                <label>Place control lock</label>
+                <property>sim/model/c172p/cockpit/control-lock-placed</property>
                 <live>true</live>
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
+            </checkbox>
+
+            <checkbox>
+                <halign>left</halign>
+                <label>Enable wheel chocks</label>
+                <property>/sim/model/c172p/securing/chock</property>
+                <live>true</live>
+                <enable>
+                    <property>/sim/model/c172p/securing/chock-can-have</property>
+                </enable>
                 <binding>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/cockpit/control-lock-placed</property>
-                    <value>false</value>
-                </binding>
-                <binding>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/pitot-cover-visible</property>
-                    <value>false</value>
-                </binding>
-                <binding>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/cowl-plugs-visible</property>
-                    <value>false</value>
-                </binding>
-                <binding>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/chock</property>
-                    <value>false</value>
-                </binding>
-                <binding>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/tiedownL-visible</property>
-                    <value>false</value>
-                </binding>
-                <binding>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/tiedownR-visible</property>
-                    <value>false</value>
-                </binding>
-                <binding>
-                    <command>property-assign</command>
-                    <property>sim/model/c172p/securing/tiedownT-visible</property>
-                    <value>false</value>
+                    <command>dialog-apply</command>
                 </binding>
             </checkbox>
 
-            <group>
-                <layout>hbox</layout>
+            <checkbox>
+                <halign>left</halign>
+                <label>Put cowl plugs</label>
+                <property>/sim/model/c172p/securing/cowl-plugs-visible</property>
+                <live>true</live>
+                <enable>
+                    <and>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <equals>
+                            <property>/engines/active-engine/rpm</property>
+                            <value>0</value>
+                        </equals>
+                    </and>
+                </enable>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
 
-                <!-- Small left padding -->
-                <group>
-                    <layout>vbox</layout>
-                    <padding>6</padding>
-                </group>
+            <checkbox>
+                <halign>left</halign>
+                <label>Put pitot tube cover</label>
+                <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+                <live>true</live>
+                <enable>
+                    <less-than>
+                        <property>velocities/groundspeed-kt</property>
+                        <value>1.0</value>
+                    </less-than>
+                </enable>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
 
-                <group>
-                    <layout>vbox</layout>
+            <checkbox>
+                <halign>left</halign>
+                <label>Enable left tie-down</label>
+                <property>/sim/model/c172p/securing/tiedownL-visible</property>
+                <live>true</live>
+                <enable>
+                    <property>/sim/model/c172p/securing/tiedowns-can-have</property>
+                </enable>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
 
-                    <checkbox>
-                        <halign>left</halign>
-                        <label>Place control lock</label>
-                        <property>sim/model/c172p/cockpit/control-lock-placed</property>
-                        <live>true</live>
-                        <enable>
-                            <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                        </enable>
-                        <binding>
-                            <command>dialog-apply</command>
-                        </binding>
-                    </checkbox>
+            <checkbox>
+                <halign>left</halign>
+                <label>Enable right tie-down</label>
+                <property>/sim/model/c172p/securing/tiedownR-visible</property>
+                <live>true</live>
+                <enable>
+                    <property>/sim/model/c172p/securing/tiedowns-can-have</property>
+                </enable>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
 
-                    <checkbox>
-                        <halign>left</halign>
-                        <label>Enable wheel chocks</label>
-                        <property>/sim/model/c172p/securing/chock</property>
-                        <live>true</live>
-                        <enable>
-                            <property>/sim/model/c172p/securing/chock-can-have</property>
-                        </enable>
-                        <binding>
-                            <command>dialog-apply</command>
-                        </binding>
-                    </checkbox>
-
-                    <checkbox>
-                        <halign>left</halign>
-                        <label>Put cowl plugs</label>
-                        <property>/sim/model/c172p/securing/cowl-plugs-visible</property>
-                        <live>true</live>
-                        <enable>
-                            <and>
-                                <not>
-                                    <property>/engines/active-engine/running</property>
-                                </not>
-                                <equals>
-                                    <property>/engines/active-engine/rpm</property>
-                                    <value>0</value>
-                                </equals>
-                                <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                            </and>
-                        </enable>
-                        <binding>
-                            <command>dialog-apply</command>
-                        </binding>
-                    </checkbox>
-
-                    <checkbox>
-                        <halign>left</halign>
-                        <label>Put pitot tube cover</label>
-                        <property>/sim/model/c172p/securing/pitot-cover-visible</property>
-                        <live>true</live>
-                        <enable>
-                            <and>
-                                <less-than>
-                                    <property>velocities/groundspeed-kt</property>
-                                    <value>1.0</value>
-                                </less-than>
-                                <property>/sim/model/c172p/securing/allow-securing-aircraft</property>
-                            </and>
-                        </enable>
-                        <binding>
-                            <command>dialog-apply</command>
-                        </binding>
-                    </checkbox>
-
-                    <checkbox>
-                        <halign>left</halign>
-                        <label>Enable left tie-down</label>
-                        <property>/sim/model/c172p/securing/tiedownL-visible</property>
-                        <live>true</live>
-                        <enable>
-                            <property>/sim/model/c172p/securing/tiedowns-can-have</property>
-                        </enable>
-                        <binding>
-                            <command>dialog-apply</command>
-                        </binding>
-                    </checkbox>
-
-                    <checkbox>
-                        <halign>left</halign>
-                        <label>Enable right tie-down</label>
-                        <property>/sim/model/c172p/securing/tiedownR-visible</property>
-                        <live>true</live>
-                        <enable>
-                            <property>/sim/model/c172p/securing/tiedowns-can-have</property>
-                        </enable>
-                        <binding>
-                            <command>dialog-apply</command>
-                        </binding>
-                    </checkbox>
-
-                    <checkbox>
-                        <halign>left</halign>
-                        <label>Enable tail tie-down</label>
-                        <property>/sim/model/c172p/securing/tiedownT-visible</property>
-                        <live>true</live>
-                        <enable>
-                            <property>/sim/model/c172p/securing/tiedowns-can-have</property>
-                        </enable>
-                        <binding>
-                            <command>dialog-apply</command>
-                        </binding>
-                    </checkbox>
-                </group>
-
-                <!-- Force group to the left -->
-                <empty><stretch>true</stretch></empty>
-            </group>
-
+            <checkbox>
+                <halign>left</halign>
+                <label>Enable tail tie-down</label>
+                <property>/sim/model/c172p/securing/tiedownT-visible</property>
+                <live>true</live>
+                <enable>
+                    <property>/sim/model/c172p/securing/tiedowns-can-have</property>
+                </enable>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
         </group>
 
         <hrule/>

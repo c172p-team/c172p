@@ -201,7 +201,7 @@ var save_state = func {
         setprop("/save/anchorlat", anchorlat);
     }
 
-    #setprop("/save/valid", 1);
+    setprop("/save/valid-flag", 1);
 
     # the scenario description
 
@@ -235,174 +235,26 @@ var read_state_from_file = func (filename) {
 
     var path = getprop("/sim/fg-home") ~ "/aircraft-data/c172pSave/"~filename;
     var readNode = props.globals.getNode("/save", 0);
-    io.read_properties(path, readNode);
+
+    var valid_flag = getprop("/save/valid-flag");
+    if (valid_flag) {
+        io.read_properties(path, readNode);
+    }
 
 }
 
 var resume_state = func {
 
-    var validfile = getprop("/save/valid");
+    var valid_flag = getprop("/save/valid-flag");
 
-    if (validfile) {
+    if (valid_flag) {
         setprop("/fdm/jsbsim/settings/damage", 0);
     } else {
         gui.popupTip("Valid saved state file not found, reverting to automatic state!", 5.0);
         return;
     }
 
-    var tank1sel = getprop("/save/tank1-select");
-    var tank2sel = getprop("/save/tank2-select");
-    setprop("/consumables/fuel/tank[0]/selected", tank1sel);
-    setprop("/consumables/fuel/tank[1]/selected", tank2sel);
-    var tank1 = getprop("/save/tank1-level-lbs");
-    var tank2 = getprop("/save/tank2-level-lbs");
-    setprop("/consumables/fuel/tank[0]/level-lbs", tank1);
-    setprop("/consumables/fuel/tank[1]/level-lbs", tank2);
-
-    var throttle = getprop("/save/throttle");
-    setprop("/controls/engines/current-engine/throttle", throttle);
-    var mixture = getprop("/save/mixture");
-    setprop("/controls/engines/current-engine/mixture", mixture);
-    var primlever = getprop("/save/primlever");
-    setprop("/controls/engines/engine[0]/primer-lever", primlever);
-
-    var ptmas1 = getprop("/save/ptmas1");
-    var ptmas2 = getprop("/save/ptmas2");
-    var ptmas3 = getprop("/save/ptmas3");
-    var ptmas4 = getprop("/save/ptmas4");
-    var ptmas5 = getprop("/save/ptmas5");
-    setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]", ptmas1);
-    setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]", ptmas2);
-    setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[2]", ptmas3);
-    setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[3]", ptmas4);
-    setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[4]", ptmas5);
-
-    var tiedownL = getprop("/save/tiedownL");
-    var tiedownR = getprop("/save/tiedownR");
-    var tiedownT = getprop("/save/tiedownT");
-    setprop("/sim/model/c172p/securing/tiedownL-visible", tiedownL);
-    setprop("/sim/model/c172p/securing/tiedownR-visible", tiedownR);
-    setprop("/sim/model/c172p/securing/tiedownT-visible", tiedownT);
-    var pitot = getprop("/save/pitot");
-    setprop("/sim/model/c172p/securing/pitot-cover-visible", pitot);
-    var chock = getprop("/save/chock");
-    setprop("/sim/model/c172p/securing/chock", chock);
-    var cowlplug = getprop("/save/cowlplug");
-    setprop("/sim/model/c172p/securing/cowl-plugs-visible", cowlplug);
-    var ctrllock = getprop("/save/ctrllock");
-    setprop("/sim/model/c172p/cockpit/control-lock-placed", ctrllock);
-
-    #getprop("/controls/circuit-breakers/aircond");
-    #getprop("/controls/circuit-breakers/autopilot");
-    #getprop("/controls/circuit-breakers/bcnlt");
-    #getprop("/controls/circuit-breakers/flaps");
-    #getprop("/controls/circuit-breakers/instr");
-    #getprop("/controls/circuit-breakers/intlt");
-    #getprop("/controls/circuit-breakers/landing");
-    #getprop("/controls/circuit-breakers/master");
-    #getprop("/controls/circuit-breakers/navlt");
-    #getprop("/controls/circuit-breakers/pitot-heat");
-    #getprop("/controls/circuit-breakers/radio1");
-    #getprop("/controls/circuit-breakers/radio2");
-    #getprop("/controls/circuit-breakers/radio3");
-    #getprop("/controls/circuit-breakers/radio4");
-    #getprop("/controls/circuit-breakers/radio5");
-    #getprop("/controls/circuit-breakers/strobe");
-    #getprop("/controls/circuit-breakers/turn-coordinator");
-
-    var avionics = getprop("/save/avionics");
-    setprop("/controls/switches/master-avionics", avionics);
-    var alt = getprop("/save/alt");
-    setprop("/controls/switches/master-alt", alt);
-    var bat = getprop("/save/bat");
-    setprop("/controls/switches/master-bat", bat);
-    var magnetos = getprop("/save/magnetos");
-    setprop("/controls/switches/magnetos", magnetos);
-    var dome = getprop("/save/dome");
-    setprop("/controls/switches/dome-white", dome);
-    var flood = getprop("/save/flood");
-    setprop("/controls/switches/dome-red", flood);
-    var radionorm = getprop("/save/radionorm");
-    setprop("/controls/lighting/radio-norm", radionorm);
-    var domenorm = getprop("/save/domenorm");
-    setprop("/controls/lighting/dome-white-norm", domenorm);
-    var floodnorm = getprop("/save/floodnorm");
-    setprop("/controls/lighting/dome-norm", floodnorm);
-    var gpsnorm = getprop("/save/gpsnorm");
-    setprop("/controls/lighting/gps-norm", gpsnorm);
-    var gearled = getprop("/save/gearled");
-    setprop("/controls/lighting/gearled", gearled);
-
-    var nav = getprop("/save/nav");
-    setprop("/controls/lighting/nav-lights", nav);
-    var beacon = getprop("/save/beacon");
-    setprop("/controls/lighting/beacon", beacon);
-    var strobe = getprop("/save/strobe");
-    setprop("/controls/lighting/strobe", strobe);
-    var taxi = getprop("/save/taxi");
-    setprop("/controls/lighting/taxi-light", taxi);
-    var landing = getprop("/save/landing");
-    setprop("/controls/lighting/landing-lights", landing);
-    var instruments = getprop("/save/instruments");
-    setprop("/controls/lighting/instruments-norm", instruments);
-
-    var garmin = getprop("/save/garmin");
-    setprop("/sim/model/c172p/garmin196-visible", garmin);
-    var rdoornorm = getprop("/save/rdoornorm");
-    setprop("/sim/model/door-positions/rightDoor/position-norm-effective", rdoornorm);
-    var ldoornorm = getprop("/save/ldoornorm");
-    setprop("/sim/model/door-positions/leftDoor/position-norm-effective", ldoornorm);
-    var bdoornorm = getprop("/save/bdoornorm");
-    setprop("/sim/model/door-positions/baggageDoor/position-norm-effective", bdoornorm);
-    var lwindnorm = getprop("/save/lwindnorm");
-    setprop("/sim/model/door-positions/leftWindow/position-norm", lwindnorm);
-    var rwindnorm = getprop("/save/rwindnorm");
-    setprop("/sim/model/door-positions/rightWindow/position-norm", rwindnorm);
-    var odoornorm = getprop("/save/odoornorm");
-    setprop("/sim/model/door-positions/oilDoor/position-norm", odoornorm);
-    var gdoornorm = getprop("/save/gdoornorm");
-    setprop("/sim/model/door-positions/gloveboxDoor/position-norm", gdoornorm);
-
-    var variant = getprop("/save/variant");
-    setprop("/sim/model/variant", variant);
-    var bushkit = getprop("/save/bushkit");
-    setprop("/fdm/jsbsim/bushkit", bushkit);
-
-    var geardown = getprop("/save/geardown");
-    setprop("/controls/gear/gear-down", geardown);
-    var gearpos = getprop("/save/gearpos");
-    setprop("/fdm/jsbsim/gear/gear-pos-norm", gearpos);
-    var wrudder = getprop("/save/wrudder");
-    setprop("/controls/gear/water-rudder", wrudder);
-    var wrudderdown = getprop("/save/wrudderdown");
-    setprop("/controls/gear/water-rudder-down", wrudderdown);
-    var parkbrake = getprop("/save/parkbrake");
-    setprop("/sim/model/c172p/brake-parking", parkbrake);
-    var flaps = getprop("/save/flaps");
-    setprop("/controls/flight/flaps", flaps);
-    var flapsnorm = getprop("/save/flapsnorm");
-    setprop("/surface-positions/flap-pos-norm", flapsnorm);
-    var elevtrim = getprop("/save/elevtrim");
-    setprop("/controls/flight/elevator-trim", elevtrim);
-    var carbheat1 = getprop("/save/carbheat1");
-    setprop("/controls/anti-ice/engine[0]/carb-heat", carbheat1);
-    var carbheat2 = getprop("/save/carbheat2");
-    setprop("/controls/anti-ice/engine[1]/carb-heat", carbheat2);
-    var pitotheat = getprop("/save/pitotheat");
-    setprop("/controls/anti-ice/pitot-heat", pitotheat);
-    var cabheat = getprop("/save/cabheat");
-    setprop("/environment/aircraft-effects/cabin-heat-set", cabheat);
-    var cabair = getprop("/save/cabair");
-    setprop("/environment/aircraft-effects/cabin-air-set", cabair);
-
-    var anchor = getprop("/save/anchor");
-    setprop("/controls/mooring/anchor", anchor);
-    var anchorconnect = getprop("/save/anchorconnect");
-    setprop("/fdm/jsbsim/mooring/mooring-connected", anchorconnect);
-
-    var damage = getprop("/save/damage");
-    var heading = getprop("/save/heading-deg");
-    #var altitude = getprop("/save/altitude-ft");
+    c172p.oil_consumption.stop();
 
     var lat = getprop("/save/latitude-deg");
     setprop("/sim/presets/latitude-deg", lat);
@@ -422,6 +274,9 @@ var resume_state = func {
     setprop("/sim/presets/altitude-ft", -9999);
     setprop("/sim/presets/airspeed-kt", 0);
 
+    var heading = getprop("/save/heading-deg");
+    var anchorconnect = getprop("/save/anchorconnect");
+    setprop("/fdm/jsbsim/mooring/mooring-connected", anchorconnect);
     if (!anchorconnect) {
         setprop("/sim/presets/heading-deg", heading);
     }
@@ -436,31 +291,187 @@ var resume_state = func {
 
     fgcommand("reposition");
 
-    var heading_delay = 3.0;
-    var mooring_delay = 4.0;
-    var damage_delay = 5.0;
-
-    if (anchorconnect) {
-        settimer(func {
-            var headwind = getprop("/environment/wind-from-heading-deg");
-            setprop("/orientation/heading-deg", headwind);
-        }, heading_delay);
-        settimer(func {
-            var anchorlon = getprop("/save/anchorlon");
-            var anchorlat = getprop("/save/anchorlat");
-            setprop("/fdm/jsbsim/mooring/anchor-lon", anchorlon);
-            setprop("/fdm/jsbsim/mooring/anchor-lat", anchorlat);
-            setprop("/sim/anchorbuoy/enable", 0);
-            setprop("/fdm/jsbsim/mooring/anchor-dist", 0);
-            setprop("/fdm/jsbsim/mooring/anchor-length", 0);
-            setprop("/fdm/jsbsim/mooring/mooring-connected", 0);
-            setprop("/controls/mooring/anchor", anchor);
-        }, mooring_delay);
-    }
-
+    var load_delay = 2.0;
     settimer(func {
-        setprop("/fdm/jsbsim/settings/damage", damage);
-    }, damage_delay);
 
-    print("State resumed!");
+        var tank1sel = getprop("/save/tank1-select");
+        var tank2sel = getprop("/save/tank2-select");
+        setprop("/consumables/fuel/tank[0]/selected", tank1sel);
+        setprop("/consumables/fuel/tank[1]/selected", tank2sel);
+        var tank1 = getprop("/save/tank1-level-lbs");
+        var tank2 = getprop("/save/tank2-level-lbs");
+        setprop("/consumables/fuel/tank[0]/level-lbs", tank1);
+        setprop("/consumables/fuel/tank[1]/level-lbs", tank2);
+
+        var throttle = getprop("/save/throttle");
+        setprop("/controls/engines/current-engine/throttle", throttle);
+        var mixture = getprop("/save/mixture");
+        setprop("/controls/engines/current-engine/mixture", mixture);
+        var primlever = getprop("/save/primlever");
+        setprop("/controls/engines/engine[0]/primer-lever", primlever);
+
+        var ptmas1 = getprop("/save/ptmas1");
+        var ptmas2 = getprop("/save/ptmas2");
+        var ptmas3 = getprop("/save/ptmas3");
+        var ptmas4 = getprop("/save/ptmas4");
+        var ptmas5 = getprop("/save/ptmas5");
+        setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]", ptmas1);
+        setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]", ptmas2);
+        setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[2]", ptmas3);
+        setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[3]", ptmas4);
+        setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[4]", ptmas5);
+
+        var tiedownL = getprop("/save/tiedownL");
+        var tiedownR = getprop("/save/tiedownR");
+        var tiedownT = getprop("/save/tiedownT");
+        setprop("/sim/model/c172p/securing/tiedownL-visible", tiedownL);
+        setprop("/sim/model/c172p/securing/tiedownR-visible", tiedownR);
+        setprop("/sim/model/c172p/securing/tiedownT-visible", tiedownT);
+        var pitot = getprop("/save/pitot");
+        setprop("/sim/model/c172p/securing/pitot-cover-visible", pitot);
+        var chock = getprop("/save/chock");
+        setprop("/sim/model/c172p/securing/chock", chock);
+        var cowlplug = getprop("/save/cowlplug");
+        setprop("/sim/model/c172p/securing/cowl-plugs-visible", cowlplug);
+        var ctrllock = getprop("/save/ctrllock");
+        setprop("/sim/model/c172p/cockpit/control-lock-placed", ctrllock);
+
+        #getprop("/controls/circuit-breakers/aircond");
+        #getprop("/controls/circuit-breakers/autopilot");
+        #getprop("/controls/circuit-breakers/bcnlt");
+        #getprop("/controls/circuit-breakers/flaps");
+        #getprop("/controls/circuit-breakers/instr");
+        #getprop("/controls/circuit-breakers/intlt");
+        #getprop("/controls/circuit-breakers/landing");
+        #getprop("/controls/circuit-breakers/master");
+        #getprop("/controls/circuit-breakers/navlt");
+        #getprop("/controls/circuit-breakers/pitot-heat");
+        #getprop("/controls/circuit-breakers/radio1");
+        #getprop("/controls/circuit-breakers/radio2");
+        #getprop("/controls/circuit-breakers/radio3");
+        #getprop("/controls/circuit-breakers/radio4");
+        #getprop("/controls/circuit-breakers/radio5");
+        #getprop("/controls/circuit-breakers/strobe");
+        #getprop("/controls/circuit-breakers/turn-coordinator");
+
+        var avionics = getprop("/save/avionics");
+        setprop("/controls/switches/master-avionics", avionics);
+        var alt = getprop("/save/alt");
+        setprop("/controls/switches/master-alt", alt);
+        var bat = getprop("/save/bat");
+        setprop("/controls/switches/master-bat", bat);
+        var magnetos = getprop("/save/magnetos");
+        setprop("/controls/switches/magnetos", magnetos);
+        var dome = getprop("/save/dome");
+        setprop("/controls/switches/dome-white", dome);
+        var flood = getprop("/save/flood");
+        setprop("/controls/switches/dome-red", flood);
+        var radionorm = getprop("/save/radionorm");
+        setprop("/controls/lighting/radio-norm", radionorm);
+        var domenorm = getprop("/save/domenorm");
+        setprop("/controls/lighting/dome-white-norm", domenorm);
+        var floodnorm = getprop("/save/floodnorm");
+        setprop("/controls/lighting/dome-norm", floodnorm);
+        var gpsnorm = getprop("/save/gpsnorm");
+        setprop("/controls/lighting/gps-norm", gpsnorm);
+        var gearled = getprop("/save/gearled");
+        setprop("/controls/lighting/gearled", gearled);
+
+        var nav = getprop("/save/nav");
+        setprop("/controls/lighting/nav-lights", nav);
+        var beacon = getprop("/save/beacon");
+        setprop("/controls/lighting/beacon", beacon);
+        var strobe = getprop("/save/strobe");
+        setprop("/controls/lighting/strobe", strobe);
+        var taxi = getprop("/save/taxi");
+        setprop("/controls/lighting/taxi-light", taxi);
+        var landing = getprop("/save/landing");
+        setprop("/controls/lighting/landing-lights", landing);
+        var instruments = getprop("/save/instruments");
+        setprop("/controls/lighting/instruments-norm", instruments);
+
+        var garmin = getprop("/save/garmin");
+        setprop("/sim/model/c172p/garmin196-visible", garmin);
+        var rdoornorm = getprop("/save/rdoornorm");
+        setprop("/sim/model/door-positions/rightDoor/position-norm-effective", rdoornorm);
+        var ldoornorm = getprop("/save/ldoornorm");
+        setprop("/sim/model/door-positions/leftDoor/position-norm-effective", ldoornorm);
+        var bdoornorm = getprop("/save/bdoornorm");
+        setprop("/sim/model/door-positions/baggageDoor/position-norm-effective", bdoornorm);
+        var lwindnorm = getprop("/save/lwindnorm");
+        setprop("/sim/model/door-positions/leftWindow/position-norm", lwindnorm);
+        var rwindnorm = getprop("/save/rwindnorm");
+        setprop("/sim/model/door-positions/rightWindow/position-norm", rwindnorm);
+        var odoornorm = getprop("/save/odoornorm");
+        setprop("/sim/model/door-positions/oilDoor/position-norm", odoornorm);
+        var gdoornorm = getprop("/save/gdoornorm");
+        setprop("/sim/model/door-positions/gloveboxDoor/position-norm", gdoornorm);
+
+        var variant = getprop("/save/variant");
+        setprop("/sim/model/variant", variant);
+        var bushkit = getprop("/save/bushkit");
+        setprop("/fdm/jsbsim/bushkit", bushkit);
+
+        var geardown = getprop("/save/geardown");
+        setprop("/controls/gear/gear-down", geardown);
+        var gearpos = getprop("/save/gearpos");
+        setprop("/fdm/jsbsim/gear/gear-pos-norm", gearpos);
+        var wrudder = getprop("/save/wrudder");
+        setprop("/controls/gear/water-rudder", wrudder);
+        var wrudderdown = getprop("/save/wrudderdown");
+        setprop("/controls/gear/water-rudder-down", wrudderdown);
+        var parkbrake = getprop("/save/parkbrake");
+        setprop("/sim/model/c172p/brake-parking", parkbrake);
+        var flaps = getprop("/save/flaps");
+        setprop("/controls/flight/flaps", flaps);
+        var flapsnorm = getprop("/save/flapsnorm");
+        setprop("/surface-positions/flap-pos-norm", flapsnorm);
+        var elevtrim = getprop("/save/elevtrim");
+        setprop("/controls/flight/elevator-trim", elevtrim);
+        var carbheat1 = getprop("/save/carbheat1");
+        setprop("/controls/anti-ice/engine[0]/carb-heat", carbheat1);
+        var carbheat2 = getprop("/save/carbheat2");
+        setprop("/controls/anti-ice/engine[1]/carb-heat", carbheat2);
+        var pitotheat = getprop("/save/pitotheat");
+        setprop("/controls/anti-ice/pitot-heat", pitotheat);
+        var cabheat = getprop("/save/cabheat");
+        setprop("/environment/aircraft-effects/cabin-heat-set", cabheat);
+        var cabair = getprop("/save/cabair");
+        setprop("/environment/aircraft-effects/cabin-air-set", cabair);
+
+        var anchor = getprop("/save/anchor");
+        setprop("/controls/mooring/anchor", anchor);
+
+        var damage = getprop("/save/damage");
+        #var altitude = getprop("/save/altitude-ft");
+
+        var heading_delay = 3.0;
+        var mooring_delay = 4.0;
+        var damage_delay = 5.0;
+
+        if (anchorconnect) {
+            settimer(func {
+                var headwind = getprop("/environment/wind-from-heading-deg");
+                setprop("/orientation/heading-deg", headwind);
+            }, heading_delay);
+            settimer(func {
+                var anchorlon = getprop("/save/anchorlon");
+                var anchorlat = getprop("/save/anchorlat");
+                setprop("/fdm/jsbsim/mooring/anchor-lon", anchorlon);
+                setprop("/fdm/jsbsim/mooring/anchor-lat", anchorlat);
+                setprop("/sim/anchorbuoy/enable", 0);
+                setprop("/fdm/jsbsim/mooring/anchor-dist", 0);
+                setprop("/fdm/jsbsim/mooring/anchor-length", 0);
+                setprop("/fdm/jsbsim/mooring/mooring-connected", 0);
+                setprop("/controls/mooring/anchor", anchor);
+            }, mooring_delay);
+        }
+
+        settimer(func {
+            setprop("/fdm/jsbsim/settings/damage", damage);
+        }, damage_delay);
+
+        print("State resumed!");
+
+    }, load_delay);
 }

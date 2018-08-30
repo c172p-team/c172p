@@ -254,9 +254,6 @@ var switches_save_state = func {
         setprop("/controls/engines/engine[0]/primer", 0);
         setprop("/controls/engines/engine[0]/primer-lever", 0);
         setprop("/controls/engines/engine[0]/use-primer", 0);
-        setprop("/controls/engines/engine[1]/primer", 0);
-        setprop("/controls/engines/engine[1]/primer-lever", 0);
-        setprop("/controls/engines/engine[1]/use-primer", 0);
         setprop("/controls/engines/current-engine/throttle", 0.0);
         setprop("/controls/engines/current-engine/mixture", 0.0);
         setprop("/controls/circuit-breakers/aircond", 1);
@@ -683,7 +680,7 @@ setlistener("/sim/signals/fdm-initialized", func {
 
     var onground = getprop("/sim/presets/onground") or "";
     if (!onground) {
-        onapproach_manager();
+        state_manager();
     }
 
     var c172_timer = maketimer(0.25, func{global_system_loop()});

@@ -3,6 +3,12 @@
 
 var state_manager = func {
 
+    if (!getprop("/sim/presets/airspeed-kt")) {
+        setprop("/velocities/airspeed-kt", 100);
+        setprop("/controls/pitch-deg", 5);
+        setprop("/velocities/uBody-fps", 203)
+    }
+
     var auto_mixture = getprop("/fdm/jsbsim/engine/auto-mixture");
     setprop("/controls/engines/current-engine/mixture", auto_mixture);
 
@@ -13,6 +19,7 @@ var state_manager = func {
     setprop("/controls/engines/engine[0]/primer", 3);
     setprop("/controls/engines/engine[0]/primer-lever", 0);
     setprop("/controls/engines/current-engine/throttle", 0.2);
+    setprop("/controls/flight/elevator-trim", -0.03);
     setprop("/consumables/fuel/tank[0]/selected", 1);
     setprop("/consumables/fuel/tank[1]/selected", 1);
     setprop("/controls/circuit-breakers/aircond", 1);
@@ -69,10 +76,10 @@ var state_manager = func {
             setprop("/controls/engines/current-engine/throttle", 0.85);
             setprop("/controls/flight/flaps", .33);
         } else if (distance_nm > 1) {
-            setprop("/controls/engines/current-engine/throttle", 0.75);
+            setprop("/controls/engines/current-engine/throttle", 0.80);
             setprop("/controls/flight/flaps", .66);
         } else {
-            setprop("/controls/engines/current-engine/throttle", 0.65);
+            setprop("/controls/engines/current-engine/throttle", 0.75);
             setprop("/controls/flight/flaps", 1);
         }
 

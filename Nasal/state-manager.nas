@@ -5,8 +5,8 @@ var state_manager = func {
 
     if (!getprop("/sim/presets/airspeed-kt")) {
         setprop("/velocities/airspeed-kt", 100);
-        setprop("/controls/pitch-deg", 5);
-        setprop("/velocities/uBody-fps", 203)
+        setprop("/velocities/uBody-fps", 163);
+        setprop("/orientation/pitch-deg", 0);
     }
 
     var auto_mixture = getprop("/fdm/jsbsim/engine/auto-mixture");
@@ -96,7 +96,7 @@ var state_manager = func {
 
         if (light_level > .6) {
             if (getprop("/controls/lighting/instruments-norm") == 0) {
-                if (light_level > .8) light_level = .8;
+                if (light_level > .6) light_level = .6;
                 setprop("/controls/lighting/instruments-norm", light_level);
             }
             if (getprop("/controls/lighting/nav-lights") == 0) {

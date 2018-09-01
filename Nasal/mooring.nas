@@ -132,6 +132,7 @@ Mooring.presetharbour = func {
                 print("PORT ",harbour,"    Index ",i);
                 me.setmoorage(i, airport);
                 me.prepareseaplane();
+                c172p.oil_consumption.stop();
                 fgcommand("reposition");
                 break;
             }

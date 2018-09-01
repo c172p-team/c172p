@@ -110,8 +110,6 @@ aircraft.data.add(
 # Save switches
 aircraft.data.add(
     "/controls/lighting/beacon",
-    "/controls/lighting/instruments-norm",
-    "/controls/lighting/radio-norm",
     "/controls/lighting/landing-lights",
     "/controls/lighting/nav-lights",
     "/controls/lighting/strobe",
@@ -122,6 +120,10 @@ aircraft.data.add(
     "/controls/switches/master-avionics",
     "/controls/switches/dome-red",
     "/controls/switches/dome-white",
+    "/controls/lighting/gearled",
+    "/controls/lighting/instruments-norm",
+    "/controls/lighting/radio-norm",
+    "/controls/lighting/dome-white-norm",
 );
 
 # Other controls

@@ -67,17 +67,6 @@ var autostart = func (msg=1) {
     setprop("/consumables/fuel/tank[0]/sample-water-contamination", 0.0);
     setprop("/consumables/fuel/tank[1]/sample-water-contamination", 0.0);
 
-    # Close oil cap and dialog
-    #var show = getprop("sim/model/show-dip-stick");
-    #if (show) {
-    #   setprop("sim/model/show-dip-stick", 0);
-    #   var engine = getprop("controls/engines/active-engine");
-    #    if (!engine)
-    #        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
-    #    else
-    #        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
-    #}
-
     # Setting max oil level
     var oil_enabled = getprop("/engines/active-engine/oil_consumption_allowed");
     var oil_level   = getprop("/engines/active-engine/oil-level");
@@ -265,9 +254,6 @@ var switches_save_state = func {
         setprop("/controls/engines/engine[0]/primer", 0);
         setprop("/controls/engines/engine[0]/primer-lever", 0);
         setprop("/controls/engines/engine[0]/use-primer", 0);
-        setprop("/controls/engines/engine[1]/primer", 0);
-        setprop("/controls/engines/engine[1]/primer-lever", 0);
-        setprop("/controls/engines/engine[1]/use-primer", 0);
         setprop("/controls/engines/current-engine/throttle", 0.0);
         setprop("/controls/engines/current-engine/mixture", 0.0);
         setprop("/controls/circuit-breakers/aircond", 1);
@@ -691,6 +677,12 @@ setlistener("/sim/signals/fdm-initialized", func {
     setlistener("/environment/lightning/lightning-pos-y", thunder);
 
     reset_system();
+
+    var onground = getprop("/sim/presets/onground") or "";
+    if (!onground) {
+        state_manager();
+    }
+
     var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();
 });

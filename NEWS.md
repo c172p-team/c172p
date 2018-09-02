@@ -1,6 +1,67 @@
 List of features and bug fixes
 ==============================
 
+Version 2018.3
+--------------
+
+**Features**:
+
+* Improved 3D models and textures of all levers, toggles, seats, magneto keys, EGT gauge and attitude indicator
+* New recess casings to all panel instruments
+* Improved labels of panel texture 
+* Added 3D models to cockpit:
+    - Alternate static source knob
+    - Glove pocket to panel (holds GPS device when not in use)
+    - Lighter hole
+    - Overhead panel light switches for red flood, gauge post, and white dome/courtesy lights
+    - Low Voltage LED
+    - Sunvisors
+    - PPT cables connected to the yokes
+* New ammeter gauge matching the model used in the 172P
+* Light maps for red flood, gauge post and white dome light
+* ALS procedural lights (glare) for red flood, gauge post, white dome and wing courtesy light
+* Light map illumination and procedural glare responds to available light and dims during daylight
+* Re-positioned and improved 3D models and textures of all levers
+* Added ambient occlusion map to all interior textures
+* Added glass effect for gauges
+* New sounds, including when clicking on the checklist, adding/removing control lock, mounting/dismounting GPS, opening/closing glove pocket, opening/closing the window latches, extending/retracting the water rudder cable
+* Better sound for flaps lever and motor
+* Interlocked master switch (BAT and ALT)
+* GPS antenna is now up by default
+* GPS night mode
+* Amphibious gear advisor activated
+* New amphibious gear lever
+* Expanded help tool tips
+* Add subtle glass reflection to panel instruments and radio stack
+* Moved tutorials to Hilo Airport (PHTO)
+* Improved tutorials and added two new ones: take off and landing for float variants
+* Much improved propeller model
+* Improved handle animation of doors and baggage door
+* Doors should now be closed from the inside using the door strap
+* Air resistance will force an open door or baggage door backwards
+* Improved KMA20's marker sensitivity toggle animation
+* Much improved vertical stabilizer model, including a retopologized beacon model
+* Added external antennas for the ELT, transponder, ADF and marker beacons
+* Removed wire connecting the wings to the tail as our ADF receiver uses a different type of antenna
+* Animated water rudder cable
+* New digital clock added
+* New five slot Save and Resume feature
+* QT launcher variant selection support
+* QT launcher Location support including "On approach"
+
+**Fixes**:
+
+* Most of the cases of multiple objects mapped to a single texture have now been solved by assigning each their own texture
+* 3D models of rotary knobs of VOR and NAV radios now turn 360 degrees
+* Corrected the label of the OBS knob of the heading indicator
+* Implemented a particle effect color and light manager for smoke and spray
+* Adjusted P-factor effect
+* Strobe lights are stronger now
+* Fixed issue which caused the landing light to appear green under certain situations
+* Removed shadow effect from radio stack readouts
+* Autopilot readouts now match the rest of the radio stack in both colour and intensity
+* Added a black panel behind the broken wing structure
+
 Version 2018.2
 --------------
 

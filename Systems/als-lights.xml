@@ -581,6 +581,7 @@
                 <sum>
                     <property>/sim/model/c172p/lighting/rgb-ra-r-r-factor</property>
                     <property>/sim/model/c172p/lighting/rgb-ra-r-p-factor</property>
+                    <property>/sim/model/c172p/lighting/dome-proc</property>
                 </sum>
             </expression>
         </input>
@@ -596,6 +597,7 @@
                 <sum>
                     <property>/sim/model/c172p/lighting/rgb-ra-g-r-factor</property>
                     <property>/sim/model/c172p/lighting/rgb-ra-g-p-factor</property>
+                    <property>/sim/model/c172p/lighting/dome-proc</property>
                 </sum>
             </expression>
         </input>
@@ -611,6 +613,7 @@
                 <sum>
                     <property>/sim/model/c172p/lighting/rgb-ra-b-r-factor</property>
                     <property>/sim/model/c172p/lighting/rgb-ra-b-p-factor</property>
+                    <property>/sim/model/c172p/lighting/dome-proc</property>
                 </sum>
             </expression>
         </input>
@@ -801,5 +804,59 @@
             <property>/controls/lighting/factor-led</property>
         </output>
     </filter>
+
+
+    <filter>
+        <name>Integral and default combined factor</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+                <greater-than-equals>
+                    <property>/sim/model/c172p/lighting/dome-proc</property>
+                    <property>/sim/model/material/instruments/factor</property>
+                </greater-than-equals>
+            </condition>
+            <property>/sim/model/c172p/lighting/dome-proc</property>
+        </input>
+        <input>
+            <condition>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+                <greater-than>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <property>/sim/model/c172p/lighting/dome-proc</property>
+                </greater-than>
+            </condition>
+            <property>/sim/model/material/instruments/factor</property>
+        </input>
+        <output>
+            <property>/sim/model/material/instruments/default-combined-factor</property>
+        </output>
+    </filter>
+
+
+<!--
+<red>  0.4</red>
+<green>0.1</green>
+<blue> 0.1</blue>
+<factor-prop>/sim/model/c172p/lighting/flood-proc</factor-prop>
+
+<red>  0.5</red>
+<green>0.4</green>
+<blue> 0.25</blue>
+<factor-prop>/sim/model/c172p/lighting/dome-proc</factor-prop>
+
+<red>  0.10</red>
+<green>0.08</green>
+<blue> 0.05</blue>
+<factor-prop>/sim/model/material/instruments/integral-factor</factor-prop>
+
+<factor-prop>/sim/model/material/instruments/default-combined-factor</factor-prop>
+
+/sim/model/c172p/lighting/rgb-material-ra-r-factor-->
 
 </PropertyList>

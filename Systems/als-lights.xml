@@ -579,7 +579,7 @@
         <input>
             <property>/sim/model/c172p/lighting/flood-red</property>
             <scale>
-                <property>/sim/model/c172p/lighting/flood-proc</property>
+                <property>/sim/model/c172p/lighting/flood-default</property>
             </scale>
         </input>
         <output>
@@ -592,7 +592,7 @@
         <input>
             <property>/sim/model/c172p/lighting/flood-green</property>
             <scale>
-                <property>/sim/model/c172p/lighting/flood-proc</property>
+                <property>/sim/model/c172p/lighting/flood-default</property>
             </scale>
         </input>
         <output>
@@ -605,7 +605,7 @@
         <input>
             <property>/sim/model/c172p/lighting/flood-blue</property>
             <scale>
-                <property>/sim/model/c172p/lighting/flood-proc</property>
+                <property>/sim/model/c172p/lighting/flood-default</property>
             </scale>
         </input>
         <output>
@@ -625,7 +625,7 @@
                     <!-- simulates post ambient lighting -->
                     <property>/sim/model/c172p/lighting/rgb-ra-r-p-factor</property>
                     <!-- simulates dome lighting -->
-                    <property>/sim/model/c172p/lighting/dome-proc</property>
+                    <property>/sim/model/c172p/lighting/dome-default</property>
                     <!-- simulates flood lighting -->
                     <property>/sim/model/c172p/lighting/flood-proc-red-factor</property>
                 </sum>
@@ -643,7 +643,7 @@
                 <sum>
                     <property>/sim/model/c172p/lighting/rgb-ra-g-r-factor</property>
                     <property>/sim/model/c172p/lighting/rgb-ra-g-p-factor</property>
-                    <property>/sim/model/c172p/lighting/dome-proc</property>
+                    <property>/sim/model/c172p/lighting/dome-default</property>
                     <property>/sim/model/c172p/lighting/flood-proc-green-factor</property>
                 </sum>
             </expression>
@@ -660,7 +660,7 @@
                 <sum>
                     <property>/sim/model/c172p/lighting/rgb-ra-b-r-factor</property>
                     <property>/sim/model/c172p/lighting/rgb-ra-b-p-factor</property>
-                    <property>/sim/model/c172p/lighting/dome-proc</property>
+                    <property>/sim/model/c172p/lighting/dome-default</property>
                     <property>/sim/model/c172p/lighting/flood-proc-blue-factor</property>
                 </sum>
             </expression>
@@ -813,28 +813,40 @@
         </output>
     </filter>
 
-    <!-- used for ALS procedural lights and default renderer overhead lighting (material animations) -->
+    <!-- Used for default renderer overhead lighting (material animations) -->
+    <filter>
+        <type>gain</type>
+        <gain>.125</gain>
+        <input>/sim/model/lightmap/dome/factor</input>
+        <output>/sim/model/c172p/lighting/dome-default</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>.175</gain>
+        <input>/sim/model/lightmap/flood/factor</input>
+        <output>/sim/model/c172p/lighting/flood-default</output>
+    </filter>
+
+    <!-- Used for ALS procedural lights -->
     <filter>
         <type>gain</type>
         <gain>.25</gain>
         <input>/sim/model/lightmap/dome/factor</input>
         <output>/sim/model/c172p/lighting/dome-proc</output>
     </filter>
-
     <filter>
         <type>gain</type>
         <gain>.2</gain>
         <input>/sim/model/lightmap/flood/factor</input>
         <output>/sim/model/c172p/lighting/flood-proc</output>
     </filter>
-
     <filter>
         <type>gain</type>
         <gain>.25</gain>
         <input>/sim/model/lighting/courtesy/factor</input>
         <output>/sim/model/c172p/lighting/courtesy-proc</output>
     </filter>
-
     <filter>
         <type>gain</type>
         <gain>.35</gain>
@@ -858,6 +870,7 @@
         </input>
         <output>/sim/model/c172p/lighting/instrument-proc</output>
     </filter>
+
     <filter>
         <name>Interior Glass Glare Factor Dome</name>
         <type>gain</type>

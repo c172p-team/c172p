@@ -201,10 +201,7 @@ var save_state = func {
         setprop("/save/anchorlat", anchorlat);
     }
 
-    setprop("/save/valid-flag", 1);
-
     # the scenario description
-
     var timestring = getprop("/sim/time/real/year");
     timestring = timestring~ "-"~getprop("/sim/time/real/month");
     timestring = timestring~ "-"~getprop("/sim/time/real/day");
@@ -236,26 +233,17 @@ var read_state_from_file = func (filename) {
     var path = getprop("/sim/fg-home") ~ "/aircraft-data/c172pSave/"~filename;
     var readNode = props.globals.getNode("/save", 0);
 
-    var valid_flag = getprop("/save/valid-flag");
-    if (valid_flag) {
-        io.read_properties(path, readNode);
-    }
+    io.read_properties(path, readNode);
 
 }
 
 var resume_state = func {
 
-    var valid_flag = getprop("/save/valid-flag");
-
-    if (valid_flag) {
-        setprop("/fdm/jsbsim/settings/damage", 0);
-    } else {
-        gui.popupTip("Valid saved state file not found, reverting to automatic state!", 5.0);
-        return;
-    }
+    setprop("/fdm/jsbsim/settings/damage", 0);
 
     c172p.oil_consumption.stop();
 
+    setprop("/sim/presets/airport-id", "");
     var lat = getprop("/save/latitude-deg");
     setprop("/sim/presets/latitude-deg", lat);
     var lon = getprop("/save/longitude-deg");
@@ -270,9 +258,13 @@ var resume_state = func {
     setprop("/sim/presets/vBody-fps", vBody);
     var wBody = getprop("/save/wBody-fps");
     setprop("/sim/presets/wBody-fps", wBody);
-    setprop("/sim/presets/on-ground", 1);
     setprop("/sim/presets/altitude-ft", -9999);
     setprop("/sim/presets/airspeed-kt", 0);
+    setprop("/sim/presets/offset-distance-nm", 0);
+    setprop("/sim/presets/glideslope-deg", 0);
+    setprop("/sim/presets/runway", "");
+    setprop("/sim/presets/parkpos", "");
+    setprop("/sim/presets/runway-requested", 0);
 
     var heading = getprop("/save/heading-deg");
     var anchorconnect = getprop("/save/anchorconnect");
@@ -280,17 +272,6 @@ var resume_state = func {
     if (!anchorconnect) {
         setprop("/sim/presets/heading-deg", heading);
     }
-
-    setprop("/sim/aircraft-state", "");
-    setprop("/sim/presets/onground", "");
-    setprop("/sim/presets/parkpos", "");
-    setprop("/sim/presets/runway", "");
-    setprop("/sim/presets/airport-requested", 1);
-    setprop("/sim/presets/runway-requested", 1);
-    setprop("/sim/presets/parking-requested", 1);
-    #airport-requested true
-    #runway-requested true
-    #parking-requested true
 
     fgcommand("reposition");
 

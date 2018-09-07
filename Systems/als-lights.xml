@@ -574,13 +574,60 @@
     </filter>
 
     <filter>
+        <name>RGB Red Factor from flood lights</name>
+        <type>gain</type>
+        <input>
+            <property>/sim/model/c172p/lighting/flood-red</property>
+            <scale>
+                <property>/sim/model/c172p/lighting/flood-default</property>
+            </scale>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/flood-proc-red-factor</property>
+        </output>
+    </filter>
+    <filter>
+        <name>RGB Green Factor flood lights</name>
+        <type>gain</type>
+        <input>
+            <property>/sim/model/c172p/lighting/flood-green</property>
+            <scale>
+                <property>/sim/model/c172p/lighting/flood-default</property>
+            </scale>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/flood-proc-green-factor</property>
+        </output>
+    </filter>
+    <filter>
+        <name>RGB Blue Factor flood lights</name>
+        <type>gain</type>
+        <input>
+            <property>/sim/model/c172p/lighting/flood-blue</property>
+            <scale>
+                <property>/sim/model/c172p/lighting/flood-default</property>
+            </scale>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/flood-proc-blue-factor</property>
+        </output>
+    </filter>
+
+    <!-- Output used for ALS residual-ambience and default renderer ambience (material animations) cabin only -->
+    <filter>
         <name>RGB Red Factor combined</name>
         <type>gain</type>
         <input>
             <expression>
                 <sum>
+                    <!-- simulates radio ambient lighting -->
                     <property>/sim/model/c172p/lighting/rgb-ra-r-r-factor</property>
+                    <!-- simulates post ambient lighting -->
                     <property>/sim/model/c172p/lighting/rgb-ra-r-p-factor</property>
+                    <!-- simulates dome lighting -->
+                    <property>/sim/model/c172p/lighting/dome-default</property>
+                    <!-- simulates flood lighting -->
+                    <property>/sim/model/c172p/lighting/flood-proc-red-factor</property>
                 </sum>
             </expression>
         </input>
@@ -596,6 +643,8 @@
                 <sum>
                     <property>/sim/model/c172p/lighting/rgb-ra-g-r-factor</property>
                     <property>/sim/model/c172p/lighting/rgb-ra-g-p-factor</property>
+                    <property>/sim/model/c172p/lighting/dome-default</property>
+                    <property>/sim/model/c172p/lighting/flood-proc-green-factor</property>
                 </sum>
             </expression>
         </input>
@@ -611,6 +660,8 @@
                 <sum>
                     <property>/sim/model/c172p/lighting/rgb-ra-b-r-factor</property>
                     <property>/sim/model/c172p/lighting/rgb-ra-b-p-factor</property>
+                    <property>/sim/model/c172p/lighting/dome-default</property>
+                    <property>/sim/model/c172p/lighting/flood-proc-blue-factor</property>
                 </sum>
             </expression>
         </input>
@@ -619,27 +670,183 @@
         </output>
     </filter>
 
+    <!-- Output used for default renderer overhead lighting (material animations) on panel guages only -->
+    <filter>
+        <name>RGB Red Factor default renderer guages combined</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+                <greater-than-equals>
+                    <property>/sim/model/c172p/lighting/dome-proc</property>
+                    <property>/sim/model/material/instruments/factor</property>
+                </greater-than-equals>
+            </condition>
+            <expression>
+                <sum>
+                    <product>
+                        <property>/sim/model/c172p/lighting/dome-proc</property>
+                        <value>1.0</value>
+                    </product>
+                    <property>/sim/model/c172p/lighting/flood-proc-red-factor</property>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <condition>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+                <greater-than>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <property>/sim/model/c172p/lighting/dome-proc</property>
+                </greater-than>
+            </condition>
+            <expression>
+                <sum>
+                    <product>
+                        <property>/sim/model/material/instruments/factor</property>
+                        <value>1.0</value>
+                    </product>
+                    <property>/sim/model/c172p/lighting/flood-proc-red-factor</property>
+                </sum>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/material/instruments/default-red-combined-factor</property>
+        </output>
+    </filter>
+    <filter>
+        <name>RGB Green Factor default renderer guages combined</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+                <greater-than-equals>
+                    <property>/sim/model/c172p/lighting/dome-proc</property>
+                    <property>/sim/model/material/instruments/factor</property>
+                </greater-than-equals>
+            </condition>
+            <expression>
+                <sum>
+                    <product>
+                        <property>/sim/model/c172p/lighting/dome-proc</property>
+                        <value>0.8</value>
+                    </product>
+                    <property>/sim/model/c172p/lighting/flood-proc-green-factor</property>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <condition>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+                <greater-than>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <property>/sim/model/c172p/lighting/dome-proc</property>
+                </greater-than>
+            </condition>
+            <expression>
+                <sum>
+                    <product>
+                        <property>/sim/model/material/instruments/factor</property>
+                        <value>0.8</value>
+                    </product>
+                    <property>/sim/model/c172p/lighting/flood-proc-green-factor</property>
+                </sum>
+            </expression>
+        </input>
+        <output>
+             <property>/sim/model/material/instruments/default-green-combined-factor</property>
+        </output>
+    </filter>
+    <filter>
+        <name>RGB Blue Factor default renderer guages combined</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+                <greater-than-equals>
+                    <property>/sim/model/c172p/lighting/dome-proc</property>
+                    <property>/sim/model/material/instruments/factor</property>
+                </greater-than-equals>
+            </condition>
+            <expression>
+                <sum>
+                    <product>
+                        <property>/sim/model/c172p/lighting/dome-proc</property>
+                        <value>0.5</value>
+                    </product>
+                    <property>/sim/model/c172p/lighting/flood-proc-blue-factor</property>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <condition>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+                <greater-than>
+                    <property>/sim/model/material/instruments/factor</property>
+                    <property>/sim/model/c172p/lighting/dome-proc</property>
+                </greater-than>
+            </condition>
+            <expression>
+                <sum>
+                    <product>
+                        <property>/sim/model/material/instruments/factor</property>
+                        <value>0.5</value>
+                    </product>
+                    <property>/sim/model/c172p/lighting/flood-proc-blue-factor</property>
+                </sum>
+            </expression>
+        </input>
+        <output>
+             <property>/sim/model/material/instruments/default-blue-combined-factor</property>
+        </output>
+    </filter>
+
+    <!-- Used for default renderer overhead lighting (material animations) -->
+    <filter>
+        <type>gain</type>
+        <gain>.125</gain>
+        <input>/sim/model/lightmap/dome/factor</input>
+        <output>/sim/model/c172p/lighting/dome-default</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>.175</gain>
+        <input>/sim/model/lightmap/flood/factor</input>
+        <output>/sim/model/c172p/lighting/flood-default</output>
+    </filter>
+
+    <!-- Used for ALS procedural lights -->
     <filter>
         <type>gain</type>
         <gain>.25</gain>
         <input>/sim/model/lightmap/dome/factor</input>
         <output>/sim/model/c172p/lighting/dome-proc</output>
     </filter>
-
     <filter>
         <type>gain</type>
         <gain>.2</gain>
         <input>/sim/model/lightmap/flood/factor</input>
         <output>/sim/model/c172p/lighting/flood-proc</output>
     </filter>
-
     <filter>
         <type>gain</type>
         <gain>.25</gain>
         <input>/sim/model/lighting/courtesy/factor</input>
         <output>/sim/model/c172p/lighting/courtesy-proc</output>
     </filter>
-
     <filter>
         <type>gain</type>
         <gain>.35</gain>
@@ -663,6 +870,7 @@
         </input>
         <output>/sim/model/c172p/lighting/instrument-proc</output>
     </filter>
+
     <filter>
         <name>Interior Glass Glare Factor Dome</name>
         <type>gain</type>

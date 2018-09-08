@@ -27,6 +27,8 @@ This aircraft was modified and updated in a joint effort by the following people
 
 * Daniel Dubreuil (Dany93): [FDM] stall and spin + a few improvements, in-flight damages on wings, fuel float chamber
 
+* Jonathan Redpath (legoboyvdlp): bug tracking, testing, programming
+
 * Tuomas Kuosmanen (tigert): Reference photos of the aircraft and of the OH-CTL livery. Feedback and testing of the Aircraft Systems and operation
 
 * Anders Gidenstam (AndersG): Hydrodynamics for the pontoon/float and amphibious variants

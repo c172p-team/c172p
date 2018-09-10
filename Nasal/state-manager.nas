@@ -62,7 +62,7 @@ var state_manager = func {
     setprop("/sim/model/c172p/securing/cowl-plugs-visible", 0);
     setprop("/sim/model/c172p/cockpit/control-lock-placed", 0);
 
-    var distance_nm = getprop("/sim/presets/offset-distance-nm") or "";
+    var distance_nm = getprop("/sim/presets/offset-distance-nm") or 0;
 
     var engine_running_check_delay = 5.0;
     settimer(func {

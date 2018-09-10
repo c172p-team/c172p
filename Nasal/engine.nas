@@ -453,6 +453,18 @@ controls.mixtureAxis = func {
     setprop("/controls/engines/current-engine/mixture", new_value);
 };
 
+var _axisMode = {
+    0: controls.perIndexAxisHandler("/controls/engines/current-engine[",
+        "]/throttle"),
+    1: controls.perIndexAxisHandler("/controls/engines/current-engine[",
+        "]/mixture"),
+    2: controls.perIndexAxisHandler("/controls/engines/current-engine[",
+        "]/propeller-pitch")
+};
+controls.perEngineSelectedAxisHandler = func(mode) {
+    return _axisMode[mode];
+};
+
 controls.stepMagnetos = func {
     var old_value = getprop("/controls/switches/magnetos");
     var new_value = std.max(0, std.min(old_value + arg[0], 3));

@@ -429,7 +429,7 @@ var StaticModel = {
             parents: [StaticModel],
             model: nil,
             model_file: file,
-	    object_name: name
+        object_name: name
         };
 
         setlistener("/sim/" ~ name ~ "/enable", func (node) {

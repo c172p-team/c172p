@@ -76,7 +76,23 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 
             <!-- The bushkit variants: default/26"/36"/pontoons/amphibious/skis -->
             <variant alias="/fdm/jsbsim/bushkit"/>
-
+            
+            <!-- icing -->
+            <icing>
+                <iceable>
+                    <name>Pitot tube</name>
+                    <sensitivity type="double">1</sensitivity>
+                    <salvage-control>/controls/anti-ice/pitot-heat</salvage-control>
+                    <output-property>/systems/pitot[0]/icing</output-property>
+                </iceable>
+				
+				<iceable>
+                    <name>Static port</name>
+                    <sensitivity type="double">0.2</sensitivity> <!-- slower ice accumulation: perpendicular to airflow -->
+                    <output-property>/systems/static[0]/icing</output-property>
+                </iceable>
+            </icing>
+            
             <c172p>
                 <!-- Control lock -->
                 <cockpit>
@@ -936,6 +952,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <file>Nasal/save.nas</file>
             <file>Nasal/dialogs.nas</file>
             <file>Nasal/state-manager.nas</file>
+            <file>Nasal/icing.nas</file>
             <!-- Damage Mod -->
             <file>Nasal/physics.nas</file>
             <file>Nasal/tiedowns.nas</file>
@@ -1167,6 +1184,9 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <save-battery-charge type="bool">false</save-battery-charge>
 
         </electrical>
+		<static n="1">
+			<serviceable type="bool">true</serviceable>
+		</static>
         <mooring>
             <boat-id></boat-id>
             <dialog></dialog>

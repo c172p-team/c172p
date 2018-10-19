@@ -18,32 +18,37 @@
 -->
 
 <system name="indicated-airspeed">
-        
+
 <!--
     (dany93) Largely inspired from c182, thanks HHS81.
+    (legoboyvdlp) Added alternate static pressure
 -->
-        
+
 <!--
     IAS Indicated airspeed (IAS) is the airspeed indicator reading(ASIR)
-    uncorrected for instrument, position, and other errors. 
+    uncorrected for instrument, position, and other errors.
     From current EASA definitions: Indicated airspeed means the speed of
-    an aircraft as shown on its pitot static airspeed indicator 
-    calibrated to reflect standard atmosphere adiabatic compressible 
+    an aircraft as shown on its pitot static airspeed indicator
+    calibrated to reflect standard atmosphere adiabatic compressible
     flow at sea level uncorrected for airspeed system errors.
     Calibrated airspeed (CAS) is indicated airspeed corrected for
-    instrument errors, position error (due to incorrect pressure at the 
+    instrument errors, position error (due to incorrect pressure at the
     static port) and installation errors.
     According the POH Skyhawk C172P-1982 on Page 5-9 airspeed
-    calibration shows a large difference between KIAS and KCAS at lower 
-    speeds than 90 and above. 
-    It seems this is not reflected by JSBSim or FlightGear in a 
+    calibration shows a large difference between KIAS and KCAS at lower
+    speeds than 90 and above.
+    It seems this is not reflected by JSBSim or FlightGear in a
     realistic way.
     So use this numbers and create a table which corrects the
     output shown on the ASI.
 -->
 
     <property>/instrumentation/airspeed-indicator/indicated-speed-kt</property>
-
+    <property>/controls/engines/current-engine/altstaticair</property>
+    <property>/systems/pitot[0]/icing</property>
+    <property>/systems/static[0]/icing</property>
+    <property>/systems/static[1]/pressure-inhg</property>
+    
     <channel name="indicated airspeed">
 
         <fcs_function name="systems/asi/indicated-airspeed">
@@ -82,13 +87,50 @@
         </fcs_function>
 
         <switch name="systems/asi/pitot-serviceable">
-            <output>/systems/pitot/serviceable</output>
+            <output>/systems/pitot[0]/serviceable</output>
             <default value="1"/>
-
-            <test logic="AND" value="0">
-                /sim/model/c172p/securing/pitot-cover-visible EQ 1
+            <test logic="OR" value="0">
+                /systems/pitot[0]/icing GT 0.3
+            </test>
+        </switch>
+        
+        <switch name="systems/asi/static-serviceable">
+            <output>/systems/static[0]/serviceable</output>
+            <default value="1"/>
+            <test logic="OR" value="0">
+                <!-- if extremely severe icing exists: the static system fails -->
+                /systems/static[0]/icing GT 0.5 
             </test>
         </switch>
 
+        <switch name="systems/asi/static-pressure">
+            <default value="/systems/static[0]/pressure-inhg" />
+            <test logic="AND" value="/systems/static[1]/pressure-inhg">
+                /controls/engines/current-engine/altstaticair eq 1
+            </test>
+        </switch>
+    </channel>
+    
+    <channel name="Pitot Pressure" execute="systems/asi/pitot-serviceable"> <!-- dynamic pressure stuck if the pitot tube is completely iced over -->
+        <fcs_function name="systems/asi/pitot-pressure-calculated">
+            <function>
+                <ifthen> 
+                    <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+                    <property>systems/asi/static-pressure</property>
+                    <!-- will always be static pressure, since no airflow can enter the tube but the pressure can normalize to static pressure since drain ports are free 
+                    If not, reduce dynamic pressure according to icing level -->
+                    <product>
+                        <property>/systems/pitot[0]/total-pressure-inhg</property>
+                        <difference>
+                            <value>1</value>
+                            <product>
+                                <value>0.05</value>
+                                <property>/systems/pitot[0]/icing</property>
+                            </product>
+                        </difference>
+                    </product>
+                </ifthen>
+            </function>
+        </fcs_function>
     </channel>
 </system>

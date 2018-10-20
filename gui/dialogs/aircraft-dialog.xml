@@ -89,6 +89,13 @@
                 </binding>
             </checkbox>
 
+        </group>
+
+        <hrule/>
+
+        <group>
+            <layout>vbox</layout>
+
             <checkbox>
                 <halign>left</halign>
                 <label>Complex engine procedures and failures</label>
@@ -98,88 +105,96 @@
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
-        </group>
 
-        <hrule/>
+            <group>
+                <layout>hbox</layout>
 
-        <group>
-            <layout>hbox</layout>
+                <checkbox>
+                    <halign>left</halign>
+                    <label>Enable damage</label>
+                    <property>/fdm/jsbsim/settings/damage</property>
+                    <live>true</live>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                    <binding>
+                        <command>nasal</command>
+                        <script>
+                            c172p.repair_damage();
+                        </script>
+                    </binding>
+                </checkbox>
+
+                <button>
+                    <halign>right</halign>
+                    <legend>Repair</legend>
+                    <pref-width>60</pref-width>
+                    <pref-height>28</pref-height>
+                    <enable>
+                        <and>
+                            <not>
+                                <property>/sim/freeze/replay-state</property>
+                            </not>
+                            <less-than>
+                                <property>gear/gear[0]/rollspeed-ms</property>
+                                <value>1.0</value>
+                            </less-than>
+                            <not>
+                                <property>/engines/active-engine/running</property>
+                            </not>
+                            <equals>
+                                <property>/engines/active-engine/rpm</property>
+                                <value>0</value>
+                            </equals>
+                        </and>
+                    </enable>
+                    <binding>
+                        <command>nasal</command>
+                        <script>
+                            c172p.repair_damage();
+                            electrical.reset_battery_and_circuit_breakers();
+                            c172p.click("engine-repair", 6.0);
+                            c172p.dialog_battery_reload();
+                        </script>
+                    </binding>
+                    <binding>
+                        <condition>
+                            <property>sim/model/c172p/engine_flag_0</property>
+                        </condition>
+                        <command>property-assign</command>
+                        <property>/engines/active-engine/oil-level</property>
+                        <value>7.0</value>
+                    </binding>
+                    <binding>
+                        <condition>
+                            <property>sim/model/c172p/engine_flag_1</property>
+                        </condition>
+                        <command>property-assign</command>
+                        <property>/engines/active-engine/oil-level</property>
+                        <value>8.0</value>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>/engines/active-engine/carb_ice</property>
+                        <value>0.0</value>
+                    </binding>
+                    <binding>
+                        <command>property-assign</command>
+                        <property>/fdm/jsbsim/engine/damage-level</property>
+                        <value>0</value>
+                    </binding>
+                </button>
+            </group>
 
             <checkbox>
                 <halign>left</halign>
-                <label>Enable damage</label>
-                <property>/fdm/jsbsim/settings/damage</property>
+                <label>Enable frost and fog</label>
+                <property>/sim/model/c172p/enable-fog-frost</property>
                 <live>true</live>
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>
-                        c172p.repair_damage();
-                    </script>
-                </binding>
             </checkbox>
-
-            <button>
-                <halign>right</halign>
-                <legend>Repair</legend>
-                <pref-width>60</pref-width>
-                <pref-height>28</pref-height>
-                <enable>
-                    <and>
-                        <not>
-                            <property>/sim/freeze/replay-state</property>
-                        </not>
-                        <less-than>
-                            <property>gear/gear[0]/rollspeed-ms</property>
-                            <value>1.0</value>
-                        </less-than>
-                        <not>
-                            <property>/engines/active-engine/running</property>
-                        </not>
-                        <equals>
-                            <property>/engines/active-engine/rpm</property>
-                            <value>0</value>
-                        </equals>
-                    </and>
-                </enable>
-                <binding>
-                    <command>nasal</command>
-                    <script>
-                        c172p.repair_damage();
-                        electrical.reset_battery_and_circuit_breakers();
-                        c172p.click("engine-repair", 6.0);
-                        c172p.dialog_battery_reload();
-                    </script>
-                </binding>
-                <binding>
-                    <condition>
-                        <property>sim/model/c172p/engine_flag_0</property>
-                    </condition>
-                    <command>property-assign</command>
-                    <property>/engines/active-engine/oil-level</property>
-                    <value>7.0</value>
-                </binding>
-                <binding>
-                    <condition>
-                        <property>sim/model/c172p/engine_flag_1</property>
-                    </condition>
-                    <command>property-assign</command>
-                    <property>/engines/active-engine/oil-level</property>
-                    <value>8.0</value>
-                </binding>
-                <binding>
-                    <command>property-assign</command>
-                    <property>/engines/active-engine/carb_ice</property>
-                    <value>0.0</value>
-                </binding>
-                <binding>
-                    <command>property-assign</command>
-                    <property>/fdm/jsbsim/engine/damage-level</property>
-                    <value>0</value>
-                </binding>
-            </button>
         </group>
 
         <hrule/>
@@ -312,6 +327,13 @@
                 </binding>
             </checkbox>
 
+        </group>
+
+        <hrule/>
+
+        <group>
+            <layout>vbox</layout>
+
             <checkbox>
                 <halign>left</halign>
                 <label>Show Garmin 196 GPS</label>
@@ -334,8 +356,8 @@
 
             <checkbox>
                 <halign>left</halign>
-                <label>Enable frost and fog</label>
-                <property>/sim/model/c172p/enable-fog-frost</property>
+                <label>Show Rudder Trim Option</label>
+                <property>/sim/model/c172p/ruddertrim-visible</property>
                 <live>true</live>
                 <binding>
                     <command>dialog-apply</command>

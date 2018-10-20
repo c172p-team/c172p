@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>rudder-trim.ac</path>
+
+    <effect>
+        <inherits-from>../../../../Effects/interior/lm-ruddertrim</inherits-from>
+        <object-name>RudderTrimBase</object-name>
+        <object-name>RudderTrimKnob</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>RudderTrimBase</object-name>
+        <object-name>RudderTrimKnob</object-name>
+        <condition>
+            <not>
+                <property>/sim/rendering/shaders/skydome</property>
+            </not>
+        </condition>
+       <emission>
+            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
+            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
+            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>RudderTrimKnob</object-name>
+        <property>controls/flight/rudder-trim-knob</property>
+        <factor>1</factor>
+        <drag-direction>horizontal</drag-direction>
+        <offset-deg>0</offset-deg>
+        <center>
+            <x-m>-0.521  </x-m>
+            <y-m> 0.00061</y-m>
+            <z-m>-0.56081</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/flight/rudder-trim-knob</property>
+                <factor>0.136</factor>
+                <min>-6.8</min>
+                <max>6.8</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Rudder trim: %3.2f</label>
+                <tooltip-id>rudder-trim</tooltip-id>
+                <property>fdm/jsbsim/fcs/yaw-trim-cockpit</property>
+            </binding>
+        </hovered>
+    </animation>
+    
+</PropertyList>

@@ -810,9 +810,23 @@
                 <output>/sim/model/c172p/cockpit/pedals-rudder</output>
             </kinematic>
 
+            <fcs_function name="fcs/yaw-trim-cockpit">
+                <function>
+                    <table>
+                        <independentVar lookup="row">/controls/flight/rudder-trim-knob</independentVar>
+                        <tableData>
+                            -6.8   -0.05
+                             0      0
+                             6.8    0.05
+                        </tableData>
+                    </table>
+                </function>
+            </fcs_function>
+
             <summer name="Yaw Trim Sum">
                 <input>fcs/rudder-cmd-norm-filtered</input>
                 <input>fcs/yaw-trim-cmd-norm</input>
+                <input>fcs/yaw-trim-cockpit</input>
                 <clipto>
                     <min>-1</min>
                     <max>1</max>

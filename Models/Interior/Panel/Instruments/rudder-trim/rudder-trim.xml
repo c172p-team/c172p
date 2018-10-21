@@ -30,7 +30,7 @@
         <type>knob</type>
         <object-name>RudderTrimKnob</object-name>
         <property>controls/flight/rudder-trim-knob</property>
-        <factor>1</factor>
+        <factor>40</factor>
         <drag-direction>horizontal</drag-direction>
         <offset-deg>0</offset-deg>
         <center>
@@ -47,10 +47,14 @@
             <binding>
                 <command>property-adjust</command>
                 <property>controls/flight/rudder-trim-knob</property>
-                <factor>0.136</factor>
-                <min>-6.8</min>
-                <max>6.8</max>
+                <factor>0.01</factor>
+                <min>-.18</min>
+                <max>.18</max>
                 <wrap>false</wrap>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("primer-out", 1.2)</script>
             </binding>
         </action>
         <hovered>
@@ -58,7 +62,7 @@
                 <command>set-tooltip</command>
                 <label>Rudder trim: %3.2f</label>
                 <tooltip-id>rudder-trim</tooltip-id>
-                <property>fdm/jsbsim/fcs/yaw-trim-cockpit</property>
+                <property>controls/flight/rudder-trim-knob</property>
             </binding>
         </hovered>
     </animation>

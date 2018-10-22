@@ -683,6 +683,11 @@ setlistener("/sim/signals/fdm-initialized", func {
         state_manager();
     }
 
+    #workaround for non-persistent pitch-offset-deg
+    settimer(func {
+        setprop("/sim/current-view/pitch-offset-deg", getprop("/controls/current-view/pitch-offset-deg"));
+    }, 3);
+
     var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();
 });

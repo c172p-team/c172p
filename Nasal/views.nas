@@ -41,6 +41,8 @@ var reset_view = func (dt) {
 
         interpolate("sim/current-view/x-offset-m", x_offset, dt);
         interpolate("sim/current-view/y-offset-m", y_offset, dt);
+
+        setprop("/controls/current-view/pitch-offset-deg", pitch_deg);
     }
 };
 

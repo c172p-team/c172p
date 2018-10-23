@@ -683,9 +683,11 @@ setlistener("/sim/signals/fdm-initialized", func {
         state_manager();
     }
 
-    #workaround for non-persistent pitch-offset-deg
+    #user defined seat position
     settimer(func {
-        setprop("/sim/current-view/pitch-offset-deg", getprop("/controls/current-view/pitch-offset-deg"));
+        setprop("/sim/current-view/y-offset-m", getprop("/sim/current-view/user/y-offset-m"));
+        setprop("/sim/current-view/z-offset-m", getprop("/sim/current-view/user/z-offset-m"));
+        setprop("/sim/current-view/pitch-offset-deg", getprop("/sim/current-view/user/pitch-offset-deg"));
     }, 3);
 
     var c172_timer = maketimer(0.25, func{global_system_loop()});

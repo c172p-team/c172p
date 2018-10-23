@@ -166,16 +166,38 @@
 
     <key n="81">
         <name>Q</name>
-        <desc>Reset view</desc>
+        <desc>Reset to default view</desc>
         <binding>
             <command>nasal</command>
-            <script>c172p.pilot_view()</script>
+            <script>c172p.reset_view(0)</script>
+        </binding>
+    </key>
+
+    <key n="113">
+        <name>q</name>
+        <desc>Reset to saved seat view</desc>
+        <binding>
+            <command>nasal</command>
+            <script>c172p.reset_view(1)</script>
         </binding>
     </key>
 
     <key n="100">
         <name>d</name>
         <desc>Seat Down</desc>
+        <binding>
+            <condition>
+                <equals>
+                    <property>sim/current-view/view-number</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <command>property-adjust</command>
+            <property>sim/current-view/user/y-offset-m</property>
+            <step type="double">-0.005</step>
+            <min type="double">0.15</min>
+            <max type="double">0.25</max>
+        </binding>
         <binding>
             <condition>
                 <equals>
@@ -202,6 +224,19 @@
                 </equals>
             </condition>
             <command>property-adjust</command>
+            <property>sim/current-view/user/y-offset-m</property>
+            <step type="double">0.005</step>
+            <min type="double">0.15</min>
+            <max type="double">0.25</max>
+        </binding>
+        <binding>
+            <condition>
+                <equals>
+                    <property>sim/current-view/view-number</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <command>property-adjust</command>
             <property>sim/current-view/y-offset-m</property>
             <step type="double">0.005</step>
             <min type="double">0.15</min>
@@ -212,6 +247,19 @@
     <key n="102">
         <name>f</name>
         <desc>Seat Forward</desc>
+        <binding>
+            <condition>
+                <equals>
+                    <property>sim/current-view/view-number</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <command>property-adjust</command>
+            <property>sim/current-view/user/z-offset-m</property>
+            <step type="double">-0.005</step>
+            <min type="double">0.31</min>
+            <max type="double">0.41</max>
+        </binding>
         <binding>
             <condition>
                 <equals>
@@ -238,6 +286,19 @@
                 </equals>
             </condition>
             <command>property-adjust</command>
+            <property>sim/current-view/user/z-offset-m</property>
+            <step type="double">0.005</step>
+            <min type="double">0.31</min>
+            <max type="double">0.41</max>
+        </binding>
+        <binding>
+            <condition>
+                <equals>
+                    <property>sim/current-view/view-number</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <command>property-adjust</command>
             <property>sim/current-view/z-offset-m</property>
             <step type="double">0.005</step>
             <min type="double">0.31</min>
@@ -256,7 +317,7 @@
                 </equals>
             </condition>
             <command>property-adjust</command>
-            <property>controls/current-view/pitch-offset-deg</property>
+            <property>sim/current-view/user/pitch-offset-deg</property>
             <step type="double">-1</step>
             <min type="double">-17</min>
             <max type="double">-0</max>
@@ -287,7 +348,7 @@
                 </equals>
             </condition>
             <command>property-adjust</command>
-            <property>controls/current-view/pitch-offset-deg</property>
+            <property>sim/current-view/user/pitch-offset-deg</property>
             <step type="double">1</step>
             <min type="double">-17</min>
             <max type="double">0</max>

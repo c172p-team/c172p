@@ -885,6 +885,8 @@
         <object-name>gloveboxdoor</object-name>
         <object-name>glovebox</object-name>
         <object-name>gloveboxfull</object-name>
+        <object-name>RudderTrimBase</object-name>
+        <object-name>RudderTrimKnob</object-name>
     </effect>
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-fuel-selector</inherits-from>
@@ -1049,6 +1051,9 @@
         <object-name>FuelSelectorRight</object-name>
         <object-name>FuelSelectorBoth</object-name>
         <object-name>FuelSelectorOff</object-name>
+
+        <object-name>RudderTrimBase</object-name>
+        <object-name>RudderTrimKnob</object-name>
         <condition>
             <not>
                 <property>/sim/rendering/shaders/skydome</property>
@@ -1928,11 +1933,6 @@
     <model>
         <name>digital-clock</name>
         <path>Interior/Panel/Instruments/digital-clock/digital-clock.xml</path>
-    </model>
-
-    <model>
-        <name>rudder-trim</name>
-        <path>Interior/Panel/Instruments/rudder-trim/rudder-trim.xml</path>
     </model>
 
     <model>
@@ -5224,6 +5224,43 @@
             <y-m>-0.06682</y-m>
             <z-m>-0.44635</z-m>
         </center>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>RudderTrimKnob</object-name>
+        <property>controls/flight/rudder-trim-knob</property>
+        <factor>40</factor>
+        <drag-direction>horizontal</drag-direction>
+        <offset-deg>0</offset-deg>
+        <center>
+            <x-m>-0.521  </x-m>
+            <y-m> 0.00061</y-m>
+            <z-m>-0.56081</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/flight/rudder-trim-knob</property>
+                <factor>0.01</factor>
+                <min>-.18</min>
+                <max>.18</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Rudder trim: %3.2f</label>
+                <tooltip-id>rudder-trim</tooltip-id>
+                <property>controls/flight/rudder-trim-knob</property>
+            </binding>
+        </hovered>
     </animation>
 
     <!-- Panel light knob -->

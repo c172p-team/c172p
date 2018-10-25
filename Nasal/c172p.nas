@@ -19,7 +19,10 @@ var autostart = func (msg=1) {
     # Setting levers and switches for startup
     setprop("/controls/switches/magnetos", 3);
     setprop("/controls/engines/current-engine/throttle", 0.2);
-    setprop("/controls/engines/current-engine/mixture", 0.95);
+
+    var auto_mixture = getprop("/fdm/jsbsim/engine/auto-mixture");
+    setprop("/controls/engines/current-engine/mixture", auto_mixture);
+
     setprop("/controls/flight/elevator-trim", 0.0);
     setprop("/controls/switches/master-bat", 1);
     setprop("/controls/switches/master-alt", 1);

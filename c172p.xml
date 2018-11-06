@@ -227,7 +227,7 @@
             <rolling_friction> 0.02 </rolling_friction>
             <spring_coeff unit="LBS/FT"> 3600 </spring_coeff>
             <damping_coeff unit="LBS/FT/SEC"> 1200 </damping_coeff>
-            <max_steer unit="DEG"> 10 </max_steer>
+            <max_steer unit="DEG"> 30 </max_steer> <!-- limited to 10 deg NWS, but can turn up to 30 with side force -->
             <brake_group> NONE </brake_group>
             <retractable>0</retractable>
         </contact>
@@ -810,9 +810,23 @@
                 <output>/sim/model/c172p/cockpit/pedals-rudder</output>
             </kinematic>
 
+            <fcs_function name="fcs/yaw-trim-cockpit">
+                <function>
+                    <table>
+                        <independentVar lookup="row">/controls/flight/rudder-trim-knob</independentVar>
+                        <tableData>
+                            -.18    0.20
+                            0.00    0.00
+                             .18   -0.20
+                        </tableData>
+                    </table>
+                </function>
+            </fcs_function>
+
             <summer name="Yaw Trim Sum">
                 <input>fcs/rudder-cmd-norm-filtered</input>
                 <input>fcs/yaw-trim-cmd-norm</input>
+                <input>fcs/yaw-trim-cockpit</input>
                 <clipto>
                     <min>-1</min>
                     <max>1</max>
@@ -841,6 +855,85 @@
                 </range>
                 <output>fcs/rudder-pos-norm</output>
             </aerosurface_scale>
+
+        </channel>
+
+        <channel name="NWS">
+            <switch name="fcs/nws-enabled">
+                <default value="0"/>
+                <test logic="OR" value="1"> <!-- NWS mechanically centered if gear is fully extended -->
+                    /gear/gear[0]/compression-norm gt 0.001
+                </test>
+            </switch>
+
+            <fcs_function name="left brake nose-gear">
+                <function name="fcs/nose-gear-left-brake-steer-factor">
+                    <product>
+                        <property>fcs/left-brake-cmd-norm</property>
+                        <value>-1</value>
+                    </product>
+                </function>
+            </fcs_function>
+
+            <fcs_function name="right brake nose-gear">
+                <function name="fcs/nose-gear-right-brake-steer-factor">
+                    <product>
+                        <property>fcs/right-brake-cmd-norm</property>
+                        <value>1</value>
+                    </product>
+                </function>
+            </fcs_function>
+
+            <summer name="fcs/brake-sum">
+                <input>fcs/nose-gear-right-brake-steer-factor</input>
+                <input>fcs/nose-gear-left-brake-steer-factor</input>
+            </summer>
+
+            <switch name="fcs/brake-influence-enabled"> <!-- brake should not influence nws if the aircraft is not moving -->
+                <default value="0"/>
+                <test logic="OR" value="1">
+                    /gear/gear[0]/rollspeed-ms gt 0.25
+                </test>
+            </switch>
+
+            <fcs_function name="fcs/brake-sum-adjusted">
+                <function>
+                    <product>
+                        <property>fcs/brake-influence-enabled</property>
+                        <property>fcs/brake-sum</property>
+                    </product>
+                </function>
+            </fcs_function>
+
+            <fcs_function name="fcs/nws-cmd-deg"> <!-- Drive the nose wheel with the rudder and brakes -->
+                <function>
+                    <table>
+                        <independentVar lookup="row">fcs/brake-sum-adjusted</independentVar>
+                        <independentVar lookup="column">/controls/flight/rudder</independentVar>
+                        <tableData>
+                                -1  0   1
+                          -1    -30 0   10
+                           0    -10 0   10
+                           1    -10 0   30
+                        </tableData>
+                    </table>
+                </function>
+            </fcs_function>
+
+            <fcs_function name="fcs/nws-cmd-deg-adjusted">
+                <function>
+                    <product>
+                        <property>fcs/nws-cmd-deg</property>
+                        <property>fcs/nws-enabled</property>
+                    </product>
+                </function>
+            </fcs_function>
+
+            <actuator name="fcs/steer-deg">
+                <input>fcs/nws-cmd-deg-adjusted</input>
+                <rate_limit>80</rate_limit> <!-- 80 deg / s , or 1/8 second to full deflection with NWS -->
+                <output>fcs/steer-pos-deg</output>
+            </actuator>
         </channel>
 
         <channel name="Flaps">
@@ -1239,7 +1332,7 @@
                     <property>gear/drag-coef[6]</property> <!-- Amphibious gear extended -->
                 </product>
             </function>
-            
+
             <function name="aero/coefficient/CDdoorL">
                 <description>Drag_due_to_door_left</description>
                 <product>
@@ -1249,7 +1342,7 @@
                     <value>0.0300</value>
                 </product>
             </function>
-            
+
             <function name="aero/coefficient/CDdoorR">
                 <description>Drag_due_to_door_right</description>
                 <product>
@@ -1259,7 +1352,7 @@
                     <value>0.0300</value>
                 </product>
             </function>
-            
+
             <function name="aero/coefficient/CDbaggagedoor">
                 <description>Drag_due_to_door_left</description>
                 <product>
@@ -1269,7 +1362,7 @@
                     <value>0.0300</value>
                 </product>
             </function>
-            
+
             <function name="aero/coefficient/CDwindow-l">
                 <description>Drag_due_to_window_left</description>
                 <product>
@@ -1279,7 +1372,7 @@
                     <value>0.0010</value>
                 </product>
             </function>
-            
+
             <function name="aero/coefficient/CDwindow-r">
                 <description>Drag_due_to_window_right</description>
                 <product>
@@ -1289,7 +1382,7 @@
                     <value>0.0010</value>
                 </product>
             </function>
-            
+
         </axis>
 
         <axis name="SIDE">
@@ -1708,7 +1801,7 @@
                     <value>-0.05</value>
                     <property>aero/coefficient/spiral-propwash-coeff</property> <!-- tuning factor -->
                 </product>
-            </function> 
+            </function>
 
             <function name="aero/coefficient/Cnr">
                 <description>Yaw_moment_due_to_yaw_rate</description>

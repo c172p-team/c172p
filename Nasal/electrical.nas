@@ -495,13 +495,6 @@ var avionics_bus_1 = func() {
     return load;
 }
 
-############################ Utility function
-
-var flapsDown = controls.flapsDown;
-controls.flapsDown = func(v) {
-    flapsDown(v);
-};
-
 ##
 # Initialize the electrical system
 #

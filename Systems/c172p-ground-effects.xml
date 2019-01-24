@@ -157,6 +157,280 @@
         </fcs_function>
 
         <!-- ================================================================== -->
+        <!-- Friction factors per gear changout                                 -->
+        <!-- ================================================================== -->
+
+        <fcs_function name="static-friction-nose-gear">
+            <output>gear/unit[0]/static_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[0]/broken</property>
+                    <value>0.0</value>
+                    <switch>
+                        <property>bushkit</property>
+
+                        <value>0.8</value>
+                        <value>0.85</value>
+                        <value>0.9</value>
+                        <value>0.4</value>
+                        <value>0.4</value>
+                        <value>0.9</value>
+                    </switch>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="dynamic-friction-nose-gear">
+            <output>gear/unit[0]/dynamic_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[0]/broken</property>
+                    <value>0.0</value>
+                    <switch>
+                        <property>bushkit</property>
+
+                        <value>0.8</value>
+                        <value>0.85</value>
+                        <value>0.9</value>
+                        <value>0.3</value>
+                        <value>0.3</value>
+                        <value>0.9</value>
+                    </switch>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="rolling-friction-nose-gear">
+            <output>gear/unit[0]/rolling_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[0]/broken</property>
+                    <value>0.0</value>
+                    <switch>
+                        <property>bushkit</property>
+
+                        <value>0.02</value>
+                        <value>0.008</value>
+                        <value>0.004</value>
+                        <value>0.5</value>
+                        <value>0.03</value>
+                        <value>0.004</value>
+                    </switch>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="static-friction-left-gear">
+            <output>gear/unit[1]/static_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[1]/broken</property>
+                    <value>0.0</value>
+                    <switch>
+                        <property>bushkit</property>
+
+                        <value>0.8</value>
+                        <value>0.85</value>
+                        <value>0.9</value>
+                        <value>0.4</value>
+                        <value>0.4</value>
+                        <value>0.9</value>
+                    </switch>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="dynamic-friction-left-gear">
+            <output>gear/unit[1]/dynamic_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[1]/broken</property>
+                    <value>0.0</value>
+                    <switch>
+                        <property>bushkit</property>
+
+                        <value>0.8</value>
+                        <value>0.85</value>
+                        <value>0.9</value>
+                        <value>0.3</value>
+                        <value>0.3</value>
+                        <value>0.9</value>
+                    </switch>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="rolling-friction-left-gear">
+            <output>gear/unit[1]/rolling_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[1]/broken</property>
+                    <value>0.0</value>
+                    <switch>
+                        <property>bushkit</property>
+
+                        <value>0.02</value>
+                        <value>0.008</value>
+                        <value>0.004</value>
+                        <value>0.5</value>
+                        <value>0.03</value>
+                        <value>0.004</value>
+                    </switch>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="static-friction-right-gear">
+            <output>gear/unit[2]/static_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[2]/broken</property>
+                    <value>0.0</value>
+                    <switch>
+                        <property>bushkit</property>
+
+                        <value>0.8</value>
+                        <value>0.85</value>
+                        <value>0.9</value>
+                        <value>0.4</value>
+                        <value>0.4</value>
+                        <value>0.9</value>
+                    </switch>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="dynamic-friction-right-gear">
+            <output>gear/unit[2]/dynamic_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[2]/broken</property>
+                    <value>0.0</value>
+                    <switch>
+                        <property>bushkit</property>
+
+                        <value>0.8</value>
+                        <value>0.85</value>
+                        <value>0.9</value>
+                        <value>0.3</value>
+                        <value>0.3</value>
+                        <value>0.9</value>
+                    </switch>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="rolling-friction-right-gear">
+            <output>gear/unit[2]/rolling_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <property>gear/unit[2]/broken</property>
+                    <value>0.0</value>
+                    <switch>
+                        <property>bushkit</property>
+
+                        <value>0.02</value>
+                        <value>0.008</value>
+                        <value>0.004</value>
+                        <value>0.5</value>
+                        <value>0.03</value>
+                        <value>0.004</value>
+                    </switch>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <!-- ================================================================== -->
+        <!-- Friction factors per snowcover or season                           -->
+        <!-- ================================================================== -->
+
+        <switch name="static-friction-front-ski">
+            <default value="gear/unit[0]/static_friction_coeff"/>
+            <test logic="AND" value=".2">
+                bushkit EQ 5
+                /fdm/jsbsim/ground/solid EQ 1
+                /position/altitude-agl-m GE /environment/snow-level-m
+            </test>
+            <test logic="AND" value=".2">
+                bushkit EQ 5
+                /sim/startup/season-actual EQ 1
+            </test>
+            <output>gear/unit[0]/static_friction_coeff</output>
+            <output>gear/unit[23]/static_friction_coeff</output>
+        </switch>
+        <switch name="dynamic-friction-front-ski">
+            <default value="gear/unit[0]/dynamic_friction_coeff"/>
+            <test logic="AND" value=".1">
+                bushkit EQ 5
+                /fdm/jsbsim/ground/solid EQ 1
+                /position/altitude-agl-m GE /environment/snow-level-m
+            </test>
+            <test logic="AND" value=".1">
+                bushkit EQ 5
+                /sim/startup/season-actual EQ 1
+            </test>
+            <output>gear/unit[0]/dynamic_friction_coeff</output>
+            <output>gear/unit[23]/dynamic_friction_coeff</output>
+        </switch>
+        <switch name="rolling-friction-front-ski">
+            <default value="gear/unit[0]/rolling_friction_coeff"/>
+            <test logic="AND" value=".01">
+                bushkit EQ 5
+                /fdm/jsbsim/ground/solid EQ 1
+                /position/altitude-agl-m GE /environment/snow-level-m
+            </test>
+            <test logic="AND" value=".01">
+                bushkit EQ 5
+                /sim/startup/season-actual EQ 1
+            </test>
+            <output>gear/unit[0]/rolling_friction_coeff</output>
+            <output>gear/unit[23]/rolling_friction_coeff</output>
+        </switch>
+
+        <switch name="static-friction-main-skis">
+            <default value="gear/unit[1]/static_friction_coeff"/>
+            <test logic="AND" value=".2">
+                bushkit EQ 5
+                /fdm/jsbsim/ground/solid EQ 1
+                /position/altitude-agl-m GE /environment/snow-level-m
+            </test>
+            <test logic="AND" value=".2">
+                bushkit EQ 5
+                /sim/startup/season-actual EQ 1
+            </test>
+            <output>gear/unit[1]/static_friction_coeff</output>
+            <output>gear/unit[2]/static_friction_coeff</output>
+            <output>gear/unit[24]/static_friction_coeff</output>
+            <output>gear/unit[25]/static_friction_coeff</output>
+        </switch>
+        <switch name="dynamic-friction-left-skis">
+            <default value="gear/unit[1]/dynamic_friction_coeff"/>
+            <test logic="AND" value=".1">
+                bushkit EQ 5
+                /fdm/jsbsim/ground/solid EQ 1
+                /position/altitude-agl-m GE /environment/snow-level-m
+            </test>
+            <test logic="AND" value=".1">
+                bushkit EQ 5
+                /sim/startup/season-actual EQ 1
+            </test>
+            <output>gear/unit[1]/dynamic_friction_coeff</output>
+            <output>gear/unit[2]/dynamic_friction_coeff</output>
+            <output>gear/unit[24]/dynamic_friction_coeff</output>
+            <output>gear/unit[25]/dynamic_friction_coeff</output>
+        </switch>
+        <switch name="rolling-friction-left-skis">
+            <default value="gear/unit[1]/rolling_friction_coeff"/>
+            <test logic="AND" value=".01">
+                bushkit EQ 5
+                /fdm/jsbsim/ground/solid EQ 1
+                /position/altitude-agl-m GE /environment/snow-level-m
+            </test>
+            <test logic="AND" value=".01">
+                bushkit EQ 5
+                /sim/startup/season-actual EQ 1
+            </test>
+            <output>gear/unit[1]/rolling_friction_coeff</output>
+            <output>gear/unit[2]/rolling_friction_coeff</output>
+            <output>gear/unit[24]/rolling_friction_coeff</output>
+            <output>gear/unit[25]/rolling_friction_coeff</output>
+        </switch>
+
+        <!-- ================================================================== -->
         <!-- Contact points wing tips                                           -->
         <!-- ================================================================== -->
 

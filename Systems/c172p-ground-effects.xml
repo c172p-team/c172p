@@ -349,6 +349,11 @@
                 bushkit EQ 5
                 /sim/startup/season-actual EQ 1
             </test>
+            <test logic="AND" value=".2">
+                /fdm/jsbsim/ground/solid EQ 1
+                /sim/startup/season-actual EQ 1
+                /fdm/jsbsim/ground/rolling_friction-factor GT 24
+            </test>
             <output>gear/unit[0]/static_friction_coeff</output>
             <output>gear/unit[23]/static_friction_coeff</output>
         </switch>
@@ -363,19 +368,29 @@
                 bushkit EQ 5
                 /sim/startup/season-actual EQ 1
             </test>
+            <test logic="AND" value=".1">
+                /fdm/jsbsim/ground/solid EQ 1
+                /sim/startup/season-actual EQ 1
+                /fdm/jsbsim/ground/rolling_friction-factor GT 24
+            </test>
             <output>gear/unit[0]/dynamic_friction_coeff</output>
             <output>gear/unit[23]/dynamic_friction_coeff</output>
         </switch>
         <switch name="rolling-friction-front-ski">
             <default value="gear/unit[0]/rolling_friction_coeff"/>
-            <test logic="AND" value=".01">
+            <test logic="AND" value=".001">
                 bushkit EQ 5
                 /fdm/jsbsim/ground/solid EQ 1
                 /position/altitude-agl-m GE /environment/snow-level-m
             </test>
-            <test logic="AND" value=".01">
+            <test logic="AND" value=".001">
                 bushkit EQ 5
                 /sim/startup/season-actual EQ 1
+            </test>
+            <test logic="AND" value=".001">
+                /fdm/jsbsim/ground/solid EQ 1
+                /sim/startup/season-actual EQ 1
+                /fdm/jsbsim/ground/rolling_friction-factor GT 24
             </test>
             <output>gear/unit[0]/rolling_friction_coeff</output>
             <output>gear/unit[23]/rolling_friction_coeff</output>
@@ -391,6 +406,11 @@
             <test logic="AND" value=".2">
                 bushkit EQ 5
                 /sim/startup/season-actual EQ 1
+            </test>
+            <test logic="AND" value=".2">
+                /fdm/jsbsim/ground/solid EQ 1
+                /sim/startup/season-actual EQ 1
+                /fdm/jsbsim/ground/rolling_friction-factor GT 24
             </test>
             <output>gear/unit[1]/static_friction_coeff</output>
             <output>gear/unit[2]/static_friction_coeff</output>
@@ -408,6 +428,11 @@
                 bushkit EQ 5
                 /sim/startup/season-actual EQ 1
             </test>
+            <test logic="AND" value=".1">
+                /fdm/jsbsim/ground/solid EQ 1
+                /sim/startup/season-actual EQ 1
+                /fdm/jsbsim/ground/rolling_friction-factor GT 24
+            </test>
             <output>gear/unit[1]/dynamic_friction_coeff</output>
             <output>gear/unit[2]/dynamic_friction_coeff</output>
             <output>gear/unit[24]/dynamic_friction_coeff</output>
@@ -415,20 +440,27 @@
         </switch>
         <switch name="rolling-friction-left-skis">
             <default value="gear/unit[1]/rolling_friction_coeff"/>
-            <test logic="AND" value=".01">
+            <test logic="AND" value=".001">
                 bushkit EQ 5
                 /fdm/jsbsim/ground/solid EQ 1
                 /position/altitude-agl-m GE /environment/snow-level-m
             </test>
-            <test logic="AND" value=".01">
+            <test logic="AND" value=".001">
                 bushkit EQ 5
                 /sim/startup/season-actual EQ 1
+            </test>
+            <test logic="AND" value=".001">
+                /fdm/jsbsim/ground/solid EQ 1
+                /sim/startup/season-actual EQ 1
+                /fdm/jsbsim/ground/rolling_friction-factor GT 24
             </test>
             <output>gear/unit[1]/rolling_friction_coeff</output>
             <output>gear/unit[2]/rolling_friction_coeff</output>
             <output>gear/unit[24]/rolling_friction_coeff</output>
             <output>gear/unit[25]/rolling_friction_coeff</output>
         </switch>
+
+        <!-- Winter ice appears to have an incorrect rolling_friction-factor of 25 -->
 
         <!-- ================================================================== -->
         <!-- Contact points wing tips                                           -->

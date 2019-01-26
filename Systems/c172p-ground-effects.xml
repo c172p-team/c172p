@@ -342,7 +342,7 @@
             <default value="gear/unit[0]/static_friction_coeff"/>
             <test logic="AND" value=".2">
                 bushkit EQ 5
-                /fdm/jsbsim/ground/solid EQ 1
+                ground/solid EQ 1
                 /position/altitude-agl-m GE /environment/snow-level-m
             </test>
             <test logic="AND" value=".2">
@@ -350,9 +350,10 @@
                 /sim/startup/season-actual EQ 1
             </test>
             <test logic="AND" value=".2">
-                /fdm/jsbsim/ground/solid EQ 1
-                /sim/startup/season-actual EQ 1
-                /fdm/jsbsim/ground/rolling_friction-factor GT 24
+                ground/solid EQ 1
+                /sim/startup/season-actual EQ 1                   <!-- /sim/startup/season conversion from string summer/winter to bool 0/1 -->
+                ground/rolling_friction-factor GT 24  <!-- 25 is Lake and ground/solid = true -->
+                /environment/surface/snow-thickness-factor LT 0.2 <!-- factor range 0.0 - 0.6 -->
             </test>
             <output>gear/unit[0]/static_friction_coeff</output>
             <output>gear/unit[23]/static_friction_coeff</output>
@@ -361,7 +362,7 @@
             <default value="gear/unit[0]/dynamic_friction_coeff"/>
             <test logic="AND" value=".1">
                 bushkit EQ 5
-                /fdm/jsbsim/ground/solid EQ 1
+                ground/solid EQ 1
                 /position/altitude-agl-m GE /environment/snow-level-m
             </test>
             <test logic="AND" value=".1">
@@ -369,9 +370,10 @@
                 /sim/startup/season-actual EQ 1
             </test>
             <test logic="AND" value=".1">
-                /fdm/jsbsim/ground/solid EQ 1
+                ground/solid EQ 1
                 /sim/startup/season-actual EQ 1
-                /fdm/jsbsim/ground/rolling_friction-factor GT 24
+                ground/rolling_friction-factor GT 24
+                /environment/surface/snow-thickness-factor LT 0.2
             </test>
             <output>gear/unit[0]/dynamic_friction_coeff</output>
             <output>gear/unit[23]/dynamic_friction_coeff</output>
@@ -380,7 +382,7 @@
             <default value="gear/unit[0]/rolling_friction_coeff"/>
             <test logic="AND" value=".001">
                 bushkit EQ 5
-                /fdm/jsbsim/ground/solid EQ 1
+                ground/solid EQ 1
                 /position/altitude-agl-m GE /environment/snow-level-m
             </test>
             <test logic="AND" value=".001">
@@ -388,10 +390,38 @@
                 /sim/startup/season-actual EQ 1
             </test>
             <test logic="AND" value=".001">
-                /fdm/jsbsim/ground/solid EQ 1
+                ground/solid EQ 1
                 /sim/startup/season-actual EQ 1
-                /fdm/jsbsim/ground/rolling_friction-factor GT 24
+                ground/rolling_friction-factor GT 24
+                /environment/surface/snow-thickness-factor LT 0.2
             </test>
+
+            <!-- Friction factors per snow depth -->
+            <test logic="AND" value=".02">
+                bushkit LT 3
+                /position/altitude-agl-m GE /environment/snow-level-m
+                /environment/surface/snow-thickness-factor GT 0.199
+                /environment/surface/snow-thickness-factor LT 0.3
+            </test>
+            <test logic="AND" value=".03">
+                bushkit LT 3
+                /position/altitude-agl-m GE /environment/snow-level-m
+                /environment/surface/snow-thickness-factor GT 0.299
+                /environment/surface/snow-thickness-factor LT 0.4
+            </test>
+            <test logic="AND" value=".04">
+                bushkit LT 3
+                /position/altitude-agl-m GE /environment/snow-level-m
+                /environment/surface/snow-thickness-factor GT 0.399
+                /environment/surface/snow-thickness-factor LT 0.5
+            </test>
+            <test logic="AND" value=".05">
+                bushkit LT 3
+                /position/altitude-agl-m GE /environment/snow-level-m
+                /environment/surface/snow-thickness-factor GT 0.499
+                /environment/surface/snow-thickness-factor LT 0.61
+            </test>
+
             <output>gear/unit[0]/rolling_friction_coeff</output>
             <output>gear/unit[23]/rolling_friction_coeff</output>
         </switch>
@@ -408,9 +438,10 @@
                 /sim/startup/season-actual EQ 1
             </test>
             <test logic="AND" value=".2">
-                /fdm/jsbsim/ground/solid EQ 1
+                ground/solid EQ 1
                 /sim/startup/season-actual EQ 1
-                /fdm/jsbsim/ground/rolling_friction-factor GT 24
+                ground/rolling_friction-factor GT 24
+                /environment/surface/snow-thickness-factor LT 0.2
             </test>
             <output>gear/unit[1]/static_friction_coeff</output>
             <output>gear/unit[2]/static_friction_coeff</output>
@@ -421,7 +452,7 @@
             <default value="gear/unit[1]/dynamic_friction_coeff"/>
             <test logic="AND" value=".1">
                 bushkit EQ 5
-                /fdm/jsbsim/ground/solid EQ 1
+                ground/solid EQ 1
                 /position/altitude-agl-m GE /environment/snow-level-m
             </test>
             <test logic="AND" value=".1">
@@ -429,9 +460,10 @@
                 /sim/startup/season-actual EQ 1
             </test>
             <test logic="AND" value=".1">
-                /fdm/jsbsim/ground/solid EQ 1
+                ground/solid EQ 1
                 /sim/startup/season-actual EQ 1
-                /fdm/jsbsim/ground/rolling_friction-factor GT 24
+                ground/rolling_friction-factor GT 24
+                /environment/surface/snow-thickness-factor LT 0.2
             </test>
             <output>gear/unit[1]/dynamic_friction_coeff</output>
             <output>gear/unit[2]/dynamic_friction_coeff</output>
@@ -442,7 +474,7 @@
             <default value="gear/unit[1]/rolling_friction_coeff"/>
             <test logic="AND" value=".001">
                 bushkit EQ 5
-                /fdm/jsbsim/ground/solid EQ 1
+                ground/solid EQ 1
                 /position/altitude-agl-m GE /environment/snow-level-m
             </test>
             <test logic="AND" value=".001">
@@ -450,17 +482,45 @@
                 /sim/startup/season-actual EQ 1
             </test>
             <test logic="AND" value=".001">
-                /fdm/jsbsim/ground/solid EQ 1
+                ground/solid EQ 1
                 /sim/startup/season-actual EQ 1
-                /fdm/jsbsim/ground/rolling_friction-factor GT 24
+                ground/rolling_friction-factor GT 24
+                /environment/surface/snow-thickness-factor LT 0.2
             </test>
+
+            <!-- Friction factors per snow depth -->
+            <test logic="AND" value=".02">
+                bushkit LT 3
+                /position/altitude-agl-m GE /environment/snow-level-m
+                /environment/surface/snow-thickness-factor GT 0.199
+                /environment/surface/snow-thickness-factor LT 0.3
+            </test>
+            <test logic="AND" value=".03">
+                bushkit LT 3
+                /position/altitude-agl-m GE /environment/snow-level-m
+                /environment/surface/snow-thickness-factor GT 0.299
+                /environment/surface/snow-thickness-factor LT 0.4
+            </test>
+            <test logic="AND" value=".04">
+                bushkit LT 3
+                /position/altitude-agl-m GE /environment/snow-level-m
+                /environment/surface/snow-thickness-factor GT 0.399
+                /environment/surface/snow-thickness-factor LT 0.5
+            </test>
+            <test logic="AND" value=".05">
+                bushkit LT 3
+                /position/altitude-agl-m GE /environment/snow-level-m
+                /environment/surface/snow-thickness-factor GT 0.499
+                /environment/surface/snow-thickness-factor LT 0.61
+            </test>
+
             <output>gear/unit[1]/rolling_friction_coeff</output>
             <output>gear/unit[2]/rolling_friction_coeff</output>
             <output>gear/unit[24]/rolling_friction_coeff</output>
             <output>gear/unit[25]/rolling_friction_coeff</output>
         </switch>
 
-        <!-- Winter ice appears to have an incorrect rolling_friction-factor of 25 -->
+        <!-- Winter ice appears to have an incorrect rolling_friction-factor of 25  VS .25 -->
 
         <!-- ================================================================== -->
         <!-- Contact points wing tips                                           -->

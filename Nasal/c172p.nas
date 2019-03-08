@@ -638,19 +638,19 @@ setlistener("/sim/signals/fdm-initialized", func {
         }
     }, 1, 0);
 
-    # season-actual is a conversion value, see c172p-ground-effects.xml
+    # season-winter is a conversion value, see c172p-ground-effects.xml
     if (getprop("/sim/startup/season") == "summer") {
-      setprop("/sim/startup/season-actual", 0);
+      setprop("/sim/startup/season-winter", 0);
     }
     else {
-        setprop("/sim/startup/season-actual", 1);
+        setprop("/sim/startup/season-winter", 1);
     }
     setlistener("/sim/startup/season", func (node) {
         if (node.getValue() == "winter") {
-            setprop("/sim/startup/season-actual", 1);
+            setprop("/sim/startup/season-winter", 1);
         }
         else {
-            setprop("/sim/startup/season-actual", 0);
+            setprop("/sim/startup/season-winter", 0);
         }
     }, 0, 0);
 

@@ -400,7 +400,7 @@
         </fcs_function>
 
         <!-- ================================================================== -->
-        <!-- Friction factors per gear changout                                 -->
+        <!-- Friction factors per gear changout for summer, winter or snow      -->
         <!-- ================================================================== -->
 
         <fcs_function name="static-friction-nose-gear">
@@ -409,6 +409,7 @@
                 <ifthen>
                     <p>gear/unit[0]/broken</p>
                     <p>gear/unit[0]/static_friction_coeff</p>
+                    <!-- not winter and not above snow line -->
                     <ifthen>
                         <and>
                             <p>ground/solid</p>
@@ -428,6 +429,7 @@
                             <value>0.4</value>
                             <value>0.9</value>
                         </switch>
+                        <!-- winter or above snow line -->
                         <ifthen>
                             <and>
                                 <p>ground/solid</p>
@@ -462,6 +464,7 @@
                 <ifthen>
                     <p>gear/unit[0]/broken</p>
                     <p>gear/unit[0]/dynamic_friction_coeff</p>
+                    <!-- not winter and not above snow line -->
                     <ifthen>
                         <and>
                             <p>ground/solid</p>
@@ -481,6 +484,7 @@
                             <value>0.2</value>
                             <value>0.6</value>
                         </switch>
+                        <!-- winter or above snow line -->
                         <ifthen>
                             <and>
                                 <p>ground/solid</p>
@@ -515,6 +519,7 @@
                 <ifthen>
                     <p>gear/unit[0]/broken</p>
                     <p>gear/unit[0]/rolling_friction_coeff</p>
+                    <!-- not winter and not above snow line -->
                     <ifthen>      
                         <and>
                             <p>ground/solid</p>
@@ -534,6 +539,7 @@
                             <value>0.03</value>
                             <value>0.0015</value>
                         </switch>
+                        <!-- winter or above snow line -->
                         <ifthen>
                             <and>
                                 <p>ground/solid</p>
@@ -1078,9 +1084,10 @@
             </function>
         </fcs_function>
 
-        <!-- ================================================================== -->
-        <!-- Friction factors per snowcover or season                           -->
-        <!-- ================================================================== -->
+        <!-- ============================================================================= -->
+        <!-- Friction factors for skis on snow or all gear changeouts on ice               -->
+        <!-- Winter ice appears to have an incorrect rolling_friction-factor of 25  VS .25 -->
+        <!-- ============================================================================= -->
 
         <switch name="static-friction-front-ski">
             <default value="gear/unit[0]/static_friction_coeff"/>
@@ -1093,7 +1100,7 @@
                 bushkit EQ 5
                 /sim/startup/season-actual EQ 1
             </test>
-            <test logic="AND" value=".2">
+            <test logic="AND" value=".25">
                 ground/solid EQ 1
                 /sim/startup/season-actual EQ 1                   <!-- /sim/startup/season conversion from string summer/winter to bool 0/1 -->
                 ground/rolling_friction-factor GT 24              <!-- 25 is Lake and ground/solid = true -->
@@ -1113,7 +1120,7 @@
                 bushkit EQ 5
                 /sim/startup/season-actual EQ 1
             </test>
-            <test logic="AND" value=".1">
+            <test logic="AND" value=".15">
                 ground/solid EQ 1
                 /sim/startup/season-actual EQ 1
                 ground/rolling_friction-factor GT 24
@@ -1134,7 +1141,7 @@
                 bushkit EQ 5
                 /sim/startup/season-actual EQ 1
             </test>
-            <test logic="AND" value=".2">
+            <test logic="AND" value=".25">
                 ground/solid EQ 1
                 /sim/startup/season-actual EQ 1
                 ground/rolling_friction-factor GT 24
@@ -1156,7 +1163,7 @@
                 bushkit EQ 5
                 /sim/startup/season-actual EQ 1
             </test>
-            <test logic="AND" value=".1">
+            <test logic="AND" value=".15">
                 ground/solid EQ 1
                 /sim/startup/season-actual EQ 1
                 ground/rolling_friction-factor GT 24
@@ -1167,8 +1174,6 @@
             <output>gear/unit[24]/dynamic_friction_coeff</output>
             <output>gear/unit[25]/dynamic_friction_coeff</output>
         </switch>
-
-        <!-- Winter ice appears to have an incorrect rolling_friction-factor of 25  VS .25 -->
 
         <!-- ================================================================== -->
         <!-- Contact points wing tips                                           -->

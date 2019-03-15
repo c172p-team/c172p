@@ -1109,12 +1109,13 @@
                 bushkit EQ 5
                 /sim/startup/season-winter EQ 1
             </test>
-            <test logic="AND" value=".16">
+            <!--test logic="AND" value=".16">
                 ground/solid EQ 1
-                /sim/startup/season-winter EQ 1                   <!-- /sim/startup/season conversion from string summer/winter to bool 0/1 -->
-                ground/rolling_friction-factor GT 24              <!-- 25 is Lake and ground/solid = true -->
-                /environment/surface/snow-thickness-factor LT 0.2 <!-- factor range 0.0 - 0.6 -->
-            </test>
+                /sim/startup/season-winter EQ 1
+                ground/rolling_friction-factor GT 24
+                ground/rolling_friction-factor EQ .25
+                /environment/surface/snow-thickness-factor LT 0.2
+            </test-->
             <output>gear/unit[0]/static_friction_coeff</output>
             <output>gear/unit[23]/static_friction_coeff</output>
         </switch>
@@ -1129,12 +1130,13 @@
                 bushkit EQ 5
                 /sim/startup/season-winter EQ 1
             </test>
-            <test logic="AND" value=".1">
+            <!--test logic="AND" value=".1">
                 ground/solid EQ 1
                 /sim/startup/season-winter EQ 1
                 ground/rolling_friction-factor GT 24
+                ground/rolling_friction-factor EQ .25
                 /environment/surface/snow-thickness-factor LT 0.2
-            </test>
+            </test-->
             <output>gear/unit[0]/dynamic_friction_coeff</output>
             <output>gear/unit[23]/dynamic_friction_coeff</output>
         </switch>
@@ -1149,12 +1151,12 @@
                 bushkit EQ 5
                 /sim/startup/season-winter EQ 1
             </test>
-            <test logic="AND" value="0.0002">
+            <!--test logic="AND" value="0.0002">
                 ground/solid EQ 1
                 /sim/startup/season-winter EQ 1
                 ground/rolling_friction-factor GT 24
                 /environment/surface/snow-thickness-factor LT 0.2
-            </test>
+            </test-->
             <output>gear/unit[0]/rolling_friction_coeff</output>
             <output>gear/unit[23]/rolling_friction_coeff</output>
         </switch>
@@ -1171,12 +1173,13 @@
                 bushkit EQ 5
                 /sim/startup/season-winter EQ 1
             </test>
-            <test logic="AND" value=".16">
+            <!--test logic="AND" value=".16">
                 ground/solid EQ 1
                 /sim/startup/season-winter EQ 1
                 ground/rolling_friction-factor GT 24
+                ground/rolling_friction-factor EQ .25
                 /environment/surface/snow-thickness-factor LT 0.2
-            </test>
+            </test-->
             <output>gear/unit[1]/static_friction_coeff</output>
             <output>gear/unit[2]/static_friction_coeff</output>
             <output>gear/unit[24]/static_friction_coeff</output>
@@ -1193,12 +1196,13 @@
                 bushkit EQ 5
                 /sim/startup/season-winter EQ 1
             </test>
-            <test logic="AND" value=".1">
+            <!--test logic="AND" value=".1">
                 ground/solid EQ 1
                 /sim/startup/season-winter EQ 1
                 ground/rolling_friction-factor GT 24
+                ground/rolling_friction-factor EQ .25
                 /environment/surface/snow-thickness-factor LT 0.2
-            </test>
+            </test-->
             <output>gear/unit[1]/dynamic_friction_coeff</output>
             <output>gear/unit[2]/dynamic_friction_coeff</output>
             <output>gear/unit[24]/dynamic_friction_coeff</output>
@@ -1215,12 +1219,12 @@
                 bushkit EQ 5
                 /sim/startup/season-winter EQ 1
             </test>
-            <test logic="AND" value="0.0002">
+            <!--test logic="AND" value="0.0002">
                 ground/solid EQ 1
                 /sim/startup/season-winter EQ 1
                 ground/rolling_friction-factor GT 24
                 /environment/surface/snow-thickness-factor LT 0.2
-            </test>
+            </test-->
             <output>gear/unit[1]/rolling_friction_coeff</output>
             <output>gear/unit[2]/rolling_friction_coeff</output>
             <output>gear/unit[24]/rolling_friction_coeff</output>
@@ -1404,6 +1408,10 @@
         <switch name="gear-spin-left">
             <output>gear/gear-spin-left</output>
             <default value="13"/>
+            <test logic="OR" value="0">
+                /controls/gear/brake-parking EQ 1
+                /controls/gear/brake-left    GT 0.95
+            </test>
             <test logic="OR" value="8">
                 bushkit EQ 2
                 bushkit EQ 5
@@ -1416,6 +1424,10 @@
         <switch name="gear-spin-right">
             <output>gear/gear-spin-right</output>
             <default value="13"/>
+            <test logic="OR" value="0">
+                /controls/gear/brake-parking EQ 1
+                /controls/gear/brake-right    GT 0.95
+            </test>
             <test logic="OR" value="8">
                 bushkit EQ 2
                 bushkit EQ 5
@@ -1424,6 +1436,46 @@
                 bushkit EQ 1
             </test>
         </switch>
+
+        <fcs_function name="gear/gear-burn-left">
+            <function>
+                <product>
+                    <property>/gear/gear[1]/wow</property>
+                    <property>/velocities/groundspeed-kt</property>
+                    <property>/fdm/jsbsim/ground/solid</property>
+                    <product>
+                        <or>
+                            <property>/controls/gear/brake-parking</property>
+                            <eq>
+                                <property>/controls/gear/brake-left</property>
+                                <value>1</value>
+                            </eq>
+                        </or>
+                        <value>10</value>
+                    </product>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="gear/gear-burn-right">
+            <function>
+                <product>
+                    <property>/gear/gear[2]/wow</property>
+                    <property>/velocities/groundspeed-kt</property>
+                    <property>/fdm/jsbsim/ground/solid</property>
+                    <product>
+                        <or>
+                            <property>/controls/gear/brake-parking</property>
+                            <eq>
+                                <property>/controls/gear/brake-right</property>
+                                <value>1</value>
+                            </eq>
+                        </or>
+                        <value>10</value>
+                    </product>
+                </product>
+            </function>
+        </fcs_function>
 
         <fcs_function name="ground/tail-ground-effect-speed-kt">
             <function>

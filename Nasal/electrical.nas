@@ -262,7 +262,7 @@ var update_virtual_bus = func (dt) {
     # bus routine itself determins where it draws power from.)
     load += electrical_bus_1();
     load += avionics_bus_1();
-    
+
     # swtich the master breaker off if load is out of limits
     if ( load > 55 ) {
       bus_volts = 0;
@@ -305,14 +305,14 @@ var update_virtual_bus = func (dt) {
 var electrical_bus_1 = func() {
     var bus_volts = 0.0;
     var load = 0.0;
-    
+
     # check master breaker
     if ( getprop("/controls/circuit-breakers/master") ) {
         # we are feed from the virtual bus
-        bus_volts = vbus_volts;        
+        bus_volts = vbus_volts;
     }
     #print("Bus volts: ", bus_volts);
-    
+
     # Air-cond
     if ( getprop("/controls/circuit-breakers/aircond-pwr") ) {
         setprop("/systems/electrical/outputs/aircond", bus_volts);
@@ -320,7 +320,7 @@ var electrical_bus_1 = func() {
     } else {
         setprop("/systems/electrical/outputs/aircond", 0.0);
     }
-    
+
     # Flaps
     if ( getprop("/controls/circuit-breakers/flaps") ) {
         setprop("/systems/electrical/outputs/flaps", bus_volts);
@@ -328,7 +328,7 @@ var electrical_bus_1 = func() {
     } else {
         setprop("/systems/electrical/outputs/flaps", 0.0);
     }
-    
+
     # Pitot Heat Power
     if ( getprop("/controls/anti-ice/pitot-heat" ) ) {
         setprop("/systems/electrical/outputs/pitot-heat", bus_volts);
@@ -356,7 +356,7 @@ var electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/instr-ignition-switch", 0.0);
         setprop("/systems/electrical/outputs/starter", 0.0);
     }
-    
+
     # Interior lights
     if ( getprop("/controls/circuit-breakers/intlt") ) {
         setprop("/systems/electrical/outputs/instrument-lights", bus_volts);
@@ -365,7 +365,7 @@ var electrical_bus_1 = func() {
     } else {
         setprop("/systems/electrical/outputs/instrument-lights", 0.0);
         setprop("/systems/electrical/outputs/cabin-lights", 0.0);
-    }    
+    }
 
     # Landing Light Power
     if ( getprop("/controls/circuit-breakers/landing") and getprop("/controls/lighting/landing-lights") ) {
@@ -373,8 +373,8 @@ var electrical_bus_1 = func() {
         load += bus_volts / 5;
     } else {
         setprop("/systems/electrical/outputs/landing-lights", 0.0 );
-    }    
-        
+    }
+
     # Taxi Lights Power
     # Notice taxi lights also use landing lights breaker. It is not a bug.
     if ( getprop("/controls/circuit-breakers/landing") and getprop("/controls/lighting/taxi-light" ) ) {
@@ -391,7 +391,7 @@ var electrical_bus_1 = func() {
     } else {
         setprop("/systems/electrical/outputs/beacon", 0.0);
     }
-    
+
     # Nav Lights Power
     if ( getprop("/controls/circuit-breakers/navlt") and getprop("/controls/lighting/nav-lights" ) ) {
         setprop("/systems/electrical/outputs/nav-lights", bus_volts);
@@ -457,7 +457,7 @@ var avionics_bus_1 = func() {
       setprop("/systems/electrical/outputs/nav[0]", 0.0);
       setprop("systems/electrical/outputs/comm[0]", 0.0);
     }
-    
+
     # Com and Nav 2 Power
     if ( getprop("/controls/circuit-breakers/radio3") ) {
       setprop("/systems/electrical/outputs/nav[1]", bus_volts);
@@ -473,7 +473,7 @@ var avionics_bus_1 = func() {
     } else {
       setprop("/systems/electrical/outputs/transponder", 0.0);
     }
-    
+
     # DME and ADF Power
     if ( getprop("/controls/circuit-breakers/radio5") ) {
       setprop("/systems/electrical/outputs/dme", bus_volts);
@@ -489,19 +489,11 @@ var avionics_bus_1 = func() {
     } else {
       setprop("/systems/electrical/outputs/autopilot", 0.0);
     }
-    
+
 
     # return cumulative load
     return load;
 }
-
-############################ Utility function
-
-var flapsDown = controls.flapsDown;
-controls.flapsDown = func(v) {
-    flapsDown(v);
-    c172p.click("flaps");
-};
 
 ##
 # Initialize the electrical system

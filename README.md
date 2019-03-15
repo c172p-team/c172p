@@ -1,3 +1,13 @@
+[![License](https://img.shields.io/github/license/c172p-team/c172p.svg?color=blue)](https://github.com/c172p-team/c172p/blob/master/LICENSE)
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/c172p-team/c172p.svg)](http://isitmaintained.com/project/c172p-team/c172p "Average time to resolve an issue")
+[![Percentage of issues still open](http://isitmaintained.com/badge/open/c172p-team/c172p.svg)](http://isitmaintained.com/project/c172p-team/c172p "Percentage of issues still open")
+[![Issues for new contributors](https://img.shields.io/github/issues/c172p-team/c172p/good%20first%20bug.svg)](https://github.com/c172p-team/c172p/labels/good%20first%20bug)
+[![Closed issues](https://img.shields.io/github/issues-closed/c172p-team/c172p.svg)]()
+[![Closed PRs](https://img.shields.io/github/issues-pr-closed/c172p-team/c172p.svg)]()
+[![Release date](https://img.shields.io/github/release-date/c172p-team/c172p.svg)](https://github.com/c172p-team/c172p/releases)
+[![Downloads](https://img.shields.io/sourceforge/dw/flightgear.svg)](https://sourceforge.net/projects/flightgear/)
+![Contributors](https://img.shields.io/github/contributors/c172p-team/c172p.svg)
+
 c172p (detailed)
 ================
 

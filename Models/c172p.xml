@@ -298,6 +298,15 @@
 
     <animation>
         <type>select</type>
+        <object-name>RudderTrimBase</object-name>
+        <object-name>RudderTrimKnob</object-name>
+        <condition>
+            <property>sim/model/c172p/ruddertrim-visible</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
         <object-name>gloveboxfull</object-name>
         <object-name>gpsmodel</object-name>
         <condition>
@@ -876,6 +885,8 @@
         <object-name>gloveboxdoor</object-name>
         <object-name>glovebox</object-name>
         <object-name>gloveboxfull</object-name>
+        <object-name>RudderTrimBase</object-name>
+        <object-name>RudderTrimKnob</object-name>
     </effect>
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-fuel-selector</inherits-from>
@@ -1040,6 +1051,9 @@
         <object-name>FuelSelectorRight</object-name>
         <object-name>FuelSelectorBoth</object-name>
         <object-name>FuelSelectorOff</object-name>
+
+        <object-name>RudderTrimBase</object-name>
+        <object-name>RudderTrimKnob</object-name>
         <condition>
             <not>
                 <property>/sim/rendering/shaders/skydome</property>
@@ -1920,6 +1934,7 @@
         <name>digital-clock</name>
         <path>Interior/Panel/Instruments/digital-clock/digital-clock.xml</path>
     </model>
+
     <model>
         <name>vac</name>
         <path>Interior/Panel/Instruments/vac/vac.xml</path>
@@ -5211,6 +5226,43 @@
         </center>
     </animation>
 
+    <animation>
+        <type>knob</type>
+        <object-name>RudderTrimKnob</object-name>
+        <property>controls/flight/rudder-trim-knob</property>
+        <factor>40</factor>
+        <drag-direction>horizontal</drag-direction>
+        <offset-deg>0</offset-deg>
+        <center>
+            <x-m>-0.521  </x-m>
+            <y-m> 0.00061</y-m>
+            <z-m>-0.56081</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-adjust</command>
+                <property>controls/flight/rudder-trim-knob</property>
+                <factor>0.01</factor>
+                <min>-.18</min>
+                <max>.18</max>
+                <wrap>false</wrap>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Rudder trim: %3.2f</label>
+                <tooltip-id>rudder-trim</tooltip-id>
+                <property>controls/flight/rudder-trim-knob</property>
+            </binding>
+        </hovered>
+    </animation>
+
     <!-- Panel light knob -->
     <animation>
         <type>knob</type>
@@ -7471,7 +7523,7 @@
         <type>spin</type>
         <object-name>NoseSkiWheel</object-name>
         <property alias="/params/gear-ski/ski-nose-rollspeed-ms"/>
-        <factor>20</factor>
+        <factor>125</factor>
         <axis>
             <x>0</x>
             <y>-1</y>
@@ -7487,7 +7539,7 @@
         <type>spin</type>
         <object-name>LeftSkiWheel</object-name>
         <property alias="/params/gear-ski/ski-left-rollspeed-ms"/>
-        <factor>18</factor>
+        <factor>100</factor>
         <axis>
             <x>0</x>
             <y>-1</y>
@@ -7503,7 +7555,7 @@
         <type>spin</type>
         <object-name>RightSkiWheel</object-name>
         <property alias="/params/gear-ski/ski-right-rollspeed-ms"/>
-        <factor>18</factor>
+        <factor>100</factor>
         <axis>
             <x>0</x>
             <y>-1</y>
@@ -7558,7 +7610,7 @@
                     <value>400</value>
                 </greater-than>
                 <not>
-                    property alias="/params/securing/cowl-plugs"/>
+                    <property alias="/params/securing/cowl-plugs"/>
                 </not>
                 <not>
                     <property alias="/params/engine/crashed"/>
@@ -9688,6 +9740,8 @@
         <object-name>GROUP_FrontPanels</object-name>
         <!-- MODEND: resume all to Panel_Rack_Base -->
         <property-base>sim/model/liverypanel/</property-base>
+        <object-name>RudderTrimBase</object-name>
+        <object-name>RudderTrimKnob</object-name>
         <texture-prop>texture</texture-prop>
         <texture>panel.png</texture>
     </animation>
@@ -9997,12 +10051,11 @@
             <z>0.940</z>
         </axis>
     </animation>
-    <!-- MOD: Spin to amphibious gears -->
     <animation>
         <type>spin</type>
         <object-name>LFrontWheel</object-name>
         <property alias="/params/gear-amphibious/front-left-rollspeed-ms"/>
-        <factor>13</factor>
+        <factor>75</factor>
         <axis>
             <x>0</x>
             <y>-1</y>
@@ -10018,7 +10071,7 @@
         <type>spin</type>
         <object-name>RFrontWheel</object-name>
         <property alias="/params/gear-amphibious/front-right-rollspeed-ms"/>
-        <factor>13</factor>
+        <factor>75</factor>
         <axis>
             <x>0</x>
             <y>-1</y>
@@ -10029,10 +10082,8 @@
             <y-m>1.16615</y-m>
             <z-m>-2.06557</z-m>
         </center>
--2.10993
     </animation>
 
-    <!-- MODEND: Spin to amphibious gears -->
     <animation>
         <type>rotate</type>
         <object-name>LRtarm</object-name>
@@ -10117,7 +10168,7 @@
         <type>spin</type>
         <object-name>LRwheel</object-name>
         <property alias="/params/gear-amphibious/rear-left-rollspeed-ms"/>
-        <factor>13</factor>
+        <factor>52</factor>
         <axis>
             <x>0</x>
             <y>-1</y>
@@ -10133,7 +10184,7 @@
         <type>spin</type>
         <object-name>RRwheel</object-name>
         <property alias="/params/gear-amphibious/rear-right-rollspeed-ms"/>
-        <factor>13</factor>
+        <factor>52</factor>
         <axis>
             <x>0</x>
             <y>-1</y>

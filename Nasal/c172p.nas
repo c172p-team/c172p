@@ -648,6 +648,25 @@ setlistener("/sim/signals/fdm-initialized", func {
         setprop("/sim/startup/season-winter", node.getValue() == "winter");
     }, 0, 0);
 
+    # kept-surface is a rwy, taxi or pa- material land class
+    var terrain_name = getprop("/fdm/jsbsim/ground/terrain-names");
+    if (string.match(terrain_name, "*pa-*") or
+          string.match(terrain_name, "*rwy*") or
+          string.match(terrain_name, "*taxi*")) {
+            setprop("/fdm/jsbsim/ground/kept-surface", 1);
+      } else {
+            setprop("/fdm/jsbsim/ground/kept-surface", 0);
+      }
+    setlistener("/fdm/jsbsim/ground/terrain-names", func (node) {
+      if (string.match(node.getValue(), "*pa-*") or
+          string.match(node.getValue(), "*rwy*") or
+          string.match(node.getValue(), "*taxi*")) {
+            setprop("/fdm/jsbsim/ground/kept-surface", 1);
+      } else {
+            setprop("/fdm/jsbsim/ground/kept-surface", 0);
+      }
+    }, 0, 0);
+
     # Close all caps and doors
     setlistener("/engines/active-engine/cranking", func (node) {
         setprop("sim/model/show-dip-stick", 0);

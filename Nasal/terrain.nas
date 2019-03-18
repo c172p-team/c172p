@@ -1,3 +1,7 @@
+##########################################
+# Ground Detection
+##########################################
+
 var terrain_loop = func {
   var lat = getprop("/position/latitude-deg");
   var lon = getprop("/position/longitude-deg");
@@ -20,5 +24,5 @@ var terrain_loop = func {
   #}
 
 }
-var terrain_timer = maketimer(0.5, func{terrain_loop()});
+var terrain_timer = maketimer(0.1, func{terrain_loop()});
 terrain_timer.start();

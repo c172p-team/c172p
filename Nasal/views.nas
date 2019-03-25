@@ -24,34 +24,31 @@ var reset_view = func (mode) {
 
     var heading_deg = getprop("sim/current-view/config/heading-offset-deg");
     var roll_deg = getprop("sim/current-view/config/roll-offset-deg");
-    var fov = getprop("sim/current-view/config/default-field-of-view-deg");
-    var pitch_deg = pitch_deg = getprop("sim/current-view/config/pitch-offset-deg");
 
     var current_heading_deg = getprop("sim/current-view/heading-offset-deg");
     if (current_heading_deg > 180.0) heading_deg += 360.0;
 
-    if (mode == 1 and index == 0) {
-        pitch_deg = pitch_deg = getprop("sim/current-view/user/pitch-offset-deg");
+    if (mode == 0) {
+        var pitch_deg = pitch_deg = getprop("sim/current-view/config/pitch-offset-deg");
+        var fov = getprop("sim/current-view/config/default-field-of-view-deg");
+        var x_offset = views[index].getValue("config/x-offset-m");
+        var y_offset = views[index].getValue("config/y-offset-m");
+        var z_offset = views[index].getValue("config/z-offset-m");
+    } else {
+        setprop("sim/current-view/view-number", 0);
+        var pitch_deg = pitch_deg = getprop("sim/current-view/user/pitch-offset-deg");
+        var fov = getprop("sim/current-view/user/default-field-of-view-deg");
+        var x_offset = getprop("sim/current-view/user/x-offset-m");
+        var y_offset = getprop("sim/current-view/user/y-offset-m");
+        var z_offset = getprop("sim/current-view/user/z-offset-m");
     }
 
     interpolate("sim/current-view/field-of-view", fov, dt);
     interpolate("sim/current-view/heading-offset-deg", heading_deg, dt);
     interpolate("sim/current-view/pitch-offset-deg", pitch_deg, dt);
     interpolate("sim/current-view/roll-offset-deg", roll_deg, dt);
-
-    if (getprop("sim/current-view/internal")) {
-        if (mode == 0) {
-            var x_offset = views[index].getValue("config/x-offset-m");
-            var y_offset = views[index].getValue("config/y-offset-m");
-            var z_offset = views[index].getValue("config/z-offset-m");
-            interpolate("sim/current-view/x-offset-m", x_offset, dt);
-        } else
-          if (index == 0) {
-            var y_offset = getprop("sim/current-view/user/y-offset-m");
-            var z_offset = getprop("sim/current-view/user/z-offset-m");
-        }
-        interpolate("sim/current-view/y-offset-m", y_offset, dt);
-        interpolate("sim/current-view/z-offset-m", z_offset, dt);
-    }
+    interpolate("sim/current-view/x-offset-m", x_offset, dt);
+    interpolate("sim/current-view/y-offset-m", y_offset, dt);
+    interpolate("sim/current-view/z-offset-m", z_offset, dt);
 
 };

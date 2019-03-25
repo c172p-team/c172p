@@ -687,22 +687,32 @@ setlistener("/sim/signals/fdm-initialized", func {
         state_manager();
     }
 
+    # set user defined pilot view or initialize it
     settimer(func {
-        if (!getprop("sim/current-view/user-settings-saved")) {
-            # initialize saved user seat settings for the first time
-            setprop("sim/current-view/user/x-offset-m", getprop("sim/view/config/x-offset-m"));
-            setprop("sim/current-view/user/y-offset-m", getprop("sim/view/config/y-offset-m"));
-            setprop("sim/current-view/user/z-offset-m", getprop("sim/view/config/z-offset-m"));
-            setprop("sim/current-view/user/default-field-of-view-deg", getprop("sim/view/config/default-field-of-view-deg"));
-            setprop("sim/current-view/user/pitch-offset-deg", getprop("sim/view/config/pitch-offset-deg"));
-            setprop("sim/current-view/user-settings-saved", 1);
-        } else {
-            #user defined saved seat position
+        if (getprop("sim/current-view/user/x-offset-m") != nil){
             setprop("sim/current-view/x-offset-m", getprop("sim/current-view/user/x-offset-m"));
+        } else {
+            setprop("sim/current-view/user/x-offset-m", getprop("sim/view/config/x-offset-m"));
+        }
+        if (getprop("sim/current-view/user/y-offset-m") != nil){
             setprop("sim/current-view/y-offset-m", getprop("sim/current-view/user/y-offset-m"));
+        } else {
+            setprop("sim/current-view/user/y-offset-m", getprop("sim/view/config/y-offset-m"));
+        }
+        if (getprop("sim/current-view/user/z-offset-m") != nil){
             setprop("sim/current-view/z-offset-m", getprop("sim/current-view/user/z-offset-m"));
+        } else {
+            setprop("sim/current-view/user/z-offset-m", getprop("sim/view/config/z-offset-m"));
+        }
+        if (getprop("sim/current-view/user/default-field-of-view-deg") != nil){
             setprop("sim/current-view/field-of-view", getprop("sim/current-view/user/default-field-of-view-deg"));
+        } else {
+            setprop("sim/current-view/user/default-field-of-view-deg", getprop("sim/view/config/default-field-of-view-deg"));
+        }
+        if (getprop("sim/current-view/user/pitch-offset-deg") != nil){
             setprop("sim/current-view/pitch-offset-deg", getprop("sim/current-view/user/pitch-offset-deg"));
+        } else {
+            setprop("sim/current-view/user/pitch-offset-deg", getprop("sim/view/config/pitch-offset-deg"));
         }
     }, 3);
 

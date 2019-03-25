@@ -687,11 +687,19 @@ setlistener("/sim/signals/fdm-initialized", func {
         state_manager();
     }
 
-    #user defined seat position
     settimer(func {
-        setprop("/sim/current-view/y-offset-m", getprop("/sim/current-view/user/y-offset-m"));
-        setprop("/sim/current-view/z-offset-m", getprop("/sim/current-view/user/z-offset-m"));
-        setprop("/sim/current-view/pitch-offset-deg", getprop("/sim/current-view/user/pitch-offset-deg"));
+        if (!getprop("sim/current-view/user-settings-saved")) {
+            # initialize saved user seat settings for the first time
+            setprop("sim/current-view/user/y-offset-m", getprop("sim/view/config/y-offset-m"));
+            setprop("sim/current-view/user/z-offset-m", getprop("sim/view/config/z-offset-m"));
+            setprop("sim/current-view/user/pitch-offset-deg", getprop("sim/view/config/pitch-offset-deg"));
+            setprop("sim/current-view/user-settings-saved", 1);
+        } else {
+            #user defined saved seat position
+            setprop("/sim/current-view/y-offset-m", getprop("/sim/current-view/user/y-offset-m"));
+            setprop("/sim/current-view/z-offset-m", getprop("/sim/current-view/user/z-offset-m"));
+            setprop("/sim/current-view/pitch-offset-deg", getprop("/sim/current-view/user/pitch-offset-deg"));
+        }
     }, 3);
 
     var c172_timer = maketimer(0.25, func{global_system_loop()});

@@ -52,3 +52,9 @@ var reset_view = func (mode) {
     interpolate("sim/current-view/z-offset-m", z_offset, dt);
 
 };
+
+var update_view = func () {
+    setprop("sim/current-view/user/y-offset-m", getprop("sim/current-view/y-offset-m"));
+    setprop("sim/current-view/user/z-offset-m", getprop("sim/current-view/z-offset-m"));
+    setprop("sim/current-view/user/pitch-offset-deg", getprop("sim/current-view/pitch-offset-deg"));
+};

@@ -714,7 +714,7 @@ setlistener("/sim/signals/fdm-initialized", func {
         } else {
             setprop("sim/current-view/user/pitch-offset-deg", getprop("sim/view/config/pitch-offset-deg"));
         }
-    }, 3);
+    }, 1);
 
     var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();

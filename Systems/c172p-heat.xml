@@ -502,32 +502,16 @@
             </clipto>
         </summer>
 
-         <summer name="heat/heat-and-air-vents">
-            <input>-/environment/aircraft-effects/cabin-air-set</input>
-            <input>-/environment/aircraft-effects/cabin-heat-set</input>
-            <input>heat/artificial-fog-increase</input>
-
-            <!-- Vents speedup decrease of fog
-                 and frost.
-            -->
-        </summer>
-
-        <summer name="heat/surface-dewpoint-total">
-            <input>heat/heat-and-air-vents</input>
-            <input>heat/surface-dewpoint-diff</input>
-            <input>-heat/surface-temp-degc</input>
-        </summer>
-
         <switch name="heat/moisture-windup-trigger">
             <default value="0"/>
 
             <test logic="AND" value="1">
-                heat/surface-dewpoint-total GT 0
+                heat/surface-dewpoint-diff GT 0
                 heat/moisture-norm GE 1
             </test>
 
             <test logic="AND" value="1">
-                heat/surface-dewpoint-total LT 0
+                heat/surface-dewpoint-diff LT 0
                 heat/moisture-norm LE 0
             </test>
         </switch>

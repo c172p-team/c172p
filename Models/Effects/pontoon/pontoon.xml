@@ -24,12 +24,20 @@
         <object-name>R-FloatC</object-name>
         <object-name>Ldamper</object-name>
         <object-name>Rdamper</object-name>
+        <object-name>LRAxle</object-name>
+        <object-name>RRAxle</object-name>
+        <object-name>LAxle</object-name>
+        <object-name>RAxle</object-name>
         <object-name>Lstrut.001</object-name>
         <object-name>Lstrut.002</object-name>
         <object-name>Rstrut.001</object-name>
         <object-name>Rstrut.002</object-name>
         <object-name>LHrudder</object-name>
         <object-name>RHrudder</object-name>
+        <object-name>LFrontWheel</object-name>
+        <object-name>RRwheel</object-name>
+        <object-name>LRwheel</object-name>
+        <object-name>RFrontWheel</object-name>
     </effect>
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-parts</inherits-from>
@@ -118,6 +126,52 @@
             <g>1</g>
             <b>1</b>
         </ambient>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Ldamper</object-name>
+        <object-name>LAxle</object-name>
+        <object-name>Lstrut.001</object-name>
+        <object-name>LFrontWheel</object-name>
+        <property>/fdm/jsbsim/gear/unit[19]/steering-angle-deg</property>
+        <condition>
+            <greater-than>
+                <property>/fdm/jsbsim/gear/unit[19]/wheel-speed-fps</property>
+                <value>0.5</value>
+            </greater-than>
+        </condition>
+        <axis>
+            <x1-m>-2.12707</x1-m>
+            <y1-m>-1.15091</y1-m>
+            <z1-m>-1.64957</z1-m>
+            <x2-m>-2.22124</x2-m>
+            <y2-m>-1.15086</y2-m>
+            <z2-m>-1.87389</z2-m>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Rdamper</object-name>
+        <object-name>RAxle</object-name>
+        <object-name>Rstrut.001</object-name>
+        <object-name>RFrontWheel</object-name>
+        <property>/fdm/jsbsim/gear/unit[20]/steering-angle-deg</property>
+        <condition>
+            <greater-than>
+                <property>/fdm/jsbsim/gear/unit[19]/wheel-speed-fps</property>
+                <value>0.5</value>
+            </greater-than>
+        </condition>
+        <axis>
+            <x1-m>-2.12179</x1-m>
+            <y1-m> 1.1682</y1-m>
+            <z1-m>-1.63951</z1-m>
+            <x2-m>-2.21597</x2-m>
+            <y2-m> 1.16825</y2-m>
+            <z2-m>-1.86383</z2-m>
+        </axis>
     </animation>
 
 </PropertyList>

@@ -348,25 +348,23 @@
 
         <fcs_function name="heat/future-cabin-rel-humidity">
             <function>
-                <sum>
-                    <quotient>
-                        <sum>
-                            <product>
-                                <property>heat/non-humans-airflow</property>
-                                <property>/environment/relative-humidity</property>
-                            </product>
-                            <product>
-                                <property>heat/humans-airflow</property>
-                                <!-- Human breath: 35 C with 95 % RH -->
-                                <value>95.0</value>
-                            </product>
-                        </sum>
-                        <sum>
+                <quotient>
+                    <sum>
+                        <product>
                             <property>heat/non-humans-airflow</property>
+                            <property>/environment/relative-humidity</property>
+                        </product>
+                        <product>
                             <property>heat/humans-airflow</property>
-                        </sum>
-                    </quotient>
-                </sum>
+                            <!-- Human breath: 35 C with 95 % RH -->
+                            <value>95.0</value>
+                        </product>
+                    </sum>
+                    <sum>
+                        <property>heat/non-humans-airflow</property>
+                        <property>heat/humans-airflow</property>
+                    </sum>
+                </quotient>
             </function>
         </fcs_function>
 

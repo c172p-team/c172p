@@ -44,11 +44,19 @@ Fuel system for 2 different engines at choice, JSBSim FDM
     <!-- ****************************************************** -->
     <channel name="To Tank2">
         <!-- from Tank 0 (to Collector Tank 2) -->
+        <fcs_function name="propulsion/tank[0]/contents-volume-gal">
+            <function>
+                <quotient>
+                    <p> propulsion/tank[0]/contents-lbs </p>
+                    <p> propulsion/tank[0]/density-lbs_per_gal </p>
+                </quotient>
+            </function>
+        </fcs_function>
         <switch name="fuel/from-tank0-to-tank2">
             <default value="0"/>
             <test logic="AND" value="0.1">
                 propulsion/tank[0]/priority EQ 1 
-                propulsion/tank[0]/contents-lbs GT 0
+                propulsion/tank[0]/contents-volume-gal GT propulsion/tank[0]/unusable-volume-gal
                 /consumables/fuel/tank[2]/level-lbs LT 0.05
                 propulsion/tank[2]/priority EQ 1
                 accelerations/Nz GE 0
@@ -56,11 +64,19 @@ Fuel system for 2 different engines at choice, JSBSim FDM
         </switch>
 
         <!-- from Tank 1 (to Collector Tank 2) -->
+        <fcs_function name="propulsion/tank[1]/contents-volume-gal">
+            <function>
+                <quotient>
+                    <p> propulsion/tank[1]/contents-lbs </p>
+                    <p> propulsion/tank[1]/density-lbs_per_gal </p>
+                </quotient>
+            </function>
+        </fcs_function>
         <switch name="fuel/from-tank1-to-tank2">
             <default value="0"/>
             <test logic="AND" value="0.1">
                 propulsion/tank[1]/priority EQ 1 
-                propulsion/tank[1]/contents-lbs GT 0
+                propulsion/tank[1]/contents-volume-gal GT propulsion/tank[1]/unusable-volume-gal
                 /consumables/fuel/tank[2]/level-lbs LT 0.05
                 propulsion/tank[2]/priority EQ 1
                 accelerations/Nz GE 0

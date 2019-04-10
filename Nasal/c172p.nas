@@ -642,6 +642,12 @@ setlistener("/sim/signals/fdm-initialized", func {
         }
     }, 1, 0);
 
+    # season-winter is a conversion value, see c172p-ground-effects.xml
+    setprop("/sim/startup/season-winter", getprop("/sim/startup/season") == "winter");
+    setlistener("/sim/startup/season", func (node) {
+        setprop("/sim/startup/season-winter", node.getValue() == "winter");
+    }, 0, 0);
+
     # Close all caps and doors
     setlistener("/engines/active-engine/cranking", func (node) {
         setprop("sim/model/show-dip-stick", 0);

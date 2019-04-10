@@ -1,13 +1,22 @@
 var particle_effects_loop = func {
 
     #particle effect colors
-	var alt = getprop("/position/altitude-agl-ft");
+    var alt = getprop("/position/altitude-agl-m");
     var land = getprop("/fdm/jsbsim/ground/solid");
     var red_diffuse = getprop("/rendering/scene/diffuse/red");
     var snowlevel = getprop("/environment/snow-level-m");
+    var winter = getprop("/sim/startup/season-winter");
+
+    var friction = getprop("/fdm/jsbsim/ground/rolling_friction-factor");
+    var bumpiness = getprop("/fdm/jsbsim/ground/bumpiness");
+    var smooth_surface = 0;
+
+    if (friction == 1 or friction == .25 and bumpiness == 0) {
+        smooth_surface = 1;
+    }
 
     if (land) {
-        if (alt > snowlevel) {
+        if (alt > snowlevel or smooth_surface or winter) {
             setprop("/sim/model/c172p/lighting/particles/redcombinedstart",   red_diffuse*.8);
             setprop("/sim/model/c172p/lighting/particles/greencombinedstart", red_diffuse*.8);
             setprop("/sim/model/c172p/lighting/particles/bluecombinedstart",  red_diffuse*.8);

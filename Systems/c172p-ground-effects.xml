@@ -24,7 +24,24 @@
 
 <system name="c172p ground effects">
 
-    <channel name="contact-points">
+    <channel name="landing-gear">
+
+        <!-- Determine if snow on ground -->
+        <switch name="snow-possible">
+            <output>ground/snow-possible</output>
+            <default value="0"/>
+
+            <!-- No snow possible -->
+            <test logic="AND" value="0">
+                ground/solid EQ 1
+                /position/altitude-agl-m LT /environment/snow-level-m
+            </test>
+            <!-- Snow possible -->
+            <test logic="AND" value="1">
+                ground/solid EQ 1
+                /position/altitude-agl-m GT /environment/snow-level-m
+            </test>
+        </switch>
 
         <!-- ================================================================== -->
         <!-- Contact points landing gear and yellow sparks                      -->
@@ -51,6 +68,75 @@
             </function>
         </fcs_function>
 
+        <fcs_function name="z-position-ground-factor-nose-gear">
+            <output>gear/unit[0]/z-position</output>
+            <function>
+                <ifthen>
+                    <p>gear/unit[0]/broken</p>
+                    <p>gear/unit[0]/z-position</p>
+                    <ifthen>
+                        <not><p>ground/snow-possible</p></not>
+                        <sum>
+                            <p>gear/unit[0]/z-position</p>
+                            <product>
+                                <product>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </product>
+                                <switch>
+                                    <property>bushkit</property>
+
+                                    <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                    <value>0.175</value>
+                                    <value>0.025</value>
+                                    <value>0.02</value>
+                                    <value>0.0</value>
+                                    <value>0.0</value>
+                                    <value>0.02</value>
+                                </switch>
+                            </product>
+                        </sum>
+                        <ifthen>
+                            <and>
+                                <p>ground/snow-possible</p>
+                                <or>
+                                    <gt>
+                                        <p>gear/unit[0]/rolling_friction-factor</p>
+                                        <v>2</v>
+                                    </gt>
+                                    <lt>
+                                        <p>gear/unit[0]/rolling_friction-factor</p>
+                                        <v>1</v>
+                                    </lt>
+                                </or>
+                            </and>
+                            <sum>
+                                <p>gear/unit[0]/z-position</p>
+                                <product>
+                                    <product>
+                                        <p>/environment/surface/snow-thickness-factor</p>
+                                        <p>/environment/surface/snow-thickness-multiplier</p>
+                                    </product>
+                                    <switch>
+                                        <property>bushkit</property>
+
+                                        <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                        <value>0.175</value>
+                                        <value>0.15</value>
+                                        <value>0.13</value>
+                                        <value>0.0</value>
+                                        <value>0.0</value>
+                                        <value>0.008</value>
+                                    </switch>
+                                </product>
+                            </sum>
+                            <p>gear/unit[0]/z-position</p>
+                        </ifthen>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+
         <fcs_function name="z-position-left-gear">
             <output>gear/unit[1]/z-position</output>
             <function>
@@ -72,6 +158,75 @@
             </function>
         </fcs_function>
 
+        <fcs_function name="z-position-ground-factor-left-gear">
+            <output>gear/unit[1]/z-position</output>
+            <function>
+                <ifthen>
+                    <p>gear/unit[1]/broken</p>
+                    <p>gear/unit[1]/z-position</p>
+                    <ifthen>
+                        <not><p>ground/snow-possible</p></not>
+                        <sum>
+                            <p>gear/unit[1]/z-position</p>
+                            <product>
+                                <product>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </product>
+                                <switch>
+                                    <property>bushkit</property>
+
+                                    <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                    <value>0.15</value>
+                                    <value>0.020</value>
+                                    <value>0.015</value>
+                                    <value>0.0</value>
+                                    <value>0.0</value>
+                                    <value>0.015</value>
+                                </switch>
+                            </product>
+                        </sum>
+                        <ifthen>
+                            <and>
+                                <p>ground/snow-possible</p>
+                                <or>
+                                    <gt>
+                                        <p>gear/unit[1]/rolling_friction-factor</p>
+                                        <v>2</v>
+                                    </gt>
+                                    <lt>
+                                        <p>gear/unit[1]/rolling_friction-factor</p>
+                                        <v>1</v>
+                                    </lt>
+                                </or>
+                            </and>
+                            <sum>
+                                <p>gear/unit[1]/z-position</p>
+                                <product>
+                                    <product>
+                                        <p>/environment/surface/snow-thickness-factor</p>
+                                        <p>/environment/surface/snow-thickness-multiplier</p>
+                                    </product>
+                                    <switch>
+                                        <property>bushkit</property>
+
+                                        <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                        <value>0.15</value>
+                                        <value>0.13</value>
+                                        <value>0.11</value>
+                                        <value>0.0</value>
+                                        <value>0.0</value>
+                                        <value>0.008</value>
+                                    </switch>
+                                </product>
+                            </sum>
+                            <p>gear/unit[1]/z-position</p>
+                        </ifthen>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+
         <fcs_function name="z-position-right-gear">
             <output>gear/unit[2]/z-position</output>
             <function>
@@ -89,6 +244,75 @@
                         <value>  0.0</value>
                         <value>-22.0</value>
                     </switch>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="z-position-ground-factor-right-gear">
+            <output>gear/unit[2]/z-position</output>
+            <function>
+                <ifthen>
+                    <p>gear/unit[2]/broken</p>
+                    <p>gear/unit[2]/z-position</p>
+                    <ifthen>
+                        <not><p>ground/snow-possible</p></not>
+                        <sum>
+                            <p>gear/unit[2]/z-position</p>
+                            <product>
+                                <product>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </product>
+                                <switch>
+                                    <property>bushkit</property>
+
+                                    <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                    <value>0.15</value>
+                                    <value>0.020</value>
+                                    <value>0.015</value>
+                                    <value>0.0</value>
+                                    <value>0.0</value>
+                                    <value>0.015</value>
+                                </switch>
+                            </product>
+                        </sum>
+                        <ifthen>
+                            <and>
+                                <p>ground/snow-possible</p>
+                                <or>
+                                    <gt>
+                                        <p>gear/unit[2]/rolling_friction-factor</p>
+                                        <v>2</v>
+                                    </gt>
+                                    <lt>
+                                        <p>gear/unit[2]/rolling_friction-factor</p>
+                                        <v>1</v>
+                                    </lt>
+                                </or>
+                            </and>
+                            <sum>
+                                <p>gear/unit[2]/z-position</p>
+                                <product>
+                                    <product>
+                                        <p>/environment/surface/snow-thickness-factor</p>
+                                        <p>/environment/surface/snow-thickness-multiplier</p>
+                                    </product>
+                                    <switch>
+                                        <property>bushkit</property>
+
+                                        <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                        <value>0.15</value>
+                                        <value>0.13</value>
+                                        <value>0.11</value>
+                                        <value>0.0</value>
+                                        <value>0.0</value>
+                                        <value>0.008</value>
+                                    </switch>
+                                </product>
+                            </sum>
+                            <p>gear/unit[2]/z-position</p>
+                        </ifthen>
+                    </ifthen>
                 </ifthen>
             </function>
         </fcs_function>
@@ -152,6 +376,700 @@
                         <value>-21.0</value>
                     </switch>
                     <value>0.0</value>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <!-- ================================================================== -->
+        <!-- Friction factors per gear changout for summer, winter or snow      -->
+        <!-- ================================================================== -->
+
+        <!-- Normalize snow depth to a usable value 1 + (m-0.0)/(0.6-0.0)*(10-1) -->
+        <fcs_function name="normalized-snow-depth">
+            <output>ground/normalized-snow-depth</output>
+            <function>
+                <sum>
+                    <product>
+                        <quotient>
+                            <difference>
+                                <p>/environment/surface/snow-thickness-factor</p>
+                                <v>0.0</v>
+                            </difference>
+                            <difference>
+                                <v>0.6</v>
+                                <v>0.0</v>
+                            </difference>
+                        </quotient>
+                        <difference>
+                            <v>50.0</v>
+                            <v>1</v>
+                        </difference>
+                    </product>
+                    <v>1.0</v>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <!-- Normalize snow depth to needed value range (0.7 + (m-0.0)/(0.6-0.0)*(0.9999-0.7)) -->
+        <fcs_function name="normalized-ski-snow-depth">
+            <output>ground/normalized-snow-depth-ski</output>
+            <function>
+                <sum>
+                    <product>
+                        <quotient>
+                            <difference>
+                                <p>/environment/surface/snow-thickness-factor</p>
+                                <v>0.0</v>
+                            </difference>
+                            <difference>
+                                <v>0.6</v>
+                                <v>0.0</v>
+                            </difference>
+                        </quotient>
+                        <difference>
+                            <v>0.9999</v>
+                            <v>0.7</v>
+                        </difference>
+                    </product>
+                    <v>0.7</v>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <!-- factor of snow depth per gear type -->
+        <fcs_function name="snow-affected-friction">
+            <output>ground/snow_friction-factor</output>
+            <function>
+                <ifthen>
+                    <and>
+                        <le>
+                            <p>ground/rolling_friction-factor</p>
+                            <value>2</value>
+                        </le>
+                        <ge>
+                            <p>ground/rolling_friction-factor</p>
+                            <value>1</value>
+                        </ge>
+                    </and>
+                    <value>1.0</value>
+                    <ifthen>
+                        <p>ground/snow-possible</p>
+                        <switch>
+                            <property>bushkit</property>
+                            <product>
+                                <v>1</v>
+                                <p>ground/normalized-snow-depth</p>
+                            </product>
+                            <product>
+                                <v>.95</v>
+                                <p>ground/normalized-snow-depth</p>
+                            </product>
+                            <product>
+                                <v>.9</v>
+                                <p>ground/normalized-snow-depth</p>
+                            </product>
+                            <product>
+                                <v>0</v>
+                                <p>ground/normalized-snow-depth</p>
+                            </product>
+                            <product>
+                                <v>.30</v>
+                                <p>ground/normalized-snow-depth</p>
+                            </product>
+                            <p>ground/normalized-snow-depth-ski</p>
+                        </switch>
+                        <value>1.0</value>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="static-friction-nose-gear">
+            <output>gear/unit[0]/static_friction_coeff</output>
+            <output>gear/unit[23]/static_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <p>gear/unit[0]/broken</p>
+                    <p>gear/unit[0]/static_friction_coeff</p>
+                    <!-- winter or above snow line -->
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                <quotient>
+                                    <value>0.2</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.2125</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
+                        <switch>
+                            <property>bushkit</property>
+
+                            <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                            <value>0.8</value>  <!-- bogie 0-2 -->
+                            <value>0.85</value> <!-- bogie 0-2 -->
+                            <value>0.9</value>  <!-- bogie 0-2 -->
+                            <value>0.0</value>  <!-- contact 13-18 -->
+                            <value>0.0</value>  <!-- bogie 19-22 -->
+                            <value>0.9</value>  <!-- bogie 23-25 -->
+                        </switch>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="dynamic-friction-nose-gear">
+            <output>gear/unit[0]/dynamic_friction_coeff</output>
+            <output>gear/unit[23]/dynamic_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <p>gear/unit[0]/broken</p>
+                    <p>gear/unit[0]/dynamic_friction_coeff</p>
+                    <!-- winter or above snow line -->
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                <quotient>
+                                    <value>0.125</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.1375</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[0]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
+                        <switch>
+                            <property>bushkit</property>
+
+                            <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                            <value>0.5</value>
+                            <value>0.55</value>
+                            <value>0.6</value>
+                            <value>0.0</value>
+                            <value>0.0</value>
+                            <value>0.6</value>
+                        </switch>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="rolling-friction-nose-gear">
+            <output>gear/unit[0]/rolling_friction_coeff</output>
+            <output>gear/unit[23]/rolling_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <p>gear/unit[0]/broken</p>
+                    <p>gear/unit[0]/rolling_friction_coeff</p>
+                    <!-- winter or above snow line -->
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                <quotient>
+                                    <value>0.006</value>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                </quotient>
+                                 <quotient>
+                                    <value>0.0045</value>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                </quotient>
+                                 <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[0]/rolling_friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
+                        <switch>
+                            <property>bushkit</property>
+
+                            <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                            <value>0.02</value>
+                            <value>0.015</value>
+                            <value>0.01</value>
+                            <value>0.0</value>
+                            <value>0.0</value>
+                            <value>0.01</value>
+                        </switch>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <!-- Left gear friction factors -->
+        <fcs_function name="static-friction-left-gear">
+            <output>gear/unit[1]/static_friction_coeff</output>
+            <output>gear/unit[24]/static_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <p>gear/unit[1]/broken</p>
+                    <p>gear/unit[1]/static_friction_coeff</p>
+                    <!-- winter or above snow line -->
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                <quotient>
+                                    <value>0.2</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.2125</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
+                        <switch>
+                            <property>bushkit</property>
+
+                            <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                            <value>0.8</value>
+                            <value>0.85</value>
+                            <value>0.9</value>
+                            <value>0.0</value>
+                            <value>0.0</value>
+                            <value>0.9</value>
+                        </switch>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="dynamic-friction-left-gear">
+            <output>gear/unit[1]/dynamic_friction_coeff</output>
+            <output>gear/unit[24]/dynamic_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <p>gear/unit[1]/broken</p>
+                    <p>gear/unit[1]/dynamic_friction_coeff</p>
+                    <!-- winter or above snow line -->
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.20</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.25</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.25</value>
+                                    <p>gear/unit[1]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
+                        <switch>
+                            <property>bushkit</property>
+
+                            <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                            <value>0.5</value>
+                            <value>0.55</value>
+                            <value>0.6</value>
+                            <value>0.0</value>
+                            <value>0.0</value>
+                            <value>0.6</value>
+                        </switch>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="rolling-friction-left-gear">
+            <output>gear/unit[1]/rolling_friction_coeff</output>
+            <output>gear/unit[24]/rolling_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <p>gear/unit[1]/broken</p>
+                    <p>gear/unit[1]/rolling_friction_coeff</p>
+                    <!-- winter or above snow line -->
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                <quotient>
+                                    <value>0.006</value>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                </quotient>
+                                 <quotient>
+                                    <value>0.0045</value>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                </quotient>
+                                 <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[1]/rolling_friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
+                        <switch>
+                            <property>bushkit</property>
+
+                            <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                            <value>0.02</value>
+                            <value>0.015</value>
+                            <value>0.01</value>
+                            <value>0.0</value>
+                            <value>0.0</value>
+                            <value>0.01</value>
+                        </switch>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <!-- Right gear friction factors -->
+        <fcs_function name="static-friction-right-gear">
+            <output>gear/unit[2]/static_friction_coeff</output>
+            <output>gear/unit[25]/static_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <p>gear/unit[2]/broken</p>
+                    <p>gear/unit[2]/static_friction_coeff</p>
+                    <!-- winter or above snow line -->
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                <quotient>
+                                    <value>0.2</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.2125</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.225</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
+                        <switch>
+                            <property>bushkit</property>
+
+                            <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                            <value>0.8</value>
+                            <value>0.85</value>
+                            <value>0.9</value>
+                            <value>0.0</value>
+                            <value>0.0</value>
+                            <value>0.9</value>
+                        </switch>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="dynamic-friction-right-gear">
+            <output>gear/unit[2]/dynamic_friction_coeff</output>
+            <output>gear/unit[25]/dynamic_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <p>gear/unit[2]/broken</p>
+                    <p>gear/unit[2]/dynamic_friction_coeff</p>
+                    <!-- winter or above snow line -->
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                 <quotient>
+                                    <value>0.15</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.20</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                                <quotient>
+                                    <value>0.25</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.25</value>
+                                    <p>gear/unit[2]/static-friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
+                        <switch>
+                            <property>bushkit</property>
+
+                            <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                            <value>0.5</value>
+                            <value>0.55</value>
+                            <value>0.6</value>
+                            <value>0.0</value>
+                            <value>0.0</value>
+                            <value>0.6</value>
+                        </switch>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="rolling-friction-right-gear">
+            <output>gear/unit[2]/rolling_friction_coeff</output>
+            <output>gear/unit[25]/rolling_friction_coeff</output>
+            <function>
+                <ifthen>
+                    <p>gear/unit[2]/broken</p>
+                    <p>gear/unit[2]/rolling_friction_coeff</p>
+                    <!-- winter or above snow line -->
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <p>/environment/surface/snow-thickness-factor</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <product>
+                            <switch>
+                                <property>bushkit</property>
+
+                                <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                                <quotient>
+                                    <value>0.006</value>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                </quotient>
+                                 <quotient>
+                                    <value>0.0045</value>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                </quotient>
+                                 <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                </quotient>
+                                <value>0.0</value>
+                                <value>0.0</value>
+                                <quotient>
+                                    <value>0.003</value>
+                                    <p>gear/unit[2]/rolling_friction-factor</p>
+                                </quotient>
+                            </switch>
+                            <p>ground/snow_friction-factor</p>
+                        </product>
+                        <!-- not winter and not above snow line -->
+                        <switch>
+                            <property>bushkit</property>
+
+                            <!-- Default/26"/36"/pontoon/amphibious/skis -->
+                            <value>0.02</value>
+                            <value>0.015</value>
+                            <value>0.01</value>
+                            <value>0.0</value>
+                            <value>0.0</value>
+                            <value>0.01</value>
+                        </switch>
+                    </ifthen>
                 </ifthen>
             </function>
         </fcs_function>
@@ -277,6 +1195,155 @@
         </switch>
 
         <!-- ================================================================== -->
+        <!-- Contact points pontoons snow                                          -->
+        <!-- ================================================================== -->
+
+        <fcs_function name="z-position-ground-factor-left-forward-pontoons">
+            <output>contact/unit[13]/z-position</output>
+            <function>
+                <ifthen>
+                    <p>pontoon-damage/left-pontoon</p>
+                    <p>contact/unit[13]/z-position</p>
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <or>
+                                <gt>
+                                    <p>contact/unit[13]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>contact/unit[13]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <sum>
+                            <p>contact/unit[13]/z-position</p>
+                            <product>
+                                <product>
+                                    <p>/environment/surface/snow-thickness-factor</p>
+                                    <p>/environment/surface/snow-thickness-multiplier</p>
+                                </product>
+                                <value>0.02</value>
+                            </product>
+                        </sum>
+                        <p>contact/unit[13]/z-position</p>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="z-position-ground-factor-left-aft-pontoons">
+            <output>contact/unit[15]/z-position</output>
+            <output>contact/unit[17]/z-position</output>
+            <function>
+                <ifthen>
+                    <p>pontoon-damage/left-pontoon</p>
+                    <p>contact/unit[15]/z-position</p>
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <or>
+                                <gt>
+                                    <p>contact/unit[17]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>contact/unit[17]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <sum>
+                            <p>contact/unit[15]/z-position</p>
+                            <product>
+                                <product>
+                                    <p>/environment/surface/snow-thickness-factor</p>
+                                    <p>/environment/surface/snow-thickness-multiplier</p>
+                                </product>
+                                <value>0.04</value>
+                            </product>
+                        </sum>
+                        <p>contact/unit[15]/z-position</p>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="z-position-ground-factor-right-forward-pontoon">
+            <output>contact/unit[14]/z-position</output>
+
+            <function>
+                <ifthen>
+                    <p>pontoon-damage/right-pontoon</p>
+                    <p>contact/unit[14]/z-position</p>
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <or>
+                                <gt>
+                                    <p>contact/unit[14]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>contact/unit[14]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <sum>
+                            <p>contact/unit[14]/z-position</p>
+                            <product>
+                                <product>
+                                    <p>/environment/surface/snow-thickness-factor</p>
+                                    <p>/environment/surface/snow-thickness-multiplier</p>
+                                </product>
+                                <value>0.02</value>
+                            </product>
+                        </sum>
+                        <p>contact/unit[14]/z-position</p>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+        <fcs_function name="z-position-ground-factor-right-aft-pontoon">
+            <output>contact/unit[16]/z-position</output>
+            <output>contact/unit[18]/z-position</output>
+            <function>
+                <ifthen>
+                    <p>pontoon-damage/right-pontoon</p>
+                    <p>contact/unit[16]/z-position</p>
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <or>
+                                <gt>
+                                    <p>contact/unit[18]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>contact/unit[18]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <sum>
+                            <p>contact/unit[16]/z-position</p>
+                            <product>
+                                <product>
+                                    <p>/environment/surface/snow-thickness-factor</p>
+                                    <p>/environment/surface/snow-thickness-multiplier</p>
+                                </product>
+                                <value>0.04</value>
+                            </product>
+                        </sum>
+                        <p>contact/unit[16]/z-position</p>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+
+        <!-- ================================================================== -->
         <!-- Contact points amphibious                                          -->
         <!-- ================================================================== -->
 
@@ -289,6 +1356,42 @@
             </test>
         </switch>
 
+        <fcs_function name="z-position-ground-factor-left-fwd-amphibious">
+            <output>gear/unit[19]/z-position</output>
+            <function>
+                <ifthen>
+                    <p>pontoon-damage/left-pontoon</p>
+                    <p>gear/unit[19]/z-position</p>
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[19]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[19]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <sum>
+                            <p>gear/unit[19]/z-position</p>
+                            <product>
+                                <product>
+                                    <p>/environment/surface/snow-thickness-factor</p>
+                                    <p>/environment/surface/snow-thickness-multiplier</p>
+                                </product>
+                                <value>0.07</value>
+                            </product>
+                        </sum>
+                        <p>gear/unit[19]/z-position</p>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+
         <switch name="z-position-right-fwd-pontoon">
             <output>gear/unit[20]/z-position</output>
             <default value="0"/>
@@ -297,6 +1400,42 @@
                 bushkit EQ 4
             </test>
         </switch>
+
+        <fcs_function name="z-position-ground-factor-right-fwd-amphibious">
+            <output>gear/unit[20]/z-position</output>
+            <function>
+                <ifthen>
+                    <p>pontoon-damage/right-pontoon</p>
+                    <p>gear/unit[20]/z-position</p>
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[20]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[20]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <sum>
+                            <p>gear/unit[20]/z-position</p>
+                            <product>
+                                <product>
+                                    <p>/environment/surface/snow-thickness-factor</p>
+                                    <p>/environment/surface/snow-thickness-multiplier</p>
+                                </product>
+                                <value>0.07</value>
+                            </product>
+                        </sum>
+                        <p>gear/unit[20]/z-position</p>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
 
         <switch name="z-position-left-aft-pontoon">
             <output>gear/unit[21]/z-position</output>
@@ -307,6 +1446,42 @@
             </test>
         </switch>
 
+        <fcs_function name="z-position-ground-factor-left-aft-amphibious">
+            <output>gear/unit[21]/z-position</output>
+            <function>
+                <ifthen>
+                    <p>pontoon-damage/left-pontoon</p>
+                    <p>gear/unit[21]/z-position</p>
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[21]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[21]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <sum>
+                            <p>gear/unit[21]/z-position</p>
+                            <product>
+                                <product>
+                                    <p>/environment/surface/snow-thickness-factor</p>
+                                    <p>/environment/surface/snow-thickness-multiplier</p>
+                                </product>
+                                <value>0.08</value>
+                            </product>
+                        </sum>
+                        <p>gear/unit[21]/z-position</p>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
+
         <switch name="z-position-right-aft-pontoon">
             <output>gear/unit[22]/z-position</output>
             <default value="0"/>
@@ -315,6 +1490,42 @@
                 bushkit EQ 4
             </test>
         </switch>
+
+        <fcs_function name="z-position-ground-factor-right-aft-amphibious">
+            <output>gear/unit[22]/z-position</output>
+            <function>
+                <ifthen>
+                    <p>pontoon-damage/right-pontoon</p>
+                    <p>gear/unit[22]/z-position</p>
+                    <ifthen>
+                        <and>
+                            <p>ground/snow-possible</p>
+                            <or>
+                                <gt>
+                                    <p>gear/unit[22]/rolling_friction-factor</p>
+                                    <v>2</v>
+                                </gt>
+                                <lt>
+                                    <p>gear/unit[22]/rolling_friction-factor</p>
+                                    <v>1</v>
+                                </lt>
+                            </or>
+                        </and>
+                        <sum>
+                            <p>gear/unit[22]/z-position</p>
+                            <product>
+                                <product>
+                                    <p>/environment/surface/snow-thickness-factor</p>
+                                    <p>/environment/surface/snow-thickness-multiplier</p>
+                                </product>
+                                <value>0.08</value>
+                            </product>
+                        </sum>
+                        <p>gear/unit[22]/z-position</p>
+                    </ifthen>
+                </ifthen>
+            </function>
+        </fcs_function>
 
     </channel>
 
@@ -333,6 +1544,10 @@
         <switch name="gear-spin-left">
             <output>gear/gear-spin-left</output>
             <default value="53"/>
+            <test logic="OR" value="0">
+                /controls/gear/brake-parking EQ 1
+                /controls/gear/brake-left    GT 0.95
+            </test>
             <test logic="OR" value="24">
                 bushkit EQ 2
                 bushkit EQ 5
@@ -345,6 +1560,10 @@
         <switch name="gear-spin-right">
             <output>gear/gear-spin-right</output>
             <default value="53"/>
+            <test logic="OR" value="0">
+                /controls/gear/brake-parking EQ 1
+                /controls/gear/brake-right    GT 0.95
+            </test>
             <test logic="OR" value="24">
                 bushkit EQ 2
                 bushkit EQ 5
@@ -353,6 +1572,46 @@
                 bushkit EQ 1
             </test>
         </switch>
+
+        <fcs_function name="gear/gear-burn-left">
+            <function>
+                <product>
+                    <property>/gear/gear[1]/wow</property>
+                    <property>/velocities/groundspeed-kt</property>
+                    <property>/fdm/jsbsim/ground/solid</property>
+                    <product>
+                        <or>
+                            <property>/controls/gear/brake-parking</property>
+                            <eq>
+                                <property>/controls/gear/brake-left</property>
+                                <value>1</value>
+                            </eq>
+                        </or>
+                        <value>10</value>
+                    </product>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="gear/gear-burn-right">
+            <function>
+                <product>
+                    <property>/gear/gear[2]/wow</property>
+                    <property>/velocities/groundspeed-kt</property>
+                    <property>/fdm/jsbsim/ground/solid</property>
+                    <product>
+                        <or>
+                            <property>/controls/gear/brake-parking</property>
+                            <eq>
+                                <property>/controls/gear/brake-right</property>
+                                <value>1</value>
+                            </eq>
+                        </or>
+                        <value>10</value>
+                    </product>
+                </product>
+            </function>
+        </fcs_function>
 
         <fcs_function name="ground/tail-ground-effect-speed-kt">
             <function>

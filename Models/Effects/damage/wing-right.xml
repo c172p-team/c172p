@@ -45,10 +45,28 @@
         </offsets>
 
         <condition>
-            <greater-than>
-                <property alias="/params/right_wing_ground_effect_speed_kt/property"/>
-                <value>2</value>
-            </greater-than>
+            <and>
+                <greater-than>
+                    <property alias="/params/right_wing_ground_effect_speed_kt/property"/>
+                    <value>2</value>
+                </greater-than>
+                <or>
+                    <less-than>
+                        <property>/position/altitude-agl-m</property>
+                        <property>/environment/snow-level-m</property>
+                    </less-than>
+                    <and>
+                        <greater-than>
+                            <property>/position/altitude-agl-m</property>
+                            <property>/environment/snow-level-m</property>
+                        </greater-than>
+                        <less-than>
+                            <property>/environment/surface/snow-thickness-factor</property>
+                            <value>.21</value>
+                        </less-than>
+                    </and>
+                </or>
+            </and>
         </condition>
 
         <texture>spark.png</texture>
@@ -104,7 +122,7 @@
                     </alpha>
                 </color>
                 <size>
-                    <value>0.05</value>
+                    <value>0.01</value>
                 </size>
             </start>
             <end>
@@ -123,7 +141,7 @@
                     </alpha>
                 </color>
                 <size>
-                    <value>0.00025</value>
+                    <value>0.001</value>
                 </size>
             </end>
             <life-sec>

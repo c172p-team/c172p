@@ -104,29 +104,18 @@ Mooring.setmoorage = func( index, moorage ) {
 
     # overwrite the coordinates from the original airport
     # forces the computation of ground
-    #setprop("/sim/presets/altitude-ft", -9999);
-    #setprop("/sim/presets/airspeed-kt", 0);
-    #setprop("/sim/presets/roll-deg", 0);
-    #setprop("/sim/presets/pitch-deg", 0);
-    #setprop("/sim/presets/latitude-deg", latitudedeg);
-    #setprop("/sim/presets/longitude-deg", longitudedeg);
-    #setprop("/sim/presets/heading-deg", headingdeg);
-    #setprop("/sim/presets/offset-distance-nm", 0);
-    #setprop("/sim/presets/glideslope-deg", 0);
-    #setprop("/sim/presets/runway", "");
-    #setprop("/sim/presets/runway-requested", 0);
-    #setprop("/sim/presets/airport-id", "");
-
-    me.presets.getChild("altitude-ft").setValue(-9999);
-    me.presets.getChild("airspeed-kt").setValue(0);
-    me.presets.getChild("latitude-deg").setValue(latitudedeg);
-    me.presets.getChild("longitude-deg").setValue(longitudedeg);
-    me.presets.getChild("heading-deg").setValue(headingdeg);
-    me.presets.getChild("offset-distance-nm").setValue(0);
-    me.presets.getChild("glideslope-deg").setValue(0);
-    me.presets.getChild("runway").setValue("");
-    me.presets.getChild("runway-requested").setValue(0);
-    me.presets.getChild("airport-id").setValue("");
+    setprop("/sim/presets/altitude-ft", -9999);
+    setprop("/sim/presets/airspeed-kt", 0);
+    setprop("/sim/presets/roll-deg", 0);
+    setprop("/sim/presets/pitch-deg", 0);
+    setprop("/sim/presets/latitude-deg", latitudedeg);
+    setprop("/sim/presets/longitude-deg", longitudedeg);
+    setprop("/sim/presets/heading-deg", headingdeg);
+    setprop("/sim/presets/offset-distance-nm", 0);
+    setprop("/sim/presets/glideslope-deg", 0);
+    setprop("/sim/presets/runway", "");
+    setprop("/sim/presets/runway-requested", 0);
+    setprop("/sim/presets/airport-id", "");
 }
 
 Mooring.presetseaplane = func {

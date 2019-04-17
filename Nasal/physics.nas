@@ -153,31 +153,30 @@ var bushkit_changed_timer = maketimer(bushkit_change_timeout, func {
 });
 bushkit_changed_timer.singleShot = 1;
 
-setlistener("/sim/signals/fdm-initialized", func {
-    # Update the 3D model when changing bush kit
-    setlistener("/fdm/jsbsim/bushkit", func (n) {
-        set_bushkit(n.getValue());
-    }, 1, 0);
+# Update the 3D model when changing bush kit
+setlistener("/fdm/jsbsim/bushkit", func (n) {
+    set_bushkit(n.getValue());
+}, 1, 0);
 
-    setlistener("/fdm/jsbsim/crash", func (n) {
-        if (n.getBoolValue() and getprop("position/altitude-agl-m") < 10) {
-            killengine();
-        }
-    }, 0, 0);
+setlistener("/fdm/jsbsim/crash", func (n) {
+    if (n.getBoolValue() and getprop("position/altitude-agl-m") < 10) {
+        killengine();
+    }
+}, 0, 0);
 
-    setlistener("/fdm/jsbsim/wing-damage/left-wing", func (n) {
-        var damage = n.getValue();
-        var altitude = getprop("position/altitude-agl-m");
+setlistener("/fdm/jsbsim/wing-damage/left-wing", func (n) {
+    var damage = n.getValue();
+    var altitude = getprop("position/altitude-agl-m");
 
-        if (damage < 1.0 and damage > 0.0 and altitude < 10.0)
-            killengine();
-    }, 0, 0);
+    if (damage < 1.0 and damage > 0.0 and altitude < 10.0)
+        killengine();
+}, 0, 0);
 
-    setlistener("/fdm/jsbsim/wing-damage/right-wing", func (n) {
-        var damage = n.getValue();
-        var altitude = getprop("position/altitude-agl-m");
+setlistener("/fdm/jsbsim/wing-damage/right-wing", func (n) {
+    var damage = n.getValue();
+    var altitude = getprop("position/altitude-agl-m");
 
-        if (damage < 1.0 and damage > 0.0 and altitude < 10.0)
-            killengine();
-    }, 0, 0);
-});
+    if (damage < 1.0 and damage > 0.0 and altitude < 10.0)
+        killengine();
+}, 0, 0);
+

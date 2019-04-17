@@ -160,15 +160,11 @@
 
 var astrotech=lc2.new("instrumentation/clock/lc2");
 
-
-setlistener("/sim/signals/fdm-initialized", func {
-    settimer(update,2);
-    print("Astro Tech LC-2 Chronometer Loaded");
-});
-
 var update = func{
-astrotech.update_clock();
-settimer(update,0.5);
+    astrotech.update_clock();
+    settimer(update,0.5);
 }
 
+settimer(update,2);
 
+print("Astro Tech LC-2 Chronometer Loaded");

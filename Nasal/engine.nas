@@ -490,16 +490,17 @@ controls.startEngine = func(v = 1) {
     }
 };
 
+var engine_timer = maketimer(UPDATE_PERIOD, func { update(); });
+coughing_timer.singleShot = 1;
+oil_consumption.simulatedTime = 1;
+
 setlistener("/sim/signals/fdm-initialized", func {
-    var engine_timer = maketimer(UPDATE_PERIOD, func { update(); });
     engine_timer.start();
     carb_icing_function.start();
-    coughing_timer.singleShot = 1;
     coughing_timer.start();
     if (oil_consumption.isRunning) {
         oil_consumption.stop();
     }
-    oil_consumption.simulatedTime = 1;
     oil_consumption.start();
     calculate_real_oiltemp.start();
 });

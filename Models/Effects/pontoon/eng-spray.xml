@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PropertyList>
+
+    <particlesystem>
+        <name>eng-spray</name>
+        <texture>spray.png</texture>
+        <emissive>false</emissive>
+        <lighting>false</lighting>
+
+        <offsets>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+        </offsets>
+
+        <condition>
+            <and>
+                <property>fdm/jsbsim/hydro/active-norm</property>
+                <greater-than>
+                    <property>engines/active-engine/rpm</property>
+                    <value>1000</value>
+                </greater-than>
+                <less-than>
+                    <property>position/altitude-agl-ft</property>
+                    <value>10</value>
+                </less-than>
+            </and>
+        </condition>
+
+        <attach>world</attach>
+
+        <placer>
+            <type>sector</type>
+            <radius-min-m>0.5</radius-min-m>
+            <radius-max-m>2</radius-max-m>
+        </placer>
+
+        <shooter>
+            <theta-min-deg>0</theta-min-deg>
+            <theta-max-deg>0</theta-max-deg>
+            <phi-min-deg>-210</phi-min-deg>
+            <phi-max-deg>210</phi-max-deg>
+            <speed-mps>
+                <property>engines/active-engine/rpm</property>
+                <factor>0.005</factor>
+            </speed-mps>
+            <rotation-speed>
+                <x-max-deg-sec>15</x-max-deg-sec>
+                <x-min-deg-sec>-15</x-min-deg-sec>
+                <y-max-deg-sec>15</y-max-deg-sec>
+                <y-min-deg-sec>-15</y-min-deg-sec>
+                <z-max-deg-sec>15</z-max-deg-sec>
+                <z-min-deg-sec>-15</z-min-deg-sec>
+            </rotation-speed>
+        </shooter>
+
+        <counter>
+            <particles-per-sec>
+                <property>engines/active-engine/rpm</property>
+                <factor>0.0025</factor>
+            </particles-per-sec>
+        </counter>
+
+        <align>billboard</align>
+
+        <particle>
+            <start>
+                <color>
+                    <red>
+                        <property>/sim/model/c172p/lighting/particles/redcombinedstart</property>
+                    </red>
+                    <green>
+                        <property>/sim/model/c172p/lighting/particles/greencombinedstart</property>
+                    </green>
+                    <blue>
+                        <property>/sim/model/c172p/lighting/particles/bluecombinedstart</property>
+                    </blue>
+                    <alpha>
+                        <value>0.1</value>
+                    </alpha>
+                </color>
+                <size>
+                    <value>2</value>
+                </size>
+            </start>
+            <end>
+                <color>
+                    <red>
+                        <property>/sim/model/c172p/lighting/particles/redcombinedend</property>
+                    </red>
+                    <green>
+                        <property>/sim/model/c172p/lighting/particles/greencombinedend</property>
+                    </green>
+                    <blue>
+                        <property>/sim/model/c172p/lighting/particles/bluecombinedend</property>
+                    </blue>
+                    <alpha>
+                        <value>0.0005</value>
+                    </alpha>
+                </color>
+                <size>
+                    <value>25</value>
+                </size>
+            </end>
+            <life-sec>
+                <value>3</value>
+            </life-sec>
+            <mass-kg>0.01</mass-kg>
+            <radius-m>0.175</radius-m>
+        </particle>
+
+        <program>
+            <fluid>water</fluid>
+            <gravity>true</gravity>
+            <wind>false</wind>
+        </program>
+
+    </particlesystem>
+
+</PropertyList>

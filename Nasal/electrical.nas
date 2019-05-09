@@ -501,12 +501,12 @@ var avionics_bus_1 = func() {
 
 var system_updater = ElectricalSystemUpdater.new();
 
-setlistener("/sim/signals/fdm-initialized", func {
-    # checking if battery should be automatically recharged
-    if (!getprop("/systems/electrical/save-battery-charge")) {
-        battery.reset_to_full_charge();
-    };
+# checking if battery should be automatically recharged
+if (!getprop("/systems/electrical/save-battery-charge")) {
+    battery.reset_to_full_charge();
+};
 
-    system_updater.enable();
-    print("Electrical system initialized");
-});
+system_updater.enable();
+
+print("Electrical system initialized");
+

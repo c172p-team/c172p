@@ -594,6 +594,8 @@ var dialog_battery_reload = func {
     gui.popupTip("The battery is now fully charged!");
 }
 
+var c172_timer = maketimer(0.25, func{global_system_loop()});
+
 setlistener("/sim/signals/fdm-initialized", func {
     # Randomize callsign of new users to avoid them blocking
     # other new users on multiplayer
@@ -612,41 +614,6 @@ setlistener("/sim/signals/fdm-initialized", func {
 
     # Initialize mass limits
     set_limits(props.globals.getNode("/controls/engines/active-engine"));
-
-    # Set alt alert of KAP 140 autopilot to 20_000 ft to get rid of annoying beep
-    setlistener("/autopilot/KAP140/settings/target-alt-ft", func (n) {
-        if (n.getValue() == 0) {
-            kap140.altPreselect = 20000;
-            setprop("/autopilot/KAP140/settings/target-alt-ft", kap140.altPreselect);
-        }
-    });
-
-    setlistener("/sim/model/c172p/cabin-air-temp-in-range", func (node) {
-        if (node.getValue()) {
-            cabin_temp_timer.stop();
-            logger.screen.green("Cabin temperature between 32F/0C and 90F/32C");
-        }
-        else {
-            log_cabin_temp();
-            cabin_temp_timer.start();
-        }
-    }, 1, 0);
-
-    setlistener("/sim/model/c172p/fog-or-frost-increasing", func (node) {
-        if (node.getValue()) {
-            log_fog_frost();
-            fog_frost_timer.start();
-        }
-        else {
-            fog_frost_timer.stop();
-        }
-    }, 1, 0);
-
-    # season-winter is a conversion value, see c172p-ground-effects.xml
-    setprop("/sim/startup/season-winter", getprop("/sim/startup/season") == "winter");
-    setlistener("/sim/startup/season", func (node) {
-        setprop("/sim/startup/season-winter", node.getValue() == "winter");
-    }, 0, 0);
 
     # Close all caps and doors
     setlistener("/engines/active-engine/cranking", func (node) {
@@ -722,6 +689,40 @@ setlistener("/sim/signals/fdm-initialized", func {
         }
     }, 1);
 
-    var c172_timer = maketimer(0.25, func{global_system_loop()});
     c172_timer.start();
 });
+
+# Set alt alert of KAP 140 autopilot to 20_000 ft to get rid of annoying beep
+setlistener("/autopilot/KAP140/settings/target-alt-ft", func (n) {
+    if (n.getValue() == 0) {
+        kap140.altPreselect = 20000;
+        setprop("/autopilot/KAP140/settings/target-alt-ft", kap140.altPreselect);
+    }
+});
+
+setlistener("/sim/model/c172p/cabin-air-temp-in-range", func (node) {
+    if (node.getValue()) {
+        cabin_temp_timer.stop();
+        logger.screen.green("Cabin temperature between 32F/0C and 90F/32C");
+    }
+    else {
+        log_cabin_temp();
+        cabin_temp_timer.start();
+    }
+}, 1, 0);
+
+setlistener("/sim/model/c172p/fog-or-frost-increasing", func (node) {
+    if (node.getValue()) {
+        log_fog_frost();
+        fog_frost_timer.start();
+    }
+    else {
+        fog_frost_timer.stop();
+    }
+}, 1, 0);
+
+# season-winter is a conversion value, see c172p-ground-effects.xml
+setprop("/sim/startup/season-winter", getprop("/sim/startup/season") == "winter");
+setlistener("/sim/startup/season", func (node) {
+    setprop("/sim/startup/season-winter", node.getValue() == "winter");
+}, 0, 0);

@@ -1,6 +1,53 @@
 List of features and bug fixes
 ==============================
 
+Version 2019.1
+--------------
+
+**Features:**
+
+* Persistent adjustable pilot seat/view position
+* New seat frame modeling
+* New fog and frost overlay showing heat and air vent effect
+* Wheels sink based on ground cover density
+* Tire size influences  tire friction
+* Wheels sink based on snow depth
+* Snow depth influences tire friction
+* Prop spray effect at high rpm in float variant
+* New locked brake smoke effect
+* Add rudder trim system to interior cabin panel
+* Add brake influence to nose wheel steering and disable NWS when airborne
+* Animate front caster wheels
+* Extend support for CH Throttle Quadrant joystick
+* Implement default renderer interior lighting
+* Reshape and widen 26" and 36" bush tires to 12" and 15"
+* Autostart function includes auto-mixture
+
+
+**Fixes:**
+
+* Exterior fuselage mesh cleanup
+* Fix broken hydrodynamics
+* Fix nasal errors and segfaults
+* Skis now slide on ice and snow
+* Added fallback model support
+* Account for the volume of unusable fuel
+* Fix cowl plugs issue in tutorials
+* Fix invalid version issue
+* Adjust damage effect spark size
+* Adjust P-factor
+* Correct rain animation over windshield
+* Correct wheel spin rolling animation ratio
+* Set mixture rich to 3000 ft
+* Fix visor rotation issue
+* Fix ADF to read khz and not mhz
+* Fix default values of selected and standby radio frequencies
+* Mixture set to 1 at sea level in autostart 
+* Fix flap click sound
+* Fix animations of COMs, NAVs and ADF knobs
+* Correct texture mapping of axles
+* Correct texture mapping of interior hydro rudder mechanism
+
 Version 2018.3
 --------------
 

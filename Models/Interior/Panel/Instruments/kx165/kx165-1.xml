@@ -39,6 +39,7 @@
         <comm-dial-mhz>instrumentation/comm[0]/frequencies/dial-mhz</comm-dial-mhz>
         <comm-volume>instrumentation/comm[0]/volume-selected</comm-volume>
         <comm-test>instrumentation/comm[0]/test-btn</comm-test>
+        <channel-mode-selector>instrumentation/comm[0]/channel-mode-selector</channel-mode-selector>
         <nav-frq-swp>instrumentation/nav[0]/frq-swap-btn</nav-frq-swp>
         <nav-frq-selected>instrumentation/nav[0]/frequencies/selected-mhz</nav-frq-selected>
         <nav-frq-standby>instrumentation/nav[0]/frequencies/standby-mhz</nav-frq-standby>
@@ -685,6 +686,18 @@
     </animation>
 
     <animation>
+        <type>translate</type>
+        <object-name>CommKHz</object-name>
+        <factor>0.005</factor>
+        <property>instrumentation/comm[0]/channel-mode-selector</property>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    
+    <animation>
         <type>knob</type>
         <object-name>CommKHz</object-name>
         <property alias="/params/comm-dial-khz"/>
@@ -702,7 +715,28 @@
         <action>
             <binding>
                 <condition>
-                    <property alias="../../../../../params/power-comm"/>
+                    <!--<and>-->
+                        <property>instrumentation/comm[0]/power-btn</property>
+                        <!--<property>instrumentation/comm[0]/channel-mode-selector</property>
+                    </and>-->
+                </condition>
+                <command>property-adjust</command>
+                <property>/instrumentation/comm[0]/frequencies/standby-mhz</property>
+                <factor>0.005</factor>
+                <min>0.0</min>
+                <max>1.0</max>
+                <resolution>0.005</resolution>
+                <wrap>true</wrap>
+                <mask>decimal</mask>
+            </binding>
+            <!--<binding>
+                <condition>
+                    <and>
+                        <property>instrumentation/comm[0]/power-btn</property>
+                        <not>
+                            <property>instrumentation/comm[0]/channel-mode-selector</property>
+                        </not>
+                    </and>
                 </condition>
                 <command>property-adjust</command>
                 <property alias="/params/comm-frq-standby"/>
@@ -712,7 +746,7 @@
                 <resolution>0.025</resolution>
                 <wrap>true</wrap>
                 <mask>decimal</mask>
-            </binding>
+            </binding>-->
             <binding>
                 <command>property-adjust</command>
                 <property alias="/params/comm-dial-khz"/>
@@ -726,11 +760,19 @@
                 <script>c172p.click("kx165-1-dial")</script>
             </binding>
         </action>
+        <shift-action>
+            <binding>
+                <command>property-cycle</command>
+                <property>instrumentation/comm[0]/channel-mode-selector</property>
+                <value>0</value>
+                <value>1</value>
+            </binding>
+        </shift-action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>comm1-kHz</tooltip-id>
-                <label>Adjust COM1 kHz</label>
+                <label>Adjust COM1 kHz; Shift click for 8.33</label>
             </binding>
         </hovered>
     </animation>
@@ -759,7 +801,7 @@
                 <property alias="/params/comm-frq-standby"/>
                 <factor>1</factor>
                 <min>118.0</min>
-                <max>137.0</max>
+                <max>136.99167</max>
                 <wrap>true</wrap>
                 <mask>integer</mask>
             </binding>

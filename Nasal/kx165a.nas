@@ -48,7 +48,10 @@ setlistener("instrumentation/comm[0]/channel-mode-selector", func() {
     if (!selector) {
         if (standbyFreq > 136.975) {
             setprop("instrumentation/comm[0]/frequencies/standby-mhz", 136.975);
-        }
+        } 
+        
+        var newFreq = math.round(standbyFreq, 0.025);
+        setprop("instrumentation/comm[0]/frequencies/standby-mhz", newFreq);
     }
 }, 0, 0);
 
@@ -59,7 +62,10 @@ setlistener("instrumentation/comm[1]/channel-mode-selector", func() {
     if (!selector) {
         if (standbyFreq > 136.975) {
             setprop("instrumentation/comm[1]/frequencies/standby-mhz", 136.975);
-        }
+        } 
+        
+        var newFreq = math.round(standbyFreq, 0.025);
+        setprop("instrumentation/comm[1]/frequencies/standby-mhz", newFreq);
     }
 }, 0, 0);
 

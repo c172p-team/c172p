@@ -100,7 +100,7 @@
         <object-name>NavUse10M</object-name>
         <object-name>NavUse1M</object-name>
         <object-name>NavUseDot</object-name>
-		<object-name>KX165Line</object-name>
+        <object-name>KX165Line</object-name>
     </effect>
 
     <animation>
@@ -166,7 +166,7 @@
         <object-name>NavUse10M</object-name>
         <object-name>NavUse1M</object-name>
         <object-name>NavUseDot</object-name>
-		<object-name>KX165Line</object-name>
+        <object-name>KX165Line</object-name>
         <object-name>KX165</object-name>
         <property-base>/sim/instrumentation/comm[0]</property-base>
         <texture-prop>texture-file</texture-prop>
@@ -200,7 +200,7 @@
         <object-name>NavUse10M</object-name>
         <object-name>NavUse1M</object-name>
         <object-name>NavUseDot</object-name>
-		<object-name>KX165Line</object-name>
+        <object-name>KX165Line</object-name>
         <condition>
             <property>/sim/model/c172p/lighting/comm0-power</property>
         </condition>
@@ -253,7 +253,7 @@
         <object-name>NavUse10M</object-name>
         <object-name>NavUse1M</object-name>
         <object-name>NavUseDot</object-name>
-		<object-name>KX165Line</object-name>
+        <object-name>KX165Line</object-name>
         <condition>
             <and>
                 <not>
@@ -301,7 +301,7 @@
         <object-name>NavUse10M</object-name>
         <object-name>NavUse1M</object-name>
         <object-name>NavUseDot</object-name>
-		<object-name>KX165Line</object-name>
+        <object-name>KX165Line</object-name>
     </effect>
 
     <!-- Comm part -->
@@ -776,13 +776,7 @@
             <y-m> 0.093369</y-m>
             <z-m> 0.074301</z-m>
         </center>
-        <increase>
-            <binding>
-                <command>nasal</command>
-                <script>
-                    c172p.increment(0, 1);
-                </script>
-            </binding>
+        <action>
             <binding>
                 <command>property-adjust</command>
                 <property alias="/params/comm-dial-khz"/>
@@ -790,6 +784,14 @@
                 <min>0</min>
                 <max>1440</max>
                 <wrap>true</wrap>
+            </binding>
+        </action>
+        <increase>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    c172p.increment(0, 1);
+                </script>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -802,14 +804,6 @@
                 <script>
                     c172p.increment(0, -1);
                 </script>
-            </binding>
-            <binding>
-                <command>property-adjust</command>
-                <property alias="/params/comm-dial-khz"/>
-                <factor>4</factor>
-                <min>0</min>
-                <max>1440</max>
-                <wrap>true</wrap>
             </binding>
             <binding>
                 <command>nasal</command>

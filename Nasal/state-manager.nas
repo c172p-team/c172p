@@ -22,24 +22,10 @@ var state_manager = func {
     setprop("/controls/flight/elevator-trim", -0.03);
     setprop("/consumables/fuel/tank[0]/selected", 1);
     setprop("/consumables/fuel/tank[1]/selected", 1);
-    setprop("/controls/circuit-breakers/aircond", 1);
-    setprop("/controls/circuit-breakers/autopilot", 1);
-    setprop("/controls/circuit-breakers/bcnlt", 1);
-    setprop("/controls/circuit-breakers/flaps", 1);
-    setprop("/controls/circuit-breakers/instr", 1);
-    setprop("/controls/circuit-breakers/intlt", 1);
-    setprop("/controls/circuit-breakers/landing", 1);
-    setprop("/controls/circuit-breakers/master", 1);
-    setprop("/controls/circuit-breakers/navlt", 1);
-    setprop("/controls/circuit-breakers/pitot-heat", 1);
-    setprop("/controls/circuit-breakers/radio1", 1);
-    setprop("/controls/circuit-breakers/radio2", 1);
-    setprop("/controls/circuit-breakers/radio3", 1);
-    setprop("/controls/circuit-breakers/radio4", 1);
-    setprop("/controls/circuit-breakers/radio5", 1);
-    setprop("/controls/circuit-breakers/strobe", 1);
-    setprop("/controls/circuit-breakers/turn-coordinator", 1);
-    setprop("/controls/circuit-breakers/cabin", 1);
+
+    # Reset battery charge and circuit breakers
+    electrical.reset_battery_and_circuit_breakers();
+    
     setprop("/controls/switches/dome-red", 0);
     setprop("/controls/switches/dome-white", 0);
     setprop("/controls/switches/magnetos", 3);
@@ -61,6 +47,10 @@ var state_manager = func {
     setprop("/sim/model/c172p/securing/chock", 0);
     setprop("/sim/model/c172p/securing/cowl-plugs-visible", 0);
     setprop("/sim/model/c172p/cockpit/control-lock-placed", 0);
+
+    if (getprop("/fdm/jsbsim/bushkit") == 4) {
+        setprop("/controls/gear/gear-down-command", 1);
+    }
 
     var distance_nm = getprop("/sim/presets/offset-distance-nm") or 0;
 

@@ -183,6 +183,12 @@ var reset_battery_and_circuit_breakers = func {
     setprop("/controls/circuit-breakers/radio4", 1);
     setprop("/controls/circuit-breakers/radio5", 1);
     setprop("/controls/circuit-breakers/autopilot", 1);
+
+    if (getprop("/fdm/jsbsim/bushkit") == 4) {
+        setprop("/controls/circuit-breakers/gear-select", 1);
+        setprop("/controls/circuit-breakers/gear-advisory", 1);
+        setprop("/controls/circuit-breakers/hydraulic-pump", 1);
+    }
 }
 
 ##
@@ -418,6 +424,30 @@ var electrical_bus_1 = func() {
     } else {
         setprop("/systems/electrical/outputs/turn-coordinator", 0.0);
         setprop("/systems/electrical/outputs/DG", 0.0);
+    }
+
+    # Gear Select Power
+    if ( getprop("/controls/circuit-breakers/gear-select") ) {
+        setprop("/systems/electrical/outputs/gear-select", bus_volts);
+        load += bus_volts / 5;
+    } else {
+        setprop("/systems/electrical/outputs/gear-select", 0.0);
+    }
+
+    # Gear Advisory Power
+    if ( getprop("/controls/circuit-breakers/gear-advisory") ) {
+        setprop("/systems/electrical/outputs/gear-advisory", bus_volts);
+        load += bus_volts / 2;
+    } else {
+        setprop("/systems/electrical/outputs/gear-advisory", 0.0);
+    }
+
+    # Hydraulic Pump Power
+    if ( getprop("/controls/circuit-breakers/hydraulic-pump") ) {
+        setprop("/systems/electrical/outputs/hydraulic-pump", bus_volts);
+        load += bus_volts / 40;
+    } else {
+        setprop("/systems/electrical/outputs/hydraulic-pump", 0.0);
     }
 
     # register bus voltage

@@ -6,7 +6,8 @@
         <bushkit>sim/model/variant</bushkit>
         <cockpit>
             <electrical>
-                <gear-amphibious>/sim/model/c172p/lighting/amphibious</gear-amphibious>
+                <gear-amphibious>sim/model/c172p/lighting/gear-select</gear-amphibious>
+                <gear-advisory>sim/model/c172p/lighting/gear-advisory</gear-advisory>
             </electrical>
         </cockpit>
         <gear-amphibious>
@@ -41,6 +42,14 @@
         <object-name>Dim.bezel</object-name>
         <object-name>GearFace</object-name>
         <object-name>GearScrews</object-name>
+        <object-name>hydr_pump_breaker</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>../../../../Effects/interior/lm-gear-breakers</inherits-from>
+        <object-name>hydr_pump_breaker</object-name>
+        <object-name>gear_advise_breaker</object-name>
+        <object-name>gear_select_breaker</object-name>
     </effect>
 
     <animation>
@@ -145,7 +154,7 @@
                    <property>/velocities/groundspeed-kt</property>
                    <value>70</value>
                 </less-than>
-                <property alias="/params/cockpit/electrical/gear-amphibious"/>
+                <property alias="/params/cockpit/electrical/gear-advisory"/>
             </and>
         </condition>
         <emission>
@@ -173,7 +182,7 @@
                    <property>/velocities/groundspeed-kt</property>
                    <value>70</value>
                 </less-than>
-                <property alias="/params/cockpit/electrical/gear-amphibious"/>
+                <property alias="/params/cockpit/electrical/gear-advisory"/>
                 <equals>
                    <property alias="/params/bushkit"/>
                    <value>4</value>
@@ -641,6 +650,125 @@
                 <property>controls/gear/gear-down-command</property>
             </binding>
         </action>
+    </animation>
+
+    <!-- amphibious landing gear -->
+
+    <animation>
+        <type>translate</type>
+        <object-name>gear_select_breaker</object-name>
+        <property>controls/circuit-breakers/gear-select</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>gear_select_breaker</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/circuit-breakers/gear-select</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>gear_select_breaker</tooltip-id>
+                <label>Gear select breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>controls/circuit-breakers/gear-select</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>gear_advise_breaker</object-name>
+        <property>controls/circuit-breakers/gear-advisory</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>gear_advise_breaker</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/circuit-breakers/gear-advisory</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>gear_advise_breaker</tooltip-id>
+                <label>Gear advisory breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>controls/circuit-breakers/gear-advisory</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>hydr_pump_breaker</object-name>
+        <property>controls/circuit-breakers/hydraulic-pump</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>hydr_pump_breaker</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/circuit-breakers/hydraulic-pump</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>hydr_pump_breaker</tooltip-id>
+                <label>Hydraulic pump breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>controls/circuit-breakers/hydraulic-pump</property>
+            </binding>
+        </hovered>
     </animation>
 
 </PropertyList>

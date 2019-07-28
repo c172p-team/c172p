@@ -9,37 +9,45 @@ var state_manager = func {
         setprop("/orientation/pitch-deg", 0);
     }
 
+    # Reset battery charge and circuit breakers
+    electrical.reset_battery_and_circuit_breakers();
+
+    setprop("/consumables/fuel/tank[0]/selected", 1);
+    setprop("/consumables/fuel/tank[1]/selected", 1);
+
     var auto_mixture = getprop("/fdm/jsbsim/engine/auto-mixture");
     setprop("/controls/engines/current-engine/mixture", auto_mixture);
+
+    # removing any ice from the carburetor
+    setprop("/engines/active-engine/carb_ice", 0.0);
+    setprop("/engines/active-engine/carb_icing_rate", 0.0);
+    setprop("/controls/engines/current-engine/carb-heat", 1);
 
     setprop("/engines/active-engine/running", 1);
     setprop("/engines/active-engine/auto-start", 1);
     setprop("/engines/active-engine/cranking", 1);
-    setprop("/controls/switches/starter", 1);
+
+
     setprop("/controls/engines/engine[0]/primer", 3);
     setprop("/controls/engines/engine[0]/primer-lever", 0);
     setprop("/controls/engines/current-engine/throttle", 0.2);
     setprop("/controls/flight/elevator-trim", -0.03);
-    setprop("/consumables/fuel/tank[0]/selected", 1);
-    setprop("/consumables/fuel/tank[1]/selected", 1);
 
-    # Reset battery charge and circuit breakers
-    electrical.reset_battery_and_circuit_breakers();
-    
     setprop("/controls/switches/dome-red", 0);
     setprop("/controls/switches/dome-white", 0);
     setprop("/controls/switches/magnetos", 3);
     setprop("/controls/switches/master-bat", 1);
     setprop("/controls/switches/master-alt", 1);
     setprop("/controls/switches/master-avionics", 1);
-    setprop("/controls/gear/gear-down", 1);
-    setprop("/controls/engines/current-engine/carb-heat", 1);
+    setprop("/controls/switches/starter", 1);
+
     setprop("/controls/lighting/beacon", 1);
     setprop("/controls/lighting/taxi-light", 0);
-    setprop("/sim/model/c172p/brake-parking", 0);
+
     setprop("/fdm/jsbsim/running", 0);
     setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[0]", 170);
     setprop("/fdm/jsbsim/inertia/pointmass-weight-lbs[1]", 0);
+
     setprop("/sim/model/c172p/securing/tiedownL-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
@@ -51,6 +59,8 @@ var state_manager = func {
     if (getprop("/fdm/jsbsim/bushkit") == 4) {
         setprop("/controls/gear/gear-down-command", 1);
     }
+
+    setprop("/sim/model/c172p/brake-parking", 0);
 
     var distance_nm = getprop("/sim/presets/offset-distance-nm") or 0;
 

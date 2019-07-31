@@ -143,6 +143,145 @@
 
     </channel>
 
+    <channel name="amphibious-gear-forces">
+
+        <!--
+            Numbers MUST be the same coefficients as spring_coeff and
+            damping_coeff in the FDM for nose and main gear!
+        -->
+
+        <fcs_function name="damage/amph-force-left-nose-gear">
+            <function>
+                <sum>
+                    <product>
+                        <value>1000</value><!-- spring coefficient -->
+                        <property>gear/unit[19]/compression-ft</property>
+                    </product>
+                    <product>
+                        <value>600</value><!-- damping coefficient -->
+                        <property>gear/unit[19]/compression-velocity-fps</property>
+                    </product>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="damage/amph-force-right-nose-gear">
+            <function>
+                <sum>
+                    <product>
+                        <value>1000</value><!-- spring coefficient -->
+                        <property>gear/unit[20]/compression-ft</property>
+                    </product>
+                    <product>
+                        <value>600</value><!-- damping coefficient -->
+                        <property>gear/unit[20]/compression-velocity-fps</property>
+                    </product>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="damage/amph-force-left-gear">
+            <function>
+                <sum>
+                    <product>
+                        <value>5400</value><!-- spring coefficient -->
+                        <property>gear/unit[21]/compression-ft</property>
+                    </product>
+                    <product>
+                        <value>1600</value><!-- damping coefficient -->
+                        <property>gear/unit[21]/compression-velocity-fps</property>
+                    </product>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="damage/amph-force-right-gear">
+            <function>
+                <sum>
+                    <product>
+                        <value>5400</value><!-- spring coefficient -->
+                        <property>gear/unit[22]/compression-ft</property>
+                    </product>
+                    <product>
+                        <value>1600</value><!-- damping coefficient -->
+                        <property>gear/unit[22]/compression-velocity-fps</property>
+                    </product>
+                </sum>
+            </function>
+        </fcs_function>
+
+        <switch name="amph-left-nose-gear-broken">
+            <output>gear/unit[19]/broken</output>
+            <default value="gear/unit[19]/broken"/>
+
+            <!-- No damage -->
+            <test logic="OR" value="0">
+                settings/damage EQ 0
+                damage/repairing EQ 1
+                simulation/sim-time-sec LT 0.25
+            </test>
+
+            <test logic="AND" value="1">
+                damage/amph-force-left-nose-gear GT 1500.0
+                gear/unit[19]/compression-ft GT 0.3
+            </test>
+        </switch>
+
+        <switch name="amph-right-nose-gear-broken">
+            <output>gear/unit[20]/broken</output>
+            <default value="gear/unit[20]/broken"/>
+
+            <!-- No damage -->
+            <test logic="OR" value="0">
+                settings/damage EQ 0
+                damage/repairing EQ 1
+                simulation/sim-time-sec LT 0.25
+            </test>
+
+            <test logic="AND" value="1">
+                damage/amph-force-right-nose-gear GT 1500.0
+                gear/unit[20]/compression-ft GT 0.3
+            </test>
+        </switch>
+
+        <switch name="amph-left-gear-broken">
+            <output>gear/unit[21]/broken</output>
+            <default value="gear/unit[21]/broken"/>
+
+            <!-- No damage -->
+            <test logic="OR" value="0">
+                settings/damage EQ 0
+                damage/repairing EQ 1
+                simulation/sim-time-sec LT 0.25
+            </test>
+
+            <!-- [1] used to guess required force -->
+            <test logic="AND" value="1">
+                damage/amph-force-left-gear GT 6500.0
+                gear/unit[21]/compression-ft GT 0.8
+            </test>
+        </switch>
+
+        <switch name="amph-right-gear-broken">
+            <output>gear/unit[22]/broken</output>
+            <default value="gear/unit[22]/broken"/>
+
+            <!-- No damage -->
+            <test logic="OR" value="0">
+                settings/damage EQ 0
+                damage/repairing EQ 1
+                simulation/sim-time-sec LT 0.25
+            </test>
+
+            <!-- [1] used to guess required force -->
+            <test logic="AND" value="1">
+                damage/amph-force-right-gear GT 6500.0
+                gear/unit[22]/compression-ft GT 0.8
+            </test>
+        </switch>
+
+    </channel>
+
     <channel name="wing-damage">
 
         <!-- Roll moment due to (diedra + roll rate + yaw rate + ailerons) -->
@@ -422,6 +561,8 @@
                 contact/unit[17]/compression-ft GT 0.75
                 gear/unit[19]/compression-ft GT 0.75
                 gear/unit[21]/compression-ft GT 0.75
+                gear/unit[19]/broken EQ 1
+                gear/unit[21]/broken EQ 1
             </test>
         </switch>
 
@@ -464,6 +605,8 @@
                 contact/unit[18]/compression-ft GT 0.75
                 gear/unit[20]/compression-ft GT 0.75
                 gear/unit[22]/compression-ft GT 0.75
+                gear/unit[19]/broken EQ 1
+                gear/unit[21]/broken EQ 1
             </test>
         </switch>
 

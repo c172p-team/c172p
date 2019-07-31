@@ -8,6 +8,21 @@ var reset_all_damage = func
     setprop("/fdm/jsbsim/gear/unit[1]/broken", 0);
     setprop("/fdm/jsbsim/gear/unit[2]/broken", 0);
 
+    setprop("/fdm/jsbsim/gear/unit[19]/broken", 0);
+    setprop("/fdm/jsbsim/gear/unit[20]/broken", 0);
+    setprop("/fdm/jsbsim/gear/unit[21]/broken", 0);
+    setprop("/fdm/jsbsim/gear/unit[22]/broken", 0);
+
+    if (getprop("/fdm/jsbsim/bushkit")==3) {
+        if (getprop("/fdm/jsbsim/hydro/active-norm")) {
+            setprop("controls/gear/gear-down-command", 0);
+            setprop("/fdm/jsbsim/gear/gear-pos-norm", 0);
+        } else {
+            setprop("controls/gear/gear-down-command", 1);
+            setprop("/fdm/jsbsim/gear/gear-pos-norm", 1);
+        }
+    }
+
     # Wings
     setprop("/fdm/jsbsim/wing-damage/left-wing", 0);
     setprop("/fdm/jsbsim/wing-damage/right-wing", 0);
@@ -122,8 +137,7 @@ var poll_hydro = func
 
 # Duration in which no damage will occur. Assumes the aircraft has
 # stabilized within this duration.
-var bushkit_change_timeout = 3.0;
-var gear_traverse_timeout = 6.0;
+var bushkit_change_timeout = 8.0;
 
 var physics_loop = func
 {
@@ -183,6 +197,6 @@ setlistener("/fdm/jsbsim/wing-damage/right-wing", func (n) {
 
 setlistener("/controls/gear/gear-down-command", func (n) {
     setprop("/fdm/jsbsim/damage/repairing", 1);
-    bushkit_changed_timer.restart(gear_traverse_timeout);
+    bushkit_changed_timer.restart(bushkit_change_timeout);
 }, 0, 0);
 

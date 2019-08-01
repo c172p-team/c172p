@@ -951,6 +951,45 @@
         </input>
         <output>/sim/model/lightmap/combined/factor-glassglare</output>
     </filter>
+
+    <logic>
+        <name>Amphibious Panel Lights On/Off</name>
+        <input>
+            <and>
+                <less-than>
+                    <property>/systems/electrical/outputs/gear-select</property>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property>/systems/electrical/outputs/gear-select</property>
+                    <value>20.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/gear-select</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Amphibious Advisory Lights On/Off</name>
+        <input>
+            <and>
+                <less-than>
+                    <property>systems/electrical/outputs/gear-advisory</property>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property>/systems/electrical/outputs/gear-advisory</property>
+                    <value>20.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/gear-advisory</property>
+        </output>
+    </logic>
+
     <filter>
         <name>Gear Glare Dim</name>
         <type>gain</type>
@@ -959,7 +998,7 @@
             <condition>
                 <and>
                     <property>/controls/lighting/gearled</property>
-                    <property>/sim/model/c172p/lighting/amphibious</property>
+                    <property>/sim/model/c172p/lighting/gear-advisory</property>
                 </and>
             </condition>
             <value>.35</value>
@@ -971,7 +1010,7 @@
                         <property>/controls/lighting/gearled</property>
                         <value>0</value>
                     </equals>
-                    <property>/sim/model/c172p/lighting/amphibious</property>
+                    <property>/sim/model/c172p/lighting/gear-select</property>
                 </and>
             </condition>
             <value>.175</value>
@@ -988,7 +1027,7 @@
             <condition>
                 <and>
                     <property>/controls/lighting/gearled</property>
-                    <property>/sim/model/c172p/lighting/amphibious</property>
+                    <property>/sim/model/c172p/lighting/gear-select</property>
                 </and>
             </condition>
             <value>1</value>
@@ -1000,7 +1039,7 @@
                         <property>/controls/lighting/gearled</property>
                         <value>0</value>
                     </equals>
-                    <property>/sim/model/c172p/lighting/amphibious</property>
+                    <property>/sim/model/c172p/lighting/gear-select</property>
                 </and>
             </condition>
             <value>.35</value>

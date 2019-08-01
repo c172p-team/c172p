@@ -43,6 +43,17 @@ var autostart = func (msg=1) {
         setprop("/controls/switches/dome-red", 1);
     }
 
+    # Setting amphibious landing gear if needed
+    if (getprop("/fdm/jsbsim/bushkit")==4){
+        if (getprop("/fdm/jsbsim/hydro/active-norm")) {
+            setprop("controls/gear/gear-down-command", 0);
+            setprop("/fdm/jsbsim/gear/gear-pos-norm", 0);
+        } else {
+            setprop("controls/gear/gear-down-command", 1);
+            setprop("/fdm/jsbsim/gear/gear-pos-norm", 1);
+        }
+    }
+
     # Setting flaps to 0
     setprop("/controls/flight/flaps", 0.0);
 

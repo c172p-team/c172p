@@ -33,4 +33,44 @@
         </output>
     </logic>
 
+    <logic>
+        <name>Hydraulic On/Off</name>
+        <input>
+            <and>
+                <less-than>
+                    <property>systems/electrical/outputs/hydraulic-pump</property>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property>systems/electrical/outputs/hydraulic-pump</property>
+                    <value>20.0</value>
+                </greater-than>
+                <property>/controls/switches/master-bat</property>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/hydraulics/hydraulic-pump</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Amphibious Gear Hydraulic Damage</name>
+        <input>
+            <and>
+                <equals>
+                    <property>fdm/jsbsim/pontoon-damage/left-pontoon</property>
+                    <value>0</value>
+                </equals>
+                <equals>
+                    <property>fdm/jsbsim/pontoon-damage/right-pontoon</property>
+                    <value>0</value>
+                </equals>
+                <property>controls/gear/gear-down-command</property>
+            </and>
+        </input>
+        <output>
+            <property>controls/gear/gear-down</property>
+        </output>
+    </logic>
+
 </PropertyList>

@@ -195,8 +195,10 @@ setlistener("/fdm/jsbsim/wing-damage/right-wing", func (n) {
         killengine();
 }, 0, 0);
 
-setlistener("/controls/gear/gear-down-command", func (n) {
-    setprop("/fdm/jsbsim/damage/repairing", 1);
-    bushkit_changed_timer.restart(bushkit_change_timeout);
+setlistener("controls/gear/gear-down-command", func (n) {
+    if (getprop("/fdm/jsbsim/pontoon-damage/left-pontoon")==0 and getprop("/fdm/jsbsim/pontoon-damage/right-pontoon")==0) {
+        setprop("/fdm/jsbsim/damage/repairing", 1);
+        bushkit_changed_timer.restart(bushkit_change_timeout);
+    }
 }, 0, 0);
 

@@ -165,6 +165,7 @@ var set_bushkit = func (bushkit) {
 # changing to the last bush kit option.
 var bushkit_changed_timer = maketimer(bushkit_change_timeout, func {
     setprop("/fdm/jsbsim/damage/repairing", 0);
+    setprop("/fdm/jsbsim/damage/traversing", 0);
 });
 bushkit_changed_timer.singleShot = 1;
 
@@ -197,7 +198,7 @@ setlistener("/fdm/jsbsim/wing-damage/right-wing", func (n) {
 
 setlistener("controls/gear/gear-down-command", func (n) {
     if (getprop("/fdm/jsbsim/pontoon-damage/left-pontoon")==0 and getprop("/fdm/jsbsim/pontoon-damage/right-pontoon")==0) {
-        setprop("/fdm/jsbsim/damage/repairing", 1);
+        setprop("/fdm/jsbsim/damage/traversing", 1);
         bushkit_changed_timer.restart(bushkit_change_timeout);
     }
 }, 0, 0);

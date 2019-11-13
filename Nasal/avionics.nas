@@ -163,6 +163,6 @@ aircraft.data.add(
     "/controls/circuit-breakers/turn-coordinator",
     "/controls/circuit-breakers/cabin",
     "/controls/circuit-breakers/gear-select",
-    "/controls/circuit-breakers/gear-advisory",;
+    "/controls/circuit-breakers/gear-advisory",
     "/controls/circuit-breakers/hydraulic-pump",
 );

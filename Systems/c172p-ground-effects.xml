@@ -1605,7 +1605,7 @@
                 <product>
                     <property>/gear/gear[1]/wow</property>
                     <property>/velocities/groundspeed-kt</property>
-                    <property>/fdm/jsbsim/ground/solid</property>
+                    <property>ground/solid</property>
                     <product>
                         <or>
                             <property>/controls/gear/brake-parking</property>
@@ -1625,7 +1625,7 @@
                 <product>
                     <property>/gear/gear[2]/wow</property>
                     <property>/velocities/groundspeed-kt</property>
-                    <property>/fdm/jsbsim/ground/solid</property>
+                    <property>ground/solid</property>
                     <product>
                         <or>
                             <property>/controls/gear/brake-parking</property>
@@ -1636,6 +1636,54 @@
                         </or>
                         <value>10</value>
                     </product>
+                </product>
+            </function>
+        </fcs_function>
+
+        <switch name="gear-on-pavement">
+            <output>gear/on-pavement</output>
+            <default value="0"/>
+            <test logic="OR" value="1">
+                ground/bumpiness LT 0.02
+            </test>
+        </switch>
+
+        <fcs_function name="gear/gear-screech">
+            <function>
+                <product>
+                    <property>gear/on-pavement</property>
+                    <or>
+                        <gt>
+                            <property>gear/gear-burn-left</property>
+                            <value>0</value>
+                        </gt>
+                        <gt>
+                            <property>gear/gear-burn-right</property>
+                            <value>0</value>
+                        </gt>
+                    </or>
+                    <property>/velocities/groundspeed-kt</property>
+                </product>
+            </function>
+        </fcs_function>
+
+        <fcs_function name="gear/gear-drag">
+            <function>
+                <product>
+                    <not>
+                        <property>gear/on-pavement</property>
+                    </not>
+                    <or>
+                        <gt>
+                            <property>gear/gear-burn-left</property>
+                            <value>0</value>
+                        </gt>
+                        <gt>
+                            <property>gear/gear-burn-right</property>
+                            <value>0</value>
+                        </gt>
+                    </or>
+                    <property>/velocities/groundspeed-kt</property>
                 </product>
             </function>
         </fcs_function>

@@ -288,7 +288,7 @@
             <max-dist>200.0</max-dist>
         </rumble-scratch>
 
-        <squeal>
+        <!--squeal>
             <name>squeal</name>
             <path>Sounds/squeal.wav</path>
             <condition>
@@ -329,7 +329,143 @@
             </pitch>
             <reference-dist>2.5</reference-dist>
             <max-dist>200.0</max-dist>
-        </squeal>
+        </squeal-->
+
+        <pavement-roll>
+            <name>pavement-roll</name>
+            <mode>looped</mode>
+            <path>Sounds/tires-rolling-asphalt.wav</path>
+            <condition>
+                <and>
+                    <property>/fdm/jsbsim/gear/on-pavement</property>
+                    <or>
+                        <property>gear/gear[0]/wow</property>
+                        <property>gear/gear[1]/wow</property>
+                        <property>gear/gear[2]/wow</property>
+                    </or>
+                    <or>
+                        <greater-than>
+                            <property>/gear/gear[0]/rollspeed-ms</property>
+                            <value>5</value>
+                        </greater-than>
+                        <greater-than>
+                            <property>/gear/gear[1]/rollspeed-ms</property>
+                            <value>5</value>
+                        </greater-than>
+                        <greater-than>
+                            <property>/gear/gear[2]/rollspeed-ms</property>
+                            <value>5</value>
+                        </greater-than>
+                    </or>
+                </and>
+            </condition>
+            <position>
+                <x>0.5</x>
+                <y>0.0</y>
+                <z>-1.15</z>
+            </position>
+            <volume>
+                <property>velocities/groundspeed-kt</property>
+                <type>log</type>
+                <factor>0.25</factor>
+            </volume>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <reference-dist>2.5</reference-dist>
+            <max-dist>200.0</max-dist>
+        </pavement-roll>
+
+        <gravel-roll>
+            <name>gravel-roll</name>
+            <mode>looped</mode>
+            <path>Sounds/tires-rolling-gravel.wav</path>
+            <condition>
+                <and>
+                    <not>
+                        <property>/fdm/jsbsim/gear/on-pavement</property>
+                    </not>
+                    <or>
+                        <property>gear/gear[0]/wow</property>
+                        <property>gear/gear[1]/wow</property>
+                        <property>gear/gear[2]/wow</property>
+                    </or>
+                    <or>
+                        <greater-than>
+                            <property>/gear/gear[0]/rollspeed-ms</property>
+                            <value>5</value>
+                        </greater-than>
+                        <greater-than>
+                            <property>/gear/gear[1]/rollspeed-ms</property>
+                            <value>5</value>
+                        </greater-than>
+                        <greater-than>
+                            <property>/gear/gear[2]/rollspeed-ms</property>
+                            <value>5</value>
+                        </greater-than>
+                    </or>
+                </and>
+            </condition>
+            <position>
+                <x>0.5</x>
+                <y>0.0</y>
+                <z>-1.15</z>
+            </position>
+            <volume>
+                <property>velocities/groundspeed-kt</property>
+                <type>log</type>
+                <factor>0.25</factor>
+            </volume>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <reference-dist>2.5</reference-dist>
+            <max-dist>200.0</max-dist>
+        </gravel-roll>
+
+        <gear-screech>
+            <name>gear-screech</name>
+            <mode>looped</mode>
+            <path>Sounds/tires-screech-asphalt.wav</path>
+            <condition>
+                <greater-than>
+                    <property>/fdm/jsbsim/gear/gear-screech</property>
+                    <value>1</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>0.5</x>
+                <y>0.0</y>
+                <z>-1.15</z>
+            </position>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <reference-dist>2.5</reference-dist>
+            <max-dist>200.0</max-dist>
+        </gear-screech>
+
+        <gear-drag>
+            <name>gear-drag</name>
+            <mode>once</mode>
+            <path>Sounds/tires-screech-gravel-oneshot.wav</path>
+            <condition>
+                <greater-than>
+                    <property>/fdm/jsbsim/gear/gear-drag</property>
+                    <value>1</value>
+                </greater-than>
+            </condition>
+            <position>
+                <x>0.5</x>
+                <y>0.0</y>
+                <z>-1.15</z>
+            </position>
+            <volume>
+                <property>/sim/model/c172p/sound/volume-boost-doors</property>
+            </volume>
+            <reference-dist>2.5</reference-dist>
+            <max-dist>200.0</max-dist>
+        </gear-drag>
 
         <flap>
             <name>flaps</name>

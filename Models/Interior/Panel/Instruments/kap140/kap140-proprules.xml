@@ -2,7 +2,40 @@
 
 <PropertyList include="kap140-config.xml">
 
-<!-- reset all if the AP has now power -->
+<!-- reset if KAP 140 is not choosen -->
+    <filter>
+        <name>unpowered</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <enable>
+            <condition>
+                <not>
+                    <equals>
+                        <property>options/autopilot</property>
+                        <value>KAP140</value>
+                    </equals>
+                </not>
+            </condition>
+        </enable>
+        <input>0</input>
+        <output>autopilot/kap140/powered</output>
+        <output>autopilot/kap140/bad-condition</output>
+        <output>autopilot/kap140/panel/state</output>
+        <output>autopilot/kap140/panel/state-old</output>
+        <output>autopilot/kap140/sensors/pitch-up</output>
+        <output>autopilot/kap140/sensors/pitch-down</output>
+        <output>autopilot/kap140/panel/pft-1</output>
+        <output>autopilot/kap140/panel/pft-2</output>
+        <output>autopilot/kap140/panel/pft-3</output>
+        <output>autopilot/kap140/panel/digit</output>
+        <output>autopilot/kap140/panel/digit-mode</output>
+        <output>autopilot/kap140/panel/digit-timer</output>
+        <output>autopilot/kap140/panel/baro-mode</output>
+        <output>autopilot/kap140/panel/baro-timer</output>
+        <output>autopilot/kap140/panel/nav-timer</output>
+    </filter>
+
+<!-- reset all if the AP has no power -->
     <filter>
         <name>unpowered</name>
         <type>gain</type>
@@ -39,7 +72,9 @@
         <output>autopilot/kap140/panel/nav-timer</output>
     </filter>
 
-<!-- reset default altitude if the AP has now power -->
+
+
+<!-- reset default altitude if the AP has no power -->
     <filter>
         <name>default-altitude</name>
         <type>gain</type>
@@ -53,7 +88,7 @@
         <output>autopilot/internal/target-altitude</output>
     </filter>
 
-<!-- reset default baro setting if the AP has now power and is not tied-->
+<!-- reset default baro setting if the AP has no power and is not tied -->
     <filter>
         <name>default-inhg</name>
         <type>gain</type>
@@ -85,6 +120,10 @@
                         </product>
                     </expression>
                 </greater-than>
+                <equals>
+                    <property>options/autopilot</property>
+                    <value>KAP140</value>
+                </equals>
             </condition>
         </enable>
         <input>1</input>
@@ -380,11 +419,11 @@
         <input>
             <condition>
                 <equals>
-                    <property alias="../../../../../params/model" />
+                    <property alias="../../../../../params/model"/>
                     <value>3</value>
                 </equals>
                 <not>
-                    <property alias="../../../../../params/baro-tied" />
+                    <property alias="../../../../../params/baro-tied"/>
                 </not>
             </condition>
             <value>4</value>
@@ -410,7 +449,7 @@
                         <value>1</value>
                     </equals>
                     <greater-than>
-                        <property>autopilot/kap140/panel/baro-button</property>
+                        <property>autopilot/kap140/panel/button-baro</property>
                         <value>0</value>
                     </greater-than>
                 </and>
@@ -452,7 +491,7 @@
                         <abs>
                             <dif>
                                 <property>autopilot/internal/target-altitude</property>
-                                <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                                <property alias="../../../../../../../../params/indicated-altitude-ft"/>
                             </dif>
                         </abs>
                     </expression>
@@ -505,6 +544,10 @@
                             <property alias="../../../../../../../params/model"/>
                             <value>3</value>
                         </equals>
+                        <less-than>
+                            <property>autopilot/kap140/settings/vertical-mode</property>
+                            <value>3</value>
+                        </less-than>
                         <greater-than>
                             <expression>
                                 <sum>
@@ -1263,7 +1306,7 @@
                 <property>autopilot/kap140/settings/cws</property>
             </condition>
         </enable>
-        <input>environment/pressure-inhg</input>
+        <input>systems/static/pressure-inhg</input>
         <output>autopilot/internal/target-pressure</output>
     </filter>
 
@@ -1285,7 +1328,7 @@
                             <value>4</value>
                         </greater-than>
                         <greater-than>
-                            <property>autopilot/kap140/panel/baro-button</property>
+                            <property>autopilot/kap140/panel/button-baro</property>
                             <value>0</value>
                         </greater-than>
                     </and>
@@ -1312,14 +1355,14 @@
                     <property>autopilot/kap140/panel/baro-mode-old</property>
                 </equals>
                 <greater-than>
-                    <property>autopilot/kap140/panel/baro-button</property>
+                    <property>autopilot/kap140/panel/button-baro</property>
                     <value>0</value>
                 </greater-than>
                 <greater-than>
                     <property>sim/time/elapsed-sec</property>
                     <expression>
                         <sum>
-                            <property>autopilot/kap140/panel/baro-button</property>
+                            <property>autopilot/kap140/panel/button-baro</property>
                             <value>2.0</value>
                         </sum>
                     </expression>
@@ -1582,7 +1625,7 @@
                         <abs>
                             <dif>
                                 <property>autopilot/internal/target-altitude</property>
-                                <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                                <property alias="../../../../../../../../params/indicated-altitude-ft"/>
                             </dif>
                         </abs>
                     </expression>
@@ -1590,7 +1633,7 @@
                 </less-than>
             </condition>
         </enable>
-        <input>environment/pressure-inhg</input>
+        <input>systems/static/pressure-inhg</input>
         <output>autopilot/internal/target-pressure</output>
     </filter>
 
@@ -1757,7 +1800,7 @@
                         <abs>
                             <dif>
                                 <property>autopilot/internal/target-altitude</property>
-                                <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                                <property alias="../../../../../../../../params/indicated-altitude-ft"/>
                             </dif>
                         </abs>
                     </expression>
@@ -1768,7 +1811,7 @@
                         <abs>
                             <dif>
                                 <property>autopilot/internal/target-altitude</property>
-                                <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                                <property alias="../../../../../../../../params/indicated-altitude-ft"/>
                             </dif>
                         </abs>
                     </expression>
@@ -1800,7 +1843,7 @@
                         <abs>
                             <dif>
                                 <property>autopilot/internal/target-altitude</property>
-                                <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                                <property alias="../../../../../../../../params/indicated-altitude-ft"/>
                             </dif>
                         </abs>
                     </expression>
@@ -1835,7 +1878,7 @@
                         <abs>
                             <dif>
                                 <property>autopilot/internal/target-altitude</property>
-                                <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                                <property alias="../../../../../../../../params/indicated-altitude-ft"/>
                             </dif>
                         </abs>
                     </expression>
@@ -1867,7 +1910,7 @@
                         <abs>
                             <dif>
                                 <property>autopilot/internal/target-altitude</property>
-                                <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                                <property alias="../../../../../../../../params/indicated-altitude-ft"/>
                             </dif>
                         </abs>
                     </expression>
@@ -1899,7 +1942,7 @@
                         <abs>
                             <dif>
                                 <property>autopilot/internal/target-altitude</property>
-                                <property>instrumentation/altimeter/indicated-altitude-ft</property>
+                                <property alias="../../../../../../../../params/indicated-altitude-ft"/>
                             </dif>
                         </abs>
                     </expression>

@@ -7,24 +7,27 @@
 // For backwards compatibility, if a precision is not defined, the default value in FGFS.InputValue is used.
 //
 // 2. The standard JavaScript Number.toPrecission, used by InputValue, may return numbers in exponential
-// notation. User a custom format function to prevent this.
+// notation. Also, for float numbers, toPrecision includes all leading zeros and we want to prevent this.
 FGFS.TextAnimation = function(arg) {
   this.__proto__ = new FGFS.Animation(arg);
   this.text = new FGFS.InputValue({property: arg.text, precision: (arg.precision || null)});
   
   this.text.getFormatted = function( value ) {
     let formatted = value.toPrecision(this.precision);
+    // if no precision is defined, return immediately
+    if(!this.precision) return formatted
     // manage exponential notation. This assumes JavaScript returns an exponential representation
     // if the value is too big or too small
     if(formatted.includes('e+')) {
       // if formatted includes the string 'e+', return '-' times precission
-      if(this.precision) {
-        return '-'.repeat(this.precision)
-      } else {
-        return '-'
-      }
+      return '-'.repeat(this.precision)
     } else if(formatted.includes('e-')) {
+      // if formatted includes the string 'e+', return 0
       return 0
+    } else if(formatted.length > this.precision) {
+      // if the string is larger than precision, then it includes leading zeros for the decimal part. trim it
+      // +1 to include also the decimal point
+      return formatted.substring(0, this.precision + 1)
     }
     return formatted
   }

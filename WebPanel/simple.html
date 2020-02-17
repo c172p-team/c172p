@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset=utf-8 />
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<!-- Tweaks for panel on an ipad - from https://gist.github.com/tfausak/2222823 -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<!-- meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" -->
+<meta name="apple-touch-fullscreen" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<title>FlightGear - Cessna 172 Instrument Panel</title>
+<style type="text/css" media="screen">
+body {
+    overflow: hidden;
+    background: #111111 !important;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.instrument {
+    border: 1px solid #131313;
+    padding: 8px;
+    background-color: #111111;
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.no-frame {
+    padding: 0 !important;
+    margin: 0 !important;
+    border: 0 !important;
+    background-color: #111111;
+    -webkit-user-select: none;
+    -moz-user-select: -moz-none;
+    -ms-user-select: none;
+    user-select: none;
+}
+</style>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" charset="utf-8" src="/lib/jquery.fganimate.js"></script>
+<script type="text/javascript" charset="utf-8" src="/lib/fgfs.js"></script>
+<script type="text/javascript" charset="utf-8" src="/lib/fgcommand.js"></script>
+
+</head>
+<body data-fgpanel="true" data-fgpanel-props="simple-properties.json">
+  <div class="container-fluid">
+    <div class="row no-gutters">
+      <div class="col-3"><div id="ASI" class="instrument col-xs-2" data-fgpanel-instrument="instruments/ASI.json"></div></div>
+      <div class="col-3"><div id="AI" class="instrument col-xs-2" data-fgpanel-instrument="instruments/AI.json"></div></div>
+      <div class="col-3"><div id="ALT" class="instrument col-xs-2" data-fgpanel-instrument="instruments/ALT.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
+      <div class="col-3"><div id="VOR1" class="instrument col-xs-2" data-fgpanel-instrument="instruments/VOR1.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
+    </div>
+    <div class="row no-gutters">
+      <div class="col-3"><div id="TC" class="instrument col-xs-2" data-fgpanel-instrument="instruments/TC.json"></div></div>
+      <div class="col-3"><div id="DG" class="instrument col-xs-2" data-fgpanel-instrument="instruments/DG.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
+      <div class="col-3"><div id="VSI" class="instrument col-xs-2" data-fgpanel-instrument="instruments/VSI.json"></div></div>
+      <div class="col-3"><div id="VOR2" class="instrument col-xs-2" data-fgpanel-instrument="instruments/VOR2.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
+    </div>
+    <div class="row no-gutters">
+      <div class="col-3"><div id="RPM" class="instrument col-xs-2" data-fgpanel-instrument="instruments/RPM.json"></div></div>
+      <div class="col-3"><div class="instrument col-xs-12" data-fgpanel-instrument="instruments/Empty.json"></div></div>
+      <!-- the egt is a bit smaller than other instruments -->
+      <div class="col-3"><div id="EGT" class="instrument col-xs-2" style="padding: 24px;" data-fgpanel-instrument="instruments/EGT.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
+      <div class="col-3"><div id="ADF" class="instrument col-xs-2" data-fgpanel-instrument="instruments/ADF.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
+    </div>
+    <div class="row no-gutters">
+      <div class="col-12"><div class="instrument col-xs-12" data-fgpanel-instrument="instruments/Empty.json"></div></div>
+    </div>
+  </div>
+  
+  <script src="c172p-panel.js"></script>
+  <script src="instruments/ALT.js"></script>
+  <script src="instruments/VOR.js"></script>
+  <script src="instruments/DG.js"></script>
+  <script src="instruments/EGT.js"></script>
+  <script src="instruments/ADF.js"></script>
+</body>
+</html>

@@ -6,6 +6,11 @@ $('#VOR1').on('updateValue', function(event, step, clickedArea) {
     } else {
         newValue = (property.value || 0) + step;
     }
+    if(newValue > 360) {
+        newValue -= 360;
+    } else if (newValue < 0) {
+        newValue += 360;
+    }
     setPropertyRemoteAndLocally(property, newValue)
     fgPanel.mirror.listener.setProperty(property.path, newValue);
 });
@@ -17,6 +22,11 @@ $('#VOR2').on('updateValue', function(event, step, clickedArea) {
         newValue = (property.value || 0) - step;
     } else {
         newValue = (property.value || 0) + step;
+    }
+    if(newValue > 360) {
+        newValue -= 360;
+    } else if (newValue < 0) {
+        newValue += 360;
     }
     setPropertyRemoteAndLocally(property, newValue)
     fgPanel.mirror.listener.setProperty(property.path, newValue);

@@ -6,5 +6,10 @@ $('#ADF').on('updateValue', function(event, step, clickedArea) {
     } else {
         newValue = (property.value || 0) + step;
     }
+    if(newValue > 360) {
+        newValue -= 360;
+    } else if (newValue < 0) {
+        newValue += 360;
+    }
     setPropertyRemoteAndLocally(property, newValue);
 });

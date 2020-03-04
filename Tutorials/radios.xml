@@ -37,6 +37,18 @@ weather, the altimeter setting and the runway in use.
             <value>1</value>
         </set>
         <set>
+            <property>/controls/switches/master-bat</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/sim/model/hide-yoke</property>
+            <value>false</value>
+        </set>
+        <set>
+            <property>/controls/switches/master-avionics</property>
+            <value>false</value>
+        </set>
+        <set>
             <property>/controls/flight/flaps</property>
             <value>0.0</value>
         </set>
@@ -85,8 +97,7 @@ weather, the altimeter setting and the runway in use.
             <value>false</value>
         </set>
         <message>In this lesson, you'll learn how to tune the radio to the ATIS of Hilo Intl,
-            which is the nearest one with ATIS.
-      The radio is in the middle of the center console.</message>
+            which is the nearest one with ATIS.</message>
         <view>
             <heading-offset-deg>0.0</heading-offset-deg>
             <pitch-offset-deg>-12</pitch-offset-deg>
@@ -96,6 +107,99 @@ weather, the altimeter setting and the runway in use.
             <field-of-view>73.6</field-of-view>
         </view>
         <wait>10</wait>
+    </step>
+
+    <step>
+        <message>First you need to power the aircraft by switching the battery on.</message>
+        <view>
+        <heading-offset-deg>9.2</heading-offset-deg>
+            <pitch-offset-deg>-24.3</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.4</x-offset-m>
+            <y-offset-m>-0.1</y-offset-m>
+            <z-offset-m>0.2</z-offset-m>
+            <field-of-view>48.4</field-of-view>
+        </view>
+
+        <set>
+            <property>/sim/model/hide-yoke</property>
+            <value>true</value>
+        </set>
+
+        <marker>
+            <x-m>-0.3124</x-m>
+            <y-m>-0.4083</y-m>
+            <z-m>-0.1917</z-m>
+            <scale>2.0909</scale>
+        </marker>
+        <error>
+            <message>We now power the radio-stack, so you have to switch the battery on.</message>
+            <condition>
+                <not>
+                    <property>/controls/switches/master-bat</property>
+                </not>
+            </condition>
+        </error>
+        <exit>
+            <condition>
+                <property>/controls/switches/master-bat</property>
+            </condition>
+        </exit>
+    </step>
+
+     <step>
+        <message>Then switch the master avionics on to start the radio stack</message>
+        <view>
+            <heading-offset-deg>12.2</heading-offset-deg>
+            <pitch-offset-deg>-35.2</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.2</x-offset-m>
+            <y-offset-m>0.3</y-offset-m>
+            <z-offset-m>0.4</z-offset-m>
+            <field-of-view>35.0</field-of-view>
+        </view>
+        <marker>
+            <x-m>-0.3500</x-m>
+            <y-m>-0.3233</y-m>
+            <z-m>-0.2261</z-m>
+            <scale>1.3688</scale>
+        </marker>
+
+        <error>
+            <message>Flip the master avionics switch...</message>
+            <condition>
+                <equals>
+                    <property>/controls/switches/master-avionics</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+        </error>
+
+        <exit>
+            <condition>
+                <equals>
+                    <property>/controls/switches/master-avionics</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+        </exit>
+    </step>
+
+    <step>
+        <message>The radio is in the middle of the center console.</message>
+        <view>
+            <heading-offset-deg>0.0</heading-offset-deg>
+            <pitch-offset-deg>-12</pitch-offset-deg>
+            <roll-offset-deg>0.0</roll-offset-deg>
+            <x-offset-m>-0.21</x-offset-m>
+            <y-offset-m>0.19</y-offset-m>
+            <field-of-view>73.6</field-of-view>
+        </view>
+        <set>
+            <property>/sim/model/hide-yoke</property>
+            <value>false</value>
+        </set>
+        <wait>5</wait>
     </step>
 
     <step>

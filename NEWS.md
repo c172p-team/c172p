@@ -1,6 +1,30 @@
 List of features and bug fixes
 ==============================
 
+Version 2020.1
+--------------
+
+**Features:**
+
+* New sounds for rolling and tire screeching on both paves and gravel surfaces
+* Replaced the KX165 with the KX165A radio which supports 8.33 frequencies
+* New mooring locations
+* `f` shortcut now toggles flashlight
+
+**Fixes:**
+
+* Fixed xy-plane and missing texture error messages
+* Corrected a segfault caused when you lower and then raise the amphibious gear on land
+* Turn coordinator gyros breaker was not hooked up
+* Fix amphibious gear control breaker logic
+* Amphibious gear switch now does not triger repair timer while pontoon damaged
+* Initialization of new traversing property which is may prevent issues on some systems
+* Fix strong pitch oscillations at rest with brakes on and with pure crosswind
+* Fix Nasal error due to a typo in avionics.nas
+* Changing xml version to 1.0 in xml file headers as this is the supported version
+* Radio tutorial now requires the user to turn on the battery and avionics switches
+* Fixed minor spelling mistake in preflight tutorial
+
 Version 2019.1
 --------------
 
@@ -22,7 +46,6 @@ Version 2019.1
 * Implement default renderer interior lighting
 * Reshape and widen 26" and 36" bush tires to 12" and 15"
 * Autostart function includes auto-mixture
-
 
 **Fixes:**
 

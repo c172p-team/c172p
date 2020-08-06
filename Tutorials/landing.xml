@@ -12,6 +12,18 @@ Unlike normal flight, when landing you use power alone to control descent rate. 
 
 You start the tutorial cruising at around 1000 ft and 90 kts. To begin your descent, you will need to reduce power and drop one notch flaps. You are aiming to approach at 60-70 kts and 300 fpm. As you get closer, you will need to reduce power further and drop more flaps, aiming to touch down "on the numbers" at 65 kts.
   </description>
+  
+    <nasal>
+        <script>
+            c172p.repair_damage();
+            electrical.reset_battery_and_circuit_breakers();
+            c172p.click("engine-repair", 6.0);
+            c172p.dialog_battery_reload();
+            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
+            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/fdm/jsbsim/engine/damage-level", 0.0);
+        </script>
+    </nasal>
 
     <timeofday>morning</timeofday>
     <presets>

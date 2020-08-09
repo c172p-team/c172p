@@ -19,7 +19,7 @@ body {
     padding: 0;
 }
 
-.instrument {
+.kap140 {
     border: 1px solid #131313;
     padding: 8px;
     background-color: #111111;
@@ -40,13 +40,48 @@ body {
     user-select: none;
 }
 
+.kap140 table td {
+  background: black;
+  color: orange;
+  font-family: monospace;
+  width: 25%
+}
+
+.knob {
+  height: 5em;
+  width: 5em;
+  background-color: #444;
+  border: 2px solid black;
+  padding: 3px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0px 0px 5px black, inset 0 -10px 50px #000000;
+}
+.knob::after {
+  background-color: #444;
+  content: '';
+  height: 3.5em;
+  width: 3.5em;
+  position: absolute;
+  top: 0.75em;
+  left: 1.75em;
+  border-radius: 50%;
+  border: 2px solid #555;
+}
+
+.blinking{
+	animation:blinkingText 0.8s infinite;
+}
+@keyframes blinkingText{
+	50%{	color: transparent;	}
+}
+
 #config-buttons {
   position: absolute;
   bottom: 0.5em;
   right: 0.5em;
   opacity: 0.2;
 }
-
 </style>
 
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
@@ -58,26 +93,10 @@ body {
 <script type="text/javascript" charset="utf-8" src="/lib/fgcommand.js"></script>
 
 </head>
-<body data-fgpanel="true" data-fgpanel-props="simple-properties.json">
-  <div class="container mh-100">
+<body data-fgpanel="true" data-fgpanel-props="complete-properties.json">
+  <div class="container-fluid"  id="panel">    
     <div class="row no-gutters">
-      <div class="col-3"><div id="ASI" class="instrument col-xs-2" data-fgpanel-instrument="instruments/ASI.json"></div></div>
-      <div class="col-3"><div id="AI" class="instrument col-xs-2" data-fgpanel-instrument="instruments/AI.json"></div></div>
-      <div class="col-3"><div id="ALT" class="instrument col-xs-2 actionable" data-fgpanel-instrument="instruments/ALT.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
-      <div class="col-3"><div id="VOR1" class="instrument col-xs-2 actionable" data-fgpanel-instrument="instruments/VOR1.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
-    </div>
-    <div class="row no-gutters">
-      <div class="col-3"><div id="TC" class="instrument col-xs-2" data-fgpanel-instrument="instruments/TC.json"></div></div>
-      <div class="col-3"><div id="DG" class="instrument col-xs-2 actionable" data-fgpanel-instrument="instruments/DG.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
-      <div class="col-3"><div id="VSI" class="instrument col-xs-2" data-fgpanel-instrument="instruments/VSI.json"></div></div>
-      <div class="col-3"><div id="VOR2" class="instrument col-xs-2 actionable" data-fgpanel-instrument="instruments/VOR2.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
-    </div>
-    <div class="row no-gutters">
-      <div class="col-3"><div id="RPM" class="instrument col-xs-2" data-fgpanel-instrument="instruments/RPM.json"></div></div>
-      <div class="col-3"><div class="instrument col-xs-12" data-fgpanel-instrument="instruments/Empty.json"></div></div>
-      <!-- the egt is a bit smaller than other instruments -->
-      <div class="col-3"><div id="EGT" class="instrument col-xs-2 actionable" style="padding: 24px;" data-fgpanel-instrument="instruments/EGT.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
-      <div class="col-3"><div id="ADF" class="instrument col-xs-2 actionable" data-fgpanel-instrument="instruments/ADF.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
+      <div class="col-12"><div id="KAP140" class="instrument col-xs-4 no-frame actionable" data-fgpanel-instrument="instruments/KAP140.json" data-fgpanel-cols="9" data-fgpanel-rows="3"></div></div>
     </div>
     <div id="config-buttons">
       <a class="btn btn-warning btn-sm p-1 pt-1" type="button" title="Complete panel" href="complete.html">C</a>
@@ -89,12 +108,7 @@ body {
   </div>
   
   <script src="actionable-panel.js"></script>
-  <script src="instruments/ALT.js"></script>
-  <script src="instruments/VOR.js"></script>
-  <script src="instruments/DG.js"></script>
-  <script src="instruments/EGT.js"></script>
-  <script src="instruments/ADF.js"></script>
-
+  <script src="instruments/kap140.js"></script>
   <script src="https://sindresorhus.com/screenfull.js/src/screenfull.js"></script>
   <script>
     // Request fullscreen using screenfull.js. This works on Chrome and Firefox, but not Safari

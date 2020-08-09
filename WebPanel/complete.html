@@ -39,11 +39,19 @@ body {
     -ms-user-select: none;
     user-select: none;
 }
+
+#config-buttons {
+  position: absolute;
+  bottom: 0.5em;
+  right: 0.5em;
+  opacity: 0.2;
+}
+
 </style>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script type="text/javascript" charset="utf-8" src="/lib/jquery.fganimate.js"></script>
 <script type="text/javascript" charset="utf-8" src="/lib/fgfs.js"></script>
@@ -55,38 +63,46 @@ body {
     <div class="row no-gutters">
       <div class="col-2"><div id="ASI" class="instrument col-xs-2" data-fgpanel-instrument="instruments/ASI.json"></div></div>
       <div class="col-2"><div id="AI" class="instrument col-xs-2" data-fgpanel-instrument="instruments/AI.json"></div></div>
-      <div class="col-2"><div id="ALT" class="instrument col-xs-2" data-fgpanel-instrument="instruments/ALT.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
-      <div class="col-2"><div id="VOR1" class="instrument col-xs-2" data-fgpanel-instrument="instruments/VOR1.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
-      <div class="col-4"><div id="COMMS" class="instrument col-xs-4 no-frame" data-fgpanel-instrument="instruments/COMMS.json" data-fgpanel-cols="6" data-fgpanel-rows="4"></div></div>
+      <div class="col-2"><div id="ALT" class="instrument col-xs-2 actionable" data-fgpanel-instrument="instruments/ALT.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
+      <div class="col-2"><div id="VOR1" class="instrument col-xs-2 actionable" data-fgpanel-instrument="instruments/VOR1.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
+      <div class="col-4"><div id="COMMS" class="instrument col-xs-4 no-frame actionable" data-fgpanel-instrument="instruments/COMMS.json" data-fgpanel-cols="6" data-fgpanel-rows="4"></div></div>
     </div>
     <div class="row no-gutters">
       <div class="col-2"><div id="TC" class="instrument col-xs-2" data-fgpanel-instrument="instruments/TC.json"></div></div>
-      <div class="col-2"><div id="DG" class="instrument col-xs-2" data-fgpanel-instrument="instruments/DG.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
+      <div class="col-2"><div id="DG" class="instrument col-xs-2 actionable" data-fgpanel-instrument="instruments/DG.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
       <div class="col-2"><div id="VSI" class="instrument col-xs-2" data-fgpanel-instrument="instruments/VSI.json"></div></div>
-      <div class="col-2"><div id="VOR2" class="instrument col-xs-2" data-fgpanel-instrument="instruments/VOR2.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
+      <div class="col-2"><div id="VOR2" class="instrument col-xs-2 actionable" data-fgpanel-instrument="instruments/VOR2.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
       <div class="row col-4 no-gutters">
-        <div class="col-12"><div id="ADFCOMMS" class="instrument col-xs-4 no-frame" data-fgpanel-instrument="instruments/ADFCOMMS.json" data-fgpanel-cols="6" data-fgpanel-rows="1"></div></div>
-        <div class="col-12"><div id="DME" class="instrument col-xs-4 no-frame" data-fgpanel-instrument="instruments/DME.json" data-fgpanel-cols="8" data-fgpanel-rows="1"></div></div>
+        <div class="col-12"><div id="ADFCOMMS" class="instrument col-xs-4 no-frame actionable" data-fgpanel-instrument="instruments/ADFCOMMS.json" data-fgpanel-cols="6" data-fgpanel-rows="1"></div></div>
+        <div class="col-12"><div id="DME" class="instrument col-xs-4 no-frame actionable" data-fgpanel-instrument="instruments/DME.json" data-fgpanel-cols="8" data-fgpanel-rows="1"></div></div>
+        <div class="col-12"><div id="KAP140" class="instrument col-xs-4 no-frame actionable" data-fgpanel-instrument="instruments/KAP140.json" data-fgpanel-cols="9" data-fgpanel-rows="3"></div></div>
       </div>
     </div>
     <div class="row no-gutters">
       <div class="col-2"><div id="RPM" class="instrument col-xs-2" data-fgpanel-instrument="instruments/RPM.json"></div></div>
       <div class="col-2 no gutters">
         <div class="col-12"><div id="OILFUEL" class="instrument col-xs-2 no-frame" data-fgpanel-instrument="instruments/OILFUEL.json"></div></div>
-        <div class="col-12"><div id="START" class="instrument col-xs-2 no-frame" data-fgpanel-instrument="instruments/START.json" data-fgpanel-cols="6" data-fgpanel-rows="2"></div></div>
+        <div class="col-12"><div id="START" class="instrument col-xs-2 no-frame actionable" data-fgpanel-instrument="instruments/START.json" data-fgpanel-cols="6" data-fgpanel-rows="2"></div></div>
       </div>
       <!-- the egt is a bit smaller than other instruments -->
-      <div class="col-2"><div id="EGT" class="instrument col-xs-2" style="padding: 24px;" data-fgpanel-instrument="instruments/EGT.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
-      <div class="col-2"><div id="ADF" class="instrument col-xs-2" data-fgpanel-instrument="instruments/ADF.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
-      <div class="col-2"><div id="LEVERS" class="instrument col-xs-2" data-fgpanel-instrument="instruments/LEVERS.json" data-fgpanel-cols="3" data-fgpanel-rows="2"></div></div>
-      <div class="col-2 no-gutters"><div class="col-12"><div id="SWITCHES" class="instrument no-frame" data-fgpanel-instrument="instruments/SWITCHES.json" data-fgpanel-cols="7" data-fgpanel-rows="2"></div></div></div>
+      <div class="col-2"><div id="EGT" class="instrument col-xs-2 actionable" style="padding: 24px;" data-fgpanel-instrument="instruments/EGT.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
+      <div class="col-2"><div id="ADF" class="instrument col-xs-2 actionable" data-fgpanel-instrument="instruments/ADF.json" data-fgpanel-cols="2" data-fgpanel-rows="1"></div></div>
+      <div class="col-2"><div id="LEVERS" class="instrument col-xs-2 actionable" data-fgpanel-instrument="instruments/LEVERS.json" data-fgpanel-cols="3" data-fgpanel-rows="2"></div></div>
+      <div class="col-2 no-gutters"><div class="col-12"><div id="SWITCHES" class="instrument no-frame actionable" data-fgpanel-instrument="instruments/SWITCHES.json" data-fgpanel-cols="7" data-fgpanel-rows="2"></div></div></div>
     </div>
     <div class="row no-gutters">
       <span id="log"></span></span>
     </div>
+    <div id="config-buttons">
+      <a class="btn btn-warning btn-sm p-1 pt-1" type="button" title="Complete panel" href="complete.html">C</a>
+      <a class="btn btn-warning btn-sm p-1 pt-1" type="button" title="Simple panel" href="simple.html">S</a>
+      <a class="btn btn-warning btn-sm p-1 pt-1" type="button" title="Radio panel" href="radio.html">R</a>
+      <a class="btn btn-warning btn-sm p-1 pt-1" type="button" title="KAP140 panel" href="kap140.html">K</a>
+      <button class="btn btn-warning btn-sm p-1 pt-1" type="button" id="fullscreen" title="Toggle fullscreen">&#9635;</button>    
+    </div>
   </div>
   
-  <script src="c172p-panel.js"></script>
+  <script src="actionable-panel.js"></script>
   <script src="instruments/ALT.js"></script>
   <script src="instruments/VOR.js"></script>
   <script src="instruments/DG.js"></script>
@@ -98,5 +114,16 @@ body {
   <script src="instruments/SWITCHES.js"></script>
   <script src="instruments/START.js"></script>
   <script src="instruments/LEVERS.js"></script>
+  <script src="instruments/KAP140.js"></script>
+
+  <script src="https://sindresorhus.com/screenfull.js/src/screenfull.js"></script>
+  <script>
+    // Request fullscreen using screenfull.js. This works on Chrome and Firefox, but not Safari
+    $('#fullscreen').on('click', () => {
+      if (screenfull.isEnabled) {
+        screenfull.toggle(document.documentElement);
+      }
+    });
+  </script>
 </body>
 </html>

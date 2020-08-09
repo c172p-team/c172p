@@ -12,6 +12,18 @@ the ATIS - Automatic Terminal Information Service. This is broadcast by all
 but the smallest airports and provides information on the current ground-level
 weather, the altimeter setting and the runway in use.
     </description>
+    
+    <nasal>
+        <script>
+            c172p.repair_damage();
+            electrical.reset_battery_and_circuit_breakers();
+            c172p.click("engine-repair", 6.0);
+            c172p.dialog_battery_reload();
+            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
+            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/fdm/jsbsim/engine/damage-level", 0.0);
+        </script>
+    </nasal>
 
     <audio-dir>Tutorials/startup</audio-dir>
     <timeofday>morning</timeofday>

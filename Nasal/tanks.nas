@@ -16,4 +16,4 @@ setlistener("consumables/fuel/tank[2]/selected", func(selected) {
 
 setlistener("consumables/fuel/tank[3]/selected", func(selected) {
     setprop("/fdm/jsbsim/propulsion/tank[3]/priority", selected.getBoolValue() ? 1 : 0);
-
+});

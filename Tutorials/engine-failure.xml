@@ -15,6 +15,18 @@ The Cessna 172 glides at a ratio of 9:1 at a best glide speed of 65 kts IAS. The
 
 PHTO (Hilo) is within glide distance. Try to land at PHTO.
   </description>
+  
+    <nasal>
+        <script>
+            c172p.repair_damage();
+            electrical.reset_battery_and_circuit_breakers();
+            c172p.click("engine-repair", 6.0);
+            c172p.dialog_battery_reload();
+            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
+            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/fdm/jsbsim/engine/damage-level", 0.0);
+        </script>
+    </nasal>
 
     <timeofday>dusk</timeofday>
     <presets>

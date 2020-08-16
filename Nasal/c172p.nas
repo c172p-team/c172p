@@ -99,6 +99,9 @@ var autostart = func (msg=1) {
     setprop("/engines/active-engine/carb_icing_rate", 0.0);
     setprop("/engines/active-engine/volumetric-efficiency-factor", 0.85);
 
+    # set fuel configuration
+    set_fuel();
+
     # Checking for minimal fuel level
     var fuel_level_left  = getprop("/consumables/fuel/tank[0]/level-norm");
     var fuel_level_right = getprop("/consumables/fuel/tank[1]/level-norm");
@@ -148,6 +151,33 @@ controls.applyParkingBrake = func (v) {
     setprop(p, var i = !getprop(p));
     return i;
 };
+
+##########################################
+# Set Fuel Configuration
+##########################################
+var set_fuel = func {
+    var tanks = getprop("/fdm/jsbsim/fuel/tank");
+    if (tanks) {
+        setprop("/consumables/fuel/tank[0]/level-gal_us", 0);
+        setprop("/consumables/fuel/tank[1]/level-gal_us", 0);
+        setprop("/consumables/fuel/tank[2]/level-gal_us", 16);
+        setprop("/consumables/fuel/tank[3]/level-gal_us", 16);
+        setprop("/consumables/fuel/tank[0]/selected", 0);
+        setprop("/consumables/fuel/tank[1]/selected", 0);
+        setprop("/consumables/fuel/tank[2]/selected", 1);
+        setprop("/consumables/fuel/tank[3]/selected", 1);
+    } else {
+        setprop("/consumables/fuel/tank[0]/level-gal_us", 10);
+        setprop("/consumables/fuel/tank[1]/level-gal_us", 10);
+        setprop("/consumables/fuel/tank[2]/level-gal_us",  0);
+        setprop("/consumables/fuel/tank[3]/level-gal_us",  0);
+        setprop("/consumables/fuel/tank[0]/selected", 1);
+        setprop("/consumables/fuel/tank[1]/selected", 1);
+        setprop("/consumables/fuel/tank[2]/selected", 0);
+        setprop("/consumables/fuel/tank[3]/selected", 0);
+    }
+};
+
 
 ##########################################
 # Fuel Save State
@@ -422,6 +452,9 @@ var reset_system = func {
     props.globals.getNode("/fdm/jsbsim/pontoon-damage/right-pontoon", 0).setIntValue(0);
 
     setprop("/engines/active-engine/kill-engine", 0);
+
+    # set fuel tank configuration
+    set_fuel();
 }
 
 ############################################
@@ -731,6 +764,12 @@ setlistener("/sim/model/c172p/fog-or-frost-increasing", func (node) {
         fog_frost_timer.stop();
     }
 }, 1, 0);
+
+#fuel tank configuration switch
+setlistener("/fdm/jsbsim/fuel/tank", func (node) {
+    # Set fuel configuration
+    set_fuel();
+}, 0, 0);
 
 # season-winter is a conversion value, see c172p-ground-effects.xml
 setprop("/sim/startup/season-winter", getprop("/sim/startup/season") == "winter");

@@ -158,23 +158,11 @@ controls.applyParkingBrake = func (v) {
 var set_fuel = func {
     var tanks = getprop("/fdm/jsbsim/fuel/tank");
     if (tanks) {
-        setprop("/consumables/fuel/tank[0]/level-gal_us", 0);
-        setprop("/consumables/fuel/tank[1]/level-gal_us", 0);
         setprop("/consumables/fuel/tank[2]/level-gal_us", 16);
         setprop("/consumables/fuel/tank[3]/level-gal_us", 16);
-        setprop("/consumables/fuel/tank[0]/selected", 0);
-        setprop("/consumables/fuel/tank[1]/selected", 0);
-        setprop("/consumables/fuel/tank[2]/selected", 1);
-        setprop("/consumables/fuel/tank[3]/selected", 1);
     } else {
         setprop("/consumables/fuel/tank[0]/level-gal_us", 10);
         setprop("/consumables/fuel/tank[1]/level-gal_us", 10);
-        setprop("/consumables/fuel/tank[2]/level-gal_us",  0);
-        setprop("/consumables/fuel/tank[3]/level-gal_us",  0);
-        setprop("/consumables/fuel/tank[0]/selected", 1);
-        setprop("/consumables/fuel/tank[1]/selected", 1);
-        setprop("/consumables/fuel/tank[2]/selected", 0);
-        setprop("/consumables/fuel/tank[3]/selected", 0);
     }
 };
 

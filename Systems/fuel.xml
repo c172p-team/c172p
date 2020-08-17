@@ -173,6 +173,42 @@ Fuel system for 2 different engines at choice, JSBSim FDM
             </test>
             <output>/engines/active-engine/already-started-in-session</output>
         </switch>
-    </channel>
 
+        <!-- Limit Fuel and Payload Selections -->
+        <switch name="limit-fuel-and-payload-selection-tank0">
+            <output>/consumables/fuel/tank[0]/selected</output>
+            <default value="0"/>
+
+            <test logic="AND" value="1">
+                fuel/tank EQ 0
+            </test>
+        </switch>
+
+        <switch name="limit-fuel-and-payload-selection-tank1">
+            <output>/consumables/fuel/tank[1]/selected</output>
+            <default value="0"/>
+
+            <test logic="AND" value="1">
+                fuel/tank EQ 0
+            </test>
+        </switch>
+
+        <switch name="limit-fuel-and-payload-selection-tank2">
+            <output>/consumables/fuel/tank[2]/selected</output>
+            <default value="0"/>
+
+            <test logic="OR" value="1">
+                fuel/tank EQ 1
+            </test>
+        </switch>
+
+        <switch name="limit-fuel-and-payload-selection-tank3">
+            <output>/consumables/fuel/tank[3]/selected</output>
+            <default value="0"/>
+
+            <test logic="AND" value="1">
+                fuel/tank EQ 1
+            </test>
+        </switch>
+    </channel>
 </system>

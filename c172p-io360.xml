@@ -188,10 +188,10 @@
             </location>
         </pointmass>
 
-        <!-- Extra weight for the aircraft with 180 hp engine, **Basic empty** (= with full oil), pointmass [15]; managed by Systems/bushkit.xml -->
+        <!-- Extra weight for the aircraft with 180 hp engine, **Basic empty** (= with full oil), pointmass [15]; -->
         <!-- for empty aircraft CG at x = 38.12 ins, from Cessna 172S - N552SP POH (1998) p.6-12, Weight and moment tabulation: 1642 lbs, 62600 lb-ins -->
         <pointmass name="extra weight 180hp">
-            <weight unit="LBS"> 0 </weight>
+            <weight unit="LBS"> 175 </weight>
             <location name="POINTMASS" unit="IN">
                 <x> 30.29 </x>
                 <y>  0 </y>
@@ -563,34 +563,6 @@
     </ground_reactions>
 
     <propulsion>
-        <engine file="eng_io320">
-            <location unit="IN">
-                <x> -19.7 </x>
-                <y> 0 </y>
-                <z> 26.6 </z>
-            </location>
-            <orient unit="DEG">
-                <roll> 0.0 </roll>
-                <pitch> 0 </pitch>
-                <yaw> 0 </yaw>
-            </orient>
-            <feed>2</feed> <!-- from intermediate tank (float chamber 2) -->
-            <thruster file="prop_75in2f">
-            <!-- <thruster file="prop_75in_2f_NACA_15-30deg"> --> <!-- for settling -->
-                <location unit="IN">
-                    <x> -37.7 </x>
-                    <y> 0 </y>
-                    <z> 26.6 </z>
-                </location>
-                <orient unit="DEG">
-                    <roll> 0.0 </roll>
-                    <pitch> 0.0 </pitch>
-                    <yaw> 0.0 </yaw>
-                </orient>
-                <sense> 1 </sense>
-                <p_factor> 15 </p_factor>
-            </thruster>
-        </engine>
 
         <engine file="eng_io360">
             <location unit="IN">
@@ -603,7 +575,7 @@
                 <pitch> 0 </pitch>
                 <yaw> 0 </yaw>
             </orient>
-            <feed>3</feed> <!-- from intermediate tank (float chamber 3) -->
+            <feed>2</feed> <!-- from intermediate tank (float chamber 3) -->
             <thruster file="prop_76in2f_NACA_20deg">
             <!-- <thruster file="prop_76in2f_NACA_15-25deg"> --> <!-- for settling -->
                 <location unit="IN">
@@ -658,18 +630,6 @@
             <type>AVGAS</type>
         </tank>
 
-        <!-- Tank number 3, Float chamber  -->
-        <tank type="FUEL">
-            <location unit="IN">
-                <x> 56 </x>
-                <y> 0 </y>
-                <z> 59.4 </z>
-            </location>
-            <capacity unit="LBS">0.1</capacity>
-            <contents unit="LBS">0.0</contents>
-            <priority>1</priority>
-            <type>AVGAS</type>
-        </tank>
     </propulsion>
 
     <flight_control name="FCS: c172">
@@ -1010,7 +970,7 @@
                 <function>
                     <table>
                         <independentVar lookup="row">/controls/engines/engine/primer</independentVar>
-                        <independentVar lookup="column">/controls/engines/current-engine/throttle</independentVar>
+                        <independentVar lookup="column">/controls/engines/engine[0]/throttle</independentVar>
                         <tableData>
                                  0.09    0.1    0.5    0.51
                             2    0       0      0      0
@@ -1029,13 +989,8 @@
                 <gain>fcs/mixture-primer-cmd</gain>
             </pure_gain>
 
-            <pure_gain name="fcs/mixture-primer[1]">
-                <input>fcs/mixture-cmd-norm[1]</input>
-                <gain>fcs/mixture-primer-cmd</gain>
-            </pure_gain>
-
-            <!-- Primer logic for 160 HP engine -->
-            <switch name="Mixture Position 160 HP">
+            <!-- Primer logic -->
+            <switch name="Mixture Position">
                 <default value="fcs/mixture-cmd-norm[0]"/>
                 <output>fcs/mixture-pos-norm[0]</output>
                 <!-- Use primer if used and engine is cold. If engine
@@ -1047,18 +1002,6 @@
                 </test>
             </switch>
 
-            <!-- Primer logic for 180 HP engine -->
-            <switch name="Mixture Position 180 HP">
-                <default value="fcs/mixture-cmd-norm[1]"/>
-                <output>fcs/mixture-pos-norm[1]</output>
-                <!-- Use primer if used and engine is cold. If engine
-                     is warm, then the mixture lever is used.
-                -->
-                <test logic="AND" value="fcs/mixture-primer[1]">
-                    /controls/engines/engine/use-primer eq 1
-                    /engines/engine[1]/oil-temperature-degf le 75
-                </test>
-            </switch>
         </channel>
 
         <channel name="Landing Gear">
@@ -1161,10 +1104,7 @@
 
         <function name="aero/function/vel-propwash-fps">
             <description> propeller induced velocity </description>
-            <sum>
-                <property>propulsion/engine/prop-induced-velocity_fps</property>
-                <property>propulsion/engine[1]/prop-induced-velocity_fps</property>
-            </sum>
+            <property>propulsion/engine/prop-induced-velocity_fps</property>
         </function>
 
         <function name="aero/function/qbar-propwash-psf">
@@ -1182,7 +1122,6 @@
             <sum>
                 <property>velocities/u-aero-fps</property>
                 <property>propulsion/engine/prop-induced-velocity_fps</property>
-                <property>propulsion/engine[1]/prop-induced-velocity_fps</property>
             </sum>
         </function>
 

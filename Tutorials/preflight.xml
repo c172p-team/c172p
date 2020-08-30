@@ -16,8 +16,8 @@ This tutorial will guide you through the Preflight inspection
             electrical.reset_battery_and_circuit_breakers();
             c172p.click("engine-repair", 6.0);
             c172p.dialog_battery_reload();
-            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
-            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/engines/engine[0]/oil-level", 7);
+            setprop("/engines/engine[0]/carb_ice", 0.0);
             setprop("/fdm/jsbsim/engine/damage-level", 0.0);
         </script>
     </nasal>
@@ -42,11 +42,11 @@ This tutorial will guide you through the Preflight inspection
 
     <step>
         <set>
-            <property>/engines/active-engine/complex-engine-procedures</property>
+            <property>/engines/engine[0]/complex-engine-procedures</property>
             <value>true</value>
         </set>
         <set>
-            <property>/engines/active-engine/running</property>
+            <property>/engines/engine[0]/running</property>
             <value>false</value>
         </set>
         <set>
@@ -122,7 +122,7 @@ This tutorial will guide you through the Preflight inspection
             <value>0</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
+            <property>/controls/engines/engine[0]/throttle</property>
             <value>0</value>
         </set>
         <set>
@@ -194,10 +194,6 @@ This tutorial will guide you through the Preflight inspection
             <value>0</value>
         </set>
         <set>
-            <property>/controls/engines/active-engine</property>
-            <value>0</value>
-        </set>
-        <set>
             <property>sim/model/c172p/bushkit_flag_0</property>
             <value>1</value>
         </set>
@@ -222,7 +218,7 @@ This tutorial will guide you through the Preflight inspection
             <value>0</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
+            <property>/controls/engines/engine[0]/throttle</property>
             <value>0</value>
         </set>
         <set>
@@ -909,7 +905,7 @@ This tutorial will guide you through the Preflight inspection
             <message>The oil level is too low. Refill some oil, or you will risk an engine damage!</message>
             <condition>
                 <less-than-equals>
-                    <property>/engines/active-engine/oil-level</property>
+                    <property>/engines/engine[0]/oil-level</property>
                     <value>6.0</value>
                 </less-than-equals>
             </condition>
@@ -925,7 +921,7 @@ This tutorial will guide you through the Preflight inspection
                     <value>1.0</value>
                 </equals>
                 <greater-than>
-                    <property>/engines/active-engine/oil-level</property>
+                    <property>/engines/engine[0]/oil-level</property>
                     <value>6.0</value>
                 </greater-than>
             </condition>

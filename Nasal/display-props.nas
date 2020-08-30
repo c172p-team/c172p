@@ -16,7 +16,6 @@ var enableOSD = func {
     left.add("velocities/u-aero-fps");
 
     left.add("propulsion/engine/prop-induced-velocity_fps");
-    left.add("propulsion/engine[1]/prop-induced-velocity_fps");
 
     left.add("/fdm/jsbsim/aero/function/qbar-induced-psf");
     left.add("/fdm/jsbsim/aero/coefficient/CDo");

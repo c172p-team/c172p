@@ -98,7 +98,7 @@ var AlternatorClass = {};
 
 AlternatorClass.new = func {
     var obj = { parents : [AlternatorClass],
-                rpm_source : "/engines/active-engine/rpm",
+                rpm_source : "/engines/engine[0]/rpm",
                 rpm_threshold : 800.0,
                 ideal_volts : 28.0,
                 ideal_amps : 60.0 };

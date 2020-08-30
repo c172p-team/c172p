@@ -15,8 +15,8 @@ This tutorial will take you through that process.
             electrical.reset_battery_and_circuit_breakers();
             c172p.click("engine-repair", 6.0);
             c172p.dialog_battery_reload();
-            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
-            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/engines/engine[0]/oil-level", 7);
+            setprop("/engines/engine[0]/carb_ice", 0.0);
             setprop("/fdm/jsbsim/engine/damage-level", 0.0);
         </script>
     </nasal>
@@ -79,7 +79,7 @@ This tutorial will take you through that process.
             <value>3</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
+            <property>/controls/engines/engine[0]/throttle</property>
             <value>0.2</value>
         </set>
         <set>
@@ -116,7 +116,7 @@ This tutorial will take you through that process.
         </set>
         <nasal>
             <script>
-                setprop("/controls/engines/current-engine/mixture", 1.0);
+                setprop("/controls/engines/engine[0]/mixture", 1.0);
                 setprop("/controls/switches/starter", 1);
             </script>
         </nasal>
@@ -186,10 +186,6 @@ This tutorial will take you through that process.
             <value>0</value>
         </set>
         <set>
-            <property>/controls/engines/active-engine</property>
-            <value>0</value>
-        </set>
-        <set>
             <property>sim/model/c172p/bushkit_flag_0</property>
             <value>1</value>
         </set>
@@ -214,15 +210,15 @@ This tutorial will take you through that process.
             <value>0</value>
         </set>
         <set>
-            <property>/engines/active-engine/running</property>
+            <property>/engines/engine[0]/running</property>
             <value>true</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
+            <property>/controls/engines/engine[0]/throttle</property>
             <value>0.2</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/mixture</property>
+            <property>/controls/engines/engine[0]/mixture</property>
             <value>1</value>
         </set>
         <set>
@@ -323,7 +319,7 @@ This tutorial will take you through that process.
             <message>The engine speed is too high. Reduce the throttle!</message>
             <condition>
                 <greater-than-equals>
-                    <property>/engines/active-engine/rpm</property>
+                    <property>/engines/engine[0]/rpm</property>
                     <value>1000</value>
                 </greater-than-equals>
             </condition>
@@ -331,7 +327,7 @@ This tutorial will take you through that process.
         <exit>
             <condition>
                 <less-than>
-                    <property>/engines/active-engine/rpm</property>
+                    <property>/engines/engine[0]/rpm</property>
                     <value>1000</value>
                 </less-than>
             </condition>
@@ -392,7 +388,7 @@ This tutorial will take you through that process.
             <message>To stop the engine, you have to pull the mixture lever full out.</message>
             <condition>
                 <greater-than>
-                    <property>/controls/engines/current-engine/mixture</property>
+                    <property>/controls/engines/engine[0]/mixture</property>
                     <value>0</value>
                 </greater-than>
             </condition>
@@ -400,7 +396,7 @@ This tutorial will take you through that process.
         <exit>
             <condition>
                 <equals>
-                    <property>/controls/engines/current-engine/mixture</property>
+                    <property>/controls/engines/engine[0]/mixture</property>
                     <value>0</value>
                 </equals>
             </condition>

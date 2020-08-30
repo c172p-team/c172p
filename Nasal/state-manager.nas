@@ -16,21 +16,21 @@ var state_manager = func {
     setprop("/consumables/fuel/tank[1]/selected", 1);
 
     var auto_mixture = getprop("/fdm/jsbsim/engine/auto-mixture");
-    setprop("/controls/engines/current-engine/mixture", auto_mixture);
+    setprop("/controls/engines/engine[0]/mixture", auto_mixture);
 
     # removing any ice from the carburetor
-    setprop("/engines/active-engine/carb_ice", 0.0);
-    setprop("/engines/active-engine/carb_icing_rate", 0.0);
-    setprop("/controls/engines/current-engine/carb-heat", 1);
+    setprop("/engines/engine[0]/carb_ice", 0.0);
+    setprop("/engines/engine[0]/carb_icing_rate", 0.0);
+    setprop("/controls/engines/engine[0]/carb-heat", 1);
 
-    setprop("/engines/active-engine/running", 1);
-    setprop("/engines/active-engine/auto-start", 1);
-    setprop("/engines/active-engine/cranking", 1);
+    setprop("/engines/engine[0]/running", 1);
+    setprop("/engines/engine[0]/auto-start", 1);
+    setprop("/engines/engine[0]/cranking", 1);
 
 
     setprop("/controls/engines/engine[0]/primer", 3);
     setprop("/controls/engines/engine[0]/primer-lever", 0);
-    setprop("/controls/engines/current-engine/throttle", 0.2);
+    setprop("/controls/engines/engine[0]/throttle", 0.2);
     setprop("/controls/flight/elevator-trim", -0.03);
 
     setprop("/controls/switches/dome-red", 0);
@@ -66,20 +66,20 @@ var state_manager = func {
 
     var engine_running_check_delay = 5.0;
     settimer(func {
-        if (!getprop("/engines/active-engine/running")) {
+        if (!getprop("/engines/engine[0]/running")) {
             gui.popupTip("The autostart failed to start the engine. You may have to adjust the mixture and start the engine manually.", 5);
         }
         setprop("/controls/switches/starter", 0);
-        setprop("/engines/active-engine/auto-start", 0);
+        setprop("/engines/engine[0]/auto-start", 0);
 
         if (distance_nm > 5) {
-            setprop("/controls/engines/current-engine/throttle", 0.85);
+            setprop("/controls/engines/engine[0]/throttle", 0.85);
             setprop("/controls/flight/flaps", .33);
         } else if (distance_nm > 1) {
-            setprop("/controls/engines/current-engine/throttle", 0.80);
+            setprop("/controls/engines/engine[0]/throttle", 0.80);
             setprop("/controls/flight/flaps", .66);
         } else {
-            setprop("/controls/engines/current-engine/throttle", 0.75);
+            setprop("/controls/engines/engine[0]/throttle", 0.75);
             setprop("/controls/flight/flaps", 1);
         }
 

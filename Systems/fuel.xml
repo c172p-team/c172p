@@ -8,7 +8,7 @@ Fuel system for 2 different engines at choice, JSBSim FDM
 -->
 
 <system name="fuel">
-    <property type="bool" value="0">/engines/active-engine/already-started-in-session</property>
+    <property type="bool" value="0">/engines/engine[0]/already-started-in-session</property>
 
     <!-- *********************************************************************************** -->
     <!-- Main tanks: 0 and 1                                                                 -->
@@ -18,23 +18,11 @@ Fuel system for 2 different engines at choice, JSBSim FDM
     <!-- *********************************************************************************** -->
 
     <channel name="Float Chamber Selection">
-        <!-- Give tank[2] priority if 160 HP engine is used -->
-        <switch name="Float Chamber 160 HP Priority">
+        <switch name="Float Chamber Priority">
             <output>propulsion/tank[2]/priority</output>
             <default value="0"/>
             <test logic="AND" value="1">
-                /controls/engines/active-engine EQ 0
-                /engines/active-engine/killed EQ 0
-            </test>
-        </switch>
-
-        <!-- Give tank[3] priority if 180 HP engine is used -->
-        <switch name="Float Chamber 180 HP Priority">
-            <output>propulsion/tank[3]/priority</output>
-            <default value="0"/>
-            <test logic="AND" value="1">
-                /controls/engines/active-engine EQ 1
-                /engines/active-engine/killed EQ 0
+                /engines/engine[0]/killed EQ 0
             </test>
         </switch>
     </channel>
@@ -94,77 +82,31 @@ Fuel system for 2 different engines at choice, JSBSim FDM
     </channel>
 
     <!-- ****************************************************** -->
-    <!-- Collector Tank 3 level maintenance                     -->
-    <!-- ****************************************************** -->
-
-    <channel name="To Tank3">
-        <!-- from Tank 0 (to Collector Tank 3) -->
-        <switch name="fuel/from-tank0-to-tank3">
-            <default value="0"/>
-            <test logic="AND" value="0.1">
-                propulsion/tank[0]/priority EQ 1 
-                propulsion/tank[0]/contents-lbs GT 0
-                /consumables/fuel/tank[3]/level-lbs LT 0.05
-                propulsion/tank[3]/priority EQ 1
-                accelerations/Nz GE 0
-            </test>
-        </switch>
-
-        <!-- from Tank 1 (to Collector Tank 3) Fuel Flow Rate in pps -->
-        <switch name="fuel/from-tank1-to-tank3">
-            <default value="0"/>
-            <test logic="AND" value="0.1">
-                propulsion/tank[1]/priority EQ 1 
-                propulsion/tank[1]/contents-lbs GT 0
-                /consumables/fuel/tank[3]/level-lbs LT 0.05
-                propulsion/tank[3]/priority EQ 1
-                accelerations/Nz GE 0
-            </test>
-        </switch>
-    </channel>
-
-    <!-- Total from Tank 0 and Tank 1 to Collector Tank 3 -->
-    <channel name="Total flow rate into tank 3">
-        <summer name="tank0 and 1 to tank3">
-            <input>fuel/from-tank0-to-tank3</input>
-            <input>fuel/from-tank1-to-tank3</input>
-            <output>propulsion/tank[3]/external-flow-rate-pps</output>
-        </summer>
-    </channel>
-
-    <!-- ****************************************************** -->
     <!-- FLOW RATE from each MAIN TANK (consumption)            -->
     <!-- ****************************************************** -->
 
     <channel name="Total flow rates">
         <summer name="fuel/tank0-flow-rate">
             <input>-fuel/from-tank0-to-tank2</input>
-            <input>-fuel/from-tank0-to-tank3</input>
             <output>propulsion/tank[0]/external-flow-rate-pps</output>
         </summer>
 
         <summer name="fuel/tank1-flow-rate">
             <input>-fuel/from-tank1-to-tank2</input>
-            <input>-fuel/from-tank1-to-tank3</input>
             <output>propulsion/tank[1]/external-flow-rate-pps</output>
         </summer>
     </channel>
     
     <channel name="fuel-system">
-        <switch name="/engines/active-engine/already-started-in-session">
+        <switch name="/engines/engine[0]/already-started-in-session">
             <default value="0"/>
-            <test logic="AND" value="/engines/active-engine/already-started-in-session">
-                /engines/active-engine/already-started-in-session GT 0
+            <test logic="AND" value="/engines/engine[0]/already-started-in-session">
+                /engines/engine[0]/already-started-in-session GT 0
             </test>
             <test logic="AND" value="1">
-                /controls/engines/active-engine EQ 0
                 /fdm/jsbsim/propulsion/engine[0]/set-running GT 0
             </test>
-             <test logic="AND" value="1">
-                /controls/engines/active-engine EQ 1
-                /fdm/jsbsim/propulsion/engine[1]/set-running GT 0
-            </test>
-            <output>/engines/active-engine/already-started-in-session</output>
+            <output>/engines/engine[0]/already-started-in-session</output>
         </switch>
     </channel>
 

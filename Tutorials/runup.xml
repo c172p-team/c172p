@@ -16,8 +16,8 @@ For more information on the before takeoff checklist, see Section 2-11 of the FA
             electrical.reset_battery_and_circuit_breakers();
             c172p.click("engine-repair", 6.0);
             c172p.dialog_battery_reload();
-            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
-            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/engines/engine[0]/oil-level", 7);
+            setprop("/engines/engine[0]/carb_ice", 0.0);
             setprop("/fdm/jsbsim/engine/damage-level", 0.0);
         </script>
     </nasal>
@@ -78,7 +78,7 @@ For more information on the before takeoff checklist, see Section 2-11 of the FA
             <value>3</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
+            <property>/controls/engines/engine[0]/throttle</property>
             <value>0.2</value>
         </set>
         <set>
@@ -119,7 +119,7 @@ For more information on the before takeoff checklist, see Section 2-11 of the FA
         </set>
         <nasal>
             <script>
-                setprop("/controls/engines/current-engine/mixture", 1.0);
+                setprop("/controls/engines/engine[0]/mixture", 1.0);
                 setprop("/controls/switches/starter", 1);
             </script>
         </nasal>
@@ -140,7 +140,7 @@ For more information on the before takeoff checklist, see Section 2-11 of the FA
             <script>
                 var listeners = std.Vector.new();
 
-                listeners.append(setlistener("/engines/active-engine/running", func (node) {
+                listeners.append(setlistener("/engines/engine[0]/running", func (node) {
                     if (node.getBoolValue()) {
                         setprop("/controls/switches/starter", 0);
                         foreach (var listener; listeners.vector) {
@@ -277,7 +277,7 @@ and that the aircraft has been rigged correctly.</message>
             <message>The mixture isn't completely in. Press m to richen the mixture to fully rich.</message>
             <condition>
                 <less-than>
-                    <property>/controls/engines/current-engine/mixture</property>
+                    <property>/controls/engines/engine[0]/mixture</property>
                     <value>0.99</value>
                 </less-than>
             </condition>
@@ -306,7 +306,7 @@ and that the aircraft has been rigged correctly.</message>
             <message>That's a bit high. Reduce throttle to 1700 rpm with PgDn, or your joystick throttle control.</message>
             <condition>
                 <greater-than>
-                    <property>/engines/active-engine/rpm</property>
+                    <property>/engines/engine[0]/rpm</property>
                     <value>1725.0</value>
                 </greater-than>
             </condition>
@@ -315,7 +315,7 @@ and that the aircraft has been rigged correctly.</message>
             <message>That's too low. Increase throttle to 1700 rpm with PgUp, or your joystick throttle control.</message>
             <condition>
                 <less-than>
-                    <property>/engines/active-engine/rpm</property>
+                    <property>/engines/engine[0]/rpm</property>
                     <value>1575.0</value>
                 </less-than>
             </condition>
@@ -325,11 +325,11 @@ and that the aircraft has been rigged correctly.</message>
             <condition>
                 <and>
                     <greater-than>
-                        <property>/engines/active-engine/rpm</property>
+                        <property>/engines/engine[0]/rpm</property>
                         <value>1575</value>
                     </greater-than>
                     <less-than>
-                        <property>/engines/active-engine/rpm</property>
+                        <property>/engines/engine[0]/rpm</property>
                         <value>1725</value>
                     </less-than>
                 </and>
@@ -613,7 +613,7 @@ and that the aircraft has been rigged correctly.</message>
             <message>That's a bit high. Reduce throttle slightly with PgDn, or your joystick throttle control.</message>
             <condition>
                 <greater-than>
-                    <property>/engines/active-engine/rpm</property>
+                    <property>/engines/engine[0]/rpm</property>
                     <value>1020.0</value>
                 </greater-than>
             </condition>
@@ -622,7 +622,7 @@ and that the aircraft has been rigged correctly.</message>
             <message>That's too low. Increase throttle slightly with PgUp, or your joystick throttle control.</message>
             <condition>
                 <less-than>
-                    <property>/engines/active-engine/rpm</property>
+                    <property>/engines/engine[0]/rpm</property>
                     <value>780.0</value>
                 </less-than>
             </condition>
@@ -632,11 +632,11 @@ and that the aircraft has been rigged correctly.</message>
             <condition>
                 <and>
                     <greater-than>
-                        <property>/engines/active-engine/rpm</property>
+                        <property>/engines/engine[0]/rpm</property>
                         <value>780</value>
                     </greater-than>
                     <less-than>
-                        <property>/engines/active-engine/rpm</property>
+                        <property>/engines/engine[0]/rpm</property>
                         <value>1020</value>
                     </less-than>
                 </and>

@@ -4,7 +4,7 @@
 
 var save_state = func {
 
-    var running = getprop("/engines/active-engine/running");
+    var running = getprop("/engines/engine[0]/running");
     var moving = getprop("/velocities/groundspeed-kt");
     var pitch = getprop("/orientation/pitch-deg");
     var roll = getprop("/orientation/roll-deg");
@@ -50,9 +50,9 @@ var save_state = func {
     setprop("/save/tank1-level-lbs", tank1);
     setprop("/save/tank2-level-lbs", tank2);
 
-    var throttle = getprop("/controls/engines/current-engine/throttle");
+    var throttle = getprop("/controls/engines/engine[0]/throttle");
     setprop("/save/throttle", throttle);
-    var mixture = getprop("/controls/engines/current-engine/mixture");
+    var mixture = getprop("/controls/engines/engine[0]/mixture");
     setprop("/save/mixture", mixture);
     var primlever = getprop("/controls/engines/engine[0]/primer-lever");
     setprop("/save/primlever", primlever);
@@ -181,8 +181,6 @@ var save_state = func {
     setprop("/save/elevtrim", elevtrim);
     var carbheat1 = getprop("/controls/anti-ice/engine[0]/carb-heat");
     setprop("/save/carbheat1", carbheat1);
-    var carbheat2 = getprop("/controls/anti-ice/engine[1]/carb-heat");
-    setprop("/save/carbheat2", carbheat2);
     var pitotheat = getprop("/controls/anti-ice/pitot-heat");
     setprop("/save/pitotheat", pitotheat);
     var cabheat = getprop("/environment/aircraft-effects/cabin-heat-set");
@@ -293,9 +291,9 @@ var resume_state = func {
         setprop("/consumables/fuel/tank[1]/level-lbs", tank2);
 
         var throttle = getprop("/save/throttle");
-        setprop("/controls/engines/current-engine/throttle", throttle);
+        setprop("/controls/engines/engine[0]/throttle", throttle);
         var mixture = getprop("/save/mixture");
-        setprop("/controls/engines/current-engine/mixture", mixture);
+        setprop("/controls/engines/engine[0]/mixture", mixture);
         var primlever = getprop("/save/primlever");
         setprop("/controls/engines/engine[0]/primer-lever", primlever);
 
@@ -419,8 +417,6 @@ var resume_state = func {
         setprop("/controls/flight/elevator-trim", elevtrim);
         var carbheat1 = getprop("/save/carbheat1");
         setprop("/controls/anti-ice/engine[0]/carb-heat", carbheat1);
-        var carbheat2 = getprop("/save/carbheat2");
-        setprop("/controls/anti-ice/engine[1]/carb-heat", carbheat2);
         var pitotheat = getprop("/save/pitotheat");
         setprop("/controls/anti-ice/pitot-heat", pitotheat);
         var cabheat = getprop("/save/cabheat");

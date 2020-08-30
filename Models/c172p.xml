@@ -553,10 +553,10 @@
 
         <!-- TODO To be made MP properties in the future when we get passengers or dual-control -->
         <controls>
-            <throttle>/controls/engines/current-engine/throttle</throttle>
-            <altstaticair>/controls/engines/current-engine/altstaticair</altstaticair>
-            <mixture>/controls/engines/current-engine/mixture</mixture>
-            <carb-heat>/controls/engines/current-engine/carb-heat</carb-heat>
+            <throttle>/controls/engines/engine[0]/throttle</throttle>
+            <altstaticair>/controls/engines/engine[0]/altstaticair</altstaticair>
+            <mixture>/controls/engines/engine[0]/mixture</mixture>
+            <carb-heat>/controls/engines/engine[0]/carb-heat</carb-heat>
             <parking-lever>/sim/model/c172p/cockpit/parking-lever</parking-lever>
             <carb-heat-animation>/sim/model/c172p/cockpit/carb-heat-animation</carb-heat-animation>
             <primer-lever-animation>/sim/model/c172p/cockpit/primer-lever-animation</primer-lever-animation>
@@ -3894,7 +3894,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <or>
                             <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -3922,7 +3922,7 @@
             </binding>
             <binding>
                 <condition>
-                    <property>/engines/active-engine/running</property>
+                    <property>/engines/engine[0]/running</property>
                 </condition>
                 <command>nasal</command>
                 <script>
@@ -3951,7 +3951,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <or>
                             <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -3981,7 +3981,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <or>
                             <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -4009,7 +4009,7 @@
             </binding>
             <binding>
                 <condition>
-                    <property>/engines/active-engine/running</property>
+                    <property>/engines/engine[0]/running</property>
                 </condition>
                 <command>nasal</command>
                 <script>
@@ -4038,7 +4038,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <or>
                             <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -4094,7 +4094,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <or>
                             <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -4112,11 +4112,7 @@
                 </condition>
                 <command>nasal</command>
                 <script>
-                    var engine = getprop("controls/engines/active-engine");
-                    if (!engine)
-                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
-                    else
-                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+                    fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog"}));
                     setprop("sim/model/show-dip-stick", 0);
                     c172p.oilDoor.toggle();
                 </script>
@@ -4124,8 +4120,8 @@
             <binding>
                 <condition>
                     <and>
-                        <property>/engines/active-engine/running</property>
-                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                        <property>/engines/engine[0]/running</property>
+                        <property>/engines/engine[0]/oil_consumption_allowed</property>
                     </and>
                 </condition>
                 <command>nasal</command>
@@ -4144,7 +4140,7 @@
                                 <property>/fdm/jsbsim/hydro/active-norm</property>
                             </or>
                         </not>
-                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                        <property>/engines/engine[0]/oil_consumption_allowed</property>
                     </and>
                 </condition>
                 <command>nasal</command>
@@ -4158,7 +4154,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <or>
                             <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -5084,7 +5080,7 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>/controls/engines/current-engine/carb-heat</property>
+                <property>/controls/engines/engine[0]/carb-heat</property>
             </binding>
         </action>
         <hovered>
@@ -5093,7 +5089,7 @@
                 <tooltip-id>carburetor-heat</tooltip-id>
                 <label>Carburetor: %s</label>
                 <mapping>nasal</mapping>
-                <property>/controls/engines/current-engine/carb-heat</property>
+                <property>/controls/engines/engine[0]/carb-heat</property>
                 <script>
                     var modes = ['COLD', 'HEATED'];
                     return modes[arg[0]];
@@ -5122,7 +5118,7 @@
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>/controls/engines/current-engine/throttle</property>
+                <property>/controls/engines/engine[0]/throttle</property>
                 <factor>0.05</factor>
                 <min>0</min>
                 <max>1</max>
@@ -5160,7 +5156,7 @@
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>/controls/engines/current-engine/altstaticair</property>
+                <property>/controls/engines/engine[0]/altstaticair</property>
                 <factor>1</factor>
                 <min>0</min>
                 <max>1</max>
@@ -5199,7 +5195,7 @@
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>controls/engines/current-engine/mixture</property>
+                <property>controls/engines/engine[0]/mixture</property>
                 <factor>0.05</factor>
                 <min>0</min>
                 <max>1</max>
@@ -11159,7 +11155,7 @@
                     <and>
                         <property>/consumables/fuel/contamination_allowed</property>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <or>
                             <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -11191,7 +11187,7 @@
             <binding>
                 <condition>
                     <and>
-                        <property>/engines/active-engine/running</property>
+                        <property>/engines/engine[0]/running</property>
                         <property>/consumables/fuel/contamination_allowed</property>
                     </and>
                 </condition>
@@ -11226,7 +11222,7 @@
                     <and>
                         <property>/consumables/fuel/contamination_allowed</property>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <or>
                             <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -11277,7 +11273,7 @@
                     <and>
                         <property>/consumables/fuel/contamination_allowed</property>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <or>
                             <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -11309,7 +11305,7 @@
             <binding>
                 <condition>
                     <and>
-                        <property>/engines/active-engine/running</property>
+                        <property>/engines/engine[0]/running</property>
                         <property>/consumables/fuel/contamination_allowed</property>
                     </and>
                 </condition>
@@ -11344,7 +11340,7 @@
                     <and>
                         <property>/consumables/fuel/contamination_allowed</property>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <or>
                             <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -11377,9 +11373,9 @@
             <binding>
                 <condition>
                     <and>
-                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                        <property>/engines/engine[0]/oil_consumption_allowed</property>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <or>
                             <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -11405,9 +11401,9 @@
             <binding>
                 <condition>
                     <and>
-                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                        <property>/engines/engine[0]/oil_consumption_allowed</property>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <or>
                             <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -11426,25 +11422,18 @@
                 <command>nasal</command>
                 <script>
                     var show = getprop("sim/model/show-dip-stick");
-                    var engine = getprop("controls/engines/active-engine");
                     if (show) {
-                        if (!engine)
-                            fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
-                        else
-                            fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+                        fgcommand("dialog-show", props.Node.new({"dialog-name": "c172p-oil-dialog"}));
                     } else {
-                        if (!engine)
-                            fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
-                        else
-                            fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+                        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog"}));
                     }
                 </script>
             </binding>
             <binding>
                 <condition>
                     <and>
-                        <property>/engines/active-engine/running</property>
-                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                        <property>/engines/engine[0]/running</property>
+                        <property>/engines/engine[0]/oil_consumption_allowed</property>
                     </and>
                 </condition>
                 <command>nasal</command>
@@ -11463,7 +11452,7 @@
                                 <property>/fdm/jsbsim/hydro/active-norm</property>
                             </or>
                         </not>
-                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                        <property>/engines/engine[0]/oil_consumption_allowed</property>
                     </and>
                 </condition>
                 <command>nasal</command>
@@ -11477,7 +11466,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <or>
                             <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
@@ -11485,7 +11474,7 @@
                             <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
                             <property>/fdm/jsbsim/hydro/active-norm</property>
                         </or>
-                        <property>/engines/active-engine/oil_consumption_allowed</property>
+                        <property>/engines/engine[0]/oil_consumption_allowed</property>
                     </and>
                 </condition>
                 <command>set-tooltip</command>
@@ -11582,7 +11571,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <not>
                             <property>/sim/model/c172p/cockpit/control-lock-placed</property>
@@ -11606,7 +11595,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <not>
                             <property>/sim/model/c172p/cockpit/control-lock-placed</property>
@@ -11641,7 +11630,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <not>
                             <property>/sim/model/c172p/cockpit/control-lock-placed</property>
@@ -11665,7 +11654,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <not>
                             <property>/sim/model/c172p/cockpit/control-lock-placed</property>
@@ -11700,7 +11689,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <not>
                             <property>/sim/model/c172p/cockpit/control-lock-placed</property>
@@ -11724,7 +11713,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <not>
                             <property>/sim/model/c172p/cockpit/control-lock-placed</property>
@@ -11759,7 +11748,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <not>
                             <property>/sim/model/c172p/cockpit/control-lock-placed</property>
@@ -11783,7 +11772,7 @@
                 <condition>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                         <not>
                             <property>/sim/model/c172p/cockpit/control-lock-placed</property>

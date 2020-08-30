@@ -16,8 +16,8 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
             electrical.reset_battery_and_circuit_breakers();
             c172p.click("engine-repair", 6.0);
             c172p.dialog_battery_reload();
-            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
-            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/engines/engine[0]/oil-level", 7);
+            setprop("/engines/engine[0]/carb_ice", 0.0);
             setprop("/fdm/jsbsim/engine/damage-level", 0.0);
         </script>
     </nasal>
@@ -100,7 +100,7 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
             <value>3</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
+            <property>/controls/engines/engine[0]/throttle</property>
             <value>0.2</value>
         </set>
         <set>
@@ -141,7 +141,7 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
         </set>
         <nasal>
             <script>
-                setprop("/controls/engines/current-engine/mixture", 1.0);
+                setprop("/controls/engines/engine[0]/mixture", 1.0);
                 setprop("/controls/switches/starter", 1);
             </script>
         </nasal>
@@ -163,7 +163,7 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
             <script>
                 var listeners = std.Vector.new();
 
-                listeners.append(setlistener("/engines/active-engine/running", func (node) {
+                listeners.append(setlistener("/engines/engine[0]/running", func (node) {
                     if (node.getBoolValue()) {
                         setprop("/controls/switches/starter", 0);
                         foreach (var listener; listeners.vector) {
@@ -198,7 +198,7 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
                         <value>0</value>
                     </equals>
                     <less-than>
-                        <property>/controls/engines/current-engine/throttle</property>
+                        <property>/controls/engines/engine[0]/throttle</property>
                         <value>0.15</value>
                     </less-than>
                 </and>
@@ -430,7 +430,7 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
             <message>Set the throttle to idle!</message>
             <condition>
                 <greater-than>
-                    <property>/controls/engines/current-engine/throttle</property>
+                    <property>/controls/engines/engine[0]/throttle</property>
                     <value>0.05</value>
                 </greater-than>
             </condition>
@@ -444,7 +444,7 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
                         <value>1</value>
                     </equals>
                     <less-than-equals>
-                        <property>/controls/engines/current-engine/throttle</property>
+                        <property>/controls/engines/engine[0]/throttle</property>
                         <value>0.05</value>
                     </less-than-equals>
                     <less-than>

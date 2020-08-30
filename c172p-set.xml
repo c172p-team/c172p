@@ -57,7 +57,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 
         <flight-model archive="y">jsb</flight-model>
 
-        <aero archive="y">c172p</aero>
+        <aero>c172p-io320</aero>
 
         <allow-toggle-cockpit type="bool">true</allow-toggle-cockpit>
 
@@ -291,10 +291,10 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <path>/sim/model/c172p/enable-fog-frost</path>
             <path>/sim/model/c172p/garmin196-visible</path>
             <path>/sim/model/c172p/digitalclock-visible</path>
-            <path>/engines/active-engine/carb_icing_allowed</path>
-            <path>/engines/active-engine/oil_consumption_allowed</path>
-            <path>/engines/active-engine/oil-service-hours</path>
-            <path>/engines/active-engine/oil-level</path>
+            <path>/engines/engine[0]/carb_icing_allowed</path>
+            <path>/engines/engine[0]/oil_consumption_allowed</path>
+            <path>/engines/engine[0]/oil-service-hours</path>
+            <path>/engines/engine[0]/oil-level</path>
             <path>/fdm/jsbsim/engine/damage-level</path>
             <path>/fdm/jsbsim/settings/damage</path>
             <path>/fdm/jsbsim/settings/damage-flag</path>
@@ -311,7 +311,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <path>/systems/electrical/save-battery-charge</path>
             <path>/systems/electrical/battery-charge-percent</path>
             <path>/sim/model/c172p/save-state</path>
-            <path>/engines/active-engine/complex-engine-procedures</path>
+            <path>/engines/engine[0]/complex-engine-procedures</path>
             <path>/sim/model/immat</path>
             <path>/controls/mooring/automatic</path>
             <path>/sim/current-view/user/x-offset-m</path>
@@ -514,7 +514,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                 <!-- 0 unused -->
                 <!-- 1 unused -->
                 <!-- 2 unused -->
-                <int n="3" alias="/engines/active-engine/crashed"/>
+                <int n="3" alias="/engines/engine[0]/crashed"/>
                 <int n="4" alias="/sim/model/c172p/lighting/taxi"/>
                 <int n="5" alias="/sim/model/c172p/lighting/landing"/>
                 <int n="6" alias="/fdm/jsbsim/gear/unit[0]/broken"/>
@@ -528,7 +528,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                 <int n="14" alias="/sim/model/c172p/lighting/nav-lights"/>
                 <int n="15" alias="/fdm/jsbsim/crash"/>
                 <int n="16" alias="/payload/pax-state"/>
-                <int n="17" alias="/engines/active-engine/exhaust"/>
+                <int n="17" alias="/engines/engine[0]/exhaust"/>
                 <int n="18" alias="/sim/model/c172p/damage/left-wing"/>
                 <int n="19" alias="/sim/model/c172p/damage/right-wing"/>
 
@@ -601,13 +601,10 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <engine n="0">
                 <primer type="double">0</primer>
                 <primer-lever type="bool">false</primer-lever>
-                <use-primer type="bool">false</use-primer>
-            </engine>
-            <current-engine>
                 <throttle type="double">0.0</throttle>
                 <mixture type="double">0.0</mixture>
-            </current-engine>
-            <active-engine type="int">0</active-engine>
+                <use-primer type="bool">false</use-primer>
+            </engine>
         </engines>
         <circuit-breakers>
             <aircond type="bool">true</aircond>
@@ -721,6 +718,9 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <save-fuel-state type="bool">false</save-fuel-state>
             <contamination_allowed type="bool">false</contamination_allowed>
         </fuel>
+        <oil>
+            <capacity-quarts>7.0</capacity-quarts>
+        </oil>
     </consumables>
 
     <environment>
@@ -807,9 +807,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <magnetos type="int">0</magnetos>
             <mixture type="double">0</mixture>
             <running type="bool">false</running>
-        </engine>
-
-        <active-engine>
             <crash-engine type="bool">false</crash-engine>
             <kill-engine type="bool">false</kill-engine>
             <oil-level type="double">7.0</oil-level>
@@ -820,9 +817,9 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <oil-temperature-env-diff type="double">0</oil-temperature-env-diff>
             <oil-compensated-temperature-degf type="double">60</oil-compensated-temperature-degf>
             <external-heat>
-                 <enabled type="bool">false</enabled>
-                 <applied-norm type="double">0.0</applied-norm>
-                 <applied-degF type="double">0.0</applied-degF>
+                <enabled type="bool">false</enabled>
+                <applied-norm type="double">0.0</applied-norm>
+                <applied-degF type="double">0.0</applied-degF>
             </external-heat>
             <oil-final-temperature-degf type="double">60</oil-final-temperature-degf> <!-- this is the final oil temperature after all effects -->
             <oil-temperature-degf-indicated type="double">60</oil-temperature-degf-indicated> <!-- oil temp for the gauge (filtered) -->
@@ -832,7 +829,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <auto-start type="bool">false</auto-start>
             <complex-engine-procedures type="bool">false</complex-engine-procedures>
             <damage_allowed>false</damage_allowed>
-        </active-engine>
+        </engine>
 
         <!-- Following properties are part of a static list of properties
              that FlightGear transmits during multiplay. Because the number
@@ -841,7 +838,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
              to get FlightGear to transmit all the required properties.
         -->
         <engine n="2">
-            <rpm alias="/engines/active-engine/rpm"/>
+            <rpm alias="/engines/engine[0]/rpm"/>
         </engine>
 
         <!-- Amphibious front left -->

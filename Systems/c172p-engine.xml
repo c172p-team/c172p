@@ -29,7 +29,7 @@
         <fcs_function name="consumed-oil-weight">
             <function>
                 <product>
-                    <property>/engines/active-engine/oil-lacking</property>
+                    <property>/engines/engine[0]/oil-lacking</property>
                     <value>1.7686</value>
                     <value>-1</value>
                 </product>
@@ -41,7 +41,7 @@
 
     <channel name="carburetor">
 
-        <fcs_function name="Carb heat on causes RPM drop on 160 HP engine">
+        <fcs_function name="Carb heat on causes RPM drop on engine">
             <function>
                 <ifthen>
                     <property>/controls/anti-ice/engine[0]/carb-heat</property>
@@ -52,24 +52,13 @@
             <output>/fdm/jsbsim/propulsion/engine[0]/air-intake-impedance-factor</output>
         </fcs_function>
 
-        <fcs_function name="Carb heat on causes RPM drop on 180 HP engine">
-            <function>
-                <ifthen>
-                    <property>/controls/anti-ice/engine[1]/carb-heat</property>
-                    <value>0.475</value>
-                    <value>0.15185</value>
-                </ifthen>
-            </function>
-            <output>/fdm/jsbsim/propulsion/engine[1]/air-intake-impedance-factor</output>
-        </fcs_function>
-
     </channel>
 
     <channel name="damage">
         <fcs_function name="engine/rpm-over-redline">
             <function>
                 <sum>
-                    <property>/engines/active-engine/rpm</property>
+                    <property>/engines/engine[0]/rpm</property>
                     <value>-2750</value>
                     <property>engine/rpm-over-redline-offset</property>
                 </sum>
@@ -99,7 +88,7 @@
         <fcs_function name="engine/oil-temp-above-max">
             <function>
                 <sum>
-                    <property>/engines/active-engine/oil-temperature-degf</property>
+                    <property>/engines/engine[0]/oil-temperature-degf</property>
                     <value>-245</value>
                 </sum>
             </function>
@@ -118,7 +107,7 @@
                             <value>1</value>
                         </eq>
                         <eq>
-                            <property>/engines/active-engine/damage_allowed</property>
+                            <property>/engines/engine[0]/damage_allowed</property>
                             <value>1</value>
                         </eq>
                     </and>
@@ -177,30 +166,13 @@
                 <min>1.5</min>
                 <max>10000</max>
             </clipto>
-            <output>engine/friction-hp</output>
+            <output>/fdm/jsbsim/propulsion/engine[0]/friction-hp</output>
         </fcs_function>
 
-        <switch name="engine/engine-0-friction-hp">
-            <default value="1.5"/>
-            <test  logic="AND" value="engine/friction-hp">
-                /controls/engines/active-engine eq 0
-            </test>
-            <output>/fdm/jsbsim/propulsion/engine[0]/friction-hp</output>
-        </switch>
-
-         <switch name="engine/engine-1-friction-hp">
-            <default value="1.5"/>
-            <test  logic="AND" value="engine/friction-hp">
-                /controls/engines/active-engine eq 1
-            </test>
-            <output>/fdm/jsbsim/propulsion/engine[1]/friction-hp</output>
-        </switch>
-        
         <switch name="engine/damage-smoke">
             <default value="0"/>
             <test  logic="AND" value="1">
                 /fdm/jsbsim/engine/damage-level GT 100
-                /engines/active-engine/running EQ 1
             </test>
             <output>/aircraft/effects/damage-smoke-visible</output>
         </switch>

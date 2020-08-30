@@ -19,8 +19,8 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
             electrical.reset_battery_and_circuit_breakers();
             c172p.click("engine-repair", 6.0);
             c172p.dialog_battery_reload();
-            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
-            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/engines/engine[0]/oil-level", 7);
+            setprop("/engines/engine[0]/carb_ice", 0.0);
             setprop("/fdm/jsbsim/engine/damage-level", 0.0);
         </script>
     </nasal>
@@ -88,10 +88,6 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
             <value>0</value>
         </set>
         <set>
-            <property>/controls/engines/active-engine</property>
-            <value>0</value>
-        </set>
-        <set>
             <property>sim/model/c172p/bushkit_flag_0</property>
             <value>1</value>
         </set>
@@ -152,7 +148,7 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
             <value>3</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
+            <property>/controls/engines/engine[0]/throttle</property>
             <value>0.2</value>
         </set>
         <set>
@@ -169,7 +165,7 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
         </set>
         <nasal>
             <script>
-                setprop("/controls/engines/current-engine/mixture", 1.0);
+                setprop("/controls/engines/engine[0]/mixture", 1.0);
                 setprop("/controls/switches/starter", 1);
             </script>
         </nasal>
@@ -191,7 +187,7 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
             <script>
                 var listeners = std.Vector.new();
 
-                listeners.append(setlistener("/engines/active-engine/running", func (node) {
+                listeners.append(setlistener("/engines/engine[0]/running", func (node) {
                     if (node.getBoolValue()) {
                         setprop("/controls/switches/starter", 0);
                         foreach (var listener; listeners.vector) {
@@ -203,7 +199,7 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
             </script>
         </nasal>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
+            <property>/controls/engines/engine[0]/throttle</property>
             <value>0.5</value>
         </set>
         <wait>1</wait>
@@ -229,7 +225,7 @@ You start the tutorial cruising at around 1000 ft and 90 kts. To begin your desc
             <message>Reduce throttle to 50%</message>
             <condition>
                 <greater-than>
-                    <property>/controls/engines/current-engine/throttle</property>
+                    <property>/controls/engines/engine[0]/throttle</property>
                     <value>0.5</value>
                 </greater-than>
             </condition>

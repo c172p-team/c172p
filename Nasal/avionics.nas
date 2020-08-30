@@ -137,8 +137,8 @@ aircraft.data.add(
     "/sim/model/c172p/brake-parking",
     "/controls/flight/flaps",
     "/controls/flight/elevator-trim",
-    "/controls/engines/current-engine/throttle",
-    "/controls/engines/current-engine/mixture",
+    "/controls/engines/engine[0]/throttle",
+    "/controls/engines/engine[0]/mixture",
     "/controls/engines/engine[0]/primer-lever",
 );
 

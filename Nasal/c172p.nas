@@ -3,6 +3,7 @@
 ##########################################
 
 var autostart = func (msg=1) {
+    screen.log.write("Autostart", 1.0, 1.0, 0.8);
     if (getprop("/engines/engine[0]/running")) {
         if (msg)
             gui.popupTip("Engine already running", 5);
@@ -12,11 +13,10 @@ var autostart = func (msg=1) {
     # Reset battery charge and circuit breakers
     electrical.reset_battery_and_circuit_breakers();
 
-    # Filling fuel tanks
+    # Set fuel tanks
     setprop("/consumables/fuel/tank[0]/selected", 1);
     setprop("/consumables/fuel/tank[1]/selected", 1);
 
-    # Setting levers and switches for startup
     setprop("/controls/switches/magnetos", 3);
     setprop("/controls/engines/engine[0]/throttle", 0.2);
 
@@ -54,9 +54,6 @@ var autostart = func (msg=1) {
         }
     }
 
-    # Setting flaps to 0
-    setprop("/controls/flight/flaps", 0.0);
-
     # Set the altimeter
     var pressure_sea_level = getprop("/environment/pressure-sea-level-inhg");
     setprop("/instrumentation/altimeter/setting-inhg", pressure_sea_level);
@@ -67,7 +64,6 @@ var autostart = func (msg=1) {
 
     # Pre-flight inspection
     setprop("/sim/model/c172p/cockpit/control-lock-placed", 0);
-    setprop("/sim/model/c172p/brake-parking", 0);
     setprop("/sim/model/c172p/securing/chock", 0);
     setprop("/sim/model/c172p/securing/cowl-plugs-visible", 0);
     setprop("/sim/model/c172p/securing/pitot-cover-visible", 0);
@@ -615,7 +611,7 @@ setlistener("/sim/signals/fdm-initialized", func {
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.
     aircraft.data.add("/sim/model/c172p/immat-on-panel");
-    aircraft.data.load();
+    #aircraft.data.load();
 
     # Initialize mass limits
     set_limits(props.globals.getNode("/controls/engines/engine[0]"));
@@ -658,11 +654,6 @@ setlistener("/sim/signals/fdm-initialized", func {
     setlistener("/environment/lightning/lightning-pos-y", thunder);
 
     reset_system();
-
-    var onground = getprop("/sim/presets/onground") or "";
-    if (!onground) {
-        state_manager();
-    }
 
     # set user defined pilot view or initialize it
     settimer(func {

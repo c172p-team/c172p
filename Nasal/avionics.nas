@@ -132,14 +132,6 @@ aircraft.data.add(
 aircraft.data.add(
     "/controls/anti-ice/engine/carb-heat",
     "/controls/anti-ice/pitot-heat",
-    "/consumables/fuel/tank/selected",
-    "/consumables/fuel/tank[1]/selected",
-    "/sim/model/c172p/brake-parking",
-    "/controls/flight/flaps",
-    "/controls/flight/elevator-trim",
-    "/controls/engines/engine[0]/throttle",
-    "/controls/engines/engine[0]/mixture",
-    "/controls/engines/engine[0]/primer-lever",
 );
 
 # Circuit breakers

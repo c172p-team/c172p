@@ -3,6 +3,7 @@
 
 var state_manager = func {
 
+    screen.log.write("state_manager statrting engine", 0.8, 0.8, 0.8);
     if (!getprop("/sim/presets/airspeed-kt")) {
         setprop("/velocities/airspeed-kt", 100);
         setprop("/velocities/uBody-fps", 163);

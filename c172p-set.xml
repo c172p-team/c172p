@@ -280,14 +280,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
         <aircraft-data>
             <path>/sim/rendering/shadow-volume</path>
             <path>/sim/model/occupants</path>
-            <path>/sim/model/c172p/cockpit/control-lock-placed</path>
-            <path>/sim/model/c172p/securing/pitot-cover-visible</path>
-            <path>/sim/model/c172p/securing/cowl-plugs-visible</path>
-            <path>/sim/model/c172p/securing/chock</path>
-            <path>/sim/model/c172p/securing/tiedownL-visible</path>
-            <path>/sim/model/c172p/securing/tiedownR-visible</path>
-            <path>/sim/model/c172p/securing/tiedownT-visible</path>
-            <path>/sim/model/c172p/brake-parking</path>
             <path>/sim/model/c172p/enable-fog-frost</path>
             <path>/sim/model/c172p/garmin196-visible</path>
             <path>/sim/model/c172p/digitalclock-visible</path>
@@ -295,21 +287,14 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <path>/engines/engine[0]/oil_consumption_allowed</path>
             <path>/engines/engine[0]/oil-service-hours</path>
             <path>/engines/engine[0]/oil-level</path>
-            <path>/fdm/jsbsim/engine/damage-level</path>
-            <path>/fdm/jsbsim/settings/damage</path>
-            <path>/fdm/jsbsim/settings/damage-flag</path>
             <path>/environment/aircraft-effects/cabin-heat-set</path>
             <path>/environment/aircraft-effects/cabin-air-set</path>
             <path>/controls/climate-control/overhead-vent-front-left</path>
             <path>/controls/climate-control/overhead-vent-front-right</path>
-            <path>/fdm/jsbsim/running</path>
             <path>/consumables/fuel/save-fuel-state</path>
             <path>/consumables/fuel/contamination_allowed</path>
             <path>/instrumentation/save-switches-state</path>
-            <path>/consumables/fuel/tank[0]/level-gal_us</path>
-            <path>/consumables/fuel/tank[1]/level-gal_us</path>
             <path>/systems/electrical/save-battery-charge</path>
-            <path>/systems/electrical/battery-charge-percent</path>
             <path>/sim/model/c172p/save-state</path>
             <path>/engines/engine[0]/complex-engine-procedures</path>
             <path>/sim/model/immat</path>
@@ -578,7 +563,10 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             </dialogs>
         </gui>
 
-      <state include="states/c172p-automatic-overlay.xml" n="0"/>
+      <state include="states/parked-overlay.xml" n="0"/>
+      <state include="states/take-off-overlay.xml" n="1"/>
+      <state include="states/cruise-overlay.xml" n="2"/>
+      <state include="states/approach-overlay.xml" n="3"/>
 
     </sim>
 
@@ -601,7 +589,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <engine n="0">
                 <primer type="double">0</primer>
                 <primer-lever type="bool">false</primer-lever>
-                <throttle type="double">0.0</throttle>
+<!--                <throttle type="double">0.0</throttle>  -->
                 <mixture type="double">0.0</mixture>
                 <use-primer type="bool">false</use-primer>
             </engine>
@@ -705,12 +693,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             </tank>
             <tank n="2">
                 <name>Float chamber 1</name>
-                <capacity unit="LBS"> 0.1 </capacity>
-                <selected type="bool">true</selected>
-                <hidden type="bool">true</hidden>
-            </tank>
-            <tank n="3">
-                <name>Float chamber 2</name>
                 <capacity unit="LBS"> 0.1 </capacity>
                 <selected type="bool">true</selected>
                 <hidden type="bool">true</hidden>

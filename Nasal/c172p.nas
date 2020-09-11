@@ -12,10 +12,6 @@ var autostart = func (msg=1) {
     # Reset battery charge and circuit breakers
     electrical.reset_battery_and_circuit_breakers();
 
-    # Filling fuel tanks
-    setprop("/consumables/fuel/tank[0]/selected", 1);
-    setprop("/consumables/fuel/tank[1]/selected", 1);
-
     # Setting levers and switches for startup
     setprop("/controls/switches/magnetos", 3);
     setprop("/controls/engines/current-engine/throttle", 0.2);
@@ -75,12 +71,6 @@ var autostart = func (msg=1) {
     setprop("/sim/model/c172p/securing/tiedownR-visible", 0);
     setprop("/sim/model/c172p/securing/tiedownT-visible", 0);
 
-    # Removing any contamination from water
-    setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
-    setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);
-    setprop("/consumables/fuel/tank[0]/sample-water-contamination", 0.0);
-    setprop("/consumables/fuel/tank[1]/sample-water-contamination", 0.0);
-
     # Setting max oil level
     var oil_enabled = getprop("/engines/active-engine/oil_consumption_allowed");
     var oil_level   = getprop("/engines/active-engine/oil-level");
@@ -99,17 +89,14 @@ var autostart = func (msg=1) {
     setprop("/engines/active-engine/carb_icing_rate", 0.0);
     setprop("/engines/active-engine/volumetric-efficiency-factor", 0.85);
 
+    # Removing any contamination from water
+    setprop("/consumables/fuel/tank[0]/water-contamination", 0.0);
+    setprop("/consumables/fuel/tank[1]/water-contamination", 0.0);
+    setprop("/consumables/fuel/tank[0]/sample-water-contamination", 0.0);
+    setprop("/consumables/fuel/tank[1]/sample-water-contamination", 0.0);
+
     # set fuel configuration
     set_fuel();
-
-    # Checking for minimal fuel level
-    var fuel_level_left  = getprop("/consumables/fuel/tank[0]/level-norm");
-    var fuel_level_right = getprop("/consumables/fuel/tank[1]/level-norm");
-
-    if (fuel_level_left < 0.25)
-        setprop("/consumables/fuel/tank[0]/level-norm", 0.25);
-    if (fuel_level_right < 0.25)
-        setprop("/consumables/fuel/tank[1]/level-norm", 0.25);
 
     setprop("/controls/engines/engine[0]/primer-lever", 0);
     setprop("/controls/engines/engine/primer", 3);
@@ -156,28 +143,32 @@ controls.applyParkingBrake = func (v) {
 # Set Fuel Configuration
 ##########################################
 var set_fuel = func {
-    var tanks = getprop("/fdm/jsbsim/fuel/tank");
-    if (tanks) {
-        setprop("/consumables/fuel/tank[2]/level-gal_us", 16);
-        setprop("/consumables/fuel/tank[3]/level-gal_us", 16);
+    # Checking for minimal fuel level
+    var fuel_level_left_default  = getprop("/consumables/fuel/tank[0]/level-norm");
+    var fuel_level_right_default = getprop("/consumables/fuel/tank[1]/level-norm");
+    var fuel_level_left_integral  = getprop("/consumables/fuel/tank[2]/level-norm");
+    var fuel_level_right_integral = getprop("/consumables/fuel/tank[3]/level-norm");
+    # Check which tanks are being used
+    var integral_tanks = getprop("/fdm/jsbsim/fuel/tank");
+    if (integral_tanks) {
+        if (fuel_level_left_integral < 0.25)
+            setprop("/consumables/fuel/tank[2]/level-norm", 0.25);
+        if (fuel_level_right_integral < 0.25)
+            setprop("/consumables/fuel/tank[3]/level-norm", 0.25);
         setprop("/consumables/fuel/tank[2]/selected", 1);
         setprop("/consumables/fuel/tank[3]/selected", 1);
+        setprop("/consumables/fuel/tank[0]/selected", 0);
+        setprop("/consumables/fuel/tank[1]/selected", 0);
     } else {
-        setprop("/consumables/fuel/tank[0]/level-gal_us", 10);
-        setprop("/consumables/fuel/tank[1]/level-gal_us", 10);
+        if (fuel_level_left_default < 0.25)
+            setprop("/consumables/fuel/tank[0]/level-norm", 0.25);
+        if (fuel_level_right_default < 0.25)
+            setprop("/consumables/fuel/tank[1]/level-norm", 0.25);
         setprop("/consumables/fuel/tank[0]/selected", 1);
         setprop("/consumables/fuel/tank[1]/selected", 1);
+        setprop("/consumables/fuel/tank[2]/selected", 0);
+        setprop("/consumables/fuel/tank[3]/selected", 0);
     }
-};
-
-##########################################
-# Fuel Save State
-##########################################
-var fuel_save_state = func {
-    if (!getprop("/consumables/fuel/save-fuel-state")) {
-        setprop("/consumables/fuel/tank[0]/level-gal_us", 20);
-        setprop("/consumables/fuel/tank[1]/level-gal_us", 20);
-    };
 };
 
 ##########################################
@@ -337,9 +328,8 @@ var switches_save_state = func {
         setprop("/controls/anti-ice/pitot-heat", 0);
         setprop("/environment/aircraft-effects/cabin-heat-set", 0.0);
         setprop("/environment/aircraft-effects/cabin-air-set", 0.0);
-        setprop("/consumables/fuel/tank[0]/selected", 1);
-        setprop("/consumables/fuel/tank[1]/selected", 1);
         setprop("/controls/flight/rudder-trim-knob", 0.0);
+        set_fuel();
     };
 };
 
@@ -443,9 +433,6 @@ var reset_system = func {
     props.globals.getNode("/fdm/jsbsim/pontoon-damage/right-pontoon", 0).setIntValue(0);
 
     setprop("/engines/active-engine/kill-engine", 0);
-
-    # set fuel tank configuration
-    set_fuel();
 }
 
 ############################################
@@ -675,9 +662,6 @@ setlistener("/sim/signals/fdm-initialized", func {
             setprop("/engines/active-engine/auto-start", 0);
         }
     }, 0, 0);
-
-    # Checking if fuel tanks should be refilled (in case save state is off)
-    fuel_save_state();
 
     # Checking if switches should be moved back to default position (in case save state is off)
     switches_save_state();

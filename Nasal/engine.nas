@@ -326,6 +326,7 @@ var coughing_timer = maketimer(1, engine_coughing);
 # ========== Main loop ======================
 
 var update = func {
+    #this block should be moved out of nasal and into jsbsim or autopilot logic
     var leftTankUsable  = 0;
     var rightTankUsable = 0;
     if (getprop("/consumables/fuel/tank[0]/selected") and getprop("/consumables/fuel/tank[0]/level-gal_us") > 0) leftTankUsable  = 1;

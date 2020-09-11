@@ -318,7 +318,8 @@ var switches_save_state = func {
         setprop("/environment/aircraft-effects/cabin-air-set", 0.0);
         setprop("/consumables/fuel/tank[0]/selected", 1);
         setprop("/consumables/fuel/tank[1]/selected", 1);
-        setprop("/controls/flight/rudder-trim-knob", 0.0);
+        if (getprop("/sim/model/c172p/ruddertrim-visible"))
+          setprop("/controls/flight/rudder-trim", 0);
     };
 };
 
@@ -664,6 +665,10 @@ setlistener("/sim/signals/fdm-initialized", func {
     # Listening for lightning strikes
     setlistener("/environment/lightning/lightning-pos-y", thunder);
 
+    if (!getprop("sim/model/c172p/ruddertrim-visible")){
+           setprop("/controls/flight/rudder-trim", 0.02);
+    }
+
     reset_system();
 
     var onground = getprop("/sim/presets/onground") or "";
@@ -737,3 +742,12 @@ setprop("/sim/startup/season-winter", getprop("/sim/startup/season") == "winter"
 setlistener("/sim/startup/season", func (node) {
     setprop("/sim/startup/season-winter", node.getValue() == "winter");
 }, 0, 0);
+
+# rudder trim setting changes, manual or automatic
+setlistener("/sim/model/c172p/ruddertrim-visible", func (node) {
+    if (node.getValue()) {
+        setprop("/controls/flight/rudder-trim", 0);
+    } else
+        setprop("/controls/flight/rudder-trim", 0.02);
+}, 0, 0);
+

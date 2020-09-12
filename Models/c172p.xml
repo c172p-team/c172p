@@ -6082,6 +6082,12 @@
                 <not>
                     <property>consumables/fuel/tank[1]/selected</property>
                 </not>
+                <not>
+                    <property>consumables/fuel/tank[2]/selected</property>
+                </not>
+                <not>
+                    <property>consumables/fuel/tank[3]/selected</property>
+                </not>
             </and>
         </condition>
     </animation>
@@ -6089,34 +6095,56 @@
         <type>select</type>
         <object-name>FuelSelectorLeft</object-name>
         <condition>
-            <and>
-                <property>consumables/fuel/tank[0]/selected</property>
-                <not>
-                    <property>consumables/fuel/tank[1]/selected</property>
-                </not>
-            </and>
+            <or>
+                <and>
+                    <property>consumables/fuel/tank[0]/selected</property>
+                    <not>
+                        <property>consumables/fuel/tank[1]/selected</property>
+                    </not>
+                </and>
+                <and>
+                    <property>consumables/fuel/tank[2]/selected</property>
+                    <not>
+                        <property>consumables/fuel/tank[3]/selected</property>
+                    </not>
+                </and>
+            </or>
         </condition>
     </animation>
     <animation>
         <type>select</type>
         <object-name>FuelSelectorRight</object-name>
         <condition>
-            <and>
-                <not>
-                    <property>consumables/fuel/tank[0]/selected</property>
-                </not>
-                <property>consumables/fuel/tank[1]/selected</property>
-            </and>
+            <or>
+                <and>
+                    <not>
+                        <property>consumables/fuel/tank[0]/selected</property>
+                    </not>
+                    <property>consumables/fuel/tank[1]/selected</property>
+                </and>
+                <and>
+                    <not>
+                        <property>consumables/fuel/tank[2]/selected</property>
+                    </not>
+                    <property>consumables/fuel/tank[3]/selected</property>
+                </and>
+            </or>
         </condition>
     </animation>
     <animation>
         <type>select</type>
         <object-name>FuelSelectorBoth</object-name>
         <condition>
-            <and>
-                <property>consumables/fuel/tank[0]/selected</property>
-                <property>consumables/fuel/tank[1]/selected</property>
-            </and>
+            <or>
+                <and>
+                    <property>consumables/fuel/tank[0]/selected</property>
+                    <property>consumables/fuel/tank[1]/selected</property>
+                </and>
+                <and>
+                    <property>consumables/fuel/tank[2]/selected</property>
+                    <property>consumables/fuel/tank[3]/selected</property>
+                </and>
+            </or>
         </condition>
     </animation>
     <animation>
@@ -6136,6 +6164,16 @@
                 <property>consumables/fuel/tank[1]/selected</property>
                 <value>false</value>
             </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>consumables/fuel/tank[2]/selected</property>
+                <value>false</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>consumables/fuel/tank[3]/selected</property>
+                <value>false</value>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -6146,14 +6184,21 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>property-assign</command>
-                <property>consumables/fuel/tank[0]/selected</property>
-                <value>true</value>
-            </binding>
-            <binding>
-                <command>property-assign</command>
-                <property>consumables/fuel/tank[1]/selected</property>
-                <value>false</value>
+                <command>nasal</command>
+                <script>
+                    var integral_tanks = getprop("/fdm/jsbsim/fuel/tank");
+                    if (integral_tanks) {
+                        setprop("/consumables/fuel/tank[2]/selected", 1);
+                        setprop("/consumables/fuel/tank[3]/selected", 0);
+                        setprop("/consumables/fuel/tank[0]/selected", 0);
+                        setprop("/consumables/fuel/tank[1]/selected", 0);
+                    } else {
+                        setprop("/consumables/fuel/tank[0]/selected", 1);
+                        setprop("/consumables/fuel/tank[1]/selected", 0);
+                        setprop("/consumables/fuel/tank[2]/selected", 0);
+                        setprop("/consumables/fuel/tank[3]/selected", 0);
+                    }
+                </script>
             </binding>
         </action>
     </animation>
@@ -6165,14 +6210,21 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>property-assign</command>
-                <property>consumables/fuel/tank[0]/selected</property>
-                <value>false</value>
-            </binding>
-            <binding>
-                <command>property-assign</command>
-                <property>consumables/fuel/tank[1]/selected</property>
-                <value>true</value>
+                <command>nasal</command>
+                <script>
+                    var integral_tanks = getprop("/fdm/jsbsim/fuel/tank");
+                    if (integral_tanks) {
+                        setprop("/consumables/fuel/tank[2]/selected", 0);
+                        setprop("/consumables/fuel/tank[3]/selected", 1);
+                        setprop("/consumables/fuel/tank[0]/selected", 0);
+                        setprop("/consumables/fuel/tank[1]/selected", 0);
+                    } else {
+                        setprop("/consumables/fuel/tank[0]/selected", 0);
+                        setprop("/consumables/fuel/tank[1]/selected", 1);
+                        setprop("/consumables/fuel/tank[2]/selected", 0);
+                        setprop("/consumables/fuel/tank[3]/selected", 0);
+                    }
+                </script>
             </binding>
         </action>
     </animation>
@@ -6184,14 +6236,21 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>property-assign</command>
-                <property>consumables/fuel/tank[0]/selected</property>
-                <value>true</value>
-            </binding>
-            <binding>
-                <command>property-assign</command>
-                <property>consumables/fuel/tank[1]/selected</property>
-                <value>true</value>
+                <command>nasal</command>
+                <script>
+                    var integral_tanks = getprop("/fdm/jsbsim/fuel/tank");
+                    if (integral_tanks) {
+                        setprop("/consumables/fuel/tank[2]/selected", 1);
+                        setprop("/consumables/fuel/tank[3]/selected", 1);
+                        setprop("/consumables/fuel/tank[0]/selected", 0);
+                        setprop("/consumables/fuel/tank[1]/selected", 0);
+                    } else {
+                        setprop("/consumables/fuel/tank[0]/selected", 1);
+                        setprop("/consumables/fuel/tank[1]/selected", 1);
+                        setprop("/consumables/fuel/tank[2]/selected", 0);
+                        setprop("/consumables/fuel/tank[3]/selected", 0);
+                    }
+                </script>
             </binding>
         </action>
     </animation>

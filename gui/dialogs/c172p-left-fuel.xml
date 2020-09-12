@@ -13,19 +13,15 @@
             # Fuel tanks being used
             var integral_tanks = getprop("/fdm/jsbsim/fuel/tank");
             if (integral_tanks) {
+                setprop("/consumables/fuel/left/level-norm", getprop("/consumables/fuel/tank[2]/level-norm"));
                 setprop("/consumables/fuel/left/level-gal_us", getprop("/consumables/fuel/tank[2]/level-gal_us"));
-                setprop("/consumables/fuel/right/level-gal_us", getprop("/consumables/fuel/tank[3]/level-gal_us"));
                 setprop("/consumables/fuel/left/level-lbs", getprop("/consumables/fuel/tank[2]/level-lbs"));
-                setprop("/consumables/fuel/right/level-lbs", getprop("/consumables/fuel/tank[3]/level-lbs"));
                 setprop("/consumables/fuel/left/level-litres", getprop("/consumables/fuel/tank[2]/level-litres"));
-                setprop("/consumables/fuel/right/level-litres", getprop("/consumables/fuel/tank[3]/level-litres"));
             } else {
+                setprop("/consumables/fuel/left/level-norm", getprop("/consumables/fuel/tank[0]/level-norm"));
                 setprop("/consumables/fuel/left/level-gal_us", getprop("/consumables/fuel/tank[0]/level-gal_us"));
-                setprop("/consumables/fuel/right/level-gal_us", getprop("/consumables/fuel/tank[1]/level-gal_us"));
                 setprop("/consumables/fuel/left/level-lbs", getprop("/consumables/fuel/tank[0]/level-lbs"));
-                setprop("/consumables/fuel/right/level-lbs", getprop("/consumables/fuel/tank[1]/level-lbs"));
                 setprop("/consumables/fuel/left/level-litres", getprop("/consumables/fuel/tank[0]/level-litres"));
-                setprop("/consumables/fuel/right/level-litres", getprop("/consumables/fuel/tank[1]/level-litres"));
             }
         </open>
     </nasal>
@@ -70,7 +66,7 @@
             <slider>
                 <name>c172p-left-fuel-slider</name>
                 <min>0</min>
-                <max>21.5</max>
+                <max>1</max>
                 <live>true</live>
                 <enable>
                     <and>
@@ -85,11 +81,7 @@
                         </not>
                     </and>
                 </enable>
-                <property>/consumables/fuel/left/level-gal_us</property>
-                <!--binding>
-                    <command>dialog-apply</command>
-                    <name>c172p-left-fuel-slider</name>
-                </binding-->
+                <property>/consumables/fuel/left/level-norm</property>
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
@@ -99,9 +91,15 @@
                         # Fuel tanks being used
                         var integral_tanks = getprop("/fdm/jsbsim/fuel/tank");
                         if (integral_tanks) {
-                            setprop("/consumables/fuel/tank[2]/level-gal_us", getprop("/consumables/fuel/left/level-gal_us"));
+                            setprop("/consumables/fuel/tank[2]/level-norm", getprop("/consumables/fuel/left/level-norm"));
+                            setprop("/consumables/fuel/left/level-gal_us", getprop("/consumables/fuel/tank[2]/level-gal_us"));
+                            setprop("/consumables/fuel/left/level-lbs", getprop("/consumables/fuel/tank[2]/level-lbs"));
+                            setprop("/consumables/fuel/left/level-litres", getprop("/consumables/fuel/tank[2]/level-litres"));
                         } else {
-                            setprop("/consumables/fuel/tank[0]/level-gal_us", getprop("/consumables/fuel/left/level-gal_us"));
+                            setprop("/consumables/fuel/tank[0]/level-norm", getprop("/consumables/fuel/left/level-norm"));
+                            setprop("/consumables/fuel/left/level-gal_us", getprop("/consumables/fuel/tank[0]/level-gal_us"));
+                            setprop("/consumables/fuel/left/level-lbs", getprop("/consumables/fuel/tank[0]/level-lbs"));
+                            setprop("/consumables/fuel/left/level-litres", getprop("/consumables/fuel/tank[0]/level-litres"));
                         }
                     </script>
                 </binding>

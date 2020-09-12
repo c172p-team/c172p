@@ -169,6 +169,15 @@ var set_fuel = func {
         setprop("/consumables/fuel/tank[2]/selected", 0);
         setprop("/consumables/fuel/tank[3]/selected", 0);
     }
+    setprop("sim/model/open-pfuel-cap", 0);
+    setprop("sim/model/open-sfuel-cap", 0);
+    setprop("sim/model/open-pfuel-sump", 0);
+    setprop("sim/model/open-sfuel-sump", 0);
+    fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));
+    fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-dialog"}));
+    fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-fuel-both-tanks-dialog"}));
+    fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));
+    fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));
 };
 
 ##########################################

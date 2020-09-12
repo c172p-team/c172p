@@ -12,8 +12,18 @@ var state_manager = func {
     # Reset battery charge and circuit breakers
     electrical.reset_battery_and_circuit_breakers();
 
-    setprop("/consumables/fuel/tank[0]/selected", 1);
-    setprop("/consumables/fuel/tank[1]/selected", 1);
+    var integral_tanks = getprop("/fdm/jsbsim/fuel/tank");
+    if (integral_tanks) {
+        setprop("/consumables/fuel/tank[2]/selected", 1);
+        setprop("/consumables/fuel/tank[3]/selected", 1);
+        setprop("/consumables/fuel/tank[0]/selected", 0);
+        setprop("/consumables/fuel/tank[1]/selected", 0);
+    } else {
+        setprop("/consumables/fuel/tank[0]/selected", 1);
+        setprop("/consumables/fuel/tank[1]/selected", 1);
+        setprop("/consumables/fuel/tank[2]/selected", 0);
+        setprop("/consumables/fuel/tank[3]/selected", 0);
+    }
 
     var auto_mixture = getprop("/fdm/jsbsim/engine/auto-mixture");
     setprop("/controls/engines/current-engine/mixture", auto_mixture);

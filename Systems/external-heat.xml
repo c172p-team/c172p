@@ -28,7 +28,7 @@ Copyright (C) 2017 Benedikt Hallinger
 <system name="external-heat">
     <channel name="External Heat">
         <kinematic name="External Heater"> <!-- simulates heat slowly raising once heater applied -->
-            <input>/engines/active-engine/external-heat/enabled</input>
+            <input>/engines/engine[0]/external-heat/enabled</input>
             <traverse>
                 <setting>
                     <position>0</position>
@@ -40,10 +40,10 @@ Copyright (C) 2017 Benedikt Hallinger
                     <time>300</time> <!-- reach max output at 5 minutes (=300s) -->
                 </setting>
             </traverse>
-            <output>/engines/active-engine/external-heat/applied-norm</output>
+            <output>/engines/engine[0]/external-heat/applied-norm</output>
         </kinematic>
         <aerosurface_scale name="Heat degF applied"> <!-- define heat applied in degF -->
-            <input>/engines/active-engine/external-heat/applied-norm</input>
+            <input>/engines/engine[0]/external-heat/applied-norm</input>
             <gain>1.0</gain>
             <zero_centered>false</zero_centered>
             <domain>
@@ -54,16 +54,16 @@ Copyright (C) 2017 Benedikt Hallinger
                 <min>0</min>
                 <max>77</max> <!-- 68°F = 20°C --> <!-- TODO: I currently don't know how much heat the heater outputs! currently this gives a limit of -40°C after which priming gets really hard -->
             </range>
-            <output>/engines/active-engine/external-heat/applied-degF</output>
+            <output>/engines/engine[0]/external-heat/applied-degF</output>
         </aerosurface_scale>
         <fcs_function name="Oil temp plus external heat">
             <function>
                 <sum>
-                    <property>/engines/active-engine/external-heat/applied-degF</property>
-                    <property>/engines/active-engine/oil-compensated-temperature-degf</property> <!-- compensated for env-temp and low oil, see engine.xml -->
+                    <property>/engines/engine[0]/external-heat/applied-degF</property>
+                    <property>/engines/engine[0]/oil-compensated-temperature-degf</property> <!-- compensated for env-temp and low oil, see engine.xml -->
                 </sum>
             </function>
-            <output>/engines/active-engine/oil-final-temperature-degf</output>
+            <output>/engines/engine[0]/oil-final-temperature-degf</output>
         </fcs_function>
         
         <!-- todo: could be modelled more realistical, since engine radiation should also have a little effect -->
@@ -71,17 +71,17 @@ Copyright (C) 2017 Benedikt Hallinger
             <function>
                 <sum>
                     <property>/environment/temperature-degf</property>
-                    <property>/engines/active-engine/external-heat/applied-degF</property>
+                    <property>/engines/engine[0]/external-heat/applied-degF</property>
                 </sum>
             </function>
-            <output>/engines/active-engine/cowling-air-temperature-degf</output>
+            <output>/engines/engine[0]/cowling-air-temperature-degf</output>
         </fcs_function>
         
         <!-- todo: should be better placed in engine.xml, but is not active there... -->
         <summer name="Engine Oil compensated environment Temperature">
-            <input>/engines/active-engine/oil-temperature-degf</input>
-            <input>-/engines/active-engine/oil-temperature-env-diff</input>
-            <output>/engines/active-engine/oil-compensated-temperature-degf</output>
+            <input>/engines/engine[0]/oil-temperature-degf</input>
+            <input>-/engines/engine[0]/oil-temperature-env-diff</input>
+            <output>/engines/engine[0]/oil-compensated-temperature-degf</output>
         </summer>
     </channel>
 

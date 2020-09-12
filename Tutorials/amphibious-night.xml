@@ -22,8 +22,8 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
             electrical.reset_battery_and_circuit_breakers();
             c172p.click("engine-repair", 6.0);
             c172p.dialog_battery_reload();
-            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
-            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/engines/engine[0]/oil-level",  7);
+            setprop("/engines/engine[0]/carb_ice", 0.0);
             setprop("/fdm/jsbsim/engine/damage-level", 0.0);
         </script>
     </nasal>
@@ -103,11 +103,11 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
             <value>0</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
+            <property>/controls/engines/engine[0]/throttle</property>
             <value>0.0</value>
         </set>
         <set>
-            <property>/engines/active-engine/running</property>
+            <property>/engines/engine[0]/running</property>
             <value>false</value>
         </set>
         <set>
@@ -231,10 +231,6 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
             <value>1</value>
         </set>
         <set>
-            <property>/controls/engines/active-engine</property>
-            <value>1</value>
-        </set>
-        <set>
             <property>sim/model/c172p/bushkit_flag_0</property>
             <value>0</value>
         </set>
@@ -320,7 +316,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
                     Turn it off or you will damage your aircraft.</message>
             <condition>
                 <equals>
-                    <property>/engines/active-engine/running</property>
+                    <property>/engines/engine[0]/running</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -334,7 +330,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
                         <value>0</value>
                     </equals>
                     <equals>
-                        <property>/engines/active-engine/running</property>
+                        <property>/engines/engine[0]/running</property>
                         <value>0</value>
                     </equals>
                 </and>
@@ -375,7 +371,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
                 <and>
                     <property>/controls/switches/master-alt</property>
                     <equals>
-                        <property>/engines/active-engine/running</property>
+                        <property>/engines/engine[0]/running</property>
                         <value>1</value>
                     </equals>
                 </and>
@@ -645,7 +641,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
             <message>Apply full throttle for takeoff.</message>
             <condition>
                 <less-than>
-                    <property>/controls/engines/current-engine/throttle</property>
+                    <property>/controls/engines/engine[0]/throttle</property>
                     <value>0.95</value>
                 </less-than>
             </condition>
@@ -928,7 +924,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
             <message>Check throttle.</message>
             <condition>
                 <greater-than>
-                    <property>/controls/engines/current-engine/throttle</property>
+                    <property>/controls/engines/engine[0]/throttle</property>
                     <value>0.85</value>
                 </greater-than>
             </condition>
@@ -953,7 +949,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
             <condition>
                 <and>
                     <less-than>
-                        <property>/controls/engines/current-engine/throttle</property>
+                        <property>/controls/engines/engine[0]/throttle</property>
                         <value>0.9</value>
                     </less-than>
                     <greater-than>
@@ -1028,7 +1024,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
             <message>Apply full throttle for takeoff.</message>
             <condition>
                 <less-than>
-                    <property>/controls/engines/current-engine/throttle</property>
+                    <property>/controls/engines/engine[0]/throttle</property>
                     <value>0.95</value>
                 </less-than>
             </condition>
@@ -1264,7 +1260,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
             <message>Check throttle.</message>
             <condition>
                 <greater-than>
-                    <property>/controls/engines/current-engine/throttle</property>
+                    <property>/controls/engines/engine[0]/throttle</property>
                     <value>0.85</value>
                 </greater-than>
             </condition>
@@ -1289,7 +1285,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
             <condition>
                 <and>
                     <less-than>
-                        <property>/controls/engines/current-engine/throttle</property>
+                        <property>/controls/engines/engine[0]/throttle</property>
                         <value>0.9</value>
                     </less-than>
                     <greater-than>
@@ -1349,7 +1345,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
             <message>Check throttle.</message>
             <condition>
                 <greater-than>
-                    <property>/controls/engines/current-engine/throttle</property>
+                    <property>/controls/engines/engine[0]/throttle</property>
                     <value>0.65</value>
                 </greater-than>
             </condition>
@@ -1505,7 +1501,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
             </nasal>
             <condition>
                 <equals>
-                    <property>/engines/active-engine/running</property>
+                    <property>/engines/engine[0]/running</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -1514,7 +1510,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
         <exit>
             <condition>
                 <equals>
-                    <property>/engines/active-engine/running</property>
+                    <property>/engines/engine[0]/running</property>
                     <value>0</value>
                 </equals>
             </condition>
@@ -1566,7 +1562,7 @@ Pay attention to the heading bug on taxiing it will approximate the threshold po
             </nasal>
             <condition>
                 <equals>
-                    <property>/engines/active-engine/running</property>
+                    <property>/engines/engine[0]/running</property>
                     <value>1</value>
                 </equals>
             </condition>

@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-    <name>c172p-oil-dialog-180</name>
+    <name>c172p-oil-dialog</name>
     <layout>vbox</layout>
     <resizable>false</resizable>
     <modal>false</modal>
@@ -19,7 +19,6 @@
         <empty>
             <stretch>true</stretch>
         </empty>
-
         <button>
             <legend/>
             <key>Esc</key>
@@ -50,10 +49,15 @@
                 <halign>right</halign>
             </text>
             <slider>
-                <name>c172p-oil-slider-180</name>
+                <name>c172p-oil-slider-160</name>
                 <min>0</min>
-                <max>8.0</max>
-                <live>true</live>
+                <max>7.0</max>
+                <visible>
+                    <equals>
+                        <property>/consumables/oil/capacity-quarts</property>
+                        <value>7.0</value>
+                    </equals>
+                </visible>
                 <enable>
                     <and>
                         <or>
@@ -63,11 +67,44 @@
                             <property>/fdm/jsbsim/hydro/active-norm</property>
                         </or>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/engines/engine[0]/running</property>
                         </not>
                     </and>
                 </enable>
-                <property>/engines/active-engine/oil-level</property>
+                <property>/engines/engine[0]/oil-level</property>
+                <binding>
+                    <command>dialog-apply</command>
+                    <name>c172p-oil-slider-160</name>
+                </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>c172p.oil_refill();</script>
+                </binding>
+            </slider>
+            <slider>
+                <name>c172p-oil-slider-180</name>
+                <min>0</min>
+                <max>8.0</max>
+                <visible>
+                    <equals>
+                        <property>/consumables/oil/capacity-quarts</property>
+                        <value>8.0</value>
+                    </equals>
+                </visible>
+                <enable>
+                    <and>
+                        <or>
+                            <property>/fdm/jsbsim/gear/unit[1]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[19]/WOW</property>
+                            <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
+                            <property>/fdm/jsbsim/hydro/active-norm</property>
+                        </or>
+                        <not>
+                            <property>/engines/engine[0]/running</property>
+                        </not>
+                    </and>
+                </enable>
+                <property>/engines/engine[0]/oil-level</property>
                 <binding>
                     <command>dialog-apply</command>
                     <name>c172p-oil-slider-180</name>
@@ -85,7 +122,7 @@
                     <halign>left</halign>
                     <format>%.2f</format>
                     <live>true</live>
-                    <property>/engines/active-engine/oil-level</property>
+                    <property>/engines/engine[0]/oil-level</property>
                 </text>
                 <text>
                     <label>quarts</label>
@@ -107,7 +144,7 @@
             <halign>left</halign>
             <format>%.2f hours</format>
             <live>true</live>
-            <property>/engines/active-engine/oil-service-hours</property>
+            <property>/engines/engine[0]/oil-service-hours</property>
         </text>
     </group>
 
@@ -124,7 +161,7 @@
                         <property>/fdm/jsbsim/gear/unit[23]/WOW</property>
                         <property>/fdm/jsbsim/hydro/active-norm</property>
                     </or>
-                    <property>/engines/active-engine/running</property>
+                    <property>/engines/engine[0]/running</property>
                 </and>
             </visible>
             <color>
@@ -165,7 +202,7 @@
             <col>0</col>
             <visible>
                 <greater-than>
-                    <property>/engines/active-engine/oil-level</property>
+                    <property>/engines/engine[0]/oil-level</property>
                     <value>6.0</value>
                 </greater-than>
             </visible>
@@ -177,11 +214,11 @@
             <visible>
                 <and>
                     <less-than-equals>
-                        <property>/engines/active-engine/oil-level</property>
+                        <property>/engines/engine[0]/oil-level</property>
                         <value>6.0</value>
                     </less-than-equals>
                     <greater-than>
-                        <property>/engines/active-engine/oil-level</property>
+                        <property>/engines/engine[0]/oil-level</property>
                         <value>5.0</value>
                     </greater-than>
                 </and>
@@ -198,7 +235,7 @@
             <col>0</col>
             <visible>
                 <less-than-equals>
-                    <property>/engines/active-engine/oil-level</property>
+                    <property>/engines/engine[0]/oil-level</property>
                     <value>5.0</value>
                 </less-than-equals>
             </visible>
@@ -214,7 +251,7 @@
             <col>0</col>
             <visible>
                 <less-than>
-                    <property>/engines/active-engine/oil-service-hours</property>
+                    <property>/engines/engine[0]/oil-service-hours</property>
                     <value>50</value>
                 </less-than>
             </visible>
@@ -225,7 +262,7 @@
             <col>0</col>
             <visible>
                 <greater-than-equals>
-                    <property>/engines/active-engine/oil-service-hours</property>
+                    <property>/engines/engine[0]/oil-service-hours</property>
                     <value>50</value>
                 </greater-than-equals>
             </visible>

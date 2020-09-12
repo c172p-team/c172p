@@ -39,7 +39,7 @@
     </filter>
 
     <filter>
-        <name>EGT 160 HP lowpass</name>
+        <name>EGT lowpass</name>
         <debug>false</debug>
         <type>exponential</type>
         <filter-time>4.0</filter-time>
@@ -51,23 +51,6 @@
             <offset>-2.4</offset>
         </input>
         <output>engines/engine[0]/egt-norm</output>
-        <min>0.0</min>
-        <max>1.0</max>
-    </filter>
-
-    <filter>
-        <name>EGT 180 HP lowpass</name>
-        <debug>false</debug>
-        <type>exponential</type>
-        <filter-time>4.0</filter-time>
-        <input>
-            <property>engines/engine[1]/egt-degf</property>
-            <!-- 1200 * scale + offset = 0.0
-           1700 * scale + offset = 1.0 -->
-            <scale>0.002</scale>
-            <offset>-2.4</offset>
-        </input>
-        <output>engines/engine[1]/egt-norm</output>
         <min>0.0</min>
         <max>1.0</max>
     </filter>
@@ -155,13 +138,13 @@
                     <value>12.0</value>
                 </greater-than>
             </condition>
-            <property>/engines/active-engine/oil-final-temperature-degf</property>
+            <property>/engines/engine[0]/oil-final-temperature-degf</property>
         </input>
         <input>
             <value>0.0</value>
         </input>
         <output>
-            <property>/engines/active-engine/indicated-oil-final-temperature-degf</property>
+            <property>/engines/engine[0]/indicated-oil-final-temperature-degf</property>
         </output>
     </filter>
 
@@ -176,13 +159,13 @@
                     <value>12.0</value>
                 </greater-than>
             </condition>
-            <property>/engines/active-engine/oil-pressure-psi</property>
+            <property>/engines/engine[0]/oil-pressure-psi</property>
         </input>
         <input>
             <value>0.0</value>
         </input>
         <output>
-            <property>/engines/active-engine/indicated-oil-pressure-psi</property>
+            <property>/engines/engine[0]/indicated-oil-pressure-psi</property>
         </output>
     </filter>
 
@@ -192,10 +175,7 @@
         <input>
             <expression>
                 <div>
-                    <sum>
-                        <property>/sim/time/hobbs/engine[0]</property>
-                        <property>/sim/time/hobbs/engine[1]</property>
-                    </sum>
+                    <property>/sim/time/hobbs/engine[0]</property>
                     <value>3600.0</value>
                 </div>
             </expression>

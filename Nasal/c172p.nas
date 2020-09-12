@@ -3,7 +3,8 @@
 ##########################################
 
 var autostart = func (msg=1) {
-    if (getprop("/engines/active-engine/running")) {
+    screen.log.write("Autostart", 1.0, 1.0, 0.8);
+    if (getprop("/engines/engine[0]/running")) {
         if (msg)
             gui.popupTip("Engine already running", 5);
         return;
@@ -12,16 +13,15 @@ var autostart = func (msg=1) {
     # Reset battery charge and circuit breakers
     electrical.reset_battery_and_circuit_breakers();
 
-    # Filling fuel tanks
+    # Set fuel tanks
     setprop("/consumables/fuel/tank[0]/selected", 1);
     setprop("/consumables/fuel/tank[1]/selected", 1);
 
-    # Setting levers and switches for startup
     setprop("/controls/switches/magnetos", 3);
-    setprop("/controls/engines/current-engine/throttle", 0.2);
+    setprop("/controls/engines/engine[0]/throttle", 0.2);
 
     var auto_mixture = getprop("/fdm/jsbsim/engine/auto-mixture");
-    setprop("/controls/engines/current-engine/mixture", auto_mixture);
+    setprop("/controls/engines/engine[0]/mixture", auto_mixture);
 
     setprop("/controls/flight/elevator-trim", 0.0);
     setprop("/controls/switches/master-bat", 1);
@@ -54,9 +54,6 @@ var autostart = func (msg=1) {
         }
     }
 
-    # Setting flaps to 0
-    setprop("/controls/flight/flaps", 0.0);
-
     # Set the altimeter
     var pressure_sea_level = getprop("/environment/pressure-sea-level-inhg");
     setprop("/instrumentation/altimeter/setting-inhg", pressure_sea_level);
@@ -67,7 +64,6 @@ var autostart = func (msg=1) {
 
     # Pre-flight inspection
     setprop("/sim/model/c172p/cockpit/control-lock-placed", 0);
-    setprop("/sim/model/c172p/brake-parking", 0);
     setprop("/sim/model/c172p/securing/chock", 0);
     setprop("/sim/model/c172p/securing/cowl-plugs-visible", 0);
     setprop("/sim/model/c172p/securing/pitot-cover-visible", 0);
@@ -82,22 +78,17 @@ var autostart = func (msg=1) {
     setprop("/consumables/fuel/tank[1]/sample-water-contamination", 0.0);
 
     # Setting max oil level
-    var oil_enabled = getprop("/engines/active-engine/oil_consumption_allowed");
-    var oil_level   = getprop("/engines/active-engine/oil-level");
+    var oil_enabled = getprop("/engines/engine[0]/oil_consumption_allowed");
+    var oil_level   = getprop("/engines/engine[0]/oil-level");
 
-    if (oil_enabled and oil_level < 5.0) {
-        if (getprop("/controls/engines/active-engine") == 0) {
-            setprop("/engines/active-engine/oil-level", 7.0);
-        }
-        else {
-            setprop("/engines/active-engine/oil-level", 8.0);
-        };
-    };
+    if (oil_enabled and (oil_level < 5.0)) {
+        setprop("/engines/engine[0]/oil-level", getprop("/consumables/oil/capacity-quarts"));
+    }
 
     # removing any ice from the carburetor
-    setprop("/engines/active-engine/carb_ice", 0.0);
-    setprop("/engines/active-engine/carb_icing_rate", 0.0);
-    setprop("/engines/active-engine/volumetric-efficiency-factor", 0.85);
+    setprop("/engines/engine[0]/carb_ice", 0.0);
+    setprop("/engines/engine[0]/carb_icing_rate", 0.0);
+    setprop("/engines/engine[0]/volumetric-efficiency-factor", 0.85);
 
     # set fuel configuration
     set_fuel();
@@ -116,15 +107,15 @@ var autostart = func (msg=1) {
 
     # All set, starting engine
     setprop("/controls/switches/starter", 1);
-    setprop("/engines/active-engine/auto-start", 1);
+    setprop("/engines/engine[0]/auto-start", 1);
 
     var engine_running_check_delay = 5.0;
     settimer(func {
-        if (!getprop("/engines/active-engine/running")) {
+        if (!getprop("/engines/engine[0]/running")) {
             gui.popupTip("The autostart failed to start the engine. You must lean the mixture and start the engine manually.", 5);
         }
         setprop("/controls/switches/starter", 0);
-        setprop("/engines/active-engine/auto-start", 0);
+        setprop("/engines/engine[0]/auto-start", 0);
     }, engine_running_check_delay);
 
 };
@@ -289,8 +280,8 @@ var switches_save_state = func {
         setprop("/controls/engines/engine[0]/primer", 0);
         setprop("/controls/engines/engine[0]/primer-lever", 0);
         setprop("/controls/engines/engine[0]/use-primer", 0);
-        setprop("/controls/engines/current-engine/throttle", 0.0);
-        setprop("/controls/engines/current-engine/mixture", 0.0);
+        setprop("/controls/engines/engine[0]/throttle", 0.0);
+        setprop("/controls/engines/engine[0]/mixture", 0.0);
         setprop("/controls/circuit-breakers/aircond", 1);
         setprop("/controls/circuit-breakers/autopilot", 1);
         setprop("/controls/circuit-breakers/bcnlt", 1);
@@ -333,7 +324,6 @@ var switches_save_state = func {
         setprop("/surface-positions/flap-pos-norm", 0.0);
         setprop("/controls/flight/elevator-trim", 0.0);
         setprop("/controls/anti-ice/engine[0]/carb-heat", 0);
-        setprop("/controls/anti-ice/engine[1]/carb-heat", 0);
         setprop("/controls/anti-ice/pitot-heat", 0);
         setprop("/environment/aircraft-effects/cabin-heat-set", 0.0);
         setprop("/environment/aircraft-effects/cabin-air-set", 0.0);
@@ -442,7 +432,7 @@ var reset_system = func {
     props.globals.getNode("/fdm/jsbsim/pontoon-damage/left-pontoon", 0).setIntValue(0);
     props.globals.getNode("/fdm/jsbsim/pontoon-damage/right-pontoon", 0).setIntValue(0);
 
-    setprop("/engines/active-engine/kill-engine", 0);
+    setprop("/engines/engine[0]/kill-engine", 0);
 
     # set fuel tank configuration
     set_fuel();
@@ -452,8 +442,8 @@ var reset_system = func {
 # Engine coughing sound
 ############################################
 
-setlistener("/engines/active-engine/killed", func (node) {
-    if (node.getValue() and getprop("/engines/active-engine/running")) {
+setlistener("/engines/engine[0]/killed", func (node) {
+    if (node.getValue() and getprop("/engines/engine[0]/running")) {
         click("coughing-engine-sound", 0.7, 0);
     };
 });
@@ -566,7 +556,7 @@ var set_limits = func (node) {
     ac_landing_mass.alias(landing_mass);
 };
 
-setlistener("/controls/engines/active-engine", func (node) {
+setlistener("/controls/engines/engine[0]", func (node) {
     # Set new mass limits for Fuel and Payload Settings dialog
     set_limits(node);
 
@@ -645,13 +635,13 @@ setlistener("/sim/signals/fdm-initialized", func {
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.
     aircraft.data.add("/sim/model/c172p/immat-on-panel");
-    aircraft.data.load();
+    #aircraft.data.load();
 
     # Initialize mass limits
-    set_limits(props.globals.getNode("/controls/engines/active-engine"));
+    set_limits(props.globals.getNode("/controls/engines/engine[0]"));
 
     # Close all caps and doors
-    setlistener("/engines/active-engine/cranking", func (node) {
+    setlistener("/engines/engine[0]/cranking", func (node) {
         setprop("sim/model/show-dip-stick", 0);
         setprop("sim/model/open-pfuel-cap", 0);
         setprop("sim/model/open-sfuel-cap", 0);
@@ -659,20 +649,19 @@ setlistener("/sim/signals/fdm-initialized", func {
         setprop("sim/model/open-sfuel-sump", 0);
         setprop("sim/model/door-positions/oilDoor/position-norm", 0);
         setprop("sim/model/c172p/securing/cowl-plugs-visible", 0);
-        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-160"}));
-        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog-180"}));
+        fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-oil-dialog"}));
         fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-dialog"}));
         fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-dialog"}));
         fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-left-fuel-sample-dialog"}));
         fgcommand("dialog-close", props.Node.new({"dialog-name": "c172p-right-fuel-sample-dialog"}));
     }, 0, 0);
 
-    setlistener("/engines/active-engine/running", func (node) {
-        var autostart = getprop("/engines/active-engine/auto-start");
-        var cranking  = getprop("/engines/active-engine/cranking");
+    setlistener("/engines/engine[0]/running", func (node) {
+        var autostart = getprop("/engines/engine[0]/auto-start");
+        var cranking  = getprop("/engines/engine[0]/cranking");
         if (autostart and cranking and node.getBoolValue()) {
             setprop("/controls/switches/starter", 0);
-            setprop("/engines/active-engine/auto-start", 0);
+            setprop("/engines/engine[0]/auto-start", 0);
         }
     }, 0, 0);
 
@@ -689,11 +678,6 @@ setlistener("/sim/signals/fdm-initialized", func {
     setlistener("/environment/lightning/lightning-pos-y", thunder);
 
     reset_system();
-
-    var onground = getprop("/sim/presets/onground") or "";
-    if (!onground) {
-        state_manager();
-    }
 
     # set user defined pilot view or initialize it
     settimer(func {

@@ -1,7 +1,7 @@
 var reset_all_damage = func
 {
-    setprop("/engines/active-engine/crash-engine", 0);
-    setprop("/engines/active-engine/kill-engine", 0);
+    setprop("/engines/engine[0]/crash-engine", 0);
+    setprop("/engines/engine[0]/kill-engine", 0);
 
     # Landing gear
     setprop("/fdm/jsbsim/gear/unit[0]/broken", 0);
@@ -50,7 +50,7 @@ var repair_damage = func {
 var killengine = func
 {
     if (getprop("/fdm/jsbsim/settings/damage"))
-        setprop("/engines/active-engine/crash-engine", 1);
+        setprop("/engines/engine[0]/crash-engine", 1);
 }
 
 # Hydro system loop
@@ -102,7 +102,7 @@ var poll_hydro = func
                 gui.popupTip("Can't anchor while moving forward", 5);
                 setprop("/controls/mooring/anchor", 0);
                 return;
-            } elsif (getprop("/engines/active-engine/running")) {
+            } elsif (getprop("/engines/engine[0]/running")) {
                 gui.popupTip("Can't anchor with engine running", 5);
                 setprop("/controls/mooring/anchor", 0);
                 return;

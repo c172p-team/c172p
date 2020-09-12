@@ -8,7 +8,7 @@ Fuel system for 2 different engines at choice, JSBSim FDM
 -->
 
 <system name="fuel">
-    <property type="bool" value="0">/engines/active-engine/already-started-in-session</property>
+    <property type="bool" value="0">/engines/engine[0]/already-started-in-session</property>
 
     <!-- *********************************************************************************** -->
     <!-- Main tanks: 0 and 1, Intergal 2 and 3                                                                 -->
@@ -16,17 +16,12 @@ Fuel system for 2 different engines at choice, JSBSim FDM
     <!-- Fuel Flow Rates in pounds per second                                                -->
     <!-- *********************************************************************************** -->
 
-    <channel name="Float Chamber">
-        <!-- Give tank[4] priority regardless of engine is used -->
-        <switch name="Float Chamber">
-            <output>propulsion/tank[4]/priority</output>
+    <channel name="Float Chamber Selection">
+        <switch name="Float Chamber Priority">
+            <output>propulsion/tank[2]/priority</output>
             <default value="0"/>
-            <test logic="OR" value="1">
-                /controls/engines/active-engine EQ 0
-                /controls/engines/active-engine EQ 1
-            </test>
             <test logic="AND" value="1">
-                /engines/active-engine/killed EQ 0
+                /engines/engine[0]/killed EQ 0
             </test>
         </switch>
     </channel>
@@ -77,61 +72,14 @@ Fuel system for 2 different engines at choice, JSBSim FDM
             </test>
         </switch>
 
-        <!-- from Tank 2 (to Collector Tank 4) -->
-        <fcs_function name="propulsion/tank[2]/contents-volume-gal">
-            <function>
-                <quotient>
-                    <p> propulsion/tank[2]/contents-lbs </p>
-                    <p> propulsion/tank[2]/density-lbs_per_gal </p>
-                </quotient>
-            </function>
-        </fcs_function>
-        <switch name="fuel/from-tank2-to-tank4">
-            <default value="0"/>
-            <test logic="AND" value="0.1">
-                propulsion/tank[2]/priority EQ 1
-                propulsion/tank[2]/contents-volume-gal GT propulsion/tank[2]/unusable-volume-gal
-                /consumables/fuel/tank[4]/level-lbs LT 0.05
-                propulsion/tank[4]/priority EQ 1
-                accelerations/Nz GE 0
-                fuel/tank EQ 1
-            </test>
-        </switch>
-
-        <!-- from Tank 3 (to Collector Tank 4) -->
-        <fcs_function name="propulsion/tank[3]/contents-volume-gal">
-            <function>
-                <quotient>
-                    <p> propulsion/tank[3]/contents-lbs </p>
-                    <p> propulsion/tank[3]/density-lbs_per_gal </p>
-                </quotient>
-            </function>
-        </fcs_function>
-        <switch name="fuel/from-tank3-to-tank4">
-            <default value="0"/>
-            <test logic="AND" value="0.1">
-                propulsion/tank[3]/priority EQ 1
-                propulsion/tank[3]/contents-volume-gal GT propulsion/tank[3]/unusable-volume-gal
-                /consumables/fuel/tank[4]/level-lbs LT 0.05
-                propulsion/tank[4]/priority EQ 1
-                accelerations/Nz GE 0
-                fuel/tank EQ 1
-            </test>
-        </switch>
-
-    </channel>
-
-    <!-- Total from Tank 0 and Tank 1 to Collector Tank 4 -->
-    <channel name="Total flow rate into tank 4">
-        <summer name="tank0 and 1 to tank4">
-            <input>fuel/from-tank0-to-tank4</input>
-            <input>fuel/from-tank1-to-tank4</input>
-            <input>fuel/from-tank2-to-tank4</input>
-            <input>fuel/from-tank3-to-tank4</input>
-            <output>propulsion/tank[4]/external-flow-rate-pps</output>
+    <!-- Total from Tank 0 and Tank 1 to Collector Tank 2 -->
+    <channel name="Total flow rate into tank 2">
+        <summer name="tank0 and 1 to tank2">
+            <input>fuel/from-tank0-to-tank2</input>
+            <input>fuel/from-tank1-to-tank2</input>
+            <output>propulsion/tank[2]/external-flow-rate-pps</output>
         </summer>
     </channel>
-
 
     <!-- ****************************************************** -->
     <!-- FLOW RATE from each MAIN TANK (consumption)            -->
@@ -139,11 +87,11 @@ Fuel system for 2 different engines at choice, JSBSim FDM
 
     <channel name="Total flow rates">
         <summer name="fuel/tank0-flow-rate">
-            <input>-fuel/from-tank0-to-tank4</input>
+            <input>-fuel/from-tank0-to-tank2</input>
             <output>propulsion/tank[0]/external-flow-rate-pps</output>
         </summer>
         <summer name="fuel/tank1-flow-rate">
-            <input>-fuel/from-tank1-to-tank4</input>
+            <input>-fuel/from-tank1-to-tank2</input>
             <output>propulsion/tank[1]/external-flow-rate-pps</output>
         </summer>
 
@@ -158,20 +106,15 @@ Fuel system for 2 different engines at choice, JSBSim FDM
     </channel>
     
     <channel name="fuel-system">
-        <switch name="/engines/active-engine/already-started-in-session">
+        <switch name="/engines/engine[0]/already-started-in-session">
             <default value="0"/>
-            <test logic="AND" value="/engines/active-engine/already-started-in-session">
-                /engines/active-engine/already-started-in-session GT 0
+            <test logic="AND" value="/engines/engine[0]/already-started-in-session">
+                /engines/engine[0]/already-started-in-session GT 0
             </test>
             <test logic="AND" value="1">
-                /controls/engines/active-engine EQ 0
                 /fdm/jsbsim/propulsion/engine[0]/set-running GT 0
             </test>
-             <test logic="AND" value="1">
-                /controls/engines/active-engine EQ 1
-                /fdm/jsbsim/propulsion/engine[1]/set-running GT 0
-            </test>
-            <output>/engines/active-engine/already-started-in-session</output>
+            <output>/engines/engine[0]/already-started-in-session</output>
         </switch>
     </channel>
 </system>

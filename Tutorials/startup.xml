@@ -16,8 +16,8 @@ This tutorial will take you through starting the Cessna 172p.
             electrical.reset_battery_and_circuit_breakers();
             c172p.click("engine-repair", 6.0);
             c172p.dialog_battery_reload();
-            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
-            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/engines/engine[0]/oil-level", 7);
+            setprop("/engines/engine[0]/carb_ice", 0.0);
             setprop("/fdm/jsbsim/engine/damage-level", 0.0);
         </script>
     </nasal>
@@ -54,11 +54,11 @@ This tutorial will take you through starting the Cessna 172p.
             <value>0</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
+            <property>/controls/engines/engine[0]/throttle</property>
             <value>0.0</value>
         </set>
         <set>
-            <property>/engines/active-engine/running</property>
+            <property>/engines/engine[0]/running</property>
             <value>false</value>
         </set>
         <set>
@@ -175,10 +175,6 @@ This tutorial will take you through starting the Cessna 172p.
         </set>
         <set>
             <property>sim/model/c172p/engine_flag_1</property>
-            <value>0</value>
-        </set>
-        <set>
-            <property>/controls/engines/active-engine</property>
             <value>0</value>
         </set>
         <set>
@@ -490,13 +486,13 @@ This tutorial will take you through starting the Cessna 172p.
         <error>
             <message>Set the Carburetor to cold!</message>
             <condition>
-                <property>/controls/engines/current-engine/carb-heat</property>
+                <property>/controls/engines/engine[0]/carb-heat</property>
             </condition>
         </error>
         <exit>
             <condition>
                 <not>
-                    <property>/controls/engines/current-engine/carb-heat</property>
+                    <property>/controls/engines/engine[0]/carb-heat</property>
                 </not>
             </condition>
         </exit>
@@ -524,7 +520,7 @@ This tutorial will take you through starting the Cessna 172p.
             <message>Use the m key or mouse to select fuller mixture.</message>
             <condition>
                 <less-than>
-                    <property>/controls/engines/current-engine/mixture</property>
+                    <property>/controls/engines/engine[0]/mixture</property>
                     <value>0.85</value>
                 </less-than>
             </condition>
@@ -533,7 +529,7 @@ This tutorial will take you through starting the Cessna 172p.
         <exit>
             <condition>
                 <greater-than>
-                    <property>/controls/engines/current-engine/mixture</property>
+                    <property>/controls/engines/engine[0]/mixture</property>
                     <value>0.85</value>
                 </greater-than>
             </condition>
@@ -564,7 +560,7 @@ This tutorial will take you through starting the Cessna 172p.
             <message>Open the throttle a bit more.</message>
             <condition>
                 <less-than>
-                    <property>/controls/engines/current-engine/throttle</property>
+                    <property>/controls/engines/engine[0]/throttle</property>
                     <value>0.15</value>
                 </less-than>
             </condition>
@@ -574,7 +570,7 @@ This tutorial will take you through starting the Cessna 172p.
             <message>That's a bit too much - pull it out slightly.</message>
             <condition>
                 <greater-than>
-                    <property>/controls/engines/current-engine/throttle</property>
+                    <property>/controls/engines/engine[0]/throttle</property>
                     <value>0.25</value>
                 </greater-than>
             </condition>
@@ -584,11 +580,11 @@ This tutorial will take you through starting the Cessna 172p.
             <condition>
                 <and>
                     <greater-than-equals>
-                        <property>/controls/engines/current-engine/throttle</property>
+                        <property>/controls/engines/engine[0]/throttle</property>
                         <value>0.15</value>
                     </greater-than-equals>
                     <less-than-equals>
-                        <property>/controls/engines/current-engine/throttle</property>
+                        <property>/controls/engines/engine[0]/throttle</property>
                         <value>0.25</value>
                     </less-than-equals>
                 </and>
@@ -766,7 +762,7 @@ This tutorial will take you through starting the Cessna 172p.
         <exit>
             <condition>
                 <equals>
-                    <property>/engines/active-engine/running</property>
+                    <property>/engines/engine[0]/running</property>
                     <value>1</value>
                 </equals>
             </condition>
@@ -808,7 +804,7 @@ This tutorial will take you through starting the Cessna 172p.
             <message>That's a bit high. Reduce throttle to below 1000 RPM using PgDn, or your joystick throttle control.</message>
             <condition>
                 <greater-than>
-                    <property>/engines/active-engine/rpm</property>
+                    <property>/engines/engine[0]/rpm</property>
                     <value>1000.0</value>
                 </greater-than>
             </condition>
@@ -817,7 +813,7 @@ This tutorial will take you through starting the Cessna 172p.
             <message>That's too low. Increase throttle to above 800 RPM with PgUp, or your joystick throttle control.</message>
             <condition>
                 <less-than>
-                    <property>/engines/active-engine/rpm</property>
+                    <property>/engines/engine[0]/rpm</property>
                     <value>800.0</value>
                 </less-than>
             </condition>
@@ -827,11 +823,11 @@ This tutorial will take you through starting the Cessna 172p.
             <condition>
                 <and>
                     <greater-than>
-                        <property>/engines/active-engine/rpm</property>
+                        <property>/engines/engine[0]/rpm</property>
                         <value>800</value>
                     </greater-than>
                     <less-than>
-                        <property>/engines/active-engine/rpm</property>
+                        <property>/engines/engine[0]/rpm</property>
                         <value>1000</value>
                     </less-than>
                 </and>

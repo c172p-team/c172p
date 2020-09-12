@@ -22,8 +22,8 @@ PHTO (Hilo) is within glide distance. Try to land at PHTO.
             electrical.reset_battery_and_circuit_breakers();
             c172p.click("engine-repair", 6.0);
             c172p.dialog_battery_reload();
-            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
-            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/engines/engine[0]/oil-level", 7);
+            setprop("/engines/engine[0]/carb_ice", 0.0);
             setprop("/fdm/jsbsim/engine/damage-level", 0.0);
         </script>
     </nasal>
@@ -87,7 +87,7 @@ PHTO (Hilo) is within glide distance. Try to land at PHTO.
             <value>3</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
+            <property>/controls/engines/engine[0]/throttle</property>
             <value>0.2</value>
         </set>
         <set>
@@ -112,7 +112,7 @@ PHTO (Hilo) is within glide distance. Try to land at PHTO.
         </set>
         <nasal>
             <script>
-                setprop("/controls/engines/current-engine/mixture", 1.0);
+                setprop("/controls/engines/engine[0]/mixture", 1.0);
                 setprop("/controls/switches/starter", 1);
             </script>
         </nasal>
@@ -132,7 +132,7 @@ PHTO (Hilo) is within glide distance. Try to land at PHTO.
             <script>
                 var listeners = std.Vector.new();
 
-                listeners.append(setlistener("/engines/active-engine/running", func (node) {
+                listeners.append(setlistener("/engines/engine[0]/running", func (node) {
                     if (node.getBoolValue()) {
                         setprop("/controls/switches/starter", 0);
                         foreach (var listener; listeners.vector) {
@@ -144,7 +144,7 @@ PHTO (Hilo) is within glide distance. Try to land at PHTO.
             </script>
         </nasal>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
+            <property>/controls/engines/engine[0]/throttle</property>
             <value>0.6</value>
         </set>
         <message>We're happily cruising along, enjoying an evenings flight.</message>
@@ -178,7 +178,7 @@ PHTO (Hilo) is within glide distance. Try to land at PHTO.
     <step>
         <message>Now look around and choose an airport, or emergency landing site. Stay at 65 knots.</message>
         <set>
-            <property>/engines/active-engine/running</property>
+            <property>/engines/engine[0]/running</property>
             <value>false</value>
         </set>
 
@@ -216,7 +216,7 @@ PHTO (Hilo) is within glide distance. Try to land at PHTO.
         <message>Start maneuvering towards your chosen emergency landing spot,
       keeping your speed at 65 knots IAS.</message>
         <set>
-            <property>/engines/active-engine/running</property>
+            <property>/engines/engine[0]/running</property>
             <value>false</value>
         </set>
 
@@ -254,7 +254,7 @@ PHTO (Hilo) is within glide distance. Try to land at PHTO.
         <message>At this point we would radio an emergency/mayday.
       Remember - Aviate, Navigate, Communicate - in that order.</message>
         <set>
-            <property>/engines/active-engine/running</property>
+            <property>/engines/engine[0]/running</property>
             <value>false</value>
         </set>
 

@@ -16,8 +16,8 @@ This tutorial will teach you how to take-off from runway 21, and climb at 600 fe
             electrical.reset_battery_and_circuit_breakers();
             c172p.click("engine-repair", 6.0);
             c172p.dialog_battery_reload();
-            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
-            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/engines/engine[0]/oil-level", 7);
+            setprop("/engines/engine[0]/carb_ice", 0.0);
             setprop("/fdm/jsbsim/engine/damage-level", 0.0);
         </script>
     </nasal>
@@ -82,7 +82,7 @@ This tutorial will teach you how to take-off from runway 21, and climb at 600 fe
             <value>3</value>
         </set>
         <set>
-            <property>/controls/engines/current-engine/throttle</property>
+            <property>/controls/engines/engine[0]/throttle</property>
             <value>0.2</value>
         </set>
         <set>
@@ -123,7 +123,7 @@ This tutorial will teach you how to take-off from runway 21, and climb at 600 fe
         </set>
         <nasal>
             <script>
-                setprop("/controls/engines/current-engine/mixture", 1.0);
+                setprop("/controls/engines/engine[0]/mixture", 1.0);
                 setprop("/controls/switches/starter", 1);
             </script>
         </nasal>
@@ -152,7 +152,7 @@ This tutorial will teach you how to take-off from runway 21, and climb at 600 fe
             <script>
                 var listeners = std.Vector.new();
 
-                listeners.append(setlistener("/engines/active-engine/running", func (node) {
+                listeners.append(setlistener("/engines/engine[0]/running", func (node) {
                     if (node.getBoolValue()) {
                         setprop("/controls/switches/starter", 0);
                         foreach (var listener; listeners.vector) {
@@ -200,7 +200,7 @@ This tutorial will teach you how to take-off from runway 21, and climb at 600 fe
             <message>Apply full throttle for take-off.</message>
             <condition>
                 <less-than>
-                    <property>/controls/engines/current-engine/throttle</property>
+                    <property>/controls/engines/engine[0]/throttle</property>
                     <value>0.95</value>
                 </less-than>
             </condition>

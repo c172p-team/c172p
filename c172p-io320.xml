@@ -592,35 +592,6 @@
             </thruster>
         </engine>
 
-        <engine file="eng_io360">
-            <location unit="IN">
-                <x> -19.7 </x>
-                <y> 0 </y>
-                <z> 26.6 </z>
-            </location>
-            <orient unit="DEG">
-                <roll> 0.0 </roll>
-                <pitch> 0 </pitch>
-                <yaw> 0 </yaw>
-            </orient>
-            <feed>4</feed> <!-- from intermediate tank (float chamber 4) -->
-            <thruster file="prop_76in2f_NACA_20deg">
-            <!-- <thruster file="prop_76in2f_NACA_15-25deg"> --> <!-- for settling -->
-                <location unit="IN">
-                    <x> -37.7 </x>
-                    <y> 0 </y>
-                    <z> 26.6 </z>
-                </location>
-                <orient unit="DEG">
-                    <roll> 0.0 </roll>
-                    <pitch> 0.0 </pitch>
-                    <yaw> 0.0 </yaw>
-                </orient>
-                <sense> 1 </sense>
-                <p_factor> 15 </p_factor>
-            </thruster>
-        </engine>
-
         <!-- Tank number 0 -->
         <tank type="FUEL">
             <location unit="IN">
@@ -1022,7 +993,7 @@
                 <function>
                     <table>
                         <independentVar lookup="row">/controls/engines/engine/primer</independentVar>
-                        <independentVar lookup="column">/controls/engines/current-engine/throttle</independentVar>
+                        <independentVar lookup="column">/controls/engines/engine[0]/throttle</independentVar>
                         <tableData>
                                  0.09    0.1    0.5    0.51
                             2    0       0      0      0
@@ -1041,13 +1012,8 @@
                 <gain>fcs/mixture-primer-cmd</gain>
             </pure_gain>
 
-            <pure_gain name="fcs/mixture-primer[1]">
-                <input>fcs/mixture-cmd-norm[1]</input>
-                <gain>fcs/mixture-primer-cmd</gain>
-            </pure_gain>
-
-            <!-- Primer logic for 160 HP engine -->
-            <switch name="Mixture Position 160 HP">
+            <!-- Primer logic -->
+            <switch name="Mixture Position">
                 <default value="fcs/mixture-cmd-norm[0]"/>
                 <output>fcs/mixture-pos-norm[0]</output>
                 <!-- Use primer if used and engine is cold. If engine
@@ -1056,19 +1022,6 @@
                 <test logic="AND" value="fcs/mixture-primer[0]">
                     /controls/engines/engine/use-primer eq 1
                     /engines/engine[0]/oil-temperature-degf le 75
-                </test>
-            </switch>
-
-            <!-- Primer logic for 180 HP engine -->
-            <switch name="Mixture Position 180 HP">
-                <default value="fcs/mixture-cmd-norm[1]"/>
-                <output>fcs/mixture-pos-norm[1]</output>
-                <!-- Use primer if used and engine is cold. If engine
-                     is warm, then the mixture lever is used.
-                -->
-                <test logic="AND" value="fcs/mixture-primer[1]">
-                    /controls/engines/engine/use-primer eq 1
-                    /engines/engine[1]/oil-temperature-degf le 75
                 </test>
             </switch>
         </channel>
@@ -1173,10 +1126,7 @@
 
         <function name="aero/function/vel-propwash-fps">
             <description> propeller induced velocity </description>
-            <sum>
-                <property>propulsion/engine/prop-induced-velocity_fps</property>
-                <property>propulsion/engine[1]/prop-induced-velocity_fps</property>
-            </sum>
+            <property>propulsion/engine/prop-induced-velocity_fps</property>
         </function>
 
         <function name="aero/function/qbar-propwash-psf">
@@ -1194,7 +1144,6 @@
             <sum>
                 <property>velocities/u-aero-fps</property>
                 <property>propulsion/engine/prop-induced-velocity_fps</property>
-                <property>propulsion/engine[1]/prop-induced-velocity_fps</property>
             </sum>
         </function>
 

@@ -328,8 +328,10 @@ var switches_save_state = func {
         setprop("/controls/anti-ice/pitot-heat", 0);
         setprop("/environment/aircraft-effects/cabin-heat-set", 0.0);
         setprop("/environment/aircraft-effects/cabin-air-set", 0.0);
-        setprop("/consumables/fuel/tank[0]/selected", 1);
-        setprop("/consumables/fuel/tank[1]/selected", 1);
+        setprop("/consumables/fuel/tank[0]/level-norm", 0.0);
+        setprop("/consumables/fuel/tank[1]/level-norm", 0.0);
+        setprop("/consumables/fuel/tank[2]/level-norm", 0.0);
+        setprop("/consumables/fuel/tank[3]/level-norm", 0.0);
         if (getprop("/sim/model/c172p/ruddertrim-visible"))
           setprop("/controls/flight/rudder-trim", 0);
     };
@@ -435,6 +437,8 @@ var reset_system = func {
     props.globals.getNode("/fdm/jsbsim/pontoon-damage/right-pontoon", 0).setIntValue(0);
 
     setprop("/engines/active-engine/kill-engine", 0);
+
+    set_fuel();
 }
 
 ############################################
@@ -674,10 +678,6 @@ setlistener("/sim/signals/fdm-initialized", func {
     # Listening for lightning strikes
     setlistener("/environment/lightning/lightning-pos-y", thunder);
 
-    if (!getprop("sim/model/c172p/ruddertrim-visible")){
-           setprop("/controls/flight/rudder-trim", 0.02);
-    }
-
     reset_system();
 
     var onground = getprop("/sim/presets/onground") or "";
@@ -746,12 +746,6 @@ setlistener("/sim/model/c172p/fog-or-frost-increasing", func (node) {
     }
 }, 1, 0);
 
-#fuel tank configuration switch
-setlistener("/fdm/jsbsim/fuel/tank", func (node) {
-    # Set fuel configuration
-    set_fuel();
-}, 0, 0);
-
 # season-winter is a conversion value, see c172p-ground-effects.xml
 setprop("/sim/startup/season-winter", getprop("/sim/startup/season") == "winter");
 setlistener("/sim/startup/season", func (node) {
@@ -766,3 +760,8 @@ setlistener("/sim/model/c172p/ruddertrim-visible", func (node) {
         setprop("/controls/flight/rudder-trim", 0.02);
 }, 0, 0);
 
+    #fuel tank configuration switch
+    setlistener("/fdm/jsbsim/fuel/tank", func (node) {
+        # Set fuel configuration
+        set_fuel();
+    }, 0, 0);

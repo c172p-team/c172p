@@ -37,6 +37,12 @@
             setprop("sim/model/c172p/engine_flag_0", 0);
             setprop("sim/model/c172p/engine_flag_1", 0);
             setprop("sim/model/c172p/engine_flag_" ~ p, 1);
+
+            # Tank size
+            var p = getprop("/fdm/jsbsim/fuel/tank");
+            setprop("sim/model/c172p/tank_flag_0", 0);
+            setprop("sim/model/c172p/tank_flag_1", 0);
+            setprop("sim/model/c172p/tank_flag_" ~ p, 1);
         </open>
     </nasal>
 
@@ -450,6 +456,67 @@
                         <command>property-assign</command>
                         <property>/engines/active-engine/oil-level</property>
                         <value>8.0</value>
+                    </binding>
+                </radio>
+            </group>
+        </group>
+
+        <hrule/>
+
+        <group>
+            <layout>vbox</layout>
+
+            <text>
+                <label>Tank size options</label>
+                <halign>center</halign>
+            </text>
+
+            <group>
+                <layout>hbox</layout>
+
+                <radio>
+                    <halign>left</halign>
+                    <label>Default (43 gal)</label>
+                    <property>sim/model/c172p/tank_flag_0</property>
+                    <live>true</live>
+                    <enable>
+                        <not>
+                            <property>/sim/freeze/replay-state</property>
+                        </not>
+                    </enable>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                    <binding>
+                        <command>nasal</command>
+                        <script>
+                            setprop("/fdm/jsbsim/fuel/tank", 0);
+                            setprop("sim/model/c172p/tank_flag_0", 1);
+                            setprop("sim/model/c172p/tank_flag_1", 0);
+                        </script>
+                    </binding>
+                </radio>
+
+                <radio>
+                    <halign>left</halign>
+                    <label>Integral (68 gal)</label>
+                    <property>sim/model/c172p/tank_flag_1</property>
+                    <live>true</live>
+                    <enable>
+                        <not>
+                            <property>/sim/freeze/replay-state</property>
+                        </not>
+                    </enable>
+                    <binding>
+                        <command>dialog-apply</command>
+                    </binding>
+                    <binding>
+                        <command>nasal</command>
+                        <script>
+                            setprop("/fdm/jsbsim/fuel/tank", 1);
+                            setprop("sim/model/c172p/tank_flag_0", 0);
+                            setprop("sim/model/c172p/tank_flag_1", 1);
+                        </script>
                     </binding>
                 </radio>
             </group>

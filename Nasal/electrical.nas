@@ -450,6 +450,13 @@ var electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/hydraulic-pump", 0.0);
     }
 
+    # FG1000
+    if ( getprop("/controls/circuit-breakers/master") ) {
+      setprop("/systems/electrical/outputs/fg1000", bus_volts);
+    } else {
+      setprop("/systems/electrical/outputs/fg1000", 0.0);
+    }
+
     # register bus voltage
     ebus1_volts = bus_volts;
 

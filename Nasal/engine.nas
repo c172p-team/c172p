@@ -337,6 +337,7 @@ var update = func {
 
     # We use the mixture to control the engines, so set the mixture
     var usePrimer = getprop("/controls/engines/engine/use-primer") or 0;
+    if(getprop("/controls/panel/glass")) usePrimer = 0;
 
     var engine_running = getprop("/engines/active-engine/running");
 

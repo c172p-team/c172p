@@ -790,6 +790,8 @@
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-parts-radiance</inherits-from>
         <object-name>TrimWheel</object-name>
         <object-name>AvionicsSwitch</object-name>
+        <object-name>AvionicsSwitch-fg1000</object-name>
+        <object-name>AvionicsSwitch2-fg1000</object-name>
         <object-name>radio-light-knob</object-name>
         <object-name>panel-light-knob</object-name>
         <object-name>gloveboxlock</object-name>
@@ -805,6 +807,8 @@
         <object-name>BeaconSwitch</object-name>
         <object-name>CarbHeat</object-name>
         <object-name>CarbHeatMount</object-name>
+        <object-name>MasterSwitch-fg1000</object-name>
+        <object-name>GenSwitch-fg1000</object-name>
         <object-name>GenSwitch</object-name>
         <object-name>LandingLightSwitch</object-name>
         <object-name>MasterSwitch</object-name>
@@ -864,6 +868,7 @@
         <object-name>Pedestal</object-name>
         <object-name>InstrumentCover</object-name>
         <object-name>panel_1_1.inf</object-name>
+        <object-name>panel_1_1-fg1000</object-name>
         <object-name>panel_1_1_right</object-name>
         <object-name>gloveboxdoor</object-name>
         <object-name>glovebox</object-name>
@@ -948,6 +953,8 @@
         <type>material</type>
         <object-name>TrimWheel</object-name>
         <object-name>AvionicsSwitch</object-name>
+        <object-name>AvionicsSwitch-fg1000</object-name>
+        <object-name>AvionicsSwitch2-fg1000</object-name>
         <object-name>radio-light-knob</object-name>
         <object-name>panel-light-knob</object-name>
         <object-name>gloveboxlock</object-name>
@@ -960,6 +967,8 @@
         <object-name>BeaconSwitch</object-name>
         <object-name>CarbHeat</object-name>
         <object-name>CarbHeatMount</object-name>
+        <object-name>MasterSwitch-fg1000</object-name>
+        <object-name>GenSwitch-fg1000</object-name>
         <object-name>GenSwitch</object-name>
         <object-name>LandingLightSwitch</object-name>
         <object-name>MasterSwitch</object-name>
@@ -1016,6 +1025,7 @@
         <object-name>Pedestal</object-name>
         <object-name>InstrumentCover</object-name>
         <object-name>panel_1_1.inf</object-name>
+        <object-name>panel_1_1-fg1000</object-name>
         <object-name>panel_1_1_right</object-name>
         <object-name>gloveboxdoor</object-name>
         <object-name>glovebox</object-name>
@@ -2079,6 +2089,18 @@
     <model>
         <name>mag_sw</name>
         <path>Interior/Panel/Instruments/magneto-switch/magneto-switch.xml</path>
+        <condition>
+            <not>
+                <property>controls/panel/glass</property>
+            </not>
+        </condition>
+    </model>
+    <model>
+        <name>mag_sw</name>
+        <path>Interior/Panel/Instruments/magneto-switch/magneto-switch-fg1000.xml</path>
+        <condition>
+            <property>controls/panel/glass</property>
+        </condition>
     </model>
     <model>
         <name>Yokes</name>
@@ -2094,6 +2116,17 @@
     </model>
     <model>
         <path>Interior/Panel/Instruments/hobbs/hobbs.xml</path>
+        <condition>
+            <not>
+                <property>controls/panel/glass</property>
+            </not>
+        </condition>
+    </model>
+    <model>
+        <path>Interior/Panel/Instruments/hobbs/hobbs-fg1000.xml</path>
+        <condition>
+            <property>controls/panel/glass</property>
+        </condition>
     </model>
 
     <!-- MOD: OAT -->
@@ -3323,6 +3356,7 @@
         <type>select</type>
         <object-name>panel_1_gauges</object-name>
         <object-name>bolts</object-name>
+        <object-name>panel_1_1.inf</object-name>
         <object-name>panel_1_1_right</object-name>
         <object-name>InstrumentCover</object-name>
         <object-name>glass_panel</object-name>
@@ -3335,6 +3369,7 @@
     <animation>
         <type>select</type>
         <object-name>panel_1_glass</object-name>
+        <object-name>panel_1_1-fg1000</object-name>
         <condition>
             <property>controls/panel/glass</property>
         </condition>
@@ -3347,11 +3382,21 @@
             <property>controls/panel/glass</property>
         </condition>
         <offsets>
-            <x-m>-0.35</x-m>
+            <x-m>-0.357</x-m>
             <y-m>-0.2</y-m>
-            <z-m> 0.04</z-m>
+            <z-m> 0.05</z-m>
         </offsets>
     </model>
+    <animation>
+        <type>scale</type>
+        <object-name>fg10001</object-name>
+        <condition>
+           <property>controls/panel/glass</property>
+        </condition>
+        <x-offset>1</x-offset>
+        <y-offset>0.90</y-offset>
+        <z-offset>1</z-offset>
+    </animation>
 
     <model>
         <name>fg10002</name>
@@ -3360,11 +3405,21 @@
             <property>controls/panel/glass</property>
         </condition>
         <offsets>
-            <x-m>-0.35</x-m>
-            <y-m> 0.15</y-m>
-            <z-m> 0.04</z-m>
+            <x-m>-0.357</x-m>
+            <y-m> 0.16</y-m>
+            <z-m> 0.05</z-m>
         </offsets>
     </model>
+    <animation>
+        <type>scale</type>
+        <object-name>fg10002</object-name>
+        <condition>
+           <property>controls/panel/glass</property>
+        </condition>
+        <x-offset>1</x-offset>
+        <y-offset>0.90</y-offset>
+        <z-offset>1</z-offset>
+     </animation>
 
     <!-- Controls -->
     <animation>
@@ -5048,11 +5103,36 @@
     </animation>
 
     <!-- MOD: MASTER/GEN Switches included 2/3 -->
+    <animation>
+        <type>select</type>
+        <object-name>MasterSwitch-fg1000</object-name>
+        <object-name>GenSwitch-fg1000</object-name>
+        <object-name>AvionicsSwitch-fg1000</object-name>
+        <object-name>AvionicsSwitch2-fg1000</object-name>
+        <condition>
+            <property>controls/panel/glass</property>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>MasterSwitch</object-name>
+        <object-name>GenSwitch</object-name>
+        <object-name>AvionicsSwitch</object-name>
+        <object-name>AvionicsSwitchBase</object-name>
+        <object-name>PrimerLever</object-name>
+        <object-name>PrimerLeverMount</object-name>
+        <condition>
+            <not>
+                <property>controls/panel/glass</property>
+            </not>
+        </condition>
+    </animation>
 
     <!-- MasterSwitch -->
     <animation>
         <type>pick</type>
         <object-name>MasterSwitch</object-name>
+        <object-name>MasterSwitch-fg1000</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -5085,6 +5165,7 @@
     <animation>
         <type>pick</type>
         <object-name>GenSwitch</object-name>
+        <object-name>GenSwitch-fg1000</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -5574,6 +5655,7 @@
     <animation>
         <type>pick</type>
         <object-name>AvionicsSwitch</object-name>
+        <object-name>AvionicsSwitch-fg1000</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -5612,6 +5694,22 @@
             <x-m>-0.36841</x-m>
             <y-m>-0.3251 </y-m>
             <z-m>-0.2353 </z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>AvionicsSwitch-fg1000</object-name>
+        <property>/controls/switches/master-avionics</property>
+        <factor>-37</factor>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+        <center>
+            <x-m>-0.357742</x-m>
+            <y-m> 0.0 </y-m>
+            <z-m>-0.03371</z-m>
         </center>
     </animation>
 
@@ -6572,6 +6670,23 @@
         </center>
     </animation>
 
+    <animation>
+        <type>rotate</type>
+        <object-name>MasterSwitch-fg1000</object-name>
+        <property>controls/switches/master-bat</property>
+        <factor>-37</factor>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+        <center>
+            <x-m>-0.357473</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.033098</z-m>
+        </center>
+    </animation>
+
     <!-- GenSwitch -->
     <animation>
         <type>rotate</type>
@@ -6587,6 +6702,23 @@
             <x-m>-0.36849</x-m>
             <y-m>0</y-m>
             <z-m>-0.20595</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>GenSwitch-fg1000</object-name>
+        <property>controls/switches/master-alt</property>
+        <factor>-37</factor>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+        <center>
+            <x-m>-0.357914</x-m>
+            <y-m>0</y-m>
+            <z-m>-0.033298</z-m>
         </center>
     </animation>
     <!-- MODEND: MASTER/GEN 3/3 -->

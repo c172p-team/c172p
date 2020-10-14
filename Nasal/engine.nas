@@ -386,7 +386,10 @@ setlistener("/controls/switches/starter", func {
     }
     else {
         print("Starter on");
-        setprop("/controls/engines/engine/use-primer", 1);
+        if(getprop("/controls/panel/glass"))
+            setprop("/controls/engines/engine/use-primer", 0); 
+        else
+            setprop("/controls/engines/engine/use-primer", 1);
         if (primerTimer.isRunning) {
             primerTimer.stop();
         }

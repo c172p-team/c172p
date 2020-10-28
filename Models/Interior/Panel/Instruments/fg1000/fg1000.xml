@@ -9,6 +9,7 @@
             <throttle>/controls/engines/current-engine/throttle</throttle>
             <mixture>/controls/engines/current-engine/mixture</mixture>
             <altstaticair>/controls/engines/current-engine/altstaticair</altstaticair>
+            <parking-lever>/sim/model/c172p/cockpit/parking-lever</parking-lever>
         </controls>
     </params>
 
@@ -70,6 +71,7 @@
         <object-name>AP.R8</object-name>
         <object-name>AP.R9</object-name>
         <object-name>testlamp</object-name>
+        <object-name>ParkingBrake-fg1000</object-name>
     </effect>
 	  <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-fg1000</inherits-from>
@@ -138,6 +140,7 @@
         <object-name>AP.R8</object-name>
         <object-name>AP.R9</object-name>
         <object-name>testlamp</object-name>
+        <object-name>ParkingBrake-fg1000</object-name>
         <condition>
             <not>
                 <property>/sim/rendering/shaders/skydome</property>
@@ -279,6 +282,7 @@
         <object-name>AP.R8</object-name>
         <object-name>AP.R9</object-name>
         <object-name>testlamp</object-name>
+        <object-name>ParkingBrake-fg1000</object-name>
         <condition>
             <property>controls/panel/glass</property>
         </condition>
@@ -1096,6 +1100,61 @@
                 <property alias="/params/controls/altstaticair"/>
             </binding>
         </hovered>
+    </animation>
+
+    <!-- Parking Brake -->
+    <animation>
+        <type>pick</type>
+        <object-name>ParkingBrake-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <name>Select</name>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/model/c172p/brake-parking</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("parking", 1.6)</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Parking brake: %s</label>
+                <property>/sim/model/c172p/brake-parking</property>
+                <tooltip-id>parking-brake</tooltip-id>
+                <mapping>on-off</mapping>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>ParkingBrake-fg1000</object-name>
+        <property alias="/params/controls/parking-lever"/>
+        <factor>0.04</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>ParkingBrake-fg1000</object-name>
+        <property alias="/params/controls/parking-lever"/>
+        <factor>90</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+        <center>
+            <x-m>-0.56245</x-m>
+            <y-m>-0.20409</y-m>
+            <z-m>-0.318921</z-m>
+        </center>
     </animation>
 
 </PropertyList>

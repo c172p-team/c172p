@@ -23,6 +23,9 @@ var autostart = func (msg=1) {
     setprop("/controls/switches/master-bat", 1);
     setprop("/controls/switches/master-alt", 1);
     setprop("/controls/switches/master-avionics", 1);
+    if (getprop("controls/panel/glass")) {
+        setprop("/controls/switches/master-avionics2", 1);
+    }
 
     # Setting lights
     setprop("/controls/lighting/nav-lights", 1);
@@ -341,8 +344,16 @@ var switches_save_state = func {
         setprop("/consumables/fuel/tank[1]/level-norm", 0.0);
         setprop("/consumables/fuel/tank[2]/level-norm", 0.0);
         setprop("/consumables/fuel/tank[3]/level-norm", 0.0);
+
         if (getprop("/sim/model/c172p/ruddertrim-visible"))
           setprop("/controls/flight/rudder-trim", 0);
+
+        if (getprop("controls/panel/glass")) {
+            electrical.reset_battery_and_circuit_breakers();
+            setprop("/controls/switches/master-avionics", 1);
+            setprop("/controls/switches/master-avionics2", 1);
+        }
+
     };
 };
 

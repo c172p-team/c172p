@@ -91,7 +91,7 @@
         <object-name>avn2_breaker-fg1000</object-name>
         <object-name>comm1_breaker-fg1000</object-name>
         <object-name>comm2_breaker-fg1000</object-name>
-        <object-name>dme-sdf_breaker-fg1000</object-name>
+        <object-name>dme-adf_breaker-fg1000</object-name>
         <object-name>fis_breaker-fg1000</object-name>
         <object-name>fuel-pump_breaker-fg1000</object-name>
         <object-name>mfd_breaker-fg1000</object-name>
@@ -194,7 +194,7 @@
         <object-name>avn2_breaker-fg1000</object-name>
         <object-name>comm1_breaker-fg1000</object-name>
         <object-name>comm2_breaker-fg1000</object-name>
-        <object-name>dme-sdf_breaker-fg1000</object-name>
+        <object-name>dme-adf_breaker-fg1000</object-name>
         <object-name>fis_breaker-fg1000</object-name>
         <object-name>fuel-pump_breaker-fg1000</object-name>
         <object-name>mfd_breaker-fg1000</object-name>
@@ -294,7 +294,7 @@
     <animation>
         <type>knob</type>
         <object-name>toggle-stbybatt</object-name>
-        <property>controls/lighting/batt-test-lamp</property>
+        <property>controls/switches/stby-batt</property>
         <offset>-15</offset>
         <factor>-15</factor>
         <center>
@@ -310,7 +310,7 @@
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>controls/lighting/batt-test-lamp</property>
+                <property>controls/switches/stby-batt</property>
                 <factor>1</factor>
                 <min>0</min>
                 <max>2</max>
@@ -323,10 +323,7 @@
             <binding>
                 <command>nasal</command>
                 <script>
-                    var switch_pos = getprop("controls/lighting/batt-test-lamp");
-                    if (switch_pos == 2) {    
-                        setprop("controls/lighting/batt-test-lamp-norm", getprop("/instrumentation/low-voltage-led"));
-                    } else
+                    var switch_pos = getprop("controls/switches/stby-batt");
                     if (switch_pos == 1) {
                         setprop("controls/lighting/batt-test-lamp-norm", 0);
                     } else
@@ -340,12 +337,12 @@
             <binding>
                 <command>nasal</command>
                 <script>
-                    var switch_pos = getprop("controls/lighting/batt-test-lamp");
+                    var switch_pos = getprop("controls/switches/stby-batt");
                     if (switch_pos == 0) {
                         settimer(func(){
-                            setprop("controls/lighting/batt-test-lamp", 1);
+                            setprop("controls/switches/stby-batt", 1);
                             setprop("controls/lighting/batt-test-lamp-norm", 0);
-                        }, 0.5);
+                        }, 11);
                     }
                 </script>
             </binding>
@@ -354,7 +351,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>batt-test-lamp</tooltip-id>
-                <label>Low Battery: %s</label>
+                <label>STBY Batt: %s</label>
                 <property>controls/lighting/batt-test-lamp</property>
                 <mapping>nasal</mapping>
                 <script>
@@ -1177,8 +1174,203 @@
     <!-- Breakers -->
     <animation>
         <type>translate</type>
+        <object-name>adc-ahrs-avn_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/adc-ahrs-avn</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>adc-ahrs-avn_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/adc-ahrs-avn</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>adc-ahrs-avn</tooltip-id>
+                <label>ADC AHRS AVN breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/adc-ahrs-avn</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>adc-ahrs-ess_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/adc-ahrs-ess</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>adc-ahrs-ess_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/adc-ahrs-ess</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>adc-ahrs-ess</tooltip-id>
+                <label>ADC AHRS ESS breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/adc-ahrs-ess</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>alt-field_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/alt-field</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>alt-field_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/alt-field</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>alt-field</tooltip-id>
+                <label>ALT Field breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/alt-field</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>audio_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/audio</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>audio_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/audio</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>audio_breaker</tooltip-id>
+                <label>Audio breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/audio</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>autopilot_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/autopilot</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>autopilot_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/autopilot</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>autopilot_breaker</tooltip-id>
+                <label>Autopilot breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/autopilot</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
         <object-name>avn1_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/master</property>
+        <property>/controls/circuit-breakers/avn1</property>
         <factor>-0.008</factor>
         <axis>
             <x>1.0</x>
@@ -1196,7 +1388,7 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>/controls/circuit-breakers/master</property>
+                <property>/controls/circuit-breakers/avn1</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -1207,9 +1399,243 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>avn1_breaker</tooltip-id>
-                <label>Master breaker: %s</label>
+                <label>AVN1 breaker: %s</label>
                 <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/master</property>
+                <property>/controls/circuit-breakers/avn1</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>avn2_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/avn2</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>avn2_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/avn2</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>avn2_breaker</tooltip-id>
+                <label>AVN2 breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/avn2</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>bcnlt_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/bcnlt</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>bcnlt_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/bcnlt</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>bcnlt_breaker</tooltip-id>
+                <label>Beacon lights breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/bcnlt</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>comm1_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/comm1</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>comm1_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/comm1</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>comm1_breaker</tooltip-id>
+                <label>COMM1 breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/comm1</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>comm2_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/comm2</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>comm2_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/comm2</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>comm2_breaker</tooltip-id>
+                <label>COMM2 breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/comm2</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>dme-adf_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/dme-adf</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>dme-adf_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/dme-adf</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>radio5_breaker</tooltip-id>
+                <label>DME/ADF breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/dme-adf</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>fis_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/fis</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>fis_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/fis</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>fis_breaker</tooltip-id>
+                <label>FIS breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/fis</property>
             </binding>
         </hovered>
     </animation>
@@ -1255,8 +1681,8 @@
 
     <animation>
         <type>translate</type>
-        <object-name>pitot-heat_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/pitot-heat</property>
+        <object-name>fuel-pump_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/fuel-pump</property>
         <factor>-0.008</factor>
         <axis>
             <x>1.0</x>
@@ -1267,14 +1693,14 @@
 
     <animation>
         <type>pick</type>
-        <object-name>pitot-heat_breaker-fg1000</object-name>
+        <object-name>fuel-pump_breaker-fg1000</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>/controls/circuit-breakers/pitot-heat</property>
+                <property>/controls/circuit-breakers/fuel-pump</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -1284,10 +1710,10 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>pitot-heat_breaker</tooltip-id>
-                <label>Pitot heat breaker: %s</label>
+                <tooltip-id>fuel-pump_breaker</tooltip-id>
+                <label>Fuel Pump breaker: %s</label>
                 <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/pitot-heat</property>
+                <property>/controls/circuit-breakers/fuel-pump</property>
             </binding>
         </hovered>
     </animation>
@@ -1372,45 +1798,6 @@
 
     <animation>
         <type>translate</type>
-        <object-name>navlt_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/navlt</property>
-        <factor>-0.008</factor>
-        <axis>
-            <x>1.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>navlt_breaker-fg1000</object-name>
-        <visible>true</visible>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>/controls/circuit-breakers/navlt</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>c172p.click("cb")</script>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>navlt_breaker</tooltip-id>
-                <label>Navigation lights breaker: %s</label>
-                <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/navlt</property>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>translate</type>
         <object-name>landing_breaker-fg1000</object-name>
         <property>/controls/circuit-breakers/landing</property>
         <factor>-0.008</factor>
@@ -1450,8 +1837,8 @@
 
     <animation>
         <type>translate</type>
-        <object-name>bcnlt_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/bcnlt</property>
+        <object-name>mfd_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/mfd</property>
         <factor>-0.008</factor>
         <axis>
             <x>1.0</x>
@@ -1462,14 +1849,14 @@
 
     <animation>
         <type>pick</type>
-        <object-name>bcnlt_breaker-fg1000</object-name>
+        <object-name>mfd_breaker-fg1000</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>/controls/circuit-breakers/bcnlt</property>
+                <property>/controls/circuit-breakers/mfd</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -1479,10 +1866,361 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>bcnlt_breaker</tooltip-id>
-                <label>Beacon lights breaker: %s</label>
+                <tooltip-id>mfd_breaker</tooltip-id>
+                <label>MFD breaker: %s</label>
                 <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/bcnlt</property>
+                <property>/controls/circuit-breakers/mfd</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>nav1-eng-avn_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/nav1-eng-avn</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>nav1-eng-avn_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/nav1-eng-avn</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>nav1-eng-avn_breaker</tooltip-id>
+                <label>NAV1 ENG AVN breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/nav1-eng-avn</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>nav1-eng-ess_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/nav1-eng-ess</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>nav1-eng-ess_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/nav1-eng-ess</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>nav1-eng-ess_breaker</tooltip-id>
+                <label>NAV1 ENG ESS breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/nav1-eng-ess</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>nav2_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/nav2</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>nav2_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/nav2</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>nav2_breaker</tooltip-id>
+                <label>NAV2 breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/nav2</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>navlt_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/navlt</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>navlt_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/navlt</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>navlt_breaker</tooltip-id>
+                <label>Navigation lights breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/navlt</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>pfd-avn_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/pfd-avn</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>pfd-avn_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/pfd-avn</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>pfd-avn_breaker</tooltip-id>
+                <label>PFD AVN breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/pfd-avn</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>pfd-ess_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/pfd-ess</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>pfd-ess_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/pfd-ess</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>pfd-ess_breaker</tooltip-id>
+                <label>PFD ESS breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/pfd-ess</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>pitot-heat_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/pitot-heat</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>pitot-heat_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/pitot-heat</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>pitot-heat_breaker</tooltip-id>
+                <label>Pitot heat breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/pitot-heat</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>stdby-batt_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/stdby-batt</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>stdby-batt_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/stdby-batt</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>stdby-batt_breaker</tooltip-id>
+                <label>STDBY BATT breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/stdby-batt</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>stdby-ndlts_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/stdby-ndlts</property>
+        <factor>-0.008</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>sstdby-ndlts_breaker-fg1000</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/controls/circuit-breakers/stdby-ndlts</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("cb")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>stdby-ndlts_breaker</tooltip-id>
+                <label>STDBY NDLTS breaker: %s</label>
+                <mapping>on-off</mapping>
+                <property>/controls/circuit-breakers/stdby-ndlts</property>
             </binding>
         </hovered>
     </animation>
@@ -1528,8 +2266,8 @@
 
     <animation>
         <type>translate</type>
-        <object-name>avn2_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/avn2_breaker-fg1000</property>
+        <object-name>taxi_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/taxi</property>
         <factor>-0.008</factor>
         <axis>
             <x>1.0</x>
@@ -1540,14 +2278,14 @@
 
     <animation>
         <type>pick</type>
-        <object-name>avn2_breaker-fg1000</object-name>
+        <object-name>taxi_breaker-fg1000</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>/controls/circuit-breakers/avn2_breaker-fg1000</property>
+                <property>/controls/circuit-breakers/taxi</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -1557,18 +2295,18 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>avn2_breaker-fg1000</tooltip-id>
-                <label>AVN 2 breaker: %s</label>
+                <tooltip-id>taxi_breaker</tooltip-id>
+                <label>Taxi light breaker: %s</label>
                 <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/avn2_breaker-fg1000</property>
+                <property>/controls/circuit-breakers/taxi</property>
             </binding>
         </hovered>
     </animation>
 
     <animation>
         <type>translate</type>
-        <object-name>adc-ahrs-avn_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/adc-ahrs-avn_breaker-fg1000</property>
+        <object-name>warn_breaker-fg1000</object-name>
+        <property>/controls/circuit-breakers/warn</property>
         <factor>-0.008</factor>
         <axis>
             <x>1.0</x>
@@ -1579,14 +2317,14 @@
 
     <animation>
         <type>pick</type>
-        <object-name>adc-ahrs-avn_breaker-fg1000</object-name>
+        <object-name>warn_breaker-fg1000</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>/controls/circuit-breakers/adc-ahrs-avn_breaker-fg1000</property>
+                <property>/controls/circuit-breakers/warn</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -1596,205 +2334,10 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>adc-ahrs-avn_breaker-fg1000</tooltip-id>
-                <label>ADC AHRS AVN breaker: %s</label>
+                <tooltip-id>warn_breaker</tooltip-id>
+                <label>Warn breaker: %s</label>
                 <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/adc-ahrs-avn_breaker-fg1000</property>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-        <object-name>adc-ahrs-ess_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/adc-ahrs-ess_breaker-fg1000</property>
-        <factor>-0.008</factor>
-        <axis>
-            <x>1.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>adc-ahrs-ess_breaker-fg1000</object-name>
-        <visible>true</visible>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>/controls/circuit-breakers/adc-ahrs-ess_breaker-fg1000</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>c172p.click("cb")</script>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>adc-ahrs-ess_breaker-fg1000</tooltip-id>
-                <label>ADC AHRS ESS breaker: %s</label>
-                <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/adc-ahrs-ess_breaker-fg1000</property>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-        <object-name>audio_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/radio1</property>
-        <factor>-0.008</factor>
-        <axis>
-            <x>1.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>audio_breaker-fg1000</object-name>
-        <visible>true</visible>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>/controls/circuit-breakers/radio1</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>c172p.click("cb")</script>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>radio1_breaker</tooltip-id>
-                <label>Audio breaker: %s</label>
-                <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/radio3</property>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-        <object-name>nav1-eng-avn_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/radio2</property>
-        <factor>-0.008</factor>
-        <axis>
-            <x>1.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>nav1-eng-avn_breaker-fg1000</object-name>
-        <visible>true</visible>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>/controls/circuit-breakers/radio2</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>c172p.click("cb")</script>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>radio2_breaker</tooltip-id>
-                <label>COM1/NAV1 breaker: %s</label>
-                <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/radio2</property>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-        <object-name>nav1-eng-ess_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/radio2</property>
-        <factor>-0.008</factor>
-        <axis>
-            <x>1.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>nav1-eng-ess_breaker-fg1000</object-name>
-        <visible>true</visible>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>/controls/circuit-breakers/radio2</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>c172p.click("cb")</script>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>radio2_breaker</tooltip-id>
-                <label>COM1/NAV1 breaker: %s</label>
-                <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/radio2</property>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-        <object-name>nav2_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/radio3</property>
-        <factor>-0.008</factor>
-        <axis>
-            <x>1.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>nav2_breaker-fg1000</object-name>
-        <visible>true</visible>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>/controls/circuit-breakers/radio3</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>c172p.click("cb")</script>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>radio3_breaker</tooltip-id>
-                <label>NAV2 breaker: %s</label>
-                <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/radio3</property>
+                <property>/controls/circuit-breakers/warn</property>
             </binding>
         </hovered>
     </animation>
@@ -1802,7 +2345,7 @@
     <animation>
         <type>translate</type>
         <object-name>xpndr_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/radio4</property>
+        <property>/controls/circuit-breakers/xpndr</property>
         <factor>-0.008</factor>
         <axis>
             <x>1.0</x>
@@ -1820,7 +2363,7 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-toggle</command>
-                <property>/controls/circuit-breakers/radio4</property>
+                <property>/controls/circuit-breakers/xpndr</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -1830,88 +2373,10 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <tooltip-id>radio4_breaker</tooltip-id>
+                <tooltip-id>xpndr_breaker</tooltip-id>
                 <label>Transponder breaker: %s</label>
                 <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/radio4</property>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-        <object-name>dme-sdf_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/radio5</property>
-        <factor>-0.008</factor>
-        <axis>
-            <x>1.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>dme-sdf_breaker-fg1000</object-name>
-        <visible>true</visible>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>/controls/circuit-breakers/radio5</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>c172p.click("cb")</script>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>radio5_breaker</tooltip-id>
-                <label>DME/ADF breaker: %s</label>
-                <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/radio5</property>
-            </binding>
-        </hovered>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-        <object-name>autopilot_breaker-fg1000</object-name>
-        <property>/controls/circuit-breakers/autopilot</property>
-        <factor>-0.008</factor>
-        <axis>
-            <x>1.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>pick</type>
-        <object-name>autopilot_breaker-fg1000</object-name>
-        <visible>true</visible>
-        <action>
-            <button>0</button>
-            <repeatable>false</repeatable>
-            <binding>
-                <command>property-toggle</command>
-                <property>/controls/circuit-breakers/autopilot</property>
-            </binding>
-            <binding>
-                <command>nasal</command>
-                <script>c172p.click("cb")</script>
-            </binding>
-        </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>autopilot_breaker</tooltip-id>
-                <label>Autopilot breaker: %s</label>
-                <mapping>on-off</mapping>
-                <property>/controls/circuit-breakers/autopilot</property>
+                <property>/controls/circuit-breakers/xpndr</property>
             </binding>
         </hovered>
     </animation>

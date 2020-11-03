@@ -19,10 +19,36 @@ fg1000system.display(2);
 #  Display a GUI version of device 1 at 50% scale.
 #fg1000system.displayGUI(1, 0.5);
 
-setlistener("/instrumentation/fg1000/power", func(n) {
+setlistener("/systems/electrical/outputs/pfd-ess", func(n) {
     if (n.getValue() > 0) {
-      fg1000system.show();
+      fg1000system.show(1);
     } else {
-      fg1000system.hide();
+        var avionics_bus_1 = getprop("/systems/electrical/outputs/pfd");
+        if (avionics_bus_1 > 0) {
+            fg1000system.show(1);
+        } else {
+            fg1000system.hide(1);
+        }
+   }
+}, 0, 0);
+
+setlistener("/systems/electrical/outputs/pfd-avn", func(n) {
+    if (n.getValue() > 0) {
+      fg1000system.show(1);
+    } else {
+        var ess_bus = getprop("/systems/electrical/outputs/pfd-ess");
+        if (ess_bus > 0) {
+            fg1000system.show(1);
+        } else {
+            fg1000system.hide(1);
+        }
+   }
+}, 0, 0);
+
+setlistener("/systems/electrical/outputs/mfd", func(n) {
+    if (n.getValue() > 0) {
+      fg1000system.show(2);
+    } else {
+      fg1000system.hide(2);
     }
 }, 0, 0);

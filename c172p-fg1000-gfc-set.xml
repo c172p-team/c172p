@@ -42,7 +42,7 @@ model, instrument panel, and external 3D model.
                 <path>Previews/c172p-preview5.jpg</path>
                 <splash type="bool">true</splash>
             </preview>
-            <preview>
+            <preview>var switch_pos = getprop("controls/lighting/stby-batt");
                 <type>exterior</type>
                 <path>Previews/c172p-preview6.jpg</path>
                 <splash type="bool">true</splash>
@@ -93,10 +93,9 @@ model, instrument panel, and external 3D model.
         </systems>
     </sim>
     <nasal>
-        <c172p>
-            <file>Nasal/fg1000.nas</file>
-            <file>Nasal/c172p.nas</file>
-        </c172p>
+        <electrical>
+            <file>Nasal/electrical-fg1000.nas</file>
+        </electrical>
     </nasal>
     <controls>
         <engines>
@@ -106,10 +105,16 @@ model, instrument panel, and external 3D model.
             <glass type="bool">true</glass>
             <kap140 type="bool">false</kap140>
         </panel>
+        <switches>
+            <stby-batt type="int">1</stby-batt>
+        </switches>
         <lighting>
-            <batt-test-lamp type="int">1</batt-test-lamp>
             <batt-test-lamp-norm type="int">0</batt-test-lamp-norm>
         </lighting>
+        <circuit-breakers>
+            <feeder-a type="int">1</feeder-a>
+            <feeder-b type="int">1</feeder-b>
+        </circuit-breakers>
     </controls>
     <fdm>
         <jsbsim>

@@ -294,7 +294,7 @@ var switches_save_state = func {
         setprop("/controls/engines/engine[0]/use-primer", 0);
         setprop("/controls/engines/current-engine/throttle", 0.0);
         setprop("/controls/engines/current-engine/mixture", 0.0);
-        setprop("/controls/circuit-breakers/aircond", 1);
+        #setprop("/controls/circuit-breakers/aircond", 1);
         setprop("/controls/circuit-breakers/autopilot", 1);
         setprop("/controls/circuit-breakers/bcnlt", 1);
         setprop("/controls/circuit-breakers/flaps", 1);
@@ -326,7 +326,6 @@ var switches_save_state = func {
         setprop("/controls/lighting/instruments-norm", 0.0);
         setprop("/controls/lighting/radio-norm", 0.0);
         setprop("/controls/lighting/dome-white-norm", 1.0);
-        setprop("/controls/lighting/dome-norm", 0.0);
         setprop("/controls/lighting/gps-norm", 0.0);
         setprop("/controls/lighting/gearled", 0);
         setprop("/controls/gear/water-rudder", 0);

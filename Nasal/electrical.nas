@@ -320,12 +320,12 @@ var electrical_bus_1 = func() {
     #print("Bus volts: ", bus_volts);
 
     # Air-cond
-    if ( getprop("/controls/circuit-breakers/aircond-pwr") ) {
-        setprop("/systems/electrical/outputs/aircond", bus_volts);
-        load += bus_volts / 57;
-    } else {
-        setprop("/systems/electrical/outputs/aircond", 0.0);
-    }
+    #if ( getprop("/controls/circuit-breakers/aircond-pwr") ) {
+    #    setprop("/systems/electrical/outputs/aircond", bus_volts);
+    #    load += bus_volts / 57;
+    #} else {
+    #    setprop("/systems/electrical/outputs/aircond", 0.0);
+    #}
 
     # Flaps
     if ( getprop("/controls/circuit-breakers/flaps") ) {
@@ -448,13 +448,6 @@ var electrical_bus_1 = func() {
         load += bus_volts / 40;
     } else {
         setprop("/systems/electrical/outputs/hydraulic-pump", 0.0);
-    }
-
-    # FG1000
-    if ( getprop("/controls/circuit-breakers/master") ) {
-      setprop("/systems/electrical/outputs/fg1000", bus_volts);
-    } else {
-      setprop("/systems/electrical/outputs/fg1000", 0.0);
     }
 
     # register bus voltage

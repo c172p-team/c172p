@@ -125,8 +125,6 @@ var save_state = func {
     setprop("/save/radionorm", radionorm);
     var domenorm = getprop("/controls/lighting/dome-white-norm");
     setprop("/save/domenorm", domenorm);
-    var floodnorm = getprop("/controls/lighting/dome-norm");
-    setprop("/save/floodnorm", floodnorm);
     var gpsnorm = getprop("/controls/lighting/gps-norm");
     setprop("/save/gpsnorm", gpsnorm);
     var gearled = getprop("/controls/lighting/gearled");
@@ -375,8 +373,6 @@ var resume_state = func {
         setprop("/controls/lighting/radio-norm", radionorm);
         var domenorm = getprop("/save/domenorm");
         setprop("/controls/lighting/dome-white-norm", domenorm);
-        var floodnorm = getprop("/save/floodnorm");
-        setprop("/controls/lighting/dome-norm", floodnorm);
         var gpsnorm = getprop("/save/gpsnorm");
         setprop("/controls/lighting/gps-norm", gpsnorm);
         var gearled = getprop("/save/gearled");

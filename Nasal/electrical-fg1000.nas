@@ -58,6 +58,8 @@ var current_flap_position = getprop("/surface-positions/flap-pos-norm");
 var old_gear_position = 0;
 var current_gear_position = getprop("/controls/gear/gear-down-command");
 
+var current_load = 0.0;
+
 ##
 # Battery model class.
 #
@@ -320,27 +322,42 @@ var update_virtual_bus = func (dt) {
     var bus_volts = 0.0;
     var stby_bus_volts = 0.0;
     var power_source = "None";
+    var switch_pos = getprop("controls/switches/stby-batt");
+
     if ( master_bat ) {
         bus_volts = battery_volts;
         power_source = "battery";
+        if (switch_pos == 2 ) {
+            setprop("controls/lighting/batt-test-lamp-norm", 0);
+        }
     } 
 
-    if ( master_bat_stby == 2 and !master_bat) {
+    if (master_bat_stby == 2 and !master_bat) {
         stby_bus_volts = battery_stby_volts;
         power_source = "battery_stby";
+        if (current_load > 5) {
+            setprop("controls/lighting/batt-test-lamp-norm", 1);
+        }
     }
 
     if ( master_alt and (alternator_volts > bus_volts) ) {
         bus_volts = alternator_volts;
         power_source = "alternator";
+        if (switch_pos == 2 ) {
+            setprop("controls/lighting/batt-test-lamp-norm", 0);
+        }
     }
     
     if ( external_volts > bus_volts ) {
         bus_volts = external_volts;
         power_source = "external";
+        if (switch_pos == 2 ) {
+            setprop("controls/lighting/batt-test-lamp-norm", 0);
+        }
     }
 
     setprop("/systems/electrical/powersource", power_source);
+    setprop("/systems/electrical/load", load);
 
     # bus network (
     # 1. these must be called in the right order, 
@@ -434,9 +451,8 @@ var update_virtual_bus = func (dt) {
         }
     }
 
-setprop("/systems/electrical/current-volts", bus_volts);
-setprop("/systems/electrical/current-load", load);
-#print( "virtual bus volts = ", bus_volts );
+    current_load = load;
+setprop("/systems/electrical/current-load", current_load);
 
     return load;
 }

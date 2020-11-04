@@ -53,6 +53,11 @@ var pfd_display = 0.0;
 
 var stby_batt_breaker = 0.0;
 
+var old_flap_position = 0;
+var current_flap_position = getprop("/surface-positions/flap-pos-norm");
+var old_gear_position = 0;
+var current_gear_position = getprop("/controls/gear/gear-down-command");
+
 ##
 # Battery model class.
 #
@@ -429,7 +434,8 @@ var update_virtual_bus = func (dt) {
         }
     }
 
-setprop("/systems/electrical/a-virtual-bus-volts", bus_volts);
+setprop("/systems/electrical/current-volts", bus_volts);
+setprop("/systems/electrical/current-load", load);
 #print( "virtual bus volts = ", bus_volts );
 
     return load;
@@ -443,12 +449,11 @@ var electrical_bus_1 = func() {
     if (feeder_b and (master_bat or master_alt)) {
          bus_volts = vbus_volts;
     }
-    #print("Bus volts: ", bus_volts);
 
     # Fuel Pump
-    if ( getprop("/controls/circuit-breakers/fuel-pump") ) {
+    if (getprop("/controls/circuit-breakers/fuel-pump") and getprop("controls/fuel/fuel-pump")) {
         setprop("/systems/electrical/outputs/fuel-pump", bus_volts);
-        #load += bus_volts / 5;
+        load += bus_volts / 5;
     } else {
         setprop("/systems/electrical/outputs/fuel-pump", 0.0);
     }
@@ -470,33 +475,42 @@ var electrical_bus_1 = func() {
     }
 
     # Interior lights 5 amp breaker
-    if ( getprop("/controls/circuit-breakers/intlt") ) {
+    if ( getprop("/controls/circuit-breakers/intlt") and getprop("/controls/switches/dome-white")) {
         setprop("/systems/electrical/outputs/cabin-lights", bus_volts);
-        #load += bus_volts / 28.5;
+        var dome_white_norm = getprop("/controls/lighting/dome-white-norm");
+        if (dome_white_norm) {
+            load += bus_volts / 28.5 * dome_white_norm;
+        }
     } else {
         setprop("/systems/electrical/outputs/cabin-lights", 0.0);
     }
 
     # Flaps 10 amp breaker
-    if ( getprop("/controls/circuit-breakers/flaps") ) {
+    if (getprop("/controls/circuit-breakers/flaps")) {
         setprop("/systems/electrical/outputs/flaps", bus_volts);
-        #load += bus_volts / 57;
     } else {
         setprop("/systems/electrical/outputs/flaps", 0.0);
     }
-    
+    current_flap_position = getprop("/surface-positions/flap-pos-norm");
+    if (current_flap_position != old_flap_position) {
+        old_flap_position = current_flap_position;
+        if (getprop("/systems/electrical/outputs/flaps") > 12) {
+            load += bus_volts / 57;
+            settimer(func(){
+                load += bus_volts;
+            }, 3);
+        }
+    }
+
     # AVN1
     if ( getprop("/controls/circuit-breakers/avn1") ) {
         setprop("/systems/electrical/outputs/avn1", bus_volts);
-        #load += bus_volts / 15;
     } else {
         setprop("/systems/electrical/outputs/avn1", 0.0);
     }
 
     # register bus voltage
-    ebus1_volts = load;
-
-setprop("/systems/electrical/b-ebus1-volts", ebus1_volts);
+    ebus1_volts = bus_volts;
 
     # return cumulative load
     return load;
@@ -509,16 +523,6 @@ var electrical_bus_2 = func() {
     # feed through feeder-a breaker and master_bat or master_alt
     if (feeder_a and (master_bat or master_alt)) {
          bus_volts = vbus_volts;
-    }
-
-    #print("Bus volts: ", bus_volts);
-
-    # AVN2
-    if ( getprop("/controls/circuit-breakers/avn2") ) {
-        setprop("/systems/electrical/outputs/avn2", bus_volts);
-        #load += bus_volts / 15;
-    } else {
-        setprop("/systems/electrical/outputs/avn2", 0.0);
     }
 
     # Pitot Heat Power 5 amp breaker
@@ -563,10 +567,15 @@ var electrical_bus_2 = func() {
         setprop("/systems/electrical/outputs/instrument-lights", 0.0);
     }
 
+    # AVN2
+    if ( getprop("/controls/circuit-breakers/avn2") ) {
+        setprop("/systems/electrical/outputs/avn2", bus_volts);
+    } else {
+        setprop("/systems/electrical/outputs/avn2", 0.0);
+    }
+
     # register bus voltage
     ebus2_volts = bus_volts;
-
-setprop("/systems/electrical/c-ebus2-volts", ebus2_volts);
 
     # return cumulative load
     return load;
@@ -635,8 +644,6 @@ var avionics_bus_1 = func() {
 
     # register avn1 voltage
     avn1_volts = bus_volts;
-
-setprop("/systems/electrical/d-avn1-volts", avn1_volts);
 
     # return cumulative load
     return load;
@@ -707,8 +714,6 @@ var avionics_bus_2 = func() {
     # register avn2 voltage
     avn2_volts = bus_volts;
 
-setprop("/systems/electrical/e-avn2-volts", avn2_volts);
-
     # return cumulative load
     return load;
 }
@@ -718,8 +723,8 @@ var essential_bus = func() {
     var load = 0.0; 
 
     # feed through bus1 and bus2 or stby-batt-breaker
-    var total_bus_volts = ebus1_volts+ebus2_volts*.5;
-    if (total_bus_volts > 0) {
+    var total_bus_volts = (ebus1_volts + ebus2_volts) * .5;
+    if (total_bus_volts) {
         bus_volts = total_bus_volts;
     } else {
         if (master_bat_stby == 2) {
@@ -736,6 +741,7 @@ var essential_bus = func() {
     # FG1000 PFD
     if (getprop("/controls/circuit-breakers/pfd-ess") ) {
         setprop("/systems/electrical/outputs/pfd-ess", bus_volts);
+        load += bus_volts / 5;
     } else {
         setprop("/systems/electrical/outputs/pfd-ess", 0.0);
     }
@@ -746,25 +752,25 @@ var essential_bus = func() {
     }
 
     # Air Data Computer
-    if ( getprop("/controls/circuit-breakers/adc-ahrs-ess") ) {
+    if (getprop("/controls/circuit-breakers/adc-ahrs-ess")) {
         setprop("/systems/electrical/outputs/adc-ahrs", bus_volts);
-        #load += bus_volts / 10;
+        load += bus_volts / 10;
     } else {
         setprop("/systems/electrical/outputs/adc-ahrs", 0.0);
     }
 
     # Nav 1 Power
-    if ( getprop("/controls/circuit-breakers/nav1-eng-ess") ) {
+    if (getprop("/controls/circuit-breakers/nav1-eng-ess")) {
         setprop("/systems/electrical/outputs/nav[0]", bus_volts);
-        #load += bus_volts / 15;
+        load += bus_volts / 15;
     } else {
         setprop("/systems/electrical/outputs/nav[0]", 0.0);
     }
 
     # Com 1 Power
-    if ( getprop("/controls/circuit-breakers/comm1") ) {
+    if (getprop("/controls/circuit-breakers/comm1")) {
         setprop("systems/electrical/outputs/comm[0]", bus_volts);
-        #load += bus_volts / 5;
+        load += bus_volts / 5;
     } else {
         setprop("systems/electrical/outputs/comm[0]", 0.0);
     }
@@ -772,7 +778,7 @@ var essential_bus = func() {
     # Gear Select Power
     if ( getprop("/controls/circuit-breakers/gear-select") ) {
         setprop("/systems/electrical/outputs/gear-select", bus_volts);
-        #load += bus_volts / 5;
+        load += bus_volts / 5;
     } else {
         setprop("/systems/electrical/outputs/gear-select", 0.0);
     }
@@ -780,7 +786,9 @@ var essential_bus = func() {
     # Gear Advisory Power
     if ( getprop("/controls/circuit-breakers/gear-advisory") ) {
         setprop("/systems/electrical/outputs/gear-advisory", bus_volts);
-        #load += bus_volts / 2;
+        if (getprop("/velocities/groundspeed-kt") > 10 and getprop("/velocities/groundspeed-kt") < 70) {
+            load += bus_volts / 2;
+        }
     } else {
         setprop("/systems/electrical/outputs/gear-advisory", 0.0);
     }
@@ -788,12 +796,19 @@ var essential_bus = func() {
     # Hydraulic Pump Power
     if ( getprop("/controls/circuit-breakers/hydraulic-pump") ) {
         setprop("/systems/electrical/outputs/hydraulic-pump", bus_volts);
-        #load += bus_volts / 20;
     } else {
         setprop("/systems/electrical/outputs/hydraulic-pump", 0.0);
     }
-
-setprop("/systems/electrical/f-ess-load", load);
+    current_gear_position = getprop("controls/gear/gear-down-command");
+    if (current_gear_position != old_gear_position) {
+        old_gear_position = current_gear_position;
+        if (getprop("/systems/electrical/outputs/hydraulic-pump") > 12) {
+            load += bus_volts / 40;
+            settimer(func(){
+                load += bus_volts;
+            }, 4);
+        }
+    }
 
     # return cumulative load
     return load;

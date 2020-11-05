@@ -15,26 +15,11 @@
 
 		<!-- interior effects -->
     <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-parts-radiance</inherits-from>
-        <object-name>switchbase</object-name>
-        <object-name>AltStaticAir-fg1000</object-name>
-        <object-name>MasterSwitch-fg1000</object-name>
-        <object-name>GenSwitch-fg1000</object-name>
-        <object-name>AvionicsSwitch-fg1000</object-name>
-        <object-name>AvionicsSwitch2-fg1000</object-name>
-        <object-name>CabinAirMounts-fg1000</object-name>
-        <object-name>CabinAir-fg1000</object-name>
-        <object-name>CabinHeat-fg1000</object-name>
-        <object-name>MixtureMount-fg1000</object-name>
-        <object-name>ThrottleMount-fg1000</object-name>
-		    <object-name>Mixture-fg1000</object-name>
-        <object-name>Throttle-fg1000</object-name>
-        <object-name>Panel</object-name>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-parts-radiance-fg1000</inherits-from>
         <object-name>knob-avionics</object-name>
         <object-name>knob-pedistal</object-name>
         <object-name>knob-swcb</object-name>
         <object-name>knob-stbyind</object-name>
-        <object-name>switchbase</object-name>
         <object-name>toggle-beacon</object-name>
         <object-name>toggle-cabin-pwr</object-name>
         <object-name>toggle-fuel</object-name>
@@ -44,11 +29,29 @@
         <object-name>toggle-strobe</object-name>
         <object-name>toggle-taxi</object-name>
         <object-name>toggle-stbybatt</object-name>
-        <object-name>togglebase</object-name>
-        <object-name>panel</object-name>
         <object-name>VolNAV</object-name>
         <object-name>AltOuter</object-name>
         <object-name>AltInner</object-name>
+    </effect>
+    <effect>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-parts-fg1000</inherits-from>
+        <object-name>switchbase</object-name>
+        <object-name>CabinAirMounts-fg1000</object-name>
+        <object-name>CabinAir-fg1000</object-name>
+        <object-name>CabinHeat-fg1000</object-name>
+        <object-name>MixtureMount-fg1000</object-name>
+        <object-name>ThrottleMount-fg1000</object-name>
+		    <object-name>Mixture-fg1000</object-name>
+        <object-name>Throttle-fg1000</object-name>
+        <object-name>Panel</object-name>
+        <object-name>switchbase</object-name>
+        <object-name>AltStaticAir-fg1000</object-name>
+        <object-name>MasterSwitch-fg1000</object-name>
+        <object-name>GenSwitch-fg1000</object-name>
+        <object-name>AvionicsSwitch-fg1000</object-name>
+        <object-name>AvionicsSwitch2-fg1000</object-name>
+        <object-name>togglebase</object-name>
+        <object-name>panel</object-name>
         <object-name>AP.L0</object-name>
         <object-name>AP.L1</object-name>
         <object-name>AP.L2</object-name>
@@ -278,6 +281,29 @@
             <factor-prop>controls/lighting/swcb-norm</factor-prop>
         </emission>
     </animation>
+
+    <!--model>
+        <name>GMA1347</name>
+        <path>Aircraft/Instruments-3d/FG1000/GMA1347/GMA1347.xml</path>
+        <condition>
+            <property>controls/panel/glass</property>
+        </condition>
+        <offsets>
+            <x-m>-0.364</x-m>
+            <y-m>-0.025</y-m>
+            <z-m> 0.05</z-m>
+        </offsets>
+    </model>
+    <animation>
+        <type>scale</type>
+        <object-name>GMA1347</object-name>
+        <condition>
+           <property>controls/panel/glass</property>
+        </condition>
+        <x-offset>1</x-offset>
+        <y-offset>0.90</y-offset>
+        <z-offset>1</z-offset>
+    </animation-->
 
     <animation>
         <type>material</type>
@@ -2243,7 +2269,7 @@
 
     <animation>
         <type>pick</type>
-        <object-name>sstdby-ndlts_breaker-fg1000</object-name>
+        <object-name>stdby-ndlts_breaker-fg1000</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3056,6 +3082,7 @@
                         setprop("/instrumentation/comm/power-btn", 1);
                         setprop("/instrumentation/comm/volume", 1);
                     } else {
+                        setprop("/instrumentation/comm/power-btn", 0);
                         setprop("/instrumentation/comm/volume", 0);
                     }
                 </script>
@@ -3118,6 +3145,7 @@
                         setprop("/instrumentation/comm1/power-btn", 1);
                         setprop("/instrumentation/comm1/volume", 1);
                     } else {
+                        setprop("/instrumentation/comm1/power-btn", 0);
                         setprop("/instrumentation/comm1/volume", 0);
                     }
                 </script>

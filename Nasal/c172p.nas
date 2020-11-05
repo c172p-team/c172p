@@ -349,8 +349,8 @@ var switches_save_state = func {
 
         if (getprop("controls/panel/glass")) {
             electrical.reset_battery_and_circuit_breakers();
-            setprop("/controls/switches/master-avionics", 1);
-            setprop("/controls/switches/master-avionics2", 1);
+            setprop("/controls/switches/master-avionics", 0);
+            setprop("/controls/switches/master-avionics2", 0);
         }
 
     };

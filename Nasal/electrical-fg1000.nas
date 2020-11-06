@@ -491,11 +491,13 @@ var electrical_bus_1 = func() {
     }
 
     # Interior lights 5 amp breaker
-    if ( getprop("/controls/circuit-breakers/intlt") and getprop("/controls/switches/dome-white")) {
+    if ( getprop("/controls/circuit-breakers/intlt") and getprop("/controls/switches/toggle-cabin-pwr")) {
         setprop("/systems/electrical/outputs/cabin-lights", bus_volts);
-        var dome_white_norm = getprop("/controls/lighting/dome-white-norm");
-        if (dome_white_norm) {
-            load += bus_volts / 28.5 * dome_white_norm;
+        if (getprop("/controls/switches/dome-white")) {
+            load += bus_volts / 14.25 * getprop("/controls/lighting/dome-white-norm");
+        }
+        if (getprop("/controls/switches/dome-red")) {
+            load += bus_volts / 14.25 * getprop("/controls/lighting/instruments-norm");
         }
     } else {
         setprop("/systems/electrical/outputs/cabin-lights", 0.0);

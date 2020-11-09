@@ -1,7 +1,9 @@
 var nasal_dir = getprop("/sim/fg-root") ~ "/Aircraft/Instruments-3d/FG1000/Nasal/";
 io.load_nasal(nasal_dir ~ 'FG1000.nas', "fg1000");
+#io.load_nasal(nasal_dir ~ 'Interfaces/SelectableInterfaceController.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericInterfaceController.nas', "fg1000");
 
+#var interfaceController = fg1000.SelectableInterfaceController.getOrCreateInstance();
 var interfaceController = fg1000.GenericInterfaceController.getOrCreateInstance();
 interfaceController.start();
 
@@ -681,10 +683,15 @@ var avionics_bus_2 = func() {
           fg1000system.show(2);
       else
           fg1000system.hide(2);
+      #if (bus_volts > 0)
+      #    setprop("/systems/electrical/outputs/show-fg1000", 2);
+      #else
+      #    setprop("/systems/electrical/outputs/hide-fg1000", 2);
       load += bus_volts / 5;
     } else {
       setprop("/systems/electrical/outputs/mfd", 0.0);
       fg1000system.hide(2);
+      #setprop("/systems/electrical/outputs/hide-fg1000", 2);
     }
 
     # Transponder Power
@@ -768,6 +775,10 @@ var essential_bus = func() {
     } else {
         fg1000system.hide(1);
     }
+    #if (pfd_display or getprop("/systems/electrical/outputs/pfd-ess") > 12)
+    #    setprop("/systems/electrical/outputs/show-fg1000", 1);
+    #else
+    #    setprop("/systems/electrical/outputs/hide-fg1000", 1);
 
     # Air Data Computer
     if (getprop("/controls/circuit-breakers/adc-ahrs-ess")) {

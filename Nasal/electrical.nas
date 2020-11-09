@@ -275,8 +275,8 @@ var update_virtual_bus = func (dt) {
     load += avionics_bus_1();
 
     # swtich the master breaker off if load is out of limits
-    if ( load > 55 ) {
-      bus_volts = 0;
+    if ( load > 330 ) {
+        setprop("/controls/circuit-breakers/master", 0)
     }
 
     # system loads and ammeter gauge
@@ -311,7 +311,6 @@ var update_virtual_bus = func (dt) {
 
     return load;
 }
-
 
 var electrical_bus_1 = func() {
     var bus_volts = 0.0;

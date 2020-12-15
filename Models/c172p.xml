@@ -153,6 +153,17 @@
         </offsets>
      </model>
 
+	<!-- compoositor requires noshadow on light objects -->
+    <animation>
+        <type>noshadow</type>
+        <object-name>nav-light-left</object-name>
+        <object-name>nav-light-right</object-name>
+        <object-name>nav-light-tail</object-name>
+        <object-name>strobe-light-right</object-name>
+        <object-name>strobe-light-left</object-name>
+        <object-name>BeaconOffX</object-name>
+    </animation>
+
     <!-- non-Canvas remote Garmin 196 GPS (FGDATA) -->
     <!-- TODO Remove this old version, unhide and implement the Canvas version below -->
     <model>
@@ -1832,7 +1843,6 @@
     </model>
 
     <!-- Instrumentation -->
-
     <model>
         <name>fg1000</name>
         <path>Interior/Panel/Instruments/fg1000/fg1000.xml</path>
@@ -1840,73 +1850,6 @@
             <property>controls/panel/glass</property>
         </condition>
     </model>
-    <model>
-        <name>asi-fg1000</name>
-        <path>Interior/Panel/Instruments/asi/asi-fg1000.xml</path>
-        <condition>
-			      <property>controls/panel/glass</property>
-        </condition>
-    </model>
-    <model>
-        <name>AI-fg1000</name>
-        <path>Interior/Panel/Instruments/AI/AI-fg1000.xml</path>
-        <condition>
-			      <property>controls/panel/glass</property>
-        </condition>
-    </model>
-    <model>
-        <name>Altimeter-fg1000</name>
-        <path>Interior/Panel/Instruments/alt/alt-fg1000.xml</path>
-        <condition>
-			      <property>controls/panel/glass</property>
-        </condition>
-    </model>
-    <model>
-        <name>Kap140-fg1000</name>
-        <path>Interior/Panel/Instruments/kap140/KAP140TwoAxisAlt-fg1000.xml</path>
-        <condition>
-            <and>
-                <property>controls/panel/glass</property>
-                <property>controls/panel/kap140</property>
-            </and>
-        </condition>
-    </model>
-    <model>
-        <name>kr87-fg1000</name>
-        <path>Interior/Panel/Instruments/kr87-adf/kr87-fg1000.xml</path>
-        <condition>
-            <property>controls/panel/glass</property>
-        </condition>
-    </model>
-    <model>
-        <name>mag_sw-fg1000</name>
-        <path>Interior/Panel/Instruments/magneto-switch/magneto-switch-fg1000.xml</path>
-        <condition>
-            <property>controls/panel/glass</property>
-        </condition>
-    </model>
-    <model>
-        <name>hobbs-fg1000</name>
-        <path>Interior/Panel/Instruments/hobbs/hobbs-fg1000.xml</path>
-        <condition>
-            <property>controls/panel/glass</property>
-        </condition>
-    </model>
-    <model>
-        <name>Gear-fg1000</name>
-        <path>Interior/Panel/Instruments/gear/gear-ctl-fg1000.xml</path>
-        <condition>
-            <property>controls/panel/glass</property>
-        </condition>
-    </model>
-    <model>
-        <name>Yokes-fg1000</name>
-        <path>Interior/Yoke/yoke-fg1000.xml</path>
-        <condition>
-            <property>controls/panel/glass</property>
-        </condition>
-    </model>
-
     <model>
         <name>Gear</name>
         <path>Interior/Panel/Instruments/gear/gear-ctl.xml</path>
@@ -11907,7 +11850,7 @@
         <property>sim/model/show-dip-stick</property>
         <factor>0.3</factor>
         <axis>
-            <x>0.01</x>
+            <x>0.01</x>ELT
             <y>0.15</y>
             <z>1.0</z>
         </axis>
@@ -11972,6 +11915,11 @@
     <model>
         <name>elt</name>
         <path>Interior/FE-ELT/elt.xml</path>
+        <condition>
+		        <not>
+			        <property>controls/panel/glass</property>
+		        </not>
+        </condition>
     </model>
 
     <!-- Preflight surface checks -->

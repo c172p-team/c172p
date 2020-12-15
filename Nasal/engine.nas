@@ -323,6 +323,45 @@ var engine_coughing = func(){
 
 var coughing_timer = maketimer(1, engine_coughing);
 
+# ====== Engine starting actions ======
+var engine_starting = props.globals.initNode("/engines/engine/starting", 0, "BOOL");
+setlistener("/engines/engine/running", func(ngn){
+    if (ngn.getValue() and !getprop("/engines/engine[0]/coughing")) {
+        engine_starting.setValue(1);
+        var timer = maketimer(1, func(){
+            engine_starting.setValue(0);
+        });
+        timer.singleShot = 1; # timer will only be run once
+        timer.start();
+    } else {
+        engine_starting.setValue(0);
+    }
+},0,0);
+
+setlistener("/engines/engine/starting", func(ngn){
+    # Eye-candy: when engine starts, let the view shake a bit
+    if (ngn.getValue() and getprop("/sim/current-view/internal")) {
+        var curX = getprop("/sim/current-view/x-offset-m");
+        var xtimer = maketimer(0.05, func(){
+            interpolate("/sim/current-view/x-offset-m", curX-0.0015+rand()*0.003, 0.05);
+        });
+        xtimer.start();
+        var curY = getprop("/sim/current-view/y-offset-m");
+        var ytimer = maketimer(0.05, func(){
+            interpolate("/sim/current-view/y-offset-m", curY-0.0015+rand()*0.003, 0.05);
+        });
+        ytimer.start();
+        var stoptimer = maketimer(0.8, func(){
+           xtimer.stop();
+           ytimer.stop();
+           interpolate("/sim/current-view/x-offset-m", curX, 0.1);
+           interpolate("/sim/current-view/y-offset-m", curY, 0.1);
+        });
+        stoptimer.singleShot = 1;
+        stoptimer.start();
+    }
+}, 0, 0);
+
 # ========== Main loop ======================
 
 var update = func {

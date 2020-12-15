@@ -1,3 +1,8 @@
+#var nasal_dir = getprop("/sim/fg-root") ~ "/Aircraft/Instruments-3d/FG1000/Nasal/";
+#io.load_nasal(nasal_dir ~ 'FG1000.nas', "fg1000");
+#var aircraft_dir = getprop("/sim/aircraft-dir");
+#io.load_nasal(aircraft_dir ~ '/Nasal/SelectableInterfaceController.nas', "fg1000");
+
 var nasal_dir = getprop("/sim/fg-root") ~ "/Aircraft/Instruments-3d/FG1000/Nasal/";
 io.load_nasal(nasal_dir ~ 'FG1000.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/SelectableInterfaceController.nas', "fg1000");

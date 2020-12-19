@@ -26,9 +26,11 @@ io.load_nasal(nasal_dir ~ 'Interfaces/GenericNavComUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericFMSPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericFMSUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericADCPublisher.nas', "fg1000");
-io.load_nasal(nasal_dir ~ 'Interfaces/SelectableFuelInterface.nas', "fg1000");
-io.load_nasal(nasal_dir ~ 'Interfaces/SelectableFuelPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GFC700Interface.nas', "fg1000");
+
+var aircraft_dir = getprop("/sim/aircraft-dir");
+io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SelectableFuelInterface.nas', "fg1000");
+io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SelectableFuelPublisher.nas', "fg1000");
 
 var SelectableInterfaceController = {
 

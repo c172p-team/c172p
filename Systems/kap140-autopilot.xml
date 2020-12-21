@@ -6,10 +6,57 @@
 
 
 <PropertyList include="Aircraft/c172p/Models/Interior/Panel/Instruments/kap140/kap140-config.xml">
+
+	<filter>
+        <name>heading bug backcourse</name>
+        <debug>false</debug>
+        <type>gain</type>
+        <input>
+            <condition>
+                <less-than>
+                    <property>autopilot/settings/heading-bug-deg</property>
+                    <value>180</value>
+                </less-than>
+            </condition>
+            <expression>
+                <sum>
+                    <property>autopilot/settings/heading-bug-deg</property>
+                    <value>180</value>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <expression>
+                <sum>
+                    <value>-180</value>
+                    <property>autopilot/settings/heading-bug-deg</property>
+                </sum>
+            </expression>
+        </input>
+        <output>
+            <property>autopilot/settings/heading-bug-deg-backcourse</property>
+        </output>
+    </filter>
 	<filter>
 		<name>heading bug error computer/normalizer</name>
 		<debug>false</debug>
 		<type>gain</type>
+
+		<!-- REV mode -->
+        <input>
+            <condition>
+                <equals>
+                    <property>/autopilot/KAP140/locks/rev-hold</property>
+                    <value type="bool">true</value>
+                </equals>
+            </condition>
+            <property>autopilot/settings/heading-bug-deg-backcourse</property>
+            <offset>
+                <property>instrumentation/heading-indicator/indicated-heading-deg</property>
+                <scale>-1.0</scale>
+            </offset>
+        </input>
+
 		<input>
 			<property>autopilot/settings/heading-bug-deg</property>
 			<offset>

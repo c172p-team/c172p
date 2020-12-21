@@ -767,4 +767,174 @@
         </output>
     </filter>
 
+    <filter>
+        <name>Integral Left Tank: US Gallons to Litres</name>
+        <type>gain</type>
+        <gain>3.785411784</gain>
+        <input>
+            <property>/consumables/fuel/tank[2]/level-gal_us</property>
+        </input>
+        <output>
+            <property>/consumables/fuel/tank[2]/level-litres</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Integral Right Tank: US Gallons to Litres</name>
+        <type>gain</type>
+        <gain>3.785411784</gain>
+        <input>
+            <property>/consumables/fuel/tank[3]/level-gal_us</property>
+        </input>
+        <output>
+            <property>/consumables/fuel/tank[3]/level-litres</property>
+        </output>
+    </filter>
+
+    <!-- ============================================================== -->
+    <!-- Limit Fuel and Payload selection                               -->
+    <!-- ============================================================== -->
+
+    <filter>
+        <name>limit-fuel-and-payload-selection-tank0</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/fdm/jsbsim/fuel/tank</property>
+            </condition>
+          <value>0</value>
+        </input>
+        <input>
+            <property>/consumables/fuel/tank[0]/selected</property>
+        </input>
+        <output>
+            <property>/consumables/fuel/tank[0]/selected</property>
+        </output>
+    </filter>
+    <filter>
+        <name>limit-fuel-and-payload-selection-tank1</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/fdm/jsbsim/fuel/tank</property>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <property>/consumables/fuel/tank[1]/selected</property>
+        </input>
+        <output>
+            <property>/consumables/fuel/tank[1]/selected</property>
+        </output>
+    </filter>
+    <filter>
+        <name>limit-fuel-and-payload-selection-tank2</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <not>
+                    <property>/fdm/jsbsim/fuel/tank</property>
+                </not>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <property>/consumables/fuel/tank[2]/selected</property>
+        </input>
+        <output>
+            <property>/consumables/fuel/tank[2]/selected</property>
+        </output>
+    </filter>
+    <filter>
+        <name>limit-fuel-and-payload-selection-tank3</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <not>
+                    <property>/fdm/jsbsim/fuel/tank</property>
+                </not>
+            </condition>
+            <value>0</value>
+        </input>
+        <input>
+            <property>/consumables/fuel/tank[3]/selected</property>
+        </input>
+        <output>
+            <property>/consumables/fuel/tank[3]/selected</property>
+        </output>
+    </filter>
+
+    <!-- ============================================================== -->
+    <!-- Limit Fuel and Payload level-norm                            -->
+    <!-- ============================================================== -->
+
+    <filter>
+        <name>limit-fuel-and-payload-level-norm-tank0</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <not>
+                    <property>/fdm/jsbsim/fuel/tank</property>
+                </not>
+            </condition>
+            <property>/consumables/fuel/tank[0]/level-norm</property>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>
+            <property>/consumables/fuel/tank[0]/level-norm</property>
+        </output>
+    </filter>
+    <filter>
+        <name>limit-fuel-and-payload-level-norm-tank1</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <not>
+                    <property>/fdm/jsbsim/fuel/tank</property>
+                </not>
+            </condition>
+            <property>/consumables/fuel/tank[1]/level-norm</property>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>
+            <property>/consumables/fuel/tank[1]/level-norm</property>
+        </output>
+    </filter>
+    <filter>
+        <name>limit-fuel-and-payload-level-norm-tank2</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/fdm/jsbsim/fuel/tank</property>
+            </condition>
+            <property>/consumables/fuel/tank[2]/level-norm</property>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>
+            <property>/consumables/fuel/tank[2]/level-norm</property>
+        </output>
+    </filter>
+    <filter>
+        <name>limit-fuel-and-payload-level-norm-tank3</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <property>/fdm/jsbsim/fuel/tank</property>
+            </condition>
+            <property>/consumables/fuel/tank[3]/level-norm</property>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>
+            <property>/consumables/fuel/tank[3]/level-norm</property>
+        </output>
+    </filter>
+
 </PropertyList>

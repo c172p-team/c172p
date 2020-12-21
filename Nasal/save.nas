@@ -43,12 +43,20 @@ var save_state = func {
 
     var tank1sel = getprop("/consumables/fuel/tank[0]/selected");
     var tank2sel = getprop("/consumables/fuel/tank[1]/selected");
+    var tank3sel = getprop("/consumables/fuel/tank[2]/selected");
+    var tank4sel = getprop("/consumables/fuel/tank[3]/selected");
     setprop("/save/tank1-select", tank1sel);
     setprop("/save/tank2-select", tank2sel);
+    setprop("/save/tank3-select", tank3sel);
+    setprop("/save/tank4-select", tank4sel);
     var tank1 = getprop("/consumables/fuel/tank[0]/level-lbs");
     var tank2 = getprop("/consumables/fuel/tank[1]/level-lbs");
+    var tank3 = getprop("/consumables/fuel/tank[2]/level-lbs");
+    var tank4 = getprop("/consumables/fuel/tank[3]/level-lbs");
     setprop("/save/tank1-level-lbs", tank1);
     setprop("/save/tank2-level-lbs", tank2);
+    setprop("/save/tank3-level-lbs", tank3);
+    setprop("/save/tank4-level-lbs", tank4);
 
     var throttle = getprop("/controls/engines/current-engine/throttle");
     setprop("/save/throttle", throttle);
@@ -285,12 +293,20 @@ var resume_state = func {
 
         var tank1sel = getprop("/save/tank1-select");
         var tank2sel = getprop("/save/tank2-select");
+        var tank3sel = getprop("/save/tank3-select");
+        var tank4sel = getprop("/save/tank4-select");
         setprop("/consumables/fuel/tank[0]/selected", tank1sel);
         setprop("/consumables/fuel/tank[1]/selected", tank2sel);
+        setprop("/consumables/fuel/tank[2]/selected", tank3sel);
+        setprop("/consumables/fuel/tank[3]/selected", tank4sel);
         var tank1 = getprop("/save/tank1-level-lbs");
         var tank2 = getprop("/save/tank2-level-lbs");
+        var tank3 = getprop("/save/tank3-level-lbs");
+        var tank4 = getprop("/save/tank4-level-lbs");
         setprop("/consumables/fuel/tank[0]/level-lbs", tank1);
         setprop("/consumables/fuel/tank[1]/level-lbs", tank2);
+        setprop("/consumables/fuel/tank[2]/level-lbs", tank3);
+        setprop("/consumables/fuel/tank[3]/level-lbs", tank4);
 
         var throttle = getprop("/save/throttle");
         setprop("/controls/engines/current-engine/throttle", throttle);

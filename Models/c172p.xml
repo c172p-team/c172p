@@ -5123,7 +5123,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>/controls/engines/current-engine/throttle</property>
-                <factor>0.05</factor>
+                <factor>0.02</factor>
                 <min>0</min>
                 <max>1</max>
                 <wrap>0</wrap>
@@ -5200,7 +5200,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>controls/engines/current-engine/mixture</property>
-                <factor>0.05</factor>
+                <factor>0.02</factor>
                 <min>0</min>
                 <max>1</max>
                 <wrap>0</wrap>
@@ -5239,7 +5239,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>controls/flight/elevator-trim</property>
-                <factor>0.01</factor>
+                <factor>0.001</factor>
                 <min>-1</min>
                 <max>1</max>
                 <wrap>0</wrap>
@@ -5248,7 +5248,7 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <label>Elevator trim: %3.2f</label>
+                <label>Elevator trim: %3.3f</label>
                 <tooltip-id>pitch-trim</tooltip-id>
                 <property>controls/flight/elevator-trim</property>
             </binding>
@@ -5274,7 +5274,7 @@
     <animation>
         <type>knob</type>
         <object-name>RudderTrimKnob</object-name>
-        <property>controls/flight/rudder-trim-knob</property>
+        <property>controls/flight/rudder-trim</property>
         <factor>40</factor>
         <drag-direction>horizontal</drag-direction>
         <offset-deg>0</offset-deg>
@@ -5291,8 +5291,8 @@
         <action>
             <binding>
                 <command>property-adjust</command>
-                <property>controls/flight/rudder-trim-knob</property>
-                <factor>0.01</factor>
+                <property>controls/flight/rudder-trim</property>
+                <factor>0.002</factor>
                 <min>-.18</min>
                 <max>.18</max>
                 <wrap>false</wrap>
@@ -5301,9 +5301,9 @@
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <label>Rudder trim: %3.2f</label>
+                <label>Rudder trim: %3.3f</label>
                 <tooltip-id>rudder-trim</tooltip-id>
-                <property>controls/flight/rudder-trim-knob</property>
+                <property>controls/flight/rudder-trim</property>
             </binding>
         </hovered>
     </animation>
@@ -6070,6 +6070,20 @@
         </condition>
     </animation>
 
+    <!-- Fuel selector face 43/68-->
+    <animation>
+        <type>textranslate</type>
+        <object-name>FuelSelectorFace</object-name>
+        <property>/fdm/jsbsim/fuel/tank</property>
+        <bias>0.00</bias>
+        <factor>.5</factor>
+        <step>1</step>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+        </axis>
+    </animation>
+
     <!-- Fuel Selector -->
     <animation>
         <type>select</type>
@@ -6082,6 +6096,12 @@
                 <not>
                     <property>consumables/fuel/tank[1]/selected</property>
                 </not>
+                <not>
+                    <property>consumables/fuel/tank[2]/selected</property>
+                </not>
+                <not>
+                    <property>consumables/fuel/tank[3]/selected</property>
+                </not>
             </and>
         </condition>
     </animation>
@@ -6089,34 +6109,56 @@
         <type>select</type>
         <object-name>FuelSelectorLeft</object-name>
         <condition>
-            <and>
-                <property>consumables/fuel/tank[0]/selected</property>
-                <not>
-                    <property>consumables/fuel/tank[1]/selected</property>
-                </not>
-            </and>
+            <or>
+                <and>
+                    <property>consumables/fuel/tank[0]/selected</property>
+                    <not>
+                        <property>consumables/fuel/tank[1]/selected</property>
+                    </not>
+                </and>
+                <and>
+                    <property>consumables/fuel/tank[2]/selected</property>
+                    <not>
+                        <property>consumables/fuel/tank[3]/selected</property>
+                    </not>
+                </and>
+            </or>
         </condition>
     </animation>
     <animation>
         <type>select</type>
         <object-name>FuelSelectorRight</object-name>
         <condition>
-            <and>
-                <not>
-                    <property>consumables/fuel/tank[0]/selected</property>
-                </not>
-                <property>consumables/fuel/tank[1]/selected</property>
-            </and>
+            <or>
+                <and>
+                    <not>
+                        <property>consumables/fuel/tank[0]/selected</property>
+                    </not>
+                    <property>consumables/fuel/tank[1]/selected</property>
+                </and>
+                <and>
+                    <not>
+                        <property>consumables/fuel/tank[2]/selected</property>
+                    </not>
+                    <property>consumables/fuel/tank[3]/selected</property>
+                </and>
+            </or>
         </condition>
     </animation>
     <animation>
         <type>select</type>
         <object-name>FuelSelectorBoth</object-name>
         <condition>
-            <and>
-                <property>consumables/fuel/tank[0]/selected</property>
-                <property>consumables/fuel/tank[1]/selected</property>
-            </and>
+            <or>
+                <and>
+                    <property>consumables/fuel/tank[0]/selected</property>
+                    <property>consumables/fuel/tank[1]/selected</property>
+                </and>
+                <and>
+                    <property>consumables/fuel/tank[2]/selected</property>
+                    <property>consumables/fuel/tank[3]/selected</property>
+                </and>
+            </or>
         </condition>
     </animation>
     <animation>
@@ -6136,6 +6178,16 @@
                 <property>consumables/fuel/tank[1]/selected</property>
                 <value>false</value>
             </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>consumables/fuel/tank[2]/selected</property>
+                <value>false</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>consumables/fuel/tank[3]/selected</property>
+                <value>false</value>
+            </binding>
         </action>
     </animation>
     <animation>
@@ -6146,14 +6198,21 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>property-assign</command>
-                <property>consumables/fuel/tank[0]/selected</property>
-                <value>true</value>
-            </binding>
-            <binding>
-                <command>property-assign</command>
-                <property>consumables/fuel/tank[1]/selected</property>
-                <value>false</value>
+                <command>nasal</command>
+                <script>
+                    var integral_tanks = getprop("/fdm/jsbsim/fuel/tank");
+                    if (integral_tanks) {
+                        setprop("/consumables/fuel/tank[2]/selected", 1);
+                        setprop("/consumables/fuel/tank[3]/selected", 0);
+                        setprop("/consumables/fuel/tank[0]/selected", 0);
+                        setprop("/consumables/fuel/tank[1]/selected", 0);
+                    } else {
+                        setprop("/consumables/fuel/tank[0]/selected", 1);
+                        setprop("/consumables/fuel/tank[1]/selected", 0);
+                        setprop("/consumables/fuel/tank[2]/selected", 0);
+                        setprop("/consumables/fuel/tank[3]/selected", 0);
+                    }
+                </script>
             </binding>
         </action>
     </animation>
@@ -6165,14 +6224,21 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>property-assign</command>
-                <property>consumables/fuel/tank[0]/selected</property>
-                <value>false</value>
-            </binding>
-            <binding>
-                <command>property-assign</command>
-                <property>consumables/fuel/tank[1]/selected</property>
-                <value>true</value>
+                <command>nasal</command>
+                <script>
+                    var integral_tanks = getprop("/fdm/jsbsim/fuel/tank");
+                    if (integral_tanks) {
+                        setprop("/consumables/fuel/tank[2]/selected", 0);
+                        setprop("/consumables/fuel/tank[3]/selected", 1);
+                        setprop("/consumables/fuel/tank[0]/selected", 0);
+                        setprop("/consumables/fuel/tank[1]/selected", 0);
+                    } else {
+                        setprop("/consumables/fuel/tank[0]/selected", 0);
+                        setprop("/consumables/fuel/tank[1]/selected", 1);
+                        setprop("/consumables/fuel/tank[2]/selected", 0);
+                        setprop("/consumables/fuel/tank[3]/selected", 0);
+                    }
+                </script>
             </binding>
         </action>
     </animation>
@@ -6184,14 +6250,21 @@
             <button>0</button>
             <repeatable>false</repeatable>
             <binding>
-                <command>property-assign</command>
-                <property>consumables/fuel/tank[0]/selected</property>
-                <value>true</value>
-            </binding>
-            <binding>
-                <command>property-assign</command>
-                <property>consumables/fuel/tank[1]/selected</property>
-                <value>true</value>
+                <command>nasal</command>
+                <script>
+                    var integral_tanks = getprop("/fdm/jsbsim/fuel/tank");
+                    if (integral_tanks) {
+                        setprop("/consumables/fuel/tank[2]/selected", 1);
+                        setprop("/consumables/fuel/tank[3]/selected", 1);
+                        setprop("/consumables/fuel/tank[0]/selected", 0);
+                        setprop("/consumables/fuel/tank[1]/selected", 0);
+                    } else {
+                        setprop("/consumables/fuel/tank[0]/selected", 1);
+                        setprop("/consumables/fuel/tank[1]/selected", 1);
+                        setprop("/consumables/fuel/tank[2]/selected", 0);
+                        setprop("/consumables/fuel/tank[3]/selected", 0);
+                    }
+                </script>
             </binding>
         </action>
     </animation>

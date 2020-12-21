@@ -9,6 +9,18 @@ Before the flight you have to assure that your aircraft is in a good condition
 
 This tutorial will guide you through the Preflight inspection
     </description>
+	
+    <nasal>
+        <script>
+            c172p.repair_damage();
+            electrical.reset_battery_and_circuit_breakers();
+            c172p.click("engine-repair", 6.0);
+            c172p.dialog_battery_reload();
+            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
+            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/fdm/jsbsim/engine/damage-level", 0.0);
+        </script>
+    </nasal>
 
     <audio-dir>Tutorials/preflight</audio-dir>
     <timeofday>morning</timeofday>
@@ -24,8 +36,8 @@ This tutorial will guide you through the Preflight inspection
         <offset-azimuth-deg>0</offset-azimuth-deg>
         <offset-distance-nm>0</offset-distance-nm>
         <airport-requested>true</airport-requested>
-        <runway-requested>true</runway-requested>
-        <parking-requested>true</parking-requested>
+        <runway-requested>false</runway-requested>
+        <parking-requested>false</parking-requested>
     </presets>
 
     <step>
@@ -119,6 +131,10 @@ This tutorial will guide you through the Preflight inspection
         </set>
         <set>
             <property>/controls/flight/flaps</property>
+            <value>0</value>
+        </set>
+        <set>
+            <property>/fdm/jsbsim/fuel/tank</property>
             <value>0</value>
         </set>
         <set>
@@ -835,7 +851,7 @@ This tutorial will guide you through the Preflight inspection
     </step>
 
      <step>
-        <message>If the sample is light blue, the fuel isn't contaminated and you can return it to the tank. If it's transparent, it's contaminated: You have to discard the it.</message>
+        <message>If the sample is light blue, the fuel isn't contaminated and you can return it to the tank. If it's transparent, it's contaminated: You have to discard it.</message>
         <wait>10</wait>
         <error>
             <message>There's still water in the fuel. Discard the sample and take a new one.</message>

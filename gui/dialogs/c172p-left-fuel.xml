@@ -8,6 +8,24 @@
     <modal>false</modal>
     <draggable>true</draggable>
 
+    <nasal>
+        <open>
+            # Fuel tanks being used
+            var integral_tanks = getprop("/fdm/jsbsim/fuel/tank");
+            if (integral_tanks) {
+                setprop("/consumables/fuel/left/level-norm", getprop("/consumables/fuel/tank[2]/level-norm"));
+                setprop("/consumables/fuel/left/level-gal_us", getprop("/consumables/fuel/tank[2]/level-gal_us"));
+                setprop("/consumables/fuel/left/level-lbs", getprop("/consumables/fuel/tank[2]/level-lbs"));
+                setprop("/consumables/fuel/left/level-litres", getprop("/consumables/fuel/tank[2]/level-litres"));
+            } else {
+                setprop("/consumables/fuel/left/level-norm", getprop("/consumables/fuel/tank[0]/level-norm"));
+                setprop("/consumables/fuel/left/level-gal_us", getprop("/consumables/fuel/tank[0]/level-gal_us"));
+                setprop("/consumables/fuel/left/level-lbs", getprop("/consumables/fuel/tank[0]/level-lbs"));
+                setprop("/consumables/fuel/left/level-litres", getprop("/consumables/fuel/tank[0]/level-litres"));
+            }
+        </open>
+    </nasal>
+
     <group>
         <layout>hbox</layout>
 
@@ -48,7 +66,7 @@
             <slider>
                 <name>c172p-left-fuel-slider</name>
                 <min>0</min>
-                <max>21.5</max>
+                <max>1</max>
                 <live>true</live>
                 <enable>
                     <and>
@@ -63,10 +81,27 @@
                         </not>
                     </and>
                 </enable>
-                <property>/consumables/fuel/tank[0]/level-gal_us</property>
+                <property>/consumables/fuel/left/level-norm</property>
                 <binding>
                     <command>dialog-apply</command>
-                    <name>c172p-left-fuel-slider</name>
+                </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>
+                        # Fuel tanks being used
+                        var integral_tanks = getprop("/fdm/jsbsim/fuel/tank");
+                        if (integral_tanks) {
+                            setprop("/consumables/fuel/tank[2]/level-norm", getprop("/consumables/fuel/left/level-norm"));
+                            setprop("/consumables/fuel/left/level-gal_us", getprop("/consumables/fuel/tank[2]/level-gal_us"));
+                            setprop("/consumables/fuel/left/level-lbs", getprop("/consumables/fuel/tank[2]/level-lbs"));
+                            setprop("/consumables/fuel/left/level-litres", getprop("/consumables/fuel/tank[2]/level-litres"));
+                        } else {
+                            setprop("/consumables/fuel/tank[0]/level-norm", getprop("/consumables/fuel/left/level-norm"));
+                            setprop("/consumables/fuel/left/level-gal_us", getprop("/consumables/fuel/tank[0]/level-gal_us"));
+                            setprop("/consumables/fuel/left/level-lbs", getprop("/consumables/fuel/tank[0]/level-lbs"));
+                            setprop("/consumables/fuel/left/level-litres", getprop("/consumables/fuel/tank[0]/level-litres"));
+                        }
+                    </script>
                 </binding>
             </slider>
             <group>
@@ -80,7 +115,7 @@
                         <halign>left</halign>
                         <format>%.2f</format>
                         <live>true</live>
-                        <property>/consumables/fuel/tank[0]/level-gal_us</property>
+                        <property>/consumables/fuel/left/level-gal_us</property>
                     </text>
                     <text>
                         <label>gallons</label>
@@ -95,7 +130,7 @@
                         <halign>left</halign>
                         <format>%.1f</format>
                         <live>true</live>
-                        <property>/consumables/fuel/tank[0]/level-lbs</property>
+                        <property>/consumables/fuel/left/level-lbs</property>
                     </text>
                     <text>
                         <label>pounds</label>
@@ -110,7 +145,7 @@
                         <halign>left</halign>
                         <format>%.2f</format>
                         <live>true</live>
-                        <property>/consumables/fuel/tank[0]/level-litres</property>
+                        <property>/consumables/fuel/left/level-litres</property>
                     </text>
                     <text>
                         <label>litres</label>

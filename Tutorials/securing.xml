@@ -8,6 +8,18 @@ After landing you need to secure the aircraft.
 This tutorial will take you through that process.
 
     </description>
+	
+    <nasal>
+        <script>
+            c172p.repair_damage();
+            electrical.reset_battery_and_circuit_breakers();
+            c172p.click("engine-repair", 6.0);
+            c172p.dialog_battery_reload();
+            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
+            setprop("/engines/active-engine/carb_ice", 0.0);
+            setprop("/fdm/jsbsim/engine/damage-level", 0.0);
+        </script>
+    </nasal>
 
     <presets>
         <airport-id>PHTO</airport-id>
@@ -21,8 +33,8 @@ This tutorial will take you through that process.
         <offset-azimuth-deg>0</offset-azimuth-deg>
         <offset-distance-nm>0</offset-distance-nm>
         <airport-requested>true</airport-requested>
-        <runway-requested>true</runway-requested>
-        <parking-requested>true</parking-requested>
+        <runway-requested>false</runway-requested>
+        <parking-requested>false</parking-requested>
     </presets>
 
     <step>

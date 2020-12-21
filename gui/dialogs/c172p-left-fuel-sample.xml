@@ -44,10 +44,16 @@
                         <property>/consumables/fuel/tank[0]/fuel-sample-taken</property>
                     </not>
                     <!-- checking if there is at least 50ml of fuel in the tanks -->
-                    <greater-than>
-                        <property>/consumables/fuel/tank[0]/level-gal_us</property>
-                        <value>0.0132086</value>
-                    </greater-than>
+                    <or>
+                        <greater-than>
+                            <property>/consumables/fuel/tank[0]/level-gal_us</property>
+                            <value>0.0132086</value>
+                        </greater-than>
+                        <greater-than>
+                            <property>/consumables/fuel/tank[2]/level-gal_us</property>
+                            <value>0.0132086</value>
+                        </greater-than>
+                    </or>
                     <less-than>
                         <property>velocities/groundspeed-kt</property>
                         <value>1.0</value>

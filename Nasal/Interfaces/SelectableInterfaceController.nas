@@ -17,20 +17,20 @@
 # Selectable Interface controller.
 
 var nasal_dir = getprop("/sim/fg-root") ~ "/Aircraft/Instruments-3d/FG1000/Nasal/";
+var aircraft_dir = getprop("/sim/aircraft-dir");
 io.load_nasal(nasal_dir ~ 'Interfaces/PropertyPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/PropertyUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/NavDataInterface.nas', "fg1000");
-io.load_nasal(nasal_dir ~ 'Interfaces/SelectableEISPublisher.nas', "fg1000");
+io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SelectableEISPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericNavComPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericNavComUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericFMSPublisher.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericFMSUpdater.nas', "fg1000");
 io.load_nasal(nasal_dir ~ 'Interfaces/GenericADCPublisher.nas', "fg1000");
-io.load_nasal(nasal_dir ~ 'Interfaces/GFC700Interface.nas', "fg1000");
-
-var aircraft_dir = getprop("/sim/aircraft-dir");
 io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SelectableFuelInterface.nas', "fg1000");
 io.load_nasal(aircraft_dir ~ '/Nasal/Interfaces/SelectableFuelPublisher.nas', "fg1000");
+io.load_nasal(nasal_dir ~ 'Interfaces/GFC700Publisher.nas', "fg1000");
+io.load_nasal(nasal_dir ~ 'Interfaces/GFC700Interface.nas', "fg1000");
 
 var SelectableInterfaceController = {
 
@@ -71,17 +71,13 @@ var SelectableInterfaceController = {
   start : func() {
     if (me.running) return;
 
-    # Reload the interfaces afresh to make development easier.  In normal
-    # usage this interface will only be started once anyway.
     foreach (var interface; SelectableInterfaceController.INTERFACE_LIST) {
-      io.load_nasal(nasal_dir ~ 'Interfaces/' ~ interface ~ '.nas', "fg1000");
       var code = sprintf("me.%sInstance = fg1000.%s.new();", interface, interface);
       var instantiate = compile(code);
       instantiate();
     }
 
     foreach (var interface; SelectableInterfaceController.INTERFACE_LIST) {
-      io.load_nasal(nasal_dir ~ 'Interfaces/' ~ interface ~ '.nas', "fg1000");
       var code = 'me.' ~ interface ~ 'Instance.start();';
       var start_interface = compile(code);
       start_interface();
@@ -94,7 +90,6 @@ var SelectableInterfaceController = {
     if (me.running == 0) return;
 
     foreach (var interface; SelectableInterfaceController.INTERFACE_LIST) {
-      io.load_nasal(nasal_dir ~ 'Interfaces/' ~ interface ~ '.nas', "fg1000");
       var code = 'me.' ~ interface ~ 'Instance.stop();';
       var stop_interface = compile(code);
       stop_interface();

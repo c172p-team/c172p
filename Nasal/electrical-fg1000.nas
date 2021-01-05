@@ -678,19 +678,17 @@ var avionics_bus_2 = func() {
     # FG1000 MFD
     if ( getprop("/controls/circuit-breakers/mfd") ) {
       setprop("/systems/electrical/outputs/mfd", bus_volts);
-      if (bus_volts > 0)
+      if (bus_volts > 0) {
           fg1000system.show(2);
-      else
+		  setprop("/instrumentation/FG1000/Lightmap", 5);
+      } else {
           fg1000system.hide(2);
-      #if (bus_volts > 0)
-      #    setprop("/systems/electrical/outputs/show-fg1000", 2);
-      #else
-      #    setprop("/systems/electrical/outputs/hide-fg1000", 2);
+		  setprop("/instrumentation/FG1000/Lightmap", 0);
+      }
       load += bus_volts / 5;
     } else {
       setprop("/systems/electrical/outputs/mfd", 0.0);
       fg1000system.hide(2);
-      #setprop("/systems/electrical/outputs/hide-fg1000", 2);
     }
 
     # Transponder Power
@@ -771,13 +769,11 @@ var essential_bus = func() {
     }
     if (pfd_display or getprop("/systems/electrical/outputs/pfd-ess") > 12) {
         fg1000system.show(1);
+		setprop("/instrumentation/FG1000/Lightmap", 5);
     } else {
         fg1000system.hide(1);
+		setprop("/instrumentation/FG1000/Lightmap", 0);
     }
-    #if (pfd_display or getprop("/systems/electrical/outputs/pfd-ess") > 12)
-    #    setprop("/systems/electrical/outputs/show-fg1000", 1);
-    #else
-    #    setprop("/systems/electrical/outputs/hide-fg1000", 1);
 
     # Air Data Computer
     if (getprop("/controls/circuit-breakers/adc-ahrs-ess")) {

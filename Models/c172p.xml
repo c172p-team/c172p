@@ -680,6 +680,9 @@
         <object-name>BeaconOffX</object-name>
         <object-name>BeaconOff</object-name>
         <object-name>Propeller.Fast</object-name>
+        <object-name>navlight_left</object-name>
+        <object-name>navlight_right</object-name>
+        <object-name>navlight_back</object-name>
     </effect>
 
     <effect>
@@ -1070,7 +1073,7 @@
             <red>  0.697</red>
             <green>0.689</green>
             <blue> 0.445</blue>
-            <factor-prop>/sim/model/lighting/courtesy/factor</factor-prop>
+            <factor-prop>/sim/model/c172p/lighting/courtesy</factor-prop>
         </emission>
     </animation>
 
@@ -1266,10 +1269,10 @@
             <z-m> 0.32 </z-m>
         </offsets>
         <condition>
-            <equals>
-                <property>/sim/model/lighting/courtesy/factor</property>
-                <value>1</value>
-            </equals>
+            <greater-than>
+                <property>/sim/model/c172p/lighting/courtesy</property>
+                <value>0</value>
+            </greater-than>
         </condition>
     </model>
 
@@ -1281,10 +1284,10 @@
             <z-m> 0.32 </z-m>
         </offsets>
         <condition>
-            <equals>
-                <property>/sim/model/lighting/courtesy/factor</property>
-                <value>1</value>
-            </equals>
+            <greater-than>
+                <property>/sim/model/c172p/lighting/courtesy</property>
+                <value>0</value>
+            </greater-than>
         </condition>
     </model>
 
@@ -9159,7 +9162,10 @@
     </animation>
 
     <!-- Disable/enable different light types depending on Rembrandt -->
-    <animation>
+
+	<!-- Rembrandt Lights -->
+    <!-- Landing Light -->
+    <!--animation>
         <type>select</type>
         <object-name>LandingLightCone</object-name>
         <condition>
@@ -9176,68 +9182,6 @@
             </and>
         </condition>
     </animation>
-    <animation>
-        <type>select</type>
-        <object-name>TaxiLightCone</object-name>
-        <condition>
-            <and>
-                <property>/sim/rendering/rembrandt/enabled</property>
-                <property alias="/params/lighting/taxi/property"/>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Landing Light -->
-    <animation>
-        <type>select</type>
-        <object-name>landinglight</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/landing/property"/>
-                <not>
-                    <property>/sim/rendering/rembrandt/enabled</property>
-                </not>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Taxi Light -->
-    <animation>
-        <type>select</type>
-        <object-name>taxilight</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/taxi/property"/>
-                <not>
-                    <property>/sim/rendering/rembrandt/enabled</property>
-                </not>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-            </and>
-        </condition>
-    </animation>
-
     <animation>
         <type>light</type>
         <light-type>spot</light-type>
@@ -9284,8 +9228,26 @@
         <cutoff>85</cutoff>
         <near-m>2</near-m>
         <far-m>250</far-m>
-    </animation>
+    </animation-->
 
+    <!-- Taxi Light -->
+    <!--animation>
+        <type>select</type>
+        <object-name>TaxiLightCone</object-name>
+        <condition>
+            <and>
+                <property>/sim/rendering/rembrandt/enabled</property>
+                <property alias="/params/lighting/taxi/property"/>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
     <animation>
         <type>light</type>
         <light-type>spot</light-type>
@@ -9332,14 +9294,30 @@
         <cutoff>160</cutoff>
         <near-m>2</near-m>
         <far-m>150</far-m>
-    </animation>
-    <animation>
-        <type>noshadow</type>
-        <object-name>landinglight</object-name>
-        <object-name>taxilight</object-name>
-    </animation>
+    </animation-->
 
-    <!--Landing Light-->
+    <!-- ALS Lights -->
+    <!-- Landing Light -->
+    <animation>
+        <type>select</type>
+        <object-name>landinglight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/landing/property"/>
+                <not>
+                    <property>/sim/rendering/rembrandt/enabled</property>
+                </not>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
     <animation>
         <type>flash</type>
         <object-name>landinglight</object-name>
@@ -9361,7 +9339,27 @@
         <max>80</max>
     </animation>
 
-    <!--Taxi Light-->
+    <!-- Taxi Light -->
+    <animation>
+        <type>select</type>
+        <object-name>taxilight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/taxi/property"/>
+                <not>
+                    <property>/sim/rendering/rembrandt/enabled</property>
+                </not>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
     <animation>
         <type>flash</type>
         <object-name>taxilight</object-name>
@@ -9382,6 +9380,232 @@
         <min>0.5</min>
         <max>80</max>
     </animation>
+
+	<!-- Procedural Landing Light -->
+    <animation>
+        <type>select</type>
+		<object-name>ProceduralLandingLight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/landing/property"/>
+                <not>
+                    <property>/sim/rendering/rembrandt/enabled</property>
+                </not>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+				<property>/sim/rendering/clustered-shading/enabled</property>
+            </and>
+        </condition>
+    </animation>
+	<light>
+	  <name>ProceduralLandingLight</name>
+	  <type>spot</type>
+	  <position>
+		<x-m>-0.135</x-m>
+		<y-m>-2.940</y-m>
+		<z-m> 0.520</z-m>
+	  </position>
+	  <direction>
+		<lookat-x-m>-19.222</lookat-x-m>
+		<lookat-y-m>0</lookat-y-m>
+		<lookat-z-m>-0.920</lookat-z-m>
+	  </direction>
+	  <ambient>
+		<r>0.95</r>
+		<g>0.95</g>
+		<b>0.95</b>
+		<a>1</a>
+	  </ambient>
+	  <diffuse>
+		<r>0.95</r>
+		<g>0.95</g>
+		<b>0.95</b>
+		<a>1</a>
+	  </diffuse>
+	  <specular>
+		<r>0.95</r>
+		<g>0.95</g>
+		<b>0.95</b>
+		<a>1</a>
+	  </specular>
+	  <attenuation>
+		<c>1.0</c>
+		<l>0.014</l>
+		<q>0.0007</q>
+	  </attenuation>
+	  <spot-exponent>15</spot-exponent>
+	  <spot-cutoff>60</spot-cutoff>
+	  <range-m>325</range-m>
+	</light>
+
+	<!-- Procedural Taxi Light -->
+    <animation>
+        <type>select</type>
+        <object-name>ProceduralTaxiLight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/taxi/property"/>
+                <not>
+                    <property>/sim/rendering/rembrandt/enabled</property>
+                </not>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+				<property>/sim/rendering/clustered-shading/enabled</property>
+            </and>
+        </condition>
+    </animation>
+	<light>
+	  <name>ProceduralTaxiLight</name>
+	  <type>spot</type>
+	  <position>
+		<x-m>-0.135</x-m>
+		<y-m>-2.750</y-m>
+		<z-m> 0.520</z-m>
+	  </position>
+	  <direction>
+		<lookat-x-m>-19.222</lookat-x-m>
+		<lookat-y-m>0</lookat-y-m>
+		<lookat-z-m>-0.920</lookat-z-m>
+	  </direction>
+	  <ambient>
+		<r>0.95</r>
+		<g>0.95</g>
+		<b>0.95</b>
+		<a>1</a>
+	  </ambient>
+	  <diffuse>
+		<r>0.95</r>
+		<g>0.95</g>
+		<b>0.95</b>
+		<a>1</a>
+	  </diffuse>
+	  <specular>
+		<r>0.95</r>
+		<g>0.95</g>
+		<b>0.95</b>
+		<a>1</a>
+	  </specular>
+	  <attenuation>
+		<c>1.0</c>
+		<l>0.07</l>
+		<q>0.017</q>
+	  </attenuation>
+	  <spot-exponent>15</spot-exponent>
+	  <spot-cutoff>60</spot-cutoff>
+	  <range-m>65</range-m>
+	</light>
+
+	<!-- Procedural Courtesy Lights -->
+    <animation>
+        <type>select</type>
+        <object-name>ProceduralCourtesyLeftLight</object-name>
+        <object-name>ProceduralCourtesyRightLight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <!--property alias="/params/lighting/taxi/property"/ needs MP alias-->
+                <not>
+                    <property>/sim/rendering/rembrandt/enabled</property>
+                </not>
+				<property>/sim/rendering/clustered-shading/enabled</property>
+				<property>/sim/model/c172p/lighting/courtesy</property>
+            </and>
+        </condition>
+    </animation>
+
+	 <light>
+	  <name>ProceduralCourtesyLeftLight</name>
+	  <type>spot</type>
+	  <position>
+		<x-m> 0.743123</x-m>
+		<y-m>-1.65082 </y-m>
+		<z-m> 0.328297</z-m>
+	  </position>
+	  <direction>
+	<pitch-deg>0</pitch-deg>
+	<roll-deg>0</roll-deg>
+	<heading-deg>0</heading-deg>
+	  </direction>
+	  <ambient>
+		<r>1</r>
+		<g>1</g>
+		<b>1</b>
+		<a>1</a>
+	  </ambient>
+	  <diffuse>
+		<r>1</r>
+		<g>1</g>
+		<b>1</b>
+		<a>1</a>
+	  </diffuse>
+	  <specular>
+		<r>1</r>
+		<g>1</g>
+		<b>1</b>
+		<a>1</a>
+	  </specular>
+	  <attenuation>
+		<c>1.0</c>
+		<l>0.7</l>
+		<q>1.8</q>
+	  </attenuation>
+	  <spot-exponent>10</spot-exponent>
+	  <spot-cutoff>50</spot-cutoff>
+	  <range-m>7</range-m>
+	</light>
+
+	<light>
+	  <name>ProceduralCourtesyRightLight</name>
+	  <type>spot</type>
+	  <position>
+		<x-m>0.746587</x-m>
+		<y-m>1.64871</y-m>
+		<z-m>0.328797</z-m>
+	  </position>
+	  <direction>
+	<pitch-deg>0</pitch-deg>
+	<roll-deg>0</roll-deg>
+	<heading-deg>0</heading-deg>
+	  </direction>
+	  <ambient>
+		<r>1</r>
+		<g>1</g>
+		<b>1</b>
+		<a>1</a>
+	  </ambient>
+	  <diffuse>
+		<r>1</r>
+		<g>1</g>
+		<b>1</b>
+		<a>1</a>
+	  </diffuse>
+	  <specular>
+		<r>1</r>
+		<g>1</g>
+		<b>1</b>
+		<a>1</a>
+	  </specular>
+	  <attenuation>
+		<c>1.0</c>
+		<l>0.7</l>
+		<q>1.8</q>
+	  </attenuation>
+	  <spot-exponent>10</spot-exponent>
+	  <spot-cutoff>50</spot-cutoff>
+	  <range-m>7</range-m>
+	</light>
 
     <!-- Strobe -->
     <animation>
@@ -9555,12 +9779,247 @@
             </entry>
         </interpolation>
     </animation>
+
+    <!-- Procedural Strobe Light -->
+    <animation>
+        <type>select</type>
+		<object-name>leftstrobe</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+		<object-name>rightstrobe</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+	<light>
+		<name>leftstrobe</name>
+		<type>spot</type>
+		<position>
+			<x-m> 0.148608</x-m>
+			<y-m>-5.659014</y-m>
+			<z-m> 0.520125</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>0</lookat-x-m>
+			<lookat-y-m>-10</lookat-y-m>
+			<lookat-z-m>0</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>0.35</l>
+			<q>0.44</q>
+		</attenuation>
+		<spot-exponent>0.5</spot-exponent>
+		<spot-cutoff>89</spot-cutoff>
+		<range-m>13</range-m>
+	</light>
+	<light>
+		<name>rightstrobe</name>
+		<type>spot</type>
+		<position>
+		<x-m>0.150012</x-m>
+		<y-m>5.66047 </y-m>
+		<z-m>0.5248  </z-m>
+		</position>
+		<direction>
+		<lookat-x-m>0</lookat-x-m>
+		<lookat-y-m>10</lookat-y-m>
+		<lookat-z-m>0</lookat-z-m>
+		</direction>
+		<ambient>
+		<r>1</r>
+		<g>1</g>
+		<b>1</b>
+		<a>1</a>
+		</ambient>
+		<diffuse>
+		<r>1</r>
+		<g>1</g>
+		<b>1</b>
+		<a>1</a>
+		</diffuse>
+		<specular>
+		<r>1</r>
+		<g>1</g>
+		<b>1</b>
+		<a>1</a>
+		</specular>
+		<attenuation>
+		<c>1.0</c>
+		<l>0.35</l>
+		<q>0.44</q>
+		</attenuation>
+		<spot-exponent>0.5</spot-exponent>
+		<spot-cutoff>89</spot-cutoff>
+		<range-m>13</range-m>
+	</light>
+
+    <animation>
+        <type>select</type>
+        <object-name>leftstrobeD</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>rightstrobeD</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+	<light>
+		<name>leftstrobeD</name>
+		<type>spot</type>
+		<position>
+			<x-m> 0.347924</x-m>
+			<y-m>-5.66135 </y-m>
+			<z-m> 0.809089</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>0</lookat-x-m>
+			<lookat-y-m>-10</lookat-y-m>
+			<lookat-z-m>0</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>0.35</l>
+			<q>0.44</q>
+		</attenuation>
+		<spot-exponent>0.5</spot-exponent>
+		<spot-cutoff>89</spot-cutoff>
+		<range-m>13</range-m>
+	</light>
+	<light>
+		<name>rightstrobeD</name>
+		<type>spot</type>
+		<position>
+		<x-m>0.396488</x-m>
+		<y-m>5.61659 </y-m>
+		<z-m>1.06147 </z-m>
+		</position>
+		<direction>
+		<lookat-x-m>0</lookat-x-m>
+		<lookat-y-m>10</lookat-y-m>
+		<lookat-z-m>0</lookat-z-m>
+		</direction>
+		<ambient>
+		<r>1</r>
+		<g>1</g>
+		<b>1</b>
+		<a>1</a>
+		</ambient>
+		<diffuse>
+		<r>1</r>
+		<g>1</g>
+		<b>1</b>
+		<a>1</a>
+		</diffuse>
+		<specular>
+		<r>1</r>
+		<g>1</g>
+		<b>1</b>
+		<a>1</a>
+		</specular>
+		<attenuation>
+		<c>1.0</c>
+		<l>0.35</l>
+		<q>0.44</q>
+		</attenuation>
+		<spot-exponent>0.5</spot-exponent>
+		<spot-cutoff>89</spot-cutoff>
+		<range-m>13</range-m>
+	</light>
+
+	<!-- Beacon Procedural Light -->
     <animation>
         <type>select</type>
         <object-name>BeaconOffX</object-name>
         <nopreview/>
         <condition>
-            <property alias="/params/lighting/beacon"/>
+			<property alias="/params/lighting/beacon"/>
         </condition>
     </animation>
     <BeaconOffXparams>
@@ -9608,6 +10067,214 @@
             </entry>
         </interpolation>
     </animation>
+	 
+	<animation>
+		<type>select</type>
+		<object-name>beaconlight</object-name>
+		<condition>
+			<property alias="/params/lighting/beacon"/>
+		</condition>
+	</animation>
+	 
+	<light>
+		<name>beaconlight</name>
+		<type>point</type>
+		<position>
+			<x-m> 6.165 </x-m>
+			<y-m> 0.003 </y-m>
+			<z-m> 2.062 </z-m>
+		</position>
+		<ambient>
+			<r>0.98</r>
+			<g>0.2</g>
+			<b>0.2</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>0.98</r>
+			<g>0.2</g>
+			<b>0.2</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>0.98</r>
+			<g>0.2</g>
+			<b>0.2</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>1.4</l>
+			<q>3.62</q>
+		</attenuation>
+		<dim-factor>
+			<property>sim/model/c172p/lighting/beacon/state</property>
+		</dim-factor>
+		<spot-exponent>5</spot-exponent>
+		<spot-cutoff>89</spot-cutoff>
+		<range-m>6</range-m>
+	</light>
+
+	<!-- Procedural Nav Lights -->
+	<animation>
+		<type>select</type>
+		<object-name>taillight</object-name>
+		<object-name>navlightred</object-name>
+		<object-name>navlightgreen</object-name>
+		<condition>
+			<and>
+				<property>/sim/model/c172p/lighting/nav-lights/enabled</property>
+				<property>/sim/rendering/clustered-shading/enabled</property>
+            </and>
+		</condition>
+	</animation>
+
+	<light>
+		<name>taillight</name>
+		<type>spot</type>
+		<position>
+			<x-m>6.11 </x-m>
+			<y-m>0.004</y-m>
+			<z-m>0.972</z-m>
+		</position>
+		<direction>
+			<lookat-x-m> 7.3 </lookat-x-m>
+			<lookat-y-m> 0.00</lookat-y-m>
+			<lookat-z-m>-1.9 </lookat-z-m>
+		</direction>
+		<ambient>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>0.7</l>
+			<q>1.8</q>
+		</attenuation>
+		<spot-exponent>3</spot-exponent>
+		<spot-cutoff>80</spot-cutoff>
+		<range-m>7</range-m>
+	</light>
+
+	<light>
+		<name>navlightred</name>
+		<type>spot</type>
+		<position>
+			<x-m>-1</x-m>
+			<y-m>-6</y-m>
+			<z-m> 0.53</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>-0.07</lookat-x-m>
+			<lookat-y-m>-5.60</lookat-y-m>
+			<lookat-z-m>-1.90</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>0.1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>0.1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>0.1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>0.7</l>
+			<q>1.8</q>
+		</attenuation>
+		<spot-exponent>3</spot-exponent>
+		<spot-cutoff>83</spot-cutoff>
+		<range-m>9</range-m>
+	</light>
+
+	<light>
+		<name>navlightgreen</name>
+		<type>spot</type>
+		<position>
+			<x-m>-1</x-m>
+			<y-m> 6</y-m>
+			<z-m> 0.53</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>-0.07</lookat-x-m>
+			<lookat-y-m> 5.60</lookat-y-m>
+			<lookat-z-m>-3.90</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>.1</r>
+			<g>1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>0.1</r>
+			<g>1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>.1</r>
+			<g>1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>0.7</l>
+			<q>1.8</q>
+		</attenuation>
+		<spot-exponent>3</spot-exponent>
+		<spot-cutoff>83</spot-cutoff>
+		<range-m>9</range-m>
+	</light>
+
+    <animation>
+        <type>noshadow</type>
+        <object-name>landinglight</object-name>
+        <object-name>taxilight</object-name>
+        <object-name>strobe1</object-name>
+        <object-name>strobe2</object-name>
+		<object-name>BeaconOffX</object-name>
+		<object-name>navlight_back</object-name>
+		<object-name>navlight_left</object-name>
+		<object-name>navlight_right</object-name>
+		<object-name>taillight</object-name>
+		<object-name>navlightred</object-name>
+		<object-name>navlightgreen</object-name>
+		<object-name>beaconlight</object-name>
+		<object-name>leftstrobe</object-name>
+		<object-name>rightstrobe</object-name>
+        <object-name>nav-light-right</object-name>
+        <object-name>nav-light-left</object-name>
+        <object-name>nav-light-tail</object-name>
+        <object-name>strobe-light-left</object-name>
+        <object-name>strobe-light-right</object-name>
+    </animation>
+
     <animation>
         <type>select</type>
         <object-name>fairing1</object-name>

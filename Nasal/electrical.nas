@@ -46,7 +46,7 @@ BatteryClass.apply_load = func (amps, dt) {
     var amphrs_used = amps * dt / 3600.0;
     var percent_used = amphrs_used / me.amp_hours;
 
-    var new_charge_percent = std.max(0.0, std.min(old_charge_percent - percent_used, 1.0));
+    var new_charge_percent = std.max(0.0, std.min(old_charge_percent - percent_used, 1.0)) or 0;
 
     if (new_charge_percent < 0.1 and old_charge_percent >= 0.1)
         gui.popupTip("Warning: Low battery! Enable alternator or apply external power to recharge battery!", 10);

@@ -77,74 +77,6 @@
         </output>
     </logic>
 
-    <logic>
-        <name>ALS Lighting Landing</name>
-        <input>
-            <and>
-                <property>/sim/current-view/internal</property>
-                <property>/sim/model/c172p/lighting/landing</property>
-				<not>
-					<property>/sim/rendering/clustered-shading/enabled</property>
-				</not>
-            </and>
-        </input>
-        <output>
-            <property>/sim/rendering/als-secondary-lights/use-landing-light</property>
-        </output>
-    </logic>
-
-    <logic>
-        <name>ALS Lighting Taxi</name>
-        <input>
-            <and>
-                <property>/sim/current-view/internal</property>
-                <property>/sim/model/c172p/lighting/taxi</property>
-				<not>
-					<property>/sim/rendering/clustered-shading/enabled</property>
-				</not>
-            </and>
-        </input>
-        <output>
-            <property>/sim/rendering/als-secondary-lights/use-alt-landing-light</property>
-        </output>
-    </logic>
-
-    <logic>
-        <name>ALS Lighting Exterior Landing</name>
-        <input>
-            <and>
-                <not>
-                    <property>/sim/current-view/internal</property>
-                </not>
-                <property>/sim/model/c172p/lighting/landing</property>
-				<not>
-					<property>/sim/rendering/clustered-shading/enabled</property>
-				</not>
-            </and>
-        </input>
-        <output>
-            <property>/sim/rendering/als-secondary-lights/use-landing-light-ext</property>
-        </output>
-    </logic>
-
-    <logic>
-        <name>ALS Lighting Exterior Taxi</name>
-        <input>
-            <and>
-                <not>
-                    <property>/sim/current-view/internal</property>
-                </not>
-                <property>/sim/model/c172p/lighting/taxi</property>
-				<not>
-					<property>/sim/rendering/clustered-shading/enabled</property>
-				</not>
-            </and>
-        </input>
-        <output>
-            <property>/sim/rendering/als-secondary-lights/use-taxi-light-ext</property>
-        </output>
-    </logic>
-
     <filter>
         <name>Light Map Flood Red</name>
         <type>gain</type>
@@ -247,32 +179,6 @@
         </input>
         <output>
            <property>/sim/model/c172p/lighting/courtesy</property>
-        </output>
-    </filter>
-
-    <filter>
-        <name>ALS Courtesy Dome White</name>
-        <type>gain</type>
-        <gain>1.0</gain>
-        <input>
-            <condition>
-				<and>
-					<property>/sim/model/c172p/lighting/courtesy</property>
-					<not>
-						<property>/sim/rendering/clustered-shading/enabled</property>
-					</not>
-				</and>
-            </condition>
-            <expression>
-                <table>
-                    <property>/controls/lighting/dome-white-norm</property>
-                    <entry><ind>0.0</ind><dep>.5</dep></entry>
-                    <entry><ind>1.0</ind><dep>.85</dep></entry>
-                </table>
-            </expression>
-        </input>
-        <output>
-           <property>/sim/model/lighting/courtesy/factor</property>
         </output>
     </filter>
 

@@ -100,70 +100,6 @@
         </offsets>
     </model>
 
-    <!-- Green navigation light on starboard side (right) -->
-    <model>
-        <name>nav-light-right</name>
-        <path>Effects/lights/procedural_light_nav_right.xml</path>
-        <offsets>
-            <x-m>0.102</x-m>
-            <y-m>5.66</y-m>
-            <z-m>0.53459</z-m>
-        </offsets>
-    </model>
-
-    <!-- Red navigation light on port side (left) -->
-    <model>
-        <name>nav-light-left</name>
-        <path>Effects/lights/procedural_light_nav_left.xml</path>
-        <offsets>
-            <x-m> 0.108</x-m>
-            <y-m>-5.66</y-m>
-            <z-m> 0.53365</z-m>
-        </offsets>
-    </model>
-
-    <!-- White navigation light on tail -->
-    <model>
-        <name>nav-light-tail</name>
-        <path>Effects/lights/procedural_light_nav_tail.xml</path>
-        <offsets>
-            <x-m>6.11</x-m>
-            <y-m>0.0042</y-m>
-            <z-m>0.9722</z-m>
-        </offsets>
-    </model>
-
-    <model>
-        <name>strobe-light-left</name>
-        <path>Aircraft/c172p/Models/Effects/lights/procedural_light_left_strobe.xml</path>
-        <offsets>
-            <x-m> 0.15</x-m>
-            <y-m>-5.66</y-m>
-            <z-m> 0.53365</z-m>
-        </offsets>
-     </model>
-
-    <model>
-        <name>strobe-light-right</name>
-        <path>Aircraft/c172p/Models/Effects/lights/procedural_light_right_strobe.xml</path>
-        <offsets>
-            <x-m>0.15</x-m>
-            <y-m>5.66</y-m>
-            <z-m>0.53459</z-m>
-        </offsets>
-     </model>
-
-	<!-- compoositor requires noshadow on light objects -->
-    <animation>
-        <type>noshadow</type>
-        <object-name>nav-light-left</object-name>
-        <object-name>nav-light-right</object-name>
-        <object-name>nav-light-tail</object-name>
-        <object-name>strobe-light-right</object-name>
-        <object-name>strobe-light-left</object-name>
-        <object-name>BeaconOffX</object-name>
-    </animation>
-
     <!-- non-Canvas remote Garmin 196 GPS (FGDATA) -->
     <!-- TODO Remove this old version, unhide and implement the Canvas version below -->
     <model>
@@ -222,6 +158,1322 @@
         <name>GPS-Model</name>
         <path>Interior/Panel/Instruments/garmin196/gpsmodel.xml</path>
     </model>
+
+    <!-- ================================================================== -->
+    <!-- Exterior Lighting                                                  -->
+    <!-- ================================================================== -->
+
+    <!-- ================================================================== -->
+    <!-- ALS Procedural Lighting                                            -->
+    <!-- ================================================================== -->
+
+    <!-- Green navigation light on starboard side (right) -->
+    <model>
+        <name>nav-light-right</name>
+        <path>Effects/lights/procedural_light_nav_right.xml</path>
+        <offsets>
+            <x-m>0.102</x-m>
+            <y-m>5.66</y-m>
+            <z-m>0.53459</z-m>
+        </offsets>
+    </model>
+
+    <!-- Red navigation light on port side (left) -->
+    <model>
+        <name>nav-light-left</name>
+        <path>Effects/lights/procedural_light_nav_left.xml</path>
+        <offsets>
+            <x-m> 0.108</x-m>
+            <y-m>-5.66</y-m>
+            <z-m> 0.53365</z-m>
+        </offsets>
+    </model>
+
+    <!-- White navigation light on tail -->
+    <model>
+        <name>nav-light-tail</name>
+        <path>Effects/lights/procedural_light_nav_tail.xml</path>
+        <offsets>
+            <x-m>6.11</x-m>
+            <y-m>0.0042</y-m>
+            <z-m>0.9722</z-m>
+        </offsets>
+    </model>
+
+    <model>
+        <name>strobe-light-left</name>
+        <path>Aircraft/c172p/Models/Effects/lights/procedural_light_left_strobe.xml</path>
+        <offsets>
+            <x-m> 0.15</x-m>
+            <y-m>-5.66</y-m>
+            <z-m> 0.53365</z-m>
+        </offsets>
+     </model>
+
+    <model>
+        <name>strobe-light-right</name>
+        <path>Aircraft/c172p/Models/Effects/lights/procedural_light_right_strobe.xml</path>
+        <offsets>
+            <x-m>0.15</x-m>
+            <y-m>5.66</y-m>
+            <z-m>0.53459</z-m>
+        </offsets>
+     </model>
+
+    <animation>
+        <type>select</type>
+        <object-name>nav-light-left</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <property>/sim/rendering/shaders/skydome</property>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>nav-light-right</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <property>/sim/rendering/shaders/skydome</property>
+                <not-equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>nav-light-tail</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <property>/sim/rendering/shaders/skydome</property>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>strobe-light-left</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <property>/sim/rendering/shaders/skydome</property>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>strobe-light-right</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <property>/sim/rendering/shaders/skydome</property>
+                <not-equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- ================================================================== -->
+    <!-- Default Renderer                                                   -->
+    <!-- ================================================================== -->
+
+    <animation>
+        <type>select</type>
+        <object-name>navlight_left</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>navlight_right</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>navlight_back</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- Strobe -->
+    <animation>
+        <type>select</type>
+        <object-name>strobe1</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>strobe2</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>strobe1D</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>strobe2D</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <Plane.014Xparams>
+        <light-near>0.8</light-near>
+        <light-med>3.2</light-med>
+        <light-far>160</light-far>
+    </Plane.014Xparams>
+    <animation>
+        <type>alpha-test</type>
+        <object-name>strobe1</object-name>
+        <object-name>strobe2</object-name>
+        <!-- Damage Mod -->
+        <object-name>strobe1D</object-name>
+        <object-name>strobe2D</object-name>
+        <alpha-factor>0.001</alpha-factor>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>strobe1</object-name>
+        <offset-m>5.760493</offset-m>
+        <axis>
+            <x> 0.16</x>
+            <y>-5.65777</y>
+            <z> 0.535</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>strobe2</object-name>
+        <offset-m>5.742337</offset-m>
+        <axis>
+            <x>0.16</x>
+            <y>5.65615</y>
+            <z>0.535</z>
+        </axis>
+    </animation>
+
+    <!-- Damage Mod -->
+    <animation>
+        <type>translate</type>
+        <object-name>strobe1D</object-name>
+        <offset-m>5.760493</offset-m>
+        <axis>
+            <x>0.294</x>
+            <y>-5.227128</y>
+            <z>.75</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>strobe2D</object-name>
+        <offset-m>5.742337</offset-m>
+        <axis>
+            <x>0.386</x>
+            <y>5.708865</y>
+            <z>1.1</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>billboard</type>
+        <object-name>strobe1</object-name>
+        <object-name>strobe2</object-name>
+        <!-- Damage Mod -->
+        <object-name>strobe1D</object-name>
+        <object-name>strobe2D</object-name>
+        <spherical type="bool">true</spherical>
+    </animation>
+    <animation>
+        <type>dist-scale</type>
+        <object-name>strobe1</object-name>
+        <object-name>strobe2</object-name>
+        <!-- Damage Mod-->
+        <object-name>strobe1D</object-name>
+        <object-name>strobe2D</object-name>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep alias="/Plane.014Xparams/light-near"/>
+            </entry>
+            <entry>
+                <ind>500</ind>
+                <dep alias="/Plane.014Xparams/light-med"/>
+            </entry>
+            <entry>
+                <ind>16000</ind>
+                <dep alias="/Plane.014Xparams/light-far"/>
+            </entry>
+        </interpolation>
+    </animation>
+
+    <!-- Landing Light -->
+    <animation>
+        <type>select</type>
+        <object-name>landinglight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/landing/property"/>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>flash</type>
+        <object-name>landinglight</object-name>
+        <center>
+            <x-m>-0.135</x-m>
+            <y-m>-2.940</y-m>
+            <z-m> 0.520</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <power>8</power>
+        <factor>6</factor>
+        <offset>0</offset>
+        <two-sides type="bool">false</two-sides>
+        <min>0.5</min>
+        <max>80</max>
+    </animation>
+
+    <!-- Taxi Light -->
+    <animation>
+        <type>select</type>
+        <object-name>taxilight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/taxi/property"/>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>flash</type>
+        <object-name>taxilight</object-name>
+        <center>
+            <x-m>-0.135</x-m>
+            <y-m>-2.750</y-m>
+            <z-m> 0.520</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <power>8</power>
+        <factor>5</factor>
+        <offset>0</offset>
+        <two-sides type="bool">false</two-sides>
+        <min>0.5</min>
+        <max>80</max>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>BeaconOffX</object-name>
+        <nopreview/>
+        <condition>
+			<property alias="/params/lighting/beacon"/>
+        </condition>
+    </animation>
+    <BeaconOffXparams>
+        <light-near>0.4</light-near>
+        <light-med>0.8</light-med>
+        <light-far>10</light-far>
+    </BeaconOffXparams>
+    <animation>
+        <type>alpha-test</type>
+        <object-name>BeaconOffX</object-name>
+        <alpha-factor>0.001</alpha-factor>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>BeaconOffX</object-name>
+        <offset-m>5.599</offset-m>
+        <axis>
+            <!-- MOD: Position beacon light at MEDIAN point of the object -->
+            <x>5.49803</x>
+            <y>0.00000</y>
+            <z>1.081</z>
+            <!-- MODEND: Position beacon light at MEDIAN point of the object -->
+        </axis>
+    </animation>
+    <animation>
+        <type>billboard</type>
+        <object-name>BeaconOffX</object-name>
+        <spherical type="bool">true</spherical>
+    </animation>
+    <animation>
+        <type>dist-scale</type>
+        <object-name>BeaconOffX</object-name>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep alias="/BeaconOffXparams/light-near"/>
+            </entry>
+            <entry>
+                <ind>500</ind>
+                <dep alias="/BeaconOffXparams/light-med"/>
+            </entry>
+            <entry>
+                <ind>16000</ind>
+                <dep alias="/BeaconOffXparams/light-far"/>
+            </entry>
+        </interpolation>
+    </animation>
+
+    <!-- ================================================================== -->
+    <!-- Procedural Clustered Shading Lighting                              -->
+    <!-- ================================================================== -->
+
+	<!-- Procedural Landing Light -->
+    <animation>
+        <type>select</type>
+		<object-name>ProceduralLandingLight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/landing/property"/>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+	<light>
+		<name>ProceduralLandingLight</name>
+		<type>spot</type>
+		<position>
+			<x-m>-0.135</x-m>
+			<y-m>-2.940</y-m>
+			<z-m> 0.520</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>-19.222</lookat-x-m>
+			<lookat-y-m>0</lookat-y-m>
+			<lookat-z-m>-0.920</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>0.014</l>
+			<q>0.0007</q>
+		</attenuation>
+		<spot-exponent>15</spot-exponent>
+		<spot-cutoff>60</spot-cutoff>
+		<range-m>325</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+	<!-- Procedural Taxi Light -->
+    <animation>
+        <type>select</type>
+        <object-name>ProceduralTaxiLight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/taxi/property"/>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+	<light>
+		<name>ProceduralTaxiLight</name>
+		<type>spot</type>
+		<position>
+			<x-m>-0.135</x-m>
+			<y-m>-2.750</y-m>
+			<z-m> 0.520</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>-19.222</lookat-x-m>
+			<lookat-y-m>0</lookat-y-m>
+			<lookat-z-m>-0.920</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>0.07</l>
+			<q>0.017</q>
+		</attenuation>
+		<spot-exponent>15</spot-exponent>
+		<spot-cutoff>60</spot-cutoff>
+		<range-m>65</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+	<!-- Procedural Courtesy Lights -->
+    <animation>
+        <type>select</type>
+        <object-name>ProceduralCourtesyLeftLight</object-name>
+        <object-name>ProceduralCourtesyRightLight</object-name>
+        <nopreview/>
+        <condition>
+			<!--property alias="/params/lighting/taxi/property"/ needs MP alias-->
+			<property>/sim/model/c172p/lighting/courtesy</property>
+        </condition>
+    </animation>
+
+	<light>
+		<name>ProceduralCourtesyLeftLight</name>
+		<type>spot</type>
+		<position>
+			<x-m> 0.77</x-m>
+			<y-m>-1.65</y-m>
+			<z-m> 0.36</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>-7 </lookat-x-m>
+			<lookat-y-m>-3 </lookat-y-m>
+			<lookat-z-m>-30</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>0.7</l>
+			<q>1.8</q>
+		</attenuation>
+		<spot-exponent>3</spot-exponent>
+		<spot-cutoff>80</spot-cutoff>
+		<range-m>10</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+	<light>
+		<name>ProceduralCourtesyRightLight</name>
+		<type>spot</type>
+		<position>
+			<x-m>0.77</x-m>
+			<y-m>1.65</y-m>
+			<z-m>0.36</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>-7 </lookat-x-m>
+			<lookat-y-m> 3 </lookat-y-m>
+			<lookat-z-m>-30</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>0.7</l>
+			<q>1.8</q>
+		</attenuation>
+		<spot-exponent>3</spot-exponent>
+		<spot-cutoff>80</spot-cutoff>
+		<range-m>10</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+    <!-- Procedural Strobe Light -->
+    <animation>
+        <type>select</type>
+		<object-name>leftstrobe</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+		<object-name>rightstrobe</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>0</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+	<light>
+		<name>leftstrobe</name>
+		<type>point</type>
+		<position>
+			<x-m> 0.14</x-m>
+			<y-m>-7   </y-m>
+			<z-m> 0.52</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>0.148</lookat-x-m>
+			<lookat-y-m>-20  </lookat-y-m>
+			<lookat-z-m>0.52 </lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0 </c>
+			<l>0.46</l>
+			<q>1.20</q>
+		</attenuation>
+		<spot-exponent>0.5</spot-exponent>
+		<spot-cutoff>89</spot-cutoff>
+		<range-m>30</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+	<light>
+		<name>rightstrobe</name>
+		<type>point</type>
+		<position>
+			<x-m>0.15</x-m>
+			<y-m>7   </y-m>
+			<z-m>0.52</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>0.15</lookat-x-m>
+			<lookat-y-m>20  </lookat-y-m>
+			<lookat-z-m>0.52</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0 </c>
+			<l>0.46</l>
+			<q>1.20</q>
+		</attenuation>
+		<spot-exponent>0.5</spot-exponent>
+		<spot-cutoff>89</spot-cutoff>
+		<range-m>30</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+    <animation>
+        <type>select</type>
+        <object-name>leftstrobeD</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>rightstrobeD</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/strobes"/>
+                <equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>2</value>
+                </equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+	<light>
+		<name>leftstrobeD</name>
+		<type>spot</type>
+		<position>
+			<x-m> 0.34</x-m>
+			<y-m>-7 </y-m>
+			<z-m> 0.80</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>0.34</lookat-x-m>
+			<lookat-y-m>-20 </lookat-y-m>
+			<lookat-z-m>0.80</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0 </c>
+			<l>0.46</l>
+			<q>1.20</q>
+		</attenuation>
+		<spot-exponent>0.5</spot-exponent>
+		<spot-cutoff>89</spot-cutoff>
+		<range-m>13</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+	<light>
+		<name>rightstrobeD</name>
+		<type>spot</type>
+		<position>
+			<x-m>0.39</x-m>
+			<y-m>7   </y-m>
+			<z-m>1.06</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>0.39</lookat-x-m>
+			<lookat-y-m>20  </lookat-y-m>
+			<lookat-z-m>1.06</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0 </c>
+			<l>0.46</l>
+			<q>1.20</q>
+		</attenuation>
+		<spot-exponent>0.5</spot-exponent>
+		<spot-cutoff>89</spot-cutoff>
+		<range-m>13</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+	<!-- Beacon Procedural Light -->
+	<animation>
+		<type>select</type>
+		<object-name>beaconlight</object-name>
+		<condition>
+			<property alias="/params/lighting/beacon"/>
+		</condition>
+	</animation>
+	 
+	<light>
+		<name>beaconlight</name>
+		<type>point</type>
+		<position>
+			<x-m> 6.165 </x-m>
+			<y-m> 0.003 </y-m>
+			<z-m> 2.062 </z-m>
+		</position>
+		<ambient>
+			<r>0.98</r>
+			<g>0.2</g>
+			<b>0.2</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>0.98</r>
+			<g>0.2</g>
+			<b>0.2</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>0.98</r>
+			<g>0.2</g>
+			<b>0.2</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>0.7</l>
+			<q>1.8</q>
+		</attenuation>
+		<dim-factor>
+			<property>sim/model/c172p/lighting/beacon/state</property>
+		</dim-factor>
+		<spot-exponent>5</spot-exponent>
+		<spot-cutoff>90</spot-cutoff>
+		<range-m>10</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>0</g>
+			<b>0</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+	<!-- Procedural Nav Lights -->
+	<animation>
+		<type>select</type>
+		<object-name>taillight</object-name>
+		<object-name>navlightred</object-name>
+		<object-name>navlightgreen</object-name>
+		<condition>
+			<property>/sim/model/c172p/lighting/nav-lights/enabled</property>
+		</condition>
+	</animation>
+
+	<light>
+		<name>taillight</name>
+		<type>point</type>
+		<position>
+			<x-m>7.5 </x-m>
+			<y-m>0.0 </y-m>
+			<z-m>0.97</z-m>
+		</position>
+		<direction>
+			<lookat-x-m> 27</lookat-x-m>
+			<lookat-y-m> 0.00</lookat-y-m>
+			<lookat-z-m> -20 </lookat-z-m>
+		</direction>
+		<ambient>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>0.95</r>
+			<g>0.95</g>
+			<b>0.95</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>0.7</l>
+			<q>1.8</q>
+		</attenuation>
+		<spot-exponent>5</spot-exponent>
+		<spot-cutoff>90</spot-cutoff>
+		<range-m>10</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+	<light>
+		<name>navlightred</name>
+		<type>point</type>
+		<position>
+			<x-m>-2  </x-m>
+			<y-m>-7.5</y-m>
+			<z-m> 0.53</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>-13 </lookat-x-m>
+			<lookat-y-m>-13 </lookat-y-m>
+			<lookat-z-m>0.53</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>0.1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>0.1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>0.1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>1.4</l>
+			<q>3.6</q>
+		</attenuation>
+		<spot-exponent>2</spot-exponent>
+		<spot-cutoff>90</spot-cutoff>
+		<range-m>10</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>0</g>
+			<b>0</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+	<light>
+		<name>navlightgreen</name>
+		<type>point</type>
+		<position>
+			<x-m>-2   </x-m>
+			<y-m> 7.5 </y-m>
+			<z-m> 0.53</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>-13 </lookat-x-m>
+			<lookat-y-m> 13 </lookat-y-m>
+			<lookat-z-m>0.53</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>0.1</r>
+			<g>1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>0.1</r>
+			<g>1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>0.1</r>
+			<g>1</g>
+			<b>0.1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>1.4</l>
+			<q>3.6</q>
+		</attenuation>
+		<spot-exponent>2</spot-exponent>
+		<spot-cutoff>90</spot-cutoff>
+		<range-m>10</range-m>
+		<debug-color>
+			<r>0</r>
+			<g>1</g>
+			<b>0</b>
+			<a>1</a>
+		</debug-color>
+	</light>
+
+    <animation>
+        <type>noshadow</type>
+        <object-name>landinglight</object-name>
+        <object-name>taxilight</object-name>
+        <object-name>strobe1</object-name>
+        <object-name>strobe2</object-name>
+		<object-name>BeaconOffX</object-name>
+		<object-name>navlight_back</object-name>
+		<object-name>navlight_left</object-name>
+		<object-name>navlight_right</object-name>
+		<object-name>taillight</object-name>
+		<object-name>navlightred</object-name>
+		<object-name>navlightgreen</object-name>
+		<object-name>beaconlight</object-name>
+		<object-name>leftstrobe</object-name>
+		<object-name>rightstrobe</object-name>
+        <object-name>nav-light-right</object-name>
+        <object-name>nav-light-left</object-name>
+        <object-name>nav-light-tail</object-name>
+        <object-name>strobe-light-left</object-name>
+        <object-name>strobe-light-right</object-name>
+    </animation>
+
+    <!-- ================================================================== -->
+    <!-- Lighting adjustments due to wing damage                            -->
+    <!-- ================================================================== -->
+
+    <!-- Moves the red navigation light when then left wing is damaged -->
+    <animation>
+        <type>translate</type>
+        <object-name>nav-light-left</object-name>
+        <object-name>navlight_left</object-name>
+
+        <!-- Magnitude (distance) of the vector -->
+        <factor>0.35</factor>
+        <property>sim/model/c172p/lighting/nav-lights/left-damaged</property>
+
+        <!-- The vector pointing from the original position to the
+             damaged position.
+        -->
+        <axis>
+            <x>0.77</x>
+            <y>-0.05</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
+    <!-- Moves the green navigation light when then right wing is damaged -->
+    <animation>
+        <type>translate</type>
+        <object-name>nav-light-right</object-name>
+        <object-name>navlight_right</object-name>
+
+        <!-- Magnitude (distance) of the vector -->
+        <factor>0.60</factor>
+        <property>sim/model/c172p/lighting/nav-lights/right-damaged</property>
+
+        <!-- The vector pointing from the original position to the
+             damaged position.
+        -->
+        <axis>
+            <x>0.53</x>
+            <y>-0.05</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
+    <!-- Moves the left strobe light when then left wing is damaged -->
+    <animation>
+        <type>translate</type>
+        <object-name>strobe-light-left</object-name>
+
+        <!-- Magnitude (distance) of the vector -->
+        <factor>0.35</factor>
+        <property>sim/model/c172p/lighting/nav-lights/left-damaged</property>
+
+        <!-- The vector pointing from the original position to the
+             damaged position.
+        -->
+        <axis>
+            <x>0.77</x>
+            <y>-0.05</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
+    <!-- Moves the right strobe light when then right wing is damaged -->
+    <animation>
+        <type>translate</type>
+        <object-name>strobe-light-right</object-name>
+
+        <!-- Magnitude (distance) of the vector -->
+        <factor>0.60</factor>
+        <property>sim/model/c172p/lighting/nav-lights/right-damaged</property>
+
+        <!-- The vector pointing from the original position to the
+             damaged position.
+        -->
+        <axis>
+            <x>0.53</x>
+            <y>-0.05</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
 
     <animation>
         <type>pick</type>
@@ -691,6 +1943,9 @@
         <object-name>BeaconOffX</object-name>
         <object-name>BeaconOff</object-name>
         <object-name>Propeller.Fast</object-name>
+        <object-name>navlight_left</object-name>
+        <object-name>navlight_right</object-name>
+        <object-name>navlight_back</object-name>
     </effect>
 
     <effect>
@@ -6727,152 +7982,6 @@
         <max-m>60</max-m>
     </animation>
 
-    <!-- ================================================================== -->
-    <!-- ALS Lighting                                                       -->
-    <!-- ================================================================== -->
-
-    <animation>
-        <type>select</type>
-        <object-name>nav-light-left</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <property>/sim/rendering/shaders/skydome</property>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>nav-light-right</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <property>/sim/rendering/shaders/skydome</property>
-                <not-equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>nav-light-tail</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <property>/sim/rendering/shaders/skydome</property>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>strobe-light-left</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/strobes"/>
-                <property>/sim/rendering/shaders/skydome</property>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>strobe-light-right</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/strobes"/>
-                <property>/sim/rendering/shaders/skydome</property>
-                <not-equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- ================================================================== -->
-    <!-- Basic And Rembrandt Lighting                                       -->
-    <!-- ================================================================== -->
-
-    <animation>
-        <type>select</type>
-        <object-name>navlight_left</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <not>
-                    <property>/sim/rendering/shaders/skydome</property>
-                </not>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>navlight_right</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <not>
-                    <property>/sim/rendering/shaders/skydome</property>
-                </not>
-                <not-equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>navlight_back</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <not>
-                    <property>/sim/rendering/shaders/skydome</property>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
     <!-- Rotate Non-Damaged Left Aileron -->
     <animation>
         <type>rotate</type>
@@ -9352,538 +10461,6 @@
     </animation>
     <!-- End Damage Mod-->
 
-    <!-- ================================================================== -->
-    <!-- Lighting                                                           -->
-    <!-- ================================================================== -->
-
-    <!-- Moves the red navigation light when then left wing is damaged -->
-    <animation>
-        <type>translate</type>
-        <object-name>nav-light-left</object-name>
-        <object-name>navlight_left</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
-
-        <!-- Magnitude (distance) of the vector -->
-        <factor>0.35</factor>
-        <property>sim/model/c172p/lighting/nav-lights/left-damaged</property>
-
-        <!-- The vector pointing from the original position to the
-             damaged position.
-        -->
-        <axis>
-            <x>0.77</x>
-            <y>-0.05</y>
-            <z>1.0</z>
-        </axis>
-    </animation>
-
-    <!-- Moves the green navigation light when then right wing is damaged -->
-    <animation>
-        <type>translate</type>
-        <object-name>nav-light-right</object-name>
-        <object-name>navlight_right</object-name><!-- TODO Drop Rembrandt or add a real Rembrandt light -->
-
-        <!-- Magnitude (distance) of the vector -->
-        <factor>0.60</factor>
-        <property>sim/model/c172p/lighting/nav-lights/right-damaged</property>
-
-        <!-- The vector pointing from the original position to the
-             damaged position.
-        -->
-        <axis>
-            <x>0.53</x>
-            <y>-0.05</y>
-            <z>1.0</z>
-        </axis>
-    </animation>
-
-    <!-- Moves the left strobe light when then left wing is damaged -->
-    <animation>
-        <type>translate</type>
-        <object-name>strobe-light-left</object-name>
-
-        <!-- Magnitude (distance) of the vector -->
-        <factor>0.35</factor>
-        <property>sim/model/c172p/lighting/nav-lights/left-damaged</property>
-
-        <!-- The vector pointing from the original position to the
-             damaged position.
-        -->
-        <axis>
-            <x>0.77</x>
-            <y>-0.05</y>
-            <z>1.0</z>
-        </axis>
-    </animation>
-
-    <!-- Moves the right strobe light when then right wing is damaged -->
-    <animation>
-        <type>translate</type>
-        <object-name>strobe-light-right</object-name>
-
-        <!-- Magnitude (distance) of the vector -->
-        <factor>0.60</factor>
-        <property>sim/model/c172p/lighting/nav-lights/right-damaged</property>
-
-        <!-- The vector pointing from the original position to the
-             damaged position.
-        -->
-        <axis>
-            <x>0.53</x>
-            <y>-0.05</y>
-            <z>1.0</z>
-        </axis>
-    </animation>
-
-    <!-- Disable/enable different light types depending on Rembrandt -->
-    <animation>
-        <type>select</type>
-        <object-name>LandingLightCone</object-name>
-        <condition>
-            <and>
-                <property>/sim/rendering/rembrandt/enabled</property>
-                <property alias="/params/lighting/landing/property"/>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>TaxiLightCone</object-name>
-        <condition>
-            <and>
-                <property>/sim/rendering/rembrandt/enabled</property>
-                <property alias="/params/lighting/taxi/property"/>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Landing Light -->
-    <animation>
-        <type>select</type>
-        <object-name>landinglight</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/landing/property"/>
-                <not>
-                    <property>/sim/rendering/rembrandt/enabled</property>
-                </not>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Taxi Light -->
-    <animation>
-        <type>select</type>
-        <object-name>taxilight</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/taxi/property"/>
-                <not>
-                    <property>/sim/rendering/rembrandt/enabled</property>
-                </not>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-            </and>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>light</type>
-        <light-type>spot</light-type>
-        <name>LandingLight</name>
-        <object-name>LandingLightCone</object-name>
-        <nopreview/>
-        <condition>
-            <property alias="/params/lighting/landing/property"/>
-        </condition>
-        <position>
-            <x>-0.078</x>
-            <y>-3.086</y>
-            <z>0.536</z>
-        </position>
-        <direction>
-            <x>-1</x>
-            <y>0</y>
-            <z>-0.1</z>
-        </direction>
-        <ambient>
-            <r>0.5</r>
-            <g>0.5</g>
-            <b>0.55</b>
-            <a>1.0</a>
-        </ambient>
-        <diffuse>
-            <r>0.95</r>
-            <g>0.95</g>
-            <b>0.8</b>
-            <a>1.0</a>
-        </diffuse>
-        <specular>
-            <r>0.95</r>
-            <g>0.95</g>
-            <b>0.8</b>
-            <a>1.0</a>
-        </specular>
-        <attenuation>
-            <c>1.0</c>
-            <l>0.0</l>
-            <q>0.00015</q>
-        </attenuation>
-        <exponent>25</exponent>
-        <cutoff>85</cutoff>
-        <near-m>2</near-m>
-        <far-m>250</far-m>
-    </animation>
-
-    <animation>
-        <type>light</type>
-        <light-type>spot</light-type>
-        <name>TaxiLight</name>
-        <object-name>TaxiLightCone</object-name>
-        <nopreview/>
-        <condition>
-            <property alias="/params/lighting/taxi/property"/>
-        </condition>
-        <position>
-            <x>-0.078</x>
-            <y>-3.086</y>
-            <z>0.536</z>
-        </position>
-        <direction>
-            <x>-1</x>
-            <y>0</y>
-            <z>-0.3</z>
-        </direction>
-        <ambient>
-            <r>0.5</r>
-            <g>0.5</g>
-            <b>0.55</b>
-            <a>1.0</a>
-        </ambient>
-        <diffuse>
-            <r>0.85</r>
-            <g>0.85</g>
-            <b>0.65</b>
-            <a>1.0</a>
-        </diffuse>
-        <specular>
-            <r>0.85</r>
-            <g>0.85</g>
-            <b>0.7</b>
-            <a>1.0</a>
-        </specular>
-        <attenuation>
-            <c>1.0</c>
-            <l>0.0</l>
-            <q>0.0018</q>
-        </attenuation>
-        <exponent>4.5</exponent>
-        <cutoff>160</cutoff>
-        <near-m>2</near-m>
-        <far-m>150</far-m>
-    </animation>
-    <animation>
-        <type>noshadow</type>
-        <object-name>landinglight</object-name>
-        <object-name>taxilight</object-name>
-    </animation>
-
-    <!--Landing Light-->
-    <animation>
-        <type>flash</type>
-        <object-name>landinglight</object-name>
-        <center>
-            <x-m>-0.135</x-m>
-            <y-m>-2.940</y-m>
-            <z-m> 0.520</z-m>
-        </center>
-        <axis>
-            <x>-1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-        <power>8</power>
-        <factor>6</factor>
-        <offset>0</offset>
-        <two-sides type="bool">false</two-sides>
-        <min>0.5</min>
-        <max>80</max>
-    </animation>
-
-    <!--Taxi Light-->
-    <animation>
-        <type>flash</type>
-        <object-name>taxilight</object-name>
-        <center>
-            <x-m>-0.135</x-m>
-            <y-m>-2.750</y-m>
-            <z-m> 0.520</z-m>
-        </center>
-        <axis>
-            <x>-1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-        <power>8</power>
-        <factor>5</factor>
-        <offset>0</offset>
-        <two-sides type="bool">false</two-sides>
-        <min>0.5</min>
-        <max>80</max>
-    </animation>
-
-    <!-- Strobe -->
-    <animation>
-        <type>select</type>
-        <object-name>strobe1</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/strobes"/>
-                <equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>0</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-                <not>
-                    <property>/sim/rendering/shaders/skydome</property>
-                </not>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>strobe2</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/strobes"/>
-                <equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>0</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-                <not>
-                    <property>/sim/rendering/shaders/skydome</property>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>strobe1D</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/strobes"/>
-                <equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>2</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-                <not>
-                    <property>/sim/rendering/shaders/skydome</property>
-                </not>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>strobe2D</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/strobes"/>
-                <equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>2</value>
-                </equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-                <not>
-                    <property>/sim/rendering/shaders/skydome</property>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <Plane.014Xparams>
-        <light-near>0.8</light-near>
-        <light-med>3.2</light-med>
-        <light-far>160</light-far>
-    </Plane.014Xparams>
-    <animation>
-        <type>alpha-test</type>
-        <object-name>strobe1</object-name>
-        <object-name>strobe2</object-name>
-        <!-- Damage Mod -->
-        <object-name>strobe1D</object-name>
-        <object-name>strobe2D</object-name>
-        <alpha-factor>0.001</alpha-factor>
-    </animation>
-
-    <animation>
-        <type>translate</type>
-        <object-name>strobe1</object-name>
-        <offset-m>5.760493</offset-m>
-        <axis>
-            <x> 0.16</x>
-            <y>-5.65777</y>
-            <z> 0.535</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>strobe2</object-name>
-        <offset-m>5.742337</offset-m>
-        <axis>
-            <x>0.16</x>
-            <y>5.65615</y>
-            <z>0.535</z>
-        </axis>
-    </animation>
-
-    <!-- Damage Mod -->
-    <animation>
-        <type>translate</type>
-        <object-name>strobe1D</object-name>
-        <offset-m>5.760493</offset-m>
-        <axis>
-            <x>0.294</x>
-            <y>-5.227128</y>
-            <z>.75</z>
-        </axis>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>strobe2D</object-name>
-        <offset-m>5.742337</offset-m>
-        <axis>
-            <x>0.386</x>
-            <y>5.708865</y>
-            <z>1.1</z>
-        </axis>
-    </animation>
-
-    <animation>
-        <type>billboard</type>
-        <object-name>strobe1</object-name>
-        <object-name>strobe2</object-name>
-        <!-- Damage Mod -->
-        <object-name>strobe1D</object-name>
-        <object-name>strobe2D</object-name>
-        <spherical type="bool">true</spherical>
-    </animation>
-    <animation>
-        <type>dist-scale</type>
-        <object-name>strobe1</object-name>
-        <object-name>strobe2</object-name>
-        <!-- Damage Mod-->
-        <object-name>strobe1D</object-name>
-        <object-name>strobe2D</object-name>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep alias="/Plane.014Xparams/light-near"/>
-            </entry>
-            <entry>
-                <ind>500</ind>
-                <dep alias="/Plane.014Xparams/light-med"/>
-            </entry>
-            <entry>
-                <ind>16000</ind>
-                <dep alias="/Plane.014Xparams/light-far"/>
-            </entry>
-        </interpolation>
-    </animation>
-    <animation>
-        <type>select</type>
-        <object-name>BeaconOffX</object-name>
-        <nopreview/>
-        <condition>
-            <property alias="/params/lighting/beacon"/>
-        </condition>
-    </animation>
-    <BeaconOffXparams>
-        <light-near>0.4</light-near>
-        <light-med>0.8</light-med>
-        <light-far>10</light-far>
-    </BeaconOffXparams>
-    <animation>
-        <type>alpha-test</type>
-        <object-name>BeaconOffX</object-name>
-        <alpha-factor>0.001</alpha-factor>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>BeaconOffX</object-name>
-        <offset-m>5.599</offset-m>
-        <axis>
-            <!-- MOD: Position beacon light at MEDIAN point of the object -->
-            <x>5.49803</x>
-            <y>0.00000</y>
-            <z>1.081</z>
-            <!-- MODEND: Position beacon light at MEDIAN point of the object -->
-        </axis>
-    </animation>
-    <animation>
-        <type>billboard</type>
-        <object-name>BeaconOffX</object-name>
-        <spherical type="bool">true</spherical>
-    </animation>
-    <animation>
-        <type>dist-scale</type>
-        <object-name>BeaconOffX</object-name>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep alias="/BeaconOffXparams/light-near"/>
-            </entry>
-            <entry>
-                <ind>500</ind>
-                <dep alias="/BeaconOffXparams/light-med"/>
-            </entry>
-            <entry>
-                <ind>16000</ind>
-                <dep alias="/BeaconOffXparams/light-far"/>
-            </entry>
-        </interpolation>
-    </animation>
     <animation>
         <type>select</type>
         <object-name>fairing1</object-name>

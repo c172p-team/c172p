@@ -164,8 +164,31 @@
     <!-- ================================================================== -->
 
     <!-- ================================================================== -->
-    <!-- ALS Procedural Lighting                                            -->
+    <!-- ALS Procedural Lighting  (physical light stars)                    -->
     <!-- ================================================================== -->
+
+	<!-- Uncomment for ALS procedural beacon -->
+	<!-- Beacon light -->
+    <!--animation>
+        <type>select</type>
+        <object-name>beacon-light</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/beacon"/>
+                <property>/sim/rendering/shaders/skydome</property>
+            </and>
+        </condition>
+    </animation>
+    <model>
+        <name>beacon-light</name>
+        <path>Effects/lights/procedural_light_beacon.xml</path>
+        <offsets>
+            <x-m> 5.50112</x-m>
+            <y-m>-0.000189</y-m>
+            <z-m> 1.07635</z-m>
+        </offsets>
+     </model-->
 
     <!-- Green navigation light on starboard side (right) -->
     <model>
@@ -177,67 +200,6 @@
             <z-m>0.53459</z-m>
         </offsets>
     </model>
-
-    <!-- Red navigation light on port side (left) -->
-    <model>
-        <name>nav-light-left</name>
-        <path>Effects/lights/procedural_light_nav_left.xml</path>
-        <offsets>
-            <x-m> 0.108</x-m>
-            <y-m>-5.66</y-m>
-            <z-m> 0.53365</z-m>
-        </offsets>
-    </model>
-
-    <!-- White navigation light on tail -->
-    <model>
-        <name>nav-light-tail</name>
-        <path>Effects/lights/procedural_light_nav_tail.xml</path>
-        <offsets>
-            <x-m>6.11</x-m>
-            <y-m>0.0042</y-m>
-            <z-m>0.9722</z-m>
-        </offsets>
-    </model>
-
-    <model>
-        <name>strobe-light-left</name>
-        <path>Aircraft/c172p/Models/Effects/lights/procedural_light_left_strobe.xml</path>
-        <offsets>
-            <x-m> 0.15</x-m>
-            <y-m>-5.66</y-m>
-            <z-m> 0.53365</z-m>
-        </offsets>
-     </model>
-
-    <model>
-        <name>strobe-light-right</name>
-        <path>Aircraft/c172p/Models/Effects/lights/procedural_light_right_strobe.xml</path>
-        <offsets>
-            <x-m>0.15</x-m>
-            <y-m>5.66</y-m>
-            <z-m>0.53459</z-m>
-        </offsets>
-     </model>
-
-    <animation>
-        <type>select</type>
-        <object-name>nav-light-left</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <property>/sim/rendering/shaders/skydome</property>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
     <animation>
         <type>select</type>
         <object-name>nav-light-right</object-name>
@@ -256,6 +218,46 @@
             </and>
         </condition>
     </animation>
+
+    <!-- Red navigation light on port side (left) -->
+    <model>
+        <name>nav-light-left</name>
+        <path>Effects/lights/procedural_light_nav_left.xml</path>
+        <offsets>
+            <x-m> 0.108</x-m>
+            <y-m>-5.66</y-m>
+            <z-m> 0.53365</z-m>
+        </offsets>
+    </model>
+    <animation>
+        <type>select</type>
+        <object-name>nav-light-left</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <property>/sim/rendering/shaders/skydome</property>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+    </animation>
+
+    <!-- White navigation light on tail -->
+    <model>
+        <name>nav-light-tail</name>
+        <path>Effects/lights/procedural_light_nav_tail.xml</path>
+        <offsets>
+            <x-m>6.11</x-m>
+            <y-m>0.0042</y-m>
+            <z-m>0.9722</z-m>
+        </offsets>
+    </model>
     <animation>
         <type>select</type>
         <object-name>nav-light-tail</object-name>
@@ -267,6 +269,16 @@
             </and>
         </condition>
     </animation>
+
+    <model>
+        <name>strobe-light-left</name>
+        <path>Effects/lights/procedural_light_left_strobe.xml</path>
+        <offsets>
+            <x-m> 0.15</x-m>
+            <y-m>-5.66</y-m>
+            <z-m> 0.53365</z-m>
+        </offsets>
+    </model>
     <animation>
         <type>select</type>
         <object-name>strobe-light-left</object-name>
@@ -285,6 +297,16 @@
             </and>
         </condition>
     </animation>
+
+    <model>
+        <name>strobe-light-right</name>
+        <path>Effects/lights/procedural_light_right_strobe.xml</path>
+        <offsets>
+            <x-m>0.15</x-m>
+            <y-m>5.66</y-m>
+            <z-m>0.53459</z-m>
+        </offsets>
+     </model>
     <animation>
         <type>select</type>
         <object-name>strobe-light-right</object-name>
@@ -305,7 +327,143 @@
     </animation>
 
     <!-- ================================================================== -->
-    <!-- Default Renderer                                                   -->
+    <!-- ALS and Default Renderer                                                   -->
+    <!-- ================================================================== -->
+
+    <!-- Landing Light -->
+    <animation>
+        <type>select</type>
+        <object-name>landinglight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/landing/property"/>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>flash</type>
+        <object-name>landinglight</object-name>
+        <center>
+            <x-m>-0.135</x-m>
+            <y-m>-2.940</y-m>
+            <z-m> 0.520</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <power>8</power>
+        <factor>6</factor>
+        <offset>0</offset>
+        <two-sides type="bool">false</two-sides>
+        <min>0.5</min>
+        <max>80</max>
+    </animation>
+
+    <!-- Taxi Light -->
+    <animation>
+        <type>select</type>
+        <object-name>taxilight</object-name>
+        <nopreview/>
+        <condition>
+            <and>
+                <property alias="/params/lighting/taxi/property"/>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+            </and>
+        </condition>
+    </animation>
+    <animation>
+        <type>flash</type>
+        <object-name>taxilight</object-name>
+        <center>
+            <x-m>-0.135</x-m>
+            <y-m>-2.750</y-m>
+            <z-m> 0.520</z-m>
+        </center>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <power>8</power>
+        <factor>5</factor>
+        <offset>0</offset>
+        <two-sides type="bool">false</two-sides>
+        <min>0.5</min>
+        <max>80</max>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>BeaconOffX</object-name>
+        <nopreview/>
+        <condition>
+			<property alias="/params/lighting/beacon"/>
+        </condition>
+    </animation>
+    <BeaconOffXparams>
+        <light-near>0.4</light-near>
+        <light-med>0.8</light-med>
+        <light-far>10</light-far>
+    </BeaconOffXparams>
+    <animation>
+        <type>alpha-test</type>
+        <object-name>BeaconOffX</object-name>
+        <alpha-factor>0.001</alpha-factor>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>BeaconOffX</object-name>
+        <offset-m>5.599</offset-m>
+        <axis>
+            <!-- MOD: Position beacon light at MEDIAN point of the object -->
+            <x>5.49803</x>
+            <y>0.00000</y>
+            <z>1.081</z>
+            <!-- MODEND: Position beacon light at MEDIAN point of the object -->
+        </axis>
+    </animation>
+    <animation>
+        <type>billboard</type>
+        <object-name>BeaconOffX</object-name>
+        <spherical type="bool">true</spherical>
+    </animation>
+    <animation>
+        <type>dist-scale</type>
+        <object-name>BeaconOffX</object-name>
+        <interpolation>
+            <entry>
+                <ind>0</ind>
+                <dep alias="/BeaconOffXparams/light-near"/>
+            </entry>
+            <entry>
+                <ind>500</ind>
+                <dep alias="/BeaconOffXparams/light-med"/>
+            </entry>
+            <entry>
+                <ind>16000</ind>
+                <dep alias="/BeaconOffXparams/light-far"/>
+            </entry>
+        </interpolation>
+    </animation>
+
+    <!-- ================================================================== -->
+    <!-- Default Renderer Only                                              -->
     <!-- ================================================================== -->
 
     <animation>
@@ -531,138 +689,6 @@
             <entry>
                 <ind>16000</ind>
                 <dep alias="/Plane.014Xparams/light-far"/>
-            </entry>
-        </interpolation>
-    </animation>
-
-    <!-- Landing Light -->
-    <animation>
-        <type>select</type>
-        <object-name>landinglight</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/landing/property"/>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>flash</type>
-        <object-name>landinglight</object-name>
-        <center>
-            <x-m>-0.135</x-m>
-            <y-m>-2.940</y-m>
-            <z-m> 0.520</z-m>
-        </center>
-        <axis>
-            <x>-1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-        <power>8</power>
-        <factor>6</factor>
-        <offset>0</offset>
-        <two-sides type="bool">false</two-sides>
-        <min>0.5</min>
-        <max>80</max>
-    </animation>
-
-    <!-- Taxi Light -->
-    <animation>
-        <type>select</type>
-        <object-name>taxilight</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/taxi/property"/>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-            </and>
-        </condition>
-    </animation>
-    <animation>
-        <type>flash</type>
-        <object-name>taxilight</object-name>
-        <center>
-            <x-m>-0.135</x-m>
-            <y-m>-2.750</y-m>
-            <z-m> 0.520</z-m>
-        </center>
-        <axis>
-            <x>-1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-        <power>8</power>
-        <factor>5</factor>
-        <offset>0</offset>
-        <two-sides type="bool">false</two-sides>
-        <min>0.5</min>
-        <max>80</max>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>BeaconOffX</object-name>
-        <nopreview/>
-        <condition>
-			<property alias="/params/lighting/beacon"/>
-        </condition>
-    </animation>
-    <BeaconOffXparams>
-        <light-near>0.4</light-near>
-        <light-med>0.8</light-med>
-        <light-far>10</light-far>
-    </BeaconOffXparams>
-    <animation>
-        <type>alpha-test</type>
-        <object-name>BeaconOffX</object-name>
-        <alpha-factor>0.001</alpha-factor>
-    </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>BeaconOffX</object-name>
-        <offset-m>5.599</offset-m>
-        <axis>
-            <!-- MOD: Position beacon light at MEDIAN point of the object -->
-            <x>5.49803</x>
-            <y>0.00000</y>
-            <z>1.081</z>
-            <!-- MODEND: Position beacon light at MEDIAN point of the object -->
-        </axis>
-    </animation>
-    <animation>
-        <type>billboard</type>
-        <object-name>BeaconOffX</object-name>
-        <spherical type="bool">true</spherical>
-    </animation>
-    <animation>
-        <type>dist-scale</type>
-        <object-name>BeaconOffX</object-name>
-        <interpolation>
-            <entry>
-                <ind>0</ind>
-                <dep alias="/BeaconOffXparams/light-near"/>
-            </entry>
-            <entry>
-                <ind>500</ind>
-                <dep alias="/BeaconOffXparams/light-med"/>
-            </entry>
-            <entry>
-                <ind>16000</ind>
-                <dep alias="/BeaconOffXparams/light-far"/>
             </entry>
         </interpolation>
     </animation>
@@ -1390,6 +1416,7 @@
         <object-name>nav-light-right</object-name>
         <object-name>nav-light-left</object-name>
         <object-name>nav-light-tail</object-name>
+        <object-name>beacon-light</object-name>
         <object-name>strobe-light-left</object-name>
         <object-name>strobe-light-right</object-name>
     </animation>

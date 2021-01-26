@@ -96,7 +96,7 @@ var oil_level = 0;
 var oil_full = 0;
 var oil_lacking = 0;
 var oil_level_limited = 0;
-var service_hours_increase = 0;
+var service_hours_increase_qph = 0;
 var service_hours_new = 0;
 var low_oil_pressure_factor = 0.0;
 var low_oil_temperature_factor = 0.0;
@@ -140,7 +140,7 @@ var oil_consumption = maketimer(1.0, func {
         # Add Qts/hr:   0 |  0.02 | 0.125 | 0.5   | 1.125
         service_hours = getprop("/engines/active-engine/oil-service-hours");
         service_hours_increase_qph = 0.00020 * math.pow(service_hours, 2);
-        service_hours_increase_qph = std.min(1.5, service_hours_increase); # limit increase to 1.5 (at which point you really should think of changing it)
+        service_hours_increase_qph = std.min(1.5, service_hours_increase_qph); # limit increase to 1.5 (at which point you really should think of changing it)
         service_hours_increase_qps = service_hours_increase_qph / 3600;
         consumption_qps = consumption_qps + service_hours_increase_qps;
 

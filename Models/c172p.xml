@@ -838,6 +838,18 @@
 			<property>/sim/model/c172p/lighting/courtesy</property>
         </condition>
     </animation>
+	
+	<animation>
+        <type>select</type>
+        <object-name>ProceduralDomeLight</object-name>
+        <nopreview/>
+        <condition>
+			<and>
+				<property>/sim/current-view/internal</property>
+				<property>/sim/model/lightmap/dome/factor</property>
+			</and>
+        </condition>
+    </animation>
 
 	<light>
 		<name>ProceduralCourtesyLeftLight</name>
@@ -849,7 +861,7 @@
 		</position>
 		<direction>
 			<lookat-x-m>-7 </lookat-x-m>
-			<lookat-y-m>-3 </lookat-y-m>
+			<lookat-y-m> 0 </lookat-y-m>
 			<lookat-z-m>-30</lookat-z-m>
 		</direction>
 		<ambient>
@@ -873,17 +885,67 @@
 		<attenuation>
 			<c>1.0</c>
 			<l>0.7</l>
-			<q>1.8</q>
+			<q>1.1</q>
 		</attenuation>
-		<spot-exponent>3</spot-exponent>
+		<spot-exponent>2.5</spot-exponent>
 		<spot-cutoff>80</spot-cutoff>
-		<range-m>10</range-m>
+		<range-m>15</range-m>
 		<debug-color>
 			<r>1</r>
 			<g>1</g>
 			<b>1</b>
 			<a>1</a>
 		</debug-color>
+	</light>
+
+	<light>
+		<name>ProceduralDomeLight</name>
+		<type>spot</type>
+		<position>
+			<x-m>0.47</x-m>
+			<y-m>0.00</y-m>
+			<z-m>0.40</z-m>
+		</position>
+		<direction>
+			<lookat-x-m>-7 </lookat-x-m>
+			<lookat-y-m> 0 </lookat-y-m>
+			<lookat-z-m>-30</lookat-z-m>
+		</direction>
+		<ambient>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</ambient>
+		<diffuse>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</diffuse>
+		<specular>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</specular>
+		<attenuation>
+			<c>1.0</c>
+			<l>1.4</l>
+			<q>2.8</q>
+		</attenuation>
+		<spot-exponent>2.5</spot-exponent>
+		<spot-cutoff>80</spot-cutoff>
+		<range-m>5</range-m>
+		<debug-color>
+			<r>1</r>
+			<g>1</g>
+			<b>1</b>
+			<a>1</a>
+		</debug-color>
+		<dim-factor>
+			<property>sim/model/lightmap/dome/factor</property>
+		</dim-factor>
 	</light>
 
 	<light>
@@ -896,7 +958,7 @@
 		</position>
 		<direction>
 			<lookat-x-m>-7 </lookat-x-m>
-			<lookat-y-m> 3 </lookat-y-m>
+			<lookat-y-m> 0 </lookat-y-m>
 			<lookat-z-m>-30</lookat-z-m>
 		</direction>
 		<ambient>
@@ -920,11 +982,11 @@
 		<attenuation>
 			<c>1.0</c>
 			<l>0.7</l>
-			<q>1.8</q>
+			<q>1.1</q>
 		</attenuation>
-		<spot-exponent>3</spot-exponent>
+		<spot-exponent>2.5</spot-exponent>
 		<spot-cutoff>80</spot-cutoff>
-		<range-m>10</range-m>
+		<range-m>15</range-m>
 		<debug-color>
 			<r>1</r>
 			<g>1</g>
@@ -1001,11 +1063,11 @@
 			<a>1</a>
 		</specular>
 		<attenuation>
-			<c>1.0 </c>
-			<l>0.92</l>
-			<q>2.40</q>
+			<c>1.0</c>
+			<l>0.175</l>
+			<q>0.375</q>
 		</attenuation>
-		<spot-exponent>0.5</spot-exponent>
+		<spot-exponent>1.00</spot-exponent>
 		<spot-cutoff>89</spot-cutoff>
 		<range-m>30</range-m>
 		<debug-color>
@@ -1026,7 +1088,7 @@
 		<direction>
 			<lookat-x-m>0.15</lookat-x-m>
 			<lookat-y-m>20  </lookat-y-m>
-			<lookat-z-m>0.52</lookat-z-m>
+			<lookat-z-m>0.25</lookat-z-m>
 		</direction>
 		<ambient>
 			<r>1</r>
@@ -1047,11 +1109,11 @@
 			<a>1</a>
 		</specular>
 		<attenuation>
-			<c>1.0 </c>
-			<l>0.92</l>
-			<q>2.40</q>
+			<c>1.0</c>
+			<l>0.175</l>
+			<q>0.375</q>
 		</attenuation>
-		<spot-exponent>0.5</spot-exponent>
+		<spot-exponent>1.00</spot-exponent>
 		<spot-cutoff>89</spot-cutoff>
 		<range-m>30</range-m>
 		<debug-color>
@@ -1228,15 +1290,13 @@
 		</specular>
 		<attenuation>
 			<c>1.0</c>
-			<l>1.40</l>
-			<q>3.60</q>
+			<l>0.60</l>
+			<q>1.33</q>
 		</attenuation>
 		<dim-factor>
 			<property>sim/model/c172p/lighting/beacon/state</property>
 		</dim-factor>
-		<spot-exponent>3</spot-exponent>
-		<spot-cutoff>90</spot-cutoff>
-		<range-m>10</range-m>
+		<range-m>7.5</range-m>
 		<debug-color>
 			<r>1</r>
 			<g>0</g>
@@ -1289,12 +1349,10 @@
 		</specular>
 		<attenuation>
 			<c>1.0</c>
-			<l>1.40</l>
-			<q>2.16</q>
+			<l>0.60</l>
+			<q>1.33</q>
 		</attenuation>
-		<spot-exponent>3</spot-exponent>
-		<spot-cutoff>90</spot-cutoff>
-		<range-m>20</range-m>
+		<range-m>7.5</range-m>
 		<debug-color>
 			<r>1</r>
 			<g>1</g>
@@ -1336,12 +1394,10 @@
 		</specular>
 		<attenuation>
 			<c>1.0</c>
-			<l>1.4</l>
-			<q>3.6</q>
+			<l>0.75</l>
+			<q>2.08</q>
 		</attenuation>
-		<spot-exponent>2</spot-exponent>
-		<spot-cutoff>90</spot-cutoff>
-		<range-m>10</range-m>
+		<range-m>6</range-m>
 		<debug-color>
 			<r>1</r>
 			<g>0</g>
@@ -1383,12 +1439,10 @@
 		</specular>
 		<attenuation>
 			<c>1.0</c>
-			<l>1.4</l>
-			<q>3.6</q>
+			<l>0.75</l>
+			<q>2.08</q>
 		</attenuation>
-		<spot-exponent>2</spot-exponent>
-		<spot-cutoff>90</spot-cutoff>
-		<range-m>10</range-m>
+		<range-m>6</range-m>
 		<debug-color>
 			<r>0</r>
 			<g>1</g>

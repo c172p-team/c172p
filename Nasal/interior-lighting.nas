@@ -15,14 +15,9 @@
 
 # ALS flashlight
 var toggle_flashlight = func {
-    if (getprop("/sim/rendering/shaders/skydome")) {
-        var old_value = getprop("/sim/rendering/als-secondary-lights/use-flashlight");
-        var new_value = math.mod(old_value + 1, 3);
-        setprop("/sim/rendering/als-secondary-lights/use-flashlight", new_value);
-    }
-    else {
-        gui.popupTip("Enable ALS for ALS Flashlight", 4);
-    }
+    var old_value = getprop("/sim/rendering/als-secondary-lights/use-flashlight");
+    var new_value = math.mod(old_value + 1, 3);
+    setprop("/sim/rendering/als-secondary-lights/use-flashlight", new_value);
 };
 
 # Dome lights

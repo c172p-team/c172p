@@ -207,7 +207,6 @@
         <condition>
             <and>
                 <property alias="/params/lighting/navigation"/>
-                <property>/sim/rendering/shaders/skydome</property>
                 <not-equals>
                     <property alias="/params/wing_right_damaged/property"/>
                     <value>1</value>
@@ -236,7 +235,6 @@
         <condition>
             <and>
                 <property alias="/params/lighting/navigation"/>
-                <property>/sim/rendering/shaders/skydome</property>
                 <not-equals>
                     <property alias="/params/wing_left_damaged/property"/>
                     <value>1</value>
@@ -263,10 +261,7 @@
         <object-name>nav-light-tail</object-name>
         <nopreview/>
         <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <property>/sim/rendering/shaders/skydome</property>
-            </and>
+			<property alias="/params/lighting/navigation"/>
         </condition>
     </animation>
 
@@ -286,7 +281,6 @@
         <condition>
             <and>
                 <property alias="/params/lighting/strobes"/>
-                <property>/sim/rendering/shaders/skydome</property>
                 <not-equals>
                     <property alias="/params/wing_left_damaged/property"/>
                     <value>1</value>
@@ -314,7 +308,6 @@
         <condition>
             <and>
                 <property alias="/params/lighting/strobes"/>
-                <property>/sim/rendering/shaders/skydome</property>
                 <not-equals>
                     <property alias="/params/wing_right_damaged/property"/>
                     <value>1</value>
@@ -466,7 +459,7 @@
     <!-- Default Renderer Only                                              -->
     <!-- ================================================================== -->
 
-    <animation>
+    <!--animation>
         <type>select</type>
         <object-name>navlight_left</object-name>
         <nopreview/>
@@ -518,10 +511,10 @@
                 </not>
             </and>
         </condition>
-    </animation>
+    </animation-->
 
     <!-- Strobe -->
-    <animation>
+    <!--animation>
         <type>select</type>
         <object-name>strobe1</object-name>
         <nopreview/>
@@ -611,9 +604,9 @@
     <animation>
         <type>alpha-test</type>
         <object-name>strobe1</object-name>
-        <object-name>strobe2</object-name>
+        <object-name>strobe2</object-name-->
         <!-- Damage Mod -->
-        <object-name>strobe1D</object-name>
+        <!--object-name>strobe1D</object-name>
         <object-name>strobe2D</object-name>
         <alpha-factor>0.001</alpha-factor>
     </animation>
@@ -637,10 +630,10 @@
             <y>5.65615</y>
             <z>0.535</z>
         </axis>
-    </animation>
+    </animation-->
 
     <!-- Damage Mod -->
-    <animation>
+    <!--animation>
         <type>translate</type>
         <object-name>strobe1D</object-name>
         <offset-m>5.760493</offset-m>
@@ -664,18 +657,18 @@
     <animation>
         <type>billboard</type>
         <object-name>strobe1</object-name>
-        <object-name>strobe2</object-name>
+        <object-name>strobe2</object-name-->
         <!-- Damage Mod -->
-        <object-name>strobe1D</object-name>
+        <!--object-name>strobe1D</object-name>
         <object-name>strobe2D</object-name>
         <spherical type="bool">true</spherical>
     </animation>
     <animation>
         <type>dist-scale</type>
         <object-name>strobe1</object-name>
-        <object-name>strobe2</object-name>
+        <object-name>strobe2</object-name-->
         <!-- Damage Mod-->
-        <object-name>strobe1D</object-name>
+        <!--object-name>strobe1D</object-name>
         <object-name>strobe2D</object-name>
         <interpolation>
             <entry>
@@ -691,7 +684,7 @@
                 <dep alias="/Plane.014Xparams/light-far"/>
             </entry>
         </interpolation>
-    </animation>
+    </animation-->
 
     <!-- ================================================================== -->
     <!-- Procedural Clustered Shading Lighting                              -->
@@ -1247,11 +1240,46 @@
 	<animation>
 		<type>select</type>
 		<object-name>taillight</object-name>
+		<condition>
+			<!--property>/sim/model/c172p/lighting/nav-lights/enabled</property-->
+			<property alias="/params/lighting/navigation"/>
+		</condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
 		<object-name>navlightred</object-name>
+		<condition>
+			<!--property>/sim/model/c172p/lighting/nav-lights/enabled</property-->
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <not-equals>
+                    <property alias="/params/wing_left_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
+	</animation>
+
+	<animation>
+		<type>select</type>
 		<object-name>navlightgreen</object-name>
 		<condition>
-			<property>/sim/model/c172p/lighting/nav-lights/enabled</property>
-		</condition>
+			<!--property>/sim/model/c172p/lighting/nav-lights/enabled</property-->
+            <and>
+                <property alias="/params/lighting/navigation"/>
+                <not-equals>
+                    <property alias="/params/wing_right_damaged/property"/>
+                    <value>1</value>
+                </not-equals>
+                <not>
+                    <property alias="/params/crash/property"/>
+                </not>
+            </and>
+        </condition>
 	</animation>
 
 	<light>
@@ -1399,13 +1427,13 @@
         <type>noshadow</type>
         <object-name>landinglight</object-name>
         <object-name>taxilight</object-name>
-        <object-name>strobe1</object-name>
-        <object-name>strobe2</object-name>
+        <!--object-name>strobe1</object-name>
+        <object-name>strobe2</object-name-->
 		<object-name>BeaconOffX</object-name>
-		<object-name>navlight_back</object-name>
+		<!--object-name>navlight_back</object-name>
 		<object-name>navlight_left</object-name>
 		<object-name>navlight_right</object-name>
-		<object-name>taillight</object-name>
+		<object-name>taillight</object-name-->
 		<object-name>navlightred</object-name>
 		<object-name>navlightgreen</object-name>
 		<object-name>beaconlight</object-name>
@@ -1427,7 +1455,7 @@
     <animation>
         <type>translate</type>
         <object-name>nav-light-left</object-name>
-        <object-name>navlight_left</object-name>
+        <!--object-name>navlight_left</object-name-->
 
         <!-- Magnitude (distance) of the vector -->
         <factor>0.35</factor>
@@ -1447,7 +1475,7 @@
     <animation>
         <type>translate</type>
         <object-name>nav-light-right</object-name>
-        <object-name>navlight_right</object-name>
+        <!--object-name>navlight_right</object-name-->
 
         <!-- Magnitude (distance) of the vector -->
         <factor>0.60</factor>
@@ -1688,7 +1716,7 @@
             rplayer.initNode("sim/model/occupants", 1, "BOOL");
 
             # Disable ALS 3D shadow for remote aircraft because of issue #387
-            rplayer.initNode("sim/rendering/shadow-volume", 0, "BOOL");
+            #rplayer.initNode("sim/rendering/shadow-volume", 0, "BOOL");
 
             # Gear
             rplayer.initNode("sim/multiplay/generic/int[6]", 0, "BOOL");
@@ -1964,8 +1992,8 @@
 
     <effect>
         <inherits-from>Effects/model-transparent</inherits-from>
-        <object-name>strobe1</object-name>
-        <object-name>strobe2</object-name>
+        <!--object-name>strobe1</object-name>
+        <object-name>strobe2</object-name-->
         <object-name>BeaconOffX</object-name>
         <object-name>BeaconOff</object-name>
         <object-name>Propeller.Fast</object-name>
@@ -2343,9 +2371,10 @@
         <object-name>RudderTrimBase</object-name>
         <object-name>RudderTrimKnob</object-name>
         <condition>
-            <not>
-                <property>/sim/rendering/shaders/skydome</property>
-            </not>
+            <less-than>
+                <property>/sim/rendering/shaders/model</property>
+                <value>2</value>
+            </less-than>
         </condition>
         <emission>
             <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
@@ -10491,26 +10520,6 @@
         <texture-prop>texture</texture-prop>
         <texture>panel_parts.png</texture>
     </animation>
-
-    <!-- ALS volume shadow  -->
-    <model>
-        <path>Effects/shadow/3dbushdefshadow.xml</path>
-    </model>
-    <model>
-        <path>Effects/shadow/3dbush26shadow.xml</path>
-    </model>
-    <model>
-        <path>Effects/shadow/3dbush36shadow.xml</path>
-    </model>
-    <model>
-        <path>Effects/shadow/3dpontoonshadow.xml</path>
-    </model>
-    <model>
-        <path>Effects/shadow/3damphibiousshadow.xml</path>
-    </model>
-    <model>
-        <path>Effects/shadow/3dskishadow.xml</path>
-    </model>
 
     <!-- Pilot, co-pilot, and passengers -->
     <model>

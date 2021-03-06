@@ -1,6 +1,27 @@
 List of features and bug fixes
 ==============================
 
+Version 2020.3
+--------------
+
+**Features:**
+
+* Add integral fuel tank option and refactor fuel system to allow for operation
+* Fuel selector: improved textures
+* Engine startup shaking effect (from c182s)
+
+**Fixes:**
+
+* Turn magnetos on when using ignition key
+* FDM: Improve fuel tank locations, COG z location
+* Tutorials: Repair aircraft at the start of each tutorial
+* Instruments: AI offset knob limited and finer control
+* Trim: fix rudder trim sound; adjust animations and sensitivity of trim wheels
+* Fix iCCP Color Profile on textures
+* Corrected a typo in the engine oil management system
+* Add versioning to the propeller configuration files
+* Point cones material texture to a valid texture
+
 Version 2020.1
 --------------
 

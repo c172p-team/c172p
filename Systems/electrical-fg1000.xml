@@ -19,11 +19,11 @@
             <and>
                 <greater-than>
                     <property>systems/electrical/volts</property>
-                    <value>0.0</value>
+                    <value>31.5</value>
                 </greater-than>
                 <less-than>
                     <property>systems/electrical/amps</property>
-                    <value>0.0</value>
+                    <value>20.0</value>
                 </less-than>
                 
             </and>
@@ -33,6 +33,85 @@
         </output>
     </logic>
 
+	<filter>
+        <name>SW/CB Panel Knob Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+					<greater-than>
+						<property>/systems/electrical/outputs/instrument-lights</property>
+						<value>20.0</value>
+					</greater-than>
+					<less-than>
+						<property>/systems/electrical/outputs/instrument-lights</property>
+						<value>31.5</value>
+					</less-than>
+				</and>
+            </condition>
+            <property>controls/lighting/swcb-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+			<property>/controls/lighting/knob-swcb</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Avionics Lighting</name>
+        <type>gain</type>
+		<gain>5</gain>
+        <input>
+            <condition>
+                <and>
+					<greater-than>
+						<property>/systems/electrical/outputs/mfd</property>
+						<value>20.0</value>
+					</greater-than>
+					<less-than>
+						<property>/systems/electrical/outputs/mfd</property>
+						<value>31.5</value>
+					</less-than>
+				</and>
+            </condition>
+            <property>/controls/lighting/knob-avionics</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/instrumentation/FG1000/Lightmap</property>
+        </output>
+    </filter>
+	
+	<filter>
+        <name>Stby Knob Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+					<greater-than>
+						<property>/systems/electrical/outputs/instrument-lights</property>
+						<value>20.0</value>
+					</greater-than>
+					<less-than>
+						<property>/systems/electrical/outputs/instrument-lights</property>
+						<value>31.5</value>
+					</less-than>
+				</and>
+            </condition>
+            <property>/controls/lighting/radio-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+			<property>/sim/model/lightmap/instruments/factor</property>
+        </output>
+    </filter>
+	
     <logic>
         <name>Hydraulic On/Off</name>
         <input>

@@ -429,18 +429,16 @@ var update_virtual_bus = func (dt) {
 
     # Feeder A
     if (getprop("/controls/circuit-breakers/feeder-a")) {
-        setprop("/systems/electrical/outputs/feeder-a", bus_volts);
+        feeder_a = bus_volts;
     } else {
-        setprop("/systems/electrical/outputs/feeder-a", 0.0);
+        feeder_a = 0.0;
     }
     # Feeder B
     if (getprop("/controls/circuit-breakers/feeder-b")) {
-        setprop("/systems/electrical/outputs/feeder-b", bus_volts);
+        feeder_b = bus_volts;
     } else {
-        setprop("/systems/electrical/outputs/feeder-b", 0.0);
+        feeder_b = 0.0;
     }
-    feeder_a = getprop("/systems/electrical/outputs/feeder-a");
-    feeder_b = getprop("/systems/electrical/outputs/feeder-b");
 
     master_av1 = getprop("/controls/switches/master-avionics");
     master_av2 = getprop("/controls/switches/master-avionics2");
@@ -612,7 +610,7 @@ var avionics_bus_1 = func() {
     var load = 0.0;
 
     # feed through ebus1 avn1 breaker and avn1 switch
-    if (getprop("/controls/switches/master-avionics"))
+    if (master_av1)
         bus_volts = getprop("/systems/electrical/outputs/avn1");
 
     # FG1000 PFD
@@ -679,7 +677,7 @@ var avionics_bus_2 = func() {
     var bus_volts = 0.0;
     var load = 0.0;
 
-    if (getprop("/controls/switches/master-avionics2"))
+    if (master_av2)
         bus_volts = getprop("/systems/electrical/outputs/avn2");
 
     # FG1000 MFD
@@ -687,10 +685,8 @@ var avionics_bus_2 = func() {
       setprop("/systems/electrical/outputs/mfd", bus_volts);
       if (bus_volts > 0) {
           fg1000system.show(2);
-		  setprop("/instrumentation/FG1000/Lightmap", 5);
       } else {
           fg1000system.hide(2);
-		  setprop("/instrumentation/FG1000/Lightmap", 0);
       }
       load += bus_volts / 5;
     } else {
@@ -776,10 +772,8 @@ var essential_bus = func() {
     }
     if (pfd_display or getprop("/systems/electrical/outputs/pfd-ess") > 12) {
         fg1000system.show(1);
-		setprop("/instrumentation/FG1000/Lightmap", 5);
     } else {
         fg1000system.hide(1);
-		setprop("/instrumentation/FG1000/Lightmap", 0);
     }
 
     # Air Data Computer

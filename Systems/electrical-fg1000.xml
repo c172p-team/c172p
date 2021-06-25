@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PropertyList>
+
+    <filter>
+        <type>gain</type>
+        <gain>100.0</gain>
+        <input>
+            <property>/systems/electrical/battery-charge-percent/a</property> <!-- this property ranges from 0.0 to 1.0 despite its name -->
+        </input>
+        <output>
+            <property>/systems/electrical/battery-charge-percent-100</property>
+        </output>
+    </filter>
+    
+    <logic>
+        <name>Low Voltage LED</name>
+        <input>
+            <and>
+                <greater-than>
+                    <property>systems/electrical/volts</property>
+                    <value>31.5</value>
+                </greater-than>
+                <less-than>
+                    <property>systems/electrical/amps</property>
+                    <value>20.0</value>
+                </less-than>
+                
+            </and>
+        </input>
+        <output>
+            <property>/instrumentation/low-voltage-led</property>
+        </output>
+    </logic>
+
+	<filter>
+        <name>SW/CB Panel Knob Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+					<greater-than>
+						<property>/systems/electrical/outputs/instrument-lights</property>
+						<value>20.0</value>
+					</greater-than>
+					<less-than>
+						<property>/systems/electrical/outputs/instrument-lights</property>
+						<value>31.5</value>
+					</less-than>
+				</and>
+            </condition>
+            <property>controls/lighting/swcb-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+			<property>/controls/lighting/knob-swcb</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Avionics Lighting</name>
+        <type>gain</type>
+		<gain>5</gain>
+        <input>
+            <condition>
+                <and>
+					<greater-than>
+						<property>/systems/electrical/outputs/mfd</property>
+						<value>20.0</value>
+					</greater-than>
+					<less-than>
+						<property>/systems/electrical/outputs/mfd</property>
+						<value>31.5</value>
+					</less-than>
+				</and>
+            </condition>
+            <property>/controls/lighting/knob-avionics</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/instrumentation/FG1000/Lightmap</property>
+        </output>
+    </filter>
+	
+	<filter>
+        <name>Stby Knob Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+					<greater-than>
+						<property>/systems/electrical/outputs/instrument-lights</property>
+						<value>20.0</value>
+					</greater-than>
+					<less-than>
+						<property>/systems/electrical/outputs/instrument-lights</property>
+						<value>31.5</value>
+					</less-than>
+					<less-than>
+                        <property>/controls/switches/dome-red</property>
+                        <value>2</value>
+                    </less-than>
+				</and>
+            </condition>
+            <property>/controls/lighting/radio-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+			<property>/sim/model/lightmap/instruments/factor</property>
+        </output>
+    </filter>
+	
+	<logic>
+        <name>Hydraulic On/Off</name>
+        <input>
+			<property>/controls/lighting/radio-norm</property>
+        </input>
+        <output>
+            <property>controls/lighting/instruments-norm</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Hydraulic On/Off</name>
+        <input>
+            <and>
+                <less-than>
+                    <property>systems/electrical/outputs/hydraulic-pump</property>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property>systems/electrical/outputs/hydraulic-pump</property>
+                    <value>20.0</value>
+                </greater-than>
+                <property>/controls/switches/master-bat</property>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/hydraulics/hydraulic-pump</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Amphibious Gear Hydraulic Damage</name>
+        <input>
+            <and>
+                <equals>
+                    <property>fdm/jsbsim/pontoon-damage/left-pontoon</property>
+                    <value>0</value>
+                </equals>
+                <equals>
+                    <property>fdm/jsbsim/pontoon-damage/right-pontoon</property>
+                    <value>0</value>
+                </equals>
+                <property>controls/gear/gear-down-command</property>
+            </and>
+        </input>
+        <output>
+            <property>controls/gear/gear-down</property>
+        </output>
+    </logic>
+
+</PropertyList>

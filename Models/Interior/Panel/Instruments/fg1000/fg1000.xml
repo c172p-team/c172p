@@ -33,6 +33,7 @@
         <object-name>AltOuter</object-name>
         <object-name>AltInner</object-name>
     </effect>
+
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-parts-fg1000</inherits-from>
         <object-name>switchbase</object-name>
@@ -41,17 +42,14 @@
         <object-name>CabinHeat-fg1000</object-name>
         <object-name>MixtureMount-fg1000</object-name>
         <object-name>ThrottleMount-fg1000</object-name>
-		    <object-name>Mixture-fg1000</object-name>
+		<object-name>Mixture-fg1000</object-name>
         <object-name>Throttle-fg1000</object-name>
-        <object-name>Panel</object-name>
-        <object-name>switchbase</object-name>
         <object-name>AltStaticAir-fg1000</object-name>
         <object-name>MasterSwitch-fg1000</object-name>
         <object-name>GenSwitch-fg1000</object-name>
         <object-name>AvionicsSwitch-fg1000</object-name>
         <object-name>AvionicsSwitch2-fg1000</object-name>
         <object-name>togglebase</object-name>
-        <object-name>panel</object-name>
         <object-name>AP.L0</object-name>
         <object-name>AP.L1</object-name>
         <object-name>AP.L2</object-name>
@@ -110,10 +108,18 @@
         <object-name>xpndr_breaker-fg1000</object-name>
         <object-name>BreakersBase-fg1000</object-name>
     </effect>
-	  <effect>
+	<effect>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-parts-fg1000-implicit</inherits-from>
+		<object-name>Panel</object-name>
+		<object-name>panel</object-name>
+	</effect>
+		<effect>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-fg1000-implicit</inherits-from>
+        <object-name>panel_1_1-fg1000</object-name>
+    </effect>
+	<effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-fg1000</inherits-from>
         <object-name>panel_1_glass</object-name>
-        <object-name>panel_1_1-fg1000</object-name>
     </effect>
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/interior-glass-reflection-panel-front</inherits-from>
@@ -133,7 +139,7 @@
         <object-name>CabinHeat-fg1000</object-name>
         <object-name>MixtureMount-fg1000</object-name>
         <object-name>ThrottleMount-fg1000</object-name>
-		    <object-name>Mixture-fg1000</object-name>
+		<object-name>Mixture-fg1000</object-name>
         <object-name>Throttle-fg1000</object-name>
         <object-name>Panel</object-name>
         <object-name>knob-avionics</object-name>
@@ -224,7 +230,7 @@
         </emission>
     </animation>
 
-   <model>
+    <model>
         <name>asi-fg1000</name>
         <path>Aircraft/c172p/Models/Interior/Panel/Instruments/asi/asi-fg1000.xml</path>
     </model>
@@ -310,7 +316,7 @@
             <red>1</red>
             <green>1</green>
             <blue>1</blue>
-            <factor-prop>controls/lighting/swcb-norm</factor-prop>
+			<factor-prop>/instrumentation/FG1000/Lightmap</factor-prop>
         </emission>
     </animation>
 
@@ -598,7 +604,7 @@
         </center>
     </animation>
 
-    <!-- SW/CB panel knob -->
+    <!-- SW/CB panel knob - panel ledgend backlighting-->
     <animation>
         <type>knob</type>
         <object-name>knob-swcb</object-name>
@@ -640,7 +646,7 @@
     <animation>
         <type>knob</type>
         <object-name>knob-stbyind</object-name>
-        <property>controls/lighting/stbyind-norm</property>
+        <property>controls/lighting/radio-norm</property>
         <factor>90</factor>
         <axis>
             <x>-1</x>
@@ -656,7 +662,7 @@
             <repeatable>true</repeatable>
             <binding>
                 <command>property-adjust</command>
-                <property>controls/lighting/stbyind-norm</property>
+                <property>controls/lighting/radio-norm</property>
                 <factor>0.05</factor>
                 <min>0</min>
                 <max>1.0</max>
@@ -668,7 +674,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>knob-stbyind</tooltip-id>
                 <label>STBY Ind Lighting: %3d%%</label>
-                <property>controls/lighting/stbyind-norm</property>
+                <property>controls/lighting/radio-norm</property>
                 <mapping>percent</mapping>
             </binding>
         </hovered>
@@ -678,7 +684,7 @@
     <animation>
         <type>knob</type>
         <object-name>knob-pedistal</object-name>
-        <property>controls/lighting/instruments-norm</property>
+        <property>controls/lighting/pedistal-norm</property>
         <factor>90</factor>
         <axis>
             <x>-1</x>
@@ -694,7 +700,7 @@
             <repeatable>true</repeatable>
             <binding>
                 <command>property-adjust</command>
-                <property>controls/lighting/instruments-norm</property>
+                <property>controls/lighting/pedistal-norm</property>
                 <factor>0.05</factor>
                 <min>0</min>
                 <max>1.0</max>
@@ -706,7 +712,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>knob-pedistal</tooltip-id>
                 <label>Pedistal Lighting: %3d%%</label>
-                <property>controls/lighting/instruments-norm</property>
+                <property>controls/lighting/pedistal-norm</property>
                 <mapping>percent</mapping>
             </binding>
         </hovered>
@@ -716,7 +722,7 @@
     <animation>
         <type>knob</type>
         <object-name>knob-avionics</object-name>
-        <property>controls/lighting/radio-norm</property>
+        <property>controls/lighting/knob-avionics</property>
         <factor>90</factor>
         <axis>
             <x>-1</x>
@@ -732,7 +738,7 @@
             <repeatable>true</repeatable>
             <binding>
                 <command>property-adjust</command>
-                <property>controls/lighting/radio-norm</property>
+                <property>controls/lighting/knob-avionics</property>
                 <factor>0.05</factor>
                 <min>0</min>
                 <max>1.0</max>
@@ -744,7 +750,7 @@
                 <command>set-tooltip</command>
                 <tooltip-id>knob-avionics</tooltip-id>
                 <label>Avionics Lighting: %3d%%</label>
-                <property>controls/lighting/radio-norm</property>
+                <property>controls/lighting/knob-avionics</property>
                 <mapping>percent</mapping>
             </binding>
         </hovered>

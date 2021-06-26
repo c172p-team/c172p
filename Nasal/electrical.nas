@@ -50,7 +50,7 @@ BatteryClass.new = func {
 #
 
 BatteryClass.apply_load = func (amps, dt) {
-    var old_charge_percent = getprop("/systems/electrical/battery-charge-percent");
+    var old_charge_percent = getprop("/systems/electrical/battery-charge-percent") or 0;
 
     if (getprop("/sim/freeze/replay-state"))
         return me.amp_hours * old_charge_percent;

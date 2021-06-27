@@ -147,22 +147,6 @@ controls.applyBrakes = func (v, which = 0) {
     }
 };
 
-controls.applyParkingBrake = func (v) {
-    if (!v) {return;}
-    var p = "/sim/model/c172p/brake-parking";
-    setprop(p, var i = !getprop(p));
-    return i;
-};
-
-controls.parkingBrakeToggle = func(v) {
-    if (v){
-        if (getprop("/controls/gear/brake-parking"))
-          setprop("/controls/gear/brake-parking", 0);
-        else
-          setprop("/controls/gear/brake-parking", 1);
-    }
-}
-
 ##########################################
 # Set Fuel Configuration
 ##########################################

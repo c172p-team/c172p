@@ -353,6 +353,196 @@
         </output>
     </filter>
 
+	<!-- glass interior lighting residual -->
+	<!-- Glass Pedistal -->
+	<filter>
+        <name>Glass Pedistal Red Factor</name>
+        <type>gain</type>
+        <gain>0.006</gain>
+        <input>
+            <condition>
+				<greater-than>
+					<property>/controls/lighting/pedistal-norm</property>
+					<value>0.0</value>
+				</greater-than>
+            </condition>
+            <property>/controls/lighting/pedistal-norm</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/glass-pr-norm</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Glass Pedistal Blue Factor</name>
+        <type>gain</type>
+        <gain>0.010</gain>
+        <input>
+            <condition>
+				<greater-than>
+					<property>/controls/lighting/pedistal-norm</property>
+					<value>0.0</value>
+				</greater-than>
+            </condition>
+            <property>/controls/lighting/pedistal-norm</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/glass-pb-norm</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Glass Pedistal Green Factor</name>
+        <type>gain</type>
+        <gain>0.010</gain>
+        <input>
+            <condition>
+				<greater-than>
+					<property>/controls/lighting/pedistal-norm</property>
+					<value>0.0</value>
+				</greater-than>
+            </condition>
+            <property>/controls/lighting/pedistal-norm</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/glass-pg-norm</property>
+        </output>
+    </filter>
+
+	<!-- Glass SWCB -->
+	<filter>
+        <name>Glass SWCB Red Factor</name>
+        <type>gain</type>
+        <gain>0.010</gain>
+        <input>
+            <condition>
+				<greater-than>
+					<property>/controls/lighting/swcb-norm</property>
+					<value>0.0</value>
+				</greater-than>
+            </condition>
+            <property>/controls/lighting/swcb-norm</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/glass-sr-norm</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Glass SWCB Blue Factor</name>
+        <type>gain</type>
+        <gain>0.015</gain>
+        <input>
+            <condition>
+				<greater-than>
+					<property>/controls/lighting/swcb-norm</property>
+					<value>0.0</value>
+				</greater-than>
+            </condition>
+            <property>/controls/lighting/swcb-norm</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/glass-sg-norm</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Glass SWCB Green Factor</name>
+        <type>gain</type>
+        <gain>0.015</gain>
+        <input>
+            <condition>
+				<greater-than>
+					<property>/controls/lighting/swcb-norm</property>
+					<value>0.0</value>
+				</greater-than>
+            </condition>
+            <property>/controls/lighting/swcb-norm</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/glass-sb-norm</property>
+        </output>
+    </filter>
+
+	<!-- Glass Avionics -->
+	<filter>
+        <name>Glass Avionics Red Factor</name>
+        <type>gain</type>
+        <gain>0.010</gain>
+        <input>
+            <condition>
+				<greater-than>
+					<property>/controls/lighting/knob-avionics</property>
+					<value>0.0</value>
+				</greater-than>
+            </condition>
+            <property>/controls/lighting/knob-avionics</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/glass-ar-norm</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Glass Avionics Blue Factor</name>
+        <type>gain</type>
+        <gain>0.020</gain>
+        <input>
+            <condition>
+				<greater-than>
+					<property>/controls/lighting/knob-avionics</property>
+					<value>0.0</value>
+				</greater-than>
+            </condition>
+            <property>/controls/lighting/knob-avionics</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/glass-ag-norm</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Glass Avionics Green Factor</name>
+        <type>gain</type>
+        <gain>0.020</gain>
+        <input>
+            <condition>
+				<greater-than>
+					<property>/controls/lighting/knob-avionics</property>
+					<value>0.0</value>
+				</greater-than>
+            </condition>
+            <property>/controls/lighting/knob-avionics</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/glass-ab-norm</property>
+        </output>
+    </filter>
+	
+	<!-- Glass Total RA Effect -->
+	<filter>
+        <name>Glass Pedistal Total Factor</name>
+        <type>gain</type>
+        <input>
+            <expression>
+                <sum>
+				    <property>/sim/model/c172p/lighting/glass-pr-norm</property>
+                    <property>/sim/model/c172p/lighting/glass-sr-norm</property>
+                    <property>/sim/model/c172p/lighting/glass-ar-norm</property>
+				    <property>/sim/model/c172p/lighting/glass-pg-norm</property>
+                    <property>/sim/model/c172p/lighting/glass-sg-norm</property>
+                    <property>/sim/model/c172p/lighting/glass-ag-norm</property>
+                    <property>/sim/model/c172p/lighting/glass-pb-norm</property>
+                    <property>/sim/model/c172p/lighting/glass-sb-norm</property>
+                    <property>/sim/model/c172p/lighting/glass-ab-norm</property>
+                </sum>
+            </expression>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/glass-factor</property>
+        </output>
+    </filter>
+
     <!-- Reduce the red glow from the digits of the radio stack
          if the instrument lighting is at 100 %.
     -->
@@ -526,6 +716,8 @@
                     <property>/sim/model/c172p/lighting/dome-default</property>
                     <!-- simulates flood lighting -->
                     <property>/sim/model/c172p/lighting/flood-proc-red-factor</property>
+					<!-- simulates glass lighting -->
+					<property>/sim/model/c172p/lighting/glass-factor</property>
                 </sum>
             </expression>
         </input>

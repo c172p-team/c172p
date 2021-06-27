@@ -93,25 +93,6 @@ Under the GPL. Used by shadows under ALS -->
     </filter>
 
     <filter>
-        <name>Controls Parking Brake Lever</name>
-        <type>noise-spike</type>
-        <max-rate-of-change>2.5</max-rate-of-change>
-        <enable>
-            <condition>
-                <not>
-                    <property>/sim/freeze/replay-state</property>
-                </not>
-            </condition>
-        </enable>
-        <input>
-            <property>/sim/model/c172p/brake-parking</property>
-        </input>
-        <output>
-            <property>/sim/model/c172p/cockpit/parking-lever</property>
-        </output>
-    </filter>
-
-    <filter>
         <name>Controls Carb Heat Lever</name>
         <type>noise-spike</type>
         <max-rate-of-change>4.8</max-rate-of-change>
@@ -498,25 +479,33 @@ Under the GPL. Used by shadows under ALS -->
     <!-- Securing aircraft                                                  -->
     <!-- ================================================================== -->
 
-    <logic>
-        <name>Parking Brake And Chock</name>
+	<filter>
+        <name>Controls Parking Brake Lever</name>
+        <type>noise-spike</type>
+        <max-rate-of-change>2.5</max-rate-of-change>
+        <enable>
+            <condition>
+                <not>
+                    <property>/sim/freeze/replay-state</property>
+                </not>
+            </condition>
+        </enable>
         <input>
-            <or>
-                <!-- The actual parking brake controlled by the pilot -->
-                <property>/sim/model/c172p/brake-parking</property>
-
-                <property>/sim/model/c172p/securing/chock-visible</property>
-
-                <!-- When changing the bushkit, hold position so that new
-                     initial length of tiedowns can be safely computed.
-                -->
-                <property>/fdm/jsbsim/damage/repairing</property>
-            </or>
+			<condition>
+				<or>
+					<property>/sim/model/c172p/brake-parking</property>
+					<property>/controls/gear/brake-parking</property>
+				</or> 	
+            </condition>
+			<value>1.0</value>
+        </input>
+		<input>
+			<value>0.0</value>
         </input>
         <output>
-            <property>/controls/gear/brake-parking</property>
+            <property>/sim/model/c172p/cockpit/parking-lever</property>
         </output>
-    </logic>
+    </filter>
 
     <!-- Logic for chocks -->
     <logic>

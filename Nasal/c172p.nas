@@ -40,6 +40,21 @@ var autostart = func (msg=1) {
             setprop("/controls/lighting/instruments-norm", light_level);
         }
         setprop("/controls/switches/dome-red", 1);
+
+		if (getprop("/controls/panel/glass")) {
+            if (getprop("/controls/lighting/swcb-norm") == 0) {
+				setprop("/controls/lighting/swcb-norm", .55);
+			}
+			if (getprop("/controls/lighting/knob-avionics") == 0) {
+				setprop("/controls/lighting/knob-avionics", .6);
+			}
+			if (getprop("/controls/lighting/pedistal-norm") == 0) {
+				setprop("/controls/lighting/pedistal-norm", 0);
+			}
+			if (getprop("/controls/lighting/radio-norm") == 0) {
+				setprop("/controls/lighting/radio-norm", .8);
+			}
+        }
     }
 
     # Setting amphibious landing gear if needed

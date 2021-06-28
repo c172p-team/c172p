@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PropertyList>
+
+  <params>
+<!--
+    model of KAP140:
+      model 1: one axis (only roll axis)
+      model 2: two axis (roll and pitch axis)
+      model 3: two axis with altitude preselect
+-->
+    <model>autopilot/kap140/config/model</model>
+
+<!--
+    power settings:
+      the KAP140 can work in 12 and 24 volts systems
+      this will be used to check if enough power supplied
+-->
+    <power-nominal>autopilot/kap140/config/power</power-nominal>
+    <power-supplied>/systems/electrical/outputs/autopilot</power-supplied>
+
+<!--
+    If the aircraft has HSI installed
+      if there is no HSI (only DG) KAP140 receive only the deflection, but no radial
+      in this case the KAP140 uses the heading-bug as radial
+-->
+    <hsi-installed>autopilot/kap140/config/hsi-installed</hsi-installed>
+
+<!--
+    default altitude:
+      if KAP140 (model 3) is powered up, the altitude preselect will be set to this value
+-->
+    <default-altitude>autopilot/kap140/config/default-altitude</default-altitude>
+
+<!--
+    barometer setting:
+      the KAP140 (model 3) can use a existing altimeter in the cockpit or his own
+      set 'baro-inhg' and 'baro-hpa' to the corresponding parameter of used altimeter
+      if used altimeter is a instrument in cockpit, set 'baro-tied' to 1
+      otherwise set 'baro-tied' to 0
+-->
+    <baro-tied>autopilot/kap140/config/baro-tied</baro-tied>
+    <baro-inhg>instrumentation/altimeter-kap140-internal/setting-inhg</baro-inhg>
+    <baro-hpa>instrumentation/altimeter-kap140-internal/setting-hpa</baro-hpa>
+    <indicated-altitude-ft>instrumentation/altimeter-kap140-internal/indicated-altitude-ft</indicated-altitude-ft>
+
+<!--
+    pressure source:
+      thats the pressure source where the KAP140 receive the reference pressure
+      mostly it is 'systems/static/pressure-inhg'
+-->
+    <pressure-source>systems/static-pressure-inhg-selected</pressure-source>
+
+<!--
+    Autotrim enabled
+    If set to true, the autopilot will engange the elevator-trim servo, otherwise it just shows
+    the trimming need and trimming must be done manually.
+-->
+    <autotrim-pitch>autopilot/kap140/config/autotrim-pitch</autotrim-pitch>
+
+<!--
+    Gain tuning
+    Adjust if the default values do not behave well for a certain FDM
+-->
+    <gain-pitch>autopilot/kap140/config/gain-pitch</gain-pitch>
+    <gain-roll>autopilot/kap140/config/gain-roll</gain-roll>
+    
+  </params>
+
+</PropertyList>

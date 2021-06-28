@@ -77,62 +77,6 @@
         </output>
     </logic>
 
-    <logic>
-        <name>ALS Lighting Landing</name>
-        <input>
-            <and>
-                <property>/sim/current-view/internal</property>
-                <property>/sim/model/c172p/lighting/landing</property>
-            </and>
-        </input>
-        <output>
-            <property>/sim/rendering/als-secondary-lights/use-landing-light</property>
-        </output>
-    </logic>
-
-    <logic>
-        <name>ALS Lighting Taxi</name>
-        <input>
-            <and>
-                <property>/sim/current-view/internal</property>
-                <property>/sim/model/c172p/lighting/taxi</property>
-            </and>
-        </input>
-        <output>
-            <property>/sim/rendering/als-secondary-lights/use-alt-landing-light</property>
-        </output>
-    </logic>
-
-    <logic>
-        <name>ALS Lighting Exterior Landing</name>
-        <input>
-            <and>
-                <not>
-                    <property>/sim/current-view/internal</property>
-                </not>
-                <property>/sim/model/c172p/lighting/landing</property>
-            </and>
-        </input>
-        <output>
-            <property>/sim/rendering/als-secondary-lights/use-landing-light-ext</property>
-        </output>
-    </logic>
-
-    <logic>
-        <name>ALS Lighting Exterior Taxi</name>
-        <input>
-            <and>
-                <not>
-                    <property>/sim/current-view/internal</property>
-                </not>
-                <property>/sim/model/c172p/lighting/taxi</property>
-            </and>
-        </input>
-        <output>
-            <property>/sim/rendering/als-secondary-lights/use-taxi-light-ext</property>
-        </output>
-    </logic>
-
     <filter>
         <name>Light Map Flood Red</name>
         <type>gain</type>
@@ -225,10 +169,16 @@
                     </equals>
                 </and>
             </condition>
-            <value>1</value>
+            <expression>
+                <table>
+                    <property>/controls/lighting/dome-white-norm</property>
+                    <entry><ind>0.0</ind><dep>.5</dep></entry>
+                    <entry><ind>1.0</ind><dep>.85</dep></entry>
+                </table>
+            </expression>
         </input>
         <output>
-           <property>/sim/model/lighting/courtesy/factor</property>
+           <property>/sim/model/c172p/lighting/courtesy</property>
         </output>
     </filter>
 
@@ -285,7 +235,7 @@
             </and>
         </input>
         <output>
-            <property>/sim/model/c172p/lighting/nav-lights</property>
+            <property>/sim/model/c172p/lighting/nav-lights/enabled</property>
         </output>
     </logic>
 
@@ -308,6 +258,9 @@
                 <not>
                     <property>/fdm/jsbsim/crash</property>
                 </not>
+				<not>
+					<property>/sim/rendering/clustered-shading/enabled</property>
+				</not>
             </and>
         </input>
         <output>
@@ -334,6 +287,9 @@
                 <not>
                     <property>/fdm/jsbsim/crash</property>
                 </not>
+				<not>
+					<property>/sim/rendering/clustered-shading/enabled</property>
+				</not>
             </and>
         </input>
         <output>
@@ -676,9 +632,15 @@
         <type>gain</type>
         <input>
             <condition>
-                <not>
-                    <property>/sim/rendering/shaders/skydome</property>
-                </not>
+				<or>
+					<not>
+						<property>/sim/rendering/shaders/skydome</property>
+					</not>
+					<equals>
+						<property>/sim/rendering/shaders/model</property>
+						<value>0</value>
+					</equals>
+				</or>
                 <greater-than-equals>
                     <property>/sim/model/c172p/lighting/dome-proc</property>
                     <property>/sim/model/material/instruments/factor</property>
@@ -696,9 +658,15 @@
         </input>
         <input>
             <condition>
-                <not>
-                    <property>/sim/rendering/shaders/skydome</property>
-                </not>
+				<or>
+					<not>
+						<property>/sim/rendering/shaders/skydome</property>
+					</not>
+					<equals>
+						<property>/sim/rendering/shaders/model</property>
+						<value>0</value>
+					</equals>
+				</or>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <property>/sim/model/c172p/lighting/dome-proc</property>
@@ -723,9 +691,15 @@
         <type>gain</type>
         <input>
             <condition>
-                <not>
-                    <property>/sim/rendering/shaders/skydome</property>
-                </not>
+				<or>
+					<not>
+						<property>/sim/rendering/shaders/skydome</property>
+					</not>
+					<equals>
+						<property>/sim/rendering/shaders/model</property>
+						<value>0</value>
+					</equals>
+				</or>
                 <greater-than-equals>
                     <property>/sim/model/c172p/lighting/dome-proc</property>
                     <property>/sim/model/material/instruments/factor</property>
@@ -743,9 +717,15 @@
         </input>
         <input>
             <condition>
-                <not>
-                    <property>/sim/rendering/shaders/skydome</property>
-                </not>
+				<or>
+					<not>
+						<property>/sim/rendering/shaders/skydome</property>
+					</not>
+					<equals>
+						<property>/sim/rendering/shaders/model</property>
+						<value>0</value>
+					</equals>
+				</or>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <property>/sim/model/c172p/lighting/dome-proc</property>
@@ -770,9 +750,15 @@
         <type>gain</type>
         <input>
             <condition>
-                <not>
-                    <property>/sim/rendering/shaders/skydome</property>
-                </not>
+				<or>
+					<not>
+						<property>/sim/rendering/shaders/skydome</property>
+					</not>
+					<equals>
+						<property>/sim/rendering/shaders/model</property>
+						<value>0</value>
+					</equals>
+				</or>
                 <greater-than-equals>
                     <property>/sim/model/c172p/lighting/dome-proc</property>
                     <property>/sim/model/material/instruments/factor</property>
@@ -790,9 +776,15 @@
         </input>
         <input>
             <condition>
-                <not>
-                    <property>/sim/rendering/shaders/skydome</property>
-                </not>
+				<or>
+					<not>
+						<property>/sim/rendering/shaders/skydome</property>
+					</not>
+					<equals>
+						<property>/sim/rendering/shaders/model</property>
+						<value>0</value>
+					</equals>
+				</or>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <property>/sim/model/c172p/lighting/dome-proc</property>
@@ -844,7 +836,7 @@
     <filter>
         <type>gain</type>
         <gain>.25</gain>
-        <input>/sim/model/lighting/courtesy/factor</input>
+        <input>/sim/model/c172p/lighting/courtesy</input>
         <output>/sim/model/c172p/lighting/courtesy-proc</output>
     </filter>
     <filter>

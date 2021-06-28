@@ -4,7 +4,6 @@
 # gauge modeling.
 #
 
-
 ##
 # Initialize internal values
 #
@@ -14,6 +13,13 @@ var ebus1_volts = 0.0;
 var ebus2_volts = 0.0;
 
 var ammeter_ave = 0.0;
+
+##
+# Beacon and Strobe intermittent instantiation
+#
+
+aircraft.light.new("/sim/model/c172p/lighting/strobes", [0.1, 1.3], "controls/lighting/strobe");
+aircraft.light.new("/sim/model/c172p/lighting/beacon", [0.3, 1.3], "controls/lighting/beacon");
 
 ##
 # Battery model class.
@@ -38,7 +44,7 @@ BatteryClass.new = func {
 #
 
 BatteryClass.apply_load = func (amps, dt) {
-    var old_charge_percent = getprop("/systems/electrical/battery-charge-percent");
+    var old_charge_percent = getprop("/systems/electrical/battery-charge-percent") or 0;
 
     if (getprop("/sim/freeze/replay-state"))
         return me.amp_hours * old_charge_percent;

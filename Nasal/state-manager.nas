@@ -70,7 +70,7 @@ var state_manager = func {
         setprop("/controls/gear/gear-down-command", 1);
     }
 
-    setprop("/sim/model/c172p/brake-parking", 0);
+    setprop("/controls/gear/brake-parking", 0);
 
     var distance_nm = getprop("/sim/presets/offset-distance-nm") or 0;
 

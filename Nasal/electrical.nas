@@ -520,16 +520,6 @@ var avionics_bus_1 = func() {
       setprop("/systems/electrical/outputs/autopilot", 0.0);
     }
 
-    # Autopilot Power
-    #if ( getprop("/controls/circuit-breakers/AutoPilot") and getprop("/autopilot/kap140/serviceable")) {
-    #setprop("/systems/electrical/outputs/autopilot", bus_volts);
-    #load += bus_volts / 28;
-    #    if ( math.abs(getprop("/autopilot/kap140/servo/roll-servo/moverate") or 0)  > 0.1) load += 3;
-    #    if ( math.abs(getprop("/autopilot/kap140/servo/pitch-servo/moverate") or 0) > 0.1) load += 3;
-    # }else{
-    #setprop("/systems/electrical/outputs/autopilot", 0);
-    # }
-
     # return cumulative load
     return load;
 }

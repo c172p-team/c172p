@@ -857,25 +857,34 @@
 
         </channel>
 
-        <channel name="Parking Brake">		
-			<summer name="fcs/parking-brake-sum">
+        <channel name="Braking">      
+            <summer name="fcs/parking-brake-sum">
                 <input>/sim/model/c172p/securing/chock-visible</input>
-				<input>/fdm/jsbsim/damage/repairing</input>
+                <input>/fdm/jsbsim/damage/repairing</input>
                 <input>/controls/gear/brake-parking</input>
             </summer>
-			
-			<fcs_function name="fcs/left-brake-cmd-norm">
+            
+            <fcs_function name="fcs/left-brake-sum">
                 <function>
-					<property>fcs/parking-brake-sum</property>
+                    <max>
+                        <property>fcs/parking-brake-sum</property>
+                        <property>/controls/gear/brake-left</property>
+                    </max>
                 </function>
+                <output>fcs/left-brake-cmd-norm</output>
             </fcs_function>
-			<fcs_function name="fcs/right-brake-cmd-norm">
+            
+            <fcs_function name="fcs/right-brake-sum">
                 <function>
-					<property>fcs/parking-brake-sum</property>
+                    <max>
+                        <property>fcs/parking-brake-sum</property>
+                        <property>/controls/gear/brake-right</property>
+                    </max>
                 </function>
+                <output>fcs/right-brake-cmd-norm</output>
             </fcs_function>
         </channel>
-		
+
         <channel name="NWS">
             <switch name="fcs/nws-enabled">
                 <default value="0"/>

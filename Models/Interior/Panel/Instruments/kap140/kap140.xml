@@ -88,114 +88,115 @@
   </animation>
 
 
-  <animation>
-    <type>material</type>
-    <object-name>knob-outer</object-name>
-    <object-name>knob-inner</object-name>
-    <object-name>base</object-name>
-    <emission>
-      <red>0.3</red>
-      <green>0.3</green>
-      <blue>0.3</blue>
-      <factor-prop>/systems/electrical/outputs/glareshield-lights-norm</factor-prop>
-    </emission>
-    <specular>
-        <red>   0.0 </red>
-        <green> 0.0 </green>
-        <blue>  0.0 </blue>
-    </specular>
-    <ambient>
-        <red>   1 </red>
-        <green> 1 </green>
-        <blue>  1 </blue>
-    </ambient>
-    <diffuse>
-        <red>   0.3 </red>
-        <green> 0.3 </green>
-        <blue>  0.3 </blue>
-    </diffuse>
-    <shininess>
-        <red>   0 </red>
-        <green> 0 </green>
-        <blue>  0 </blue>
-    </shininess>
-  </animation>
+    <effect>
+        <inherits-from>../../../../Effects/interior/lm-kap140r</inherits-from>
+        <object-name>knob-outer</object-name>
+        <object-name>knob-inner</object-name>
+    </effect>
+	
+    <effect>
+        <inherits-from>../../../../Effects/interior/lm-kap140</inherits-from>
+        <object-name>base</object-name>
+		<object-name>btn-ap</object-name>
+		<object-name>btn-hdg</object-name>
+		<object-name>btn-nav</object-name>
+		<object-name>btn-apr</object-name>
+		<object-name>btn-rev</object-name>
+		<object-name>btn-alt</object-name>
+		<object-name>btn-down</object-name>
+		<object-name>btn-up</object-name>
+		<object-name>btn-arm</object-name>
+		<object-name>btn-baro</object-name>
+    </effect>
 
-  <animation>
+    <effect>
+        <inherits-from>../../../../Effects/interior/c172p-interior-radiance</inherits-from>
+		<object-name>ann-fail-pitch</object-name>
+		<object-name>ann-fail-roll</object-name>
+
+		<object-name>ann-ap-act</object-name>
+		<object-name>ann-ap-on</object-name>
+		<object-name>ann-yd</object-name>
+
+		<object-name>ann-mode1-ap</object-name>
+		<object-name>ann-mode1-rol</object-name>
+		<object-name>ann-mode1-hdg</object-name>
+		<object-name>ann-mode1-nav</object-name>
+		<object-name>ann-mode1-apr</object-name>
+		<object-name>ann-mode1-rev</object-name>
+
+		<object-name>ann-arm1</object-name>
+		<object-name>ann-arm1-nav</object-name>
+		<object-name>ann-arm1-apr</object-name>
+		<object-name>ann-arm1-rev</object-name>
+		<object-name>ann-arm1-gs</object-name>
+
+		<object-name>ann-mode2-pft</object-name>
+		<object-name>ann-mode2-vs</object-name>
+		<object-name>ann-mode2-alt</object-name>
+		<object-name>ann-mode2-gs</object-name>
+		<object-name>ann-mode2-fail</object-name>
+
+		<object-name>ann-arm2</object-name>
+		<object-name>ann-arm2-alt</object-name>
+
+		<object-name>ann-pt-up</object-name>
+		<object-name>ann-pt</object-name>
+		<object-name>ann-pt-down</object-name>
+
+		<object-name>ann-decimal</object-name>
+		<object-name>ann-digit1</object-name>
+		<object-name>ann-digit2</object-name>
+		<object-name>ann-digit3</object-name>
+		<object-name>ann-digit4</object-name>
+		<object-name>ann-digit5</object-name>
+		<object-name>ann-digit-minus</object-name>
+
+		<object-name>ann-alt-alert</object-name>
+		<object-name>ann-fpm</object-name>
+		<object-name>ann-ft</object-name>
+		<object-name>ann-hpa</object-name>
+		<object-name>ann-inhg</object-name>
+    </effect>
+
+    <animation>
         <type>material</type>
-        <object-name>buttons</object-name>
+        <object-name>knob-outer</object-name>
+        <object-name>knob-inner</object-name>
+        <object-name>base</object-name>
+		<object-name>btn-ap</object-name>
+		<object-name>btn-hdg</object-name>
+		<object-name>btn-nav</object-name>
+		<object-name>btn-apr</object-name>
+		<object-name>btn-rev</object-name>
+		<object-name>btn-alt</object-name>
+		<object-name>btn-down</object-name>
+		<object-name>btn-up</object-name>
+		<object-name>btn-arm</object-name>
+		<object-name>btn-baro</object-name>
         <condition>
             <not>
-                <property>sim/rendering/rembrandt/enabled</property>
+                <property>/sim/rendering/shaders/skydome</property>
             </not>
-            <greater-than>
-                <property>/sim/model/c172p/lighting/ap</property>
-                <value>0</value>
-            </greater-than>
         </condition>
+        <emission>
+            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>buttons</object-name>
         <emission>
             <red>0.5</red>
             <green>0.1</green>
             <blue>0.00005</blue>
             <factor-prop>/sim/model/c172p/lighting/ap</factor-prop>
         </emission>
-        <specular>
-            <red>   0.0 </red>
-            <green> 0.0 </green>
-            <blue>  0.0 </blue>
-        </specular>
-        <ambient>
-            <red>   1 </red>
-            <green> 1 </green>
-            <blue>  1 </blue>
-        </ambient>
-        <diffuse>
-            <red>   0.3 </red>
-            <green> 0.3 </green>
-            <blue>  0.3 </blue>
-        </diffuse>
-        <shininess>
-            <red>   0 </red>
-            <green> 0 </green>
-            <blue>  0 </blue>
-        </shininess>
     </animation>
-    <animation>
-        <type>material</type>
-        <object-name>buttons</object-name>
-        <condition>
-            <equals>
-                <property>/sim/model/c172p/lighting/ap</property>
-                <value>0</value>
-            </equals>
-        </condition>
-        <emission>
-            <red>0.3</red>
-            <green>0.3</green>
-            <blue>0.3</blue>
-            <factor-prop>/systems/electrical/outputs/glareshield-lights-norm</factor-prop>
-        </emission>
-        <specular>
-            <red>   0.0 </red>
-            <green> 0.0 </green>
-            <blue>  0.0 </blue>
-        </specular>
-        <ambient>
-            <red>   1 </red>
-            <green> 1 </green>
-            <blue>  1 </blue>
-        </ambient>
-        <diffuse>
-            <red>   0.3 </red>
-            <green> 0.3 </green>
-            <blue>  0.3 </blue>
-        </diffuse>
-        <shininess>
-            <red>   0 </red>
-            <green> 0 </green>
-            <blue>  0 </blue>
-        </shininess>
-    </animation>
+
 
   <animation>
     <type>select</type>
@@ -2831,19 +2832,5 @@
       <object-name>knob-axis</object-name>
     </axis>
   </animation>
-
-  <!--effect>
-    <inherits-from>../Effects/c182s_interior_radiance</inherits-from>
-    <object-name>knob-outer</object-name>
-    <object-name>knob-inner</object-name>
-    <object-name>base</object-name>
-    <object-name>buttons</object-name>
-  </effect-->
-
-  <effect>
-    <inherits-from>Aircraft/PA28/Models/Effects/Glass/instrument_glass</inherits-from>
-    <object-name>glass</object-name>
-    <object-name>base-sensor</object-name>
-  </effect>
 
 </PropertyList>

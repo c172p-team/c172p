@@ -2,8 +2,8 @@
 
 <!-- KAP 140 Autopilot -->
 
-<PropertyList include="Aircraft/c182s/Models/Instruments/Avionics/kap140/kap140-config.xml">
-	
+<PropertyList include="kap140-config.xml">
+
 	<!-- Begin Rework 2021 by Josh Davidson (Octal450) -->
 	<!-- Roll Axis -->
 	<filter>
@@ -426,7 +426,7 @@
 			<expression>
 				<product>
 					<property>/autopilot/internal/aileron-pid</property>
-					<property>/autopilot/kap140/config/gain-roll</property>
+					<value alias="/params/gain-roll"/>
 				</product>
 			</expression>
 		</input>
@@ -447,7 +447,7 @@
 			<expression>
 				<div>
 					<property>/controls/flight/aileron</property>
-					<property>/autopilot/kap140/config/gain-roll</property>
+					<value alias="/params/gain-roll"/>
 				</div>
 			</expression>
 		</input>
@@ -461,7 +461,7 @@
 		<name>Pressure Rate Computer</name>
 		<debug>false</debug>
 		<type>derivative</type>
-		<input>systems/static/pressure-inhg</input>
+		<input><property alias="/params/pressure-source"/></input>
 		<output>/autopilot/internal/pressure-rate-raw</output>
 		<filter-time>1.0</filter-time>
 	</filter>
@@ -496,7 +496,7 @@
 		<debug>false</debug>
 		<type>gain</type>
 		<gain>3625</gain>
-		<input>systems/static/pressure-inhg</input>
+		<input><property alias="/params/pressure-source"/></input>
 		<reference>/autopilot/internal/target-pressure</reference>
 		<output>/autopilot/internal/alt-vs</output>
 		<min>-400</min>
@@ -681,7 +681,7 @@
 			<expression>
 				<product>
 					<property>/autopilot/internal/elevator-pi</property>
-					<property>/autopilot/kap140/config/gain-pitch</property>
+					<value alias="/params/gain-pitch"/>
 				</product>
 			</expression>
 		</input>
@@ -702,7 +702,7 @@
 			<expression>
 				<div>
 					<property>/controls/flight/elevator</property>
-					<property>/autopilot/kap140/config/gain-pitch</property>
+					<value alias="/params/gain-pitch"/>
 				</div>
 			</expression>
 		</input>
@@ -794,7 +794,7 @@
 		<name>Elevator-trim clutch engaged</name>
 		<input>
 			<and>
-				<property>autopilot/kap140/config/autotrim-pitch</property>
+				<value alias="/params/autotrim-pitch"/>
 				<property>/autopilot/internal/logic/pitch-active</property>
 				<or>
 					<greater-than>

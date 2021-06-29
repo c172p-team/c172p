@@ -17,11 +17,6 @@
 -->
 <PropertyList include="kap140-config.xml">
 
-    <params>
-        <dial-10-ft>/autopilot/KAP140/settings/dial-10-ft</dial-10-ft>
-        <dial-100-ft>/autopilot/KAP140/settings/dial-100-ft</dial-100-ft>
-    </params>
-
   <name>KAP140TwoAxisAlt</name>
   <path>kap140.ac</path>
 
@@ -205,7 +200,7 @@
     <type>select</type>
     <condition>
       <greater-than>
-        <property alias="../../../../params/model"/>
+        <value alias="/params/model"/>
         <value>1</value>
       </greater-than>
     </condition>
@@ -219,7 +214,7 @@
     <type>select</type>
     <condition>
       <greater-than>
-        <property alias="../../../../params/model"/>
+        <value alias="/params/model"/>
         <value>2</value>
       </greater-than>
     </condition>
@@ -1603,7 +1598,7 @@
             <property>autopilot/kap140/settings/lateral-arm</property>
             <value>3</value>
           </equals>
-          <not><property alias="../../../../../../params/hsi-installed"/></not>
+          <not><property alias="/params/hsi-installed"/></not>
           <equals>
             <property>autopilot/kap140/settings/lateral-mode</property>
             <value>2</value>
@@ -1623,7 +1618,7 @@
             <property>autopilot/kap140/settings/lateral-arm</property>
             <value>0</value>
           </equals>
-          <not><property alias="../../../../../../params/hsi-installed"/></not>
+          <not><property alias="/params/hsi-installed"/></not>
         </condition>
         <command>property-assign</command>
         <property>autopilot/kap140/settings/from-hdg</property>
@@ -1639,7 +1634,7 @@
             <property>autopilot/kap140/settings/lateral-arm</property>
             <value>3</value>
           </equals>
-          <not><property alias="../../../../../../params/hsi-installed"/></not>
+          <not><property alias="/params/hsi-installed"/></not>
         </condition>
         <command>property-assign</command>
         <property>autopilot/kap140/panel/hdg-timer</property>
@@ -1757,7 +1752,7 @@
             <property>autopilot/kap140/settings/lateral-arm</property>
             <value>4</value>
           </equals>
-          <not><property alias="../../../../../../params/hsi-installed"/></not>
+          <not><property alias="/params/hsi-installed"/></not>
           <equals>
             <property>autopilot/kap140/settings/lateral-mode</property>
             <value>2</value>
@@ -1777,7 +1772,7 @@
             <property>autopilot/kap140/settings/lateral-arm</property>
             <value>0</value>
           </equals>
-          <not><property alias="../../../../../../params/hsi-installed"/></not>
+          <not><property alias="/params/hsi-installed"/></not>
         </condition>
         <command>property-assign</command>
         <property>autopilot/kap140/settings/from-hdg</property>
@@ -1793,7 +1788,7 @@
             <property>autopilot/kap140/settings/lateral-arm</property>
             <value>4</value>
           </equals>
-          <not><property alias="../../../../../../params/hsi-installed"/></not>
+          <not><property alias="/params/hsi-installed"/></not>
         </condition>
         <command>property-assign</command>
         <property>autopilot/kap140/panel/hdg-timer</property>
@@ -1911,7 +1906,7 @@
             <property>autopilot/kap140/settings/lateral-arm</property>
             <value>5</value>
           </equals>
-          <not><property alias="../../../../../../params/hsi-installed"/></not>
+          <not><property alias="/params/hsi-installed"/></not>
           <equals>
             <property>autopilot/kap140/settings/lateral-mode</property>
             <value>2</value>
@@ -1931,7 +1926,7 @@
             <property>autopilot/kap140/settings/lateral-arm</property>
             <value>0</value>
           </equals>
-          <not><property alias="../../../../../../params/hsi-installed"/></not>
+          <not><property alias="/params/hsi-installed"/></not>
         </condition>
         <command>property-assign</command>
         <property>autopilot/kap140/settings/from-hdg</property>
@@ -1947,7 +1942,7 @@
             <property>autopilot/kap140/settings/lateral-arm</property>
             <value>5</value>
           </equals>
-          <not><property alias="../../../../../../params/hsi-installed"/></not>
+          <not><property alias="/params/hsi-installed"/></not>
         </condition>
         <command>property-assign</command>
         <property>autopilot/kap140/panel/hdg-timer</property>
@@ -2086,7 +2081,7 @@
         </condition>
         <command>property-assign</command>
         <property>autopilot/internal/target-pressure</property>
-        <property>systems/static/pressure-inhg</property>
+        <property alias="/params/pressure-source"/>
       </binding>
 
       <mod-up>
@@ -2185,7 +2180,7 @@
           </condition>
           <command>property-assign</command>
           <property>autopilot/internal/target-pressure</property>
-          <property>systems/static/pressure-inhg</property>
+          <property alias="/params/pressure-source"/>
         </binding>
         <binding>
           <command>property-assign</command>
@@ -2281,7 +2276,7 @@
           </condition>
           <command>property-assign</command>
           <property>autopilot/internal/target-pressure</property>
-          <property>systems/static/pressure-inhg</property>
+          <property alias="/params/pressure-source"/>
         </binding>
         <binding>
           <command>property-assign</command>
@@ -2451,7 +2446,7 @@
 
       <binding>
         <condition>
-          <not><property alias="../../../../../../params/baro-tied"/></not>
+          <not><property alias="/params/baro-tied"/></not>
           <greater-than>
             <property>autopilot/kap140/panel/state</property>
             <value>3</value>
@@ -2466,7 +2461,7 @@
           </equals>
         </condition>
         <command>property-adjust</command>
-        <property alias="../../../../params/baro-inhg"/>
+        <property alias="/params/baro-inhg"/>
         <factor>0.1</factor>
         <min>26.0</min>
         <max>33.0</max>
@@ -2475,7 +2470,7 @@
 
       <binding>
         <condition>
-          <not><property alias="../../../../../../params/baro-tied"/></not>
+          <not><property alias="/params/baro-tied"/></not>
           <greater-than>
             <property>autopilot/kap140/panel/state</property>
             <value>3</value>
@@ -2490,7 +2485,7 @@
           </equals>
         </condition>
         <command>property-adjust</command>
-        <property alias="../../../../params/baro-hpa"/>
+        <property alias="/params/baro-hpa"/>
         <factor>10</factor>
         <min>880</min>
         <max>1118</max>
@@ -2499,7 +2494,7 @@
 
       <binding>
         <condition>
-          <not><property alias="../../../../../../params/baro-tied"/></not>
+          <not><property alias="/params/baro-tied"/></not>
           <greater-than>
             <property>autopilot/kap140/panel/state</property>
             <value>3</value>
@@ -2590,7 +2585,7 @@
 
       <binding>
         <condition>
-          <not><property alias="../../../../../../params/baro-tied"/></not>
+          <not><property alias="/params/baro-tied"/></not>
           <greater-than>
             <property>autopilot/kap140/panel/state</property>
             <value>3</value>
@@ -2605,7 +2600,7 @@
           </equals>
         </condition>
         <command>property-adjust</command>
-        <property alias="../../../../params/baro-inhg"/>
+        <property alias="/params/baro-inhg"/>
         <factor>0.01</factor>
         <min>26.0</min>
         <max>33.0</max>
@@ -2614,7 +2609,7 @@
 
       <binding>
         <condition>
-          <not><property alias="../../../../../../params/baro-tied"/></not>
+          <not><property alias="/params/baro-tied"/></not>
           <greater-than>
             <property>autopilot/kap140/panel/state</property>
             <value>3</value>
@@ -2629,7 +2624,7 @@
           </equals>
         </condition>
         <command>property-adjust</command>
-        <property alias="../../../../params/baro-hpa"/>
+        <property alias="/params/baro-hpa"/>
         <factor>1</factor>
         <min>880</min>
         <max>1118</max>
@@ -2638,7 +2633,7 @@
 
       <binding>
         <condition>
-          <not><property alias="../../../../../../params/baro-tied"/></not>
+          <not><property alias="/params/baro-tied"/></not>
           <greater-than>
             <property>autopilot/kap140/panel/state</property>
             <value>3</value>
@@ -2682,15 +2677,8 @@
     <property>autopilot/kap140/panel/knob-inner-pos</property>
     <factor>15</factor>
     <axis>
-        <x>1</x>
-        <y>0</y>
-        <z>0</z>
+        <object-name>knob-axis</object-name>
     </axis>
-    <center>
-        <x-m>-0.34054 </x-m>
-        <y-m> 0.180076</y-m>
-        <z-m>-0.104289</z-m>
-    </center>
   </animation>
 
   <animation>
@@ -2699,15 +2687,8 @@
     <property>autopilot/kap140/panel/knob-outer-pos</property>
     <factor>10</factor>
     <axis>
-        <x>1</x>
-        <y>0</y>
-        <z>0</z>
+        <object-name>knob-axis</object-name>
     </axis>
-    <center>
-        <x-m>-0.34054 </x-m>
-        <y-m> 0.180076</y-m>
-        <z-m>-0.104289</z-m>
-    </center>
   </animation>
 
   <animation>

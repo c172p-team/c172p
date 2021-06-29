@@ -177,7 +177,7 @@ var save_state = func {
     setprop("/save/wrudder", wrudder);
     var wrudderdown = getprop("/controls/gear/water-rudder-down");
     setprop("/save/wrudderdown", wrudderdown);
-    var parkbrake = getprop("/sim/model/c172p/brake-parking");
+    var parkbrake = getprop("/controls/gear/brake-parking");
     setprop("/save/parkbrake", parkbrake);
     var flaps = getprop("/controls/flight/flaps");
     setprop("/save/flaps", flaps);
@@ -422,7 +422,7 @@ var resume_state = func {
         var wrudderdown = getprop("/save/wrudderdown");
         setprop("/controls/gear/water-rudder-down", wrudderdown);
         var parkbrake = getprop("/save/parkbrake");
-        setprop("/sim/model/c172p/brake-parking", parkbrake);
+        setprop("/controls/gear/brake-parking", parkbrake);
         var flaps = getprop("/save/flaps");
         setprop("/controls/flight/flaps", flaps);
         var flapsnorm = getprop("/save/flapsnorm");

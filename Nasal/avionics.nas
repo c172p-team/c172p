@@ -136,7 +136,7 @@ aircraft.data.add(
     "/consumables/fuel/tank[1]/selected",
     "/consumables/fuel/tank[2]/selected",
     "/consumables/fuel/tank[3]/selected",
-    "/sim/model/c172p/brake-parking",
+    "/controls/gear/brake-parking",
     "/controls/flight/flaps",
     "/controls/flight/elevator-trim",
     "/controls/engines/current-engine/throttle",

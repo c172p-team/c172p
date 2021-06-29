@@ -571,7 +571,7 @@ var avionics_bus_1 = func() {
     }
 
     # Autopilot Power
-    if ( getprop("/controls/circuit-breakers/autopilot") ) {
+    if ( getprop("/controls/circuit-breakers/autopilot") and getprop("/autopilot/kap140/serviceable") ) {
       setprop("/systems/electrical/outputs/autopilot", bus_volts);
       load += bus_volts / 5.0;
       radio_lighting_load += 5.0;

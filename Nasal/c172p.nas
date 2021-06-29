@@ -81,7 +81,7 @@ var autostart = func (msg=1) {
 
     # Pre-flight inspection
     setprop("/sim/model/c172p/cockpit/control-lock-placed", 0);
-    setprop("/sim/model/c172p/brake-parking", 0);
+    setprop("/controls/gear/brake-parking", 0);
     setprop("/sim/model/c172p/securing/chock", 0);
     setprop("/sim/model/c172p/securing/cowl-plugs-visible", 0);
     setprop("/sim/model/c172p/securing/pitot-cover-visible", 0);
@@ -335,7 +335,7 @@ var switches_save_state = func {
         setprop("/controls/lighting/gearled", 0);
         setprop("/controls/gear/water-rudder", 0);
         setprop("/controls/gear/water-rudder-down", 0);
-        setprop("/sim/model/c172p/brake-parking", 1);
+        setprop("/controls/gear/brake-parking", 1);
         setprop("/controls/flight/flaps", 0.0);
         setprop("/surface-positions/flap-pos-norm", 0.0);
         setprop("/controls/flight/elevator-trim", 0.0);

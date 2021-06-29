@@ -1,0 +1,631 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PropertyList include="nav-selector-config.xml">
+
+    <filter>
+        <name>watchdog</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <enable>
+            <condition>
+                <or>
+                    <and>
+                        <property>instrumentation/nav-source/in-range</property>
+                        <less-than>
+                            <property>instrumentation/nav-source/watchdog</property>
+                            <value>1.0</value>
+                        </less-than>
+                    </and>
+                    <and>
+                        <not><property>instrumentation/nav-source/in-range</property></not>
+                        <greater-than>
+                            <property>instrumentation/nav-source/watchdog</property>
+                            <value>1.0</value>
+                        </greater-than>
+                    </and>
+                </or>
+            </condition>
+        </enable>
+        <input>
+            <condition>
+                <property>instrumentation/nav-source/in-range</property>
+            </condition>
+            <property>sim/time/elapsed-sec</property>
+            <offset>1.0</offset>
+        </input>
+        <input>0.0</input>
+        <output>instrumentation/nav-source/watchdog</output>
+    </filter>
+
+    <filter>
+        <name>signal valid</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <enable>
+            <condition>
+                <not-equals>
+                    <property>instrumentation/nav-source/in-range</property>
+                    <property>instrumentation/nav-source/signal-valid</property>
+                </not-equals>
+            </condition>
+        </enable>
+        <input>
+            <condition>
+                <property>instrumentation/nav-source/in-range</property>
+                <greater-than>
+                    <property>instrumentation/nav-source/watchdog</property>
+                    <value>1.0</value>
+                </greater-than>
+                <greater-than>
+                    <property>sim/time/elapsed-sec</property>
+                    <property>instrumentation/nav-source/watchdog</property>
+                </greater-than>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>0</input>
+        <output>instrumentation/nav-source/signal-valid</output>
+    </filter>
+
+    <filter>
+        <name>in-range</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source1-in-range"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source2-in-range"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source3-in-range"/>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/in-range</output>
+    </filter>
+
+    <filter>
+        <name>from-flag</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source1-from-flag"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source2-from-flag"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source3-from-flag"/>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/from-flag</output>
+    </filter>
+
+    <filter>
+        <name>to-flag</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source1-to-flag"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source2-to-flag"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source3-to-flag"/>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/to-flag</output>
+    </filter>
+
+    <filter>
+        <name>nav-loc</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source1-nav-loc"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source2-nav-loc"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source3-nav-loc"/>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/nav-loc</output>
+    </filter>
+
+    <filter>
+        <name>has-gs</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source1-has-gs"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source2-has-gs"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source3-has-gs"/>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/has-gs</output>
+    </filter>
+
+    <filter>
+        <name>gs-in-range</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source1-gs-in-range"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source2-gs-in-range"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source3-gs-in-range"/>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/gs-in-range</output>
+    </filter>
+
+    <filter>
+        <name>gs-rate-of-climb</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source1-gs-rate-of-climb"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source2-gs-rate-of-climb"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source3-gs-rate-of-climb"/>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/gs-rate-of-climb</output>
+    </filter>
+
+    <filter>
+        <name>gs-rate-of-climb-fpm</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source1-gs-rate-of-climb-fpm"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source2-gs-rate-of-climb-fpm"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source3-gs-rate-of-climb-fpm"/>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/gs-rate-of-climb-fpm</output>
+    </filter>
+
+    <filter>
+        <name>heading-needle-deflection</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+                <property alias="../../../../params/source1-in-range"/>
+            </condition>
+            <property alias="../../../params/source1-heading-needle-deflection"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+                <property alias="../../../../params/source2-in-range"/>
+            </condition>
+            <property alias="../../../params/source2-heading-needle-deflection"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+                <property alias="../../../../params/source3-in-range"/>
+            </condition>
+            <property alias="../../../params/source3-heading-needle-deflection"/>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/heading-needle-deflection</output>
+    </filter>
+
+    <filter>
+        <name>heading-needle-deflection-norm</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+                <property alias="../../../../params/source1-in-range"/>
+            </condition>
+            <property alias="../../../params/source1-heading-needle-deflection-norm"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+                <property alias="../../../../params/source2-in-range"/>
+            </condition>
+            <property alias="../../../params/source2-heading-needle-deflection-norm"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+                <property alias="../../../../params/source3-in-range"/>
+            </condition>
+            <expression>
+                <product>
+                    <property alias="../../../../../params/source3-heading-needle-deflection"/>
+                    <value>0.1</value>
+                </product>
+            </expression>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/heading-needle-deflection-norm</output>
+    </filter>
+
+    <filter>
+        <name>gs-needle-deflection</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source1-gs-needle-deflection"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source2-gs-needle-deflection"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source3-gs-needle-deflection"/>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/gs-needle-deflection</output>
+    </filter>
+
+    <filter>
+        <name>gs-needle-deflection-norm</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source1-gs-needle-deflection-norm"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source2-gs-needle-deflection-norm"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source3-gs-needle-deflection-norm"/>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/gs-needle-deflection-norm</output>
+    </filter>
+
+    <filter>
+        <name>selected-radial-deg</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source1-selected-radial-deg"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source2-selected-radial-deg"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source3-selected-radial-deg"/>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/selected-radial-deg</output>
+    </filter>
+
+    <filter>
+        <name>target-radial-deg</name>
+        <type>gain</type>
+        <debug>false</debug>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source1-target-radial-deg"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source2-target-radial-deg"/>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <property alias="../../../params/source3-target-radial-deg"/>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/target-radial-deg</output>
+    </filter>
+
+    <filter>
+        <name>course-error</name>
+        <debug>false</debug>
+        <type>gain</type>
+        <input>
+            <condition>
+                <not><property>autopilot/kap140/config/hsi-installed</property></not>
+            </condition>
+            <property>autopilot/internal/heading-bug-error-deg</property>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <expression>
+                <dif>
+                    <property alias="../../../../../params/source1-selected-radial-deg"/>
+                    <property>instrumentation/heading-indicator/indicated-heading-deg</property>
+                </dif>
+            </expression>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <expression>
+                <dif>
+                    <property alias="../../../../../params/source2-selected-radial-deg"/>
+                    <property>instrumentation/heading-indicator/indicated-heading-deg</property>
+                </dif>
+            </expression>
+        </input>
+        <input>
+            <condition>
+                <equals>
+                    <property>instrumentation/nav-source/selector</property>
+                    <value>2</value>
+                </equals>
+            </condition>
+            <expression>
+                <dif>
+                    <property alias="../../../../../params/source3-selected-radial-deg"/>
+                    <property>instrumentation/heading-indicator/indicated-heading-deg</property>
+                </dif>
+            </expression>
+        </input>
+        <value>0</value>
+        <output>instrumentation/nav-source/course-error</output>
+        <period>
+            <min>-180</min>
+            <max>180</max>
+        </period>
+    </filter>
+
+</PropertyList>

@@ -9,14 +9,14 @@
       model 2: two axis (roll and pitch axis)
       model 3: two axis with altitude preselect
 -->
-    <model>autopilot/kap140/config/model</model>
+    <model type="int">3</model>
 
 <!--
     power settings:
       the KAP140 can work in 12 and 24 volts systems
       this will be used to check if enough power supplied
 -->
-    <power-nominal>autopilot/kap140/config/power</power-nominal>
+    <power-nominal type="double">24.0</power-nominal>
     <power-supplied>/systems/electrical/outputs/autopilot</power-supplied>
 
 <!--
@@ -30,7 +30,7 @@
     default altitude:
       if KAP140 (model 3) is powered up, the altitude preselect will be set to this value
 -->
-    <default-altitude>autopilot/kap140/config/default-altitude</default-altitude>
+    <default-altitude type="int">4500</default-altitude>
 
 <!--
     barometer setting:
@@ -50,21 +50,40 @@
       mostly it is 'systems/static/pressure-inhg'
 -->
     <pressure-source>systems/static/pressure-inhg</pressure-source>
-
 <!--
     Autotrim enabled
     If set to true, the autopilot will engange the elevator-trim servo, otherwise it just shows
     the trimming need and trimming must be done manually.
 -->
-    <autotrim-pitch>autopilot/kap140/config/autotrim-pitch</autotrim-pitch>
+    <autotrim-pitch type="bool">true</autotrim-pitch>
+
+<!--
+    vs-ratio
+    Thats the radio how the AP slow down the VS if it comes closer to the preselected altitude
+-->
+    <vs-ratio type="double">4.0</vs-ratio>
+
+<!--
+    maximum g-force the AP can handle:
+    if the g-force exceed this threshold, the AP disengage
+-->
+    <gforce-min type="double">0.6</gforce-min>
+    <gforce-max type="double">1.4</gforce-max>
+
+<!--
+    maximum force the servo can handle:
+    if the force exceed this threshold, axis-fail will triggered
+-->
+    <roll-servo-force-max type="double">5.0</roll-servo-force-max>
+    <pitch-servo-force-max type="double">5.0</pitch-servo-force-max>
 
 <!--
     Gain tuning
     Adjust if the default values do not behave well for a certain FDM
 -->
-    <gain-pitch>autopilot/kap140/config/gain-pitch</gain-pitch>
-    <gain-roll>autopilot/kap140/config/gain-roll</gain-roll>
-    
+    <gain-roll type="double">1.3</gain-roll>
+    <gain-pitch type="double">0.7</gain-pitch>
+
   </params>
 
 </PropertyList>

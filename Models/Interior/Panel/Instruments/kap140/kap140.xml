@@ -87,7 +87,6 @@
     <object-name>btn-baro</object-name>
   </animation>
 
-
     <effect>
         <inherits-from>../../../../Effects/interior/lm-kap140r</inherits-from>
         <object-name>knob-outer</object-name>
@@ -161,23 +160,17 @@
 
     <animation>
         <type>material</type>
-        <object-name>knob-outer</object-name>
-        <object-name>knob-inner</object-name>
-        <object-name>base</object-name>
-		<object-name>btn-ap</object-name>
-		<object-name>btn-hdg</object-name>
-		<object-name>btn-nav</object-name>
-		<object-name>btn-apr</object-name>
-		<object-name>btn-rev</object-name>
-		<object-name>btn-alt</object-name>
-		<object-name>btn-down</object-name>
-		<object-name>btn-up</object-name>
-		<object-name>btn-arm</object-name>
-		<object-name>btn-baro</object-name>
+       <object-name>buttons</object-name>
         <condition>
-            <not>
-                <property>/sim/rendering/shaders/skydome</property>
-            </not>
+            <or>
+				<not>
+					<property>/sim/rendering/shaders/skydome</property>
+				</not>
+				<equals>
+					<property>/sim/rendering/shaders/model</property>
+					<value>0</value>
+				</equals>
+			</or>
         </condition>
         <emission>
             <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
@@ -197,7 +190,59 @@
         </emission>
     </animation>
 
+    <animation>
+        <type>material</type>
+		<object-name>annunciators</object-name>
+        <object-name>alt-digits</object-name>
+        <object-name>hpa-digits</object-name>
+        <object-name>inhg-digits</object-name>
+        <object-name>vs-digits</object-name>
+        <object-name>vs-digits-minus</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <greater-than>
+                    <property>/sim/model/c172p/lighting/ap</property>
+                    <value>0.0</value>
+                </greater-than>
+            </and>
+        </condition>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>/sim/model/c172p/lighting/ap</factor-prop>
+        </emission>
+    </animation>
 
+    <animation>
+        <type>material</type>
+		<object-name>annunciators</object-name>
+        <object-name>alt-digits</object-name>
+        <object-name>hpa-digits</object-name>
+        <object-name>inhg-digits</object-name>
+        <object-name>vs-digits</object-name>
+        <object-name>vs-digits-minus</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <equals>
+                    <property>/sim/model/c172p/lighting/ap</property>
+                    <value>0.0</value>
+                </equals>
+            </and>
+        </condition>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+        </emission>
+    </animation>
+	
   <animation>
     <type>select</type>
     <condition>

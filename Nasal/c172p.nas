@@ -45,8 +45,8 @@ var autostart = func (msg=1) {
             if (getprop("/controls/lighting/swcb-norm") == 0) {
 				setprop("/controls/lighting/swcb-norm", .55);
 			}
-			if (getprop("/controls/lighting/knob-norm") == 0) {
-				setprop("/controls/lighting/knob-norm", .6);
+			if (getprop("/controls/lighting/avionics-norm") == 0) {
+				setprop("/controls/lighting/avionics-norm", .6);
 			}
 			if (getprop("/controls/lighting/pedistal-norm") == 0) {
 				setprop("/controls/lighting/pedistal-norm", 0);

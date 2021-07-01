@@ -76,7 +76,7 @@
 					</less-than>
 				</and>
             </condition>
-            <property>/controls/lighting/knob-norm</property>
+            <property>/controls/lighting/avionics-norm</property>
         </input>
         <input>
             <value>0.0</value>
@@ -113,6 +113,32 @@
         </input>
         <output>
 			<property>/sim/model/lightmap/instruments/factor</property>
+        </output>
+    </filter>
+	
+		<filter>
+        <name>Pedistal Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+					<greater-than>
+						<property>/systems/electrical/outputs/instrument-lights</property>
+						<value>20.0</value>
+					</greater-than>
+					<less-than>
+						<property>/systems/electrical/outputs/instrument-lights</property>
+						<value>31.5</value>
+					</less-than>
+				</and>
+            </condition>
+            <property>/controls/lighting/pedistal-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+			<property>/controls/lighting/pedistal</property>
         </output>
     </filter>
 	

@@ -245,10 +245,15 @@
         <gain>0.010</gain>
         <input>
             <condition>
-                <greater-than>
-                    <property>/controls/lighting/radio-norm</property>
-                    <value>0.0</value>
-                </greater-than>
+				<and>
+					<greater-than>
+						<property>/controls/lighting/radio-norm</property>
+						<value>0.0</value>
+					</greater-than>
+					<not>
+						<property>controls/panel/glass</property>
+					</not>
+				</and>
             </condition>
             <expression>
                 <sum>
@@ -268,6 +273,9 @@
                     <property>/sim/model/c172p/lighting/comm0-power</property>
                     <property>/sim/model/c172p/lighting/comm1-power</property>
                     <property>/instrumentation/adf[0]/operable</property>
+					<not>
+						<property>controls/panel/glass</property>
+					</not>
                 </and>
             </condition>
             <value>3.0</value>
@@ -283,10 +291,15 @@
         <gain>0.006</gain>
         <input>
             <condition>
-                <greater-than>
-                    <property>/controls/lighting/radio-norm</property>
-                    <value>0.0</value>
-                </greater-than>
+				<and>
+					<greater-than>
+						<property>/controls/lighting/radio-norm</property>
+						<value>0.0</value>
+					</greater-than>
+					<not>
+						<property>controls/panel/glass</property>
+					</not>
+				</and>
             </condition>
             <expression>
                 <sum>
@@ -306,10 +319,13 @@
                     <property>/sim/model/c172p/lighting/comm0-power</property>
                     <property>/sim/model/c172p/lighting/comm1-power</property>
                     <property>/instrumentation/adf[0]/operable</property>
+					<not>
+						<property>controls/panel/glass</property>
+					</not>
                 </and>
             </condition>
             <value>3.0</value>
-        </input>   
+        </input>
         <output>
             <property>/sim/model/c172p/lighting/inst-g-norm</property>
         </output>
@@ -321,10 +337,15 @@
         <gain>0.006</gain>
         <input>
             <condition>
-                <greater-than>
-                    <property>/controls/lighting/radio-norm</property>
-                    <value>0.0</value>
-                </greater-than>
+				<and>
+					<greater-than>
+						<property>/controls/lighting/radio-norm</property>
+						<value>0.0</value>
+					</greater-than>
+					<not>
+						<property>controls/panel/glass</property>
+					</not>
+				</and>
             </condition>
             <expression>
                 <sum>
@@ -344,6 +365,9 @@
                     <property>/sim/model/c172p/lighting/comm0-power</property>
                     <property>/sim/model/c172p/lighting/comm1-power</property>
                     <property>/instrumentation/adf[0]/operable</property>
+					<not>
+						<property>controls/panel/glass</property>
+					</not>
                 </and>
             </condition>
             <value>3.0</value>
@@ -353,12 +377,113 @@
         </output>
     </filter>
 
-	<!-- glass interior lighting residual -->
-	<!-- Glass Pedistal -->
+	<!-- FG1000 interior lighting residual -->
+
+	<!-- STBY -->
 	<filter>
-        <name>Glass Pedistal Red Factor</name>
+        <name>FG1000 STBY Red Factor</name>
         <type>gain</type>
-        <gain>0.006</gain>
+        <gain>0.003</gain>
+        <input>
+            <condition>
+				<and>
+					<greater-than>
+						<property>/controls/lighting/radio-norm</property>
+						<value>0.0</value>
+					</greater-than>
+					<property>controls/panel/glass</property>
+				</and>
+            </condition>
+            <property>/controls/lighting/radio-norm</property>
+        </input>
+        <input>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/controls/lighting/radio-norm</property>
+                        <value>0.0</value>
+                    </equals>
+                    <property>controls/panel/glass</property>
+                </and>
+            </condition>
+            <value>0.01</value>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/glass-tr-norm</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>FG1000 STBY Blue Factor</name>
+        <type>gain</type>
+        <gain>0.003</gain>
+        <input>
+            <condition>
+				<and>
+					<greater-than>
+						<property>/controls/lighting/radio-norm</property>
+						<value>0.0</value>
+					</greater-than>
+					<property>controls/panel/glass</property>
+				</and>
+            </condition>
+            <property>/controls/lighting/radio-norm</property>
+        </input>
+		<input>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/controls/lighting/radio-norm</property>
+                        <value>0.0</value>
+                    </equals>
+                    <property>controls/panel/glass</property>
+                </and>
+            </condition>
+            <value>0.01</value>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/glass-tb-norm</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>FG1000 STBY Green Factor</name>
+        <type>gain</type>
+        <gain>0.003</gain>
+        <input>
+            <condition>
+				<and>
+					<greater-than>
+						<property>/controls/lighting/radio-norm</property>
+						<value>0.0</value>
+					</greater-than>
+					<property>controls/panel/glass</property>
+				</and>
+            </condition>
+            <property>/controls/lighting/radio-norm</property>
+        </input>
+		<input>
+            <condition>
+                <and>
+                    <equals>
+                        <property>/controls/lighting/radio-norm</property>
+                        <value>0.0</value>
+                    </equals>
+                    <property>controls/panel/glass</property>
+                </and>
+            </condition>
+            <value>0.01</value>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/glass-tg-norm</property>
+        </output>
+    </filter>
+
+	<!-- Pedistal -->
+	<filter>
+        <name>FG1000 Pedistal Red Factor</name>
+        <type>gain</type>
+        <gain>0.002</gain>
         <input>
             <condition>
 				<greater-than>
@@ -374,9 +499,9 @@
     </filter>
 
     <filter>
-        <name>Glass Pedistal Blue Factor</name>
+        <name>FG1000 Pedistal Blue Factor</name>
         <type>gain</type>
-        <gain>0.010</gain>
+        <gain>0.002</gain>
         <input>
             <condition>
 				<greater-than>
@@ -392,9 +517,9 @@
     </filter>
 
     <filter>
-        <name>Glass Pedistal Green Factor</name>
+        <name>FG1000 Pedistal Green Factor</name>
         <type>gain</type>
-        <gain>0.010</gain>
+        <gain>0.002</gain>
         <input>
             <condition>
 				<greater-than>
@@ -409,11 +534,11 @@
         </output>
     </filter>
 
-	<!-- Glass SWCB -->
+	<!-- FG1000 SWCB -->
 	<filter>
-        <name>Glass SWCB Red Factor</name>
+        <name>FG1000 SWCB Red Factor</name>
         <type>gain</type>
-        <gain>0.010</gain>
+        <gain>0.006</gain>
         <input>
             <condition>
 				<greater-than>
@@ -429,9 +554,9 @@
     </filter>
 
     <filter>
-        <name>Glass SWCB Blue Factor</name>
+        <name>FG1000 SWCB Blue Factor</name>
         <type>gain</type>
-        <gain>0.015</gain>
+        <gain>0.007</gain>
         <input>
             <condition>
 				<greater-than>
@@ -447,9 +572,9 @@
     </filter>
 
     <filter>
-        <name>Glass SWCB Green Factor</name>
+        <name>FG1000 SWCB Green Factor</name>
         <type>gain</type>
-        <gain>0.015</gain>
+        <gain>0.007</gain>
         <input>
             <condition>
 				<greater-than>
@@ -464,19 +589,19 @@
         </output>
     </filter>
 
-	<!-- Glass Avionics -->
+	<!-- FG1000 Avionics -->
 	<filter>
-        <name>Glass Avionics Red Factor</name>
+        <name>FG1000 Avionics Red Factor</name>
         <type>gain</type>
-        <gain>0.010</gain>
+        <gain>0.06</gain>
         <input>
             <condition>
 				<greater-than>
-					<property>/controls/lighting/knob-avionics</property>
+					<property>/controls/lighting/knob-norm</property>
 					<value>0.0</value>
 				</greater-than>
             </condition>
-            <property>/controls/lighting/knob-avionics</property>
+            <property>/controls/lighting/knob-norm</property>
         </input>
         <output>
             <property>/sim/model/c172p/lighting/glass-ar-norm</property>
@@ -484,17 +609,17 @@
     </filter>
 
     <filter>
-        <name>Glass Avionics Blue Factor</name>
+        <name>FG1000 Avionics Blue Factor</name>
         <type>gain</type>
-        <gain>0.020</gain>
+        <gain>0.06</gain>
         <input>
             <condition>
 				<greater-than>
-					<property>/controls/lighting/knob-avionics</property>
+					<property>/controls/lighting/knob-norm</property>
 					<value>0.0</value>
 				</greater-than>
             </condition>
-            <property>/controls/lighting/knob-avionics</property>
+            <property>/controls/lighting/knob-norm</property>
         </input>
         <output>
             <property>/sim/model/c172p/lighting/glass-ag-norm</property>
@@ -502,44 +627,20 @@
     </filter>
 
     <filter>
-        <name>Glass Avionics Green Factor</name>
+        <name>FG1000 Avionics Green Factor</name>
         <type>gain</type>
-        <gain>0.020</gain>
+        <gain>0.06</gain>
         <input>
             <condition>
 				<greater-than>
-					<property>/controls/lighting/knob-avionics</property>
+					<property>/controls/lighting/knob-norm</property>
 					<value>0.0</value>
 				</greater-than>
             </condition>
-            <property>/controls/lighting/knob-avionics</property>
+            <property>/controls/lighting/knob-norm</property>
         </input>
         <output>
             <property>/sim/model/c172p/lighting/glass-ab-norm</property>
-        </output>
-    </filter>
-	
-	<!-- Glass Total RA Effect -->
-	<filter>
-        <name>Glass Pedistal Total Factor</name>
-        <type>gain</type>
-        <input>
-            <expression>
-                <sum>
-				    <property>/sim/model/c172p/lighting/glass-pr-norm</property>
-                    <property>/sim/model/c172p/lighting/glass-sr-norm</property>
-                    <property>/sim/model/c172p/lighting/glass-ar-norm</property>
-				    <property>/sim/model/c172p/lighting/glass-pg-norm</property>
-                    <property>/sim/model/c172p/lighting/glass-sg-norm</property>
-                    <property>/sim/model/c172p/lighting/glass-ag-norm</property>
-                    <property>/sim/model/c172p/lighting/glass-pb-norm</property>
-                    <property>/sim/model/c172p/lighting/glass-sb-norm</property>
-                    <property>/sim/model/c172p/lighting/glass-ab-norm</property>
-                </sum>
-            </expression>
-        </input>
-        <output>
-            <property>/sim/model/c172p/lighting/glass-factor</property>
         </output>
     </filter>
 
@@ -716,8 +817,11 @@
                     <property>/sim/model/c172p/lighting/dome-default</property>
                     <!-- simulates flood lighting -->
                     <property>/sim/model/c172p/lighting/flood-proc-red-factor</property>
-					<!-- simulates glass lighting -->
-					<property>/sim/model/c172p/lighting/glass-factor</property>
+					<!-- simulates fg1000 lighting -->
+					<property>/sim/model/c172p/lighting/glass-tr-norm</property>
+				    <property>/sim/model/c172p/lighting/glass-pr-norm</property>
+                    <property>/sim/model/c172p/lighting/glass-sr-norm</property>
+					<property>/sim/model/c172p/lighting/glass-ar-norm</property>
                 </sum>
             </expression>
         </input>
@@ -735,6 +839,11 @@
                     <property>/sim/model/c172p/lighting/rgb-ra-g-p-factor</property>
                     <property>/sim/model/c172p/lighting/dome-default</property>
                     <property>/sim/model/c172p/lighting/flood-proc-green-factor</property>
+					<!-- simulates fg1000 lighting -->
+					<property>/sim/model/c172p/lighting/glass-tg-norm</property>
+				    <property>/sim/model/c172p/lighting/glass-pg-norm</property>
+                    <property>/sim/model/c172p/lighting/glass-sg-norm</property>
+					<property>/sim/model/c172p/lighting/glass-ag-norm</property>
                 </sum>
             </expression>
         </input>
@@ -752,6 +861,11 @@
                     <property>/sim/model/c172p/lighting/rgb-ra-b-p-factor</property>
                     <property>/sim/model/c172p/lighting/dome-default</property>
                     <property>/sim/model/c172p/lighting/flood-proc-blue-factor</property>
+					<!-- simulates fg1000 lighting -->
+					<property>/sim/model/c172p/lighting/glass-tb-norm</property>
+				    <property>/sim/model/c172p/lighting/glass-pb-norm</property>
+                    <property>/sim/model/c172p/lighting/glass-sb-norm</property>
+					<property>/sim/model/c172p/lighting/glass-ab-norm</property>
                 </sum>
             </expression>
         </input>

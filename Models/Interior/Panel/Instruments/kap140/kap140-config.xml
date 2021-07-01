@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PropertyList>
+
+  <params>
+<!--
+    model of KAP140:
+      model 1: one axis (only roll axis)
+      model 2: two axis (roll and pitch axis)
+      model 3: two axis with altitude preselect
+-->
+    <model type="int">3</model>
+
+<!--
+    power settings:
+      the KAP140 can work in 12 and 24 volts systems
+      this will be used to check if enough power supplied
+-->
+    <power-nominal type="double">24.0</power-nominal>
+    <power-supplied>/systems/electrical/outputs/autopilot</power-supplied>
+
+<!--
+    If the aircraft has HSI installed
+      if there is no HSI (only DG) KAP140 receive only the deflection, but no radial
+      in this case the KAP140 uses the heading-bug as radial
+-->
+    <hsi-installed>autopilot/kap140/config/hsi-installed</hsi-installed>
+
+<!--
+    default altitude:
+      if KAP140 (model 3) is powered up, the altitude preselect will be set to this value
+-->
+    <default-altitude type="int">4500</default-altitude>
+
+<!--
+    barometer setting:
+      the KAP140 (model 3) can use a existing altimeter in the cockpit or his own
+      set 'baro-inhg' and 'baro-hpa' to the corresponding parameter of used altimeter
+      if used altimeter is a instrument in cockpit, set 'baro-tied' to 1
+      otherwise set 'baro-tied' to 0
+-->
+    <baro-tied>autopilot/kap140/config/baro-tied</baro-tied>
+    <baro-inhg>instrumentation/altimeter-kap140-internal/setting-inhg</baro-inhg>
+    <baro-hpa>instrumentation/altimeter-kap140-internal/setting-hpa</baro-hpa>
+    <indicated-altitude-ft>instrumentation/altimeter-kap140-internal/indicated-altitude-ft</indicated-altitude-ft>
+
+<!--
+    pressure source:
+      thats the pressure source where the KAP140 receive the reference pressure
+      mostly it is 'systems/static/pressure-inhg'
+-->
+    <pressure-source>systems/static/pressure-inhg</pressure-source>
+<!--
+    Autotrim enabled
+    If set to true, the autopilot will engange the elevator-trim servo, otherwise it just shows
+    the trimming need and trimming must be done manually.
+-->
+    <autotrim-pitch type="bool">true</autotrim-pitch>
+
+<!--
+    vs-ratio
+    Thats the radio how the AP slow down the VS if it comes closer to the preselected altitude
+-->
+    <vs-ratio type="double">4.0</vs-ratio>
+
+<!--
+    maximum g-force the AP can handle:
+    if the g-force exceed this threshold, the AP disengage
+-->
+    <gforce-min type="double">0.6</gforce-min>
+    <gforce-max type="double">1.4</gforce-max>
+
+<!--
+    maximum force the servo can handle:
+    if the force exceed this threshold, axis-fail will triggered
+-->
+    <roll-servo-force-max type="double">5.0</roll-servo-force-max>
+    <pitch-servo-force-max type="double">5.0</pitch-servo-force-max>
+
+<!--
+    Gain tuning
+    Adjust if the default values do not behave well for a certain FDM
+-->
+    <gain-roll type="double">1.3</gain-roll>
+    <gain-pitch type="double">0.7</gain-pitch>
+
+  </params>
+
+</PropertyList>

@@ -72,5 +72,38 @@
             <property>controls/gear/gear-down</property>
         </output>
     </logic>
+	
+	<flipflop>
+        <name>Pitch-Trim annunciator conditions for too long</name>
+        <type>monostable</type>
+        <inverted type="bool">true</inverted>
+        <S><not>
+
+            <and>
+                <property>/autopilot/kap140/pitch-axis-fail</property>
+
+                <!-- only show if AP is PFT or not-standby (POH p. S15-11) -->
+                <!-- ie. dont show annunciator when AP is in stdby and we have over-g -->
+                <or>
+                    <equals>
+                        <property>autopilot/kap140/panel/state-previous</property>
+                        <value>6</value>
+                    </equals>
+                    <and>
+                        <not-equals>
+                            <property>autopilot/kap140/panel/state-previous</property>
+                            <value>6</value>
+                        </not-equals>
+                        <not><property>autopilot/kap140/sensors/excess-g</property></not>
+                    </and>
+                </or>
+            </and>
+
+        </not></S>
+        <time>
+            <value> 0.5 </value>
+        </time>
+        <output> <property>/instrumentation/annunciator/pitch-trim-trigger</property> </output>
+    </flipflop>
 
 </PropertyList>

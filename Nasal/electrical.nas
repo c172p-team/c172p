@@ -18,8 +18,8 @@ var ammeter_ave = 0.0;
 # Beacon and Strobe intermittent instantiation
 #
 
-aircraft.light.new("/sim/model/c172p/lighting/strobes", [0.1, 1.3], "controls/lighting/strobe");
-aircraft.light.new("/sim/model/c172p/lighting/beacon", [0.3, 1.3], "controls/lighting/beacon");
+aircraft.light.new("/sim/model/c172p/lighting/strobes", [0.1, 1.3]);
+aircraft.light.new("/sim/model/c172p/lighting/beacon", [0.3, 1.3]);
 
 ##
 # Battery model class.
@@ -520,12 +520,11 @@ var avionics_bus_1 = func() {
     }
 
     # Autopilot Power
-    if ( getprop("/controls/circuit-breakers/autopilot") ) {
+    if ( getprop("/controls/circuit-breakers/autopilot") and getprop("/autopilot/kap140/serviceable") ) {
       setprop("/systems/electrical/outputs/autopilot", bus_volts);
     } else {
       setprop("/systems/electrical/outputs/autopilot", 0.0);
     }
-
 
     # return cumulative load
     return load;

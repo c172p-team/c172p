@@ -91,8 +91,6 @@ aircraft.data.add(
     "instrumentation/adf[0]/rotation-deg",
     "instrumentation/adf[0]/frequencies/dial-1-khz",
     "instrumentation/adf[0]/frequencies/dial-100-khz",
-    "autopilot/KAP140/settings/dial-10-ft",
-    "autopilot/KAP140/settings/dial-100-ft",
 );
 
 # DME saves power-btn in ki266.nas

@@ -716,14 +716,6 @@ setlistener("/sim/signals/fdm-initialized", func {
     c172_timer.start();
 });
 
-# Set alt alert of KAP 140 autopilot to 20_000 ft to get rid of annoying beep
-setlistener("/autopilot/KAP140/settings/target-alt-ft", func (n) {
-    if (n.getValue() == 0) {
-        kap140.altPreselect = 20000;
-        setprop("/autopilot/KAP140/settings/target-alt-ft", kap140.altPreselect);
-    }
-});
-
 setlistener("/sim/model/c172p/cabin-air-temp-in-range", func (node) {
     if (node.getValue()) {
         cabin_temp_timer.stop();

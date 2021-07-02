@@ -62,7 +62,6 @@
     <filter>
         <name>Avionics Lighting</name>
         <type>gain</type>
-		<gain>5</gain>
         <input>
             <condition>
                 <and>
@@ -82,7 +81,7 @@
             <value>0.0</value>
         </input>
         <output>
-            <property>/instrumentation/FG1000/Lightmap</property>
+            <property>/controls/lighting/avionics</property>
         </output>
     </filter>
 	
@@ -104,19 +103,20 @@
                         <property>/controls/switches/dome-red</property>
                         <value>2</value>
                     </less-than>
+					<property>controls/panel/glass</property>
 				</and>
             </condition>
-            <property>/controls/lighting/radio-norm</property>
+            <property>/controls/lighting/stby-norm</property>
         </input>
         <input>
             <value>0.0</value>
         </input>
         <output>
-			<property>/sim/model/lightmap/instruments/factor</property>
+			<property>/controls/lighting/stby</property>
         </output>
     </filter>
-	
-		<filter>
+
+	<filter>
         <name>Pedistal Lighting</name>
         <type>gain</type>
         <input>
@@ -141,16 +141,6 @@
 			<property>/controls/lighting/pedistal</property>
         </output>
     </filter>
-	
-	<logic>
-        <name>Hydraulic On/Off</name>
-        <input>
-			<property>/controls/lighting/radio-norm</property>
-        </input>
-        <output>
-            <property>controls/lighting/instruments-norm</property>
-        </output>
-    </logic>
 
     <logic>
         <name>Hydraulic On/Off</name>

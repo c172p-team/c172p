@@ -685,12 +685,15 @@ var avionics_bus_2 = func() {
       setprop("/systems/electrical/outputs/mfd", bus_volts);
       if (bus_volts > 0) {
           fg1000system.show(2);
+          setprop("/instrumentation/FG1000/Lightmap", 0.2);
       } else {
+	  setprop("/instrumentation/FG1000/Lightmap", 0.0);
           fg1000system.hide(2);
       }
       load += bus_volts / 5;
     } else {
       setprop("/systems/electrical/outputs/mfd", 0.0);
+      setprop("/instrumentation/FG1000/Lightmap", 0.0);
       fg1000system.hide(2);
     }
 
@@ -771,8 +774,10 @@ var essential_bus = func() {
         setprop("/systems/electrical/outputs/pfd-ess", 0.0);
     }
     if (pfd_display or getprop("/systems/electrical/outputs/pfd-ess") > 12) {
+        setprop("/instrumentation/FG1000/Lightmap", 0.2);
         fg1000system.show(1);
     } else {
+        setprop("/instrumentation/FG1000/Lightmap", 0.0);
         fg1000system.hide(1);
     }
 

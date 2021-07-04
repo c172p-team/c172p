@@ -356,10 +356,10 @@
     <!-- FG1000 interior lighting residual -->
 
     <!-- STBY -->
-    <!--filter>
+    <filter>
         <name>FG1000 STBY Red Factor</name>
         <type>gain</type>
-        <gain>0.04</gain>
+        <gain>0.008</gain>
         <input>
             <condition>
                 <greater-than>
@@ -386,7 +386,7 @@
     <filter>
         <name>FG1000 STBY Blue Factor</name>
         <type>gain</type>
-        <gain>0.05</gain>
+        <gain>0.007</gain>
         <input>
             <condition>
                 <greater-than>
@@ -413,7 +413,7 @@
     <filter>
         <name>FG1000 STBY Green Factor</name>
         <type>gain</type>
-        <gain>0.05</gain>
+        <gain>0.008</gain>
         <input>
             <condition>
                 <greater-than>
@@ -435,7 +435,7 @@
         <output>
             <property>/sim/model/c172p/lighting/glass-tg-norm</property>
         </output>
-    </filter-->
+    </filter>
 
     <!-- Pedistal -->
     <filter>
@@ -496,7 +496,7 @@
     <filter>
         <name>FG1000 SWCB Red Factor</name>
         <type>gain</type>
-        <gain>0.04</gain>
+        <gain>0.006</gain>
         <input>
             <condition>
                 <greater-than>
@@ -514,7 +514,7 @@
     <filter>
         <name>FG1000 SWCB Blue Factor</name>
         <type>gain</type>
-        <gain>0.05</gain>
+        <gain>0.006</gain>
         <input>
             <condition>
                 <greater-than>
@@ -532,7 +532,7 @@
     <filter>
         <name>FG1000 SWCB Green Factor</name>
         <type>gain</type>
-        <gain>0.05</gain>
+        <gain>0.006</gain>
         <input>
             <condition>
                 <greater-than>
@@ -551,7 +551,7 @@
     <filter>
         <name>FG1000 Avionics Red Factor</name>
         <type>gain</type>
-        <gain>0.08</gain>
+        <gain>0.009</gain>
         <input>
             <condition>
                 <greater-than>
@@ -569,7 +569,7 @@
     <filter>
         <name>FG1000 Avionics Blue Factor</name>
         <type>gain</type>
-        <gain>0.08</gain>
+        <gain>0.01</gain>
         <input>
             <condition>
                 <greater-than>
@@ -587,13 +587,13 @@
     <filter>
         <name>FG1000 Avionics Green Factor</name>
         <type>gain</type>
-        <gain>0.08</gain>
+        <gain>0.01</gain>
         <input>
             <condition>
-				<greater-than>
-					<property>/controls/lighting/avionics</property>
-					<value>0.0</value>
-				</greater-than>
+		<greater-than>
+			<property>/controls/lighting/avionics</property>
+			<value>0.0</value>
+		</greater-than>
             </condition>
             <property>/controls/lighting/avionics</property>
         </input>
@@ -610,28 +610,6 @@
         </input>
         <output>
             <property>/instrumentation/FG1000/Lightmap</property>
-        </output>
-    </filter>
-
-    <filter>
-        <name>map fg1000 stby to radio-norm</name>
-        <type>gain</type>
-        <input>
-            <property>/controls/lighting/stby</property>
-        </input>
-        <output>
-            <property>/controls/lighting/radio-norm</property>
-        </output>
-    </filter>
-
-    <filter>
-        <name>map fg1000 stby to instrument-norm</name>
-        <type>gain</type>
-        <input>
-            <property>/controls/lighting/stby</property>
-        </input>
-        <output>
-            <property>controls/lighting/instruments-norm</property>
         </output>
     </filter>
 
@@ -1100,6 +1078,30 @@
             <max>1.0</max>
         </input>
         <output>/sim/model/c172p/lighting/instrument-proc</output>
+    </filter>
+
+    <filter>
+        <type>gain</type>
+        <gain>.35</gain>
+        <input>
+            <expression>
+                <product>
+                    <table>
+                        <property>/controls/lighting/stby</property>
+                        <entry><ind>0.0</ind><dep>0.0</dep></entry>
+                        <entry><ind>0.7</ind><dep>0.1</dep></entry>
+                        <entry><ind>1.0</ind><dep>1.0</dep></entry>
+                    </table>
+                    <difference>
+                        <value>1.6</value>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </difference>
+                </product>
+            </expression>
+            <min>0.0</min>
+            <max>1.0</max>
+        </input>
+        <output>/sim/model/c172p/lighting/instrument-proc-fg1000</output>
     </filter>
 
     <filter>

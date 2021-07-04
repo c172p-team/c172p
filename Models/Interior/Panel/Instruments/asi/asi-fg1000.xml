@@ -6,12 +6,12 @@
     <path>asi-fg1000.ac</path>
 
     <effect>
-        <inherits-from>../../../../Effects/interior/lm-asir</inherits-from>
+        <inherits-from>../../../../Effects/interior/lm-asir-fg1000</inherits-from>
         <object-name>Needle</object-name>
     </effect>
 
     <effect>
-        <inherits-from>../../../../Effects/interior/lm-asi</inherits-from>
+        <inherits-from>../../../../Effects/interior/lm-asi-fg1000</inherits-from>
         <object-name>Face</object-name>
         <object-name>Case</object-name>
     </effect>
@@ -32,6 +32,29 @@
             <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
         </emission>
     </animation>
+
+    <model>
+        <name>asi-fg1000</name>
+        <path>../../../../Effects/interior/procedural_light_instruments_fg1000.xml</path>
+        <offsets>
+            <x-m>-0.36596</x-m>
+            <y-m>-0.03219</y-m>
+            <z-m>-0.08406</z-m>
+        </offsets>
+        <condition>
+            <and>
+		<property>/controls/panel/glass</property>
+                <greater-than>
+                    <property>/controls/lighting/stby</property>
+                    <value>0</value>
+                </greater-than>
+                <greater-than>
+                    <property>/sim/rendering/shaders/model</property>
+                    <value>0</value>
+                </greater-than>
+            </and>
+        </condition>
+    </model>
 
     <animation>
         <type>rotate</type>

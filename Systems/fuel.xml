@@ -19,27 +19,10 @@ Fuel system for 2 different engines at choice, JSBSim FDM
     <channel name="Float Chamber">
         <!-- Give tank[4] priority regardless of engine is used -->
         <switch name="Float Chamber From Engine 0">
-            <output>propulsion/tank[4]/fuel/to-engine0</output>
-            <default value="0"/>
-            <test logic="AND" value="1">
-                /controls/engines/active-engine EQ 0
-                /engines/active-engine/killed EQ 0
-            </test>
-        </switch>
-        <switch name="Float Chamber From Engine 1">
-            <output>propulsion/tank[4]/fuel/to-engine1</output>
-            <default value="0"/>
-            <test logic="AND" value="1">
-                /controls/engines/active-engine EQ 1
-                /engines/active-engine/killed EQ 0
-            </test>
-        </switch>
-        <switch name="Float Chamber">
             <output>propulsion/tank[4]/priority</output>
             <default value="0"/>
-            <test logic="OR" value="1">
-                propulsion/tank[4]/fuel/to-engine0 EQ 1
-                propulsion/tank[4]/fuel/to-engine1 EQ 1
+            <test logic="AND" value="1">
+                /engines/active-engine/killed EQ 0
             </test>
         </switch>
     </channel>

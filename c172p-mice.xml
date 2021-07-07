@@ -43,6 +43,19 @@
                         gui.popupTip(sprintf("%d meter", abs(getprop("/sim/current-view/z-offset-m"))));
                     </script>
                 </binding>
+               <binding n="2">
+                    <condition>
+                        <and>
+                            <not>
+                                <property>/sim/current-view/can-change-z-offset</property>
+                            </not>
+                            <property>/devices/status/mice/mouse[0]/button[2]</property>
+                            <not><property>/sim/mouse/right-button-mode-cycle-enabled</property></not>
+                        </and>
+                    </condition>
+                    <command>nasal</command>
+                    <script>view.decrease()</script>
+                </binding>
             </button>
 
             <button n="4">
@@ -65,6 +78,19 @@
 
                         gui.popupTip(sprintf("%d meter", abs(getprop("/sim/current-view/z-offset-m"))));
                     </script>
+                </binding>
+                <binding n="2">
+                    <condition>
+                        <and>
+                            <not>
+                                <property>/sim/current-view/can-change-z-offset</property>
+                            </not>
+                            <property>/devices/status/mice/mouse[0]/button[2]</property>
+                            <not><property>/sim/mouse/right-button-mode-cycle-enabled</property></not>
+                        </and>
+                    </condition>
+                    <command>nasal</command>
+                    <script>view.increase()</script>
                 </binding>
             </button>
         </mode>

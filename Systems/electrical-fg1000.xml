@@ -33,78 +33,126 @@
         </output>
     </logic>
 
-	<filter>
+    <filter>
         <name>SW/CB Lighting</name>
         <type>gain</type>
         <input>
             <condition>
                 <and>
-					<greater-than>
-						<property>/systems/electrical/outputs/instrument-lights</property>
-						<value>20.0</value>
-					</greater-than>
-					<less-than>
-						<property>/systems/electrical/outputs/instrument-lights</property>
-						<value>31.5</value>
-					</less-than>
-				</and>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                </and>
             </condition>
-            <property>controls/lighting/swcb-norm</property>
+            <property>/controls/lighting/swcb-norm</property>
         </input>
         <input>
             <value>0.0</value>
         </input>
         <output>
-			<property>/controls/lighting/swcb</property>
+            <property>/controls/lighting/swcb</property>
         </output>
     </filter>
 
     <filter>
-        <name>Avionics Lighting</name>
+        <name>Avionics 1 Lighting</name>
         <type>gain</type>
         <input>
             <condition>
                 <and>
-					<greater-than>
-						<property>/systems/electrical/outputs/mfd</property>
-						<value>20.0</value>
-					</greater-than>
-					<less-than>
-						<property>/systems/electrical/outputs/mfd</property>
-						<value>31.5</value>
-					</less-than>
-				</and>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/pfd-avn</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/pfd-avn</property>
+                        <value>31.5</value>
+                    </less-than>
+                </and>
             </condition>
-            <property>/controls/lighting/avionics-norm</property>
+            <value>1.0</value>
         </input>
         <input>
             <value>0.0</value>
         </input>
         <output>
-            <property>/controls/lighting/avionics</property>
+            <property>/controls/lighting/pfd-avn</property>
         </output>
     </filter>
-	
-	<filter>
+
+    <filter>
+        <name>Avionics 2 Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/mfd</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/mfd</property>
+                        <value>31.5</value>
+                    </less-than>
+                </and>
+            </condition>
+            <value>1.0</value>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/lighting/mfd</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Avionics Essential Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/pfd-ess</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/pfd-ess</property>
+                        <value>31.5</value>
+                    </less-than>
+                </and>
+            </condition>
+            <value>1.0</value>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/lighting/pfd-ess</property>
+        </output>
+    </filter>
+
+    <filter>
         <name>Stby Lighting</name>
         <type>gain</type>
         <input>
             <condition>
                 <and>
-					<greater-than>
-						<property>/systems/electrical/outputs/instrument-lights</property>
-						<value>20.0</value>
-					</greater-than>
-					<less-than>
-						<property>/systems/electrical/outputs/instrument-lights</property>
-						<value>31.5</value>
-					</less-than>
-					<less-than>
-                        <property>/controls/switches/dome-red</property>
-                        <value>2</value>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>31.5</value>
                     </less-than>
-					<property>controls/panel/glass</property>
-				</and>
+                    <property>controls/panel/glass</property>
+                </and>
             </condition>
             <property>/controls/lighting/stby-norm</property>
         </input>
@@ -112,25 +160,25 @@
             <value>0.0</value>
         </input>
         <output>
-			<property>/controls/lighting/stby</property>
+            <property>/controls/lighting/stby</property>
         </output>
     </filter>
 
-	<filter>
+    <filter>
         <name>Pedistal Lighting</name>
         <type>gain</type>
         <input>
             <condition>
                 <and>
-					<greater-than>
-						<property>/systems/electrical/outputs/instrument-lights</property>
-						<value>20.0</value>
-					</greater-than>
-					<less-than>
-						<property>/systems/electrical/outputs/instrument-lights</property>
-						<value>31.5</value>
-					</less-than>
-				</and>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                </and>
             </condition>
             <property>/controls/lighting/pedistal-norm</property>
         </input>
@@ -138,7 +186,7 @@
             <value>0.0</value>
         </input>
         <output>
-			<property>/controls/lighting/pedistal</property>
+            <property>/controls/lighting/pedistal</property>
         </output>
     </filter>
 

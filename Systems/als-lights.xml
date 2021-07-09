@@ -359,7 +359,7 @@
     <filter>
         <name>FG1000 STBY Red Factor</name>
         <type>gain</type>
-        <gain>0.008</gain>
+        <gain>0.02</gain>
         <input>
             <condition>
                 <greater-than>
@@ -386,7 +386,7 @@
     <filter>
         <name>FG1000 STBY Blue Factor</name>
         <type>gain</type>
-        <gain>0.007</gain>
+        <gain>0.01</gain>
         <input>
             <condition>
                 <greater-than>
@@ -413,7 +413,7 @@
     <filter>
         <name>FG1000 STBY Green Factor</name>
         <type>gain</type>
-        <gain>0.008</gain>
+        <gain>0.02</gain>
         <input>
             <condition>
                 <greater-than>
@@ -441,7 +441,7 @@
     <filter>
         <name>FG1000 Pedistal Red Factor</name>
         <type>gain</type>
-        <gain>0.002</gain>
+        <gain>0.003</gain>
         <input>
             <condition>
                 <greater-than>
@@ -459,7 +459,7 @@
     <filter>
         <name>FG1000 Pedistal Blue Factor</name>
         <type>gain</type>
-        <gain>0.002</gain>
+        <gain>0.003</gain>
         <input>
             <condition>
                 <greater-than>
@@ -477,7 +477,7 @@
     <filter>
         <name>FG1000 Pedistal Green Factor</name>
         <type>gain</type>
-        <gain>0.002</gain>
+        <gain>0.003</gain>
         <input>
             <condition>
                 <greater-than>
@@ -496,7 +496,7 @@
     <filter>
         <name>FG1000 SWCB Red Factor</name>
         <type>gain</type>
-        <gain>0.006</gain>
+        <gain>0.01</gain>
         <input>
             <condition>
                 <greater-than>
@@ -514,7 +514,7 @@
     <filter>
         <name>FG1000 SWCB Blue Factor</name>
         <type>gain</type>
-        <gain>0.006</gain>
+        <gain>0.01</gain>
         <input>
             <condition>
                 <greater-than>
@@ -532,7 +532,7 @@
     <filter>
         <name>FG1000 SWCB Green Factor</name>
         <type>gain</type>
-        <gain>0.006</gain>
+        <gain>0.01</gain>
         <input>
             <condition>
                 <greater-than>
@@ -548,18 +548,80 @@
     </filter>
 
     <!-- FG1000 Avionics -->
+
     <filter>
-        <name>FG1000 Avionics Red Factor</name>
+        <name>FG1000 Avionics pfd-avn</name>
         <type>gain</type>
-        <gain>0.009</gain>
+        <gain>0.5</gain>
         <input>
             <condition>
                 <greater-than>
-                    <property>/controls/lighting/avionics</property>
+                    <property>/controls/lighting/pfd-avn</property>
                     <value>0.0</value>
                 </greater-than>
             </condition>
-            <property>/controls/lighting/avionics</property>
+            <property>/controls/lighting/pfd-avn</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/pfd-avn</property>
+        </output>
+    </filter>
+    <filter>
+        <name>FG1000 Avionics mfd</name>
+        <type>gain</type>
+        <gain>0.5</gain>
+        <input>
+            <condition>
+                <greater-than>
+                    <property>/controls/lighting/mfd</property>
+                    <value>0.0</value>
+                </greater-than>
+            </condition>
+			<property>/controls/lighting/mfd</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/mfd</property>
+        </output>
+    </filter>
+    <filter>
+        <name>FG1000 Avionics pfd-ess</name>
+        <type>gain</type>
+        <gain>0.5</gain>
+        <input>
+            <condition>
+				<and>
+					<equals>
+						<property>/controls/lighting/pfd-avn</property>
+						<value>0.0</value>
+					</equals>
+					<greater-than>
+						<property>/controls/lighting/pfd-ess</property>
+						<value>0.0</value>
+					</greater-than>
+				</and>
+            </condition>
+			<property>/controls/lighting/pfd-ess</property>
+        </input>
+        <output>
+            <property>/sim/model/c172p/lighting/pfd-ess</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>FG1000 Avionics Red Factor</name>
+        <type>gain</type>
+        <gain>0.04</gain>
+        <input>
+            <expression>
+				<product>
+					<sum>
+						<property>/sim/model/c172p/lighting/pfd-avn</property>
+						<property>/sim/model/c172p/lighting/mfd</property>
+						<property>/sim/model/c172p/lighting/pfd-ess</property>
+					</sum>
+					<property>/controls/lighting/avionics-norm</property>
+				</product>
+            </expression>
         </input>
         <output>
             <property>/sim/model/c172p/lighting/glass-ar-norm</property>
@@ -569,15 +631,18 @@
     <filter>
         <name>FG1000 Avionics Blue Factor</name>
         <type>gain</type>
-        <gain>0.01</gain>
+        <gain>0.05</gain>
         <input>
-            <condition>
-                <greater-than>
-                    <property>/controls/lighting/avionics</property>
-                    <value>0.0</value>
-                </greater-than>
-            </condition>
-            <property>/controls/lighting/avionics</property>
+            <expression>
+				<product>
+					<sum>
+						<property>/sim/model/c172p/lighting/pfd-avn</property>
+						<property>/sim/model/c172p/lighting/mfd</property>
+						<property>/sim/model/c172p/lighting/pfd-ess</property>
+					</sum>
+					<property>/controls/lighting/avionics-norm</property>
+				</product>
+            </expression>
         </input>
         <output>
             <property>/sim/model/c172p/lighting/glass-ag-norm</property>
@@ -587,15 +652,18 @@
     <filter>
         <name>FG1000 Avionics Green Factor</name>
         <type>gain</type>
-        <gain>0.01</gain>
+        <gain>0.05</gain>
         <input>
-            <condition>
-		<greater-than>
-			<property>/controls/lighting/avionics</property>
-			<value>0.0</value>
-		</greater-than>
-            </condition>
-            <property>/controls/lighting/avionics</property>
+            <expression>
+				<product>
+					<sum>
+						<property>/sim/model/c172p/lighting/pfd-avn</property>
+						<property>/sim/model/c172p/lighting/mfd</property>
+						<property>/sim/model/c172p/lighting/pfd-ess</property>
+					</sum>
+					<property>/controls/lighting/avionics-norm</property>
+				</product>
+            </expression>
         </input>
         <output>
             <property>/sim/model/c172p/lighting/glass-ab-norm</property>
@@ -603,10 +671,17 @@
     </filter>
 
     <filter>
-        <name>map fg1000 avionics knob to glass screen</name>
+        <name>Map FG1000 Avionics Knob to Glass Screen</name>
         <type>gain</type>
         <input>
-             <property>/controls/lighting/avionics</property>
+            <condition>
+                <or>
+					<property>/sim/model/c172p/lighting/pfd-avn</property>
+					<property>/sim/model/c172p/lighting/mfd</property>
+					<property>/sim/model/c172p/lighting/pfd-ess</property>
+                </or>
+            </condition>
+			<property>/controls/lighting/avionics-norm</property>
         </input>
         <output>
             <property>/instrumentation/FG1000/Lightmap</property>
@@ -776,12 +851,30 @@
         <name>RGB Red Factor combined</name>
         <type>gain</type>
         <input>
+            <condition>
+				<not>
+					<property>/controls/panel/glass</property>
+				</not>
+            </condition>
             <expression>
                 <sum>
                     <!-- simulates radio ambient lighting -->
                     <property>/sim/model/c172p/lighting/rgb-ra-r-r-factor</property>
                     <!-- simulates post ambient lighting -->
                     <property>/sim/model/c172p/lighting/rgb-ra-r-p-factor</property>
+                    <!-- simulates dome lighting -->
+                    <property>/sim/model/c172p/lighting/dome-default</property>
+                    <!-- simulates flood lighting -->
+                    <property>/sim/model/c172p/lighting/flood-proc-red-factor</property>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <condition>
+				<property>controls/panel/glass</property>
+            </condition>
+            <expression>
+                <sum>
                     <!-- simulates dome lighting -->
                     <property>/sim/model/c172p/lighting/dome-default</property>
                     <!-- simulates flood lighting -->
@@ -802,12 +895,30 @@
         <name>RGB Green Factor combined</name>
         <type>gain</type>
         <input>
+            <condition>
+				<not>
+					<property>/controls/panel/glass</property>
+				</not>
+            </condition>
             <expression>
                 <sum>
                     <property>/sim/model/c172p/lighting/rgb-ra-g-r-factor</property>
                     <property>/sim/model/c172p/lighting/rgb-ra-g-p-factor</property>
                     <property>/sim/model/c172p/lighting/dome-default</property>
                     <property>/sim/model/c172p/lighting/flood-proc-green-factor</property>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <condition>
+				<property>controls/panel/glass</property>
+            </condition>
+            <expression>
+                <sum>
+                    <!-- simulates dome lighting -->
+                    <property>/sim/model/c172p/lighting/dome-default</property>
+                    <!-- simulates flood lighting -->
+                    <property>/sim/model/c172p/lighting/flood-proc-red-factor</property>
                     <!-- simulates fg1000 lighting -->
                     <property>/sim/model/c172p/lighting/glass-tg-norm</property>
                     <property>/sim/model/c172p/lighting/glass-pg-norm</property>
@@ -824,12 +935,30 @@
         <name>RGB Blue Factor combined</name>
         <type>gain</type>
         <input>
+            <condition>
+				<not>
+					<property>/controls/panel/glass</property>
+				</not>
+            </condition>
             <expression>
                 <sum>
                     <property>/sim/model/c172p/lighting/rgb-ra-b-r-factor</property>
                     <property>/sim/model/c172p/lighting/rgb-ra-b-p-factor</property>
                     <property>/sim/model/c172p/lighting/dome-default</property>
                     <property>/sim/model/c172p/lighting/flood-proc-blue-factor</property>
+                </sum>
+            </expression>
+        </input>
+        <input>
+            <condition>
+				<property>controls/panel/glass</property>
+            </condition>
+            <expression>
+                <sum>
+                    <!-- simulates dome lighting -->
+                    <property>/sim/model/c172p/lighting/dome-default</property>
+                    <!-- simulates flood lighting -->
+                    <property>/sim/model/c172p/lighting/flood-proc-red-factor</property>
                     <!-- simulates fg1000 lighting -->
                     <property>/sim/model/c172p/lighting/glass-tb-norm</property>
                     <property>/sim/model/c172p/lighting/glass-pb-norm</property>
@@ -1173,11 +1302,64 @@
         <type>gain</type>
         <gain>1</gain>
         <input>
+			<condition>
+				<not>
+					<property>/controls/panel/glass</property>
+				</not>
+            </condition>
             <expression>
                 <sum>
                    <property>/sim/model/lightmap/dome/factor-glassglare</property>
                    <property>/sim/model/lightmap/post/factor-glassglare</property>
                    <property>/sim/model/lightmap/flood/factor-glassglare</property>
+                </sum>
+            </expression>
+            <min>0.1</min>
+            <max>0.9</max>
+        </input>
+        <input>
+			<condition>
+				<property>/controls/panel/glass</property>
+            </condition>
+            <expression>
+                <sum>
+					<property>/sim/model/lightmap/dome/factor-glassglare</property>
+					<sum>
+						<table>
+							<property>/instrumentation/FG1000/Lightmap</property>
+							<entry><ind>0.0</ind><dep>0.0</dep></entry>
+							<entry><ind>0.7</ind><dep>0.05</dep></entry>
+							<entry><ind>1.0</ind><dep>0.1</dep></entry>
+						</table>
+						<property>/rendering/scene/diffuse/red</property>
+					</sum>
+					<sum>
+						<table>
+							<property>/controls/lighting/swcb</property>
+							<entry><ind>0.0</ind><dep>0.0</dep></entry>
+							<entry><ind>0.7</ind><dep>0.0125</dep></entry>
+							<entry><ind>1.0</ind><dep>0.025</dep></entry>
+						</table>
+						<property>/rendering/scene/diffuse/red</property>
+					</sum>
+					<sum>
+						<table>
+							<property>/controls/lighting/stby</property>
+							<entry><ind>0.0</ind><dep>0.0</dep></entry>
+							<entry><ind>0.7</ind><dep>0.025</dep></entry>
+							<entry><ind>1.0</ind><dep>0.05</dep></entry>
+						</table>
+						<property>/rendering/scene/diffuse/red</property>
+					</sum>
+					<sum>
+						<table>
+							<property>/controls/lighting/pedistal</property>
+							<entry><ind>0.0</ind><dep>0.0</dep></entry>
+							<entry><ind>0.7</ind><dep>0.0125</dep></entry>
+							<entry><ind>1.0</ind><dep>0.25</dep></entry>
+						</table>
+						<property>/rendering/scene/diffuse/red</property>
+					</sum>
                 </sum>
             </expression>
             <min>0.1</min>

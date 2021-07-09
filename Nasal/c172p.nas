@@ -35,12 +35,13 @@ var autostart = func (msg=1) {
     # Setting instrument lights if needed
     var light_level = 1-getprop("/rendering/scene/diffuse/red");
     if (light_level > .6) {
-        if (getprop("/controls/lighting/instruments-norm") == 0) {
-            if (light_level > .8) light_level = .8;
-            setprop("/controls/lighting/instruments-norm", light_level);
-        }
-        setprop("/controls/switches/dome-red", 1);
-
+		if (!getprop("/controls/panel/glass")){
+			if (getprop("/controls/lighting/instruments-norm") == 0) {
+				if (light_level > .8) light_level = .8;
+				setprop("/controls/lighting/instruments-norm", light_level);
+			}
+			setprop("/controls/switches/dome-red", 1);
+		}
 		if (getprop("/controls/panel/glass")) {
             if (getprop("/controls/lighting/swcb-norm") == 0) {
 				setprop("/controls/lighting/swcb-norm", .55);
@@ -48,12 +49,10 @@ var autostart = func (msg=1) {
 			if (getprop("/controls/lighting/avionics-norm") == 0) {
 				setprop("/controls/lighting/avionics-norm", .6);
 			}
-			if (getprop("/controls/lighting/pedistal-norm") == 0) {
-				setprop("/controls/lighting/pedistal-norm", 0);
+			if (getprop("/controls/lighting/stby-norm") == 0) {
+				setprop("/controls/lighting/stby-norm", .8);
 			}
-			if (getprop("/controls/lighting/radio-norm") == 0) {
-				setprop("/controls/lighting/radio-norm", .8);
-			}
+			setprop("/controls/switches/stby-batt", 2);
         }
     }
 

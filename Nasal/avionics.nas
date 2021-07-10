@@ -144,7 +144,7 @@ aircraft.data.add(
 
 # Circuit breakers
 aircraft.data.add(
-    "/controls/circuit-breakers/aircond",
+    #"/controls/circuit-breakers/aircond",
     "/controls/circuit-breakers/autopilot",
     "/controls/circuit-breakers/bcnlt",
     "/controls/circuit-breakers/flaps",

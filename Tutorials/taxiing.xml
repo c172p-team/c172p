@@ -9,18 +9,6 @@
 
 For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Handbook available at http://www.faa.gov/library/manuals/aircraft/airplane_handbook/.
     </description>
-	
-    <nasal>
-        <script>
-            c172p.repair_damage();
-            electrical.reset_battery_and_circuit_breakers();
-            c172p.click("engine-repair", 6.0);
-            c172p.dialog_battery_reload();
-            setprop("/engines/active-engine/oil-level", sim/model/c172p/engine_flag_0 ? 7 : 8);
-            setprop("/engines/active-engine/carb_ice", 0.0);
-            setprop("/fdm/jsbsim/engine/damage-level", 0.0);
-        </script>
-    </nasal>
 
     <audio-dir>Tutorials/taxiing</audio-dir>
     <timeofday>morning</timeofday>
@@ -174,6 +162,12 @@ For more information on taxiing, see Section 2-9 of the FAA Airplane Flying Hand
                 }, 1, 0));
             </script>
         </nasal>
+
+        <message>Damage has been turned off. You may turn it on now for more realism.</message>
+        <set>
+            <property>/fdm/jsbsim/settings/damage</property>
+            <value>0</value>
+        </set>
     </step>
 
     <step>

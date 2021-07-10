@@ -420,9 +420,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
         <systems>
             <path>Aircraft/c172p/Systems/systems.xml</path>
 
-            <autopilot n="0">
-                <path>Models/Interior/Panel/Instruments/kap140/nav-selector.xml</path>
-            </autopilot>
             <autopilot n="1">
                 <path>Systems/glass-rain.xml</path>
             </autopilot>
@@ -432,9 +429,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <autopilot n="3">
                 <path>Systems/yoke-cord.xml</path>
             </autopilot>
-			<autopilot n="5">
-				<path>Models/Interior/Panel/Instruments/kap140/kap140-autopilot.xml</path>
-			</autopilot>
 
             <property-rule n="100">
                 <name>FiltersOnly</name>
@@ -471,14 +465,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <property-rule n="107">
                 <path>Aircraft/c172p/Systems/sounds.xml</path>
             </property-rule>
-
-            <property-rule n="108">
-                <path>Aircraft/c172p/Systems/electrical.xml</path>
-            </property-rule>
-			<property-rule n="109">
-				<path>Models/Interior/Panel/Instruments/kap140/kap140-proprules.xml</path>
-			</property-rule>
-
         </systems>
 
         <sound>
@@ -626,7 +612,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <!--active-engine type="int">0</active-engine-->
         </engines>
         <circuit-breakers>
-            <aircond type="bool">true</aircond>
+            <!--aircond type="bool">true</aircond-->
             <autopilot type="bool">true</autopilot>
             <bcnlt type="bool">true</bcnlt>
             <flaps type="bool">true</flaps>
@@ -910,30 +896,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <serviceable type="bool">true</serviceable>
         </airspeed-indicator>
         <save-switches-state type="bool">false</save-switches-state>
-
-        <nav-source> <!-- used by kap140 autopilot -->
-            <selector type="int">0</selector>
-            <in-range type="bool">false</in-range>
-            <from-flag type="bool">false</from-flag>
-            <to-flag type="bool">false</to-flag>
-            <nav-loc type="bool">false</nav-loc>
-            <has-gs type="bool">false</has-gs>
-            <gs-in-range type="bool">false</gs-in-range>
-            <gs-rate-of-climb type="double">0.0</gs-rate-of-climb>
-            <gs-rate-of-climb-fpm type="double">0.0</gs-rate-of-climb-fpm>
-            <heading-needle-deflection type="double">0.0</heading-needle-deflection>
-            <heading-needle-deflection-norm type="double">0.0</heading-needle-deflection-norm>
-            <gs-needle-deflection type="double">0.0</gs-needle-deflection>
-            <selected-radial-deg type="double">0.0</selected-radial-deg>
-            <target-radial-deg type="double">0.0</target-radial-deg>
-            <course-error type="double">0.0</course-error>
-            <foo>bar</foo>
-        </nav-source>
-
-        <!-- KAP140 internal pressure sensor -->
-        <altimeter-kap140-internal>
-            <serviceable type="bool">true</serviceable>
-        </altimeter-kap140-internal>
     </instrumentation>
 
     <engines>
@@ -1095,9 +1057,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <file>Nasal/views.nas</file>
 			<file>Nasal/annunciator_panel.nas</file>
         </c172p>
-        <electrical>
-            <file>Nasal/electrical.nas</file>
-        </electrical>
         <kr87>
             <file>Nasal/kr87.nas</file>
         </kr87>
@@ -1307,9 +1266,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <fcs>
                 <yaw-trim-cockpit type="double">0.0</yaw-trim-cockpit>
             </fcs>
-            <fuel>
-                <tank type="int">0</tank>
-            </fuel>
         </jsbsim>
     </fdm>
     <!-- End Damage Mod -->
@@ -1333,9 +1289,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                 <hydraulic-pump type="float">0.0</hydraulic-pump>
                 <gear-select type="float">0.0</gear-select>
                 <gear-advisory type="float">0.0</gear-advisory>
-
                 <beacon-norm type="float">0.0</beacon-norm>
-
             </outputs>
             <save-battery-charge type="bool">false</save-battery-charge>
         </electrical>

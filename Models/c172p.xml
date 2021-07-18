@@ -104,7 +104,12 @@
     <!-- TODO Remove this old version, unhide and implement the Canvas version below -->
     <model>
         <name>Garmin196-GPS-non-Canvas</name>
-        <path>Interior/Panel/Instruments/garmin196/garmin196.xml</path>
+        <path>Aircraft/c172p/Models/Interior/Panel/Instruments/garmin196/garmin196.xml</path>
+        <condition>
+			<not>
+				<property>controls/panel/glass</property>
+			</not>
+        </condition>
         <offsets>
             <x-m>-0.305</x-m>
             <y-m> 0.26584</y-m>
@@ -156,12 +161,18 @@
 
     <model>
         <name>GPS-Model</name>
-        <path>Interior/Panel/Instruments/garmin196/gpsmodel.xml</path>
+        <path>Aircraft/c172p/Models/Interior/Panel/Instruments/garmin196/gpsmodel.xml</path>
+        <condition>
+			<not>
+				<property>controls/panel/glass</property>
+			</not>
+        </condition>
     </model>
 
     <animation>
         <type>pick</type>
         <object-name>gloveboxfull</object-name>
+		<object-name>gloveboxfull-fg1000</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -177,7 +188,6 @@
                     setprop("/instrumentation/garmin196/serviceable",0);
                     setprop("/instrumentation/garmin196/status",0);
                     setprop("/instrumentation/garmin196/popup_status",0);
-                    #c172p.click("cb");
                 </script>
             </binding>
             <binding>
@@ -199,6 +209,7 @@
     <animation>
         <type>pick</type>
         <object-name>glovebox</object-name>
+		<object-name>glovebox-fg1000</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -214,7 +225,6 @@
                     setprop("/instrumentation/garmin196/serviceable",0);
                     setprop("/instrumentation/garmin196/status",0);
                     setprop("/instrumentation/garmin196/popup_status",0);
-                    #c172p.click("cb");
                 </script>
             </binding>
             <binding>
@@ -238,7 +248,42 @@
         <object-name>Garmin196-GPS-non-Canvas</object-name>
         <object-name>glovebox</object-name>
         <condition>
-            <property>/sim/model/c172p/garmin196-visible</property>
+			<and>
+				<property>/sim/model/c172p/garmin196-visible</property>
+				<not>
+					<property>controls/panel/glass</property>
+				</not>
+			</and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>gloveboxfull</object-name>
+        <condition>
+			<and>
+				<not>
+					<property>/sim/model/c172p/garmin196-visible</property>
+				</not>
+				<not>
+					<property>controls/panel/glass</property>
+				</not>
+			</and>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>gpsmodel</object-name>
+        <condition>
+			<and>
+				<not>
+					<property>/sim/model/c172p/garmin196-visible</property>
+				</not>
+				<not>
+					<property>controls/panel/glass</property>
+				</not>
+			</and>
         </condition>
     </animation>
 
@@ -265,18 +310,12 @@
         <object-name>RudderTrimBase</object-name>
         <object-name>RudderTrimKnob</object-name>
         <condition>
-            <property>sim/model/c172p/ruddertrim-visible</property>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>gloveboxfull</object-name>
-        <object-name>gpsmodel</object-name>
-        <condition>
-            <not>
-                <property>/sim/model/c172p/garmin196-visible</property>
-            </not>
+            <and>
+				<not>
+					<property>controls/panel/glass</property>
+				</not>
+				<property>sim/model/c172p/ruddertrim-visible</property>
+			</and>
         </condition>
     </animation>
 
@@ -735,14 +774,6 @@
 
     <!-- interior effects -->
     <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-parts-radiance</inherits-from>
-        <object-name>TrimWheel</object-name>
-        <object-name>AvionicsSwitch</object-name>
-        <object-name>radio-light-knob</object-name>
-        <object-name>panel-light-knob</object-name>
-        <object-name>gloveboxlock</object-name>
-    </effect>
-    <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-parts</inherits-from>
         <object-name>Panel_0</object-name>
         <object-name>ElevatorTrimPos</object-name>
@@ -804,10 +835,16 @@
         <object-name>AltStaticAir</object-name>
         <object-name>LowVoltageLed</object-name>
         <object-name>LowVoltageLedBase</object-name>
+        <object-name>TrimWheel</object-name>
+        <object-name>AvionicsSwitch</object-name>
+        <object-name>radio-light-knob</object-name>
+        <object-name>panel-light-knob</object-name>
+        <object-name>gloveboxlock</object-name>
     </effect>
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel</inherits-from>
         <object-name>panel_1_gauges</object-name>
+        <object-name>Pedestal</object-name>
         <object-name>InstrumentCover</object-name>
         <object-name>panel_1_1.inf</object-name>
         <object-name>panel_1_1_right</object-name>
@@ -815,19 +852,15 @@
         <object-name>glovebox</object-name>
         <object-name>gloveboxfull</object-name>
         <object-name>RudderTrimKnob</object-name>
-    </effect>
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-implicit</inherits-from>
-        <object-name>Pedestal</object-name>
         <object-name>RudderTrimBase</object-name>
     </effect>
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-fuel-selector</inherits-from>
+		<object-name>FuelSelectorFace</object-name>
         <object-name>FuelSelectorLeft</object-name>
         <object-name>FuelSelectorRight</object-name>
         <object-name>FuelSelectorBoth</object-name>
         <object-name>FuelSelectorOff</object-name>
-		<object-name>FuelSelectorFace</object-name>
     </effect>
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior</inherits-from>
@@ -897,7 +930,6 @@
         <object-name>AvionicsSwitch</object-name>
         <object-name>radio-light-knob</object-name>
         <object-name>panel-light-knob</object-name>
-        <object-name>gloveboxlock</object-name>
         <object-name>Panel_0</object-name>
         <object-name>ElevatorTrimPos</object-name>
         <object-name>mike_mount</object-name>
@@ -967,6 +999,7 @@
         <object-name>gloveboxdoor</object-name>
         <object-name>glovebox</object-name>
         <object-name>gloveboxfull</object-name>
+        <object-name>gloveboxlock</object-name>
 
         <object-name>carpet</object-name>
         <object-name>chassis</object-name>
@@ -1021,6 +1054,11 @@
     <animation>
         <type>material</type>
         <object-name>courtesyon</object-name>
+        <condition>
+			<not>
+				<property>controls/panel/glass</property>
+			</not>
+        </condition>
         <emission>
             <red>  0.697</red>
             <green>0.689</green>
@@ -1217,30 +1255,18 @@
         <path>Effects/interior/procedural_light_courtesy.xml</path>
         <offsets>
             <x-m> 0.74 </x-m>
-            <y-m> 1.66 </y-m>
-            <z-m> 0.32 </z-m>
+            <y-m> 1.65 </y-m>
+            <z-m> 0.3275 </z-m>
         </offsets>
-        <condition>
-            <greater-than>
-                <property>/sim/model/c172p/lighting/courtesy</property>
-                <value>0</value>
-            </greater-than>
-        </condition>
     </model>
 
     <model>
         <path>Effects/interior/procedural_light_courtesy.xml</path>
         <offsets>
             <x-m> 0.74 </x-m>
-            <y-m> -1.64 </y-m>
-            <z-m> 0.32 </z-m>
+            <y-m>-1.65 </y-m>
+            <z-m> 0.3275 </z-m>
         </offsets>
-        <condition>
-            <greater-than>
-                <property>/sim/model/c172p/lighting/courtesy</property>
-                <value>0</value>
-            </greater-than>
-        </condition>
     </model>
 
     <!-- Procedural Instrument Lights (glare) -->
@@ -1786,6 +1812,7 @@
     </model>
 
     <!-- Instrumentation -->
+
     <model>
         <name>fg1000</name>
         <path>Interior/Panel/Instruments/fg1000/fg1000.xml</path>
@@ -2095,6 +2122,11 @@
     <model>
         <name>FlapSwitch</name>
         <path>Interior/Panel/Flaps/flaps.xml</path>
+        <condition>
+            <not>
+                <property>controls/panel/glass</property>
+            </not>
+        </condition>
     </model>
     <model>
         <path>Interior/Panel/Instruments/hobbs/hobbs.xml</path>
@@ -3323,7 +3355,6 @@
         </condition>
     </animation>
 
-
     <animation>
         <type>select</type>
         <object-name>MasterSwitch</object-name>
@@ -3349,6 +3380,9 @@
         <object-name>panel-light-knob</object-name>
         <object-name>light-knob-base</object-name>
         <object-name>panel_1_gauges</object-name>
+        <object-name>mike_mount</object-name>
+        <object-name>mike</object-name>
+        <object-name>mike_chord</object-name>
         <object-name>bolts</object-name>
         <object-name>panel_1_1.inf</object-name>
         <object-name>panel_1_1_right</object-name>
@@ -3363,6 +3397,7 @@
         <object-name>StrobeSwitch</object-name>
         <object-name>TaxiLightSwitch</object-name>
         <object-name>ParkingBrake</object-name>
+        <object-name>LeftBag</object-name>
 
         <object-name>autopilot_breaker</object-name>
         <object-name>radio5_breaker</object-name>
@@ -3381,6 +3416,59 @@
         <object-name>master_breaker</object-name>
         <object-name>flaps_breaker</object-name>
         <object-name>BreakersBase</object-name>
+
+        <object-name>CeilingSpeaker</object-name>
+        <object-name>DomeSliderWhite</object-name>
+        <object-name>DomeSwitchWhite</object-name>
+        <object-name>DomeSwitchRed</object-name>
+        <object-name>DomeLightWhite</object-name>
+        <object-name>DomeLightRed</object-name>
+
+        <object-name>Pedestal</object-name>
+        <object-name>RudderTrimBase</object-name>
+        <object-name>RudderTrimKnob</object-name>
+        <object-name>TrimWheel</object-name>
+        <object-name>ElevatorTrimPos</object-name>
+        <object-name>gloveboxdoor</object-name>
+        <object-name>glovebox</object-name>
+        <object-name>gloveboxlock</object-name>
+
+        <object-name>FuelSelectorLeft</object-name>
+        <object-name>FuelSelectorRight</object-name>
+        <object-name>FuelSelectorBoth</object-name>
+        <object-name>FuelSelectorOff</object-name>
+		<object-name>FuelSelectorFace</object-name>
+
+        <object-name>carpet</object-name>
+        <object-name>chassis</object-name>
+        <object-name>backseat_left</object-name>
+        <object-name>pilotseat_left</object-name>
+        <object-name>pilotseat_right</object-name>
+        <object-name>doorint_right</object-name>
+        <object-name>doorint_left</object-name>
+        <object-name>windowframeleftint</object-name>
+        <object-name>windowframerightint</object-name>
+        <object-name>Firewall</object-name>
+        <object-name>baggagedoorinterior</object-name>
+        <object-name>AirVent_left</object-name>
+        <object-name>AirVent_right</object-name>
+        <object-name>wing_1L</object-name>
+        <object-name>wing_1R</object-name>
+        <object-name>visorleft</object-name>
+        <object-name>visorright</object-name>
+        <object-name>visorrodleft</object-name>
+        <object-name>visorrodright</object-name>
+        <object-name>visorbaseleft</object-name>
+        <object-name>visorbaseright</object-name>
+        <object-name>doorintstrapleft</object-name>
+        <object-name>doorintstrapright</object-name>
+        <object-name>windlocket_right</object-name>
+        <object-name>windlocket_left</object-name>
+        <object-name>windlocketbak_right</object-name>
+        <object-name>windlocketbak_left</object-name>
+        <object-name>doorhandleint_right</object-name>
+        <object-name>doorhandleint_left</object-name>
+		<object-name>courtesyon</object-name>
         <condition>
             <not>
                 <property>controls/panel/glass</property>
@@ -3411,6 +3499,7 @@
     <animation>
         <type>knob</type>
         <object-name>visorleft</object-name>
+        <object-name>visorleft-fg1000</object-name>
         <property>controls/visors/left/visor-position-deg</property>
         <factor>1</factor>
         <drag-direction>vertical</drag-direction>
@@ -3439,6 +3528,7 @@
     <animation>
         <type>knob</type>
         <object-name>visorright</object-name>
+        <object-name>visorright-fg1000</object-name>
         <property>controls/visors/right/visor-position-deg</property>
         <factor>1</factor>
         <drag-direction>vertical</drag-direction>
@@ -3468,6 +3558,8 @@
         <type>knob</type>
         <object-name>visorrodleft</object-name>
         <object-name>visorleft</object-name>
+        <object-name>visorrodleft-fg1000</object-name>
+        <object-name>visorleft-fg1000</object-name>
         <property>controls/visors/left/rod-position-deg</property>
         <factor>1</factor>
         <drag-direction>horizontal</drag-direction>
@@ -3497,6 +3589,8 @@
         <type>knob</type>
         <object-name>visorrodright</object-name>
         <object-name>visorright</object-name>
+        <object-name>visorrodright-fg1000</object-name>
+        <object-name>visorright-fg1000</object-name>
         <property>controls/visors/right/rod-position-deg</property>
         <factor>1</factor>
         <drag-direction>horizontal</drag-direction>
@@ -3527,6 +3621,7 @@
     <animation>
         <type>pick</type>
         <object-name>LeftBag</object-name>
+        <object-name>LeftBag-fg1000</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3811,6 +3906,7 @@
     <animation>
         <type>pick</type>
         <object-name>doorhandleint_right</object-name>
+        <object-name>doorhandleint_right-fg1000</object-name>
         <condition>
             <equals>
                 <property>/sim/model/door-positions/rightDoor/opened</property>
@@ -3837,6 +3933,7 @@
     <animation>
         <type>pick</type>
         <object-name>doorintstrapright</object-name>
+        <object-name>doorintstrapright-fg1000</object-name>
         <condition>
             <equals>
                 <property>/sim/model/door-positions/rightDoor/opened</property>
@@ -3884,6 +3981,7 @@
     <animation>
         <type>pick</type>
         <object-name>doorhandleint_left</object-name>
+        <object-name>doorhandleint_left-fg1000</object-name>
         <condition>
             <equals>
                 <property>/sim/model/door-positions/leftDoor/opened</property>
@@ -3910,6 +4008,7 @@
     <animation>
         <type>pick</type>
         <object-name>doorintstrapleft</object-name>
+        <object-name>doorintstrapleft-fg1000</object-name>
         <condition>
             <equals>
                 <property>/sim/model/door-positions/leftDoor/opened</property>
@@ -3938,6 +4037,7 @@
     <animation>
         <type>pick</type>
         <object-name>windlocket_left</object-name>
+        <object-name>windlocket_left-fg1000</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -3958,6 +4058,7 @@
     <animation>
         <type>pick</type>
         <object-name>windlocket_right</object-name>
+        <object-name>windlocket_right-fg1000</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -4452,6 +4553,8 @@
         <type>pick</type>
         <object-name>gloveboxdoor</object-name>
         <object-name>gloveboxlock</object-name>
+        <object-name>gloveboxdoor-fg1000</object-name>
+        <object-name>gloveboxlock-fg1000</object-name>
         <visible>true</visible>
         <action>
             <button>0</button>
@@ -4482,6 +4585,8 @@
         <type>rotate</type>
         <object-name>gloveboxdoor</object-name>
         <object-name>gloveboxlock</object-name>
+        <object-name>gloveboxdoor-fg1000</object-name>
+        <object-name>gloveboxlock-fg1000</object-name>
         <property alias="../../params/doors/glovebox/property"/>
         <interpolation>
             <entry>
@@ -4512,6 +4617,7 @@
     <animation>
         <type>rotate</type>
         <object-name>gloveboxlock</object-name>
+        <object-name>gloveboxlock-fg1000</object-name>
         <property alias="../../params/doors/glovebox/property"/>
         <interpolation>
             <entry>
@@ -4553,6 +4659,14 @@
         <object-name>windowframerightint</object-name>
         <object-name>windowframerightext</object-name>
         <object-name>rightwindow_interior</object-name>
+
+        <object-name>doorint_right-fg1000</object-name>
+        <object-name>doorhandleint_right-fg1000</object-name>
+        <object-name>doorintstrapright-fg1000</object-name>
+        <object-name>windlocket_right-fg1000</object-name>
+        <object-name>windlocketbak_right-fg1000</object-name>
+        <object-name>windowframerightint-fg1000</object-name>
+
         <property alias="../../params/doors/right/property"/>
         <interpolation>
             <entry>
@@ -4582,6 +4696,7 @@
     <animation>
         <type>rotate</type>
         <object-name>doorhandleint_right</object-name>
+        <object-name>doorhandleint_right-fg1000</object-name>
         <property alias="../../params/doors/right/property"/>
         <condition>
             <equals>
@@ -4684,6 +4799,14 @@
         <object-name>windowframeleftint</object-name>
         <object-name>windowframeleftext</object-name>
         <object-name>leftwindow_interior</object-name>
+
+        <object-name>doorint_left-fg1000</object-name>
+        <object-name>doorhandleint_left-fg1000</object-name>
+        <object-name>doorintstrapleft-fg1000</object-name>
+        <object-name>windlocket_left-fg1000</object-name>
+        <object-name>windlocketbak_left-fg1000</object-name>
+        <object-name>windowframeleftint-fg1000</object-name>
+
         <property alias="../../params/doors/left/property"/>
         <interpolation>
             <entry>
@@ -4713,6 +4836,7 @@
     <animation>
         <type>rotate</type>
         <object-name>doorhandleint_left</object-name>
+        <object-name>doorhandleint_left-fg1000</object-name>
         <property alias="../../params/doors/left/property"/>
         <condition>
             <equals>
@@ -4811,6 +4935,11 @@
         <object-name>windlocketbak_left</object-name>
         <object-name>windowframeleftint</object-name>
         <object-name>windowframeleftext</object-name>
+
+        <object-name>windlocket_left-fg1000</object-name>
+        <object-name>windlocketbak_left-fg1000</object-name>
+        <object-name>windowframeleftint-fg1000</object-name>
+
         <property alias="/params/windows/left"/>
         <interpolation>
             <entry>
@@ -4840,6 +4969,7 @@
     <animation>
         <type>rotate</type>
         <object-name>windlocket_left</object-name>
+        <object-name>windlocket_left-fg1000</object-name>
         <property alias="/params/windows/left"/>
         <interpolation>
             <entry>
@@ -4876,6 +5006,11 @@
         <object-name>windlocketbak_right</object-name>
         <object-name>windowframerightint</object-name>
         <object-name>windowframerightext</object-name>
+
+        <object-name>windlocket_right-fg1000</object-name>
+        <object-name>windlocketbak_right-fg1000</object-name>
+        <object-name>windowframerightint-fg1000</object-name>
+
         <property alias="/params/windows/right"/>
         <interpolation>
             <entry>
@@ -4905,6 +5040,7 @@
     <animation>
         <type>rotate</type>
         <object-name>windlocket_right</object-name>
+        <object-name>windlocket_right-fg1000</object-name>
         <property alias="/params/windows/right"/>
         <interpolation>
             <entry>
@@ -4937,6 +5073,9 @@
         <object-name>baggagedoorexterior</object-name>
         <object-name>baggagedoorinterior</object-name>
         <object-name>baggagedoorhandle</object-name>
+
+        <object-name>baggagedoorinterior-fg1000</object-name>
+
         <property alias="../../params/doors/baggage/property"/>
         <factor>-90</factor>
         <axis>
@@ -5218,6 +5357,7 @@
     <animation>
         <type>translate</type>
         <object-name>ParkingBrake</object-name>
+        <object-name>ParkingBrake-fg1000</object-name>
         <property alias="/params/controls/parking-lever"/>
         <factor>0.04</factor>
         <axis>
@@ -5245,6 +5385,7 @@
     <animation>
         <type>pick</type>
         <object-name>ParkingBrake</object-name>
+        <object-name>ParkingBrake-fg1000</object-name>
         <visible>true</visible>
         <action>
             <name>Select</name>
@@ -5310,6 +5451,7 @@
     <animation>
         <type>translate</type>
         <object-name>Throttle</object-name>
+        <object-name>Throttle-fg1000</object-name>
         <property alias="/params/controls/throttle"/>
         <factor>-0.08</factor>
         <axis>
@@ -5322,6 +5464,8 @@
         <type>slider</type>
         <object-name>Throttle</object-name>
         <object-name>ThrottleMount</object-name>
+        <object-name>Throttle-fg1000</object-name>
+        <object-name>ThrottleMount-fg1000</object-name>
         <visible>true</visible>
         <drag-direction>vertical</drag-direction>
         <!-- no translation, we handle that seperately -->
@@ -5349,6 +5493,7 @@
     <animation>
         <type>translate</type>
         <object-name>AltStaticAir</object-name>
+        <object-name>AltStaticAir-fg1000</object-name>
         <property alias="/params/controls/altstaticair"/>
         <factor>0.0083</factor>
         <axis>
@@ -5360,6 +5505,7 @@
     <animation>
         <type>slider</type>
         <object-name>AltStaticAir</object-name>
+        <object-name>AltStaticAir-fg1000</object-name>
         <visible>true</visible>
         <drag-direction>vertical</drag-direction>
         <!-- no translation, we handle that seperately -->
@@ -5387,6 +5533,7 @@
     <animation>
         <type>translate</type>
         <object-name>Mixture</object-name>
+        <object-name>Mixture-fg1000</object-name>
         <property alias="/params/controls/mixture"/>
         <factor>-0.08</factor>
         <axis>
@@ -5399,6 +5546,8 @@
         <type>slider</type>
         <object-name>Mixture</object-name>
         <object-name>MixtureMount</object-name>
+        <object-name>Mixture-fg1000</object-name>
+        <object-name>MixtureMount-fg1000</object-name>
         <visible>true</visible>
         <!-- no translation, we handle that seperately -->
         <drag-direction>vertical</drag-direction>
@@ -6280,6 +6429,8 @@
     <animation>
         <type>textranslate</type>
         <object-name>FuelSelectorFace</object-name>
+		<object-name>FuelSelectorFace-fg1000</object-name>
+		<object-name>FuelSelectorPanel-fg1000</object-name>
         <property>/fdm/jsbsim/fuel/tank</property>
         <bias>0.00</bias>
         <factor>.5</factor>
@@ -6294,6 +6445,7 @@
     <animation>
         <type>select</type>
         <object-name>FuelSelectorOff</object-name>
+        <object-name>FuelSelectorOff-fg1000</object-name>
         <condition>
             <and>
                 <not>
@@ -6314,6 +6466,7 @@
     <animation>
         <type>select</type>
         <object-name>FuelSelectorLeft</object-name>
+        <object-name>FuelSelectorLeft-fg1000</object-name>
         <condition>
             <or>
                 <and>
@@ -6334,6 +6487,7 @@
     <animation>
         <type>select</type>
         <object-name>FuelSelectorRight</object-name>
+        <object-name>FuelSelectorRight-fg1000</object-name>
         <condition>
             <or>
                 <and>
@@ -6354,6 +6508,7 @@
     <animation>
         <type>select</type>
         <object-name>FuelSelectorBoth</object-name>
+        <object-name>FuelSelectorBoth-fg1000</object-name>
         <condition>
             <or>
                 <and>
@@ -7091,11 +7246,25 @@
     <animation>
         <type>select</type>
         <object-name>ProceduralCourtesyLeftLight</object-name>
+        <nopreview/>
+        <condition>
+			<or>
+				<!--property alias="/params/lighting/taxi/property"/ needs MP alias-->
+				<property>/sim/model/c172p/lighting/courtesy</property>
+				<property>/sim/model/lightmap/dome-l/factor</property>
+			</or>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
         <object-name>ProceduralCourtesyRightLight</object-name>
         <nopreview/>
         <condition>
-            <!--property alias="/params/lighting/taxi/property"/ needs MP alias-->
-            <property>/sim/model/c172p/lighting/courtesy</property>
+			<or>
+				<!--property alias="/params/lighting/taxi/property"/ needs MP alias-->
+				<property>/sim/model/c172p/lighting/courtesy</property>
+				<property>/sim/model/lightmap/dome-r/factor</property>
+			</or>
         </condition>
     </animation>
     
@@ -7103,7 +7272,7 @@
         <name>ProceduralCourtesyLeftLight</name>
         <type>spot</type>
         <position>
-            <x-m> 0.77</x-m>
+            <x-m> 0.75</x-m>
             <y-m>-1.65</y-m>
             <z-m> 0.36</z-m>
         </position>
@@ -7150,7 +7319,7 @@
         <name>ProceduralCourtesyRightLight</name>
         <type>spot</type>
         <position>
-            <x-m>0.77</x-m>
+            <x-m>0.75</x-m>
             <y-m>1.65</y-m>
             <z-m>0.36</z-m>
         </position>
@@ -10477,7 +10646,6 @@
         <object-name>R-FloatC</object-name>
         <object-name>LHrudder</object-name>
         <object-name>RHrudder</object-name>
-        <!--object-name>RuddWires</object-name-->
         <object-name>FloatStruts</object-name>
         <!-- damage mod -->
         <object-name>L-FloatCD</object-name>
@@ -10499,15 +10667,7 @@
     <animation>
         <type>material</type>
         <!--global type="bool">true</global-->
-        <!-- MOD: resume some to GROUP_Interior
-        door interior objects can't be grouped because it
-        is inside another group -->
         <object-name>GROUP_Interior</object-name>
-        <!-- MOD: resume some to GROUP_Interior -->
-        <object-name>doorint_left</object-name>
-        <object-name>doorint_right</object-name>
-        <object-name>doorintstrapleft</object-name>
-        <object-name>doorintstrapright</object-name>
         <object-name>Firewall</object-name>
         <property-base>sim/model/liveryinterior/</property-base>
         <texture-prop>texture</texture-prop>
@@ -10516,25 +10676,15 @@
     <animation>
         <type>material</type>
         <!--global type="bool">true</global-->
-        <!-- MOD: resume all to GROUP_FrontPanels -->
         <object-name>GROUP_FrontPanels</object-name>
-        <!-- MODEND: resume all to Panel_Rack_Base -->
         <property-base>sim/model/liverypanel/</property-base>
-        <object-name>RudderTrimBase</object-name>
-        <object-name>RudderTrimKnob</object-name>
         <texture-prop>texture</texture-prop>
         <texture>panel.png</texture>
     </animation>
     <animation>
         <type>material</type>
         <!--global type="bool">true</global-->
-        <!-- MOD: resume some to GROUP_InteriorParts
-        doorhandles can't be grouped because
-        it is inside another group -->
         <object-name>GROUP_InteriorParts</object-name>
-        <!-- MODEND: resume some to GROUP_InteriorParts -->
-        <object-name>doorhandleint_left</object-name>
-        <object-name>doorhandleint_right</object-name>
         <property-base>sim/model/liveryparts/</property-base>
         <texture-prop>texture</texture-prop>
         <texture>panel_parts.png</texture>
@@ -12216,7 +12366,7 @@
         <property>sim/model/show-dip-stick</property>
         <factor>0.3</factor>
         <axis>
-            <x>0.01</x>ELT
+            <x>0.01</x>
             <y>0.15</y>
             <z>1.0</z>
         </axis>

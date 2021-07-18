@@ -34,6 +34,127 @@
     </logic>
 
     <filter>
+        <name>Light Map Dome White Left</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/controls/lighting/domeL-norm</property>
+                        <value>0.0</value>
+					</greater-than>
+                </and>
+            </condition>
+            <property>/controls/lighting/domeL-norm</property>
+        </input>
+        <output>
+           <property>/sim/model/lightmap/dome-l/factor</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Light Map Dome White Right</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/controls/lighting/domeR-norm</property>
+                        <value>0.0</value>
+					</greater-than>
+                </and>
+            </condition>
+            <property>controls/lighting/domeR-norm</property>
+        </input>
+        <output>
+           <property>/sim/model/lightmap/dome-r/factor</property>
+        </output>
+    </filter>
+
+    <!--filter>
+        <name>Courtesy Left Dome White</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <condition>
+                <property>/sim/model/lightmap/dome-l/factor</property>
+            </condition>
+            <expression>
+                <table>
+                    <property>/sim/model/lightmap/dome-l/factor</property>
+                    <entry><ind>0.0</ind><dep>.5</dep></entry>
+                    <entry><ind>1.0</ind><dep>.85</dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>
+           <property>/sim/model/c172p/lighting/courtesy-l-fg1000</property>
+        </output>
+    </filter>
+    <filter>
+        <name>Courtesy Right Dome White</name>
+        <type>gain</type>
+        <gain>1.0</gain>
+        <input>
+            <condition>
+                <property>/sim/model/lightmap/dome-r/factor</property>
+            </condition>
+            <expression>
+                <table>
+                    <property>/sim/model/lightmap/dome-r/factor</property>
+                    <entry><ind>0.0</ind><dep>.5</dep></entry>
+                    <entry><ind>1.0</ind><dep>.85</dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>
+           <property>/sim/model/c172p/lighting/courtesy-r-fg1000</property>
+        </output>
+    </filter-->
+
+    <filter>
+        <name>SW/CB Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                </and>
+            </condition>
+            <property>/controls/lighting/swcb-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/lighting/swcb</property>
+        </output>
+    </filter>
+
+    <filter>
         <name>SW/CB Lighting</name>
         <type>gain</type>
         <input>
@@ -165,7 +286,7 @@
     </filter>
 
     <filter>
-        <name>Pedistal Lighting</name>
+        <name>Pedestal Lighting</name>
         <type>gain</type>
         <input>
             <condition>
@@ -180,13 +301,13 @@
                     </less-than>
                 </and>
             </condition>
-            <property>/controls/lighting/pedistal-norm</property>
+            <property>/controls/lighting/pedestal-norm</property>
         </input>
         <input>
             <value>0.0</value>
         </input>
         <output>
-            <property>/controls/lighting/pedistal</property>
+            <property>/controls/lighting/pedestal</property>
         </output>
     </filter>
 

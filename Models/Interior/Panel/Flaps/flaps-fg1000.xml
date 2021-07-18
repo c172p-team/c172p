@@ -1,0 +1,167 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>flaps.ac</path>
+
+    <params>
+        <flaps-lever>/sim/model/c172p/cockpit/flaps-lever</flaps-lever>
+    </params>
+
+    <effect>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-flaps</inherits-from>
+        <object-name>FlapSwitch</object-name>
+        <object-name>FlapPos</object-name>
+        <object-name>rect</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-flaps-implicit</inherits-from>
+        <object-name>legend</object-name>
+    </effect>
+
+    <!-- ================================================================== -->
+    <!-- Flaps position indicator                                           -->
+    <!-- ================================================================== -->
+
+    <animation>
+        <type>translate</type>
+        <property>surface-positions/flap-pos-norm</property>
+        <object-name>FlapPos</object-name>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>-1.0</z>
+        </axis>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.333333</ind>
+                <dep>0.022</dep>
+            </entry>
+            <entry>
+                <ind>0.666666</ind>
+                <dep>0.034</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0.045</dep>
+            </entry>
+        </interpolation>
+    </animation>
+
+    <!-- ================================================================== -->
+    <!-- Flaps lever                                                        -->
+    <!-- ================================================================== -->
+
+    <animation>
+        <type>slider</type>
+        <drag-direction>vertical</drag-direction>
+        <drag-scale-px>30</drag-scale-px>
+        <property alias="/params/flaps-lever"/>
+        <object-name>FlapSwitch</object-name>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>-1.0</z>
+        </axis>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>0.333333</ind>
+                <dep>0.022</dep>
+            </entry>
+            <entry>
+                <ind>0.666666</ind>
+                <dep>0.036</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0.052</dep>
+            </entry>
+        </interpolation>
+
+        <!-- Flaps moving down -->
+        <decrease>
+            <binding>
+                <command>nasal</command>
+                <script>controls.flapsDown(1);</script>
+            </binding>
+        </decrease>
+
+        <!-- Flaps moving up -->
+        <increase>
+            <binding>
+                <command>nasal</command>
+                <script>controls.flapsDown(-1);</script>
+            </binding>
+        </increase>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <property alias="/params/flaps-lever"/>
+        <object-name>FlapSwitch</object-name>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>-0.001</dep>
+            </entry>
+            <entry>
+                <ind>0.333333</ind>
+                <dep>-0.001</dep>
+            </entry>
+            <entry>
+                <ind>0.345</ind>
+                <dep>0.0035</dep>
+            </entry>
+            <entry>
+                <ind>0.666666</ind>
+                <dep>0.0035</dep>
+            </entry>
+            <entry>
+                <ind>0.675</ind>
+                <dep>0.0055</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0.0055</dep>
+            </entry>
+        </interpolation>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>FlapSwitch</object-name>
+        <object-name>FlapPos</object-name>
+        <object-name>rect</object-name>
+        <condition>
+            <or>
+				<not>
+					<property>/sim/rendering/shaders/skydome</property>
+				</not>
+				<equals>
+					<property>/sim/rendering/shaders/model</property>
+					<value>0</value>
+				</equals>
+			</or>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+        </emission>
+    </animation>
+
+</PropertyList>

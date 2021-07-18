@@ -68,7 +68,7 @@ var current_gear_position = getprop("/controls/gear/gear-down-command");
 
 var current_load = 0.0;
 
-var pedistal_lighting = 0.0;
+var pedestal_lighting = 0.0;
 var stby_lighting = 0.0;
 var swcb_lighting = 0.0;
 var pfd_avn = 0.0;
@@ -333,7 +333,7 @@ var update_virtual_bus = func (dt) {
         external_volts = 28;
     }
 
-	pedistal_lighting = getprop("/controls/lighting/pedistal");
+	pedestal_lighting = getprop("/controls/lighting/pedestal");
 	stby_lighting = getprop("/controls/lighting/stby");
 	swcb_lighting = getprop("/controls/lighting/swcb");
 	pfd_avn = getprop("/controls/lighting/pfd-avn");
@@ -519,8 +519,8 @@ var electrical_bus_1 = func() {
         if (getprop("/controls/switches/dome-red")) {
             load += bus_volts / 14.25 * getprop("/controls/lighting/instruments-norm");
         }
-		if (pedistal_lighting) {
-            load += bus_volts / 3.00 * pedistal_lighting;
+		if (pedestal_lighting) {
+            load += bus_volts / 3.00 * pedestal_lighting;
         }
     } else {
         setprop("/systems/electrical/outputs/cabin-lights", 0.0);

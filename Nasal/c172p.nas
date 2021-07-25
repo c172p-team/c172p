@@ -52,10 +52,11 @@ var autostart = func (msg=1) {
 			if (getprop("/controls/lighting/stby-norm") == 0) {
 				setprop("/controls/lighting/stby-norm", .8);
 			}
-			setprop("/controls/switches/stby-batt", 2);
         }
     }
-
+	if (getprop("/controls/panel/glass")) {
+		setprop("/controls/switches/stby-batt", 2);
+	}
     # Setting amphibious landing gear if needed
     if (getprop("/fdm/jsbsim/bushkit")==4){
         if (getprop("/fdm/jsbsim/hydro/active-norm")) {

@@ -106,9 +106,9 @@
         <name>Garmin196-GPS-non-Canvas</name>
         <path>Aircraft/c172p/Models/Interior/Panel/Instruments/garmin196/garmin196.xml</path>
         <condition>
-			<not>
-				<property>controls/panel/glass</property>
-			</not>
+            <not>
+                <property alias="/params/glass"/>
+            </not>
         </condition>
         <offsets>
             <x-m>-0.305</x-m>
@@ -163,16 +163,16 @@
         <name>GPS-Model</name>
         <path>Aircraft/c172p/Models/Interior/Panel/Instruments/garmin196/gpsmodel.xml</path>
         <condition>
-			<not>
-				<property>controls/panel/glass</property>
-			</not>
+            <not>
+                <property alias="/params/glass"/>
+            </not>
         </condition>
     </model>
 
     <animation>
         <type>pick</type>
         <object-name>gloveboxfull</object-name>
-		<object-name>gloveboxfull-fg1000</object-name>
+        <object-name>gloveboxfull-fg1000</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -209,7 +209,7 @@
     <animation>
         <type>pick</type>
         <object-name>glovebox</object-name>
-		<object-name>glovebox-fg1000</object-name>
+        <object-name>glovebox-fg1000</object-name>
         <action>
             <button>0</button>
             <repeatable>false</repeatable>
@@ -248,12 +248,12 @@
         <object-name>Garmin196-GPS-non-Canvas</object-name>
         <object-name>glovebox</object-name>
         <condition>
-			<and>
-				<property>/sim/model/c172p/garmin196-visible</property>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
-			</and>
+            <and>
+                <property>/sim/model/c172p/garmin196-visible</property>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
+            </and>
         </condition>
     </animation>
 
@@ -261,14 +261,14 @@
         <type>select</type>
         <object-name>gloveboxfull</object-name>
         <condition>
-			<and>
-				<not>
-					<property>/sim/model/c172p/garmin196-visible</property>
-				</not>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
-			</and>
+            <and>
+                <not>
+                    <property>/sim/model/c172p/garmin196-visible</property>
+                </not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
+            </and>
         </condition>
     </animation>
 
@@ -276,14 +276,14 @@
         <type>select</type>
         <object-name>gpsmodel</object-name>
         <condition>
-			<and>
-				<not>
-					<property>/sim/model/c172p/garmin196-visible</property>
-				</not>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
-			</and>
+            <and>
+                <not>
+                    <property>/sim/model/c172p/garmin196-visible</property>
+                </not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
+            </and>
         </condition>
     </animation>
 
@@ -311,11 +311,11 @@
         <object-name>RudderTrimKnob</object-name>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
-				<property>sim/model/c172p/ruddertrim-visible</property>
-			</and>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
+                <property>sim/model/c172p/ruddertrim-visible</property>
+            </and>
         </condition>
     </animation>
 
@@ -394,6 +394,9 @@
 
             # Bush kit
             rplayer.initNode("sim/model/variant", 0, "INT");
+
+            # Glass Cockpit
+            rplayer.initNode("sim/multiplay/generic/bool[1]", 0, "BOOL");
 
             # Damage
             var wings_collapsed = rplayer.initNode("sim/multiplay/generic/int[15]", 0, "INT");
@@ -552,6 +555,7 @@
             <front-left>/controls/climate-control/overhead-vent-front-left</front-left>
             <front-right>/controls/climate-control/overhead-vent-front-right</front-right>
         </air-vents>
+        <glass>sim/multiplay/generic/bool[1]</glass>
     </params>
 
     <!-- exterior effects -->
@@ -856,7 +860,7 @@
     </effect>
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-fuel-selector</inherits-from>
-		<object-name>FuelSelectorFace</object-name>
+        <object-name>FuelSelectorFace</object-name>
         <object-name>FuelSelectorLeft</object-name>
         <object-name>FuelSelectorRight</object-name>
         <object-name>FuelSelectorBoth</object-name>
@@ -1034,14 +1038,14 @@
         <object-name>RudderTrimKnob</object-name>
         <condition>
             <or>
-				<not>
-					<property>/sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>/sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
+                <not>
+                    <property>/sim/rendering/shaders/skydome</property>
+                </not>
+                <equals>
+                    <property>/sim/rendering/shaders/model</property>
+                    <value>0</value>
+                </equals>
+            </or>
         </condition>
         <emission>
             <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
@@ -1055,9 +1059,10 @@
         <type>material</type>
         <object-name>courtesyon</object-name>
         <condition>
-			<not>
-				<property>controls/panel/glass</property>
-			</not>
+            <not>
+                <!--property>controls/panel/glass</property-->
+                <property alias="/params/glass"/>
+            </not>
         </condition>
         <emission>
             <red>  0.697</red>
@@ -1280,9 +1285,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1304,9 +1309,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1328,9 +1333,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1352,9 +1357,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1376,9 +1381,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1400,9 +1405,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1424,9 +1429,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1448,9 +1453,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1472,9 +1477,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1496,9 +1501,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1520,9 +1525,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1544,9 +1549,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1568,9 +1573,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1592,9 +1597,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1616,9 +1621,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1640,9 +1645,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/sim/model/material/instruments/factor</property>
                     <value>0</value>
@@ -1688,9 +1693,9 @@
         </offsets>
         <condition>
             <and>
-				<not>
-					<property>controls/panel/glass</property>
-				</not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
                 <greater-than>
                     <property>/instrumentation/low-voltage-led</property>
                     <value>0</value>
@@ -1817,7 +1822,7 @@
         <name>fg1000</name>
         <path>Interior/Panel/Instruments/fg1000/fg1000.xml</path>
         <condition>
-            <property>controls/panel/glass</property>
+            <property alias="/params/glass"/>
         </condition>
     </model>
     <model>
@@ -1825,7 +1830,7 @@
         <path>Interior/Panel/Instruments/gear/gear-ctl.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1863,12 +1868,12 @@
             </or>
         </condition>
     </model>
-	  <model>
+      <model>
         <name>asi</name>
         <path>Interior/Panel/Instruments/asi/asi.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1877,7 +1882,7 @@
         <path>Interior/Panel/Instruments/AI/AI.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1886,7 +1891,7 @@
         <path>Interior/Panel/Instruments/alt/alt.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1895,7 +1900,7 @@
         <path>Interior/Panel/Instruments/BatteryGauge/BatteryGauge.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1904,7 +1909,7 @@
         <path>Interior/Panel/Instruments/kap140/kap140.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1913,7 +1918,7 @@
         <path>Interior/Panel/Instruments/dme/ki266.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1922,7 +1927,7 @@
         <path>Interior/Panel/Instruments/tc/tc.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1931,7 +1936,7 @@
         <path>Interior/Panel/Instruments/VSI/VSI.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1940,7 +1945,7 @@
         <path>Interior/Panel/Instruments/RPM/RPM.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1949,7 +1954,7 @@
         <path>Interior/Panel/Instruments/EGT/EGT.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1958,7 +1963,7 @@
         <path>Interior/Panel/Instruments/hi/hi.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1967,7 +1972,7 @@
         <path>Interior/Panel/Instruments/vor/vor.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1976,7 +1981,7 @@
         <path>Interior/Panel/Instruments/vor/vor2.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1985,7 +1990,7 @@
         <path>Interior/Panel/Instruments/kr87-adf/ki227_228.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -1994,7 +1999,7 @@
         <path>Interior/Panel/Instruments/kx165/kx165-1.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
         <overlay>
@@ -2011,7 +2016,7 @@
         <path>Interior/Panel/Instruments/kx165/kx165-2.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
         <overlay>
@@ -2028,7 +2033,7 @@
         <path>Interior/Panel/Instruments/kma20/kma20.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -2037,18 +2042,18 @@
         <path>Interior/Panel/Instruments/kr87-adf/kr87.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
     <model>
         <name>transponder</name>
         <path>Interior/Panel/Instruments/kt76a/kt76a.xml</path>
-		<condition>
-			<not>
-				<property>controls/panel/glass</property>
-			</not>
-		</condition>
+        <condition>
+            <not>
+                <property alias="/params/glass"/>
+            </not>
+        </condition>
     </model>
 
     <model>
@@ -2056,7 +2061,7 @@
         <path>Interior/Panel/Instruments/clock/clock.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -2065,7 +2070,7 @@
         <path>Interior/Panel/Instruments/digital-clock/digital-clock.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -2073,9 +2078,9 @@
     <model>
         <name>vac</name>
         <path>Interior/Panel/Instruments/vac/vac.xml</path>
-		<condition>
+        <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -2084,16 +2089,16 @@
         <path>Interior/Panel/Instruments/FuelOilAmps/c172fuel.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
     <model>
         <name>oil</name>
         <path>Interior/Panel/Instruments/FuelOilAmps/c172oil.xml</path>
-		<condition>
+        <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -2102,7 +2107,7 @@
         <path>Interior/Panel/Instruments/magneto-switch/magneto-switch.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -2111,7 +2116,7 @@
         <path>Interior/Yoke/yoke.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -2124,7 +2129,7 @@
         <path>Interior/Panel/Flaps/flaps.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -2132,7 +2137,7 @@
         <path>Interior/Panel/Instruments/hobbs/hobbs.xml</path>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </model>
@@ -3437,7 +3442,7 @@
         <object-name>FuelSelectorRight</object-name>
         <object-name>FuelSelectorBoth</object-name>
         <object-name>FuelSelectorOff</object-name>
-		<object-name>FuelSelectorFace</object-name>
+        <object-name>FuelSelectorFace</object-name>
 
         <object-name>carpet</object-name>
         <object-name>chassis</object-name>
@@ -3468,10 +3473,10 @@
         <object-name>windlocketbak_left</object-name>
         <object-name>doorhandleint_right</object-name>
         <object-name>doorhandleint_left</object-name>
-		<object-name>courtesyon</object-name>
+        <object-name>courtesyon</object-name>
         <condition>
             <not>
-                <property>controls/panel/glass</property>
+                <property alias="/params/glass"/>
             </not>
         </condition>
     </animation>
@@ -6429,8 +6434,8 @@
     <animation>
         <type>textranslate</type>
         <object-name>FuelSelectorFace</object-name>
-		<object-name>FuelSelectorFace-fg1000</object-name>
-		<object-name>FuelSelectorPanel-fg1000</object-name>
+        <object-name>FuelSelectorFace-fg1000</object-name>
+        <object-name>FuelSelectorPanel-fg1000</object-name>
         <property>/fdm/jsbsim/fuel/tank</property>
         <bias>0.00</bias>
         <factor>.5</factor>
@@ -6811,8 +6816,8 @@
         <min-m>0</min-m>
         <max-m>60</max-m>
     </animation>
-	
-	<!-- ================================================================== -->
+    
+    <!-- ================================================================== -->
     <!-- Exterior Lighting                                                  -->
     <!-- ================================================================== -->
 
@@ -7248,11 +7253,11 @@
         <object-name>ProceduralCourtesyLeftLight</object-name>
         <nopreview/>
         <condition>
-			<or>
-				<!--property alias="/params/lighting/taxi/property"/ needs MP alias-->
-				<property>/sim/model/c172p/lighting/courtesy</property>
-				<property>/controls/lighting/domeL</property>
-			</or>
+            <or>
+                <!--property alias="/params/lighting/taxi/property"/ needs MP alias-->
+                <property>/sim/model/c172p/lighting/courtesy</property>
+                <property>/controls/lighting/domeL</property>
+            </or>
         </condition>
     </animation>
     <animation>
@@ -7260,11 +7265,11 @@
         <object-name>ProceduralCourtesyRightLight</object-name>
         <nopreview/>
         <condition>
-			<or>
-				<!--property alias="/params/lighting/taxi/property"/ needs MP alias-->
-				<property>/sim/model/c172p/lighting/courtesy</property>
-				<property>/controls/lighting/domeR</property>
-			</or>
+            <or>
+                <!--property alias="/params/lighting/taxi/property"/ needs MP alias-->
+                <property>/sim/model/c172p/lighting/courtesy</property>
+                <property>/controls/lighting/domeR</property>
+            </or>
         </condition>
     </animation>
     
@@ -12432,9 +12437,9 @@
         <name>elt</name>
         <path>Interior/FE-ELT/elt.xml</path>
         <condition>
-		        <not>
-			        <property>controls/panel/glass</property>
-		        </not>
+                <not>
+                    <property alias="/params/glass"/>
+                </not>
         </condition>
     </model>
 

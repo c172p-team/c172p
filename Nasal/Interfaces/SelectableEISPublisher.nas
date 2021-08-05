@@ -34,7 +34,7 @@ var SelectableEISPublisher =
     obj.addPropMap("MBusVolts", "/systems/electrical/volts");
     obj.addPropMap("EBusVolts", "/systems/electrical/evolts");
     obj.addPropMap("MBattAmps", "/systems/electrical/amps");
-    obj.addPropMap("EBattAmps", "/systems/electrical/eamps");
+    obj.addPropMap("SBattAmps", "/systems/electrical/eamps");
     obj.addPropMap("EngineHours", "/engines/engine[0]/hours");
     obj.addPropMap("FuelFlowGPH", "/engines/active-engine/fuel-flow-gph");
     obj.addPropMap("OilPressurePSI", "/engines/active-engine/oil-pressure-psi");

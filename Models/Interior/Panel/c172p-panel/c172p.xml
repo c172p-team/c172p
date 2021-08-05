@@ -42,22 +42,105 @@
 
     <animation>
         <type>select</type>
-        <object-name>gloveboxfull</object-name>
+        <object-name>gpsmodel</object-name>
         <condition>
-			<not>
-				<property>/sim/model/c172p/garmin196-visible</property>
-			</not>
+            <not>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </not>
         </condition>
     </animation>
 
     <animation>
         <type>select</type>
-        <object-name>gpsmodel</object-name>
+        <object-name>gloveboxfull</object-name>
         <condition>
-			<not>
-				<property>/sim/model/c172p/garmin196-visible</property>
-			</not>
+            <not>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </not>
         </condition>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>Garmin196-GPS-non-Canvas</object-name>
+        <property>/Interior/Panel/Instruments/garmin196/move</property>
+        <factor>0.1</factor>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>gloveboxfull</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    setprop("/controls/lighting/gps-norm", 0);
+                    setprop("/sim/model/c172p/lighting/gps-norm", 0);
+                    setprop("/instrumentation/garmin196/serviceable",0);
+                    setprop("/instrumentation/garmin196/status",0);
+                    setprop("/instrumentation/garmin196/popup_status",0);
+                </script>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("gps_to_glove_compartment", 1.6)</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>gloveboxfull</tooltip-id>
+                <label>Mount GPS: %s</label>
+                <mapping>on-off</mapping>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>glovebox</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    setprop("/controls/lighting/gps-norm", 0);
+                    setprop("/sim/model/c172p/lighting/gps-norm", 0);
+                    setprop("/instrumentation/garmin196/serviceable",0);
+                    setprop("/instrumentation/garmin196/status",0);
+                    setprop("/instrumentation/garmin196/popup_status",0);
+                </script>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("gps_to_glove_compartment", 1.6)</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>glovebox</tooltip-id>
+                <label>Put Away GPS: %s</label>
+                <mapping>on-off</mapping>
+                <property>/sim/model/c172p/garmin196-visible</property>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -85,18 +168,6 @@
         <condition>
             <property>sim/model/c172p/digitalclock-visible</property>
         </condition>
-    </animation>
-
-    <!-- Courtesy Light -->
-    <animation>
-        <type>material</type>
-        <object-name>courtesyon</object-name>
-        <emission>
-            <red>  0.697</red>
-            <green>0.689</green>
-            <blue> 0.445</blue>
-            <factor-prop>/sim/model/c172p/lighting/courtesy</factor-prop>
-        </emission>
     </animation>
 
     <!-- Dome Light White -->
@@ -281,24 +352,6 @@
                 <value>0</value>
             </greater-than>
         </condition>
-    </model>
-
-    <model>
-        <path>Aircraft/c172p/Models/Effects/interior/procedural_light_courtesy.xml</path>
-        <offsets>
-            <x-m> 0.74 </x-m>
-            <y-m> 1.65 </y-m>
-            <z-m> 0.3275 </z-m>
-        </offsets>
-    </model>
-
-    <model>
-        <path>Aircraft/c172p/Models/Effects/interior/procedural_light_courtesy.xml</path>
-        <offsets>
-            <x-m> 0.74 </x-m>
-            <y-m>-1.65 </y-m>
-            <z-m> 0.3275 </z-m>
-        </offsets>
     </model>
 
     <!-- Procedural Instrument Lights (glare) -->
@@ -706,7 +759,6 @@
         <object-name>AvionicsSwitch</object-name>
         <object-name>radio-light-knob</object-name>
         <object-name>panel-light-knob</object-name>
-        <object-name>gloveboxlock</object-name>
     </effect>
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel</inherits-from>
@@ -715,7 +767,6 @@
         <object-name>InstrumentCover</object-name>
         <object-name>panel_1_1.inf</object-name>
         <object-name>panel_1_1_right</object-name>
-        <object-name>gloveboxdoor</object-name>
         <object-name>glovebox</object-name>
         <object-name>gloveboxfull</object-name>
         <object-name>RudderTrimKnob</object-name>
@@ -833,10 +884,9 @@
         <object-name>InstrumentCover</object-name>
         <object-name>panel_1_1.inf</object-name>
         <object-name>panel_1_1_right</object-name>
-        <object-name>gloveboxdoor</object-name>
+
         <object-name>glovebox</object-name>
         <object-name>gloveboxfull</object-name>
-        <object-name>gloveboxlock</object-name>
 
         <object-name>carpet</object-name>
         <object-name>chassis</object-name>
@@ -1100,14 +1150,6 @@
             </or>
         </condition>
     </model>
-
-    <animation>
-        <type>range</type>
-        <object-name>MagCompass</object-name>
-		<object-name>MagCompassFloat</object-name>
-        <min-m>0</min-m>
-        <max-m>35</max-m>
-    </animation>
 
     <!-- Labels activated by hotspots -->
     <text>
@@ -3247,9 +3289,9 @@
     </animation>
 
     <!-- Interior -->
-    <!--animation>
+    <animation>
         <name>InstrumentsGroup</name>
-       <object-name>Gear</object-name>
+        <object-name>Gear</object-name>
         <object-name>Altimeter</object-name>
         <object-name>BatteryGauge</object-name>
         <object-name>Kap140</object-name>
@@ -3266,6 +3308,8 @@
         <object-name>vac</object-name>
         <object-name>fuel</object-name>
         <object-name>oil</object-name>
+        <object-name>MagCompass</object-name>
+        <object-name>MagCompassFloat</object-name>
     </animation>
     <animation>
         <name>RadioGroup</name>
@@ -3287,7 +3331,7 @@
         <object-name>RadioGroup</object-name>
         <min-m>0</min-m>
         <max-m>60</max-m>
-    </animation-->
+    </animation>
 
     <model>
         <name>elt</name>

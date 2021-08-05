@@ -331,7 +331,7 @@ var electrical_bus_1 = func() {
         # we are feed from the virtual bus
         bus_volts = vbus_volts;
     }
-    print("Bus volts: ", bus_volts);
+    #print("Bus volts: ", bus_volts);
 
     # Flaps 10 amp breaker
     if (getprop("/controls/circuit-breakers/flaps")) {

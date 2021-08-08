@@ -40,6 +40,7 @@ var SelectableEISPublisher =
     obj.addPropMap("OilPressurePSI", "/engines/active-engine/oil-pressure-psi");
     obj.addPropMap("OilTemperatureF", "/engines/active-engine/oil-temperature-degf");
     obj.addPropMap("EGTNorm", "/engines/active-engine/egt-norm");
+    obj.addPropMap("CHTDegF", "/engines/engine/cht-degf");
     obj.addPropMap("VacuumSuctionInHG", "/systems/vacuum/suction-inhg");
 
     return obj;

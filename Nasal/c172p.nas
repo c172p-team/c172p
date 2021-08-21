@@ -23,6 +23,9 @@ var autostart = func (msg=1) {
     setprop("/controls/switches/master-bat", 1);
     setprop("/controls/switches/master-alt", 1);
     setprop("/controls/switches/master-avionics", 1);
+    if (getprop("controls/panel/glass")) {
+        setprop("/controls/switches/master-avionics2", 1);
+    }
 
     # Setting lights
     setprop("/controls/lighting/nav-lights", 1);
@@ -32,13 +35,40 @@ var autostart = func (msg=1) {
     # Setting instrument lights if needed
     var light_level = 1-getprop("/rendering/scene/diffuse/red");
     if (light_level > .6) {
-        if (getprop("/controls/lighting/instruments-norm") == 0) {
-            if (light_level > .8) light_level = .8;
-            setprop("/controls/lighting/instruments-norm", light_level);
+        if (!getprop("/controls/panel/glass")){
+            if (getprop("/controls/lighting/instruments-norm") == 0) {
+                if (light_level > .8) light_level = .8;
+                setprop("/controls/lighting/instruments-norm", light_level);
+            }
+            setprop("/controls/switches/dome-red", 1);
         }
-        setprop("/controls/switches/dome-red", 1);
+        if (getprop("/controls/panel/glass")) {
+            if (getprop("/controls/lighting/swcb-norm") == 0) {
+                setprop("/controls/lighting/swcb-norm", .55);
+            }
+            if (getprop("/controls/lighting/avionics-norm") == 0) {
+                setprop("/controls/lighting/avionics-norm", .6);
+            }
+            if (getprop("/controls/lighting/stby-norm") == 0) {
+                setprop("/controls/lighting/stby-norm", .8);
+            }
+        }
+    } else {
+        if (getprop("/controls/panel/glass")) {
+            if (getprop("/controls/lighting/swcb-norm") == 0) {
+                setprop("/controls/lighting/swcb-norm", .35);
+            }
+            if (getprop("/controls/lighting/avionics-norm") == 0) {
+                setprop("/controls/lighting/avionics-norm", .35);
+            }
+            if (getprop("/controls/lighting/stby-norm") == 0) {
+                setprop("/controls/lighting/stby-norm", .75);
+            }
+        }
     }
-
+    if (getprop("/controls/panel/glass")) {
+        setprop("/controls/switches/stby-batt", 2);
+    }
     # Setting amphibious landing gear if needed
     if (getprop("/fdm/jsbsim/bushkit")==4){
         if (getprop("/fdm/jsbsim/hydro/active-norm")) {
@@ -281,7 +311,7 @@ var switches_save_state = func {
         setprop("/controls/engines/engine[0]/use-primer", 0);
         setprop("/controls/engines/current-engine/throttle", 0.0);
         setprop("/controls/engines/current-engine/mixture", 0.0);
-        setprop("/controls/circuit-breakers/aircond", 1);
+        #setprop("/controls/circuit-breakers/aircond", 1);
         setprop("/controls/circuit-breakers/autopilot", 1);
         setprop("/controls/circuit-breakers/bcnlt", 1);
         setprop("/controls/circuit-breakers/flaps", 1);
@@ -313,7 +343,6 @@ var switches_save_state = func {
         setprop("/controls/lighting/instruments-norm", 0.0);
         setprop("/controls/lighting/radio-norm", 0.0);
         setprop("/controls/lighting/dome-white-norm", 1.0);
-        setprop("/controls/lighting/dome-norm", 0.0);
         setprop("/controls/lighting/gps-norm", 0.0);
         setprop("/controls/lighting/gearled", 0);
         setprop("/controls/gear/water-rudder", 0);
@@ -331,8 +360,16 @@ var switches_save_state = func {
         setprop("/consumables/fuel/tank[1]/level-norm", 0.0);
         setprop("/consumables/fuel/tank[2]/level-norm", 0.0);
         setprop("/consumables/fuel/tank[3]/level-norm", 0.0);
+
         if (getprop("/sim/model/c172p/ruddertrim-visible"))
           setprop("/controls/flight/rudder-trim", 0);
+
+        if (getprop("controls/panel/glass")) {
+            electrical.reset_battery_and_circuit_breakers();
+            setprop("/controls/switches/master-avionics", 0);
+            setprop("/controls/switches/master-avionics2", 0);
+        }
+
     };
 };
 
@@ -460,7 +497,7 @@ var StaticModel = {
             parents: [StaticModel],
             model: nil,
             model_file: file,
-	    object_name: name
+        object_name: name
         };
 
         setlistener("/sim/" ~ name ~ "/enable", func (node) {
@@ -686,34 +723,34 @@ setlistener("/sim/signals/fdm-initialized", func {
 
     # set user defined pilot view or initialize it
     if (getprop("sim/current-view/view-number") == 0){
-		settimer(func {
-			if (getprop("sim/current-view/user/x-offset-m") != nil){
-				setprop("sim/current-view/x-offset-m", getprop("sim/current-view/user/x-offset-m"));
-			} else {
-				setprop("sim/current-view/user/x-offset-m", getprop("sim/view/config/x-offset-m"));
-			}
-			if (getprop("sim/current-view/user/y-offset-m") != nil){
-				setprop("sim/current-view/y-offset-m", getprop("sim/current-view/user/y-offset-m"));
-			} else {
-				setprop("sim/current-view/user/y-offset-m", getprop("sim/view/config/y-offset-m"));
-			}
-			if (getprop("sim/current-view/user/z-offset-m") != nil){
-				setprop("sim/current-view/z-offset-m", getprop("sim/current-view/user/z-offset-m"));
-			} else {
-				setprop("sim/current-view/user/z-offset-m", getprop("sim/view/config/z-offset-m"));
-			}
-			if (getprop("sim/current-view/user/default-field-of-view-deg") != nil){
-				setprop("sim/current-view/field-of-view", getprop("sim/current-view/user/default-field-of-view-deg"));
-			} else {
-				setprop("sim/current-view/user/default-field-of-view-deg", getprop("sim/view/config/default-field-of-view-deg"));
-			}
-			if (getprop("sim/current-view/user/pitch-offset-deg") != nil){
-				setprop("sim/current-view/pitch-offset-deg", getprop("sim/current-view/user/pitch-offset-deg"));
-			} else {
-				setprop("sim/current-view/user/pitch-offset-deg", getprop("sim/view/config/pitch-offset-deg"));
-			}
-		}, 1);
-	}
+        settimer(func {
+            if (getprop("sim/current-view/user/x-offset-m") != nil){
+                setprop("sim/current-view/x-offset-m", getprop("sim/current-view/user/x-offset-m"));
+            } else {
+                setprop("sim/current-view/user/x-offset-m", getprop("sim/view/config/x-offset-m"));
+            }
+            if (getprop("sim/current-view/user/y-offset-m") != nil){
+                setprop("sim/current-view/y-offset-m", getprop("sim/current-view/user/y-offset-m"));
+            } else {
+                setprop("sim/current-view/user/y-offset-m", getprop("sim/view/config/y-offset-m"));
+            }
+            if (getprop("sim/current-view/user/z-offset-m") != nil){
+                setprop("sim/current-view/z-offset-m", getprop("sim/current-view/user/z-offset-m"));
+            } else {
+                setprop("sim/current-view/user/z-offset-m", getprop("sim/view/config/z-offset-m"));
+            }
+            if (getprop("sim/current-view/user/default-field-of-view-deg") != nil){
+                setprop("sim/current-view/field-of-view", getprop("sim/current-view/user/default-field-of-view-deg"));
+            } else {
+                setprop("sim/current-view/user/default-field-of-view-deg", getprop("sim/view/config/default-field-of-view-deg"));
+            }
+            if (getprop("sim/current-view/user/pitch-offset-deg") != nil){
+                setprop("sim/current-view/pitch-offset-deg", getprop("sim/current-view/user/pitch-offset-deg"));
+            } else {
+                setprop("sim/current-view/user/pitch-offset-deg", getprop("sim/view/config/pitch-offset-deg"));
+            }
+        }, 1);
+    }
 
     c172_timer.start();
 });

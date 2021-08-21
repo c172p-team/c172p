@@ -1,0 +1,303 @@
+<?xml version="1.0"?>
+<!--
+************************************************************************
+c172p simulation configuration. This files ties together all the components
+used by FGFS to represent the c172p. Components include the flight data
+model, instrument panel, and external 3D model.
+************************************************************************
+-->
+
+<PropertyList include="c172p-main.xml">
+    <sim>
+        <variant-of>c172p</variant-of>
+        <description>Cessna 172P Skyhawk (180 hp) (FG1000-KAP140)</description>
+        <previews>
+            <preview>
+                <type>cockpit</type>
+                <path>Previews/c172p-preview0.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Previews/c172p-preview1.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Previews/c172p-preview2.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Previews/c172p-preview3.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Previews/c172p-preview4.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Previews/c172p-preview5.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Previews/c172p-preview6.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Previews/c172p-preview7.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Previews/c172p-preview8.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Previews/c172p-preview9.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Previews/c172p-preview10.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>exterior</type>
+                <path>Previews/c172p-preview11.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>cockpit</type>
+                <path>Previews/c172p-preview12.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+            <preview>
+                <type>detail</type>
+                <path>Previews/c172p-preview13.jpg</path>
+                <splash type="bool">true</splash>
+            </preview>
+        </previews>
+        <model>
+            <variant type="int">0</variant>
+        </model>
+        <systems>
+            <autopilot n="0">
+                <path>Models/Interior/Panel/Instruments/kap140/nav-selector.xml</path>
+            </autopilot>
+            <autopilot n="5">
+                <path>Models/Interior/Panel/Instruments/kap140/kap140-autopilot.xml</path>
+            </autopilot>
+            <property-rule n="108">
+                <path>Aircraft/c172p/Systems/electrical-fg1000.xml</path>
+            </property-rule>
+            <property-rule n="109">
+                <path>Models/Interior/Panel/Instruments/kap140/kap140-proprules.xml</path>
+            </property-rule>
+        </systems>
+    </sim>
+    <nasal>
+        <electrical>
+            <file>Nasal/electrical-fg1000.nas</file>
+        </electrical>
+    </nasal>
+    <controls>
+        <engines>
+            <active-engine type="int">1</active-engine>
+        </engines>
+        <panel>
+            <glass type="bool">true</glass>
+            <kap140 type="bool">true</kap140>
+        </panel>
+        <switches>
+            <stby-batt type="int">1</stby-batt>
+        </switches>
+        <lighting>
+            <batt-test-lamp-norm type="int">0</batt-test-lamp-norm>
+            <avionics-norm type="double">0</avionics-norm>
+            <pedestal-norm type="double">0</pedestal-norm>
+            <swcb-norm type="double">0</swcb-norm>
+            <stby-norm type="double">0</stby-norm>
+            <domeL-norm type="double">0</domeL-norm>
+            <domeR-norm type="double">0</domeR-norm>
+        </lighting>
+        <circuit-breakers>
+            <feeder-a type="int">1</feeder-a>
+            <feeder-b type="int">1</feeder-b>
+        </circuit-breakers>
+    </controls>
+    <autopilot>
+        <internal>
+            <target-climb-rate type="int">0</target-climb-rate>
+            <target-altitude type="int">0</target-altitude>
+            <target-pressure type="double">0.0</target-pressure>
+            <target-pressure-rate type="double">0.0</target-pressure-rate>
+            <target-turn-rate type="double">0.0</target-turn-rate>
+            <max-rate-of-change type="double">100.0</max-rate-of-change>
+            <ref-lateral type="double">0.0</ref-lateral>
+            <ref-vertical type="double">0.0</ref-vertical>
+        </internal>
+        <kap140>
+            <serviceable type="bool">true</serviceable>
+            <powered type="bool">false</powered>
+            <programmed type="bool">true</programmed>
+            <roll-axis-fail type="bool">false</roll-axis-fail>
+            <pitch-axis-fail type="bool">false</pitch-axis-fail>
+            <bad-condition type="bool">false</bad-condition>
+            <config>
+              <model type="int">3</model>
+              <power type="double">24.0</power>
+              <hsi-installed type="bool">false</hsi-installed>
+              <default-altitude type="int">4500</default-altitude>
+              <baro-tied type="bool">false</baro-tied>
+              <autotrim-pitch type="bool">true</autotrim-pitch>
+              <gain-pitch type="double">0.7</gain-pitch> <!-- Elevators very sensitive -->
+              <gain-roll type="double">1.3</gain-roll>   <!-- Ailerons are a little slow -->
+            </config>
+            <panel>
+              <state type="int">0</state>
+              <state-old type="int">0</state-old>
+              <alt-alert type="double">0.0</alt-alert>
+              <alt-alert-arm type="double">0.0</alt-alert-arm>
+              <alt-alert-sound type="bool">false</alt-alert-sound>
+              <ap-timer type="double">0.0</ap-timer>
+              <button-ap type="double">0.0</button-ap>
+              <button-hdg type="double">0.0</button-hdg>
+              <button-nav type="double">0.0</button-nav>
+              <button-apr type="double">0.0</button-apr>
+              <button-rev type="double">0.0</button-rev>
+              <button-alt type="double">0.0</button-alt>
+              <button-up type="double">0.0</button-up>
+              <button-down type="double">0.0</button-down>
+              <button-arm type="double">0.0</button-arm>
+              <button-baro type="double">0.0</button-baro>
+              <knob-inner-pos type="int">0</knob-inner-pos>
+              <knob-outer-pos type="int">0</knob-outer-pos>
+              <baro-timer type="double">0.0</baro-timer>
+              <baro-mode type="int">0</baro-mode>
+              <baro-mode-old type="int">0</baro-mode-old>
+              <digit type="int">0</digit>
+              <digit-mode type="int">0</digit-mode>
+              <digit-timer type="double">0.0</digit-timer>
+              <fpm-timer type="double">0.0</fpm-timer>
+              <hdg-timer type="double">0.0</hdg-timer>
+              <nav-timer type="double">0.0</nav-timer>
+              <pft-1 type="double">0.0</pft-1>
+              <pft-2 type="double">0.0</pft-2>
+              <pft-3 type="double">0.0</pft-3>
+              <pt-up type="bool">false</pt-up>
+              <pt-down type="bool">false</pt-down>
+            </panel>
+            <sensors>
+              <elevator-trim-demand type="double">0.0</elevator-trim-demand>
+              <elevator-trim type="double">0.0</elevator-trim>
+              <pitch-up type="double">0.0</pitch-up>
+              <pitch-down type="double">0.0</pitch-down>
+              <pitch-trim type="double">0.0</pitch-trim>
+              <!--pitch-force type="double">0.0</pitch-force-->
+              <!--roll-force type="double">0.0</roll-force-->
+            </sensors>
+            <servo>
+              <aileron type="double">0.0</aileron>
+              <aileron-rate type="double">0.0</aileron-rate>
+              <elevator type="double">0.0</elevator>
+              <elevator-rate type="double">0.0</elevator-rate>
+              <roll-servo>
+                <serviceable type="bool">true</serviceable>
+              </roll-servo>
+              <pitch-servo>
+                <serviceable type="bool">true</serviceable>
+              </pitch-servo>
+              <elevator-trim-servo>
+                <serviceable type="bool">true</serviceable>
+              </elevator-trim-servo>
+            </servo>
+            <settings>
+              <cws type="bool">false</cws>
+              <ap-disc type="bool">false</ap-disc>
+              <lateral-mode type="int">0</lateral-mode>
+              <lateral-arm type="int">0</lateral-arm>
+              <vertical-mode type="int">0</vertical-mode>
+              <vertical-arm type="int">0</vertical-arm>
+            </settings>
+        </kap140>
+    </autopilot>
+    <instrumentation>
+        <audio-panel>
+            <com1-mic-btn type="bool">false</com1-mic-btn>
+            <com2-mic-btn type="bool">false</com2-mic-btn>
+            <com3-mic-btn type="bool">false</com3-mic-btn>
+            <com12-btn type="bool">false</com12-btn>
+            <pa-btn type="bool">false</pa-btn>
+            <mkr-mute-btn type="bool">false</mkr-mute-btn>
+            <dme-btn type="bool">false</dme-btn>
+            <adf-btn type="bool">false</adf-btn>
+            <aux-btn type="bool">false</aux-btn>
+            <man-sq-btn type="bool">false</man-sq-btn>
+            <pilot-btn type="bool">false</pilot-btn>
+            <com1-btn type="bool">false</com1-btn>
+            <com2-btn type="bool">false</com2-btn>
+            <com3-btn type="bool">false</com3-btn>
+            <tel-btn type="bool">false</tel-btn>
+            <spkr-btn type="bool">false</spkr-btn>
+            <hi-sens-btn type="bool">false</hi-sens-btn>
+            <nav1-btn type="bool">false</nav1-btn>
+            <nav2-btn type="bool">false</nav2-btn>
+            <play-btn type="bool">false</play-btn>
+            <coplt-btn type="bool">false</coplt-btn>
+        </audio-panel>
+        <comm>
+            <power-btn type="double">0</power-btn>
+            <volume type="double">0</volume>
+        </comm>
+        <marker-beacon>
+            <audio-btn type="double">0</audio-btn>
+        </marker-beacon>
+        <dme>
+            <ident type="double">0</ident>
+        </dme>
+        <adf>
+            <ident-audible type="double">0</ident-audible>
+        </adf>
+        <FG1000>
+            <Lightmap type="double">0</Lightmap>
+        </FG1000>
+
+        <!-- used by kap140 autopilot -->
+        <nav-source>
+            <selector type="int">0</selector>
+            <in-range type="bool">false</in-range>
+            <from-flag type="bool">false</from-flag>
+            <to-flag type="bool">false</to-flag>
+            <nav-loc type="bool">false</nav-loc>
+            <has-gs type="bool">false</has-gs>
+            <gs-in-range type="bool">false</gs-in-range>
+            <gs-rate-of-climb type="double">0.0</gs-rate-of-climb>
+            <gs-rate-of-climb-fpm type="double">0.0</gs-rate-of-climb-fpm>
+            <heading-needle-deflection type="double">0.0</heading-needle-deflection>
+            <heading-needle-deflection-norm type="double">0.0</heading-needle-deflection-norm>
+            <gs-needle-deflection type="double">0.0</gs-needle-deflection>
+            <selected-radial-deg type="double">0.0</selected-radial-deg>
+            <target-radial-deg type="double">0.0</target-radial-deg>
+            <course-error type="double">0.0</course-error>
+            <foo>bar</foo>
+        </nav-source>
+        <!-- KAP140 internal pressure sensor -->
+        <altimeter-kap140-internal>
+            <serviceable type="bool">true</serviceable>
+        </altimeter-kap140-internal>
+    </instrumentation>
+    <fdm>
+        <jsbsim>
+            <bushkit type="int">0</bushkit>
+            <fuel>
+                <tank type="bool">1</tank>
+            </fuel>
+        </jsbsim>
+    </fdm>
+</PropertyList>

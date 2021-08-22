@@ -1,6 +1,32 @@
 List of features and bug fixes
 ==============================
 
+Version 2020.4
+--------------
+
+**Features:**
+
+* Completely new 172sp FG1000 variant
+* Add 2020.4 clustered shading lighting support
+* Compositor compatibility and real time shadows
+* Add support for aerotow to allow gliders to be towed by the C172P
+* Add revised and improved KAP140
+
+**Fixes:**
+
+* VOR/NAV guages: add missing yellow ticks and OBS label
+* VOR/NAV guages: fix localizer needle rotation center
+* Correct typos in the 'Flying the Pattern' tutorial
+* Fix parking brake binding on joysticks; improve the parking brake control
+* Fix issue where the engine wouldn't quit after a plane crash
+* Fix issue where external views would break after switching airports
+* Re-add the default mouse action when in a viewfrom view mode.
+* Fix NAV and COM radio electrical source
+* Refactor c172p amp draw calculations
+* Correct battery amp hours
+* Power of two texture correction
+* Improved aircraft variant set file isolation
+
 Version 2020.3
 --------------
 

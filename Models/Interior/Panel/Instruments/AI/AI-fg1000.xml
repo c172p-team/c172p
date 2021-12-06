@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>AI-fg1000.ac</path>
+
+	<effect>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-ai</inherits-from>
+        <object-name>AdjustKnob</object-name>
+        <object-name>Roll</object-name>
+        <object-name>Pitch</object-name>
+        <object-name>Aircraft</object-name>
+        <object-name>RollReference</object-name>
+        <object-name>Bracket</object-name>
+        <object-name>Bezel</object-name>
+        <object-name>Case</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>Aircraft</object-name>
+        <object-name>Pitch</object-name>
+        <object-name>Roll</object-name>
+        <object-name>RollReference</object-name>
+        <object-name>Case</object-name>
+        <condition>
+            <not>
+                <property>/sim/rendering/shaders/skydome</property>
+            </not>
+        </condition>
+       <emission>
+            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
+            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
+            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>AdjustKnob</object-name>
+        <object-name>Bezel</object-name>
+        <object-name>Bracket</object-name>
+        <condition>
+            <not>
+                <property>/sim/rendering/shaders/skydome</property>
+            </not>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <model>
+        <name>ai-fg1000</name>
+        <path>../../../../Effects/interior/procedural_light_instruments_fg1000.xml</path>
+        <offsets>
+            <x-m>-0.366612</x-m>
+            <y-m> 0.056759</y-m>
+            <z-m>-0.087683</z-m>
+        </offsets>
+        <condition>
+            <and>
+				<property>/controls/panel/glass</property>
+                <greater-than>
+                    <property>/controls/lighting/stby</property>
+                    <value>0</value>
+                </greater-than>
+                <greater-than>
+                    <property>/sim/rendering/shaders/model</property>
+                    <value>0</value>
+                </greater-than>
+            </and>
+        </condition>
+    </model>
+
+    <animation>
+        <name>Pitch</name>
+        <type>translate</type>
+        <object-name>Pitch</object-name>
+        <property>instrumentation/attitude-indicator/indicated-pitch-deg</property>
+        <factor>-0.0007</factor>
+        <min-m>-0.01575</min-m>
+        <max-m>0.01575</max-m>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <name>Horizon Offset</name>
+        <type>translate</type>
+        <object-name>Pitch</object-name>
+        <property>instrumentation/attitude-indicator/horizon-offset-deg</property>
+        <factor>-0.0007</factor>
+        <min-m>-0.01575</min-m>
+        <max-m>0.01575</max-m>
+        <axis>
+            <x>0.0</x>
+            <y>0.0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Roll</object-name>
+        <property>instrumentation/attitude-indicator/indicated-roll-deg</property>
+        <factor>-1</factor>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-0.374594</x-m>
+            <y-m> 0.057374</y-m>
+            <z-m>-0.10831</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>Pitch</object-name>
+        <property>instrumentation/attitude-indicator/indicated-roll-deg</property>
+        <factor>-0.5</factor>
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-0.374594</x-m>
+            <y-m> 0.057374</y-m>
+            <z-m>-0.10831</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>knob</type>
+        <object-name>AdjustKnob</object-name>
+        <action>
+            <repeatable>true</repeatable>
+            <binding>
+                <command>property-adjust</command>
+                <property>instrumentation/attitude-indicator/horizon-offset-deg</property>
+                <factor type="double">0.2</factor>
+                <min>-7.0</min>
+                <max>2.0</max>
+            </binding>
+        </action>
+        <property>instrumentation/attitude-indicator/horizon-offset-deg</property>
+        <factor>-8</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-0.353372</x-m>
+            <y-m> 0.057462</y-m>
+            <z-m>-0.139995</z-m>
+        </center>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>ai-horizon-offset</tooltip-id>
+                <label>Horizon Offset: %.1f</label>
+                <property>instrumentation/attitude-indicator/horizon-offset-deg</property>
+            </binding>
+        </hovered>
+    </animation>
+
+    <!-- Cage system is not used in this model of the AI -->
+    <!--animation>
+        <type>pick</type>
+        <visible>true</visible>
+        <object-name>CageKnob</object-name>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>instrumentation/attitude-indicator/caged-flag</property>
+                <value type="bool">true</value>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("ai-caged")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>ai-caged</tooltip-id>
+                <label>Caged: %s</label>
+                <mapping>on-off</mapping>
+                <property>instrumentation/attitude-indicator/caged-flag</property>
+            </binding>
+        </hovered>
+    </animation-->
+
+    <!--animation>
+        <type>select</type>
+        <object-name>CagedIndicator</object-name>
+        <condition>
+            <property>instrumentation/attitude-indicator/caged-flag</property>
+        </condition>
+    </animation-->
+
+    <!--animation>
+        <type>translate</type>
+        <object-name>CageKnob</object-name>
+        <property>instrumentation/attitude-indicator/caged-flag</property>
+        <factor>0.005</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation-->
+
+    <!-- Support themes -->
+    <animation>
+        <type>material</type>
+        <object-name>Aircraft</object-name>
+        <object-name>Bracket</object-name>
+        <object-name>CageKnob</object-name>
+        <object-name>CagedIndicator</object-name>
+        <object-name>Roll</object-name>
+        <property-base>sim/model/liveryinstrumentsai/</property-base>
+        <texture-prop>texture</texture-prop>
+        <texture>AI.png</texture>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>Pitch</object-name>
+        <property-base>sim/model/liveryinstrumentsai2/</property-base>
+        <texture-prop>texture</texture-prop>
+        <texture>AI.png</texture>
+    </animation>
+
+</PropertyList>

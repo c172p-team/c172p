@@ -1,0 +1,223 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>yoke-fg1000.ac</path>
+
+    <params>
+        <aileron>/sim/model/c172p/cockpit/yoke-aileron</aileron>
+        <elevator>/sim/model/c172p/cockpit/yoke-elevator</elevator>
+        <elevatornorm>/sim/model/c172p/cockpit/yoke-elevator-norm</elevatornorm>
+    </params>
+
+    <effect>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-yoke</inherits-from>
+        <object-name>LeftYokeMain</object-name>
+        <object-name>YokeCordLeft</object-name>
+        <object-name>RightYokeMain</object-name>
+        <object-name>YokeCordRight</object-name>
+        <object-name>LeftYoke</object-name>
+        <object-name>LeftYokeMount</object-name>
+        <object-name>RightYoke</object-name>
+        <object-name>RightYokeMount</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>LeftYoke</object-name>
+        <object-name>LeftYokeMain</object-name>
+        <object-name>RightYoke</object-name>
+        <object-name>RightYokeMain</object-name>
+        <object-name>LeftYoke</object-name>
+        <object-name>LeftYokeMount</object-name>
+        <object-name>RightYoke</object-name>
+        <object-name>RightYokeMount</object-name>
+        <condition>
+            <not>
+                <property>/sim/rendering/shaders/skydome</property>
+            </not>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>LeftYoke</object-name>
+        <object-name>LeftYokeMain</object-name>
+        <object-name>RightYoke</object-name>
+        <object-name>RightYokeMain</object-name>
+        <property alias="/params/elevator"/>
+        <factor>-0.1</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>LeftYoke</object-name>
+        <object-name>LeftYokeMain</object-name>
+        <property alias="/params/aileron"/>
+        <factor>-90.0</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+        <center>
+            <x-m>-0.34713</x-m>
+            <y-m>-0.22065</y-m>
+            <z-m>-0.09786</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>RightYoke</object-name>
+        <object-name>RightYokeMain</object-name>
+        <property alias="/params/aileron"/>
+        <factor>-90.0</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+        <center>
+            <x-m>-0.34602</x-m>
+            <y-m> 0.23951</y-m>
+            <z-m>-0.09581</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>LeftYoke</object-name>
+        <object-name>LeftYokeMain</object-name>
+        <object-name>RightYoke</object-name>
+        <object-name>RightYokeMain</object-name>
+        <object-name>YokeCordLeft</object-name>
+        <object-name>YokeCordRight</object-name>
+        <condition>
+            <not>
+                <property>sim/model/hide-yoke</property>
+            </not>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>LeftYokeMount</object-name>
+        <object-name>RightYokeMount</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/model/hide-yoke</property>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>sim/model/c172p/cockpit/control-lock-placed</property>
+                <value>false</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>show-hide-yoke</tooltip-id>
+                <label>Show/Hide Yoke</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>YokeCordLeft</object-name>
+        <property>sim/model/c172p/cockpit/yoke-aileron</property>
+        <factor>-9</factor>
+        <center>
+            <x-m>-0.36129</x-m>
+            <y-m>-0.22133</y-m>
+            <z-m>-0.13909</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>YokeCordLeft</object-name>
+        <property>sim/model/c172p/cockpit/yoke-aileron-abs</property>
+        <factor>-8</factor>
+        <center>
+            <x-m>-0.36129</x-m>
+            <y-m>-0.22133</y-m>
+            <z-m>-0.13909</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>YokeCordRight</object-name>
+        <property>sim/model/c172p/cockpit/yoke-aileron</property>
+        <factor>-9</factor>
+        <center>
+            <x-m>-0.36088</x-m>
+            <y-m> 0.23811</y-m>
+            <z-m>-0.11959</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>1</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>YokeCordRight</object-name>
+        <property>sim/model/c172p/cockpit/yoke-aileron-abs</property>
+        <factor>-8</factor>
+        <center>
+            <x-m>-0.36088</x-m>
+            <y-m> 0.23811</y-m>
+            <z-m>-0.11959</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>scale</type>
+        <object-name>YokeCordLeft</object-name>
+        <object-name>YokeCordRight</object-name>
+        <property alias="/params/elevatornorm"/>
+        <center>
+            <x-m>-0.36129</x-m>
+            <y-m>-0.22133</y-m>
+            <z-m>-0.13909</z-m>
+        </center>
+        <x-min>0.0</x-min>
+        <y-min>1</y-min>
+        <z-min>1</z-min>
+        <x-factor>1.0</x-factor>
+        <y-factor>0.0</y-factor>
+        <z-factor>0.0</z-factor>
+    </animation>
+
+</PropertyList>

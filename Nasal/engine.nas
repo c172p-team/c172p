@@ -376,6 +376,7 @@ var update = func {
 
     # We use the mixture to control the engines, so set the mixture
     var usePrimer = getprop("/controls/engines/engine/use-primer") or 0;
+    if(getprop("/controls/panel/glass")) usePrimer = 0;
 
     var engine_running = getprop("/engines/active-engine/running");
 
@@ -424,7 +425,10 @@ setlistener("/controls/switches/starter", func {
     }
     else {
         print("Starter on");
-        setprop("/controls/engines/engine/use-primer", 1);
+        if(getprop("/controls/panel/glass"))
+            setprop("/controls/engines/engine/use-primer", 0); 
+        else
+            setprop("/controls/engines/engine/use-primer", 1);
         if (primerTimer.isRunning) {
             primerTimer.stop();
         }

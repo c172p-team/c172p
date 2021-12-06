@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PropertyList>
+
+    <filter>
+        <type>gain</type>
+        <gain>100.0</gain>
+        <input>
+            <property>/systems/electrical/battery-charge-percent/a</property> <!-- this property ranges from 0.0 to 1.0 despite its name -->
+        </input>
+        <output>
+            <property>/systems/electrical/battery-charge-percent-100</property>
+        </output>
+    </filter>
+    
+    <logic>
+        <name>Low Voltage LED</name>
+        <input>
+            <and>
+                <greater-than>
+                    <property>systems/electrical/volts</property>
+                    <value>31.5</value>
+                </greater-than>
+                <less-than>
+                    <property>systems/electrical/amps</property>
+                    <value>20.0</value>
+                </less-than>
+                
+            </and>
+        </input>
+        <output>
+            <property>/instrumentation/low-voltage-led</property>
+        </output>
+    </logic>
+
+    <filter>
+        <name>Light Map Dome White Left</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/controls/lighting/domeL-norm</property>
+                        <value>0.0</value>
+					</greater-than>
+                </and>
+            </condition>
+            <property>/controls/lighting/domeL-norm</property>
+        </input>
+        <output>
+           <property>/controls/lighting/domeL</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Light Map Dome White Right</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <less-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/controls/lighting/domeR-norm</property>
+                        <value>0.0</value>
+					</greater-than>
+                </and>
+            </condition>
+            <property>controls/lighting/domeR-norm</property>
+        </input>
+        <output>
+           <property>/controls/lighting/domeR</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>SW/CB Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                </and>
+            </condition>
+            <property>/controls/lighting/swcb-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/lighting/swcb</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>SW/CB Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                </and>
+            </condition>
+            <property>/controls/lighting/swcb-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/lighting/swcb</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Avionics 1 Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/pfd-avn</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/pfd-avn</property>
+                        <value>31.5</value>
+                    </less-than>
+                </and>
+            </condition>
+            <value>1.0</value>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/lighting/pfd-avn</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Avionics 2 Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/mfd</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/mfd</property>
+                        <value>31.5</value>
+                    </less-than>
+                </and>
+            </condition>
+            <value>1.0</value>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/lighting/mfd</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Avionics Essential Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/pfd-ess</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/pfd-ess</property>
+                        <value>31.5</value>
+                    </less-than>
+                </and>
+            </condition>
+            <value>1.0</value>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/lighting/pfd-ess</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Stby Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/instrument-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                    <property>controls/panel/glass</property>
+                </and>
+            </condition>
+            <property>/controls/lighting/stby-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/lighting/stby</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Pedestal Lighting</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <and>
+                    <greater-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>20.0</value>
+                    </greater-than>
+                    <less-than>
+                        <property>/systems/electrical/outputs/cabin-lights</property>
+                        <value>31.5</value>
+                    </less-than>
+                </and>
+            </condition>
+            <property>/controls/lighting/pedestal-norm</property>
+        </input>
+        <input>
+            <value>0.0</value>
+        </input>
+        <output>
+            <property>/controls/lighting/pedestal</property>
+        </output>
+    </filter>
+
+    <logic>
+        <name>Hydraulic On/Off</name>
+        <input>
+            <and>
+                <less-than>
+                    <property>systems/electrical/outputs/hydraulic-pump</property>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property>systems/electrical/outputs/hydraulic-pump</property>
+                    <value>20.0</value>
+                </greater-than>
+                <property>/controls/switches/master-bat</property>
+            </and>
+        </input>
+        <output>
+            <property>/sim/model/c172p/hydraulics/hydraulic-pump</property>
+        </output>
+    </logic>
+
+    <logic>
+        <name>Amphibious Gear Hydraulic Damage</name>
+        <input>
+            <and>
+                <equals>
+                    <property>fdm/jsbsim/pontoon-damage/left-pontoon</property>
+                    <value>0</value>
+                </equals>
+                <equals>
+                    <property>fdm/jsbsim/pontoon-damage/right-pontoon</property>
+                    <value>0</value>
+                </equals>
+                <property>controls/gear/gear-down-command</property>
+            </and>
+        </input>
+        <output>
+            <property>controls/gear/gear-down</property>
+        </output>
+    </logic>
+
+</PropertyList>

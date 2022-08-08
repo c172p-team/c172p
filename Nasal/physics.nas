@@ -199,3 +199,20 @@ setlistener("controls/gear/gear-down-command", func (n) {
     }
 }, 0, 0);
 
+# Float water disipation time
+var float_water_dissipation =0.5;
+
+# This timer object is used to display water particle effect falling from
+# floats for a short time after leaving the water.
+
+var float_water_dissipation_timer = maketimer(float_water_dissipation, func {
+    setprop("/fdm/jsbsim/float/water-dissipation", 0);
+});
+float_water_dissipation_timer.singleShot = 1;
+
+setlistener("fdm/jsbsim/hydro/active-norm", func (n) {
+	if (!n.getBoolValue()) {
+        setprop("/fdm/jsbsim/float/water-dissipation", 1);
+        float_water_dissipation_timer.restart(float_water_dissipation);
+    }
+}, 0, 0);

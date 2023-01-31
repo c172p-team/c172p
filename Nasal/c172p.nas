@@ -790,8 +790,8 @@ setlistener("/sim/model/c172p/ruddertrim-visible", func (node) {
         setprop("/controls/flight/rudder-trim", 0.02);
 }, 0, 0);
 
-    #fuel tank configuration switch
-    setlistener("/fdm/jsbsim/fuel/tank", func (node) {
-        # Set fuel configuration
-        set_fuel();
-    }, 0, 0);
+#fuel tank configuration switch
+setlistener("/fdm/jsbsim/fuel/tank", func (node) {
+	# Set fuel configuration
+	set_fuel();
+}, 0, 0);

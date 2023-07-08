@@ -11,6 +11,91 @@
 
     <path>kr87-fg1000.ac</path>
 
+    <effect>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-kr87</inherits-from>
+        <object-name>Volume</object-name>
+        <object-name>FRQOuter</object-name>
+        <object-name>FRQInner</object-name>
+        <object-name>Chassis</object-name>
+        <object-name>knobs.ADF</object-name>
+        <object-name>knobs.BFO</object-name>
+        <object-name>knobs.FRQ</object-name>
+        <object-name>knobs.FLT</object-name>
+        <object-name>knobs.SET</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>../../../../Effects/interior/c172p-interior</inherits-from>
+        <object-name>indicator.ANT</object-name>
+        <object-name>indicator.ADF</object-name>
+        <object-name>indicator.BFO</object-name>
+        <object-name>indicator.FRQ</object-name>
+        <object-name>indicator.FLT</object-name>
+        <object-name>indicator.ET</object-name>
+        <object-name>indicator.Use.1000</object-name>
+        <object-name>indicator.Use.100</object-name>
+        <object-name>indicator.Use.10</object-name>
+        <object-name>indicator.Use.1</object-name>
+        <object-name>indicator.dots</object-name>
+        <object-name>indicator.Stby.1000</object-name>
+        <object-name>indicator.Stby.100</object-name>
+        <object-name>indicator.Stby.10</object-name>
+        <object-name>indicator.Stby.1</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>Volume</object-name>
+        <object-name>FRQOuter</object-name>
+        <object-name>FRQInner</object-name>
+        <object-name>Chassis</object-name>
+        <object-name>knobs.ADF</object-name>
+        <object-name>knobs.BFO</object-name>
+        <object-name>knobs.FRQ</object-name>
+        <object-name>knobs.FLT</object-name>
+        <object-name>knobs.SET</object-name>
+        <condition>
+            <not>
+                <property>/sim/rendering/shaders/skydome</property>
+            </not>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>indicator</object-name>
+        <condition>
+            <property>/instrumentation/adf[0]/operable</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>indicator</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <greater-than>
+                    <property>/sim/model/c172p/lighting/adf-fg1000</property>
+                    <value>0.0</value>
+                </greater-than>
+            </and>
+        </condition>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>/sim/model/c172p/lighting/adf-fg1000</factor-prop>
+        </emission>
+    </animation>
+
     <animation>
         <property>/sim/model/c172p/lighting/adf-fg1000</property>
     </animation>
@@ -653,91 +738,6 @@
                 <label>Adjust ADF frequency by 100 kHz</label>
             </binding>
         </hovered>
-    </animation>
-
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-kr87</inherits-from>
-        <object-name>Volume</object-name>
-        <object-name>FRQOuter</object-name>
-        <object-name>FRQInner</object-name>
-        <object-name>Chassis</object-name>
-        <object-name>knobs.ADF</object-name>
-        <object-name>knobs.BFO</object-name>
-        <object-name>knobs.FRQ</object-name>
-        <object-name>knobs.FLT</object-name>
-        <object-name>knobs.SET</object-name>
-    </effect>
-
-    <effect>
-        <inherits-from>../../../../Effects/interior/c172p-interior</inherits-from>
-        <object-name>indicator.ANT</object-name>
-        <object-name>indicator.ADF</object-name>
-        <object-name>indicator.BFO</object-name>
-        <object-name>indicator.FRQ</object-name>
-        <object-name>indicator.FLT</object-name>
-        <object-name>indicator.ET</object-name>
-        <object-name>indicator.Use.1000</object-name>
-        <object-name>indicator.Use.100</object-name>
-        <object-name>indicator.Use.10</object-name>
-        <object-name>indicator.Use.1</object-name>
-        <object-name>indicator.dots</object-name>
-        <object-name>indicator.Stby.1000</object-name>
-        <object-name>indicator.Stby.100</object-name>
-        <object-name>indicator.Stby.10</object-name>
-        <object-name>indicator.Stby.1</object-name>
-    </effect>
-
-    <animation>
-        <type>material</type>
-        <object-name>Volume</object-name>
-        <object-name>FRQOuter</object-name>
-        <object-name>FRQInner</object-name>
-        <object-name>Chassis</object-name>
-        <object-name>knobs.ADF</object-name>
-        <object-name>knobs.BFO</object-name>
-        <object-name>knobs.FRQ</object-name>
-        <object-name>knobs.FLT</object-name>
-        <object-name>knobs.SET</object-name>
-        <condition>
-            <not>
-                <property>/sim/rendering/shaders/skydome</property>
-            </not>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>select</type>
-        <object-name>indicator</object-name>
-        <condition>
-            <property>/instrumentation/adf[0]/operable</property>
-        </condition>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>indicator</object-name>
-        <condition>
-            <and>
-                <not>
-                    <property>sim/rendering/rembrandt/enabled</property>
-                </not>
-                <greater-than>
-                    <property>/sim/model/c172p/lighting/adf-fg1000</property>
-                    <value>0.0</value>
-                </greater-than>
-            </and>
-        </condition>
-        <emission>
-            <red>1.0</red>
-            <green>1.0</green>
-            <blue>1.0</blue>
-            <factor-prop>/sim/model/c172p/lighting/adf-fg1000</factor-prop>
-        </emission>
     </animation>
 
 </PropertyList>

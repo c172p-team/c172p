@@ -14,6 +14,88 @@
 
     <path>vor2.ac</path>
 
+    <effect>
+        <inherits-from>../../../../Effects/interior/lm-vor2</inherits-from>
+        <object-name>GlideslopeNeedle</object-name>
+        <object-name>LocalizerNeedle</object-name>
+        <object-name>Ring</object-name>
+        <object-name>disk</object-name>
+        <object-name>Front</object-name>
+        <object-name>Face</object-name>
+        <object-name>TO</object-name>
+        <object-name>FR</object-name>
+        <object-name>NAV</object-name>
+        <object-name>GS_out_of_range</object-name>
+        <object-name>GS_in_range</object-name>
+        <object-name>Case</object-name>
+        <object-name>Front</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>Face</object-name>
+        <object-name>GlideslopeNeedle</object-name>
+        <object-name>Ring</object-name>
+        <object-name>LocalizerNeedle</object-name>
+        <object-name>TO</object-name>
+        <object-name>FR</object-name>
+        <object-name>NAV</object-name>
+        <object-name>GS_out_of_range</object-name>
+        <object-name>GS_in_range</object-name>
+        <object-name>Case</object-name>
+        <object-name>Front</object-name>
+        <condition>
+            <or>
+				<not>
+					<property>/sim/rendering/shaders/skydome</property>
+				</not>
+				<equals>
+					<property>/sim/rendering/shaders/model</property>
+					<value>0</value>
+				</equals>
+			</or>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
+            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
+            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>disk</object-name>
+        <condition>
+            <or>
+				<not>
+					<property>/sim/rendering/shaders/skydome</property>
+				</not>
+				<equals>
+					<property>/sim/rendering/shaders/model</property>
+					<value>0</value>
+				</equals>
+			</or>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>GlideslopeNeedle</object-name>
+        <object-name>LocalizerNeedle</object-name>
+        <object-name>Front</object-name>
+        <emission>
+            <red>.3</red>
+            <green>.3</green>
+            <blue>.3</blue>
+            <factor-prop>/sim/model/lightmap/panel/factor</factor-prop>
+        </emission>
+    </animation>
+
     <animation>
         <name>LocalizerNeedleTransform</name>
         <type>rotate</type>
@@ -119,7 +201,7 @@
         <type>knob</type>
         <object-name>disk</object-name>
         <property>/instrumentation/nav[1]/radials/selected-deg</property>
-        <factor>-16</factor>
+        <factor>-8</factor>
         <axis>
             <x>1</x>
             <y>0</y>
@@ -159,88 +241,6 @@
         <object-name>GlideslopeNeedleTransform</object-name>
         <object-name>RingTransform</object-name>
         <object-name>Front</object-name>
-    </animation>
-
-    <effect>
-        <inherits-from>../../../../Effects/interior/lm-vor2</inherits-from>
-        <object-name>GlideslopeNeedle</object-name>
-        <object-name>LocalizerNeedle</object-name>
-        <object-name>Ring</object-name>
-        <object-name>disk</object-name>
-        <object-name>Front</object-name>
-        <object-name>Face</object-name>
-        <object-name>TO</object-name>
-        <object-name>FR</object-name>
-        <object-name>NAV</object-name>
-        <object-name>GS_out_of_range</object-name>
-        <object-name>GS_in_range</object-name>
-        <object-name>Case</object-name>
-        <object-name>Front</object-name>
-    </effect>
-
-    <animation>
-        <type>material</type>
-        <object-name>Face</object-name>
-        <object-name>GlideslopeNeedle</object-name>
-        <object-name>Ring</object-name>
-        <object-name>LocalizerNeedle</object-name>
-        <object-name>TO</object-name>
-        <object-name>FR</object-name>
-        <object-name>NAV</object-name>
-        <object-name>GS_out_of_range</object-name>
-        <object-name>GS_in_range</object-name>
-        <object-name>Case</object-name>
-        <object-name>Front</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>/sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>/sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>disk</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>/sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>/sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>GlideslopeNeedle</object-name>
-        <object-name>LocalizerNeedle</object-name>
-        <object-name>Front</object-name>
-        <emission>
-            <red>.3</red>
-            <green>.3</green>
-            <blue>.3</blue>
-            <factor-prop>/sim/model/lightmap/panel/factor</factor-prop>
-        </emission>
     </animation>
 
 </PropertyList>

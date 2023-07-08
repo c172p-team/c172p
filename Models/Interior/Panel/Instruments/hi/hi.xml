@@ -4,6 +4,62 @@
 
     <path>hi.ac</path>
 
+    <effect>
+        <inherits-from>../../../../Effects/interior/lm-hi</inherits-from>
+        <object-name>Face</object-name>
+        <object-name>OBS-Knob</object-name>
+        <object-name>Hdg-Knob</object-name>
+        <object-name>HdgBug</object-name>
+        <object-name>Front</object-name>
+        <object-name>Case</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>Face</object-name>
+        <object-name>Front</object-name>
+        <object-name>HdgBug</object-name>
+        <object-name>Case</object-name>
+        <condition>
+            <or>
+				<not>
+					<property>/sim/rendering/shaders/skydome</property>
+				</not>
+				<equals>
+					<property>/sim/rendering/shaders/model</property>
+					<value>0</value>
+				</equals>
+			</or>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
+            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
+            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>OBS-Knob</object-name>
+        <object-name>Hdg-Knob</object-name>
+        <condition>
+            <or>
+				<not>
+					<property>/sim/rendering/shaders/skydome</property>
+				</not>
+				<equals>
+					<property>/sim/rendering/shaders/model</property>
+					<value>0</value>
+				</equals>
+			</or>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+        </emission>
+    </animation>
+
     <animation>
         <type>rotate</type>
         <object-name>Face</object-name>
@@ -59,7 +115,7 @@
         <type>knob</type>
         <object-name>Hdg-Knob</object-name>
         <property>autopilot/settings/heading-bug-deg</property>
-        <factor>12</factor>
+        <factor>6</factor>
         <axis>
             <x>-1</x>
             <y>0</y>
@@ -99,7 +155,7 @@
         <type>knob</type>
         <object-name>OBS-Knob</object-name>
         <property>instrumentation/heading-indicator/offset-deg</property>
-        <factor>12</factor>
+        <factor>6</factor>
         <axis>
             <x>-1</x>
             <y>0</y>
@@ -132,62 +188,6 @@
                 <property>instrumentation/heading-indicator/offset-deg</property>
             </binding>
         </hovered>
-    </animation>
-
-    <effect>
-        <inherits-from>../../../../Effects/interior/lm-hi</inherits-from>
-        <object-name>Face</object-name>
-        <object-name>OBS-Knob</object-name>
-        <object-name>Hdg-Knob</object-name>
-        <object-name>HdgBug</object-name>
-        <object-name>Front</object-name>
-        <object-name>Case</object-name>
-    </effect>
-
-    <animation>
-        <type>material</type>
-        <object-name>Face</object-name>
-        <object-name>Front</object-name>
-        <object-name>HdgBug</object-name>
-        <object-name>Case</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>/sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>/sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>OBS-Knob</object-name>
-        <object-name>Hdg-Knob</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>/sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>/sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
     </animation>
 
 </PropertyList>

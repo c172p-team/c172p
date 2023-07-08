@@ -4,7 +4,80 @@
 
     <path>alt.ac</path>
 
+    <effect>
+        <inherits-from>../../../../Effects/interior/lm-alt</inherits-from>
+        <object-name>inhg</object-name>
+        <object-name>Needle10000</object-name>
+        <object-name>Needle1000</object-name>
+        <object-name>Needle100</object-name>
+        <object-name>disk</object-name>
+        <object-name>Face</object-name>
+        <object-name>Case</object-name>
+    </effect>
 
+    <animation>
+        <type>material</type>
+        <object-name>Face</object-name>
+        <object-name>inhg</object-name>
+        <object-name>Needle10000</object-name>
+        <object-name>Needle1000</object-name>
+        <object-name>Needle100</object-name>
+        <object-name>Case</object-name>
+        <condition>
+            <or>
+				<not>
+					<property>/sim/rendering/shaders/skydome</property>
+				</not>
+				<equals>
+					<property>/sim/rendering/shaders/model</property>
+					<value>0</value>
+				</equals>
+			</or>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
+            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
+            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>disk</object-name>
+        <condition>
+            <or>
+				<not>
+					<property>/sim/rendering/shaders/skydome</property>
+				</not>
+				<equals>
+					<property>/sim/rendering/shaders/model</property>
+					<value>0</value>
+				</equals>
+			</or>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <!--animation>
+        <type>material</type>
+        <object-name>disk</object-name>
+        <object-name>Case</object-name>
+        <condition>
+            <not>
+                <property>/sim/rendering/shaders/skydome</property>
+            </not>
+        </condition>
+        <emission>
+            <red>0.45</red>
+            <green>0.09</green>
+            <blue>0.00001</blue>
+            <factor-prop>/sim/model//material/instruments/factor</factor-prop>
+        </emission>
+    </animation-->
 
     <animation>
         <type>rotate</type>
@@ -119,7 +192,7 @@
         <type>knob</type>
         <object-name>disk</object-name>
         <property>/instrumentation/altimeter/setting-inhg</property>
-        <factor>-1600</factor>
+        <factor>-800</factor>
         <axis>
             <x>1</x>
             <y>0</y>
@@ -149,80 +222,5 @@
             </binding>
         </hovered>
     </animation>
-
-    <effect>
-        <inherits-from>../../../../Effects/interior/lm-alt</inherits-from>
-        <object-name>inhg</object-name>
-        <object-name>Needle10000</object-name>
-        <object-name>Needle1000</object-name>
-        <object-name>Needle100</object-name>
-        <object-name>disk</object-name>
-        <object-name>Face</object-name>
-        <object-name>Case</object-name>
-    </effect>
-
-    <animation>
-        <type>material</type>
-        <object-name>Face</object-name>
-        <object-name>inhg</object-name>
-        <object-name>Needle10000</object-name>
-        <object-name>Needle1000</object-name>
-        <object-name>Needle100</object-name>
-        <object-name>Case</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>/sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>/sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>disk</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>/sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>/sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
-    </animation>
-
-    <!--animation>
-        <type>material</type>
-        <object-name>disk</object-name>
-        <object-name>Case</object-name>
-        <condition>
-            <not>
-                <property>/sim/rendering/shaders/skydome</property>
-            </not>
-        </condition>
-        <emission>
-            <red>0.45</red>
-            <green>0.09</green>
-            <blue>0.00001</blue>
-            <factor-prop>/sim/model//material/instruments/factor</factor-prop>
-        </emission>
-    </animation-->
 
 </PropertyList>

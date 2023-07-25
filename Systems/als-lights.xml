@@ -577,7 +577,7 @@
                     <value>0.0</value>
                 </greater-than>
             </condition>
-			<property>/controls/lighting/mfd</property>
+            <property>/controls/lighting/mfd</property>
         </input>
         <output>
             <property>/sim/model/c172p/lighting/mfd</property>
@@ -589,18 +589,18 @@
         <gain>0.5</gain>
         <input>
             <condition>
-				<and>
-					<equals>
-						<property>/controls/lighting/pfd-avn</property>
-						<value>0.0</value>
-					</equals>
-					<greater-than>
-						<property>/controls/lighting/pfd-ess</property>
-						<value>0.0</value>
-					</greater-than>
-				</and>
+                <and>
+                    <equals>
+                        <property>/controls/lighting/pfd-avn</property>
+                        <value>0.0</value>
+                    </equals>
+                    <greater-than>
+                        <property>/controls/lighting/pfd-ess</property>
+                        <value>0.0</value>
+                    </greater-than>
+                </and>
             </condition>
-			<property>/controls/lighting/pfd-ess</property>
+            <property>/controls/lighting/pfd-ess</property>
         </input>
         <output>
             <property>/sim/model/c172p/lighting/pfd-ess</property>
@@ -613,14 +613,14 @@
         <gain>0.04</gain>
         <input>
             <expression>
-				<product>
-					<sum>
-						<property>/sim/model/c172p/lighting/pfd-avn</property>
-						<property>/sim/model/c172p/lighting/mfd</property>
-						<property>/sim/model/c172p/lighting/pfd-ess</property>
-					</sum>
-					<property>/controls/lighting/avionics-norm</property>
-				</product>
+                <product>
+                    <sum>
+                        <property>/sim/model/c172p/lighting/pfd-avn</property>
+                        <property>/sim/model/c172p/lighting/mfd</property>
+                        <property>/sim/model/c172p/lighting/pfd-ess</property>
+                    </sum>
+                    <property>/controls/lighting/avionics-norm</property>
+                </product>
             </expression>
         </input>
         <output>
@@ -634,14 +634,14 @@
         <gain>0.05</gain>
         <input>
             <expression>
-				<product>
-					<sum>
-						<property>/sim/model/c172p/lighting/pfd-avn</property>
-						<property>/sim/model/c172p/lighting/mfd</property>
-						<property>/sim/model/c172p/lighting/pfd-ess</property>
-					</sum>
-					<property>/controls/lighting/avionics-norm</property>
-				</product>
+                <product>
+                    <sum>
+                        <property>/sim/model/c172p/lighting/pfd-avn</property>
+                        <property>/sim/model/c172p/lighting/mfd</property>
+                        <property>/sim/model/c172p/lighting/pfd-ess</property>
+                    </sum>
+                    <property>/controls/lighting/avionics-norm</property>
+                </product>
             </expression>
         </input>
         <output>
@@ -655,18 +655,42 @@
         <gain>0.05</gain>
         <input>
             <expression>
-				<product>
-					<sum>
-						<property>/sim/model/c172p/lighting/pfd-avn</property>
-						<property>/sim/model/c172p/lighting/mfd</property>
-						<property>/sim/model/c172p/lighting/pfd-ess</property>
-					</sum>
-					<property>/controls/lighting/avionics-norm</property>
-				</product>
+                <product>
+                    <sum>
+                        <property>/sim/model/c172p/lighting/pfd-avn</property>
+                        <property>/sim/model/c172p/lighting/mfd</property>
+                        <property>/sim/model/c172p/lighting/pfd-ess</property>
+                    </sum>
+                    <property>/controls/lighting/avionics-norm</property>
+                </product>
             </expression>
         </input>
         <output>
             <property>/sim/model/c172p/lighting/glass-ab-norm</property>
+        </output>
+    </filter>
+
+    <filter>
+        <name>Map FG1000 Avionics Knob to Glass Panel</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <or>
+                    <property>/sim/model/c172p/lighting/pfd-avn</property>
+                    <property>/sim/model/c172p/lighting/mfd</property>
+                    <property>/sim/model/c172p/lighting/pfd-ess</property>
+                </or>
+            </condition>
+            <expression>
+                <table>
+                    <property>/controls/lighting/avionics-norm</property>
+                    <entry><ind>0.0</ind><dep>0.0</dep></entry>
+                    <entry><ind>1.0</ind><dep>2.3</dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>
+            <property>/instrumentation/FG1000/Lightmap</property>
         </output>
     </filter>
 
@@ -676,15 +700,21 @@
         <input>
             <condition>
                 <or>
-					<property>/sim/model/c172p/lighting/pfd-avn</property>
-					<property>/sim/model/c172p/lighting/mfd</property>
-					<property>/sim/model/c172p/lighting/pfd-ess</property>
+                    <property>/sim/model/c172p/lighting/pfd-avn</property>
+                    <property>/sim/model/c172p/lighting/mfd</property>
+                    <property>/sim/model/c172p/lighting/pfd-ess</property>
                 </or>
             </condition>
-			<property>/controls/lighting/avionics-norm</property>
+            <expression>
+                <table>
+                    <property>/instrumentation/FG1000/Lightmap</property>
+                    <entry><ind>0.0</ind><dep>0.0</dep></entry>
+                    <entry><ind>2.3</ind><dep>1.0</dep></entry>
+                </table>
+            </expression>
         </input>
         <output>
-            <property>/instrumentation/FG1000/Lightmap</property>
+            <property>/instrumentation/FG1000/Lightmap-scaler</property>
         </output>
     </filter>
 
@@ -852,9 +882,9 @@
         <type>gain</type>
         <input>
             <condition>
-				<not>
-					<property>/controls/panel/glass</property>
-				</not>
+                <not>
+                    <property>/controls/panel/glass</property>
+                </not>
             </condition>
             <expression>
                 <sum>
@@ -871,7 +901,7 @@
         </input>
         <input>
             <condition>
-				<property>controls/panel/glass</property>
+                <property>controls/panel/glass</property>
             </condition>
             <expression>
                 <sum>
@@ -894,9 +924,9 @@
         <type>gain</type>
         <input>
             <condition>
-				<not>
-					<property>/controls/panel/glass</property>
-				</not>
+                <not>
+                    <property>/controls/panel/glass</property>
+                </not>
             </condition>
             <expression>
                 <sum>
@@ -909,7 +939,7 @@
         </input>
         <input>
             <condition>
-				<property>controls/panel/glass</property>
+                <property>controls/panel/glass</property>
             </condition>
             <expression>
                 <sum>
@@ -932,9 +962,9 @@
         <type>gain</type>
         <input>
             <condition>
-				<not>
-					<property>/controls/panel/glass</property>
-				</not>
+                <not>
+                    <property>/controls/panel/glass</property>
+                </not>
             </condition>
             <expression>
                 <sum>
@@ -947,7 +977,7 @@
         </input>
         <input>
             <condition>
-				<property>controls/panel/glass</property>
+                <property>controls/panel/glass</property>
             </condition>
             <expression>
                 <sum>
@@ -1177,15 +1207,15 @@
         <type>gain</type>
         <gain>.25</gain>
         <input>
-			<property>/sim/model/c172p/lighting/courtesy</property>
-		</input>
+            <property>/sim/model/c172p/lighting/courtesy</property>
+        </input>
         <output>/sim/model/c172p/lighting/courtesy-proc</output>
     </filter>
     <filter>
         <type>gain</type>
         <gain>.25</gain>
         <input>
-			<property>/controls/lighting/domeL</property>
+            <property>/controls/lighting/domeL</property>
         </input>
         <output>/sim/model/c172p/lighting/courtesy-proc-l-fg1000</output>
     </filter>
@@ -1193,7 +1223,7 @@
         <type>gain</type>
         <gain>.25</gain>
         <input>
-			<property>/controls/lighting/domeR</property>
+            <property>/controls/lighting/domeR</property>
         </input>
         <output>/sim/model/c172p/lighting/courtesy-proc-r-fg1000</output>
     </filter>
@@ -1314,10 +1344,10 @@
         <type>gain</type>
         <gain>1</gain>
         <input>
-			<condition>
-				<not>
-					<property>/controls/panel/glass</property>
-				</not>
+            <condition>
+                <not>
+                    <property>/controls/panel/glass</property>
+                </not>
             </condition>
             <expression>
                 <sum>
@@ -1330,48 +1360,48 @@
             <max>0.9</max>
         </input>
         <input>
-			<condition>
-				<property>/controls/panel/glass</property>
+            <condition>
+                <property>/controls/panel/glass</property>
             </condition>
             <expression>
                 <sum>
-					<property>/sim/model/lightmap/dome/factor-glassglare</property>
-					<sum>
-						<table>
-							<property>/instrumentation/FG1000/Lightmap</property>
-							<entry><ind>0.0</ind><dep>0.0</dep></entry>
-							<entry><ind>0.7</ind><dep>0.05</dep></entry>
-							<entry><ind>1.0</ind><dep>0.1</dep></entry>
-						</table>
-						<property>/rendering/scene/diffuse/red</property>
-					</sum>
-					<sum>
-						<table>
-							<property>/controls/lighting/swcb</property>
-							<entry><ind>0.0</ind><dep>0.0</dep></entry>
-							<entry><ind>0.7</ind><dep>0.0125</dep></entry>
-							<entry><ind>1.0</ind><dep>0.025</dep></entry>
-						</table>
-						<property>/rendering/scene/diffuse/red</property>
-					</sum>
-					<sum>
-						<table>
-							<property>/controls/lighting/stby</property>
-							<entry><ind>0.0</ind><dep>0.0</dep></entry>
-							<entry><ind>0.7</ind><dep>0.025</dep></entry>
-							<entry><ind>1.0</ind><dep>0.05</dep></entry>
-						</table>
-						<property>/rendering/scene/diffuse/red</property>
-					</sum>
-					<sum>
-						<table>
-							<property>/controls/lighting/pedestal</property>
-							<entry><ind>0.0</ind><dep>0.0</dep></entry>
-							<entry><ind>0.7</ind><dep>0.0125</dep></entry>
-							<entry><ind>1.0</ind><dep>0.25</dep></entry>
-						</table>
-						<property>/rendering/scene/diffuse/red</property>
-					</sum>
+                    <property>/sim/model/lightmap/dome/factor-glassglare</property>
+                    <sum>
+                        <table>
+                            <property>/instrumentation/FG1000/Lightmap</property>
+                            <entry><ind>0.0</ind><dep>0.0</dep></entry>
+                            <entry><ind>0.7</ind><dep>0.05</dep></entry>
+                            <entry><ind>1.0</ind><dep>0.1</dep></entry>
+                        </table>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </sum>
+                    <sum>
+                        <table>
+                            <property>/controls/lighting/swcb</property>
+                            <entry><ind>0.0</ind><dep>0.0</dep></entry>
+                            <entry><ind>0.7</ind><dep>0.0125</dep></entry>
+                            <entry><ind>1.0</ind><dep>0.025</dep></entry>
+                        </table>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </sum>
+                    <sum>
+                        <table>
+                            <property>/controls/lighting/stby</property>
+                            <entry><ind>0.0</ind><dep>0.0</dep></entry>
+                            <entry><ind>0.7</ind><dep>0.025</dep></entry>
+                            <entry><ind>1.0</ind><dep>0.05</dep></entry>
+                        </table>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </sum>
+                    <sum>
+                        <table>
+                            <property>/controls/lighting/pedestal</property>
+                            <entry><ind>0.0</ind><dep>0.0</dep></entry>
+                            <entry><ind>0.7</ind><dep>0.0125</dep></entry>
+                            <entry><ind>1.0</ind><dep>0.25</dep></entry>
+                        </table>
+                        <property>/rendering/scene/diffuse/red</property>
+                    </sum>
                 </sum>
             </expression>
             <min>0.1</min>

@@ -37,8 +37,18 @@ var update_hobbs_meter = func {
     # This uses minutes, for testing
     #hobbs = hobbs / 60.0;
     # in hours
-    hobbs = (hobbs_160hp + hobbs_180hp) / 3600.0;
+    #hobbs = (hobbs_160hp + hobbs_180hp) / 3600.0;
     # tenths of hour
+
+    var hobbs = 0;
+    var current_engine = getprop("controls/engines/active-engine");
+    if (current_engine == 0) {
+        hobbs = hobbs_160hp / 3600.0;
+    } else
+    if (current_engine == 1) {
+        hobbs = hobbs_180hp / 3600.0;
+    }
+
     setprop("/instrumentation/hobbs-meter/digits0", math.mod(int(hobbs * 10), 10));
     # rest of digits
     setprop("/instrumentation/hobbs-meter/digits1", math.mod(int(hobbs), 10));
@@ -49,6 +59,7 @@ var update_hobbs_meter = func {
 
 setlistener("/sim/time/hobbs/engine[0]", update_hobbs_meter, 1, 0);
 setlistener("/sim/time/hobbs/engine[1]", update_hobbs_meter, 1, 0);
+setlistener("/controls/engines/active-engine", update_hobbs_meter, 1, 0);
 
 # ========== primer stuff ======================
 

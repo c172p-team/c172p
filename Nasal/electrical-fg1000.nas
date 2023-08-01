@@ -290,7 +290,6 @@ setlistener("/sim/signals/fdm-initialized", func {
 	# Model the system of relays and connections that join the battery,
 	# alternator, starter, master/alt switches, external power supply.
 	#
-	var old_load = 0;
 	var update_virtual_bus = func (dt) {
 		var serviceable = getprop("/systems/electrical/serviceable");
 		var external_volts = 0.0;
@@ -472,15 +471,6 @@ setlistener("/sim/signals/fdm-initialized", func {
 		setprop("/systems/electrical/eamps", eammeter);
 		setprop("/systems/electrical/evolts", stby_bus_volts);
 
-		# debug internals
-		#if (load > 0 and load != "nil") {if (old_load < load) {setprop("/systems/electrical/highest-load", load);old_load = load;}setprop("/systems/electrical/current-load", load);   }
-		#if (load_ess > 0 and load_ess != "nil") {setprop("/systems/electrical/current-load-ess", load_ess);}
-		#setprop("/systems/electrical/load-watts", draw);
-		#setprop("/systems/electrical/elect-powersource", power_source);
-		#setprop("/systems/electrical/elect-vbus-stby-volts", vbus_stby_volts);
-		#setprop("/systems/electrical/elect-stby-bus-volts", stby_bus_volts);
-		#setprop("/systems/electrical/elect-battery-stby-volts", battery_stby_volts);
-
 		return load;
 	}
 
@@ -622,7 +612,7 @@ setlistener("/sim/signals/fdm-initialized", func {
 		if ( getprop("/controls/circuit-breakers/pfd-avn") ) {
 			setprop("/systems/electrical/outputs/pfd-avn", bus_volts);
 			if (pfd_avn and (bus_volts > 0)) {
-				load += (6 * pfd_avn) * bus_volts;
+				load += ((getprop("/controls/lighting/avionics-norm/")+5) * pfd_avn) * bus_volts;
 				fg1000system.show(1);
 			} else {
 				fg1000system.hide(1);
@@ -657,16 +647,6 @@ setlistener("/sim/signals/fdm-initialized", func {
 		  setprop("/systems/electrical/outputs/is", 0.0);
 		}
 
-		# DME and ADF Power
-		if ( getprop("/controls/circuit-breakers/dme-adf") ) {
-		  setprop("/systems/electrical/outputs/dme", bus_volts);
-		  setprop("/systems/electrical/outputs/adf", bus_volts);
-		  load += 5 * bus_volts;
-		} else {
-		  setprop("/systems/electrical/outputs/dme", 0.0);
-		  setprop("/systems/electrical/outputs/adf", 0.0);
-		}
-
 		 ##############????????#############
 		# Turn Coordinator and directional gyro Power
 		if ( getprop("/controls/circuit-breakers/turn-coordinator") ) {
@@ -695,7 +675,7 @@ setlistener("/sim/signals/fdm-initialized", func {
 		if ( getprop("/controls/circuit-breakers/mfd") ) {
 			setprop("/systems/electrical/outputs/mfd", bus_volts);
 			if (mfd and (bus_volts > 0)) {
-				load += (6 * mfd) * bus_volts;
+				load += ((getprop("/controls/lighting/avionics-norm/")+5) * mfd) * bus_volts;
 				fg1000system.show(2);
 			} else {
 				fg1000system.hide(2);
@@ -747,6 +727,16 @@ setlistener("/sim/signals/fdm-initialized", func {
 			setprop("/systems/electrical/outputs/autopilot", 0.0);
 		}
 
+		# DME and ADF Power
+		if ( getprop("/controls/circuit-breakers/dme-adf") ) {
+		  setprop("/systems/electrical/outputs/dme", bus_volts);
+		  setprop("/systems/electrical/outputs/adf", bus_volts);
+		  load += 5 * bus_volts;
+		} else {
+		  setprop("/systems/electrical/outputs/dme", 0.0);
+		  setprop("/systems/electrical/outputs/adf", 0.0);
+		}
+
 		# register avn2 voltage
 		avn2_volts = bus_volts;
 
@@ -778,7 +768,7 @@ setlistener("/sim/signals/fdm-initialized", func {
 		if (getprop("/controls/circuit-breakers/pfd-ess") ) {
 			setprop("/systems/electrical/outputs/pfd-ess", bus_volts);
 			if (pfd_ess and (bus_volts > 0)){
-				load += (6 * pfd_ess) * bus_volts;
+				load += ((getprop("/controls/lighting/avionics-norm/")+5) * pfd_ess) * bus_volts;
 				fg1000system.show(1);
 			} else {
 				fg1000system.hide(1);

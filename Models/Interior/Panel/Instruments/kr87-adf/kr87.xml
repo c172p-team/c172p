@@ -4,7 +4,6 @@
 
     <params>
         <right-display>/instrumentation/adf[0]/right-display</right-display>
-        <dimming>instrumentation/adf[0]/dimming-norm</dimming>
         <dial-1-khz>instrumentation/adf[0]/frequencies/dial-1-khz</dial-1-khz>
         <dial-100-khz>instrumentation/adf[0]/frequencies/dial-100-khz</dial-100-khz>
     </params>
@@ -17,33 +16,6 @@
 
     <animation>
         <type>noshadow</type>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>knobs.ADF</object-name>
-        <object-name>knobs.BFO</object-name>
-        <object-name>knobs.FRQ</object-name>
-        <object-name>knobs.FLT</object-name>
-        <object-name>knobs.SET</object-name>
-        <emission>
-            <red>0.5</red>
-            <green>0.1</green>
-            <blue>0.00005</blue>
-            <factor-prop>/sim/model/c172p/lighting/adf</factor-prop>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>indicator</object-name>
-        <emission>
-            <red>-1.0</red>
-            <green>-1.0</green>
-            <blue>-1.0</blue>
-            <factor-prop alias="../../../params/dimming"/>
-            <offset>1</offset>
-        </emission>
     </animation>
 
     <animation>
@@ -723,9 +695,38 @@
         </condition>
     </animation>
 
-    <animation>
+   <animation>
         <type>material</type>
-        <object-name>indicator</object-name>
+        <object-name>knobs.ADF</object-name>
+        <object-name>knobs.BFO</object-name>
+        <object-name>knobs.FRQ</object-name>
+        <object-name>knobs.FLT</object-name>
+        <object-name>knobs.SET</object-name>
+        <emission>
+            <red>0.5</red>
+            <green>0.1</green>
+            <blue>0.00005</blue>
+            <factor-prop>/sim/model/c172p/lighting/adf</factor-prop>
+        </emission>
+    </animation>
+
+	<animation>
+        <type>material</type>
+		<object-name>indicator.ANT</object-name>
+        <object-name>indicator.ADF</object-name>
+        <object-name>indicator.BFO</object-name>
+        <object-name>indicator.FRQ</object-name>
+        <object-name>indicator.FLT</object-name>
+        <object-name>indicator.ET</object-name>
+        <object-name>indicator.Use.1000</object-name>
+        <object-name>indicator.Use.100</object-name>
+        <object-name>indicator.Use.10</object-name>
+        <object-name>indicator.Use.1</object-name>
+        <object-name>indicator.dots</object-name>
+        <object-name>indicator.Stby.1000</object-name>
+        <object-name>indicator.Stby.100</object-name>
+        <object-name>indicator.Stby.10</object-name>
+        <object-name>indicator.Stby.1</object-name>
         <condition>
             <and>
                 <not>
@@ -741,7 +742,41 @@
             <red>1.0</red>
             <green>1.0</green>
             <blue>1.0</blue>
-            <factor-prop>/sim/model/c172p/lighting/adf</factor-prop>
+			<factor-prop>/sim/model/c172p/lighting/adf</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <object-name>indicator.ANT</object-name>
+        <object-name>indicator.ADF</object-name>
+        <object-name>indicator.BFO</object-name>
+        <object-name>indicator.FRQ</object-name>
+        <object-name>indicator.FLT</object-name>
+        <object-name>indicator.ET</object-name>
+        <object-name>indicator.Use.1000</object-name>
+        <object-name>indicator.Use.100</object-name>
+        <object-name>indicator.Use.10</object-name>
+        <object-name>indicator.Use.1</object-name>
+        <object-name>indicator.dots</object-name>
+        <object-name>indicator.Stby.1000</object-name>
+        <object-name>indicator.Stby.100</object-name>
+        <object-name>indicator.Stby.10</object-name>
+        <object-name>indicator.Stby.1</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <equals>
+                    <property>/sim/model/c172p/lighting/adf</property>
+                    <value>0.0</value>
+                </equals>
+            </and>
+        </condition>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
         </emission>
     </animation>
 

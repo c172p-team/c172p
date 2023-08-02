@@ -31,98 +31,22 @@
         <left-display-dot>instrumentation/dme[0]/left-dot</left-display-dot>
         <power-btn>instrumentation/dme[0]/power-btn</power-btn>
         <serviceable>instrumentation/dme[0]/serviceable</serviceable>
-        <dimming>instrumentation/dme[0]/dimming-norm</dimming>
         <min-kts>instrumentation/dme[0]/switch-min-kts</min-kts>
         <electrical>systems/electrical/outputs/dme</electrical>
     </params>
 
     <path>ki266.ac</path>
 
-    <effect>
-        <inherits-from>../../../../Effects/interior/c172p-interior</inherits-from>
-        <object-name>Indicators</object-name>
-        <object-name>Miles</object-name>
-        <object-name>Min</object-name>
-        <object-name>Kts</object-name>
-        <object-name>Left.Dot1</object-name>
-        <object-name>Left.100</object-name>
-        <object-name>Left.10</object-name>
-        <object-name>Left.1</object-name>
-        <object-name>Right.100</object-name>
-        <object-name>Right.10</object-name>
-        <object-name>Right.1</object-name>
-    </effect>
-
-    <effect>
-        <inherits-from>../../../../Effects/interior/lm-ki266</inherits-from>
-        <object-name>SourceSelectorKnob</object-name>
-        <object-name>PowerSwitch.Lever</object-name>
-        <object-name>on</object-name>
-        <object-name>off</object-name>
-        <object-name>Label3</object-name>
-        <object-name>n1</object-name>
-        <object-name>hld</object-name>
-        <object-name>n2</object-name>
-        <object-name>PowerSwitch.Base</object-name>
-        <object-name>Background</object-name>
-        <object-name>ModeSwitch</object-name>
-        <object-name>Frame</object-name>
-        <object-name>base</object-name>
-    </effect>
-
     <!-- Turn it off, when u/s or switched off -->
     <animation>
         <type>select</type>
         <object-name>Indicators</object-name>
         <condition>
-            <property>/sim/model/c172p/lighting/dme-power</property>
+            <property>sim/model/c172p/lighting/dme-power</property>
         </condition>
     </animation>
 
-    <animation>
-        <type>material</type>
-        <object-name>Indicators</object-name>
-        <condition>
-            <and>
-                <not>
-                    <property>sim/rendering/rembrandt/enabled</property>
-                </not>
-                <greater-than>
-                    <property>/sim/model/c172p/lighting/dme</property>
-                    <value>0.0</value>
-                </greater-than>
-            </and>
-        </condition>
-        <emission>
-            <red>1.0</red>
-            <green>1.0</green>
-            <blue>1.0</blue>
-            <factor-prop>/sim/model/c172p/lighting/dme</factor-prop>
-        </emission>
-    </animation>
 
-    <animation>
-        <type>material</type>
-        <object-name>ModeSwitch</object-name>
-        <emission>
-            <red>0.5</red>
-            <green>0.1</green>
-            <blue>0.00005</blue>
-            <factor-prop>/sim/model/c172p/lighting/dme</factor-prop>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>Indicators</object-name>
-        <emission>
-            <red>-1.0</red>
-            <green>-1.0</green>
-            <blue>-1.0</blue>
-            <factor-prop alias="../../../params/dimming"/>
-            <offset>1</offset>
-        </emission>
-    </animation>
 
     <!-- The mode switch do display min/kts -->
     <animation>
@@ -521,10 +445,10 @@
         <condition>
             <or>
 				<not>
-					<property>/sim/rendering/shaders/skydome</property>
+					<property>sim/rendering/shaders/skydome</property>
 				</not>
 				<equals>
-					<property>/sim/rendering/shaders/model</property>
+					<property>sim/rendering/shaders/model</property>
 					<value>0</value>
 				</equals>
 			</or>
@@ -550,10 +474,10 @@
         <condition>
             <or>
 				<not>
-					<property>/sim/rendering/shaders/skydome</property>
+					<property>sim/rendering/shaders/skydome</property>
 				</not>
 				<equals>
-					<property>/sim/rendering/shaders/model</property>
+					<property>sim/rendering/shaders/model</property>
 					<value>0</value>
 				</equals>
 			</or>
@@ -562,6 +486,112 @@
             <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
             <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
             <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <effect>
+        <inherits-from>../../../../Effects/interior/c172p-interior</inherits-from>
+        <object-name>Indicators</object-name>
+        <object-name>Miles</object-name>
+        <object-name>Min</object-name>
+        <object-name>Kts</object-name>
+        <object-name>Left.Dot1</object-name>
+        <object-name>Left.100</object-name>
+        <object-name>Left.10</object-name>
+        <object-name>Left.1</object-name>
+        <object-name>Right.100</object-name>
+        <object-name>Right.10</object-name>
+        <object-name>Right.1</object-name>
+    </effect>
+
+    <effect>
+        <inherits-from>../../../../Effects/interior/lm-ki266</inherits-from>
+        <object-name>SourceSelectorKnob</object-name>
+        <object-name>PowerSwitch.Lever</object-name>
+        <object-name>on</object-name>
+        <object-name>off</object-name>
+        <object-name>Label3</object-name>
+        <object-name>n1</object-name>
+        <object-name>hld</object-name>
+        <object-name>n2</object-name>
+        <object-name>PowerSwitch.Base</object-name>
+        <object-name>Background</object-name>
+        <object-name>ModeSwitch</object-name>
+        <object-name>Frame</object-name>
+        <object-name>base</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>ModeSwitch</object-name>
+        <emission>
+            <red>0.5</red>
+            <green>0.1</green>
+            <blue>0.00005</blue>
+            <factor-prop>/sim/model/c172p/lighting/dme</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>Indicators</object-name>
+        <object-name>Miles</object-name>
+        <object-name>Min</object-name>
+        <object-name>Kts</object-name>
+        <object-name>Left.Dot1</object-name>
+        <object-name>Left.100</object-name>
+        <object-name>Left.10</object-name>
+        <object-name>Left.1</object-name>
+        <object-name>Right.100</object-name>
+        <object-name>Right.10</object-name>
+        <object-name>Right.1</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <greater-than>
+                    <property>sim/model/c172p/lighting/dme</property>
+                    <value>0.0</value>
+                </greater-than>
+            </and>
+        </condition>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
+            <factor-prop>/sim/model/c172p/lighting/dme</factor-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>Indicators</object-name>
+        <object-name>Miles</object-name>
+        <object-name>Min</object-name>
+        <object-name>Kts</object-name>
+        <object-name>Left.Dot1</object-name>
+        <object-name>Left.100</object-name>
+        <object-name>Left.10</object-name>
+        <object-name>Left.1</object-name>
+        <object-name>Right.100</object-name>
+        <object-name>Right.10</object-name>
+        <object-name>Right.1</object-name>
+        <condition>
+            <and>
+                <not>
+                    <property>sim/rendering/rembrandt/enabled</property>
+                </not>
+                <equal>
+                    <property>sim/model/c172p/lighting/dme</property>
+                    <value>0.0</value>
+                </equal>
+            </and>
+        </condition>
+        <emission>
+            <red>1.0</red>
+            <green>1.0</green>
+            <blue>1.0</blue>
         </emission>
     </animation>
 

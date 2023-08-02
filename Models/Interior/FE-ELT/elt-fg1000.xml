@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- Adapted from the Diamond-da40 -->
+
+<PropertyList>
+
+    <path>elt-fg1000.ac</path>
+    <texture-path>../../../../Models</texture-path>
+
+    <effect>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-interior-panel-parts</inherits-from>
+        <object-name>eltlamp</object-name>
+        <object-name>ELTSwitch</object-name>
+        <object-name>eltbolts</object-name>
+	</effect>
+	
+    <effect>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-hobbs-implicit</inherits-from>
+        <object-name>eltpanel</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+		<object-name>eltpanel</object-name>
+        <object-name>eltlamp</object-name>
+        <object-name>ELTSwitch</object-name>
+        <object-name>eltbolts</object-name>
+        <condition>
+            <not>
+                <property>sim/rendering/shaders/skydome</property>
+            </not>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+        </emission>
+    </animation>
+	
+	    <animation>
+        <type>pick</type>
+        <object-name>ELTSwitch</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/switches/eltswitch</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("avionics")</script>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>ELT-switch</tooltip-id>
+                <label>ELT: %s</label>
+                <mapping>on-off</mapping>
+                <property>controls/switches/eltswitch</property>
+            </binding>
+        </hovered>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>ELTSwitch</object-name>
+        <property>controls/switches/eltswitch</property>
+        <factor>-20</factor>
+        <axis>
+            <x>0.0</x>
+            <y>1.0</y>
+            <z>0.0</z>
+        </axis>
+        <center>
+            <x-m>-0.360932</x-m>
+            <y-m> 0.307917</y-m>
+            <z-m> 0.115113</z-m>
+        </center>
+    </animation>
+
+</PropertyList>

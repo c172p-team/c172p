@@ -327,6 +327,11 @@ var switches_save_state = func {
         setprop("/controls/circuit-breakers/radio4", 1);
         setprop("/controls/circuit-breakers/radio5", 1);
         setprop("/controls/circuit-breakers/strobe", 1);
+        if (getprop("sim/model/variant") == 4) {
+            setprop("controls/circuit-breakers/gear-advisory", 1);
+            setprop("controls/circuit-breakers/hydraulic-pump", 1);
+            setprop("controls/circuit-breakers/gear-select", 1);
+        }
         setprop("/controls/circuit-breakers/turn-coordinator", 1);
         setprop("/controls/switches/master-avionics", 0);
         setprop("/controls/switches/starter", 0);
@@ -752,6 +757,23 @@ setlistener("/sim/signals/fdm-initialized", func {
         }, 1);
     }
 
+    if (getprop("sim/model/variant") == 4) {
+        settimer(func {
+            # check for ground type (land or water, only if not in flight)
+            var on_water = getprop("fdm/jsbsim/hydro/active-norm");
+            print("ON-WATER ="~ on_water);
+            if (on_water) {
+                setprop("controls/gear/gear-down-command", 0);
+                setprop("controls/gear/gear-down", 0);
+                setprop("fdm/jsbsim/gear/gear-pos-norm", 0);
+            } else {
+                setprop("controls/gear/gear-down-command", 1);
+                setprop("controls/gear/gear-down", 1);
+                setprop("fdm/jsbsim/gear/gear-pos-norm", 1);
+            }
+        }, 3);
+    }
+
     c172_timer.start();
 });
 
@@ -792,6 +814,26 @@ setlistener("/sim/model/c172p/ruddertrim-visible", func (node) {
 
 #fuel tank configuration switch
 setlistener("/fdm/jsbsim/fuel/tank", func (node) {
-	# Set fuel configuration
-	set_fuel();
+    # Set fuel configuration
+    set_fuel();
 }, 0, 0);
+
+#amphibious gear control
+setlistener("sim/model/variant", func (node) {
+    if (getprop("sim/model/variant") == 4) {
+        setprop("controls/circuit-breakers/gear-advisory", 1);
+        setprop("controls/circuit-breakers/hydraulic-pump", 1);
+        setprop("controls/circuit-breakers/gear-select", 1);
+        # check for ground type
+        var on_water = getprop("fdm/jsbsim/hydro/active-norm");
+        if (on_water) {
+            setprop("controls/gear/gear-down-command", 0);
+            setprop("controls/gear/gear-down", 0);
+            setprop("fdm/jsbsim/gear/gear-pos-norm", 0);
+        } else {
+            setprop("controls/gear/gear-down-command", 1);
+            setprop("controls/gear/gear-down", 1);
+            setprop("fdm/jsbsim/gear/gear-pos-norm", 1);
+        }
+    }
+}, 1, 0);

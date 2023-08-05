@@ -51,21 +51,6 @@ setlistener("/sim/signals/fdm-initialized",
                         setprop("/fdm/jsbsim/settings/damage-flag", 0);
                     }, 2);
                 }
-                if (!getprop("/controls/switches/master-bat")) {
-                    setprop("/controls/switches/master-bat", 1);
-                    if (!getprop("/controls/switches/master-bat"))
-                        setprop("/controls/switches/master-avionics");
-                    setprop("/controls/gear/gear-down", 0);
-                    setprop("/fdm/jsbsim/gear/gear-pos-norm", 0);
-                    settimer(func {
-                        setprop("/controls/switches/master-bat", 0);
-                    }, 0.1);
-                } else {
-                    if (!getprop("/controls/switches/master-bat"))
-                        setprop("/controls/switches/master-avionics");
-                    setprop("/controls/gear/gear-down", 0);
-                    setprop("/fdm/jsbsim/gear/gear-pos-norm", 0);
-                }
             }
         },1.0);
     }

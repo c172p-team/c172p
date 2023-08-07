@@ -51,6 +51,10 @@ setlistener("/sim/signals/fdm-initialized",
                         setprop("/fdm/jsbsim/settings/damage-flag", 0);
                     }, 2);
                 }
+                var water_capable = getprop("/fdm/jsbsim/water-capable");
+                if (water_capable == 3 or water_capable == 4) {
+                    setprop("/fdm/jsbsim/bushkit", getprop("/fdm/jsbsim/water-capable"));
+                }
             }
         },1.0);
     }
@@ -127,7 +131,9 @@ Mooring.presetharbour = func {
                 me.setmoorage(i, airport);
                 me.prepareseaplane();
                 c172p.oil_consumption.stop();
-                aircraft.data.add("/fdm/jsbsim/bushkit");
+                setprop("/fdm/jsbsim/water-capable", getprop("/fdm/jsbsim/bushkit"));
+                aircraft.data.add("/fdm/jsbsim/water-capable");
+                #aircraft.data.add("/fdm/jsbsim/bushkit");
                 fgcommand("reposition");
                 break;
             }

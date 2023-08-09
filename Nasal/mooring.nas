@@ -36,6 +36,20 @@ setlistener("/sim/signals/fdm-initialized",
             }
         }
         settimer(func{
+            var aircraft = getprop("sim/aircraft");
+            if (aircraft == "c172p"){
+                setprop("fdm/jsbsim/bushkit", 0);
+            } else if (aircraft == "c172p-bush26"){
+                setprop("fdm/jsbsim/bushkit", 1);
+            } else if (aircraft == "c172p-bush26"){
+                setprop("fdm/jsbsim/bushkit", 2);
+            } else if (aircraft == "c172p-floats"){
+                setprop("fdm/jsbsim/bushkit", 3);
+            } else if (aircraft == "c172p-amphibious"){
+                setprop("fdm/jsbsim/bushkit", 4);
+            } else if (aircraft == "c172p-ski"){
+                setprop("fdm/jsbsim/bushkit", 5);
+            }
             if (getprop("/controls/mooring/automatic") and getprop("/controls/mooring/allowed")) {
                 seaplane = Mooring.new();
             }
@@ -50,10 +64,6 @@ setlistener("/sim/signals/fdm-initialized",
                         setprop("/fdm/jsbsim/settings/damage", 1);
                         setprop("/fdm/jsbsim/settings/damage-flag", 0);
                     }, 2);
-                }
-                var water_capable = getprop("/fdm/jsbsim/water-capable");
-                if (water_capable == 3 or water_capable == 4) {
-                    setprop("/fdm/jsbsim/bushkit", getprop("/fdm/jsbsim/water-capable"));
                 }
             }
         },1.0);
@@ -131,9 +141,6 @@ Mooring.presetharbour = func {
                 me.setmoorage(i, airport);
                 me.prepareseaplane();
                 c172p.oil_consumption.stop();
-                setprop("/fdm/jsbsim/water-capable", getprop("/fdm/jsbsim/bushkit"));
-                aircraft.data.add("/fdm/jsbsim/water-capable");
-                #aircraft.data.add("/fdm/jsbsim/bushkit");
                 fgcommand("reposition");
                 break;
             }

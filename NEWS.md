@@ -1,6 +1,49 @@
 List of features and bug fixes
 ==============================
 
+Version 2020.4.1
+--------------
+
+**Features:**
+
+* Multi-key suppoet for FG1000 variant
+
+**Fixes:**
+
+* Refactor code for reposition-reinit
+* Preset airport tag in tutorials causing problems
+* Fuel selector object assigned wrong effect file
+* Fix various ac modeling issues
+* More robust variant definition code seperation
+* Add amphibious gear keyboard bindings
+* Removed forced invert mouse wheel
+* Invert overhead light controls
+* Better and more particle effects
+* Fix unusable fuel issue
+* Fix material animation and effects def before knob animation bug
+* FG1000 audio panel and radio bug fixes
+* Hobbs track engine hours per engine
+* Add fg1000 glass, glass panel and audio panel to avionics rheostat knob
+* Hobbs intreior lighting
+* PFD/MFD power consumption less when dimmed
+* KAP140 digits color to better match other electronics
+* Fix KAP140, dme and kr87 avionics lighting
+* Add magnetic compass integral lighting
+* Absolute paths to relative for MP compatibility
+* Amphibious gear deployment depends on location when equipment change occurs
+* Refactor lighting and position of kap140 on fg1000 panel
+* Refactor lighting and position of amphib gear ctrl on fg1000 panel
+* Refactor lighting and position of elt on fg1000 panel
+* Refactor lighting and position of hobbs on fg1000 panel
+* Fix amphibious gear spring discrepancy
+* Adjust x and Z position on various gear configuration
+* Soften the main ski bogey spring coefficient
+* FDM - Adverse yaw adjustment
+* FDM - Decrease pitch up tendency at full thrust
+* FDM - Correct X VRP
+* FDM - Combine two Z offsets into a single one, VRP only
+* FDM - Fix deg to rad conversion on roll moment to yaw rate
+
 Version 2020.4
 --------------
 

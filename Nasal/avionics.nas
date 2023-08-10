@@ -97,8 +97,6 @@ aircraft.data.add(
 # ADF saves its properties in ki87.nas
 # TRANSPONDER (KT76A)
 aircraft.data.add(
-    "instrumentation/transponder/inputs/knob-mode",
-    "instrumentation/transponder/inputs/ident-btn",
     "instrumentation/transponder/inputs/digit[0]",
     "instrumentation/transponder/inputs/digit[1]",
     "instrumentation/transponder/inputs/digit[2]",

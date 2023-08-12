@@ -479,7 +479,7 @@ Under the GPL. Used by shadows under ALS -->
     <!-- Securing aircraft                                                  -->
     <!-- ================================================================== -->
 
-	<filter>
+    <filter>
         <name>Controls Parking Brake Lever</name>
         <type>noise-spike</type>
         <max-rate-of-change>2.5</max-rate-of-change>
@@ -491,13 +491,13 @@ Under the GPL. Used by shadows under ALS -->
             </condition>
         </enable>
         <input>
-			<condition>
-				<property>/controls/gear/brake-parking</property>
+            <condition>
+                <property>/controls/gear/brake-parking</property>
             </condition>
-			<value>1.0</value>
+            <value>1.0</value>
         </input>
-		<input>
-			<value>0.0</value>
+        <input>
+            <value>0.0</value>
         </input>
         <output>
             <property>/sim/model/c172p/cockpit/parking-lever</property>
@@ -683,6 +683,71 @@ Under the GPL. Used by shadows under ALS -->
             <property>/sim/model/c172p/securing/tiedownT-addable</property>
         </output>
     </logic>
+
+    <filter>
+        <name>Tail Tiedowns ripoff: left</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <or>
+                    <greater-than>
+                        <property>/position/altitude-agl-ft</property>
+                        <value>10</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/fdm/jsbsim/fcs/tiedown-left-magnitude</property>
+                        <value>1500</value>
+                    </greater-than>
+                </or>
+            </condition>
+        </enable>
+        <input> <value>0</value> </input>
+        <output> <property>/sim/model/c172p/securing/tiedownL-visible</property> </output>
+    </filter>
+    <filter>
+        <name>Tail Tiedowns ripoff: rigth</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <or>
+                    <greater-than>
+                        <property>/position/altitude-agl-ft</property>
+                        <value>10</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/fdm/jsbsim/fcs/tiedown-rigth-magnitude</property>
+                        <value>1500</value>
+                    </greater-than>
+                </or>
+            </condition>
+        </enable>
+        <input> <value>0</value> </input>
+        <output>
+            <property>/sim/model/c172p/securing/tiedownR-visible</property>
+        </output>
+    </filter>
+    <filter>
+        <name>Tail Tiedowns ripoff: tail</name>
+        <type>gain</type>
+        <enable>
+            <condition>
+                <or>
+                    <greater-than>
+                        <property>/position/altitude-agl-ft</property>
+                        <value>10</value>
+                    </greater-than>
+                    <greater-than>
+                        <property>/fdm/jsbsim/fcs/tiedown-tail-magnitude</property>
+                        <value>1500</value>
+                    </greater-than>
+                </or>
+            </condition>
+        </enable>
+        <input> <value>0</value> </input>
+        <output>
+            <property>/sim/model/c172p/securing/tiedownT-visible</property>
+        </output>
+    </filter>
 
     <!-- ================================================================== -->
     <!-- Lighting  -->

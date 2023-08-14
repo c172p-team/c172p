@@ -1942,79 +1942,69 @@
             <input>/sim/model/c172p/tiedowns/left/length</input>
             <input>-/sim/model/c172p/tiedowns/left/ref-length</input>
         </summer>
-
+        <fcs_function name="fcs/tiedown-left-magnitude">
+            <function>
+                <product>
+                    <property>/sim/model/c172p/securing/tiedownL-visible</property>
+                    <table>
+                        <independentVar>fcs/tiedown-left-mag-error</independentVar>
+                        <tableData>
+                           -1.0   -50.0
+                           -0.1     0.0
+                            0.0     0.0
+                            0.1     0.0
+                            1.0   7000.0
+                        </tableData>
+                    </table>
+                </product>
+            </function>
+            <output>external_reactions/tiedown-left/magnitude</output>
+        </fcs_function>
         <summer name="fcs/tiedown-right-mag-error">
             <input>/sim/model/c172p/tiedowns/right/length</input>
             <input>-/sim/model/c172p/tiedowns/right/ref-length</input>
         </summer>
-
+        <fcs_function name="fcs/tiedown-right-magnitude">
+            <function>
+                <product>
+                    <property>/sim/model/c172p/securing/tiedownR-visible</property>
+                    <table>
+                        <independentVar>fcs/tiedown-right-mag-error</independentVar>
+                        <tableData>
+                           -1.0   -50.0
+                           -0.1     0.0
+                            0.0     0.0
+                            0.1     0.0
+                            1.0   7000.0
+                        </tableData>
+                    </table>
+                </product>
+            </function>
+            <output>external_reactions/tiedown-right/magnitude</output>
+        </fcs_function>
         <summer name="fcs/tiedown-tail-mag-error">
             <input>/sim/model/c172p/tiedowns/tail/length</input>
             <input>-/sim/model/c172p/tiedowns/tail/ref-length</input>
         </summer>
 
-        <pid name="fcs/tiedown-left-magnitude-pid">
-            <input>fcs/tiedown-left-mag-error</input>
-            <kp>7000.0</kp>
-            <ki>0.0</ki>
-            <kd>500.0</kd>
-            <clipto>
-                <min>-50</min>
-                <max>1000</max>
-            </clipto>
-        </pid>
-
-        <pid name="fcs/tiedown-right-magnitude-pid">
-            <input>fcs/tiedown-right-mag-error</input>
-            <kp>7000.0</kp>
-            <ki>0.0</ki>
-            <kd>500.0</kd>
-            <clipto>
-                <min>-50</min>
-                <max>1000</max>
-            </clipto>
-        </pid>
-
-        <pid name="fcs/tiedown-tail-magnitude-pid">
-            <input>fcs/tiedown-tail-mag-error</input>
-            <kp>7000.0</kp>
-            <ki>0.0</ki>
-            <kd>500.0</kd>
-            <clipto>
-                <min>-50</min>
-                <max>1000</max>
-            </clipto>
-        </pid>
-
-        <switch name="fcs/tiedown-left-magnitude">
-            <output>external_reactions/tiedown-left/magnitude</output>
-            <default value="0"/>
-
-            <test logic="AND" value="fcs/tiedown-left-magnitude-pid">
-                /sim/model/c172p/securing/tiedownL-visible EQ 1
-                /fdm/jsbsim/damage/repairing EQ 0
-            </test>
-        </switch>
-
-        <switch name="fcs/tiedown-right-magnitude">
-            <output>external_reactions/tiedown-right/magnitude</output>
-            <default value="0"/>
-
-            <test logic="AND" value="fcs/tiedown-right-magnitude-pid">
-                /sim/model/c172p/securing/tiedownR-visible EQ 1
-                /fdm/jsbsim/damage/repairing EQ 0
-            </test>
-        </switch>
-
-        <switch name="fcs/tiedown-tail-magnitude">
+        <fcs_function name="fcs/tiedown-tail-magnitude">
+            <function>
+                <product>
+                    <property>/sim/model/c172p/securing/tiedownT-visible</property>
+                    <table>
+                        <independentVar>fcs/tiedown-tail-mag-error</independentVar>
+                        <tableData>
+                           -1.0   -50.0
+                           -0.1     0.0
+                            0.0     0.0
+                            0.1     0.0
+                            1.0   7000.0
+                        </tableData>
+                    </table>
+                </product>
+            </function>
             <output>external_reactions/tiedown-tail/magnitude</output>
-            <default value="0"/>
-
-            <test logic="AND" value="fcs/tiedown-tail-magnitude-pid">
-                /sim/model/c172p/securing/tiedownT-visible EQ 1
-                /fdm/jsbsim/damage/repairing EQ 0
-            </test>
-        </switch>
+        </fcs_function>
 
     </channel>
 

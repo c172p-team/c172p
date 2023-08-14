@@ -201,6 +201,28 @@
                     <command>dialog-apply</command>
                 </binding>
             </checkbox>
+
+            <checkbox>
+                <halign>left</halign>
+                <label>Install Cowl Grill</label>
+                <property>/engines/active-engine/winter-kit-installed</property>
+                <live>true</live>
+                <!--enable>
+                    <and>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>1</value>
+                        </less-than>
+                        <less-than>
+                            <property>/engines/engine/thruster/rpm</property>
+                            <value>1</value>
+                        </less-than>
+                    </and>
+                </enable-->
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
         </group>
 
         <hrule/>
@@ -241,10 +263,10 @@
                         <not>
                             <property>/engines/active-engine/running</property>
                         </not>
-                        <equals>
+                        <less-than>
                             <property>/engines/active-engine/rpm</property>
-                            <value>0</value>
-                        </equals>
+                            <value>1</value>
+                        </less-than>
                     </and>
                 </enable>
                 <binding>

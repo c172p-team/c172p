@@ -381,7 +381,6 @@
         <object-name>rightdoorhandle</object-name>
         <object-name>Spinner</object-name>
         <object-name>Propeller</object-name>
-        <object-name>PropellerCowlPlugs</object-name>
         <object-name>NoseWheel</object-name>
         <object-name>LeftWheel</object-name>
         <object-name>RightWheel</object-name>
@@ -415,6 +414,10 @@
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
         <object-name>fuelvent</object-name>
+        <object-name>CowlPlugs</object-name>
+        <object-name>PropellerCowlPlugs</object-name>
+        <object-name>cowlgrill</object-name>
+        <object-name>cowlgrillplate</object-name>
     </effect>
 
     <effect>
@@ -506,6 +509,10 @@
         <object-name>airvent</object-name>
         <object-name>fuelvent</object-name>
         <object-name>Antenna_ADF</object-name>
+        <object-name>CowlPlugs</object-name>
+        <object-name>PropellerCowlPlugs</object-name>
+        <object-name>cowlgrill</object-name>
+        <object-name>cowlgrillplate</object-name>
         <shininess>116</shininess>
         <specular>
             <r>1</r>
@@ -896,7 +903,7 @@
             <y-m>-1.2</y-m>
             <z-m>-2.5</z-m>
             <pitch-deg> -90 </pitch-deg>
-		</offsets>
+        </offsets>
     </model>
     <model>
         <path>Effects/pontoon/right-float-drip.xml</path>
@@ -905,7 +912,7 @@
             <x-m>-1.0</x-m>
             <y-m>1.15</y-m>
             <z-m>-2.5</z-m>
-			<pitch-deg> -90 </pitch-deg>
+            <pitch-deg> -90 </pitch-deg>
         </offsets>
     </model>
     <!-- MODEND: Floats Drip-->
@@ -6834,7 +6841,7 @@
         <object-name>baggagedoorhandle</object-name>
         <object-name>Spinner</object-name>
         <object-name>Propeller</object-name>
-        <object-name>PropellerCowlPlugs</object-name>
+		<object-name>PropellerCowlPlugs</object-name>
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
         <object-name>radi_box</object-name>
@@ -7665,6 +7672,43 @@
         </hovered>
     </animation>
 
+    <!-- Cowl Grill -->
+    <model>
+        <name>CowlGrill</name>
+        <path>Exterior/cowlgrill/cowlgrill.xml</path>
+    </model>
+
+    <animation>
+        <type>select</type>
+        <object-name>cowlgrill</object-name>
+        <object-name>cowlgrillplate</object-name>
+        <condition>
+            <property>engines/active-engine/winter-kit-installed</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>cowlgrill</object-name>
+        <action>
+            <name>Select</name>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>engines/active-engine/winter-kit-installed</property>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Cowl Grill installed: %s</label>
+                <property>engines/active-engine/winter-kit-installed</property>
+                <tooltip-id>WinterKit</tooltip-id>
+                <mapping>on-off</mapping>
+            </binding>
+        </hovered>
+    </animation>
+
     <!-- Cowl Plugs -->
     <model>
         <name>CowlPlugs</name>
@@ -7674,6 +7718,7 @@
     <animation>
         <type>select</type>
         <object-name>CowlPlugs</object-name>
+        <object-name>PropellerCowlPlugs</object-name>
         <condition>
             <and>
                 <property alias="/params/securing/cowl-plugs"/>

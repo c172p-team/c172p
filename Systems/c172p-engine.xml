@@ -188,14 +188,30 @@
             <output>/fdm/jsbsim/propulsion/engine[0]/friction-hp</output>
         </switch>
 
-         <switch name="engine/engine-1-friction-hp">
+        <switch name="engine/engine-1-friction-hp">
             <default value="1.5"/>
             <test  logic="AND" value="engine/friction-hp">
                 /controls/engines/active-engine eq 1
             </test>
             <output>/fdm/jsbsim/propulsion/engine[1]/friction-hp</output>
         </switch>
-        
+
+        <switch name="engine/engine-0-cooling-factor">
+            <default value="1.5"/>
+            <test  logic="AND" value="propulsion/active-engine/cooling-factor">
+                /controls/engines/active-engine eq 0
+            </test>
+            <output>/fdm/jsbsim/propulsion/engine[0]/cooling-factor</output>
+        </switch>
+
+        <switch name="engine/engine-1-cooling-factor">
+            <default value="1.5"/>
+            <test  logic="AND" value="propulsion/active-engine/cooling-factor">
+                /controls/engines/active-engine eq 1
+            </test>
+            <output>/fdm/jsbsim/propulsion/engine[1]/cooling-factor</output>
+        </switch>
+
         <switch name="engine/damage-smoke">
             <default value="0"/>
             <test  logic="AND" value="1">

@@ -1037,44 +1037,43 @@
             <switch name="cooling-factor-winterkit">
                 <!-- winter kit reduces cooling airflow -->
                 <default value=".514"/>
-                <test logic="AND" value="0.25">
+                <test logic="AND" value="0.20">
                     /engines/active-engine/winter-kit-installed  EQ  1
                 </test>
-                <output>propulsion/active-engine/cooling-factor-winterkit</output>
+                <output>/engines/active-engine/cooling-factor-winterkit</output>
             </switch>
-            <!--aerosurface_scale name="icing-nose-air-inlet"-->
+            <aerosurface_scale name="icing-nose-air-inlet">
                 <!-- ice accumulation in nose inlets reduces cooling airflow -->
-                <!--input>/fdm/jsbsim/ice/fuselage</input--> <!-- ice in inches -->
-                <!--gain>1.0</gain>
+                <input>/fdm/jsbsim/ice/fuselage</input> <!-- ice in inches -->
+                <gain>1.0</gain>
                 <zero_centered>false</zero_centered>
                 <domain>
                   <min>0.00</min>
-                  <max>0.010</max--> <!-- at this inch the max-range is output (thicker ice does not increase effect further) -->
-                <!--/domain>
-                <range-->
+                  <max>0.010</max> <!-- at this inch the max-range is output (thicker ice does not increase effect further) -->
+                </domain>
+                <range>
                     <!-- reducing factor: 1=no reduction/0=full blocked; min=no-ice, max=full-ice -->
-                    <!--min>1.00</min>
+                    <min>1.00</min>
                     <max>0.75</max>
                 </range>
                 <clipto>
                     <min>0.75</min>
                     <max>1.00</max>
                 </clipto>
-                <output>propulsion/engine[0]/cooling-factor-noseicing</output>
-            </aerosurface_scale-->
+                <output>/engines/active-engine/cooling-factor-noseicing</output>
+            </aerosurface_scale>
             <fcs_function name="engine-cooling-factor">
                 <function>
                     <product>
-                        <property>propulsion/active-engine/cooling-factor-winterkit</property>
-                        <value>1</value>
-                        <!--property>propulsion/engine[0]/cooling-factor-noseicing</property-->
+                        <property>/engines/active-engine/cooling-factor-winterkit</property>
+                        <property>/engines/active-engine/cooling-factor-noseicing</property>
                     </product>
                 </function>
                 <clipto>
                     <min>0</min>
                     <max>1</max>
                 </clipto>
-                <output>propulsion/active-engine/cooling-factor</output> <!-- final cooling factor to engine -->
+                <output>/engines/active-engine/cooling-factor</output> <!-- final cooling factor to engine -->
             </fcs_function>
         </channel>
 

@@ -141,18 +141,16 @@
                             <not>
                                 <property>/sim/freeze/replay-state</property>
                             </not>
-                            <less-than>
-                                <property>gear/gear[0]/rollspeed-ms</property>
-                                <value>1.0</value>
-                            </less-than>
-                            <not>
-                                <property>/engines/active-engine/running</property>
-                            </not>
-                            <equals>
-                                <property>/engines/active-engine/rpm</property>
-                                <value>0</value>
-                            </equals>
-                        </and>
+							<not>
+								<property>controls/switches/magnetos</property>
+							</not>
+							<not>
+								<property>controls/switches/master-bat</property>
+							</not>
+							<not>
+								<property>controls/switches/master-alt</property>
+							</not>
+						</and>
                     </enable>
                     <binding>
                         <command>nasal</command>
@@ -236,16 +234,20 @@
                 <label>Put cowl plugs</label>
                 <property>/sim/model/c172p/securing/cowl-plugs-visible</property>
                 <live>true</live>
-                <enable>
-                    <and>
-                        <not>
-                            <property>/engines/active-engine/running</property>
-                        </not>
-                        <less-than>
-                            <property>/engines/active-engine/rpm</property>
-                            <value>1</value>
-                        </less-than>
-                    </and>
+                        <and>
+                            <not>
+                                <property>/sim/freeze/replay-state</property>
+                            </not>
+							<not>
+								<property>controls/switches/magnetos</property>
+							</not>
+							<not>
+								<property>controls/switches/master-bat</property>
+							</not>
+							<not>
+								<property>controls/switches/master-alt</property>
+							</not>
+						</and>
                 </enable>
                 <binding>
                     <command>dialog-apply</command>

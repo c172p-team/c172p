@@ -59,32 +59,32 @@ var ICING_CATEGORY = [ "none", "trace", "light", "moderate", "severe" ];
 
 # the ice accumulating factors. Inches per nautical air mile flown
 var ICING_FACTOR = [
-  # none: sublimating 0.3" / 80NM
-  -0.3/80,
+    # none: sublimating 0.3" / 80NM
+    -0.3/80,
 
-  # traces: 0.5" / 80NM
-  0.5/80.0,
+    # traces: 0.5" / 80NM
+    0.5/80.0,
 
-  # light: 0.5" / 40NM
-  0.5/40.0,
+    # light: 0.5" / 40NM
+    0.5/40.0,
 
-  # moderate: 0.5" / 20NM
-  0.5/20.0,
+    # moderate: 0.5" / 20NM
+    0.5/20.0,
 
-  #severe: 0.5" / 10NM
-  0.5/10
+    #severe: 0.5" / 10NM
+    0.5/10
 ];
 
 # since we don't know the LWC of our clouds, just define some severities
 # depending on temperature and a random offset
 # format: upper temperatur, lower temperatur, minimum severity, maximum severity
 var ICING_TEMPERATURE = [
-  [ 999,   0, ICING_NONE,     ICING_NONE ],
-  [   0,  -2, ICING_NONE,     ICING_MODERATE ],
-  [  -2, -12, ICING_LIGHT,    ICING_SEVERE ],
-  [ -12, -20, ICING_LIGHT,    ICING_MODERATE ],
-  [ -20, -30, ICING_TRACE,    ICING_LIGHT ],
-  [ -30, -99, ICING_TRACE,    ICING_NONE ]
+    [ 999,   0, ICING_NONE,     ICING_NONE ],
+    [   0,  -2, ICING_NONE,     ICING_MODERATE ],
+    [  -2, -12, ICING_LIGHT,    ICING_SEVERE ],
+    [ -12, -20, ICING_LIGHT,    ICING_MODERATE ],
+    [ -20, -30, ICING_TRACE,    ICING_LIGHT ],
+    [ -30, -99, ICING_TRACE,    ICING_NONE ]
 ];
 
 var dewpointN     = props.globals.getNode( "/environment/dewpoint-degc" );
@@ -98,12 +98,11 @@ var snow = props.globals.getNode( "/environment/snow-norm" );
 #var InCloudIcing = props.globals.getNode( "/environment/icing/InCloudIcing" );
 
 #var ici = func{
-
-#if (InCloudIcing ==1){
-#visibility_factor.setValue(0.01)
-#}else{
-#visibility_factor.setValue(1)
-#}
+    #if (InCloudIcing ==1){
+        #visibility_factor.setValue(0.01)
+    #}else{
+        #visibility_factor.setValue(1)
+    #}
 #}
 
 var severityN     = icingRootN.initNode( "icing-severity", ICING_NONE, "INT" );
@@ -112,11 +111,11 @@ var icingFactorN  = icingRootN.initNode( "icing-factor", 0.0 );
 var maxSpreadN    = icingRootN.initNode( "max-spread-degc", 0.1 );
 
 var setSeverity = func {
-  var value = arg[0];
-  if( severityN.getValue() != value ) {
-    severityN.setValue( value );
-    severityNameN.setValue( ICING_CATEGORY[value] );
-  }
+    var value = arg[0];
+    if( severityN.getValue() != value ) {
+        severityN.setValue( value );
+        severityNameN.setValue( ICING_CATEGORY[value] );
+    }
 }
 
 #########################################################################################
@@ -134,34 +133,34 @@ var setSeverity = func {
 var IceSensitiveElement = {};
 
 IceSensitiveElement.new = func {
-  var obj = {};
-  obj.parents = [IceSensitiveElement];
-  obj.node = arg[0];
+    var obj = {};
+    obj.parents = [IceSensitiveElement];
+    obj.node = arg[0];
 
-  obj.nameN = obj.node.initNode( "name", "noname" );
-  var n = obj.node.getNode( "salvage-control", 0 );
-  obj.controlN = nil;
-  if( n != nil ) {
-    n = n.getValue();
+    obj.nameN = obj.node.initNode( "name", "noname" );
+    var n = obj.node.getNode( "salvage-control", 0 );
+    obj.controlN = nil;
     if( n != nil ) {
-      obj.controlN = props.globals.initNode( n, 0, "BOOL" );
+        n = n.getValue();
+        if( n != nil ) {
+            obj.controlN = props.globals.initNode( n, 0, "BOOL" );
+        }
     }
-  }
-  obj.sensitivityN = obj.node.initNode( "sensitivity", 1.0 );
+    obj.sensitivityN = obj.node.initNode( "sensitivity", 1.0 );
 
-  obj.iceAmountN = nil;
-  n = obj.node.getNode( "output-property", 0 );
-  if( n != nil ) {
-    n = n.getValue();
+    obj.iceAmountN = nil;
+    n = obj.node.getNode( "output-property", 0 );
     if( n != nil ) {
-      obj.iceAmountN = props.globals.initNode( n, 0.0 );
+        n = n.getValue();
+        if( n != nil ) {
+            obj.iceAmountN = props.globals.initNode( n, 0.0 );
+        }
     }
-  }
-  if( obj.iceAmountN == nil ) {
-    obj.iceAmountN = obj.node.initNode( "ice-inches", 0.0 );
-  }
+    if( obj.iceAmountN == nil ) {
+        obj.iceAmountN = obj.node.initNode( "ice-inches", 0.0 );
+    }
 
-  return obj;
+    return obj;
 };
 
 #####################################################################
@@ -171,39 +170,39 @@ IceSensitiveElement.new = func {
 # arg[2] is the ice-accumulation-factor for the current severity
 #####################################################################
 IceSensitiveElement.update = func {
-	if( me.controlN != nil and me.controlN.getBoolValue() ) {
-		if( me.iceAmountN.getValue() != 0.0 ) {
-			me.iceAmountN.setDoubleValue( 0.0 );
-		}
-		return;
-	}
+    if( me.controlN != nil and me.controlN.getBoolValue() ) {
+        if( me.iceAmountN.getValue() != 0.0 ) {
+            me.iceAmountN.setDoubleValue( 0.0 );
+        }
+        return;
+    }
 
-	var deltat  = arg[0];
-	var dist_nm = arg[1];
-	var factor  = arg[2];
+    var deltat  = arg[0];
+    var dist_nm = arg[1];
+    var factor  = arg[2];
 
-	#hack for getting rain and snow speeding up the ice amount
+    #hack for getting rain and snow speeding up the ice amount
 
-	var rainN = (getprop ("/environment/rain-norm") or 0);
-	var snowN =  (getprop ("/environment/snow-norm") or 0);
-	var tempN =  (getprop ("/environment/temperature-degc") or 0);
+    var rainN = (getprop ("/environment/rain-norm") or 0);
+    var snowN =  (getprop ("/environment/snow-norm") or 0);
+    var tempN =  (getprop ("/environment/temperature-degc") or 0);
 
-	if (tempN <0 ){
-		rainF = rainN * 1;
-		snowF = snowN * 1;
-	}else{
-		rainF = rainN * 0;
-		snowF = snowN * 0;
-	}
+    if (tempN <0 ){
+        rainF = rainN * 1;
+        snowF = snowN * 1;
+    }else{
+        rainF = rainN * 0;
+        snowF = snowN * 0;
+    }
 
 
-	var v = me.iceAmountN.getValue() + dist_nm * factor  * me.sensitivityN.getValue() + (0.005*rainF) + (0.005*snowF) ;
-	if(( v < 0.0 ) ){
-		v = 0.0;
-	} 
-	if( me.iceAmountN.getValue() != v ) {
-		me.iceAmountN.setValue( v );
-	}
+    var v = me.iceAmountN.getValue() + dist_nm * factor  * me.sensitivityN.getValue() + (0.005*rainF) + (0.005*snowF) ;
+    if(( v < 0.0 ) ){
+        v = 0.0;
+    } 
+    if( me.iceAmountN.getValue() != v ) {
+        me.iceAmountN.setValue( v );
+    }
 };
 
 #####################################################################
@@ -293,15 +292,12 @@ or
 ((coverage3 == "overcast") and (position > cloud30) and (position < (cloud3 + 2500)) or ((coverage3 == "broken") and (position > cloud3) and (position < (cloud3 + 2000))) or ((coverage0 == "scattered") and (position > cloud0) and (position < (cloud0 + 1500))))
 or
 ((coverage4 == "overcast") and (position > cloud4) and (position < (cloud4 + 2500)) or ((coverage4 == "broken") and (position > cloud4) and (position < (cloud4 + 2000))) or((coverage0 == "scattered") and (position > cloud0) and (position < (cloud0 + 1500)))) )
-
-{
-		setprop("/environment/icing/InCloudIcing/detected", 1);
-	} else{
-		setprop("/environment/icing/InCloudIcing/detected", 0);
-}
-	
-
-	settimer(d, 0.0);
+    {
+        setprop("/environment/icing/InCloudIcing/detected", 1);
+    } else{
+        setprop("/environment/icing/InCloudIcing/detected", 0);
+    }
+    settimer(d, 0.0);
 }
 
 d();
@@ -313,70 +309,69 @@ var elapsedTimeNode = props.globals.getNode( "/sim/time/elapsed-sec" );
 var lastUpdate = 0.0;
 var icing = func {
 
-  var temperature = temperatureN.getValue();
-  
- # var rain = rainN.getValue();
-  #var snow = snowN.getValue();
-  var severity = ICING_NONE;
-  icingFactorN.setDoubleValue( ICING_FACTOR[severity] );
+    var temperature = temperatureN.getValue();
 
-  var visibility = 0;
-  if( visibilityN != nil ) {
-  
-#var visibility_factor = 0;
+    # var rain = rainN.getValue();
+    #var snow = snowN.getValue();
+    var severity = ICING_NONE;
+    icingFactorN.setDoubleValue( ICING_FACTOR[severity] );
+
+    var visibility = 0;
+    if( visibilityN != nil ) {
+
+        #var visibility_factor = 0;
 
         var InCloudIcing = getprop("/environment/icing/InCloudIcing/detected" ) or 0;
-	if (InCloudIcing ==1){
-	setprop("/environment/icing/InCloudIcing/visibilityfactor", 0.01);
-	}else{
-	setprop("/environment/icing/InCloudIcing/visibilityfactor", 1);
-	}
+        if (InCloudIcing ==1){
+            setprop("/environment/icing/InCloudIcing/visibilityfactor", 0.01);
+        }else{
+            setprop("/environment/icing/InCloudIcing/visibilityfactor", 1);
+        }
 
-    visibilityE = visibilityN.getValue();
-    visibility = visibilityE * (getprop ("/environment/icing/InCloudIcing/visibilityfactor") or 0);
-  }
-
-  # check if we should create some ice
-  var spread = temperature - dewpointN.getValue();
-  if( spread < maxSpreadN.getValue() and visibility < 5000 ) {
-    for( var i = 0; i < size(ICING_TEMPERATURE); i = i + 1 ) {
-      if( ICING_TEMPERATURE[i][0] > temperature and 
-          ICING_TEMPERATURE[i][1] <= temperature ) {
-        var s1 = ICING_TEMPERATURE[i][2];
-        var s2 = ICING_TEMPERATURE[i][3];
-        var ds = s2 - s1 + 1;
-        severity = s1 + int(rand()*ds);
-        icingFactorN.setDoubleValue( ICING_FACTOR[severity] );
-        break;
-      }
+        visibilityE = visibilityN.getValue();
+        visibility = visibilityE * (getprop ("/environment/icing/InCloudIcing/visibilityfactor") or 0);
     }
-  } else {
-    # clear air
-    # melt ice if above freezing temperature
-    # the warmer, the faster. Lets guess that at 10degc
-    # 0.5 inch goes in 10miles
-    if( temperature > 0.0 ) {
-      icingFactorN.setDoubleValue( factor = -0.05 * temperature / 10.0 );
+
+    # check if we should create some ice
+    var spread = temperature - dewpointN.getValue();
+    if( spread < maxSpreadN.getValue() and visibility < 5000 ) {
+        for( var i = 0; i < size(ICING_TEMPERATURE); i = i + 1 ) {
+            if( ICING_TEMPERATURE[i][0] > temperature and ICING_TEMPERATURE[i][1] <= temperature ) {
+                var s1 = ICING_TEMPERATURE[i][2];
+                var s2 = ICING_TEMPERATURE[i][3];
+                var ds = s2 - s1 + 1;
+                severity = s1 + int(rand()*ds);
+                icingFactorN.setDoubleValue( ICING_FACTOR[severity] );
+                break;
+            }
+        }
+    } else {
+        # clear air
+        # melt ice if above freezing temperature
+        # the warmer, the faster. Lets guess that at 10degc
+        # 0.5 inch goes in 10miles
+        if( temperature > 0.0 ) {
+            icingFactorN.setDoubleValue( factor = -0.05 * temperature / 10.0 );
+        }
+        # if temperature below zero, sublimating factor is initialized
     }
-    # if temperature below zero, sublimating factor is initialized
-  }
 
-  if (! getprop("/sim/model/c182s/enable-icing") ) {
-    # insta de-ice if option is disabled
-    icingFactorN.setDoubleValue( -100000 );
-  }
+    if (! getprop("/sim/model/c172p/enable-fog-frost") ) {
+        # insta de-ice if option is disabled
+        icingFactorN.setDoubleValue( -100000 );
+    }
 
-  setSeverity( severity );
+    setSeverity( severity );
 
-  # update all sensitive areas
-  var now = elapsedTimeNode.getValue();
-  var dt = now - lastUpdate;
-  foreach( var iceable; iceSensitiveElements ) {
-    iceable.update( dt, dt * speedN.getValue()/3600.0, icingFactorN.getValue() );
-  }
+    # update all sensitive areas
+    var now = elapsedTimeNode.getValue();
+    var dt = now - lastUpdate;
+    foreach( var iceable; iceSensitiveElements ) {
+        iceable.update( dt, dt * speedN.getValue()/3600.0, icingFactorN.getValue() );
+    }
 
-  lastUpdate = now;
-  settimer( icing, 2 );
+    lastUpdate = now;
+    settimer( icing, 2 );
 }
 
 #####################################################################
@@ -384,7 +379,7 @@ var icing = func {
 # don't care if there is nothing to put ice on
 #####################################################################
 if( iceSensitiveElements != nil ) {
-  lastUpdate = elapsedTimeNode.getValue();
-  icing();
+    lastUpdate = elapsedTimeNode.getValue();
+    icing();
 }
 #####################################################################

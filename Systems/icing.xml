@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!--
+    Copyright (c) 2018 Heiko.H.Schulz
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+
+
+
+<!--
+Simulates effects of icing to weight, all other effects like drag and loss of lift are simulated in the fdm-file
+-->
+
+<system name="icing">
+    <channel>
+        <pure_gain name="ice/weight">
+            <input>ice/graphic</input>
+            <gain>100</gain>
+            <output>inertia/pointmass-weight-lbs[6]</output>
+        </pure_gain>
+
+        <!--<fcs_function name="systems/engine/ice">
+            <function>
+                <table>
+                    <independentVar lookup="row">ice/wing</independentVar>
+                    <tableData breakPoint="0">
+                        0   0.18
+                        0.5 0.18
+                        2   3.6
+                    </tableData>
+                </table>
+            </function>
+            <clipto>
+                <min> 0.0 </min>
+                <max> 1.00 </max>
+            </clipto>
+            <output>systems/engine/ice/air-intake-impedance-factor</output>
+        </fcs_function> -->
+    </channel>
+</system>

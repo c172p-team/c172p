@@ -195,7 +195,6 @@ IceSensitiveElement.update = func {
         snowF = snowN * 0;
     }
 
-
     var v = me.iceAmountN.getValue() + dist_nm * factor  * me.sensitivityN.getValue() + (0.005*rainF) + (0.005*snowF) ;
     if(( v < 0.0 ) ){
         v = 0.0;
@@ -250,18 +249,15 @@ cloud2 = props.globals.getNode("/environment/icing/clouds/cloud2", 1);
 cloud3 = props.globals.getNode("/environment/icing/clouds/cloud3", 1);
 cloud4 = props.globals.getNode("/environment/icing/clouds/cloud4", 1);
 
-
 setprop("/environment/icing/clouds/cloud0", (((mtemperatureN - mdewpointN)*30) + statE + cle0 ));
 setprop("/environment/icing/clouds/cloud1", (((mtemperatureN - mdewpointN)*30) + statE + cle1 ));
 setprop("/environment/icing/clouds/cloud2", (((mtemperatureN - mdewpointN)*30) + statE + cle2 ));
 setprop("/environment/icing/clouds/cloud3", (((mtemperatureN - mdewpointN)*30) + statE + cle3 ));
 setprop("/environment/icing/clouds/cloud4", (((mtemperatureN - mdewpointN)*30) + statE + cle4 ));
 
- 
 settimer(Cloudaltitude, 0.0);
 }
 Cloudaltitude();
-
 
 ###################
 #
@@ -281,7 +277,6 @@ coverage3 = getprop("/environment/metar/clouds/layer[3]/coverage") or 0;
 coverage4 = getprop("/environment/metar/clouds/layer[4]/coverage") or 0;
 
 var position = getprop("/position/altitude-ft") or 0;
-
 
 if (((coverage0 == "overcast") and (position > cloud0) and (position < (cloud0 + 2500)) or ((coverage0 == "broken") and (position > cloud0) and (position < (cloud0 + 2000)))  or ((coverage0 == "scattered") and (position > cloud0) and (position < (cloud0 + 1500))))
 or
@@ -311,7 +306,7 @@ var icing = func {
 
     var temperature = temperatureN.getValue();
 
-    # var rain = rainN.getValue();
+    #var rain = rainN.getValue();
     #var snow = snowN.getValue();
     var severity = ICING_NONE;
     icingFactorN.setDoubleValue( ICING_FACTOR[severity] );

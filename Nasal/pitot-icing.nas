@@ -16,7 +16,7 @@
 # General Public License for more details.
 #############################################################################
 
-#########################################################################################
+#############################################################################
 # Fail the airspeed indicator due to icing of the pitot tube
 # Maintainer: Torsten Dreyer (Torsten at t3r dot de)
 #
@@ -26,7 +26,11 @@
 # outputs
 # /instrumentation/airspeed-indicator/serviceable          
 # /instrumentation/airspeed-indicator/indicated-speed-kt
-#########################################################################################
+#############################################################################
+
+#############################################################################
+# Taken from c182 team, with thanks!
+#############################################################################
 
 var PitotIcingHandler = {};
 PitotIcingHandler.new = func {

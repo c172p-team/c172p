@@ -42,7 +42,9 @@
 #                                          none,trace,light,moderate,severe
 # /environment/icing/icing-factor          ammound of ice accumulation per NAM
 
-
+#############################################################################
+# Taken from c182 team, with thanks!
+#############################################################################
 
 #########################################################################
 # implementation of the global icemachine

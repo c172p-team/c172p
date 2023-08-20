@@ -97,12 +97,14 @@ var save_state = func {
     setprop("/save/tiedownL", tiedownL);
     setprop("/save/tiedownR", tiedownR);
     setprop("/save/tiedownT", tiedownT);
-    var pitot = getprop("/sim/model/c172p/securing/pitot-cover-visible");
-    setprop("/save/pitot", pitot);
+    var pitotcover = getprop("/sim/model/c172p/securing/pitot-cover-visible");
+    setprop("/save/pitotcover", pitotcover);
     var chock = getprop("/sim/model/c172p/securing/chock");
     setprop("/save/chock", chock);
     var cowlplug = getprop("/sim/model/c172p/securing/cowl-plugs-visible");
     setprop("/save/cowlplug", cowlplug);
+    var cowlgrill = getprop("/engines/active-engines/winter-kit-installed");
+    setprop("/save/cowlgrill", cowlgrill);
     var ctrllock = getprop("/sim/model/c172p/cockpit/control-lock-placed");
     setprop("/save/ctrllock", ctrllock);
 
@@ -144,6 +146,10 @@ var save_state = func {
     setprop("/save/gpsnorm", gpsnorm);
     var gearled = getprop("/controls/lighting/gearled");
     setprop("/save/gearled", gearled);
+    var static = getprop("/systems/static-selected-source");
+    setprop("/save/static", static);
+    var staticnorm = getprop("/systems/static-selected-source-norm");
+    setprop("/save/staticnorm", staticnorm);
 
     var nav = getprop("/controls/lighting/nav-lights");
     setprop("/save/nav", nav);
@@ -461,12 +467,14 @@ var resume_state = func {
         setprop("/sim/model/c172p/securing/tiedownL-visible", tiedownL);
         setprop("/sim/model/c172p/securing/tiedownR-visible", tiedownR);
         setprop("/sim/model/c172p/securing/tiedownT-visible", tiedownT);
-        var pitot = getprop("/save/pitot");
-        setprop("/sim/model/c172p/securing/pitot-cover-visible", pitot);
+        var pitotcover = getprop("/save/pitotcover");
+        setprop("/sim/model/c172p/securing/pitot-cover-visible", pitotcover);
         var chock = getprop("/save/chock");
         setprop("/sim/model/c172p/securing/chock", chock);
         var cowlplug = getprop("/save/cowlplug");
         setprop("/sim/model/c172p/securing/cowl-plugs-visible", cowlplug);
+        var cowlgrill = getprop("/save/cowlgrill");
+        setprop("/engines/active-engines/winter-kit-installed", cowlgrill);
         var ctrllock = getprop("/save/ctrllock");
         setprop("/sim/model/c172p/cockpit/control-lock-placed", ctrllock);
 
@@ -508,6 +516,11 @@ var resume_state = func {
         setprop("/controls/lighting/gps-norm", gpsnorm);
         var gearled = getprop("/save/gearled");
         setprop("/controls/lighting/gearled", gearled);
+        var static = getprop("/save/static");
+        setprop("/systems/static-selected-source", static);
+        var staticnorm = getprop("/save/staticnorm");
+        setprop("/systems/static-selected-source-norm", staticnorm);
+        var instrumentsnorm = getprop("/save/instrumentsnorm");
 
         var nav = getprop("/save/nav");
         setprop("/controls/lighting/nav-lights", nav);

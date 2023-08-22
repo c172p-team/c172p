@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
 <!--
-    Copyright (c) 2018 Heiko.H.Schulz
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 2 of the License, or
@@ -20,29 +19,80 @@ Simulates effects of icing to weight, all other effects like drag and loss of li
 -->
 
 <system name="icing">
-    <channel>
-        <pure_gain name="ice/weight">
-            <input>ice/graphic</input>
-            <gain>100</gain>
-            <output>inertia/pointmass-weight-lbs[17]</output>
-        </pure_gain>
-
-        <!--<fcs_function name="systems/engine/ice">
+    <channel name="extra-weight-ice">
+        <fcs_function name="inertia/pointmass-weight-lbs[17]">
             <function>
-                <table>
-                    <independentVar lookup="row">ice/wing</independentVar>
-                    <tableData breakPoint="0">
-                        0   0.18
-                        0.5 0.18
-                        2   3.6
-                    </tableData>
-                </table>
+                <product>
+                    <property>ice/wing</property>
+                    <value>35.86</value>
+                </product>
+            </function>
+            <!--output>inertia/pointmass-weight-lbs[17]</output-->
+        </fcs_function>
+        <fcs_function name="inertia/pointmass-weight-lbs[18]">
+            <function>
+                <product>
+                    <property>ice/elevator</property>
+                    <value>8.12</value>
+                </product>
+            </function>
+            <!--output>inertia/pointmass-weight-lbs[18]</output-->
+        </fcs_function>
+        <fcs_function name="inertia/pointmass-weight-lbs[19]">
+            <function>
+                <product>
+                    <property>ice/stabilizer</property>
+                    <value>3.44</value>
+                </product>
+            </function>
+            <!--output>inertia/pointmass-weight-lbs[19]</output-->
+        </fcs_function>
+        <fcs_function name="extra-weight-fuselage">
+            <function>
+                <product>
+                    <property>ice/fuselage</property>
+                    <value>6.08</value>
+                </product>
+            </function>
+            <output>inertia/pointmass-weight-lbs[20]</output>
+        </fcs_function>
+        <fcs_function name="extra-weight-windshield">
+            <function>
+                <product>
+                    <property>ice/windshield</property>
+                    <value>1.96</value>
+                </product>
+            </function>
+            <output>inertia/pointmass-weight-lbs[21]</output>
+        </fcs_function>
+        <fcs_function name="extra-weight-propeller">
+            <function>
+                <product>
+                    <property>ice/propeller</property>
+                    <value>0.49</value>
+                </product>
+            </function>
+            <output>inertia/pointmass-weight-lbs[22]</output>
+        </fcs_function>
+        <summer name="ice/total-ice-lbs">
+            <input>inertia/pointmass-weight-lbs[17]</input>
+            <input>inertia/pointmass-weight-lbs[18]</input>
+            <input>inertia/pointmass-weight-lbs[19]</input>
+            <input>inertia/pointmass-weight-lbs[20]</input>
+            <input>inertia/pointmass-weight-lbs[21]</input>
+            <input>inertia/pointmass-weight-lbs[22]</input>
+        </summer>
+        <fcs_function name="ice/graphic">
+            <function>
+                <product>
+                    <property>ice/total-ice-lbs</property>
+                    <value>0.04</value>
+                </product>
             </function>
             <clipto>
-                <min> 0.0 </min>
-                <max> 1.00 </max>
+                <min>0.0</min>
+                <max>1.0</max>
             </clipto>
-            <output>systems/engine/ice/air-intake-impedance-factor</output>
-        </fcs_function> -->
+        </fcs_function>
     </channel>
 </system>

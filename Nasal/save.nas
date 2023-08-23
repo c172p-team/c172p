@@ -103,7 +103,7 @@ var save_state = func {
     setprop("/save/chock", chock);
     var cowlplug = getprop("/sim/model/c172p/securing/cowl-plugs-visible");
     setprop("/save/cowlplug", cowlplug);
-    var cowlgrill = getprop("/engines/active-engines/winter-kit-installed");
+    var cowlgrill = getprop("/engines/active-engine/winter-kit-installed");
     setprop("/save/cowlgrill", cowlgrill);
     var ctrllock = getprop("/sim/model/c172p/cockpit/control-lock-placed");
     setprop("/save/ctrllock", ctrllock);
@@ -474,7 +474,7 @@ var resume_state = func {
         var cowlplug = getprop("/save/cowlplug");
         setprop("/sim/model/c172p/securing/cowl-plugs-visible", cowlplug);
         var cowlgrill = getprop("/save/cowlgrill");
-        setprop("/engines/active-engines/winter-kit-installed", cowlgrill);
+        setprop("/engines/active-engine/winter-kit-installed", cowlgrill);
         var ctrllock = getprop("/save/ctrllock");
         setprop("/sim/model/c172p/cockpit/control-lock-placed", ctrllock);
 

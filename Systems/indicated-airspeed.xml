@@ -21,6 +21,8 @@
         
 <!--
     (dany93) Largely inspired from c182, thanks HHS81.
+    Icing portion enhanced by B. Hallinger for c182s
+    failure due to pitot icing  by H. Schulz
 -->
         
 <!--
@@ -87,8 +89,42 @@
 
             <test logic="AND" value="0">
                 /sim/model/c172p/securing/pitot-cover-visible EQ 1
+                /systems/pitot/icing GT 0.03
             </test>
         </switch>
 
+        <switch name="/systems/pitot/heating">
+            <output>/systems/pitot/heating</output>
+            <default value="0"/>
+
+            <test logic="AND" value="1">
+                /controls/anti-ice/pitot-heat EQ 1
+                /systems/electrical/outputs/pitot-heat GT 20
+            </test>
+        </switch>
+
+        <kinematic name="/systems/pitot/heat-applied-norm">
+            <input>/systems/pitot/heating</input>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <position>1</position>
+                    <time>30</time>
+                </setting>
+            </traverse>
+            <output>/systems/pitot/heat-applied-norm</output>
+        </kinematic>
+
+        <switch name="/systems/pitot/salvage-control">
+            <output>/systems/pitot/salvage</output>
+            <default value="1"/>
+
+            <test logic="OR" value="0">
+               /systems/pitot/heat-applied-norm LT 0.3
+            </test>
+        </switch>
     </channel>
 </system>

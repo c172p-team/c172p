@@ -208,6 +208,63 @@
                 <z> 26.6 </z>
             </location>
         </pointmass>
+
+        <!-- pointmass [17] -->
+        <pointmass name="Wing-Ice">
+           <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> 36.14 </x>
+                <y>  0.00 </y>
+                <z> 56.88 </z>
+            </location>
+        </pointmass>
+        <!-- pointmass [18] -->
+        <pointmass name="Elevator-Ice">
+           <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> 208.77 </x>
+                <y>   0.00 </y>
+                <z>  29.19 </z>
+            </location>
+        </pointmass>
+        <!-- pointmass [19] -->
+        <pointmass name="Stabilizer-Ice">
+           <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> 228.60 </x>
+                <y>   0.00 </y>
+                <z>  64.48 </z>
+
+            </location>
+        </pointmass>
+        <!-- pointmass [20] -->
+        <pointmass name="Fuselage-Ice">
+           <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> -24.00 </x>
+                <y>   0.00 </y>
+                <z>  25.79 </z>
+            </location>
+        </pointmass>
+        <!-- pointmass [21] -->
+        <pointmass name="Windshield-Ice">
+           <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> 18.40 </x>
+                <y>  0.00 </y>
+                <z> 50.91 </z>
+            </location>
+        </pointmass>
+        <!-- pointmass [22] -->
+        <pointmass name="Propeller-Ice">
+           <weight unit="LBS"> 0 </weight>
+            <location name="POINTMASS" unit="IN">
+                <x> -37.39 </x>
+                <y>   0.00 </y>
+                <z>  30.04 </z>
+            </location>
+        </pointmass>
+
     </mass_balance>
 
     <ground_reactions>
@@ -1033,6 +1090,50 @@
             </kinematic>
         </channel>
 
+        <channel name="Cowl Grill">
+            <switch name="cooling-factor-winterkit">
+                <!-- winter kit reduces cooling airflow -->
+                <default value=".514"/>
+                <test logic="AND" value="0.20">
+                    /engines/active-engine/winter-kit-installed  EQ  1
+                </test>
+                <output>/engines/active-engine/cooling-factor-winterkit</output>
+            </switch>
+            <aerosurface_scale name="icing-nose-air-inlet">
+                <!-- ice accumulation in nose inlets reduces cooling airflow -->
+                <input>/fdm/jsbsim/ice/fuselage</input> <!-- ice in inches -->
+                <gain>1.0</gain>
+                <zero_centered>false</zero_centered>
+                <domain>
+                  <min>0.00</min>
+                  <max>0.010</max> <!-- at this inch the max-range is output (thicker ice does not increase effect further) -->
+                </domain>
+                <range>
+                    <!-- reducing factor: 1=no reduction/0=full blocked; min=no-ice, max=full-ice -->
+                    <min>1.00</min>
+                    <max>0.75</max>
+                </range>
+                <clipto>
+                    <min>0.75</min>
+                    <max>1.00</max>
+                </clipto>
+                <output>/engines/active-engine/cooling-factor-noseicing</output>
+            </aerosurface_scale>
+            <fcs_function name="engine-cooling-factor">
+                <function>
+                    <product>
+                        <property>/engines/active-engine/cooling-factor-winterkit</property>
+                        <property>/engines/active-engine/cooling-factor-noseicing</property>
+                    </product>
+                </function>
+                <clipto>
+                    <min>0</min>
+                    <max>1</max>
+                </clipto>
+                <output>/engines/active-engine/cooling-factor</output> <!-- final cooling factor to engine -->
+            </fcs_function>
+        </channel>
+
         <channel name="Mixture">
             <!-- If the engine was primed enough times and throttle
                  is in starter position, then mixture is 1.
@@ -1136,6 +1237,8 @@
     </flight_control>
 
     <aerodynamics>
+        <property value="0.0">ice/wing</property>
+
         <alphalimits unit="RAD">
             <min>-0.087</min>
             <max>0.28</max>
@@ -1250,6 +1353,24 @@
         </function>
 
         <axis name="DRAG">
+
+            <!--taken from SenecaII by Torsten Dreyer-->
+            <function name="aero/coefficient/CDicew">
+                <description>Drag_due_to_ice_on_wing</description>
+                <product>
+                    <property>aero/qbar-area</property>
+                    <table>
+                        <independentVar>ice/wing</independentVar>
+                        <tableData>
+                            0.0      0
+                            0.5      0.12
+                            1.0      0.24
+                            2.0      0.6
+                        </tableData>
+                    </table>
+                </product>
+            </function>
+
             <function name="aero/coefficient/CDo">
                 <description>Drag_at_zero_lift</description>
                 <product>
@@ -1442,6 +1563,24 @@
         </axis>
 
         <axis name="LIFT">
+
+            <!--taken from SenecaII by Torsten Dreyer-->
+            <function name="aero/coefficient/CLicew">
+                <description>Lift_decrease_due_to_ice_on_wing</description>
+                <product>
+                    <property>aero/qbar-area</property>
+                    <table>
+                        <independentVar>ice/wing</independentVar>
+                        <tableData>
+                            0.0      0
+                            0.5      -0.6
+                            1.0      -1.2
+                            2.0      -2.4
+                        </tableData>
+                    </table>
+                </product>
+            </function>
+
             <function name="aero/coefficient/CLwbh">
                 <description>Lift_due_to_alpha</description>
                 <product>
@@ -2195,7 +2334,10 @@
     <system file="c172p-sounds"/>
     <system file="c172p-heat"/>
     <system file="external-heat"/> <!-- integrate external-heater, thanks to HHS for allowing use-->
+    <system file="propulsion"/>
     <system file="indicated-airspeed"/>
+    <system file="icing"/>
+    <system file="static-sources"/> <!-- integrate alternate static source simulation -->
 
     <!-- Mooring setup for FlightGear. -->
     <system file="mooring-jsbsim"/>

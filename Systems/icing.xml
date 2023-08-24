@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!--
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+    You should have received a copy of the GNU General Public License
+    along with this program. If not, see <http://www.gnu.org/licenses/>.
+-->
+
+
+
+<!--
+Simulates effects of icing to weight, all other effects like drag and loss of lift are simulated in the fdm-file
+-->
+
+<system name="icing">
+    <channel name="extra-weight-ice">
+        <fcs_function name="inertia/pointmass-weight-lbs[17]">
+            <function>
+                <product>
+                    <property>ice/wing</property>
+                    <value>35.86</value>
+                </product>
+            </function>
+        </fcs_function>
+        <fcs_function name="inertia/pointmass-weight-lbs[18]">
+            <function>
+                <product>
+                    <property>ice/elevator</property>
+                    <value>8.12</value>
+                </product>
+            </function>
+        </fcs_function>
+        <fcs_function name="inertia/pointmass-weight-lbs[19]">
+            <function>
+                <product>
+                    <property>ice/stabilizer</property>
+                    <value>3.44</value>
+                </product>
+            </function>
+        </fcs_function>
+        <fcs_function name="inertia/pointmass-weight-lbs[20]">
+            <function>
+                <product>
+                    <property>ice/fuselage</property>
+                    <value>6.08</value>
+                </product>
+            </function>
+        </fcs_function>
+        <fcs_function name="inertia/pointmass-weight-lbs[21]">
+            <function>
+                <product>
+                    <property>ice/windshield</property>
+                    <value>1.96</value>
+                </product>
+            </function>
+        </fcs_function>
+        <fcs_function name="inertia/pointmass-weight-lbs[22]">
+            <function>
+                <product>
+                    <property>ice/propeller</property>
+                    <value>0.49</value>
+                </product>
+            </function>
+        </fcs_function>
+        <summer name="ice/total-ice-lbs">
+            <input>inertia/pointmass-weight-lbs[17]</input>
+            <input>inertia/pointmass-weight-lbs[18]</input>
+            <input>inertia/pointmass-weight-lbs[19]</input>
+            <input>inertia/pointmass-weight-lbs[20]</input>
+            <input>inertia/pointmass-weight-lbs[21]</input>
+            <input>inertia/pointmass-weight-lbs[22]</input>
+        </summer>
+        <fcs_function name="ice/graphic">
+            <function>
+                <product>
+                    <property>ice/total-ice-lbs</property>
+                    <value>0.04</value>
+                </product>
+            </function>
+            <clipto>
+                <min>0.0</min>
+                <max>1.0</max>
+            </clipto>
+        </fcs_function>
+    </channel>
+</system>

@@ -1,0 +1,112 @@
+<?xml version="1.0"?>  
+<!--
+    c182s static system (POH p. 7-42)
+    Copyright (c) 2020 B. Hallinger
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<system name="static">
+
+    <!-- initialize some properties -->
+    <!-- defined by default: <property type="bool"   value="1">/systems/static[0]/serviceable</property>-->
+    <property type="bool"   value="1">/systems/static[1]/serviceable</property>
+    <!--<property type="double" value="0">/systems/static-pressure-inhg-selected</property>-->
+    <!--<property type="double" value="0">/systems/static[1]/pressure-inhg-venturi</property>-->
+    <property type="int"    value="0">/systems/static-selected-source</property>
+    <property type="double" value="0">/systems/static-selected-source-norm</property> <!-- knob position / degree of openness of alt source -->
+
+    <channel name="static_sources">
+        <!-- Venturi effect: the airflow around the plane creates a slight underpressure in the cabin.
+             in the cabin. This means that there is a difference in pressure comared to the actual
+             outside static pressure, affecting the alternate static port which is located inside. -->
+        <fcs_function name="static-pressure-inhg-venturi">
+          <function>
+            <!-- The idea of this implementation is, to calculate the deviation based on the altitude calibration chart.
+              This gives us the amount of needed adjustemnt based on speed and pressure altitude, and direct from the POH.
+              Then we calculate a correction factor out of that and apply it to the static pressure.
+              Of course, this yields not perfect results but should be close enough...
+            -->
+            <product>
+
+              <sum>
+                <value>1</value>
+                <product>
+                    <value>0.1</value> <!-- so the inHg fractions are treaten correctly -->
+                    <quotient>
+                      <table> <!-- based on altimeter correction POH 5-11 and adjusted for declining drag effect at slow speeds -->
+                        <independentVar lookup="row">/position/altitude-ft</independentVar>
+                        <independentVar lookup="column">/velocities/airspeed-kt</independentVar>
+                        <tableData>
+                                    0   40   60   80   100   120   140   160
+                                0   0   10   20  -10   -30   -60   -90  -120
+                            2000   0   10   20  -10   -30   -60   -90  -130
+                            4000   0   10   20  -10   -30   -70  -100  -140
+                            6000   0   15   30  -10   -40   -70  -110  -140
+                            8000   0   15   30  -10   -40   -80  -110  -150
+                            10000   0   15   30  -10   -40   -80  -120  -160
+                            12000   0   15   30  -10   -40   -80  -120  -170
+                            14000   0   15   30  -10   -50   -90  -120  -180
+                        </tableData>
+                      </table>
+                      <property>/position/altitude-ft</property>
+                    </quotient>
+                </product>
+              </sum>
+
+              <!--<property>/environment/pressure-inhg</property>-->
+              <property>/systems/static[1]/pressure-inhg</property>
+            </product>
+          </function>
+          <output>/systems/static[1]/pressure-inhg-venturi</output>   
+        </fcs_function>
+
+        <!-- The kinematic simulates a smoother transition between the two sources
+             and is used for displaying the knob position -->
+        <kinematic name="/systems/static-selected-source-norm">
+            <input>/systems/static-selected-source</input>
+            <traverse>
+                <setting>
+                    <position>0</position>
+                    <time>0</time>
+                </setting>
+                <setting>
+                    <position>1</position>
+                    <time>0.35</time>
+                </setting>
+            </traverse>
+            <output>/systems/static-selected-source-norm</output>
+        </kinematic>
+
+        <!-- Caluclate the selected sources pressure -->
+        <!-- That is expressed as the knob-adjusted difference between sources 1+2, so we get a smooth transition beween the two -->
+        <fcs_function name="/systems/static-pressure-inhg-selected">
+          <function>
+            <sum>
+                <property>/systems/static[0]/pressure-inhg</property>
+
+                <product> <!-- applied difference between the primary and alt sources -->
+                    <property>/systems/static-selected-source-norm</property>
+                    <difference>
+                        <property>/systems/static[1]/pressure-inhg-venturi</property>
+                        <property>/systems/static[0]/pressure-inhg</property>
+                    </difference>
+                </product>
+            </sum>
+          </function>
+          <output>/systems/static-pressure-inhg-selected</output>
+        </fcs_function>
+
+    </channel>
+</system>

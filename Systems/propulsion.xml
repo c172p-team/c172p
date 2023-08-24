@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<system name="Propulsion">
+    <property type="double" value="0">ice/propeller</property>
+    
+    <channel name= "Prop Icing">
+        <fcs_function name="systems/propulsion/prop-ice">
+            <function>
+                <table>
+                    <independentVar lookup="row">ice/propeller</independentVar>
+                    <tableData breakPoint="0">
+                        0   1       
+                        1   0
+                </tableData>
+                </table>  
+            </function>
+            <output>propulsion/engine/prop-ice-factor</output>   
+        </fcs_function>
+    </channel>
+
+    <channel name="Propeller Governor">
+        <fcs_function name="systems/propulsion/prop-governor">
+            <function>
+                <product>
+                    <property>propulsion/engine/prop-ice-factor</property>   <!-- faking ice effect on propeller drag -->
+                    <value>1</value>
+                    <!-- Lever command position, based on fail-forward for low governor oil press -->
+                    <!--max>
+                        <difference>
+                            <value>1</value>
+                            <property>/engines/engine[0]/governor/oil-pressure-norm</property>
+                        </difference>
+                        <property>fcs/advance-cmd-norm</property--> <!-- lever positional input: 1=full in/high RPM -->
+                    <!--/max-->
+                </product>
+            </function>
+            <output>fcs/advance-pos-norm</output> 
+        </fcs_function>
+    </channel>
+</system>

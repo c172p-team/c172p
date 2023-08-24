@@ -324,7 +324,7 @@
         <!-- TODO To be made MP properties in the future when we get passengers or dual-control -->
         <controls>
             <throttle>controls/engines/current-engine/throttle</throttle>
-            <altstaticair>controls/engines/current-engine/altstaticair</altstaticair>
+            <altstaticair>systems/static-selected-source</altstaticair>
             <mixture>controls/engines/current-engine/mixture</mixture>
             <carb-heat>controls/engines/current-engine/carb-heat</carb-heat>
             <parking-lever>sim/model/c172p/cockpit/parking-lever</parking-lever>
@@ -381,7 +381,6 @@
         <object-name>rightdoorhandle</object-name>
         <object-name>Spinner</object-name>
         <object-name>Propeller</object-name>
-        <object-name>PropellerCowlPlugs</object-name>
         <object-name>NoseWheel</object-name>
         <object-name>LeftWheel</object-name>
         <object-name>RightWheel</object-name>
@@ -415,6 +414,10 @@
         <object-name>LeftNavLight</object-name>
         <object-name>RightNavLight</object-name>
         <object-name>fuelvent</object-name>
+        <object-name>CowlPlugs</object-name>
+        <object-name>PropellerCowlPlugs</object-name>
+        <object-name>cowlgrill</object-name>
+        <object-name>cowlgrillplate</object-name>
     </effect>
 
     <effect>
@@ -506,6 +509,10 @@
         <object-name>airvent</object-name>
         <object-name>fuelvent</object-name>
         <object-name>Antenna_ADF</object-name>
+        <object-name>CowlPlugs</object-name>
+        <object-name>PropellerCowlPlugs</object-name>
+        <object-name>cowlgrill</object-name>
+        <object-name>cowlgrillplate</object-name>
         <shininess>116</shininess>
         <specular>
             <r>1</r>
@@ -896,7 +903,7 @@
             <y-m>-1.2</y-m>
             <z-m>-2.5</z-m>
             <pitch-deg> -90 </pitch-deg>
-		</offsets>
+        </offsets>
     </model>
     <model>
         <path>Effects/pontoon/right-float-drip.xml</path>
@@ -905,7 +912,7 @@
             <x-m>-1.0</x-m>
             <y-m>1.15</y-m>
             <z-m>-2.5</z-m>
-			<pitch-deg> -90 </pitch-deg>
+            <pitch-deg> -90 </pitch-deg>
         </offsets>
     </model>
     <!-- MODEND: Floats Drip-->
@@ -2708,46 +2715,35 @@
             </binding>
         </hovered>
     </animation>
-    <animation>
-        <type>translate</type>
-        <object-name>AltStaticAir</object-name>
-        <object-name>AltStaticAir-fg1000</object-name>
-        <property alias="/params/controls/altstaticair"/>
-        <factor>0.0083</factor>
-        <axis>
-            <x>1.0</x>
-            <y>0.0</y>
-            <z>0.0</z>
-        </axis>
-    </animation>
+
+    <!-- Alt static knob -->
     <animation>
         <type>slider</type>
         <object-name>AltStaticAir</object-name>
-        <object-name>AltStaticAir-fg1000</object-name>
-        <visible>true</visible>
-        <drag-direction>vertical</drag-direction>
-        <!-- no translation, we handle that seperately -->
+        <property>systems/static-selected-source-norm</property>
+        <factor>0.010</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
         <action>
             <binding>
-                <command>property-adjust</command>
-                <property>controls/engines/current-engine/altstaticair</property>
-                <factor>1</factor>
-                <min>0</min>
-                <max>1</max>
-                <wrap>0</wrap>
+                <command>property-toggle</command>
+                <property alias="/params/controls/altstaticair"/>
             </binding>
         </action>
         <hovered>
             <binding>
                 <command>set-tooltip</command>
-                <label>Alternate Static Pressure: %3d%%</label>
-                <measure-text>Alternate Static Pressure: 100%</measure-text>
-                <tooltip-id>staticairpressure</tooltip-id>
-                <mapping>percent</mapping>
+                <tooltip-id>alt-static-air-tooltip</tooltip-id>
+                <mapping>on-off</mapping>
+                <label>Alternate static air: %s</label>
                 <property alias="/params/controls/altstaticair"/>
             </binding>
         </hovered>
     </animation>
+
     <animation>
         <type>translate</type>
         <object-name>Mixture</object-name>
@@ -7665,6 +7661,43 @@
         </hovered>
     </animation>
 
+    <!-- Cowl Grill -->
+    <model>
+        <name>CowlGrill</name>
+        <path>Exterior/cowlgrill/cowlgrill.xml</path>
+    </model>
+
+    <animation>
+        <type>select</type>
+        <object-name>cowlgrill</object-name>
+        <object-name>cowlgrillplate</object-name>
+        <condition>
+            <property>engines/active-engine/winter-kit-installed</property>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>cowlgrill</object-name>
+        <action>
+            <name>Select</name>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>engines/active-engine/winter-kit-installed</property>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Cowl Grill installed: %s</label>
+                <property>engines/active-engine/winter-kit-installed</property>
+                <tooltip-id>WinterKit</tooltip-id>
+                <mapping>on-off</mapping>
+            </binding>
+        </hovered>
+    </animation>
+
     <!-- Cowl Plugs -->
     <model>
         <name>CowlPlugs</name>
@@ -7674,6 +7707,7 @@
     <animation>
         <type>select</type>
         <object-name>CowlPlugs</object-name>
+        <object-name>PropellerCowlPlugs</object-name>
         <condition>
             <and>
                 <property alias="/params/securing/cowl-plugs"/>

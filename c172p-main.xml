@@ -268,6 +268,50 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <open-pfuel-sump type="bool">false</open-pfuel-sump>
             <open-sfuel-sump type="bool">false</open-sfuel-sump>
 
+            <icing>
+                <iceable>
+                    <name>Wing</name>
+                    <sensitivity type="double">1.0</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/wing</output-property>
+                </iceable>
+                <iceable>
+                    <name>Stabilizer</name>
+                    <sensitivity type="double">1.0</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/stabilizer</output-property>
+                </iceable>
+                <iceable>
+                    <name>Elevator</name>
+                    <sensitivity type="double">1.0</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/elevator</output-property>
+                </iceable>
+                <iceable>
+                    <name>Propeller</name>
+                    <sensitivity type="double">0.5</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/propeller</output-property>
+                </iceable>
+                <iceable>
+                    <name>Windshield</name>
+                    <sensitivity type="double">0.5</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/windshield</output-property>
+                </iceable>
+                <iceable>
+                    <name>Fuselage</name>
+                    <sensitivity type="double">0.3</sensitivity>
+                    <output-property>/fdm/jsbsim/ice/fuselage</output-property>
+                </iceable>
+                <iceable>
+                    <name>Pitot tube</name>
+                    <sensitivity type="double">1</sensitivity>
+                    <salvage-control>/systems/pitot/salvage</salvage-control>
+                    <output-property>/systems/pitot/icing</output-property>
+                </iceable>
+                <iceable>
+                    <name>Static</name>
+                    <sensitivity type="double">0.3</sensitivity>
+                    <output-property>/systems/static[0]/icing</output-property>
+                </iceable>
+            </icing>
+
         </model>
 
         <!-- Walker settings -->
@@ -818,7 +862,6 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <oil-lacking type="double">0.0</oil-lacking>
             <oil_consumption_allowed type="bool">false</oil_consumption_allowed>
             <oil-powergain-factor type="double">1</oil-powergain-factor>
-            <winter-kit-installed type="bool">false</winter-kit-installed>
             <oil-temperature-env-diff type="double">0</oil-temperature-env-diff>
             <oil-compensated-temperature-degf type="double">60</oil-compensated-temperature-degf>
             <external-heat>
@@ -834,6 +877,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <auto-start type="bool">false</auto-start>
             <complex-engine-procedures type="bool">false</complex-engine-procedures>
             <damage_allowed>false</damage_allowed>
+            <winter-kit-installed type="int">0</winter-kit-installed>
         </active-engine>
 
         <!-- Following properties are part of a static list of properties
@@ -961,6 +1005,11 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
             <file>Nasal/tiedowns.nas</file>
             <file>Nasal/views.nas</file>
         </c172p>
+        <icing>
+              <file>Nasal/icing.nas</file>
+              <file>Nasal/pitot-icing.nas</file>
+              <file>Nasal/static-icing.nas</file>
+        </icing>
         <kr87>
             <file>Nasal/kr87.nas</file>
         </kr87>
@@ -1194,6 +1243,7 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
                 <gear-select type="float">0.0</gear-select>
                 <gear-advisory type="float">0.0</gear-advisory>
                 <beacon-norm type="float">0.0</beacon-norm>
+                <pitot-heat type="float">0.0</pitot-heat>
             </outputs>
             <save-battery-charge type="bool">false</save-battery-charge>
         </electrical>

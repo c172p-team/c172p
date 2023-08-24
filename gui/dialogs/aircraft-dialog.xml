@@ -148,10 +148,10 @@
                             <not>
                                 <property>/engines/active-engine/running</property>
                             </not>
-                            <equals>
+                            <less-than>
                                 <property>/engines/active-engine/rpm</property>
-                                <value>0</value>
-                            </equals>
+                                <value>1</value>
+                            </less-than>
                         </and>
                     </enable>
                     <binding>
@@ -194,9 +194,35 @@
 
             <checkbox>
                 <halign>left</halign>
-                <label>Enable frost and fog</label>
+                <label>Enable frost, fog and icing</label>
                 <property>/sim/model/c172p/enable-fog-frost</property>
                 <live>true</live>
+                <binding>
+                    <command>dialog-apply</command>
+                </binding>
+            </checkbox>
+
+            <checkbox>
+                <halign>left</halign>
+                <label>Install Cowl Grill</label>
+                <property>/engines/active-engine/winter-kit-installed</property>
+                <live>true</live>
+                <enable>
+                    <and>
+                        <not>
+                            <property>/sim/freeze/replay-state</property>
+                        </not>
+                        <not>
+                            <property>controls/switches/magnetos</property>
+                        </not>
+                        <not>
+                            <property>controls/switches/master-bat</property>
+                        </not>
+                        <not>
+                            <property>controls/switches/master-alt</property>
+                        </not>
+                    </and>
+                </enable>
                 <binding>
                     <command>dialog-apply</command>
                 </binding>
@@ -239,12 +265,17 @@
                 <enable>
                     <and>
                         <not>
-                            <property>/engines/active-engine/running</property>
+                            <property>/sim/freeze/replay-state</property>
                         </not>
-                        <equals>
-                            <property>/engines/active-engine/rpm</property>
-                            <value>0</value>
-                        </equals>
+                        <not>
+                            <property>controls/switches/magnetos</property>
+                        </not>
+                        <not>
+                            <property>controls/switches/master-bat</property>
+                        </not>
+                        <not>
+                            <property>controls/switches/master-alt</property>
+                        </not>
                     </and>
                 </enable>
                 <binding>

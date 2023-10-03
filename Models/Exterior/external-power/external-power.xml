@@ -12,9 +12,49 @@
 
     <animation>
         <type>select</type>
-        <object-name>cable-w</object-name>
+        <object-name>cablelow</object-name>
         <condition>
-            <property>controls/electric/external-power</property>
+            <or>
+                <and>
+                    <not>
+                        <equals>
+                            <property>fdm/jsbsim/bushkit</property>
+                            <value>3</value>
+                        </equals>
+                    </not>
+                    <not>
+                        <equals>
+                            <property>fdm/jsbsim/bushkit</property>
+                            <value>4</value>
+                        </equals>
+                    </not>
+                    <property>controls/electric/external-power</property>
+                </and>
+                <property>sim/model/preload</property>
+            </or>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>cablehigh</object-name>
+        <condition>
+            <or>
+                <and>
+                    <or>
+                        <equals>
+                            <property>fdm/jsbsim/bushkit</property>
+                            <value>3</value>
+                        </equals>
+                        <equals>
+                            <property>fdm/jsbsim/bushkit</property>
+                            <value>4</value>
+                        </equals>
+                    </or>
+                    <property>controls/electric/external-power</property>
+                </and>
+                <property>sim/model/preload</property>
+            </or>
         </condition>
     </animation>
 

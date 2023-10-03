@@ -502,7 +502,7 @@ var StaticModel = {
             parents: [StaticModel],
             model: nil,
             model_file: file,
-        object_name: name
+            object_name: name
         };
 
         setlistener("/sim/" ~ name ~ "/enable", func (node) {
@@ -541,24 +541,16 @@ var StaticModel = {
     }
 };
 
-StaticModel.new("coneR", "Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_R.xml");
-StaticModel.new("coneL", "Aircraft/c172p/Models/Exterior/safety-cone/safety-cone_L.xml");
+StaticModel.new("coneR", "Aircraft/c172p/Models/Exterior/safety-cone/coneR.ac");
+StaticModel.new("coneL", "Aircraft/c172p/Models/Exterior/safety-cone/coneL.ac");
 StaticModel.new("gpu", "Aircraft/c172p/Models/Exterior/external-power/external-power.xml");
-StaticModel.new("ladder", "Aircraft/c172p/Models/Exterior/ladder/ladder.xml");
+StaticModel.new("ladderR", "Aircraft/c172p/Models/Exterior/ladder/ladderR.ac");
+StaticModel.new("ladderL", "Aircraft/c172p/Models/Exterior/ladder/ladderL.ac");
 StaticModel.new("fueltanktrailer", "Aircraft/c172p/Models/Exterior/fueltanktrailer/fueltanktrailer.ac");
-StaticModel.new("externalheater", "Aircraft/c172p/Models/Exterior/external-heater/RedDragonEnginePreHeater.ac");
+StaticModel.new("externalheater", "Aircraft/c172p/Models/Exterior/external-heater/heater.xml");
 
 # Mooring anchor and rope
 StaticModel.new("anchorbuoy", "Aircraft/c172p/Models/Effects/pontoon/mooring.xml");
-
-# external electrical disconnect when groundspeed higher than 0.1ktn (replace later with distance less than 0.01...)
-var ad_timer = maketimer(0.1, func {
-    groundspeed = getprop("/velocities/groundspeed-kt") or 0;
-    if (groundspeed > 0.1) {
-        setprop("/controls/electric/external-power", "false");
-    }
-});
-ad_timer.start();
 
 ############################################
 # Global loop function
@@ -710,6 +702,11 @@ setlistener("/sim/signals/fdm-initialized", func {
         }
     }, 0, 0);
 
+    setlistener("/engines/active-engine/cranking", func (node) {
+        setprop("/engines/active-engine/external-heat/enabled", 0);
+        setprop("/sim/externalheater/enable", 0)
+    }, 0, 0);
+
     # Checking if switches should be moved back to default position (in case save state is off)
     switches_save_state();
 
@@ -773,6 +770,15 @@ setlistener("/sim/signals/fdm-initialized", func {
             }
         }, 3);
     }
+
+    settimer(func {
+        if (getprop("/sim/model/c172p/securing/tiedownT"))
+            setprop("/sim/model/c172p/securing/tiedownT-visible", 1);
+        if (getprop("/sim/model/c172p/securing/tiedownR"))
+            setprop("/sim/model/c172p/securing/tiedownR-visible", 1);
+        if (getprop("/sim/model/c172p/securing/tiedownL"))
+            setprop("/sim/model/c172p/securing/tiedownL-visible", 1);
+    }, 10);
 
     c172_timer.start();
 });

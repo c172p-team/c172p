@@ -40,391 +40,386 @@
 
     <hrule/>
 
-	<group>
+    <group>
         <layout>vbox</layout>
         <padding>6</padding>
-		<group>    
-			<layout>hbox</layout>
-			<text>
-				<label>Secure Aircraft</label>
-			</text>        
-		</group>
-		<checkbox>
-			<halign>left</halign>
-			<label>Place control lock</label>
-			<property>sim/model/c172p/cockpit/control-lock-placed</property>
-			<live>true</live>
-			<binding>
-				<command>property-toggle</command>
-				<property>sim/model/c172p/cockpit/control-lock-placed</property>
-			</binding>
-			<binding>
-				<command>dialog-update</command>
-			</binding>
-		</checkbox>
+        <group>
+            <layout>hbox</layout>
+            <text>
+                <label>Secure Aircraft</label>
+            </text>
+        </group>
+        <checkbox>
+            <halign>left</halign>
+            <label>Place control lock</label>
+            <property>sim/model/c172p/cockpit/control-lock-placed</property>
+            <live>true</live>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/model/c172p/cockpit/control-lock-placed</property>
+            </binding>
+            <binding>
+                <command>dialog-update</command>
+            </binding>
+        </checkbox>
 
-		<checkbox>
-			<halign>left</halign>
-			<label>Put cowl plugs</label>
-			<property>/sim/model/c172p/securing/cowl-plugs-visible</property>
-			<live>true</live>
-			<enable>
-				<and>
-					<not>
-						<property>/sim/freeze/replay-state</property>
-					</not>
-					<not>
-						<property>controls/switches/magnetos</property>
-					</not>
-					<not>
-						<property>controls/switches/master-bat</property>
-					</not>
-					<not>
-						<property>controls/switches/master-alt</property>
-					</not>
-				</and>
-			</enable>
-			<binding>
-				<command>property-toggle</command>
-				<property>/sim/model/c172p/securing/cowl-plugs-visible</property>
-			</binding>
-			<binding>
-				<command>dialog-update</command>
-			</binding>
-		</checkbox>
+        <checkbox>
+            <halign>left</halign>
+            <label>Put cowl plugs</label>
+            <property>/sim/model/c172p/securing/cowl-plugs-visible</property>
+            <live>true</live>
+            <enable>
+                <and>
+                    <not>
+                        <property>/sim/freeze/replay-state</property>
+                    </not>
+                    <not>
+                        <property>controls/switches/magnetos</property>
+                    </not>
+                    <not>
+                        <property>controls/switches/master-bat</property>
+                    </not>
+                    <not>
+                        <property>controls/switches/master-alt</property>
+                    </not>
+                </and>
+            </enable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/model/c172p/securing/cowl-plugs-visible</property>
+            </binding>
+            <binding>
+                <command>dialog-update</command>
+            </binding>
+        </checkbox>
 
-		<checkbox>
-			<halign>left</halign>
-			<label>Put pitot tube cover</label>
-			<property>/sim/model/c172p/securing/pitot-cover-visible</property>
-			<live>true</live>
-			<enable>
-				<less-than>
-					<property>velocities/groundspeed-kt</property>
-					<value>1.0</value>
-				</less-than>
-			</enable>
-			<binding>
-				<command>property-toggle</command>
-				<property>/sim/model/c172p/securing/pitot-cover-visible</property>
-			</binding>
-			<binding>
-				<command>dialog-update</command>
-			</binding>
-		</checkbox>
+        <checkbox>
+            <halign>left</halign>
+            <label>Put pitot tube cover</label>
+            <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+            <live>true</live>
+            <enable>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>1.0</value>
+                </less-than>
+            </enable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/model/c172p/securing/pitot-cover-visible</property>
+            </binding>
+            <binding>
+                <command>dialog-update</command>
+            </binding>
+        </checkbox>
 
-		<checkbox>
-			<halign>left</halign>
-			<label>Enable wheel chocks</label>
-			<property>/sim/model/c172p/securing/chock</property>
-			<live>true</live>
-			<enable>
-				<property>/sim/model/c172p/securing/chock-can-have</property>
-			</enable>
-			<binding>
-				<command>property-toggle</command>
-				<property>/sim/model/c172p/securing/chock-can-have</property>
-			</binding>
-			<binding>
-				<command>dialog-update</command>
-			</binding>
-		</checkbox>
+        <checkbox>
+            <halign>left</halign>
+            <label>Enable wheel chocks</label>
+            <property>/sim/model/c172p/securing/chock</property>
+            <live>true</live>
+            <enable>
+                <property>/sim/model/c172p/securing/chock-can-have</property>
+            </enable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/model/c172p/securing/chock-can-have</property>
+            </binding>
+            <binding>
+                <command>dialog-update</command>
+            </binding>
+        </checkbox>
 
-		<checkbox>
-			<halign>left</halign>
-			<label>Enable left tie-down</label>
-			<property>/sim/model/c172p/securing/tiedownL-visible</property>
-			<live>true</live>
-			<enable>
-				<property>/sim/model/c172p/securing/tiedowns-can-have</property>
-			</enable>
-			<binding>
-				<command>property-toggle</command>
-				<property>/sim/model/c172p/securing/tiedownL-visible</property>
-			</binding>
-			<binding>
-				<command>dialog-update</command>
-			</binding>
-			<binding>
-				<command>nasal</command>
-				<script>
-					if (getprop("/sim/model/c172p/securing/tiedownL-visible"))
-						setprop("/sim/model/c172p/securing/tiedownL", 1);
-					else
-						setprop("/sim/model/c172p/securing/tiedownL", 0);
-				</script>
-			</binding>
-		</checkbox>
+        <checkbox>
+            <halign>left</halign>
+            <label>Enable left tie-down</label>
+            <property>/sim/model/c172p/securing/tiedownL-visible</property>
+            <live>true</live>
+            <enable>
+                <property>/sim/model/c172p/securing/tiedowns-can-have</property>
+            </enable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/model/c172p/securing/tiedownL-visible</property>
+            </binding>
+            <binding>
+                <command>dialog-update</command>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    if (getprop("/sim/model/c172p/securing/tiedownL-visible"))
+                        setprop("/sim/model/c172p/securing/tiedownL", 1);
+                    else
+                        setprop("/sim/model/c172p/securing/tiedownL", 0);
+                </script>
+            </binding>
+        </checkbox>
 
-		<checkbox>
-			<halign>left</halign>
-			<label>Enable right tie-down</label>
-			<property>/sim/model/c172p/securing/tiedownR-visible</property>
-			<live>true</live>
-			<enable>
-				<property>/sim/model/c172p/securing/tiedowns-can-have</property>
-			</enable>
-			<binding>
-				<command>property-toggle</command>
-				<property>/sim/model/c172p/securing/tiedownR-visible</property>
-			</binding>
-			<binding>
-				<command>dialog-update</command>
-			</binding>
-			<binding>
-				<command>nasal</command>
-				<script>
-					if (getprop("/sim/model/c172p/securing/tiedownR-visible"))
-						setprop("/sim/model/c172p/securing/tiedownR", 1);
-					else
-						setprop("/sim/model/c172p/securing/tiedownR", 0);
-				</script>
-			</binding>
-		</checkbox>
+        <checkbox>
+            <halign>left</halign>
+            <label>Enable right tie-down</label>
+            <property>/sim/model/c172p/securing/tiedownR-visible</property>
+            <live>true</live>
+            <enable>
+                <property>/sim/model/c172p/securing/tiedowns-can-have</property>
+            </enable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/model/c172p/securing/tiedownR-visible</property>
+            </binding>
+            <binding>
+                <command>dialog-update</command>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    if (getprop("/sim/model/c172p/securing/tiedownR-visible"))
+                        setprop("/sim/model/c172p/securing/tiedownR", 1);
+                    else
+                        setprop("/sim/model/c172p/securing/tiedownR", 0);
+                </script>
+            </binding>
+        </checkbox>
 
-		<checkbox>
-			<halign>left</halign>
-			<label>Enable tail tie-down</label>
-			<property>/sim/model/c172p/securing/tiedownT-visible</property>
-			<live>true</live>
-			<enable>
-				<property>/sim/model/c172p/securing/tiedowns-can-have</property>
-			</enable>
-			<binding>
-				<command>property-toggle</command>
-				<property>/sim/model/c172p/securing/tiedownT-visible</property>
-			</binding>
-			<binding>
-				<command>dialog-update</command>
-			</binding>
-			<binding>
-				<command>nasal</command>
-				<script>
-					if (getprop("/sim/model/c172p/securing/tiedownT-visible"))
-						setprop("/sim/model/c172p/securing/tiedownT", 1);
-					else
-						setprop("/sim/model/c172p/securing/tiedownT", 0);
-				</script>
-			</binding>
-		</checkbox>
-		<hrule/>
-		<!-- Force group to the left -->
-        <empty><stretch>true</stretch></empty>
+        <checkbox>
+            <halign>left</halign>
+            <label>Enable tail tie-down</label>
+            <property>/sim/model/c172p/securing/tiedownT-visible</property>
+            <live>true</live>
+            <enable>
+                <property>/sim/model/c172p/securing/tiedowns-can-have</property>
+            </enable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/model/c172p/securing/tiedownT-visible</property>
+            </binding>
+            <binding>
+                <command>dialog-update</command>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    if (getprop("/sim/model/c172p/securing/tiedownT-visible"))
+                        setprop("/sim/model/c172p/securing/tiedownT", 1);
+                    else
+                        setprop("/sim/model/c172p/securing/tiedownT", 0);
+                </script>
+            </binding>
+        </checkbox>
+
+        <hrule/>
 
         <layout>vbox</layout>
         <padding>6</padding>
-		<group>    
-			<layout>hbox</layout>
-			<text>
-				<label>Ground Equipment</label>
-			</text> 
-		</group>
-		<checkbox>
-			<halign>left</halign>
-			<label>Enable left ladder </label>
-			<live>true</live>
-			<property>/sim/ladderL/enable</property>
-			<enable>
-				<less-than>
-					<property>velocities/groundspeed-kt</property>
-					<value>0.1</value>
-				</less-than>
-			</enable>
-			<binding>
-				<command>property-toggle</command>
-				<property>/sim/ladderL/enable</property>
-			</binding>
-			<binding>
-				<command>dialog-update</command>
-			</binding>
-		</checkbox>
-		<checkbox>
-			<halign>left</halign>
-			<label>Enable right ladder </label>
-			<live>true</live>
-			<property>/sim/ladderR/enable</property>
-			<enable>
-				<less-than>
-					<property>velocities/groundspeed-kt</property>
-					<value>0.1</value>
-				</less-than>
-			</enable>
-			<binding>
-				<command>property-toggle</command>
-				<property>/sim/ladderR/enable</property>
-			</binding>
-			<binding>
-				<command>dialog-update</command>
-			</binding>
-		</checkbox>
+        <group>
+            <layout>hbox</layout>
+            <text>
+                <label>Ground Equipment</label>
+            </text>
+        </group>
+        <checkbox>
+            <halign>left</halign>
+            <label>Enable left ladder </label>
+            <live>true</live>
+            <property>/sim/ladderL/enable</property>
+            <enable>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>0.1</value>
+                </less-than>
+            </enable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/ladderL/enable</property>
+            </binding>
+            <binding>
+                <command>dialog-update</command>
+            </binding>
+        </checkbox>
+        <checkbox>
+            <halign>left</halign>
+            <label>Enable right ladder </label>
+            <live>true</live>
+            <property>/sim/ladderR/enable</property>
+            <enable>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>0.1</value>
+                </less-than>
+            </enable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/ladderR/enable</property>
+            </binding>
+            <binding>
+                <command>dialog-update</command>
+            </binding>
+        </checkbox>
 
-		<hrule/>
+        <hrule/>
 
-		<checkbox>
-			<halign>left</halign>
-			<label>Place left safety cone</label>
-			<live>true</live>
-			<property>/sim/coneL/enable</property>
-			<enable>
-				<less-than>
-					<property>velocities/groundspeed-kt</property>
-					<value>0.1</value>
-				</less-than>
-			</enable>
-			<binding>
-				<command>property-toggle</command>
-				<property>/sim/coneL/enable</property>
-			</binding>
-			<binding>
-				<command>dialog-update</command>
-			</binding>
-		</checkbox>
+        <checkbox>
+            <halign>left</halign>
+            <label>Place left safety cone</label>
+            <live>true</live>
+            <property>/sim/coneL/enable</property>
+            <enable>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>0.1</value>
+                </less-than>
+            </enable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/coneL/enable</property>
+            </binding>
+            <binding>
+                <command>dialog-update</command>
+            </binding>
+        </checkbox>
 
-		<checkbox>
-			<halign>left</halign>
-			<label>Place right safety cone</label>
-			<live>true</live>
-			<property>/sim/coneR/enable</property>
-			<enable>
-				<less-than>
-					<property>velocities/groundspeed-kt</property>
-					<value>0.1</value>
-				</less-than>
-			</enable>
-			<binding>
-				<command>property-toggle</command>
-				<property>/sim/coneR/enable</property>
-			</binding>
-			<binding>
-				<command>dialog-update</command>
-			</binding>
-		</checkbox>
+        <checkbox>
+            <halign>left</halign>
+            <label>Place right safety cone</label>
+            <live>true</live>
+            <property>/sim/coneR/enable</property>
+            <enable>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>0.1</value>
+                </less-than>
+            </enable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/coneR/enable</property>
+            </binding>
+            <binding>
+                <command>dialog-update</command>
+            </binding>
+        </checkbox>
 
-		<hrule/>
+        <hrule/>
 
-		<group>
-			<layout>vbox</layout>
-			<padding>6</padding>
-			<checkbox>
-				<halign>left</halign>
-				<label>Place Ground Power Unit</label>
-				<live>true</live>
-				<property>/sim/gpu/enable</property>
-				<enable>
-					<and>
-						<less-than>
-							<property>velocities/groundspeed-kt</property>
-							<value>0.1</value>
-						</less-than>
-					</and>
-				</enable>
-				<binding>
-					<command>property-toggle</command>
-					<property>/sim/gpu/enable</property>
-				</binding>
-				<binding>
-					<command>nasal</command>
-					<script>
-						if (!getprop("/sim/gpu/enable")) setprop("/controls/electric/external-power", 0);
-					</script>
-				</binding>
-				<binding>
-					<command>dialog-update</command>
-				</binding>
-			</checkbox>
+        <group>
+            <layout>vbox</layout>
+            <padding>6</padding>
+            <checkbox>
+                <halign>left</halign>
+                <label>Place Ground Power Unit</label>
+                <live>true</live>
+                <property>/sim/gpu/enable</property>
+                <enable>
+                    <less-than>
+                        <property>velocities/groundspeed-kt</property>
+                        <value>0.1</value>
+                    </less-than>
+                </enable>
+                <binding>
+                    <command>property-toggle</command>
+                    <property>/sim/gpu/enable</property>
+                </binding>
+                <binding>
+                    <command>nasal</command>
+                    <script>
+                        if (!getprop("/sim/gpu/enable")) setprop("/controls/electric/external-power", 0);
+                    </script>
+                </binding>
+                <binding>
+                    <command>dialog-update</command>
+                </binding>
+            </checkbox>
 
-			<group>
-				<layout>hbox</layout>
+            <group>
+                <layout>hbox</layout>
 
-				<!-- Small left padding -->
-				<group>
-					<layout>vbox</layout>
-					<padding>6</padding>
-				</group>
+                <!-- Small left padding -->
+                <group>
+                    <layout>vbox</layout>
+                    <padding>6</padding>
+                </group>
 
-				<group>
-					<layout>vbox</layout>
-					<checkbox>
-						<halign>left</halign>
-						<label>Connect GPU to aircraft</label>
-						<live>true</live>
-						<property>/controls/electric/external-power</property>
-						<enable>
-							<property>/sim/gpu/enable</property>
-						</enable>
-						<binding>
-							<command>property-toggle</command>
-							<property>/controls/electric/external-power</property>
-						</binding>
-						<binding>
-							<command>dialog-update</command>
-						</binding>
-					</checkbox>
-					<text>
-						<halign>left</halign>
-						<label>Battery charge: xxxx %%</label>
-						<format>Battery charge: %3.1f %%</format>
-						<live>true</live>
-						<property>/systems/electrical/battery-charge-percent-100</property>
-					</text>
-				</group>
-				<!-- Force group to the left -->
-				<empty><stretch>true</stretch></empty>
-			</group>
+                <group>
+                    <layout>vbox</layout>
+                    <checkbox>
+                        <halign>left</halign>
+                        <label>Connect GPU to aircraft</label>
+                        <live>true</live>
+                        <property>/controls/electric/external-power</property>
+                        <enable>
+                            <property>/sim/gpu/enable</property>
+                        </enable>
+                        <binding>
+                            <command>property-toggle</command>
+                            <property>/controls/electric/external-power</property>
+                        </binding>
+                        <binding>
+                            <command>dialog-update</command>
+                        </binding>
+                    </checkbox>
+                    <text>
+                        <halign>left</halign>
+                        <label>Battery charge: xxxx %%</label>
+                        <format>Battery charge: %3.1f %%</format>
+                        <live>true</live>
+                        <property>/systems/electrical/battery-charge-percent-100</property>
+                    </text>
+                </group>
+            </group>
         </group>
 
-		<hrule/>
+        <hrule/>
 
-		<group>
-			<layout>hbox</layout>
+        <group>
+            <layout>hbox</layout>
 
-			<checkbox>
-				<halign>left</halign>
-				<label>Fuel tank trailer</label>
-				<live>true</live>
-				<property>/sim/fueltanktrailer/enable</property>
-				<enable>
-					<less-than>
-						<property>velocities/groundspeed-kt</property>
-						<value>0.1</value>
-					</less-than>
-				</enable>
-				<binding>
-					<command>property-toggle</command>
-					<property>/sim/fueltanktrailer/enable</property>
-				</binding>
-				<binding>
-					<command>dialog-update</command>
-				</binding>
-			</checkbox>
+            <checkbox>
+                <halign>left</halign>
+                <label>Fuel tank trailer</label>
+                <live>true</live>
+                <property>/sim/fueltanktrailer/enable</property>
+                <enable>
+                    <less-than>
+                        <property>velocities/groundspeed-kt</property>
+                        <value>0.1</value>
+                    </less-than>
+                </enable>
+                <binding>
+                    <command>property-toggle</command>
+                    <property>/sim/fueltanktrailer/enable</property>
+                </binding>
+                <binding>
+                    <command>dialog-update</command>
+                </binding>
+            </checkbox>
 
-			<button>
-				<halign>right</halign>
-				<legend>Fuel Levels</legend>
-				<live>true</live>
-				<enable>
-					<and>
-						<not>
-							<property>/sim/freeze/replay-state</property>
-						</not>
-						<less-than>
-							<property>velocities/groundspeed-kt</property>
-							<value>1.0</value>
-						</less-than>
-						<not>
-							<property>/engines/active-engine/running</property>
-						</not>
-						<property>/sim/fueltanktrailer/enable</property>
-					</and>
-				</enable>
-				<binding>
-					<command>dialog-show</command>
-					<dialog-name>c172p-fuel-both-tanks-dialog</dialog-name>
-				</binding>
-			</button>
-		</group>
+            <button>
+                <halign>right</halign>
+                <legend>Fuel Levels</legend>
+                <live>true</live>
+                <enable>
+                    <and>
+                        <not>
+                            <property>/sim/freeze/replay-state</property>
+                        </not>
+                        <less-than>
+                            <property>velocities/groundspeed-kt</property>
+                            <value>1.0</value>
+                        </less-than>
+                        <not>
+                            <property>/engines/active-engine/running</property>
+                        </not>
+                        <property>/sim/fueltanktrailer/enable</property>
+                    </and>
+                </enable>
+                <binding>
+                    <command>dialog-show</command>
+                    <dialog-name>c172p-fuel-both-tanks-dialog</dialog-name>
+                </binding>
+            </button>
+        </group>
 
-		<hrule/>
+        <hrule/>
 
         <checkbox>
             <halign>left</halign>
@@ -455,8 +450,8 @@
                 <command>dialog-update</command>
             </binding>
         </checkbox>
-		<!-- Force group to the left -->
-		<empty><stretch>true</stretch></empty>
+        <!-- Force group to the left -->
+        <empty><stretch>true</stretch></empty>
     </group>
 
     <hrule/>

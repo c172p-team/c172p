@@ -14,7 +14,7 @@
 
 <PropertyList>
 
-    <name>ground-services</name>
+    <name>ground-operations</name>
     <layout>vbox</layout>
     <resizable>false</resizable>
     <modal>false</modal>
@@ -24,7 +24,7 @@
         <layout>hbox</layout>
         <empty><stretch>true</stretch></empty>
         <text>
-            <label>Ground Services</label>
+            <label>Ground Operations</label>
         </text>        
         <empty><stretch>true</stretch></empty>
         <button>
@@ -43,6 +43,34 @@
     <group>
         <layout>vbox</layout>
         <padding>6</padding>
+        <checkbox>
+            <halign>left</halign>
+            <label>Install Cowl Grill</label>
+            <property>/engines/active-engine/winter-kit-installed</property>
+            <live>true</live>
+            <enable>
+                <and>
+                    <not>
+                        <property>/sim/freeze/replay-state</property>
+                    </not>
+                    <not>
+                        <property>controls/switches/magnetos</property>
+                    </not>
+                    <not>
+                        <property>controls/switches/master-bat</property>
+                    </not>
+                    <not>
+                        <property>controls/switches/master-alt</property>
+                    </not>
+                </and>
+            </enable>
+            <binding>
+                <command>dialog-apply</command>
+            </binding>
+        </checkbox>
+
+        <hrule/>
+
         <group>
             <layout>hbox</layout>
             <text>
@@ -95,7 +123,7 @@
 
         <checkbox>
             <halign>left</halign>
-            <label>Put pitot tube cover</label>
+            <label>Cover pitot tube</label>
             <property>/sim/model/c172p/securing/pitot-cover-visible</property>
             <live>true</live>
             <enable>
@@ -210,8 +238,6 @@
 
         <hrule/>
 
-        <layout>vbox</layout>
-        <padding>6</padding>
         <group>
             <layout>hbox</layout>
             <text>
@@ -220,7 +246,7 @@
         </group>
         <checkbox>
             <halign>left</halign>
-            <label>Enable left ladder </label>
+            <label>Place left ladder </label>
             <live>true</live>
             <property>/sim/ladderL/enable</property>
             <enable>
@@ -239,7 +265,7 @@
         </checkbox>
         <checkbox>
             <halign>left</halign>
-            <label>Enable right ladder </label>
+            <label>Place right ladder </label>
             <live>true</live>
             <property>/sim/ladderR/enable</property>
             <enable>
@@ -257,7 +283,11 @@
             </binding>
         </checkbox>
 
-        <hrule/>
+        <!--group>
+            <layout>hbox</layout>
+            <padding>6</padding>
+            <hrule/>
+        </group-->
 
         <checkbox>
             <halign>left</halign>
@@ -299,76 +329,79 @@
             </binding>
         </checkbox>
 
-        <hrule/>
+        <!--group>
+            <layout>hbox</layout>
+            <padding>6</padding>
+            <hrule/>
+        </group-->
+
+        <checkbox>
+            <halign>left</halign>
+            <label>Place Ground Power Unit</label>
+            <live>true</live>
+            <property>/sim/gpu/enable</property>
+            <enable>
+                <less-than>
+                    <property>velocities/groundspeed-kt</property>
+                    <value>0.1</value>
+                </less-than>
+            </enable>
+            <binding>
+                <command>property-toggle</command>
+                <property>/sim/gpu/enable</property>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>
+                    if (!getprop("/sim/gpu/enable")) setprop("/controls/electric/external-power", 0);
+                </script>
+            </binding>
+            <binding>
+                <command>dialog-update</command>
+            </binding>
+        </checkbox>
 
         <group>
-            <layout>vbox</layout>
-            <padding>6</padding>
-            <checkbox>
-                <halign>left</halign>
-                <label>Place Ground Power Unit</label>
-                <live>true</live>
-                <property>/sim/gpu/enable</property>
-                <enable>
-                    <less-than>
-                        <property>velocities/groundspeed-kt</property>
-                        <value>0.1</value>
-                    </less-than>
-                </enable>
-                <binding>
-                    <command>property-toggle</command>
-                    <property>/sim/gpu/enable</property>
-                </binding>
-                <binding>
-                    <command>nasal</command>
-                    <script>
-                        if (!getprop("/sim/gpu/enable")) setprop("/controls/electric/external-power", 0);
-                    </script>
-                </binding>
-                <binding>
-                    <command>dialog-update</command>
-                </binding>
-            </checkbox>
+            <layout>hbox</layout>
 
             <group>
-                <layout>hbox</layout>
+                <layout>vbox</layout>
+                <padding>3</padding>
+            </group>
 
-                <!-- Small left padding -->
-                <group>
-                    <layout>vbox</layout>
-                    <padding>6</padding>
-                </group>
-
-                <group>
-                    <layout>vbox</layout>
-                    <checkbox>
-                        <halign>left</halign>
-                        <label>Connect GPU to aircraft</label>
-                        <live>true</live>
+            <group>
+                <layout>vbox</layout>
+                <checkbox>
+                    <halign>left</halign>
+                    <label>Connect GPU to aircraft</label>
+                    <live>true</live>
+                    <property>/controls/electric/external-power</property>
+                    <enable>
+                        <property>/sim/gpu/enable</property>
+                    </enable>
+                    <binding>
+                        <command>property-toggle</command>
                         <property>/controls/electric/external-power</property>
-                        <enable>
-                            <property>/sim/gpu/enable</property>
-                        </enable>
-                        <binding>
-                            <command>property-toggle</command>
-                            <property>/controls/electric/external-power</property>
-                        </binding>
-                        <binding>
-                            <command>dialog-update</command>
-                        </binding>
-                    </checkbox>
-                    <text>
-                        <halign>left</halign>
-                        <label>Battery charge: xxxx %%</label>
-                        <format>Battery charge: %3.1f %%</format>
-                        <live>true</live>
-                        <property>/systems/electrical/battery-charge-percent-100</property>
-                    </text>
-                </group>
+                    </binding>
+                    <binding>
+                        <command>dialog-update</command>
+                    </binding>
+                </checkbox>
+                <text>
+                    <halign>left</halign>
+                    <label>Battery charge: xxxx %%</label>
+                    <format>Battery charge: %3.1f %%</format>
+                    <live>true</live>
+                    <property>/systems/electrical/battery-charge-percent-100</property>
+                </text>
             </group>
         </group>
 
-        <hrule/>
+        <!--group>
+            <layout>hbox</layout>
+            <padding>6</padding>
+            <hrule/>
+        </group-->
 
         <group>
             <layout>hbox</layout>
@@ -419,11 +452,15 @@
             </button>
         </group>
 
-        <hrule/>
+        <!--group>
+            <layout>hbox</layout>
+            <padding>6</padding>
+            <hrule/>
+        </group-->
 
         <checkbox>
             <halign>left</halign>
-            <label>External heater applied</label>
+            <label>Enable external engine heater</label>
             <live>true</live>
             <property>/engines/active-engine/external-heat/enabled</property>
             <enable>

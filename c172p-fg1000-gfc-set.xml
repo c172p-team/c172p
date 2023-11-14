@@ -122,6 +122,15 @@ model, instrument panel, and external 3D model.
         <FG1000>
             <Lightmap type="double">0</Lightmap>
         </FG1000>
+        <magnetic-compass>
+            <!-- Compass will get stuck and have bad readings when exceeding this limits in degrees.
+                no better source found than "in most compasses, the bowl to tilt by approximately 18
+                degrees before it will touch the side of the casing" https://en.wikipedia.org/wiki/Aircraft_compass_turns.
+                From testing this looks enough for normal flight and pre-takeoff-calibration. -->
+            <pitch-limit-up type="float">    9 </pitch-limit-up>
+            <pitch-limit-down type="float"> -9 </pitch-limit-down>
+            <stuck type="bool"> 0 </stuck>
+        </magnetic-compass>
     </instrumentation>
     <nasal>
         <electrical>

@@ -594,5 +594,167 @@
            <property>/sim/model/lightmap/instruments/factor</property>
         </output>
     </filter>
-
+    
+    
+    <filter>
+        <name>Magnetic compass electrical influence</name>
+        <type>gain</type>
+        <input>
+          <expression>
+            <div>
+              <sum>
+                <!-- using the value in the product we can weight the current and distance of the influence -->
+                <product><value>10</value><property>/instrumentation/audio-panel/operable</property></product> <!-- todo: define a nasal switch for that in nasal code -->
+                <product><value>10</value><property>/instrumentation/dme/operable</property></product>
+                <product><value>25</value><property>/instrumentation/comm[0]/operable/</property></product>
+                <product><value>10</value><property>/instrumentation/nav[0]/operable/</property></product>
+                <product><value>25</value><property>/instrumentation/comm[1]/operable</property></product>
+                <product><value>10</value><property>/instrumentation/nav[1]/operable/</property></product>
+                <product><value>10</value><property>/instrumentation/adf/operable</property></product>
+              </sum>
+              <value>100</value> <!-- total of weighting -->
+            </div>
+          </expression>
+        </input>
+        <output>
+            <property>/instrumentation/magnetic-compass/electrical-influence-norm</property>
+        </output>
+    </filter>
+    <filter>
+        <name>Magnetic compass deviation</name>
+        <!-- To debug this, set /orientation/heading-deg to the desired value + declination (so heading-magnetic-deg shows the desired target value).
+             The compass should then read the corrected value from the table below (and the corresponding card in the cockpit).
+        -->
+        <type>gain</type>
+        <input>
+            <expression>
+              <sum>
+                <!-- With avionics ON -->
+                <product>
+                  <table>
+                    <property>/orientation/heading-magnetic-deg</property>
+                    <entry><ind>   0 </ind><dep>  0 </dep></entry>
+                    <entry><ind>  30 </ind><dep> -2 </dep></entry>
+                    <entry><ind>  60 </ind><dep> -3 </dep></entry>
+                    <entry><ind>  90 </ind><dep> -4 </dep></entry>
+                    <entry><ind> 120 </ind><dep> -3 </dep></entry>
+                    <entry><ind> 150 </ind><dep> -2 </dep></entry>
+                    <entry><ind> 180 </ind><dep>  0 </dep></entry>
+                    <entry><ind> 210 </ind><dep>  2 </dep></entry>
+                    <entry><ind> 240 </ind><dep>  3 </dep></entry>
+                    <entry><ind> 270 </ind><dep>  4 </dep></entry>
+                    <entry><ind> 300 </ind><dep>  3 </dep></entry>
+                    <entry><ind> 330 </ind><dep>  2 </dep></entry>
+                    <entry><ind> 360 </ind><dep>  0 </dep></entry> <!-- same as 0! -->
+                  </table>
+                  <property>/instrumentation/magnetic-compass/electrical-influence-norm</property>
+                </product>
+                  
+                <!-- With avionics OFF -->
+                <product>
+                  <table>
+                    <property>/orientation/heading-magnetic-deg</property>
+                    <entry><ind>   0 </ind><dep> -1 </dep></entry>
+                    <entry><ind>  30 </ind><dep> -3 </dep></entry>
+                    <entry><ind>  60 </ind><dep> -5 </dep></entry>
+                    <entry><ind>  90 </ind><dep> -7 </dep></entry>
+                    <entry><ind> 120 </ind><dep> -5 </dep></entry>
+                    <entry><ind> 150 </ind><dep> -3 </dep></entry>
+                    <entry><ind> 180 </ind><dep> -1 </dep></entry>
+                    <entry><ind> 210 </ind><dep>  3 </dep></entry>
+                    <entry><ind> 240 </ind><dep>  5 </dep></entry>
+                    <entry><ind> 270 </ind><dep>  7 </dep></entry>
+                    <entry><ind> 300 </ind><dep>  5 </dep></entry>
+                    <entry><ind> 330 </ind><dep>  3 </dep></entry>
+                    <entry><ind> 360 </ind><dep> -1 </dep></entry> <!-- same as 0! -->
+                  </table>
+                  <difference>
+                    <value>1</value>
+                    <property>/instrumentation/magnetic-compass/electrical-influence-norm</property>
+                  </difference>
+                </product>
+              </sum>
+            </expression>
+        </input>
+        <output>
+            <property>/instrumentation/magnetic-compass/deviation-deg</property>
+        </output>
+    </filter>
+    <filter>
+        <name>Magnetic compass pivot mounting</name>
+        <type>exponential</type>
+        <filter-time>5.0</filter-time>
+        <input>
+          <expression>
+            <product>
+              <property>/orientation/pitch-deg</property>
+              <value>-1</value>
+            </product>
+          </expression>
+        </input>
+        <output>
+            <property>/instrumentation/magnetic-compass/pitch-offset-deg</property>
+        </output>
+        <min> <property>instrumentation/magnetic-compass/pitch-limit-down</property> </min>
+        <max> <property>instrumentation/magnetic-compass/pitch-limit-up</property> </max>
+    </filter>
+    <filter>
+        <name>Magnetic compass stuck</name>
+        <type>gain</type>
+        <input>
+            <condition>
+              <or>
+                <less-than>
+                  <property>/orientation/pitch-deg</property>
+                  <property>instrumentation/magnetic-compass/pitch-limit-down</property>
+                </less-than>
+                <greater-than>
+                  <property>/orientation/pitch-deg</property>
+                  <property>instrumentation/magnetic-compass/pitch-limit-up</property>
+                </greater-than>
+              </or>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <value>0</value>
+        </input>
+        <output>
+            <property>instrumentation/magnetic-compass/stuck</property>
+        </output>
+    </filter>
+    <filter>
+        <name>Magnetic compass rotation reponsiveness</name>
+        <type>exponential</type>
+        <filter-time>2.0</filter-time>
+        <input>
+            <condition>
+                <property>instrumentation/magnetic-compass/stuck</property>
+            </condition>
+            <value>2</value> <!-- slow to respond after getting stuck for a longer time -->
+        </input>
+        <input>
+            <value>0.0001</value> <!-- just hand trough the original value -->
+        </input>
+        <output>
+            <property>instrumentation/magnetic-compass/responsiveness</property>
+        </output>
+    </filter>
+    <filter>
+        <name>Magnetic compass rotation</name>
+        <type>exponential</type>
+        <filter-time><property>instrumentation/magnetic-compass/responsiveness</property></filter-time>
+        <input>
+            <condition>
+                <property>instrumentation/magnetic-compass/stuck</property>
+            </condition>
+            <property>instrumentation/magnetic-compass/indicated-heading-deg-final</property>
+        </input>
+        <input>
+            <property>instrumentation/magnetic-compass/indicated-heading-deg</property>
+        </input>
+        <output>
+            <property>instrumentation/magnetic-compass/indicated-heading-deg-final</property>
+        </output>
+    </filter>
 </PropertyList>

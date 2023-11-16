@@ -102,10 +102,6 @@
 
     <nasal>
         <load>
-            var livery_update = aircraft.livery_update.new(
-            "Aircraft/c172p/Models/Liveries", 10,
-            func { print("c172p livery update") });
-
             var rplayer = cmdarg();
 
             # Beacon and strobes lighting
@@ -118,13 +114,25 @@
             aircraft.light.new(lighting_beacon_state, [0.10, 0.90], lighting_beacon_enabled);
             aircraft.light.new(lighting_strobes_state, [0.015, 1.985], lighting_strobes_enabled);
 
-            io.include("Aircraft/c172p/Nasal/registration_number.nas");
 
-            # Registration number
+            # Update the selected livery
+            var livery_update = aircraft.livery_update.new(
+                "Aircraft/c172p/Models/Liveries", 10,
+                func {
+                    print("c172p livery update");
+                    set_registration_number(rplayer, rplayer.getNode("sim/multiplay/generic/string[0]").getValue());
+                });
+
+
+            # Show Registration
+            io.include("Aircraft/c172p/Nasal/registration_number.nas");
+            initC172ImmatCanvas(_module_id);
             var regnum_path = rplayer.getNode("sim/multiplay/generic/string[0]").getPath();
             setlistener(regnum_path, func (node) {
                 set_registration_number(rplayer, node.getValue());
             }, 1, 0);
+        
+        
 
             # Passengers
             var pax_state_path = rplayer.getNode("sim/multiplay/generic/int[16]").getPath();

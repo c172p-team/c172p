@@ -418,6 +418,16 @@ var speed_of_sound = func (t, re) {
 };
 
 var thunder = func (name) {
+
+    var flash = getprop("/environment/lightning/flash");
+    if (flash < 1) return;
+
+var path = getprop("/sim/fg-home") ~ '/Export/flash.txt';
+var file = io.open(path, "a"); # open in write mode
+var str = flash ~ "\n";
+io.write(file, str); # write the data
+io.close(file); # close (and flush) the file stream
+
     var thunderCalls = 0;
 
     var lightning_pos_x = getprop("/environment/lightning/lightning-pos-x");
@@ -714,7 +724,7 @@ setlistener("/sim/signals/fdm-initialized", func {
     fuel_contamination();
 
     # Listening for lightning strikes
-    setlistener("/environment/lightning/lightning-pos-y", thunder);
+    setlistener("/environment/lightning/flash", thunder);
 
     reset_system();
 

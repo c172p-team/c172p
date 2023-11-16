@@ -713,9 +713,11 @@ var avionics_bus_2 = func() {
     # Audio Panel 1 Power
     if ( getprop("/controls/circuit-breakers/audio") ) {
         setprop("/systems/electrical/outputs/audio-panel[0]", bus_volts);
+        setprop("/instrumentation/audio-panel[0]/operable", 1);
         load += 5 * bus_volts;
     } else {
         setprop("/systems/electrical/outputs/audio-panel[0]", 0.0);
+        setprop("/instrumentation/audio-panel[0]/operable", 0);
     }
 
     # Autopilot Power

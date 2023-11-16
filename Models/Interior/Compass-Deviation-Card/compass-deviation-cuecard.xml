@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>magnetic-deviation-cuecard.ac</path>
+    <nopreview/>
+
+    <effect>
+        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-controllock</inherits-from>
+        <object-name>deviation-card-pocket</object-name>
+    </effect>
+
+    <animation>
+        <type>material</type>
+        <object-name>deviation-card-pocket</object-name>
+        <condition>
+            <or>
+                <not>
+                    <property>sim/rendering/shaders/skydome</property>
+                </not>
+                <equals>
+                    <property>sim/rendering/shaders/model</property>
+                    <value>0</value>
+                </equals>
+            </or>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
+            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
+            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>deviation-card-pocket</object-name>
+        <condition>
+            <property>sim/model/c172p/cockpit/deviation-card-in-pocket</property>
+        </condition>
+    </animation>
+    
+    <animation>
+        <type>select</type>
+        <object-name>view-deviation-card</object-name>
+        <condition>
+            <not>
+                <property>sim/model/c172p/cockpit/deviation-card-in-pocket</property>
+            </not>
+        </condition>
+    </animation>
+    
+    <animation>
+        <type>pick</type>
+        <object-name>deviation-card-pocket</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>sim/model/c172p/cockpit/deviation-card-in-pocket</property>
+                <value>false</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>look-at-card</tooltip-id>
+                <label>View Deviation Card</label>
+            </binding>
+        </hovered>
+    </animation>
+    
+    <animation>
+        <type>pick</type>
+        <object-name>view-deviation-card</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-assign</command>
+                <property>sim/model/c172p/cockpit/deviation-card-in-pocket</property>
+                <value>true</value>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>replace-at-card</tooltip-id>
+                <label>Put Card in Pocket</label>
+            </binding>
+        </hovered>
+    </animation>
+
+</PropertyList>

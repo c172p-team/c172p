@@ -2482,7 +2482,7 @@
         <value>5</value>
       </binding>
 
-<!-- position for animation -->
+	<!-- position for animation -->
 
       <binding>
         <command>property-adjust</command>
@@ -2505,52 +2505,51 @@
     <object-name>knob-inner</object-name>
     <action>
 
-<!-- alt preselect setting -->
-      <binding>
-        <command>nasal</command>
-        <script>c172p.click("kap140-dial")</script>
-      </binding>
-      <binding>
-        <condition>
-          <greater-than>
-            <property>autopilot/kap140/panel/state</property>
-            <value>4</value>
-          </greater-than>
-          <equals>
-            <property>autopilot/kap140/panel/digit-mode</property>
-            <value>1</value>
-          </equals>
-        </condition>
-        <command>property-adjust</command>
-        <property>autopilot/internal/target-altitude</property>
-        <factor>100</factor>
-        <min>-1000</min>
-        <max>35000</max>
-        <wrap>false</wrap>
-      </binding>
+		<!-- alt preselect setting -->
+		<binding>
+			<command>nasal</command>
+			<script>c172p.click("kap140-dial")</script>
+		</binding>
+		<binding>
+			<condition>
+				<greater-than>
+					<property>autopilot/kap140/panel/state</property>
+					<value>4</value>
+				</greater-than>
+				<equals>
+					<property>autopilot/kap140/panel/digit-mode</property>
+					<value>1</value>
+				</equals>
+			</condition>
+			<command>property-adjust</command>
+			<property>autopilot/internal/target-altitude</property>
+			<factor>100</factor>
+			<min>-1000</min>
+			<max>35000</max>
+			<wrap>false</wrap>
+		</binding>
 
-      <binding>
-        <condition>
-          <greater-than>
-            <property>autopilot/kap140/panel/state</property>
-            <value>5</value>
-          </greater-than>
-          <equals>
-            <property>autopilot/kap140/panel/digit-mode</property>
-            <value>1</value>
-          </equals>
-          <equals>
-            <property>autopilot/kap140/settings/vertical-arm</property>
-            <value>0</value>
-          </equals>
-        </condition>
-        <command>property-assign</command>
-        <property>autopilot/kap140/settings/vertical-arm</property>
-        <value>2</value>
-      </binding>
+		<binding>
+			<condition>
+				<greater-than>
+					<property>autopilot/kap140/panel/state</property>
+					<value>5</value>
+				</greater-than>
+				<equals>
+					<property>autopilot/kap140/panel/digit-mode</property>
+					<value>1</value>
+				</equals>
+				<equals>
+					<property>autopilot/kap140/settings/vertical-arm</property>
+					<value>0</value>
+				</equals>
+			</condition>
+			<command>property-assign</command>
+			<property>autopilot/kap140/settings/vertical-arm</property>
+			<value>2</value>
+		</binding>
 
-<!-- baro setting -->
-
+		<!-- baro setting -->
       <binding>
         <condition>
           <not><property alias="/params/baro-tied"/></not>

@@ -10,6 +10,7 @@
         <object-name>Casing</object-name>
         <object-name>Interior</object-name>
         <object-name>Needle</object-name>
+		<object-name>Deviation</object-name>
     </effect>
 
     <effect>
@@ -108,6 +109,27 @@
                 <label>Magnetic heading: %3d</label>
                 <property>instrumentation/magnetic-compass/indicated-heading-deg-final</property>
                 <mapping>heading</mapping>
+            </binding>
+        </hovered>
+    </animation>
+
+	<animation>
+        <type>pick</type>
+        <object-name>Deviation</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/model/c172p/cockpit/deviation-card-in-pocket</property>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>deviation</tooltip-id>
+                <label>Show Deviation Card</label>
             </binding>
         </hovered>
     </animation>

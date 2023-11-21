@@ -10,6 +10,8 @@
         <object-name>Casing</object-name>
         <object-name>Interior</object-name>
         <object-name>Needle</object-name>
+        <object-name>Deviation</object-name>
+        <object-name>Deviation-Card</object-name>
     </effect>
 
     <effect>
@@ -76,7 +78,39 @@
     <animation>
         <type>rotate</type>
         <object-name>Ring</object-name>
-        <property>instrumentation/magnetic-compass/indicated-heading-deg</property>
+        <property>instrumentation/magnetic-compass/roll-deg-final</property>
+        <factor>0.5</factor>
+        <axis>
+            <x> 1.0 </x>
+            <y> 0.0 </y>
+            <z> 0.0 </z>
+        </axis>
+        <center>
+            <x-m>-0.3769</x-m>
+            <y-m>0.0000</y-m>
+            <z-m>0.2405</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>Ring</object-name>
+        <property>instrumentation/magnetic-compass/pitch-deg-final</property>
+        <factor>0.5</factor>
+        <axis>
+            <x>  0.0 </x>
+            <y> -1.0 </y>
+            <z>  0.0 </z>
+        </axis>
+        <center>
+            <x-m>-0.3769</x-m>
+            <y-m>0.0000</y-m>
+            <z-m>0.2405</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>Ring</object-name>
+        <property>instrumentation/magnetic-compass/indicated-heading-deg-final</property>
         <factor>-1</factor>
         <axis>
             <x1-m>-0.36466</x1-m>
@@ -96,10 +130,40 @@
                 <command>set-tooltip</command>
                 <tooltip-id>magnetcompass</tooltip-id>
                 <label>Magnetic heading: %3d</label>
-                <property>instrumentation/magnetic-compass/indicated-heading-deg</property>
+                <property>instrumentation/magnetic-compass/indicated-heading-deg-final</property>
                 <mapping>heading</mapping>
             </binding>
         </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>Deviation</object-name>
+        <object-name>Deviation-Card</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/model/c172p/cockpit/view-deviation-card</property>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>deviation</tooltip-id>
+                <label>Show Deviation Card</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>Deviation-Card</object-name>
+        <condition>
+            <property>sim/model/c172p/cockpit/view-deviation-card</property>
+        </condition>
     </animation>
 
 </PropertyList>

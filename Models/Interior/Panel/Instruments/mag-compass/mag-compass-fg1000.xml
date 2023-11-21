@@ -10,6 +10,8 @@
         <object-name>Casing</object-name>
         <object-name>Interior</object-name>
         <object-name>Needle</object-name>
+        <object-name>Deviation</object-name>
+        <object-name>Deviation-Card</object-name>
     </effect>
 
     <effect>
@@ -132,6 +134,36 @@
                 <mapping>heading</mapping>
             </binding>
         </hovered>
+    </animation>
+
+    <animation>
+        <type>pick</type>
+        <object-name>Deviation</object-name>
+        <object-name>Deviation-Card</object-name>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <repeatable>false</repeatable>
+            <binding>
+                <command>property-toggle</command>
+                <property>sim/model/c172p/cockpit/view-deviation-card</property>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>deviation</tooltip-id>
+                <label>Show Deviation Card</label>
+            </binding>
+        </hovered>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>Deviation-Card</object-name>
+        <condition>
+            <property>sim/model/c172p/cockpit/view-deviation-card</property>
+        </condition>
     </animation>
 
 </PropertyList>

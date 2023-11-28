@@ -762,8 +762,57 @@
                 <output>/sim/model/c172p/cockpit/yoke-elevator</output>
             </kinematic>
 
-            <summer name="Pitch Trim Sum">
+            <scheduled_gain name="fcs/elevator-cmd-norm-gain">
                 <input>fcs/elevator-cmd-norm-filtered</input>
+                <table>
+                    <independentVar>aero/qbarUW-psf</independentVar>
+                    <tableData>
+                        15    1.0000
+                        16    0.9375
+                        18    0.8333
+                        20    0.7500
+                        22    0.6818
+                        24    0.6250
+                        26    0.5769
+                        28    0.5357
+                        30    0.5000
+                        32    0.4688
+                        34    0.4412
+                        36    0.4167
+                        38    0.3947
+                        40    0.3750
+                        42    0.3571
+                        44    0.3409
+                        46    0.3261
+                        48    0.3125
+                        50    0.3000
+                        52    0.2885
+                        54    0.2778
+                        56    0.2679
+                        58    0.2586
+                        60    0.2500
+                        62    0.2419
+                        64    0.2344
+                        66    0.2273
+                        68    0.2206
+                        70    0.2143
+                        72    0.2083
+                        74    0.2027
+                        76    0.1974
+                        78    0.1923
+                        80    0.1875
+                        82    0.1829
+                        84    0.1786
+                    </tableData>
+                </table>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+            </scheduled_gain>            
+
+            <summer name="Pitch Trim Sum">
+                <input>fcs/elevator-cmd-norm-gain</input>
                 <input>fcs/pitch-trim-cmd-norm</input>
                 <clipto>
                     <min>-1</min>
@@ -811,8 +860,49 @@
                 <output>/sim/model/c172p/cockpit/yoke-aileron</output>
             </kinematic>
 
-            <summer name="Roll Trim Sum">
+            <scheduled_gain name="fcs/aileron-cmd-norm-gain">
                 <input>fcs/aileron-cmd-norm-filtered</input>
+                <table>
+                    <independentVar>aero/qbarUW-psf</independentVar>
+                    <tableData>
+                        30    1.0000
+                        32    0.9375
+                        34    0.8824
+                        36    0.8333
+                        38    0.7895
+                        40    0.7500
+                        42    0.7143
+                        44    0.6818
+                        46    0.6522
+                        48    0.6250
+                        50    0.6000
+                        52    0.5769
+                        54    0.5556
+                        56    0.5357
+                        58    0.5172
+                        60    0.5000
+                        62    0.4839
+                        64    0.4688
+                        66    0.4545
+                        68    0.4412
+                        70    0.4286
+                        72    0.4167
+                        74    0.4054
+                        76    0.3947
+                        78    0.3846
+                        80    0.3750
+                        82    0.3659
+                        84    0.3571
+                    </tableData>
+                </table>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+            </scheduled_gain>            
+
+            <summer name="Roll Trim Sum">
+                <input>fcs/aileron-cmd-norm-gain</input>
                 <input>fcs/roll-trim-cmd-norm</input>
                 <clipto>
                     <min>-1</min>
@@ -883,8 +973,49 @@
                 <output>/sim/model/c172p/cockpit/pedals-rudder</output>
             </kinematic>
 
-            <summer name="Yaw Trim Sum">
+            <scheduled_gain name="fcs/rudder-cmd-norm-gain">
                 <input>fcs/rudder-cmd-norm-filtered</input>
+                <table>
+                    <independentVar>aero/qbarUW-psf</independentVar>
+                    <tableData>
+                        30    1.0000
+                        32    0.9375
+                        34    0.8824
+                        36    0.8333
+                        38    0.7895
+                        40    0.7500
+                        42    0.7143
+                        44    0.6818
+                        46    0.6522
+                        48    0.6250
+                        50    0.6000
+                        52    0.5769
+                        54    0.5556
+                        56    0.5357
+                        58    0.5172
+                        60    0.5000
+                        62    0.4839
+                        64    0.4688
+                        66    0.4545
+                        68    0.4412
+                        70    0.4286
+                        72    0.4167
+                        74    0.4054
+                        76    0.3947
+                        78    0.3846
+                        80    0.3750
+                        82    0.3659
+                        84    0.3571
+                    </tableData>
+                </table>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+            </scheduled_gain>
+            
+            <summer name="Yaw Trim Sum">
+                <input>fcs/rudder-cmd-norm-gain</input>
                 <input>fcs/yaw-trim-cmd-norm</input>
                 <input>fcs/yaw-trim-cockpit</input>
                 <clipto>

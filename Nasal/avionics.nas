@@ -40,6 +40,8 @@ aircraft.data.add(
 aircraft.data.add(
     "instrumentation/comm[0]/power-btn",
     "instrumentation/comm[0]/volume-selected",
+    "instrumentation/comm[0]/volume-knobmode",
+    "instrumentation/comm[0]/cutoff-signal-quality",
     "instrumentation/comm[0]/frequencies/selected-mhz",
     "instrumentation/comm[0]/frequencies/standby-mhz",
     "instrumentation/comm[0]/frequencies/dial-khz",
@@ -60,6 +62,8 @@ aircraft.data.add(
 aircraft.data.add(
     "instrumentation/comm[1]/power-btn",
     "instrumentation/comm[1]/volume-selected",
+    "instrumentation/comm[1]/volume-knobmode",
+    "instrumentation/comm[1]/cutoff-signal-quality",
     "instrumentation/comm[1]/frequencies/selected-mhz",
     "instrumentation/comm[1]/frequencies/standby-mhz",
     "instrumentation/comm[1]/frequencies/dial-khz",

@@ -704,7 +704,8 @@ setlistener("/sim/signals/fdm-initialized", func {
 
     setlistener("/engines/active-engine/cranking", func (node) {
         setprop("/engines/active-engine/external-heat/enabled", 0);
-        setprop("/sim/externalheater/enable", 0)
+        setprop("/sim/externalheater/enable", 0);
+        setprop("/fdm/jsbsim/external_reactions/towbar/attached", 0);
     }, 0, 0);
 
     # Checking if switches should be moved back to default position (in case save state is off)

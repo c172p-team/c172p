@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<!-- C182 Towbar
+
+Author: 12/2023  Benedikt Hallinger
+-->
+<system name="towbar">
+    <property type="bool"   value="0">external_reactions/towbar/attached</property>
+    <property type="double" value="0">external_reactions/towbar/steer-deg</property>
+    <property type="double" value="0">external_reactions/towbar/mouse-handling/x</property>
+    <property type="double" value="0">external_reactions/towbar/mouse-handling/y</property>
+
+    <channel name="Towbar movement forces">
+
+        <fcs_function name="Towbar_Force_X">
+        <function>
+            <cos>
+                <toradians><property>fcs/steer-pos-deg[0]</property></toradians>
+            </cos>
+        </function>
+        <output>external_reactions/towbar/x</output>
+        </fcs_function>
+
+        <fcs_function name="Towbar_Force_Y">
+        <function>
+            <sin>
+                <toradians><property>fcs/steer-pos-deg[0]</property></toradians>
+            </sin>
+        </function>
+        <output>external_reactions/towbar/y</output>
+        </fcs_function>
+ 
+    </channel>
+
+</system>

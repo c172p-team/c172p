@@ -1017,11 +1017,18 @@
                 </function>
             </fcs_function>
 
-            <actuator name="fcs/steer-deg">
+            <actuator name="fcs/steer-deg-actuator">
                 <input>fcs/nws-cmd-deg-adjusted</input>
                 <rate_limit>80</rate_limit> <!-- 80 deg / s , or 1/8 second to full deflection with NWS -->
-                <output>fcs/steer-pos-deg</output>
+                <output>fcs/steer-pos-deg-actuator</output>
             </actuator>
+            <switch name="fcs/steer-pos-deg">
+                <default value="fcs/steer-pos-deg-actuator"/>
+                <test value="external_reactions/towbar/steer-deg">
+                    external_reactions/towbar/attached eq 1
+                    gear/unit[0]/WOW eq 1
+                </test>
+            </switch>
         </channel>
 
         <channel name="Flaps">
@@ -2321,6 +2328,19 @@
                 <z>0.0</z>
             </direction>
         </force>
+
+        <force name="towbar" frame="BODY">
+             <location unit="IN">
+                <x>-10.31</x>
+                <y>0</y>
+                <z>-47.17</z>
+            </location>
+            <direction>
+                <x>1</x>
+                <y>0</y>
+                <z>0</z>
+            </direction>
+        </force>
     </external_reactions>
 
     <system file="bushkit"/>
@@ -2341,6 +2361,8 @@
 
     <!-- Mooring setup for FlightGear. -->
     <system file="mooring-jsbsim"/>
+
+    <system file="towbar"/> <!-- integrate towbar -->
 
     <!--
     <output name="JSBout172C.csv" type="CSV" rate="60">

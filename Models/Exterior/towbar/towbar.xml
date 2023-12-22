@@ -20,14 +20,14 @@
 		<type>select</type>
 		<object-name>Towbar</object-name>
 		<condition>
-			<property>/fdm/jsbsim/external_reactions/towbar/attached</property>
+			<property>fdm/jsbsim/external_reactions/towbar/attached</property>
 		</condition>
 	</animation>
 	
 	<animation>
 		<type>rotate</type>
 		<object-name>Towbar</object-name>
-		<property>/fdm/jsbsim/fcs/steer-pos-deg</property>
+		<property>fdm/jsbsim/fcs/steer-pos-deg</property>
 		<axis>
 			<x>0</x>
 			<y>0</y>
@@ -52,24 +52,24 @@
 			<binding>
 				<condition>
 					<equals>
-						<property>/fdm/jsbsim/external_reactions/towbar/mouse-handling/x</property>
+						<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/x</property>
 						<value>0</value>
 					</equals>
 				</condition>
 				<command>property-assign</command>
-				<property>/fdm/jsbsim/external_reactions/towbar/mouse-handling/x</property>
-				<property>/devices/status/mice/mouse/x</property>
+				<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/x</property>
+				<property>devices/status/mice/mouse/x</property>
 			</binding>
 			<binding>
 				<condition>
 					<equals>
-						<property>/fdm/jsbsim/external_reactions/towbar/mouse-handling/y</property>
+						<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/y</property>
 						<value>0</value>
 					</equals>
 				</condition>
 				<command>property-assign</command>
-				<property>/fdm/jsbsim/external_reactions/towbar/mouse-handling/y</property>
-				<property>/devices/status/mice/mouse/y</property>
+				<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/y</property>
+				<property>devices/status/mice/mouse/y</property>
 			</binding>
 			
 
@@ -77,9 +77,9 @@
 			<binding>
 				<command>nasal</command>
 				<script><![CDATA[
-					var p      = "/fdm/jsbsim/external_reactions/towbar/magnitude";
-					var old_y  = getprop("/fdm/jsbsim/external_reactions/towbar/mouse-handling/y");
-					var cur_y  = getprop("/devices/status/mice/mouse/y");
+					var p      = "fdm/jsbsim/external_reactions/towbar/magnitude";
+					var old_y  = getprop("fdm/jsbsim/external_reactions/towbar/mouse-handling/y");
+					var cur_y  = getprop("devices/status/mice/mouse/y");
 					var old_p  = getprop(p) or 0;
 					var factor = 0.5;
 					var diff   = (cur_y - old_y) * factor;
@@ -94,9 +94,9 @@
 			<binding>
 				<command>nasal</command>
 				<script><![CDATA[
-					var p      = "/fdm/jsbsim/external_reactions/towbar/steer-deg";
-					var old_x  = getprop("/fdm/jsbsim/external_reactions/towbar/mouse-handling/x");
-					var cur_x  = getprop("/devices/status/mice/mouse/x");
+					var p      = "fdm/jsbsim/external_reactions/towbar/steer-deg";
+					var old_x  = getprop("fdm/jsbsim/external_reactions/towbar/mouse-handling/x");
+					var cur_x  = getprop("devices/status/mice/mouse/x");
 					var old_p  = getprop(p) or 0;
 					var factor = -0.25;
 					var diff   = (cur_x - old_x) * factor;
@@ -112,20 +112,20 @@
 			<!-- store last seen mouse coordinates for calculation of next movement -->
 			<binding>
 				<command>property-assign</command>
-				<property>/fdm/jsbsim/external_reactions/towbar/mouse-handling/x</property>
-				<property>/devices/status/mice/mouse/x</property>
+				<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/x</property>
+				<property>devices/status/mice/mouse/x</property>
 			</binding>
 			<binding>
 				<command>property-assign</command>
-				<property>/fdm/jsbsim/external_reactions/towbar/mouse-handling/y</property>
-				<property>/devices/status/mice/mouse/y</property>
+				<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/y</property>
+				<property>devices/status/mice/mouse/y</property>
 			</binding>
 			
 			<mod-up>
 				<!-- slowly decay push/pull force -->
 				<binding>
 					<command>property-interpolate</command>
-					<property>/fdm/jsbsim/external_reactions/towbar/magnitude</property>
+					<property>fdm/jsbsim/external_reactions/towbar/magnitude</property>
 					<value type="double">0</value>
 					<rate>50</rate>
 				</binding>
@@ -133,13 +133,13 @@
 				<!-- reset mouse position memories -->
 				<binding>
 					<command>property-assign</command>
-					<property>/fdm/jsbsim/external_reactions/towbar/mouse-handling/x</property>
+					<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/x</property>
 					<value>0</value>
 				</binding>
 				<binding>
 					<command>property-assign</command>
-					<property>/fdm/jsbsim/external_reactions/towbar/mouse-handling/y</property>
-					<property>/devices/status/mice/mouse/y</property>
+					<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/y</property>
+					<property>devices/status/mice/mouse/y</property>
 					<value>0</value>
 				</binding>
 			</mod-up>

@@ -15,16 +15,24 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 # ALS flashlight
-	var toggle_flashlight = func {
+var toggle_flashlight = func {
 	if (getprop("/sim/rendering/shaders/skydome")) {
 		var old_value = getprop("/sim/rendering/als-secondary-lights/use-flashlight");
 		var new_value = math.mod(old_value + 1, 3);
 		setprop("/sim/rendering/als-secondary-lights/use-flashlight", new_value);
-	}
+		setprop("/sim/walker/flashlight/mode", new_value);
+    }
 	else {
 		gui.popupTip("Enable ALS for ALS Flashlight", 4);
 	}
 };
+
+setlistener("sim/walker/flashlight/mode", func(n) {
+	# detect walker flashlight use and activate ours too
+	if (n.getValue() != getprop("/sim/rendering/als-secondary-lights/use-flashlight"))
+		toggle_flashlight();
+});
+
 
 # Dome lights
 var toggle_domelight = func {

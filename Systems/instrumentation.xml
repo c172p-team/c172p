@@ -57,6 +57,15 @@ file, these values will be used (they are hardcoded).
         <name>attitude-indicator</name>
         <number>0</number>
         <suction>/systems/vacuum/suction-inhg</suction>
+        <limits>
+            <spin-thresh>0.8</spin-thresh>
+            <max-roll-error-deg>40.0</max-roll-error-deg>
+            <max-pitch-error-deg>12.0</max-pitch-error-deg>
+        </limits>
+        <gyro>
+            <spin-up-sec>180.0</spin-up-sec>     <!-- ~3 minutes -->
+            <spin-down-sec>300.0</spin-down-sec> <!-- ~5 minutes -->
+        </gyro>
     </attitude-indicator>
 
     <clock>
@@ -82,11 +91,25 @@ file, these values will be used (they are hardcoded).
         <number>0</number>
     </marker-beacon>
 
-    <heading-indicator>
+    <heading-indicator-dg>
         <name>heading-indicator</name>
         <number>0</number>
         <suction>/systems/vacuum/suction-inhg</suction>
-    </heading-indicator>
+        <minimum-vacuum>4.0</minimum-vacuum>  <!-- source: https://www.kellymfg.com/images/RC%20ALLEN%20Catalog.pdf -->
+        <limits>
+            <yaw-limit-rate>11.5</yaw-limit-rate> <!-- about 55° bank, from video footage, see refs in https://github.com/HHS81/c182s/pull/527 -->
+            <yaw-error-factor>0.033</yaw-error-factor>
+            <g-limit-lower>-0.85</g-limit-lower>
+            <g-limit-upper>2.0</g-limit-upper>
+            <g-error-factor>0.033</g-error-factor>
+            <g-limit-tumble-factor>1.5</g-limit-tumble-factor>
+        </limits>
+        <gyro>
+            <minimum-spin-norm>0.8</minimum-spin-norm>
+            <spin-up-sec>180.0</spin-up-sec>     <!-- ~3 minutes -->
+            <spin-down-sec>300.0</spin-down-sec> <!-- ~5 minutes -->
+        </gyro>
+    </heading-indicator-dg>
 
     <magnetic-compass>
         <name>magnetic-compass</name>
@@ -134,6 +157,10 @@ file, these values will be used (they are hardcoded).
     <turn-indicator>
         <name>turn-indicator</name>
         <number>0</number>
+        <gyro>
+            <spin-up-sec>180.0</spin-up-sec>     <!-- ~3 minutes -->
+            <spin-down-sec>300.0</spin-down-sec> <!-- ~5 minutes -->
+        </gyro>
     </turn-indicator>
 
     <vertical-speed-indicator>

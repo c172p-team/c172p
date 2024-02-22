@@ -18,6 +18,46 @@ http://forum.flightgear.org/viewtopic.php?f=4&t=25157
 
 <PropertyList include="Aircraft/Generic/Human/Include/walker-include.xml">
 
+    <!-- Descriptive information
+        not used for simulation, but for GUI;
+        see: http://wiki.flightgear.org/Aircraft-set.xml#Performance_and_Flight-planning
+    -->
+    <aircraft>
+        <icao>
+            <wake-turbulence-category>L</wake-turbulence-category> <!-- see: https://www.skybrary.aero/index.php/C182 -->
+            <type type="string">C172</type> 
+            <equipment type="string">SDFY</equipment>  <!-- ICAO equipment string (see: https://en.wikipedia.org/wiki/Equipment_codes) -->
+            <surveillance type="string">C</surveillance>  <!-- ICAO surveillance string;  mode-A/C transponder (see again: https://en.wikipedia.org/wiki/Equipment_codes) -->
+        </icao>
+        <performance>
+            <!-- from the POH -->
+            <minimum>
+                <takeoff-length-ft type="int">650</takeoff-length-ft>  <!-- POH p. 5-15; 2200lbs at sea level -->
+                <landing-length-ft type="int">510</landing-length-ft>  <!-- POH p. 5-25 -->
+            </minimum>
+            <climb /> <!-- POH 5-16 -->
+                <!-- potential for climb data in the future 
+                <airspeed-knots type="int">76</airspeed-knots>
+                <vertical-speed-fpm type="int">745</vertical-speed-fpm>
+            </climb>-->
+            <cruise>
+                <airspeed-knots type="int">140</airspeed-knots> <!-- max. struct cruise speed -->
+                <altitude-ft type="int">6000</altitude-ft>
+            </cruise>
+            <descent /> <!-- potential for descent data in the future  
+                <airspeed-knots type="int">120</airspeed-knots> 
+                <vertical-speed-fpm type="int">-500</vertical-speed-fpm>
+            </descent>-->
+            <approach>
+                <airspeed-knots type="int">60</airspeed-knots> <!-- from Checklist, normal flaps-up approach -->
+            </approach>
+            <maximum>
+                <altitude-ft type="int">14000</altitude-ft> <!-- service ceiling -->
+                <airspeed-knots type="int">158</airspeed-knots> <!-- VNe airframe structural limit -->
+            </maximum>
+        </performance >
+    </aircraft>
+
     <sim include="c172p-views.xml">
         <description>Cessna 172P Skyhawk (1982)</description>
 

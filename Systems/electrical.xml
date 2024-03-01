@@ -106,4 +106,28 @@
         <output> <property>/instrumentation/annunciator/pitch-trim-trigger</property> </output>
     </flipflop>
 
+    <!-- Avionics fan -->
+    <logic>
+        <name>avionics_fan_operating</name>
+        <input>
+            <and>
+                <property>systems/electrical/avionics-fan/serviceable</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/avionics-fan</property>
+                    <value>12.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>systems/electrical/avionics-fan/operating</property>
+        </output>
+    </logic>
+    <filter>
+        <name>avionics_fan_spin</name>
+        <debug>false</debug>
+        <type>exponential</type>
+        <filter-time>3.0</filter-time>
+        <input>systems/electrical/avionics-fan/operating</input>
+        <output>systems/electrical/avionics-fan/spin</output>
+    </filter>
 </PropertyList>

@@ -488,6 +488,15 @@ var electrical_bus_1 = func() {
         }
     }
 
+    # Avionics Fan Power
+    # Power comes trough the strobe breaker
+    if ( bus_volts > 12 and getprop("/controls/circuit-breakers/strobe")) {
+        setprop("/systems/electrical/outputs/avionics-fan[0]", bus_volts);
+        load += bus_volts / 28;
+    } else {
+        setprop("/systems/electrical/outputs/avionics-fan[0]", 0);
+    }
+
     # register bus voltage
     ebus1_volts = bus_volts;
 

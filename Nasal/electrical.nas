@@ -439,14 +439,21 @@ var electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/strobe-norm", 0.0);
     }
 
-    # Turn Coordinator and directional gyro Power
-    if (getprop("/controls/circuit-breakers/turn-coordinator") and getprop("/controls/switches/master-avionics")) {
+    # Directional gyro Power
+    # DG/HI is vacuum powered. This looks obsolete here and could probably be removed.
+    #if (getprop("/controls/circuit-breakers/turn-coordinator") and getprop("/controls/switches/master-avionics")) {
+    #    setprop("/systems/electrical/outputs/DG", bus_volts);
+    #    load += 14 * bus_volts;
+    #} else {
+    #    setprop("/systems/electrical/outputs/DG", 0.0);
+    #}
+
+    # Turn Coordinator Power
+    if (getprop("/controls/circuit-breakers/turn-coordinator") ) {
         setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);
-        setprop("/systems/electrical/outputs/DG", bus_volts);
         load += 14 * bus_volts;
     } else {
         setprop("/systems/electrical/outputs/turn-coordinator", 0.0);
-        setprop("/systems/electrical/outputs/DG", 0.0);
     }
 
     # Gear Select Power

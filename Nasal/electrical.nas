@@ -271,7 +271,7 @@ var update_virtual_bus = func (dt) {
         bus_volts = alternator_volts;
         power_source = "alternator";
     }
-    if ( external_volts > bus_volts ) {
+    if ( external_volts > bus_volts and master_bat) {
         bus_volts = external_volts;
         power_source = "external";
     }

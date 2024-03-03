@@ -27,6 +27,22 @@ var old_gear_position = 0;
 var current_gear_position = getprop("/controls/gear/gear-down-command");
 var radio_lighting_load = 0;
 
+# Init avionics breaker (POH 7-26); the breaker is integrated into the switch.
+var brk_avionics_master = props.globals.getNode("/controls/circuit-breakers/avionics-master", 1);
+brk_avionics_master.setBoolValue(getprop("/controls/switches/master-avionics"));
+setlistener(brk_avionics_master, func (node) {
+    # when breaker trips, set switch to OFF
+    if (!node.getBoolValue())
+        setprop("/controls/switches/master-avionics", 0);
+}, 0, 0);
+setlistener("/controls/switches/master-avionics", func (node) {
+    # when switch is set to ON, reset the breaker
+    if (node.getBoolValue())
+        brk_avionics_master.setBoolValue(1);
+}, 1, 0);
+
+
+
 ##
 # Battery model class.
 #

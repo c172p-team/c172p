@@ -3,6 +3,9 @@
 # preliminary battery charge/discharge model and realistic ammeter
 # gauge modeling.
 #
+# Modelled after the POH and a maintenance manual.
+# Sources/discussion: https://github.com/c172p-team/c172p/pull/1496
+#
 
 ##
 # Initialize internal values
@@ -287,7 +290,11 @@ var update_virtual_bus = func (dt) {
         bus_volts = alternator_volts;
         power_source = "alternator";
     }
-    if ( external_volts > bus_volts and master_bat) {
+    if ( external_volts > bus_volts) {
+        # Ground-power-unit is connected to the plus-side of the battery. If
+        # the reverse-polarity-contactor is closed (which it is if the GPU
+        # has power and was plugged in correctly), the GPU powers the starter,
+        # and also the electrical system.
         bus_volts = external_volts;
         power_source = "external";
     }
@@ -305,24 +312,30 @@ var update_virtual_bus = func (dt) {
         setprop("/controls/circuit-breakers/master", 0)
     }
 
-    # system loads and ammeter gauge
-    var ammeter = 0.0;
-    if ( bus_volts > 1.0 ) {
-        # ammeter gauge
-        if ( power_source == "battery" ) {
-            ammeter = -load;
-        } else {
-            ammeter = battery.charge_amps;
-        }
-    }
-    # print( "ammeter = ", ammeter );
 
     # charge/discharge the battery
+    # show battery charge/discharge on the ammeter
+    var ammeter = 0.0;
+    var bat_charge_pct = getprop("/systems/electrical/battery-charge-percent") or 0;
     if ( power_source == "battery" ) {
         battery.apply_load( load, dt );
-    } elsif ( bus_volts > battery_volts ) {
+        ammeter = -load;
+    } elsif ( master_bat and bat_charge_pct >= 1.0) {
+        # show small charge with fully loaded battery and only small load
+        # (ie. show the conservatory charge rate)
+        if (load < 20.0 and ammeter < 3.0) ammeter = 3.0;
+    } elsif ( bus_volts > battery_volts and master_bat and bat_charge_pct < 1.0) {
+        # Charge, but only if master_bat switch is ON.
+        # If it's off, power is coming either from the alternator, or GPU.
+        # If the battery contactor is open (which it is always with master_bat=OFF),
+        # the battery is removed from the system.
+        # The charge rate depends on the power source and the battery condition.
+        # Normal charge rates are not more than two needle widths (~7 amps).
         battery.apply_load( -battery.charge_amps, dt );
+        ammeter = battery.charge_amps;
     }
+
+    # print( "ammeter = ", ammeter );
 
     # filter ammeter needle pos
     ammeter_ave = 0.8 * ammeter_ave + 0.2 * ammeter;

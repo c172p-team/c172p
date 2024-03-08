@@ -3,6 +3,9 @@
 # preliminary battery charge/discharge model and realistic ammeter
 # gauge modeling.
 #
+# Modelled after the POH and a maintenance manual.
+# Sources/discussion: https://github.com/c172p-team/c172p/pull/1496
+#
 
 ##
 # Initialize internal values
@@ -26,6 +29,22 @@ var current_flap_position = getprop("/surface-positions/flap-pos-norm");
 var old_gear_position = 0;
 var current_gear_position = getprop("/controls/gear/gear-down-command");
 var radio_lighting_load = 0;
+
+# Init avionics breaker (POH 7-26); the breaker is integrated into the switch.
+var brk_avionics_master = props.globals.getNode("/controls/circuit-breakers/avionics-master", 1);
+brk_avionics_master.setBoolValue(getprop("/controls/switches/master-avionics"));
+setlistener(brk_avionics_master, func (node) {
+    # when breaker trips, set switch to OFF
+    if (!node.getBoolValue())
+        setprop("/controls/switches/master-avionics", 0);
+}, 0, 0);
+setlistener("/controls/switches/master-avionics", func (node) {
+    # when switch is set to ON, reset the breaker
+    if (node.getBoolValue())
+        brk_avionics_master.setBoolValue(1);
+}, 1, 0);
+
+
 
 ##
 # Battery model class.
@@ -271,7 +290,11 @@ var update_virtual_bus = func (dt) {
         bus_volts = alternator_volts;
         power_source = "alternator";
     }
-    if ( external_volts > bus_volts ) {
+    if ( external_volts > bus_volts) {
+        # Ground-power-unit is connected to the plus-side of the battery. If
+        # the reverse-polarity-contactor is closed (which it is if the GPU
+        # has power and was plugged in correctly), the GPU powers the starter,
+        # and also the electrical system.
         bus_volts = external_volts;
         power_source = "external";
     }
@@ -289,24 +312,30 @@ var update_virtual_bus = func (dt) {
         setprop("/controls/circuit-breakers/master", 0)
     }
 
-    # system loads and ammeter gauge
-    var ammeter = 0.0;
-    if ( bus_volts > 1.0 ) {
-        # ammeter gauge
-        if ( power_source == "battery" ) {
-            ammeter = -load;
-        } else {
-            ammeter = battery.charge_amps;
-        }
-    }
-    # print( "ammeter = ", ammeter );
 
     # charge/discharge the battery
+    # show battery charge/discharge on the ammeter
+    var ammeter = 0.0;
+    var bat_charge_pct = getprop("/systems/electrical/battery-charge-percent") or 0;
     if ( power_source == "battery" ) {
         battery.apply_load( load, dt );
-    } elsif ( bus_volts > battery_volts ) {
+        ammeter = -load;
+    } elsif ( master_bat and bat_charge_pct >= 1.0) {
+        # show small charge with fully loaded battery and only small load
+        # (ie. show the conservatory charge rate)
+        if (load < 20.0 and ammeter < 3.0) ammeter = 3.0;
+    } elsif ( bus_volts > battery_volts and master_bat and bat_charge_pct < 1.0) {
+        # Charge, but only if master_bat switch is ON.
+        # If it's off, power is coming either from the alternator, or GPU.
+        # If the battery contactor is open (which it is always with master_bat=OFF),
+        # the battery is removed from the system.
+        # The charge rate depends on the power source and the battery condition.
+        # Normal charge rates are not more than two needle widths (~7 amps).
         battery.apply_load( -battery.charge_amps, dt );
+        ammeter = battery.charge_amps;
     }
+
+    # print( "ammeter = ", ammeter );
 
     # filter ammeter needle pos
     ammeter_ave = 0.8 * ammeter_ave + 0.2 * ammeter;
@@ -439,14 +468,21 @@ var electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/strobe-norm", 0.0);
     }
 
-    # Turn Coordinator and directional gyro Power
-    if (getprop("/controls/circuit-breakers/turn-coordinator") and getprop("/controls/switches/master-avionics")) {
+    # Directional gyro Power
+    # DG/HI is vacuum powered. This looks obsolete here and could probably be removed.
+    #if (getprop("/controls/circuit-breakers/turn-coordinator") and getprop("/controls/switches/master-avionics")) {
+    #    setprop("/systems/electrical/outputs/DG", bus_volts);
+    #    load += 14 * bus_volts;
+    #} else {
+    #    setprop("/systems/electrical/outputs/DG", 0.0);
+    #}
+
+    # Turn Coordinator Power
+    if (getprop("/controls/circuit-breakers/turn-coordinator") ) {
         setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);
-        setprop("/systems/electrical/outputs/DG", bus_volts);
         load += 14 * bus_volts;
     } else {
         setprop("/systems/electrical/outputs/turn-coordinator", 0.0);
-        setprop("/systems/electrical/outputs/DG", 0.0);
     }
 
     # Gear Select Power
@@ -479,6 +515,15 @@ var electrical_bus_1 = func() {
         if (getprop("/systems/electrical/outputs/hydraulic-pump") > 12) {
             load += 40 * bus_volts;
         }
+    }
+
+    # Avionics Fan Power
+    # Power comes trough the strobe breaker
+    if ( bus_volts > 12 and getprop("/controls/circuit-breakers/strobe")) {
+        setprop("/systems/electrical/outputs/avionics-fan[0]", bus_volts);
+        load += bus_volts / 28;
+    } else {
+        setprop("/systems/electrical/outputs/avionics-fan[0]", 0);
     }
 
     # register bus voltage

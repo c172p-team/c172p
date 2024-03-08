@@ -654,17 +654,6 @@ var avionics_bus_1 = func() {
         setprop("/systems/electrical/outputs/avionics-fan[0]", 0);
     }
 
-     ##############????????#############
-    # Turn Coordinator and directional gyro Power
-    if ( getprop("/controls/circuit-breakers/turn-coordinator") ) {
-        setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);
-        setprop("/systems/electrical/outputs/DG", bus_volts);
-        load += 14 * bus_volts;
-    } else {
-        setprop("/systems/electrical/outputs/turn-coordinator", 0.0);
-        setprop("/systems/electrical/outputs/DG", 0.0);
-    }
-
     # register avn1 voltage
     avn1_volts = bus_volts;
 

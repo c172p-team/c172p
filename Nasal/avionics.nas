@@ -88,10 +88,16 @@ aircraft.data.add(
 
 # Instruments
 aircraft.data.add(
+    "sim/realism/instruments/realistic-instruments",
     "instrumentation/altimeter/setting-inhg",
     "instrumentation/attitude-indicator/horizon-offset-deg",
     "autopilot/settings/heading-bug-deg",
-    "instrumentation/heading-indicator/offset-deg",
+    "orientation/heading-deg-saved",
+    "instrumentation/heading-indicator/align-deg",
+    "instrumentation/heading-indicator/caged-flag",
+    "instrumentation/heading-indicator/latitude-nut-setting",
+    "instrumentation/heading-indicator/offset-deg-saved",
+    "instrumentation/heading-indicator/error-deg-saved",
     "instrumentation/adf[0]/rotation-deg",
     "instrumentation/adf[0]/frequencies/dial-1-khz",
     "instrumentation/adf[0]/frequencies/dial-100-khz",

@@ -310,4 +310,54 @@
         </output>
     </logic>
 
+    <!-- Avionics fan 1 -->
+    <logic>
+        <name>avionics_fan_operating</name>
+        <input>
+            <and>
+                <property>systems/electrical/avionics-fan[0]/serviceable</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/avionics-fan[0]</property>
+                    <value>12.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>systems/electrical/avionics-fan[0]/operating</property>
+        </output>
+    </logic>
+    <filter>
+        <name>avionics_fan_spin</name>
+        <debug>false</debug>
+        <type>exponential</type>
+        <filter-time>3.0</filter-time>
+        <input>systems/electrical/avionics-fan[0]/operating</input>
+        <output>systems/electrical/avionics-fan[0]/spin</output>
+    </filter>
+
+    <!-- Avionics fan 2 -->
+    <logic>
+        <name>avionics_fan_operating</name>
+        <input>
+            <and>
+                <property>systems/electrical/avionics-fan[1]/serviceable</property>
+                <greater-than>
+                    <property>systems/electrical/outputs/avionics-fan[1]</property>
+                    <value>12.0</value>
+                </greater-than>
+            </and>
+        </input>
+        <output>
+            <property>systems/electrical/avionics-fan[1]/operating</property>
+        </output>
+    </logic>
+    <filter>
+        <name>avionics_fan_spin</name>
+        <debug>false</debug>
+        <type>exponential</type>
+        <filter-time>3.0</filter-time>
+        <input>systems/electrical/avionics-fan[1]/operating</input>
+        <output>systems/electrical/avionics-fan[1]/spin</output>
+    </filter>
+
 </PropertyList>

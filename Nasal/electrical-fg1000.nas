@@ -646,6 +646,14 @@ var avionics_bus_1 = func() {
       setprop("/systems/electrical/outputs/is", 0.0);
     }
 
+    # Avionics Fan Power
+    if ( bus_volts > 12 and getprop("/controls/circuit-breakers/pfd-avn") ) {
+        setprop("/systems/electrical/outputs/avionics-fan[0]", bus_volts);
+        load += bus_volts / 24;
+    } else {
+        setprop("/systems/electrical/outputs/avionics-fan[0]", 0);
+    }
+
      ##############????????#############
     # Turn Coordinator and directional gyro Power
     if ( getprop("/controls/circuit-breakers/turn-coordinator") ) {
@@ -695,11 +703,9 @@ var avionics_bus_2 = func() {
     # Nav 2 Power and Avionics Fan Power
     if ( getprop("/controls/circuit-breakers/nav2") ) {
         setprop("/systems/electrical/outputs/nav[1]", bus_volts);
-        setprop("/systems/electrical/outputs/avionics-fan", bus_volts);
         load += 5 * bus_volts;
     } else {
         setprop("/systems/electrical/outputs/nav[1]", 0.0);
-        setprop("/systems/electrical/outputs/avionics-fan", 0.0);
     }
 
     # Com 2 Power
@@ -736,6 +742,14 @@ var avionics_bus_2 = func() {
     } else {
       setprop("/systems/electrical/outputs/dme", 0.0);
       setprop("/systems/electrical/outputs/adf", 0.0);
+    }
+
+    # Avionics Fan Power
+    if ( bus_volts > 12 and getprop("/controls/circuit-breakers/mfd") ) {
+        setprop("/systems/electrical/outputs/avionics-fan[1]", bus_volts);
+        load += bus_volts / 24;
+    } else {
+        setprop("/systems/electrical/outputs/avionics-fan[1]", 0);
     }
 
     # register avn2 voltage

@@ -392,21 +392,21 @@ var update_virtual_bus = func (dt) {
     var eammeter = 0.0;
     if ( power_source == "battery_stby") {
         eammeter = -load_ess;
-        if (eammeter < 0.5) {
-            settimer(func(){
-                if (eammeter < 0.5) {
-                    setprop("controls/lighting/batt-test-lamp-norm", 1);
-                }
-            }, 10.0)
-        }
-    } else
+    } else {
         if ( master_bat_stby == 2 and power_source == "alternator") {
             eammeter = battery_stby.charge_amps;
-            setprop("controls/lighting/batt-test-lamp-norm", 0);
         } else {
             eammeter = 0;
-            setprop("controls/lighting/batt-test-lamp-norm", 0);
         }
+    }
+
+    # calculate stby bat test light illumination
+    # This is showing the battery life, nothing else.
+    var batt_test_lamp = 0.0;
+    if (master_bat_stby == 0) {
+        batt_test_lamp = getprop("systems/electrical/battery-charge-percent/b");
+    }
+    setprop("controls/lighting/batt-test-lamp-norm", batt_test_lamp);
 
     # charge/discharge the battery
     if (power_source == "battery") {

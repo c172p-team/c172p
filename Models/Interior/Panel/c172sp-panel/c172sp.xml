@@ -514,6 +514,8 @@
         <type>knob</type>
         <object-name>toggle-stbybatt</object-name>
         <property>controls/switches/stby-batt</property>
+        <drag-direction>vertical</drag-direction>
+        <drag-scale-px>20</drag-scale-px>
         <offset>-15</offset>
         <factor>-30</factor>
         <center>
@@ -539,31 +541,15 @@
                 <command>nasal</command>
                 <script>c172p.click("avionics")</script>
             </binding>
-            <binding>
-                <command>nasal</command>
-                <script>
-                    var switch_pos = getprop("controls/switches/stby-batt");
-                    if (switch_pos == 1) {
-                        setprop("controls/lighting/batt-test-lamp-norm", 0);
-                    } else
-                    if (switch_pos == 0) {
-                        setprop("controls/lighting/batt-test-lamp-norm", 1);  
-                    }
-                </script>
-            </binding>
         </action>
+        <!-- Release action, limit to 1 and 2. 0 is spring loaded TEST position -->
         <release>
             <binding>
-                <command>nasal</command>
-                <script>
-                    var switch_pos = getprop("controls/switches/stby-batt");
-                    if (switch_pos == 0) {
-                        settimer(func(){
-                            setprop("controls/switches/stby-batt", 1);
-                            setprop("controls/lighting/batt-test-lamp-norm", 0);
-                        }, 5);
-                    }
-                </script>
+                <command>property-adjust</command>
+                <property>controls/switches/stby-batt</property>
+                <step>0</step>
+                <min>1</min>
+                <max>2</max>
             </binding>
         </release>
         <hovered>

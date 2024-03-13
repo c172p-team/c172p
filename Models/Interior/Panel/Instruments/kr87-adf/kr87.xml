@@ -548,7 +548,26 @@
             <z-m>-0.01618</z-m>
         </center>
         <action>
+            <!-- Normal mode -->
             <binding>
+                <!-- store current value for overflow comparison -->
+                <condition>
+                    <equals>
+                        <property>instrumentation/adf[0]/display-mode</property>
+                        <value type="int">0</value>
+                    </equals>
+                </condition>
+                <command>property-assign</command>
+                <property>instrumentation/adf[0]/frequencies/overflow-khz</property>
+                <property>instrumentation/adf[0]/frequencies/standby-khz</property>
+            </binding>
+            <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/adf[0]/display-mode</property>
+                        <value type="int">0</value>
+                    </equals>
+                </condition>
                 <command>property-adjust</command>
                 <property>instrumentation/adf[0]/frequencies/standby-khz</property>
                 <factor>1</factor>
@@ -557,6 +576,68 @@
                 <resolution>1</resolution>
                 <wrap>true</wrap>
             </binding>
+            <binding>
+                <!-- on increase/decrease: detect and prevent overflow -->
+                <condition>
+                    <equals>
+                        <property>instrumentation/adf[0]/display-mode</property>
+                        <value type="int">0</value>
+                    </equals>
+                </condition>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var oldFRQ = getprop("instrumentation/adf[0]/frequencies/overflow-khz");
+                    var newFRQ = getprop("instrumentation/adf[0]/frequencies/standby-khz");
+                    var diff = math.floor(oldFRQ/100) - math.floor(newFRQ/100);
+                    if (diff != 0) setprop("instrumentation/adf[0]/frequencies/standby-khz", newFRQ + diff*100)
+                ]]></script>
+           </binding>
+
+            <!-- FLT/ELT timer mode -->
+            <binding>
+                <!-- store current value for overflow comparison -->
+                <condition>
+                    <greater-than-equals>
+                        <property>instrumentation/adf[0]/display-mode</property>
+                        <value type="int">0</value>
+                    </greater-than-equals>
+                </condition>
+                <command>property-assign</command>
+                <property>instrumentation/adf[0]/frequencies/overflow-khz</property>
+                <property>instrumentation/adf[0]/frequencies/selected-khz</property>
+            </binding>
+            <binding>
+                <condition>
+                    <greater-than-equals>
+                        <property>instrumentation/adf[0]/display-mode</property>
+                        <value type="int">1</value>
+                    </greater-than-equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/adf[0]/frequencies/selected-khz</property>
+                <factor>1</factor>
+                <min>200</min>
+                <max>1800</max>
+                <resolution>1</resolution>
+                <wrap>true</wrap>
+            </binding>
+            <binding>
+                <!-- on increase/decrease: detect and prevent overflow -->
+                <condition>
+                    <greater-than-equals>
+                        <property>instrumentation/adf[0]/display-mode</property>
+                        <value type="int">1</value>
+                    </greater-than-equals>
+                </condition>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var oldFRQ = getprop("instrumentation/adf[0]/frequencies/overflow-khz");
+                    var newFRQ = getprop("instrumentation/adf[0]/frequencies/selected-khz");
+                    var diff = math.floor(oldFRQ/100) - math.floor(newFRQ/100);
+                    if (diff != 0) setprop("instrumentation/adf[0]/frequencies/selected-khz", newFRQ + diff*100)
+                ]]></script>
+           </binding>
+
             <binding>
                 <command>property-adjust</command>
                 <property alias="/params/dial-1-khz"/>
@@ -570,6 +651,7 @@
                 <script>c172p.click("kr87-adf-dial")</script>
             </binding>
         </action>
+
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -597,8 +679,29 @@
         </center>
         <action>
             <binding>
+                <condition>
+                    <equals>
+                        <property>instrumentation/adf[0]/display-mode</property>
+                        <value type="int">0</value>
+                    </equals>
+                </condition>
                 <command>property-adjust</command>
                 <property>instrumentation/adf[0]/frequencies/standby-khz</property>
+                <factor>100</factor>
+                <min>200</min>
+                <max>1800</max>
+                <resolution>1</resolution>
+                <wrap>true</wrap>
+            </binding>
+            <binding>
+                <condition>
+                    <greater-than-equals>
+                        <property>instrumentation/adf[0]/display-mode</property>
+                        <value type="int">1</value>
+                    </greater-than-equals>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/adf[0]/frequencies/selected-khz</property>
                 <factor>100</factor>
                 <min>200</min>
                 <max>1800</max>

@@ -93,6 +93,7 @@ var kr87 = {
         m.powerButtonN.setBoolValue( m.powerButtonN.getValue() );
         m.adfButtonN = m.baseN.initNode( "adf-btn", 0, "BOOL" );
         m.bfoButtonN = m.baseN.initNode( "bfo-btn", 0, "BOOL" );
+        m.operable = m.baseN.initNode( "operable", 0, "BOOL" );
 
         m.modeN = m.baseN.getNode( "mode" );
         aircraft.data.add(
@@ -172,12 +173,29 @@ var kr87 = {
             me.flt.restart();
             me.displayModeN.setIntValue( 0 );
         }
+
         me.power = me.powerButtonN.getValue();
+
+        if (!me.operable.getBoolValue() ) {
+            # powerloss or failure: reset and stop timers
+            me.et.stop();
+            me.et.reset();
+            me.flt.stop();
+            me.flt.reset();
+            me.displayModeN.setIntValue( 0 );
+        } else {
+            # power recovery
+            if (!me.flt.runningN.getValue())
+                me.flt.start();
+            if (!me.et.runningN.getValue())
+                me.et.start();
+        }
 
         settimer( func { me.update() }, 0.1 );
     }
 };
 
-var kr87_0 = kr87.new( "/instrumentation/adf[0]" ).update();
 
-#setlistener("/sim/signals/fdm-initialized", func { timer_update() } );
+setlistener("/sim/signals/fdm-initialized", func {
+    kr87.new( "/instrumentation/adf[0]" ).update();
+} );

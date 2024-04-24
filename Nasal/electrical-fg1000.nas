@@ -456,7 +456,10 @@ var update_virtual_bus = func (dt) {
     if (master_bat and (feeder_a or feeder_b)) {
         setprop("/systems/electrical/outputs/instr-ignition-switch", bus_volts);
         if ( bus_volts > 12 ) {
-            if (getprop("controls/switches/starter")) {
+            # starter
+            var starter_svc    = getprop("/engines/active-engine/starter/serviceable");
+            var starter_molten = getprop("/engines/active-engine/starter/overheated");
+            if ( getprop("controls/switches/starter") and starter_svc and !starter_molten ) {
                 setprop("systems/electrical/outputs/starter", bus_volts);
             } else {
                 setprop("systems/electrical/outputs/starter", 0.0);

@@ -587,15 +587,23 @@ var avionics_bus_1 = func() {
       setprop("/systems/electrical/outputs/transponder", 0.0);
     }
 
-    # DME and ADF Power
+    # ADF Power
+    # Note, ADF and DME are secured by the same breaker
     if (getprop("/controls/circuit-breakers/radio5") and getprop("/instrumentation/adf[0]/power-btn")) {
-      setprop("/systems/electrical/outputs/dme", bus_volts);
       setprop("/systems/electrical/outputs/adf", bus_volts);
       load += 5 * bus_volts;
       radio_lighting_load += 1.0;
     } else {
-      setprop("/systems/electrical/outputs/dme", 0.0);
       setprop("/systems/electrical/outputs/adf", 0.0);
+    }
+    # DME ADF Power
+    # Note, ADF and DME are secured by the same breaker
+    if (getprop("/controls/circuit-breakers/radio5") and getprop("/instrumentation/dme[0]/power-btn")) {
+      setprop("/systems/electrical/outputs/dme", bus_volts);
+      load += 5 * bus_volts;
+      radio_lighting_load += 1.0;
+    } else {
+      setprop("/systems/electrical/outputs/dme", 0.0);
     }
 
     # Autopilot Power

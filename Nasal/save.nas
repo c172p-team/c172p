@@ -236,6 +236,9 @@ var save_state = func {
     var digitalclock = getprop("/sim/model/c172p/digitalclock-visible");
     setprop("/save/digitalclock", digitalclock);
 
+    var starter_molten = getprop("/engines/active-engine/starter/overheated");
+    setprop("/save/starter-overheated", starter_molten);
+
     #var userviewx = getprop("/sim/current-view/user/x-offset-m");
     #setprop("/save/userviewx", userviewx);
     #var userviewy = getprop("/sim/current-view/user/y-offset-m");
@@ -702,6 +705,9 @@ var resume_state = func {
 
         var damage = getprop("/save/damage");
         #var altitude = getprop("/save/altitude-ft");
+
+        var starter_molten = getprop("/save/starter-overheated");
+        setprop("/engines/active-engine/starter/overheated", starter_molten);
 
         var heading_delay = 3.0;
         var mooring_delay = 4.0;

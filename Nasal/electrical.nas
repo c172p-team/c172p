@@ -389,7 +389,9 @@ var electrical_bus_1 = func() {
         setprop("/systems/electrical/outputs/instr-ignition-switch", bus_volts);
         if ( bus_volts > 12 ) {
             # starter
-            if ( getprop("controls/switches/starter") ) {
+            var starter_svc    = getprop("/engines/active-engine/starter/serviceable");
+            var starter_molten = getprop("/engines/active-engine/starter/overheated");
+            if ( getprop("controls/switches/starter") and starter_svc and !starter_molten ) {
                 setprop("systems/electrical/outputs/starter", bus_volts);
             } else {
                 setprop("systems/electrical/outputs/starter", 0.0);

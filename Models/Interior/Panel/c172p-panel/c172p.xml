@@ -2181,9 +2181,23 @@
         </center>
         <action>
             <binding>
+                <condition>
+                    <not><property>/devices/status/keyboard/alt</property></not>
+                </condition>
                 <command>property-adjust</command>
                 <property>controls/flight/elevator-trim</property>
                 <factor>0.001</factor>
+                <min>-1</min>
+                <max>1</max>
+                <wrap>0</wrap>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/devices/status/keyboard/alt</property>
+                </condition>
+                <command>property-adjust</command>
+                <property>controls/flight/elevator-trim</property>
+                <factor>0.0001</factor>
                 <min>-1</min>
                 <max>1</max>
                 <wrap>0</wrap>
@@ -2234,9 +2248,23 @@
         </axis>
         <action>
             <binding>
+                <condition>
+                    <not><property>/devices/status/keyboard/alt</property></not>
+                </condition>
                 <command>property-adjust</command>
                 <property>controls/flight/rudder-trim</property>
                 <factor>0.002</factor>
+                <min>-.18</min>
+                <max>.18</max>
+                <wrap>false</wrap>
+            </binding>
+            <binding>
+                <condition>
+                    <property>/devices/status/keyboard/alt</property>
+                </condition>
+                <command>property-adjust</command>
+                <property>controls/flight/rudder-trim</property>
+                <factor>0.001</factor>
                 <min>-.18</min>
                 <max>.18</max>
                 <wrap>false</wrap>

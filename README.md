@@ -52,3 +52,5 @@ This aircraft was modified and updated in a joint effort by the following people
 * D-ECHO: 3D model of pitot tube + cover
 
 * Jarl Arntzen (jarlarntzen): Interior shadow and reflection cubes
+
+* Benedikt Hallinger (hbeni/benih): Multiple enhancements and crossovers from c182s

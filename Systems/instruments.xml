@@ -704,24 +704,55 @@
         <type>gain</type>
         <input>
             <condition>
-              <or>
-                <less-than>
-                  <property>/orientation/pitch-deg</property>
-                  <property>instrumentation/magnetic-compass/pitch-limit-down</property>
-                </less-than>
-                <greater-than>
-                  <property>/orientation/pitch-deg</property>
-                  <property>instrumentation/magnetic-compass/pitch-limit-up</property>
-                </greater-than>
-                <less-than>
-                  <property>/orientation/roll-deg</property>
-                  <property>instrumentation/magnetic-compass/roll-limit-left</property>
-                </less-than>
-                <greater-than>
-                  <property>/orientation/roll-deg</property>
-                  <property>instrumentation/magnetic-compass/roll-limit-right</property>
-                </greater-than>
-              </or>
+              <!-- not stuck: look at current animation props -->
+              <and>
+                <not><property>instrumentation/magnetic-compass/stuck</property></not>
+                <or>
+                  <less-than>
+                    <property>/instrumentation/magnetic-compass/pitch-deg</property>
+                    <property>instrumentation/magnetic-compass/pitch-limit-down</property>
+                  </less-than>
+                  <greater-than>
+                    <property>/instrumentation/magnetic-compass/pitch-deg</property>
+                    <property>instrumentation/magnetic-compass/pitch-limit-up</property>
+                  </greater-than>
+                  <less-than>
+                    <property>/instrumentation/magnetic-compass/roll-deg</property>
+                    <property>instrumentation/magnetic-compass/roll-limit-left</property>
+                  </less-than>
+                  <greater-than>
+                    <property>/instrumentation/magnetic-compass/roll-deg</property>
+                    <property>instrumentation/magnetic-compass/roll-limit-right</property>
+                  </greater-than>
+                </or>
+              </and>
+            </condition>
+            <value>1</value>
+        </input>
+        <input>
+            <condition>
+              <!-- stuck: look if normal props are not above limits anymore -->
+              <and>
+                <property>instrumentation/magnetic-compass/stuck</property>
+                <or>
+                  <less-than>
+                    <property>/instrumentation/magnetic-compass/pitch-deg</property>
+                    <property>instrumentation/magnetic-compass/pitch-limit-down</property>
+                  </less-than>
+                  <greater-than>
+                    <property>/instrumentation/magnetic-compass/pitch-deg</property>
+                    <property>instrumentation/magnetic-compass/pitch-limit-up</property>
+                  </greater-than>
+                  <less-than>
+                    <property>/instrumentation/magnetic-compass/roll-deg</property>
+                    <property>instrumentation/magnetic-compass/roll-limit-left</property>
+                  </less-than>
+                  <greater-than>
+                    <property>/instrumentation/magnetic-compass/roll-deg</property>
+                    <property>instrumentation/magnetic-compass/roll-limit-right</property>
+                  </greater-than>
+                </or>
+              </and>
             </condition>
             <value>1</value>
         </input>
@@ -764,40 +795,6 @@
         </input>
         <output>
             <property>instrumentation/magnetic-compass/indicated-heading-deg-final</property>
-        </output>
-    </filter>
-    <filter>
-        <name>Magnetic compass pitch</name>
-        <type>exponential</type>
-        <filter-time>0.25</filter-time> <!-- simulate damping fluid -->
-        <input>
-            <condition>
-                <property>instrumentation/magnetic-compass/stuck</property>
-            </condition>
-            <property>instrumentation/magnetic-compass/pitch-deg-final</property>
-        </input>
-        <input>
-            <property>orientation/pitch-deg</property>
-        </input>
-        <output>
-            <property>instrumentation/magnetic-compass/pitch-deg-final</property>
-        </output>
-    </filter>
-    <filter>
-        <name>Magnetic compass roll</name>
-        <type>exponential</type>
-        <filter-time>0.25</filter-time> <!-- simulate damping fluid -->
-        <input>
-            <condition>
-                <property>instrumentation/magnetic-compass/stuck</property>
-            </condition>
-            <property>instrumentation/magnetic-compass/roll-deg-final</property>
-        </input>
-        <input>
-            <property>orientation/roll-deg</property>
-        </input>
-        <output>
-            <property>instrumentation/magnetic-compass/roll-deg-final</property>
         </output>
     </filter>
     

@@ -2,6 +2,7 @@
 #
 # These are the helper functions for the kma20 audio panel
 # Maintainer: Thorsten Brehm (brehmt at gmail dot com)
+# Enhanced:   1/2025 B. Hallinger
 #
 # Usage:
 # just create one instance of kma20 class for each kma20 panel
@@ -20,41 +21,156 @@
 #    dme:  enable/disable DME station identifier
 #    mkr:  enable/disable marker beacon audio
 #    sens: beacon receiver sensitivity
+#
+# KMA20 operational properties:
+#    serviceable: (writable) false, when the audio panel failed 
+#    operable:    (readonly) true, when power is supplied and serviceable is true
 
 var kma20 = {};
 
 kma20.new = func(rootPath) {
     var obj = {};
-    obj.parents = [kma20];
+    obj.parents   = [kma20];
+    obj.rootPath  = rootPath;
 
-    # Idea for the COM is to have volume-selected set to always match the volume knob of the COM radio volume knob. The volume (original property) is set to 0 when disabled by the KMA-20 or the volume-selected when enabled.
+    # Hash containing all listeners / timers / aliases, for the destructor.
+    obj.listeners = {};
+    obj.timers    = {};
+    obj.aliases   = {};
 
-    # Monitor changes to COM1 switch
-    setlistener(rootPath ~ "/com1", func(v) {setprop("/instrumentation/comm/volume",            (v.getValue() != 0) * getprop("/instrumentation/comm/volume-selected"));}, 1);
-    # Monitor changes to volume selection knob of COM1
-    setlistener("/instrumentation/comm/volume-selected", func(v) {setprop("/instrumentation/comm/volume", (getprop(rootPath ~ "/com1") != 0) * getprop("/instrumentation/comm/volume-selected"));}, 1);
-
-    # Monitor changes to COM2 switch
-    setlistener(rootPath ~ "/com2", func(v) {setprop("/instrumentation/comm[1]/volume",         (v.getValue() != 0) * getprop("/instrumentation/comm[1]/volume-selected"));}, 1);
-    # Monitor changes to volume selection knob of COM2
-    setlistener("/instrumentation/comm[1]/volume-selected", func(v) {setprop("/instrumentation/comm[1]/volume", (getprop(rootPath ~ "/com2") != 0) * getprop("/instrumentation/comm[1]/volume-selected"));}, 1);
-
-    # Idea for the NAV is to set audio-btn (original-property) to true when both KMA-20 NAV switch is active & the NAV ident is pulled (ident-audible).
-    # Monitor changes to NAV1 switch
-    setlistener(rootPath ~ "/nav1",                   func(v) {setprop("/instrumentation/nav/audio-btn", (v.getValue() != 0) and getprop("/instrumentation/nav/ident-audible"));}, 1);
-    # Monitor changes to NAV1 pull ident
-    setlistener("/instrumentation/nav/ident-audible", func(v) {setprop("/instrumentation/nav/audio-btn", (getprop(rootPath ~ "/nav1") != 0) and v.getValue());}, 1);
-
-    # Monitor changes to NAV2 switch
-    setlistener(rootPath ~ "/nav2",                      func(v) {setprop("/instrumentation/nav[1]/audio-btn", (v.getValue() != 0) and getprop("/instrumentation/nav[1]/ident-audible"));}, 1);
-    # Monitor changes to NAV2 pull ident
-    setlistener("/instrumentation/nav[1]/ident-audible", func(v) {setprop("/instrumentation/nav[1]/audio-btn", (getprop(rootPath ~ "/nav2") != 0) and v.getValue());}, 1);
-
-    setlistener(rootPath ~ "/adf",  func(v) {setprop("/instrumentation/adf/ident-audible",      (v.getValue() != 0));}, 1);
-    setlistener(rootPath ~ "/dme",  func(v) {setprop("/instrumentation/dme/ident",              (v.getValue() != 0));}, 1);
-    setlistener(rootPath ~ "/mkr",  func(v) {setprop("/instrumentation/marker-beacon/audio-btn",(v.getValue() != 0));}, 1);
-    print( "KMA20 audio panel initialized" );
+    obj.init();
     return obj;
 };
 
-var kma20_0 = kma20.new( "/instrumentation/kma20" );
+# Destructor
+kma20.del = func() {
+    foreach (var l; keys(me.listeners)) removelistener(me.listeners[l]);
+    foreach (var t; keys(me.timers)) me.timers[t].stop();
+    foreach (var a; keys(me.aliases)) me.aliases[a].unalias();
+    me.listeners = {};
+    me.timers = {};
+    me.aliases = {};
+};
+
+kma20.init = func() {
+    me.unit   = props.globals.getNode(me.rootPath);
+    me.radios = [props.globals.getNode("/instrumentation/comm[0]"), props.globals.getNode("/instrumentation/comm[1]")];
+
+    # Monitor changes to COM related switches and knobs
+    me.listeners.opr  = setlistener(me.unit.getChild("operable"), func {me.updateCOMvolumes(); me.updateOtherVolumes();}, 0);
+    me.listeners.knob = setlistener(me.unit.getChild("knob"), func {me.updateCOMvolumes();}, 0);
+    me.listeners.auto = setlistener(me.unit.getChild("auto"), func {me.updateCOMvolumes();}, 0);
+    me.listeners.com1 = setlistener(me.unit.getChild("com1"), func {me.updateCOMvolumes();}, 0);
+    me.listeners.com2 = setlistener(me.unit.getChild("com2"), func {me.updateCOMvolumes();}, 0);
+    me.listeners.com1vol = setlistener(me.radios[0].getChild("volume-selected"), func {me.updateCOMvolumes();}, 0);
+    me.listeners.com2vol = setlistener(me.radios[1].getChild("volume-selected"), func {me.updateCOMvolumes();}, 0);
+    me.updateCOMvolumes();
+
+    # Monitor changes to NAV, adf, dme and mkr switches
+    me.listeners.nav1 = setlistener(me.unit.getChild("nav1"), func {me.updateOtherVolumes();}, 0);
+    me.listeners.nav2 = setlistener(me.unit.getChild("nav2"), func {me.updateOtherVolumes();}, 0);
+    me.listeners.adf  = setlistener(me.unit.getChild("adf"),  func {me.updateOtherVolumes();}, 0);
+    me.listeners.dme  = setlistener(me.unit.getChild("dme"),  func {me.updateOtherVolumes();}, 0);
+    me.listeners.mkr  = setlistener(me.unit.getChild("mkr"),  func {me.updateOtherVolumes();}, 0);
+    me.updateOtherVolumes();
+
+
+    # Initialize timer to recalculate operable state of the panel.
+    # (We do this timed, because it seems to be enough; and the electrical output property changes way too often)
+    me.updateOperable();
+    me.timers.operable_loop = maketimer(1.0, me, me.updateOperable);
+    me.timers.operable_loop.start();
+
+
+    print( "KMA20 audio panel initialized" );
+};
+
+# Recalculate operable property
+kma20.updateOperable = func() {
+    var svc   = me.unit.getNode("serviceable",1).getBoolValue();
+    var power = getprop("/systems/electrical/outputs/audio-panel");
+    var op_p  = me.unit.getNode("operable",1);
+    if (svc and power != nil and power > 12.5) {
+        op_p.setBoolValue(1);
+    } else {
+        op_p.setBoolValue(0);
+    }
+};
+
+kma20.updateCOMvolumes = func() {
+    # Idea for the COM is to have volume-selected set to always match the volume knob of the COM radio volume knob.
+    # The volume (original property) is set to 0 when disabled by the KMA-20 or the volume-selected when enabled.
+
+    # get KMA20 unit
+    var knob_position = me.unit.getValue("knob");   # -1=COM1; 0=COM2; 1=EXT
+    var auto_switch   = me.unit.getValue("auto");   # -1=SPKR; 0=OFF; 1=HEADSET
+    var com1_switch   = me.unit.getValue("com1");   # -1=SPKR; 0=OFF; 1=HEADSET
+    var com2_switch   = me.unit.getValue("com2");   # -1=SPKR; 0=OFF; 1=HEADSET
+
+    # get panel operational state (turned on? power? serviceable?)
+    var operable = me.unit.getValue("operable");
+
+    # calculate com tgt volume
+    # Auto mode: In case the COM switch is OFF but AUTO mode is on, make the COM audible if the knob has it selected
+    # Failsafe mode: When the panel fails, COM1 is wired as fallback.
+    var com1_automode = (com1_switch == 0 and auto_switch != 0 and knob_position == -1);
+    var com1_selected = (com1_switch != 0);
+    if (operable) {
+        if (com1_automode or com1_selected) {
+            me.radios[0].setValue("volume", me.radios[0].getValue("volume-selected"));
+        } else {
+            me.radios[0].setValue("volume", 0.0);
+        }
+    } else {
+        # Failsafe mode
+        me.radios[0].setValue("volume", me.radios[0].getValue("volume-selected"));
+    }
+
+    var com2_automode = (com2_switch == 0 and auto_switch != 0 and knob_position == 0);
+    var com2_selected = (com2_switch != 0);
+    if ( operable and (com2_automode or com2_selected) ) {
+        me.radios[1].setValue("volume", me.radios[1].getValue("volume-selected"));
+    } else {
+        me.radios[1].setValue("volume", 0.0);
+    }
+};
+
+kma20.updateOtherVolumes = func() {
+    tgt = {
+        nav1: 0,
+        nav2: 0,
+        adf:  0,
+        dme:  0,
+        mkr:  0
+    };
+
+    # get panel operational state (turned on? power? serviceable?)
+    var operable = me.unit.getValue("operable");
+
+    if (operable) {
+        # Idea for the NAV is to set audio-btn (original-property) to true when both KMA-20 NAV switch is active & the NAV ident is pulled (ident-audible).
+        tgt.nav1 = (me.unit.getValue("nav1") != 0 and getprop("/instrumentation/nav[0]/ident-audible") and getprop("/instrumentation/nav[0]/operable"));
+        tgt.nav2 = (me.unit.getValue("nav2") != 0 and getprop("/instrumentation/nav[1]/ident-audible") and getprop("/instrumentation/nav[1]/operable"));
+
+        tgt.adf = (me.unit.getValue("adf") != 0 and getprop("/instrumentation/adf[0]/operable"));
+        tgt.dme = (me.unit.getValue("dme") != 0 and getprop("/instrumentation/dme[0]/operable"));
+
+        tgt.mkr = (me.unit.getValue("mkr") != 0 and getprop("/instrumentation/marker-beacon/operable"));
+    } else {
+        # Failsafe mode
+        # ? No failsafe mode, as far as I have seen?
+    }
+
+    # set target values effective
+    setprop("/instrumentation/nav[0]/audio-btn",        tgt.nav1);
+    setprop("/instrumentation/nav[1]/audio-btn",        tgt.nav2);
+    setprop("/instrumentation/adf/ident-audible",       tgt.adf);
+    setprop("/instrumentation/dme/ident",               tgt.dme);
+    setprop("/instrumentation/marker-beacon/audio-btn", tgt.mkr);
+};
+
+
+# Initialize at startup (delayed, so propertys are properly initialized)
+setlistener("/sim/signals/fdm-initialized", func {
+    var kma20_0 = kma20.new( "/instrumentation/kma20" );
+});

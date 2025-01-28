@@ -26,7 +26,9 @@
 #    serviceable: (writable) false, when the audio panel failed 
 #    operable:    (readonly) true, when power is supplied and serviceable is true
 
-var kma20 = {};
+var kma20 = {
+    instances: []
+};
 
 kma20.new = func(rootPath) {
     var obj = {};
@@ -38,6 +40,8 @@ kma20.new = func(rootPath) {
     obj.timers    = {};
     obj.aliases   = {};
 
+    append(kma20.instances, obj);
+    obj.fgcom.instance = obj;
     obj.init();
     return obj;
 };
@@ -50,6 +54,7 @@ kma20.del = func() {
     me.listeners = {};
     me.timers = {};
     me.aliases = {};
+    # todo: remove instance
 };
 
 kma20.init = func() {
@@ -65,6 +70,10 @@ kma20.init = func() {
     me.listeners.com1vol = setlistener(me.radios[0].getChild("volume-selected"), func {me.updateCOMvolumes();}, 0);
     me.listeners.com2vol = setlistener(me.radios[1].getChild("volume-selected"), func {me.updateCOMvolumes();}, 0);
     me.updateCOMvolumes();
+
+    # FGCom integration: Monitor COMs PTT in order to mute them when sending
+    me.listeners.com1ptt = setlistener(me.radios[0].getChild("ptt"), func {me.updateCOMvolumes();}, 0);  # for fgcom integration
+    me.listeners.com2ptt = setlistener(me.radios[1].getChild("ptt"), func {me.updateCOMvolumes();}, 0);  # for fgcom integration
 
     # Monitor changes to NAV, adf, dme and mkr switches
     me.listeners.nav1 = setlistener(me.unit.getChild("nav1"), func {me.updateOtherVolumes();}, 0);
@@ -113,26 +122,39 @@ kma20.updateCOMvolumes = func() {
     # calculate com tgt volume
     # Auto mode: In case the COM switch is OFF but AUTO mode is on, make the COM audible if the knob has it selected
     # Failsafe mode: When the panel fails, COM1 is wired as fallback.
+    tgt = {
+        com1: 0,
+        com2: 0
+    };
     var com1_automode = (com1_switch == 0 and auto_switch != 0 and knob_position == -1);
     var com1_selected = (com1_switch != 0);
     if (operable) {
         if (com1_automode or com1_selected) {
-            me.radios[0].setValue("volume", me.radios[0].getValue("volume-selected"));
+            tgt.com1 = me.radios[0].getValue("volume-selected");
         } else {
-            me.radios[0].setValue("volume", 0.0);
+            tgt.com1 = 0.0;
         }
     } else {
         # Failsafe mode
-        me.radios[0].setValue("volume", me.radios[0].getValue("volume-selected"));
+        tgt.com1 = me.radios[0].getValue("volume-selected");
     }
 
     var com2_automode = (com2_switch == 0 and auto_switch != 0 and knob_position == 0);
     var com2_selected = (com2_switch != 0);
     if ( operable and (com2_automode or com2_selected) ) {
-        me.radios[1].setValue("volume", me.radios[1].getValue("volume-selected"));
+        tgt.com2 = me.radios[1].getValue("volume-selected");
     } else {
-        me.radios[1].setValue("volume", 0.0);
+        tgt.com2 = 0.0;
     }
+
+    # FGCom integration: When sending, mute the radio
+    if (me.radios[0].getValue("ptt")) tgt.com1 = 0.0;
+    if (me.radios[1].getValue("ptt")) tgt.com2 = 0.0;
+
+
+    # finally persist
+    me.radios[0].setValue("volume", tgt.com1);
+    me.radios[1].setValue("volume", tgt.com2);
 };
 
 kma20.updateOtherVolumes = func() {
@@ -167,6 +189,100 @@ kma20.updateOtherVolumes = func() {
     setprop("/instrumentation/adf/ident-audible",       tgt.adf);
     setprop("/instrumentation/dme/ident",               tgt.dme);
     setprop("/instrumentation/marker-beacon/audio-btn", tgt.mkr);
+};
+
+
+###########
+# FGCom integration
+#
+kma20.fgcom = {
+    instance: {}, # registered by kma20.new() to make it visible in subnamespace here
+
+    # PTT function, gets called when pressing/releasing space
+    #   active: 1 if ptt is pressed
+    #   mode:   0 normal, 1 shift-space
+    ptt: func(active, mode) {
+        var modifiers = props.globals.getNode("/devices/status/keyboard");
+        var fgcom_integration = getprop("/instrumentation/audio-panel/fgcom-integration");
+        if (fgcom_integration == nil) fgcom_integration = 0;
+        #print("KMA20: [PTT] integrated=", fgcom_integration, "; active=", active, "; mode=", mode, "; modifiers=",  modifiers.getValue());
+
+        if (fgcom_integration) {
+            # FGCom integration activated: detect which radio is activated at the panel and if it is operable
+            var selectedRadio = me.instance.fgcom.get_selected_radio();
+            if (selectedRadio >= 0) {
+                if (active) {
+                    print("KMA20: [PTT] activated; panel selected radio COM", selectedRadio + 1);
+                    var selectedRadio_isOK = me.instance.fgcom.check_radio(selectedRadio);
+                    if (selectedRadio_isOK) {
+                        print("KMA20: [PTT] now transmitting on selected radio COM", selectedRadio + 1);
+                        me.instance.radios[selectedRadio].getNode("ptt").setValue(1);
+                    } else {
+                        # Radio was not operable
+                        print("KMA20: [PTT] selected radio COM", selectedRadio + 1, " is not operable. Not sending transmission!");
+                    }
+
+                } else {
+                    print("KMA20: [PTT] released, selected radio=COM", selectedRadio + 1);
+                    me.instance.radios[selectedRadio].getNode("ptt").setValue(0);
+                }
+            }
+
+        } else {
+            # FGCom not integrated: tunnel trough to standard behavior;
+            # ie: space=COM1, shift+space=COM2 and no operable checks.
+            # we use the listeners the default implementation listens to.
+
+            # space pressed
+            if (active and mode == 0) {
+                me.instance.radios[0].getNode("ptt").setValue(1);
+            # space released
+            } else if (!active and mode == 0) {
+                me.instance.radios[0].getNode("ptt").setValue(0);
+
+            # shift-space pressed
+            } else if (active and mode == 1) {
+                me.instance.radios[1].getNode("ptt").setValue(1);
+
+            # shift-space released
+            } else if (!active and mode == 1) {
+                me.instance.radios[1].getNode("ptt").setValue(0);
+
+            # fallback
+            } else {
+                me.instance.radios[0].getNode("ptt").setValue(0);
+                me.instance.radios[0].getNode("ptt").setValue(0);
+            }
+        }
+
+    },
+
+    # Returns the audio panels selected radio (as index in me.instance.radios)
+    # Returns -1 if invalid selection (in this case no PTT is activated when running in "integrated mode")
+    get_selected_radio: func() {
+        var unit_operable = me.instance.unit.getChild("operable").getBoolValue();
+        if (unit_operable) {
+            var knob_position = me.instance.unit.getValue("knob");   # -1=COM1; 0=COM2; 1=EXT
+            if (knob_position == -1) return  0;  # COM1
+            if (knob_position ==  0) return  1;  # COM2
+            if (knob_position ==  1) return -1;  # EXT: with FGCom-mumble, this could potentially link the intercom
+        } else {
+            # Failsafe: COM1 wired
+            return 0;
+        }
+    },
+
+    # Returns if the selected radio (as index in me.instance.radios) is able to transmit
+    check_radio: func(selectedRadio) {
+        var unit_operable = me.instance.unit.getChild("operable").getBoolValue();
+        if (unit_operable) {
+            return me.instance.radios[selectedRadio].getChild("operable").getBoolValue();
+        } else {
+            # Failsafe: get_selected_radio() returns COM1 in case of panel failure
+            return me.instance.radios[0].getChild("operable").getBoolValue();
+        }
+        return 0;
+    }
 };
 
 

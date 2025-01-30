@@ -62,25 +62,25 @@ kma20.init = func() {
     me.radios = [props.globals.getNode("/instrumentation/comm[0]"), props.globals.getNode("/instrumentation/comm[1]")];
 
     # Monitor changes to COM related switches and knobs
-    me.listeners.opr  = setlistener(me.unit.getChild("operable"), func {me.updateCOMvolumes(); me.updateOtherVolumes();}, 0);
-    me.listeners.knob = setlistener(me.unit.getChild("knob"), func {me.updateCOMvolumes();}, 0);
-    me.listeners.auto = setlistener(me.unit.getChild("auto"), func {me.updateCOMvolumes();}, 0);
-    me.listeners.com1 = setlistener(me.unit.getChild("com1"), func {me.updateCOMvolumes();}, 0);
-    me.listeners.com2 = setlistener(me.unit.getChild("com2"), func {me.updateCOMvolumes();}, 0);
-    me.listeners.com1vol = setlistener(me.radios[0].getChild("volume-selected"), func {me.updateCOMvolumes();}, 0);
-    me.listeners.com2vol = setlistener(me.radios[1].getChild("volume-selected"), func {me.updateCOMvolumes();}, 0);
+    me.listeners.opr  = setlistener(me.unit.getChild("operable"), func {me.updateCOMvolumes(); me.updateOtherVolumes();}, 0, 0);
+    me.listeners.knob = setlistener(me.unit.getChild("knob"), func {me.updateCOMvolumes();}, 0, 0);
+    me.listeners.auto = setlistener(me.unit.getChild("auto"), func {me.updateCOMvolumes();}, 0, 0);
+    me.listeners.com1 = setlistener(me.unit.getChild("com1"), func {me.updateCOMvolumes();}, 0, 0);
+    me.listeners.com2 = setlistener(me.unit.getChild("com2"), func {me.updateCOMvolumes();}, 0, 0);
+    me.listeners.com1vol = setlistener(me.radios[0].getChild("volume-selected"), func {me.updateCOMvolumes();}, 0, 0);
+    me.listeners.com2vol = setlistener(me.radios[1].getChild("volume-selected"), func {me.updateCOMvolumes();}, 0, 0);
     me.updateCOMvolumes();
 
     # FGCom integration: Monitor COMs PTT in order to mute them when sending
-    me.listeners.com1ptt = setlistener(me.radios[0].getChild("ptt"), func {me.updateCOMvolumes();}, 0);  # for fgcom integration
-    me.listeners.com2ptt = setlistener(me.radios[1].getChild("ptt"), func {me.updateCOMvolumes();}, 0);  # for fgcom integration
+    me.listeners.com1ptt = setlistener(me.radios[0].getChild("ptt"), func {me.updateCOMvolumes();}, 0, 0);  # for fgcom integration
+    me.listeners.com2ptt = setlistener(me.radios[1].getChild("ptt"), func {me.updateCOMvolumes();}, 0, 0);  # for fgcom integration
 
     # Monitor changes to NAV, adf, dme and mkr switches
-    me.listeners.nav1 = setlistener(me.unit.getChild("nav1"), func {me.updateOtherVolumes();}, 0);
-    me.listeners.nav2 = setlistener(me.unit.getChild("nav2"), func {me.updateOtherVolumes();}, 0);
-    me.listeners.adf  = setlistener(me.unit.getChild("adf"),  func {me.updateOtherVolumes();}, 0);
-    me.listeners.dme  = setlistener(me.unit.getChild("dme"),  func {me.updateOtherVolumes();}, 0);
-    me.listeners.mkr  = setlistener(me.unit.getChild("mkr"),  func {me.updateOtherVolumes();}, 0);
+    me.listeners.nav1 = setlistener(me.unit.getChild("nav1"), func {me.updateOtherVolumes();}, 0, 0);
+    me.listeners.nav2 = setlistener(me.unit.getChild("nav2"), func {me.updateOtherVolumes();}, 0, 0);
+    me.listeners.adf  = setlistener(me.unit.getChild("adf"),  func {me.updateOtherVolumes();}, 0, 0);
+    me.listeners.dme  = setlistener(me.unit.getChild("dme"),  func {me.updateOtherVolumes();}, 0, 0);
+    me.listeners.mkr  = setlistener(me.unit.getChild("mkr"),  func {me.updateOtherVolumes();}, 0, 0);
     me.updateOtherVolumes();
 
 

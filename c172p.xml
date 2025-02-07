@@ -762,8 +762,95 @@
                 <output>/sim/model/c172p/cockpit/yoke-elevator</output>
             </kinematic>
 
-            <summer name="Pitch Trim Sum">
+            <switch name="fcs/stick-force-per-g-qbarUW-psf">
+                <default value="0"/>
+                <test logic="OR" value="aero/qbarUW-psf">
+                   fcs/stick-force-per-g EQ 1
+                </test>
+            </switch>
+
+            <scheduled_gain name="fcs/elevator-cmd-norm-gain">
                 <input>fcs/elevator-cmd-norm-filtered</input>
+                <table>
+                    <independentVar>fcs/stick-force-per-g-qbarUW-psf</independentVar>
+                    <tableData>
+                        18	0.05556
+                        19	0.05263
+                        20	0.05000
+                        21	0.04762
+                        22	0.04545
+                        23	0.04348
+                        24	0.04167
+                        25	0.04000
+                        26	0.03846
+                        27	0.03704
+                        28	0.03571
+                        29	0.03448
+                        30	0.03333
+                        31	0.03226
+                        32	0.03125
+                        33	0.03030
+                        34	0.02941
+                        35	0.02857
+                        36	0.02778
+                        37	0.02703
+                        38	0.02632
+                        39	0.02564
+                        40	0.02500
+                        41	0.02439
+                        42	0.02381
+                        43	0.02326
+                        44	0.02273
+                        45	0.02222
+                        46	0.02174
+                        47	0.02128
+                        48	0.02083
+                        49	0.02041
+                        50	0.02000
+                        51	0.01961
+                        52	0.01923
+                        53	0.01887
+                        54	0.01852
+                        55	0.01818
+                        56	0.01786
+                        57	0.01754
+                        58	0.01724
+                        59	0.01695
+                        60	0.01667
+                        61	0.01639
+                        62	0.01613
+                        63	0.01587
+                        64	0.01563
+                        65	0.01538
+                        66	0.01515
+                        67	0.01493
+                        68	0.01471
+                        69	0.01449
+                        70	0.01429
+                        71	0.01408
+                        72	0.01389
+                        73	0.01370
+                        74	0.01351
+                        75	0.01333
+                        76	0.01316
+                        77	0.01299
+                        78	0.01282
+                        79	0.01266
+                        80	0.01250
+                        81	0.01235
+                        82	0.01220
+                        83	0.01205
+                        84	0.01190
+                    </tableData>
+                </table>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+            </scheduled_gain>            
+
+            <summer name="Pitch Trim Sum">
+                <input>fcs/elevator-cmd-norm-gain</input>
                 <input>fcs/pitch-trim-cmd-norm</input>
                 <clipto>
                     <min>-1</min>
@@ -811,8 +898,70 @@
                 <output>/sim/model/c172p/cockpit/yoke-aileron</output>
             </kinematic>
 
-            <summer name="Roll Trim Sum">
+            <scheduled_gain name="fcs/aileron-cmd-norm-gain">
                 <input>fcs/aileron-cmd-norm-filtered</input>
+                <table>
+                    <independentVar>fcs/stick-force-per-g-qbarUW-psf</independentVar>
+                    <tableData>
+                        36	1.0000
+                        37	0.9730
+                        38	0.9474
+                        39	0.9231
+                        40	0.9000
+                        41	0.8780
+                        42	0.8571
+                        43	0.8372
+                        44	0.8182
+                        45	0.8000
+                        46	0.7826
+                        47	0.7660
+                        48	0.7500
+                        49	0.7347
+                        50	0.7200
+                        51	0.7059
+                        52	0.6923
+                        53	0.6792
+                        54	0.6667
+                        55	0.6545
+                        56	0.6429
+                        57	0.6316
+                        58	0.6207
+                        59	0.6102
+                        60	0.6000
+                        61	0.5902
+                        62	0.5806
+                        63	0.5714
+                        64	0.5625
+                        65	0.5538
+                        66	0.5455
+                        67	0.5373
+                        68	0.5294
+                        69	0.5217
+                        70	0.5143
+                        71	0.5070
+                        72	0.5000
+                        73	0.4932
+                        74	0.4865
+                        75	0.4800
+                        76	0.4737
+                        77	0.4675
+                        78	0.4615
+                        79	0.4557
+                        80	0.4500
+                        81	0.4444
+                        82	0.4390
+                        83	0.4337
+                        84	0.4286
+                    </tableData>
+                </table>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+            </scheduled_gain>            
+
+            <summer name="Roll Trim Sum">
+                <input>fcs/aileron-cmd-norm-gain</input>
                 <input>fcs/roll-trim-cmd-norm</input>
                 <clipto>
                     <min>-1</min>
@@ -883,8 +1032,49 @@
                 <output>/sim/model/c172p/cockpit/pedals-rudder</output>
             </kinematic>
 
-            <summer name="Yaw Trim Sum">
+            <scheduled_gain name="fcs/rudder-cmd-norm-gain">
                 <input>fcs/rudder-cmd-norm-filtered</input>
+                <table>
+                    <independentVar>fcs/stick-force-per-g-qbarUW-psf</independentVar>
+                    <tableData>
+                        30    1.0000
+                        32    0.9375
+                        34    0.8824
+                        36    0.8333
+                        38    0.7895
+                        40    0.7500
+                        42    0.7143
+                        44    0.6818
+                        46    0.6522
+                        48    0.6250
+                        50    0.6000
+                        52    0.5769
+                        54    0.5556
+                        56    0.5357
+                        58    0.5172
+                        60    0.5000
+                        62    0.4839
+                        64    0.4688
+                        66    0.4545
+                        68    0.4412
+                        70    0.4286
+                        72    0.4167
+                        74    0.4054
+                        76    0.3947
+                        78    0.3846
+                        80    0.3750
+                        82    0.3659
+                        84    0.3571
+                    </tableData>
+                </table>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+            </scheduled_gain>
+            
+            <summer name="Yaw Trim Sum">
+                <input>fcs/rudder-cmd-norm-gain</input>
                 <input>fcs/yaw-trim-cmd-norm</input>
                 <input>fcs/yaw-trim-cockpit</input>
                 <clipto>

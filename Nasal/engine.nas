@@ -490,11 +490,11 @@ setlistener("/controls/engines/mixture-all", func{
 # backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has
 # been replaced and controls.throttleAxis will not be called from the controls binding - so this is to
 # maintain compatibility with existing joystick xml files.
-controls.throttleAxis = func {
-    var value = (1 - cmdarg().getNode("setting").getValue()) / 2;
-    var new_value = std.max(0.0, std.min(value, 1.0));
-    setprop("/controls/engines/current-engine/throttle", new_value);
-};
+#controls.throttleAxis = func {
+#   var value = (1 - cmdarg().getNode("setting").getValue()) / 2;
+#    var new_value = std.max(0.0, std.min(value, 1.0));
+#    setprop("/controls/engines/current-engine/throttle", new_value);
+#};
 
 controls.adjMixture = func {
     var delta = arg[0] * controls.THROTTLE_RATE * getprop("/sim/time/delta-realtime-sec");

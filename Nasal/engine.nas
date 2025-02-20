@@ -455,22 +455,22 @@ setprop("/engines/active-engine/ready-oil-press-checker", 0);
 
 # =============== Variables ================
 
-controls.incThrottle = func {
-    var delta = arg[1] * controls.THROTTLE_RATE * getprop("/sim/time/delta-realtime-sec");
-    var old_value = getprop("/controls/engines/current-engine/throttle");
-    var new_value = std.max(0.0, std.min(old_value + delta, 1.0));
-    setprop("/controls/engines/current-engine/throttle", new_value);
-};
+#controls.incThrottle = func {
+#    var delta = arg[1] * controls.THROTTLE_RATE * getprop("/sim/time/delta-realtime-sec");
+#    var old_value = getprop("/controls/engines/current-engine/throttle");
+#    var new_value = std.max(0.0, std.min(old_value + delta, 1.0));
+#    setprop("/controls/engines/current-engine/throttle", new_value);
+#};
 
-controls.throttleMouse = func {
-    if (!getprop("/devices/status/mice/mouse[0]/button[1]")) {
-        return;
-    }
-    var delta = cmdarg().getNode("offset").getValue() * -4;
-    var old_value = getprop("/controls/engines/current-engine/throttle");
-    var new_value = std.max(0.0, std.min(old_value + delta, 1.0));
-    setprop("/controls/engines/current-engine/throttle", new_value);
-};
+#controls.throttleMouse = func {
+#    if (!getprop("/devices/status/mice/mouse[0]/button[1]")) {
+#        return;
+#    }
+#    var delta = cmdarg().getNode("offset").getValue() * -4;
+#    var old_value = getprop("/controls/engines/current-engine/throttle");
+#    var new_value = std.max(0.0, std.min(old_value + delta, 1.0));
+#    setprop("/controls/engines/current-engine/throttle", new_value);
+#};
 
 # 2018.2 introduces new "all" properties for throttle, mixture and prop pitch.
 # this is the correct way to interface with the axis based controls - use a listener

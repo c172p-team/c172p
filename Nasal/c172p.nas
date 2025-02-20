@@ -14,7 +14,9 @@ var autostart = func (msg=1) {
 
     # Setting levers and switches for startup
     setprop("/controls/switches/magnetos", 3);
-    setprop("/controls/engines/current-engine/throttle", 0.2);
+    #setprop("/controls/engines/current-engine/throttle", 0.2);
+	setprop("/controls/engines/engine[0]/throttle", 0.2);
+	setprop("/controls/engines/engine[1]/throttle", 0.2);
 
     var auto_mixture = getprop("/fdm/jsbsim/engine/auto-mixture");
     setprop("/controls/engines/current-engine/mixture", auto_mixture);
@@ -319,7 +321,9 @@ var switches_save_state = func {
         setprop("/controls/engines/engine[0]/primer", 0);
         setprop("/controls/engines/engine[0]/primer-lever", 0);
         setprop("/controls/engines/engine[0]/use-primer", 0);
-        setprop("/controls/engines/current-engine/throttle", 0.0);
+        #setprop("/controls/engines/current-engine/throttle", 0.0);
+		setprop("/controls/engines/engine[0]/throttle", 0.0);
+		setprop("/controls/engines/engine[1]/throttle", 0.0);
         setprop("/controls/engines/current-engine/mixture", 0.0);
         #setprop("/controls/circuit-breakers/aircond", 1);
         setprop("/controls/circuit-breakers/autopilot", 1);

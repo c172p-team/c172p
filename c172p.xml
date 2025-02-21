@@ -759,7 +759,6 @@
                         <time>0.30</time>
                     </setting>
                 </traverse>
-                <output>/sim/model/c172p/cockpit/yoke-elevator</output>
             </kinematic>
 
             <switch name="fcs/stick-force-per-g-qbarUW-psf">
@@ -825,6 +824,7 @@
                     <min>-1</min>
                     <max>1</max>
                 </clipto>
+				<output>/sim/model/c172p/cockpit/yoke-elevator</output>
             </summer>
 
             <aerosurface_scale name="Elevator Control">
@@ -864,7 +864,6 @@
                         <time>0.15</time>
                     </setting>
                 </traverse>
-                <output>/sim/model/c172p/cockpit/yoke-aileron</output>
             </kinematic>
 
             <scheduled_gain name="fcs/aileron-cmd-norm-gain">
@@ -915,6 +914,23 @@
                     <min>-1</min>
                     <max>1</max>
                 </clipto>
+				<output>/sim/model/c172p/cockpit/yoke-aileron</output>
+            </summer>
+
+			<summer name="Yoke Roll Sum">
+                <!--
+                Currently no aileron trim feedback to yoke. The C172 has an asymetrically mounted wing in order to
+                compensate for roll-forces in cruise. This is simulated by the aileron-trim prop.
+                Aileron _input_ (yoke) should be neutral, when the input device (joystick) is neutral.
+                Also, don't confuse with rudder-trim (which there is an option for).
+                For disuccsion see: https://github.com/c172p-team/c172p/issues/1471
+                -->
+                <input>fcs/aileron-cmd-norm-filtered</input>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+                <output>/sim/model/c172p/cockpit/yoke-aileron</output>
             </summer>
 
             <aerosurface_scale name="Left Aileron Control">
@@ -977,7 +993,6 @@
                         <time>0.15</time>
                     </setting>
                 </traverse>
-                <output>/sim/model/c172p/cockpit/pedals-rudder</output>
             </kinematic>
 
             <scheduled_gain name="fcs/rudder-cmd-norm-gain">
@@ -1029,6 +1044,7 @@
                     <min>-1</min>
                     <max>1</max>
                 </clipto>
+				<output>/sim/model/c172p/cockpit/pedals-rudder</output>
             </summer>
 
             <aerosurface_scale name="Rudder Control">

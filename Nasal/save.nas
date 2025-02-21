@@ -73,8 +73,13 @@ var save_state = func {
         setprop("/save/savebatpb", savebatpb);
     }
 
-    var throttle = getprop("/controls/engines/current-engine/throttle");
-    setprop("/save/throttle", throttle);
+    #var throttle = getprop("/controls/engines/current-engine/throttle");
+    #setprop("/save/throttle", throttle);
+	var throttlezero = getprop("/controls/engines/engine[0]/throttle";
+	setprop("/save/throttlezero", throttlezero);
+	var throttleone = getprop("/controls/engines/engine[1]/throttle";
+	setprop("/save/throttleone", throttleone);
+
     var mixture = getprop("/controls/engines/current-engine/mixture");
     setprop("/save/mixture", mixture);
     var primlever = getprop("/controls/engines/engine[0]/primer-lever");
@@ -449,8 +454,13 @@ var resume_state = func {
             setprop("/systems/electrical/battery-charge-percent/b", savebatpb);
         }
 
-        var throttle = getprop("/save/throttle");
-        setprop("/controls/engines/current-engine/throttle", throttle);
+        #var throttle = getprop("/save/throttle");
+        #setprop("/controls/engines/current-engine/throttle", throttle);
+		var throttlezero = getprop("/save/throttlezero";
+		setprop("/controls/engines/engine[0]/throttle", throttlezero);
+		var throttleone = getprop("/save/throttleone";
+		setprop("/controls/engines/engine[1]/throttle", throttleone);
+
         var mixture = getprop("/save/mixture");
         setprop("/controls/engines/current-engine/mixture", mixture);
         var primlever = getprop("/save/primlever");

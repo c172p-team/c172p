@@ -28,6 +28,10 @@ var enableOSD = func {
     left.add("/velocities/uBody-fps");
     left.add("/fdm/jsbsim/hydro-Z");
     left.add("/fdm/jsbsim/mooring/rope-yaw");
-    #right.add("fdm/jsbsim/mooring/rope-yaw");
+
+	right.add("/controls/engines/engine[0]/throttle");
+	right.add("/controls/engines/engine[1]/throttle");
+	right.add("/controls/engines/current-engine/throttle");
+	right.add("/controls/engines/throttle-all");
 }
 enableOSD();

@@ -145,7 +145,9 @@ aircraft.data.add(
     "/controls/gear/brake-parking",
     "/controls/flight/flaps",
     "/controls/flight/elevator-trim",
-    "/controls/engines/current-engine/throttle",
+    #"/controls/engines/current-engine/throttle",
+	"/controls/engines/engine[0]/throttle",
+	"/controls/engines/engine[1]/throttle",
     "/controls/engines/current-engine/mixture",
     "/controls/engines/engine[0]/primer-lever",
 );

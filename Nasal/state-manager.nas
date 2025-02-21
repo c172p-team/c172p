@@ -40,7 +40,9 @@ var state_manager = func {
 
     setprop("/controls/engines/engine[0]/primer", 3);
     setprop("/controls/engines/engine[0]/primer-lever", 0);
-    setprop("/controls/engines/current-engine/throttle", 0.2);
+    #setprop("/controls/engines/current-engine/throttle", 0.2);
+	setprop("/controls/engines/engine[0]/throttle", 0.2);
+	setprop("/controls/engines/engine[1]/throttle", 0.2);
     setprop("/controls/flight/elevator-trim", -0.03);
 
     setprop("/controls/switches/dome-red", 0);
@@ -83,13 +85,19 @@ var state_manager = func {
         setprop("/engines/active-engine/auto-start", 0);
 
         if (distance_nm > 5) {
-            setprop("/controls/engines/current-engine/throttle", 0.85);
+            #setprop("/controls/engines/current-engine/throttle", 0.85);
+			setprop("/controls/engines/engine[0]/throttle", 0.85);
+		    setprop("/controls/engines/engine[1]/throttle", 0.85);
             setprop("/controls/flight/flaps", .33);
         } else if (distance_nm > 1) {
-            setprop("/controls/engines/current-engine/throttle", 0.80);
+            #setprop("/controls/engines/current-engine/throttle", 0.80);
+			setprop("/controls/engines/engine[0]/throttle", 0.80);
+		    setprop("/controls/engines/engine[1]/throttle", 0.80);
             setprop("/controls/flight/flaps", .66);
         } else {
-            setprop("/controls/engines/current-engine/throttle", 0.75);
+            #setprop("/controls/engines/current-engine/throttle", 0.785);
+			setprop("/controls/engines/engine[0]/throttle", 0.75);
+		    setprop("/controls/engines/engine[1]/throttle", 0.75);
             setprop("/controls/flight/flaps", 1);
         }
 

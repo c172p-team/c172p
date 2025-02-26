@@ -1,6 +1,81 @@
 List of features and bug fixes
 ==============================
 
+Version 2024.1
+--------------
+
+**Features:**
+
+* Add winter kit, Cowl grill, expanded icing systems and effects
+* Ground services improvements
+* Convert Custom Registration to Canvas
+* Magnetic Compass enhancements including deviation card
+* KX165: Add squelch test to COM radio volume knob
+* Add Towbar
+* Avionics fan added
+* C172sp: Avionic fans added
+* Multiplayer engine sound
+* Starter overheat simulation
+* STICK-FORCE-PER-'g' effect of dynamic pressure on flt controls
+* Cockpit flight controls react to trim settings
+
+**Fixes:**
+
+* New fuel gauge texture, thinner oil and fuel gauge needles
+* Refactor tiedown logic
+* Account for variant properties and others in save/restore logic
+* Remove duplicat avionics switch
+* GUI refactoring
+* Clean up unneeded and unused aliases
+* Add alt static port source system
+* Slower response for interior static ports
+* User volunteer removal of copyright defer to GPA license
+* Glass rain effect improvements
+* Miscellaneous tutorial fixes
+* Miscellaneous glass refactoring
+* Ground services bugs
+* Wrong property binding for chocks
+* Fix NAV needle deflections
+* Show rounded headings in tooltips
+* VSI damped at sim start and when on the ground
+* Fixed conflicts path with MP aircraft system
+* Improved Towbar model and fixes
+* Magnetic Compass: Clamp roll/pitch animation
+* Add transpaent yoke hiding
+* Flashlight: synchronize with walker flashlight
+* Flashlight: replace ALS by compositor implementation
+* Fix autopilot DigitalFilter: unknown config node: value
+* Update gyro instruments to current "next" enhancements
+* Adjust mixture setting to be able to go over-rich
+* Add default props/values for vertical-speed-indicator
+* Added ICAO and performance data
+* Electrical fix: Turn coordinator flag and power source
+* Electrical fix: Ground Power Unit supplies pwr only with master switch
+* Turn-coordinator gyro sound depending on spin now
+* Avionics switch acts also as circuit breaker (POH 7-26)
+* C172sp: Removed turn-coordinator from electrical system
+* C172sp: STBY-BAT-LAMP and switch reworked
+* C172sp: ESS/AVN Bus wiring corrected
+* C172SP: Master-bat switch on for external power to system
+* KR87 ADF: Prevent overflow
+* KR87 ADF: Implement direct set of active frq in FLT/ELT mode
+* KR87 ADF: Added ET count down mode
+* KR87: Add ET countdown aural alarm
+* Add "X" to aircraft dialog closing buttons (in the window header)
+* Add a fallback model index
+* Add ALT mode to Throttle/Mixture levers
+* Throttle/mixture adjusted to 5% increments for "normal" use
+* Added finer ALT mode to elevator and rudder trim
+* Fix bug with ADF power switch shutting off also DME
+* Fix yoke normals
+* Parking brake-lever animation enhanced
+* Limit rudder-trim by a filter
+* Switched compass pitch/roll to daped c++ values
+* KMA20: Made AUTO mode work and make panel failable
+* KMA20: Audio panel now has fgcom integration
+* KMA20: Listeners only fire when values change
+* Refactor throttle controls to work with throttle all
+
 Version 2020.4.1
 --------------
 

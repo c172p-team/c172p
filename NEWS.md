@@ -1,6 +1,15 @@
 List of features and bug fixes
 ==============================
 
+Version 2024.1.1
+--------------
+
+**Features:**
+
+
+**Fixes:**
+
+
 Version 2024.1
 --------------
 

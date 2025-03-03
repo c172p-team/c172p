@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PropertyList>
+
+    <path>towbar.ac</path>
+    <nopreview/>
+
+	<animation>
+		<type>material</type>
+		<object-name>Towbar</object-name>
+	</animation>
+	
+	<effect>
+		<inherits-from>Effects/model-combined</inherits-from>
+		<reflection-enabled>1</reflection-enabled>
+		<object-name>Towbar</object-name>
+	</effect>
+
+	<animation>
+		<type>select</type>
+		<object-name>Towbar</object-name>
+		<condition>
+			<property>fdm/jsbsim/external_reactions/towbar/attached</property>
+		</condition>
+	</animation>
+	<animation>
+		<type>translate</type>
+		<object-name>Towbar</object-name>
+		<property>gear/gear[0]/compression-norm</property>
+		<factor>0.30</factor>
+		<axis>
+			<x>0.3</x>
+			<y>0</y>
+			<z>1.0</z>
+		</axis>
+	</animation>
+	
+	<animation>
+		<type>rotate</type>
+		<object-name>Towbar</object-name>
+		<property>fdm/jsbsim/fcs/steer-pos-deg</property>
+		<axis>
+			<x>0</x>
+			<y>0</y>
+			<z>-1</z>
+		</axis>
+		<center>
+			<x-m>-0.1892</x-m>
+			<y-m>0.0000</y-m>
+			<z-m>-0.7450</z-m>
+		</center>
+	</animation>
+	
+	<animation>
+		<type>pick</type>
+		<object-name>Towbar</object-name>
+		<action>
+			<button>0</button>
+			<repeatable>true</repeatable>
+			<interval-sec>0.1</interval-sec>
+			
+			<!-- Initialize mouse difference positions -->
+			<binding>
+				<condition>
+					<equals>
+						<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/x</property>
+						<value>0</value>
+					</equals>
+				</condition>
+				<command>property-assign</command>
+				<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/x</property>
+				<property>devices/status/mice/mouse/x</property>
+			</binding>
+			<binding>
+				<condition>
+					<equals>
+						<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/y</property>
+						<value>0</value>
+					</equals>
+				</condition>
+				<command>property-assign</command>
+				<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/y</property>
+				<property>devices/status/mice/mouse/y</property>
+			</binding>
+			
+
+			<!-- Click+Move vertically: Adjust magnitude of force -->
+			<binding>
+				<command>nasal</command>
+				<script><![CDATA[
+					var p      = "fdm/jsbsim/external_reactions/towbar/magnitude";
+					var old_y  = getprop("fdm/jsbsim/external_reactions/towbar/mouse-handling/y");
+					var cur_y  = getprop("devices/status/mice/mouse/y");
+					var old_p  = getprop(p) or 0;
+					var factor = 0.5;
+					var diff   = (cur_y - old_y) * factor;
+					var tgt    = old_p + diff;
+					if (tgt >  100) tgt =  100;
+					if (tgt < -100) tgt = -100;
+					setprop(p, tgt);
+				]]></script>
+			</binding>
+			
+			<!-- Click+Move horizontally: Adjust direction of towbar -->
+			<binding>
+				<command>nasal</command>
+				<script><![CDATA[
+					var p      = "fdm/jsbsim/external_reactions/towbar/steer-deg";
+					var old_x  = getprop("fdm/jsbsim/external_reactions/towbar/mouse-handling/x");
+					var cur_x  = getprop("devices/status/mice/mouse/x");
+					var old_p  = getprop(p) or 0;
+					var factor = -0.25;
+					var diff   = (cur_x - old_x) * factor;
+					var tgt    = old_p + diff;
+					if (tgt >  30) tgt =  30;
+					if (tgt < -30) tgt = -30;
+					setprop(p, tgt);
+				]]></script>
+			</binding>
+
+			
+			
+			<!-- store last seen mouse coordinates for calculation of next movement -->
+			<binding>
+				<command>property-assign</command>
+				<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/x</property>
+				<property>devices/status/mice/mouse/x</property>
+			</binding>
+			<binding>
+				<command>property-assign</command>
+				<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/y</property>
+				<property>devices/status/mice/mouse/y</property>
+			</binding>
+			
+			<mod-up>
+				<binding>
+					<command>property-assign</command>
+					<property>fdm/jsbsim/external_reactions/towbar/magnitude</property>
+					<value type="double">0</value>
+				</binding>
+				
+				<!-- reset mouse position memories -->
+				<binding>
+					<command>property-assign</command>
+					<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/x</property>
+					<value>0</value>
+				</binding>
+				<binding>
+					<command>property-assign</command>
+					<property>fdm/jsbsim/external_reactions/towbar/mouse-handling/y</property>
+					<property>devices/status/mice/mouse/y</property>
+					<value>0</value>
+				</binding>
+			</mod-up>
+		</action>
+	</animation>
+
+</PropertyList>

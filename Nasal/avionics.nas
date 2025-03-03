@@ -40,6 +40,8 @@ aircraft.data.add(
 aircraft.data.add(
     "instrumentation/comm[0]/power-btn",
     "instrumentation/comm[0]/volume-selected",
+    "instrumentation/comm[0]/volume-knobmode",
+    "instrumentation/comm[0]/cutoff-signal-quality",
     "instrumentation/comm[0]/frequencies/selected-mhz",
     "instrumentation/comm[0]/frequencies/standby-mhz",
     "instrumentation/comm[0]/frequencies/dial-khz",
@@ -60,6 +62,8 @@ aircraft.data.add(
 aircraft.data.add(
     "instrumentation/comm[1]/power-btn",
     "instrumentation/comm[1]/volume-selected",
+    "instrumentation/comm[1]/volume-knobmode",
+    "instrumentation/comm[1]/cutoff-signal-quality",
     "instrumentation/comm[1]/frequencies/selected-mhz",
     "instrumentation/comm[1]/frequencies/standby-mhz",
     "instrumentation/comm[1]/frequencies/dial-khz",
@@ -84,10 +88,16 @@ aircraft.data.add(
 
 # Instruments
 aircraft.data.add(
+    "sim/realism/instruments/realistic-instruments",
     "instrumentation/altimeter/setting-inhg",
     "instrumentation/attitude-indicator/horizon-offset-deg",
     "autopilot/settings/heading-bug-deg",
-    "instrumentation/heading-indicator/offset-deg",
+    "orientation/heading-deg-saved",
+    "instrumentation/heading-indicator/align-deg",
+    "instrumentation/heading-indicator/caged-flag",
+    "instrumentation/heading-indicator/latitude-nut-setting",
+    "instrumentation/heading-indicator/offset-deg-saved",
+    "instrumentation/heading-indicator/error-deg-saved",
     "instrumentation/adf[0]/rotation-deg",
     "instrumentation/adf[0]/frequencies/dial-1-khz",
     "instrumentation/adf[0]/frequencies/dial-100-khz",
@@ -135,7 +145,8 @@ aircraft.data.add(
     "/controls/gear/brake-parking",
     "/controls/flight/flaps",
     "/controls/flight/elevator-trim",
-    "/controls/engines/current-engine/throttle",
+	"/controls/engines/engine[0]/throttle",
+	"/controls/engines/engine[1]/throttle",
     "/controls/engines/current-engine/mixture",
     "/controls/engines/engine[0]/primer-lever",
 );

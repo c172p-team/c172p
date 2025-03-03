@@ -19,6 +19,34 @@
 
 <PropertyList>
 
+    <!-- Overwrite FGCom PTT (space) -->
+    <key n="32">
+        <name>SPACE</name>
+        <desc>PTT - Push To Talk (via FGCom) but select radio</desc>
+        <binding>
+            <command>nasal</command>
+            <script>c172p.kma20.instances[0].fgcom.ptt(1, 0)</script>
+        </binding>
+        <mod-up>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.kma20.instances[0].fgcom.ptt(0, 0)</script>
+            </binding>
+        </mod-up>
+        <mod-shift>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.kma20.instances[0].fgcom.ptt(1, 1)</script>
+            </binding>
+            <mod-up>
+                <binding>
+                    <command>nasal</command>
+                    <script>c172p.kma20.instances[0].fgcom.ptt(0, 1)</script>
+                </binding>
+            </mod-up>
+        </mod-shift>
+    </key>
+
     <key n="80">
         <name>P</name>
         <desc>Toggle panel</desc>
@@ -61,8 +89,11 @@
         <desc>Toggle flashlight</desc>
         <repeatable type="bool">true</repeatable>
         <binding>
-            <command>nasal</command>
-            <script>c172p.toggle_flashlight()</script>
+            <command>property-cycle</command>
+            <property>/sim/walker/flashlight/mode</property>
+            <value type="int">0</value> <!-- off -->
+            <value type="int">1</value> <!-- white -->
+            <value type="int">2</value> <!-- red -->
         </binding>
     </key>
 
@@ -71,8 +102,11 @@
         <desc>Toggle flashlight</desc>
         <repeatable type="bool">true</repeatable>
         <binding>
-            <command>nasal</command>
-            <script>c172p.toggle_flashlight()</script>
+            <command>property-cycle</command>
+            <property>/sim/walker/flashlight/mode</property>
+            <value type="int">0</value> <!-- off -->
+            <value type="int">1</value> <!-- white -->
+            <value type="int">2</value> <!-- red -->
         </binding>
     </key>
     

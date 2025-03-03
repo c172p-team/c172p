@@ -121,7 +121,7 @@ model, instrument panel, and external 3D model.
             <stby-batt type="int">1</stby-batt>
         </switches>
         <lighting>
-            <batt-test-lamp-norm type="int">0</batt-test-lamp-norm>
+            <batt-test-lamp-norm type="double">0</batt-test-lamp-norm>
             <avionics-norm type="double">0</avionics-norm>
             <pedestal-norm type="double">0</pedestal-norm>
             <swcb-norm type="double">0</swcb-norm>
@@ -281,6 +281,17 @@ model, instrument panel, and external 3D model.
         <altimeter-kap140-internal>
             <serviceable type="bool">true</serviceable>
         </altimeter-kap140-internal>
+        <magnetic-compass>
+            <!-- Compass will get stuck and have bad readings when exceeding this limits in degrees.
+                no better source found than "in most compasses, the bowl to tilt by approximately 18
+                degrees before it will touch the side of the casing" https://en.wikipedia.org/wiki/Aircraft_compass_turns.
+                From testing this looks enough for normal flight and pre-takeoff-calibration. -->
+            <pitch-limit-up type="float">     9 </pitch-limit-up>
+            <pitch-limit-down type="float">  -9 </pitch-limit-down>
+            <roll-limit-right type="float">  25 </roll-limit-right>
+            <roll-limit-left type="float">  -25 </roll-limit-left>
+            <stuck type="bool"> 0 </stuck>
+        </magnetic-compass>
     </instrumentation>
     <fdm>
         <jsbsim>
@@ -301,6 +312,12 @@ model, instrument panel, and external 3D model.
                 <fg1000-mfd type="int">0</fg1000-mfd>
                 <fg1000-pfd type="int">0</fg1000-pfd>
             </outputs>
+            <avionics-fan n="0">
+                <serviceable type="bool">true</serviceable>
+            </avionics-fan>
+            <avionics-fan n="1">
+                <serviceable type="bool">true</serviceable>
+            </avionics-fan>
         </electrical>
     </systems>
 </PropertyList>

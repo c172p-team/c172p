@@ -70,10 +70,31 @@
         <type>select</type>
         <object-name>indicator.ET</object-name>
         <condition>
-            <equals>
-                <property>instrumentation/adf[0]/display-mode</property>
-                <value type="int">2</value>
-            </equals>
+            <or>
+                <and>
+                    <not><property>instrumentation/adf[0]/set-mode</property></not>
+                    <equals>
+                        <property>instrumentation/adf[0]/display-mode</property>
+                        <value type="int">2</value>
+                    </equals>
+                </and>
+
+                <and>
+                    <property>instrumentation/adf[0]/set-mode</property>
+                    <less-than>
+                        <expression>
+                            <mod>
+                                <product>
+                                    <property>sim/time/elapsed-sec</property>
+                                    <value>10</value>
+                                </product>
+                                <value>10</value>
+                            </mod>
+                        </expression>
+                        <value>4</value>
+                    </less-than>
+                </and>
+            </or>
         </condition>
     </animation>
 
@@ -144,10 +165,36 @@
     <!-- STBY FREQ -->
     <animation>
         <condition>
-            <not-equals>
-                <property>instrumentation/adf[0]/display-mode</property>
-                <value type="int">0</value>
-            </not-equals>
+            <or>
+                <equals>
+                    <property>instrumentation/adf[0]/display-mode</property>
+                    <value type="int">1</value>
+                </equals>
+                <and>
+                    <equals>
+                        <property>instrumentation/adf[0]/display-mode</property>
+                        <value type="int">2</value>
+                    </equals>
+                    <or>
+                        <not><property>instrumentation/adf[0]/enroute-timer/alarm-flash</property></not>
+                        <and>
+                            <property>instrumentation/adf[0]/enroute-timer/alarm-flash</property>
+                            <less-than>
+                                <expression>
+                                    <mod>
+                                        <product>
+                                            <property>sim/time/elapsed-sec</property>
+                                            <value>10</value>
+                                        </product>
+                                        <value>10</value>
+                                    </mod>
+                                </expression>
+                                <value>5</value>
+                            </less-than>
+                        </and>
+                    </or>
+                </and>
+            </or>
         </condition>
         <type>select</type>
         <object-name>indicator.dots</object-name>
@@ -157,10 +204,88 @@
         <type>select</type>
         <object-name>indicator.Stby.1000</object-name>
         <condition>
-            <greater-than-equals>
-                <property alias="../../../../params/right-display"/>
-                <value type="int">1000</value>
-            </greater-than-equals>
+            <or>
+                <and>
+                    <equals>
+                        <property>instrumentation/adf[0]/display-mode</property>
+                        <value type="int">0</value>
+                    </equals>
+                    <greater-than-equals>
+                        <property alias="../../../../../../params/right-display"/>
+                        <value type="int">1000</value>
+                    </greater-than-equals>
+                </and>
+                <equals>
+                    <property>instrumentation/adf[0]/display-mode</property>
+                    <value type="int">1</value>
+                </equals>
+                <and>
+                    <equals>
+                        <property>instrumentation/adf[0]/display-mode</property>
+                        <value type="int">2</value>
+                    </equals>
+                    <or>
+                        <not><property>instrumentation/adf[0]/enroute-timer/alarm-flash</property></not>
+                        <and>
+                            <property>instrumentation/adf[0]/enroute-timer/alarm-flash</property>
+                            <less-than>
+                                <expression>
+                                    <mod>
+                                        <product>
+                                            <property>sim/time/elapsed-sec</property>
+                                            <value>10</value>
+                                        </product>
+                                        <value>10</value>
+                                    </mod>
+                                </expression>
+                                <value>5</value>
+                            </less-than>
+                        </and>
+                    </or>
+                </and>
+            </or>
+        </condition>
+    </animation>
+    <animation>
+        <type>select</type>
+        <object-name>indicator.Stby.100</object-name>
+        <object-name>indicator.Stby.10</object-name>
+        <object-name>indicator.Stby.1</object-name>
+        <condition>
+            <or>
+                <equals>
+                    <property>instrumentation/adf[0]/display-mode</property>
+                    <value type="int">0</value>
+                </equals>
+                <equals>
+                    <property>instrumentation/adf[0]/display-mode</property>
+                    <value type="int">1</value>
+                </equals>
+                <and>
+                    <equals>
+                        <property>instrumentation/adf[0]/display-mode</property>
+                        <value type="int">2</value>
+                    </equals>
+                    <or>
+                        <not><property>instrumentation/adf[0]/enroute-timer/alarm-flash</property></not>
+                        <and>
+                            <property>instrumentation/adf[0]/enroute-timer/alarm-flash</property>
+                            <less-than>
+                                <expression>
+                                    <mod>
+                                        <product>
+                                            <property>sim/time/elapsed-sec</property>
+                                            <value>10</value>
+                                        </product>
+                                        <value>10</value>
+                                    </mod>
+                                </expression>
+                                <value>5</value>
+                            </less-than>
+                        </and>
+                    </or>
+                </and>
+            </or>
         </condition>
     </animation>
 
@@ -314,6 +439,9 @@
         <action>
             <button>0</button>
             <binding>
+                <condition>
+                    <not><property>instrumentation/adf[0]/set-mode</property></not>
+                </condition>
                 <command>property-toggle</command>
                 <property>instrumentation/adf[0]/bfo-frq</property>
             </binding>
@@ -324,16 +452,22 @@
             </binding>
             <binding>
                 <condition>
-                    <equals>
-                        <property>instrumentation/adf[0]/display-mode</property>
-                        <value type="int">0</value>
-                    </equals>
+                    <and>
+                        <not><property>instrumentation/adf[0]/set-mode</property></not>
+                        <equals>
+                            <property>instrumentation/adf[0]/display-mode</property>
+                            <value type="int">0</value>
+                        </equals>
+                    </and>
                 </condition>
                 <command>property-swap</command>
                 <property>instrumentation/adf[0]/frequencies/selected-khz</property>
                 <property>instrumentation/adf[0]/frequencies/standby-khz</property>
             </binding>
             <binding>
+                <condition>
+                    <not><property>instrumentation/adf[0]/set-mode</property></not>
+                </condition>
                 <command>property-assign</command>
                 <property>instrumentation/adf[0]/display-mode</property>
                 <value type="int">0</value>
@@ -387,6 +521,9 @@
                 <value type="int">1</value>
             </binding>
             <binding>
+                <condition>
+                    <not><property>instrumentation/adf[0]/set-mode</property></not>
+                </condition>
                 <command>property-adjust</command>
                 <property>instrumentation/adf[0]/display-mode</property>
                 <step>1</step>
@@ -441,6 +578,11 @@
                 <command>property-assign</command>
                 <property>instrumentation/adf[0]/set-btn</property>
                 <value type="int">1</value>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>instrumentation/adf[0]/set-btn-presstime</property>
+                <property>sim/time/elapsed-sec</property>
             </binding>
             <binding>
                 <command>nasal</command>
@@ -548,7 +690,32 @@
             <z-m>-0.01618</z-m>
         </center>
         <action>
+            <!-- Normal mode -->
             <binding>
+                <!-- store current value for overflow comparison -->
+                <condition>
+                    <and>
+                        <not><property>instrumentation/adf[0]/set-mode</property></not>
+                        <equals>
+                            <property>instrumentation/adf[0]/display-mode</property>
+                            <value type="int">0</value>
+                        </equals>
+                    </and>
+                </condition>
+                <command>property-assign</command>
+                <property>instrumentation/adf[0]/frequencies/overflow-khz</property>
+                <property>instrumentation/adf[0]/frequencies/standby-khz</property>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <not><property>instrumentation/adf[0]/set-mode</property></not>
+                        <equals>
+                            <property>instrumentation/adf[0]/display-mode</property>
+                            <value type="int">0</value>
+                        </equals>
+                    </and>
+                </condition>
                 <command>property-adjust</command>
                 <property>instrumentation/adf[0]/frequencies/standby-khz</property>
                 <factor>1</factor>
@@ -557,6 +724,100 @@
                 <resolution>1</resolution>
                 <wrap>true</wrap>
             </binding>
+            <binding>
+                <!-- on increase/decrease: detect and prevent overflow -->
+                <condition>
+                    <and>
+                        <not><property>instrumentation/adf[0]/set-mode</property></not>
+                        <equals>
+                            <property>instrumentation/adf[0]/display-mode</property>
+                            <value type="int">0</value>
+                        </equals>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var oldFRQ = getprop("instrumentation/adf[0]/frequencies/overflow-khz");
+                    var newFRQ = getprop("instrumentation/adf[0]/frequencies/standby-khz");
+                    var diff = math.floor(oldFRQ/100) - math.floor(newFRQ/100);
+                    if (diff != 0) setprop("instrumentation/adf[0]/frequencies/standby-khz", newFRQ + diff*100)
+                ]]></script>
+           </binding>
+
+            <!-- FLT/ELT timer mode -->
+            <binding>
+                <!-- store current value for overflow comparison -->
+                <condition>
+                    <and>
+                        <not><property>instrumentation/adf[0]/set-mode</property></not>
+                        <greater-than-equals>
+                            <property>instrumentation/adf[0]/display-mode</property>
+                            <value type="int">0</value>
+                        </greater-than-equals>
+                    </and>
+                </condition>
+                <command>property-assign</command>
+                <property>instrumentation/adf[0]/frequencies/overflow-khz</property>
+                <property>instrumentation/adf[0]/frequencies/selected-khz</property>
+            </binding>
+            <binding>
+                <condition>
+                    <and>
+                        <not><property>instrumentation/adf[0]/set-mode</property></not>
+                        <greater-than-equals>
+                            <property>instrumentation/adf[0]/display-mode</property>
+                            <value type="int">1</value>
+                        </greater-than-equals>
+                    </and>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/adf[0]/frequencies/selected-khz</property>
+                <factor>1</factor>
+                <min>200</min>
+                <max>1800</max>
+                <resolution>1</resolution>
+                <wrap>true</wrap>
+            </binding>
+            <binding>
+                <!-- on increase/decrease: detect and prevent overflow -->
+                <condition>
+                    <and>
+                        <not><property>instrumentation/adf[0]/set-mode</property></not>
+                        <greater-than-equals>
+                            <property>instrumentation/adf[0]/display-mode</property>
+                            <value type="int">1</value>
+                        </greater-than-equals>
+                    </and>
+                </condition>
+                <command>nasal</command>
+                <script><![CDATA[
+                    var oldFRQ = getprop("instrumentation/adf[0]/frequencies/overflow-khz");
+                    var newFRQ = getprop("instrumentation/adf[0]/frequencies/selected-khz");
+                    var diff = math.floor(oldFRQ/100) - math.floor(newFRQ/100);
+                    if (diff != 0) setprop("instrumentation/adf[0]/frequencies/selected-khz", newFRQ + diff*100)
+                ]]></script>
+           </binding>
+
+           <!-- ET set mode -->
+           <binding>
+                <condition>
+                    <and>
+                        <property>instrumentation/adf[0]/set-mode</property>
+                        <equals>
+                            <property>instrumentation/adf[0]/display-mode</property>
+                            <value type="int">2</value>
+                        </equals>
+                    </and>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/adf[0]/enroute-timer/time</property>
+                <factor>1</factor>
+                <resolution>1</resolution>
+                <wrap>false</wrap>
+                <min>0</min>
+                <max>3599</max>
+            </binding>
+
             <binding>
                 <command>property-adjust</command>
                 <property alias="/params/dial-1-khz"/>
@@ -570,6 +831,7 @@
                 <script>c172p.click("kr87-adf-dial")</script>
             </binding>
         </action>
+
         <hovered>
             <binding>
                 <command>set-tooltip</command>
@@ -596,7 +858,17 @@
             <z-m>-0.01618</z-m>
         </center>
         <action>
+            <!-- Normal mode -->
             <binding>
+                <condition>
+                    <and>
+                        <not><property>instrumentation/adf[0]/set-mode</property></not>
+                        <equals>
+                            <property>instrumentation/adf[0]/display-mode</property>
+                            <value type="int">0</value>
+                        </equals>
+                    </and>
+                </condition>
                 <command>property-adjust</command>
                 <property>instrumentation/adf[0]/frequencies/standby-khz</property>
                 <factor>100</factor>
@@ -605,6 +877,47 @@
                 <resolution>1</resolution>
                 <wrap>true</wrap>
             </binding>
+
+            <!-- FT/ET mode -->
+            <binding>
+                <condition>
+                    <and>
+                        <not><property>instrumentation/adf[0]/set-mode</property></not>
+                        <greater-than-equals>
+                            <property>instrumentation/adf[0]/display-mode</property>
+                            <value type="int">1</value>
+                        </greater-than-equals>
+                    </and>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/adf[0]/frequencies/selected-khz</property>
+                <factor>100</factor>
+                <min>200</min>
+                <max>1800</max>
+                <resolution>1</resolution>
+                <wrap>true</wrap>
+            </binding>
+
+            <!-- ET set mode -->
+            <binding>
+                <condition>
+                    <and>
+                        <property>instrumentation/adf[0]/set-mode</property>
+                        <equals>
+                            <property>instrumentation/adf[0]/display-mode</property>
+                            <value type="int">2</value>
+                        </equals>
+                    </and>
+                </condition>
+                <command>property-adjust</command>
+                <property>instrumentation/adf[0]/enroute-timer/time</property>
+                <factor>60</factor>
+                <resolution>1</resolution>
+                <wrap>false</wrap>
+                <min>0</min>
+                <max>3599</max>
+            </binding>
+
             <binding>
                 <command>property-adjust</command>
                 <property alias="/params/dial-100-khz"/>

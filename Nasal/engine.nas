@@ -455,23 +455,6 @@ setprop("/engines/active-engine/ready-oil-press-checker", 0);
 
 # =============== Variables ================
 
-controls.incThrottle = func {
-    var delta = arg[1] * controls.THROTTLE_RATE * getprop("/sim/time/delta-realtime-sec");
-    var old_value = getprop("/controls/engines/current-engine/throttle");
-    var new_value = std.max(0.0, std.min(old_value + delta, 1.0));
-    setprop("/controls/engines/current-engine/throttle", new_value);
-};
-
-controls.throttleMouse = func {
-    if (!getprop("/devices/status/mice/mouse[0]/button[1]")) {
-        return;
-    }
-    var delta = cmdarg().getNode("offset").getValue() * -4;
-    var old_value = getprop("/controls/engines/current-engine/throttle");
-    var new_value = std.max(0.0, std.min(old_value + delta, 1.0));
-    setprop("/controls/engines/current-engine/throttle", new_value);
-};
-
 # 2018.2 introduces new "all" properties for throttle, mixture and prop pitch.
 # this is the correct way to interface with the axis based controls - use a listener
 # on the *-all property
@@ -486,15 +469,6 @@ setlistener("/controls/engines/mixture-all", func{
     var new_value = std.max(0.0, std.min(value, 1.0));
     setprop("/controls/engines/current-engine/mixture", new_value);
 }, 0, 0);
-
-# backwards compatibility only - the controls.throttleAxis should not be overridden like this. The joystick binding Throttle (all) has
-# been replaced and controls.throttleAxis will not be called from the controls binding - so this is to
-# maintain compatibility with existing joystick xml files.
-controls.throttleAxis = func {
-    var value = (1 - cmdarg().getNode("setting").getValue()) / 2;
-    var new_value = std.max(0.0, std.min(value, 1.0));
-    setprop("/controls/engines/current-engine/throttle", new_value);
-};
 
 controls.adjMixture = func {
     var delta = arg[0] * controls.THROTTLE_RATE * getprop("/sim/time/delta-realtime-sec");

@@ -38,6 +38,8 @@
         <comm-dial-khz>instrumentation/comm[0]/frequencies/dial-khz</comm-dial-khz>
         <comm-dial-mhz>instrumentation/comm[0]/frequencies/dial-mhz</comm-dial-mhz>
         <comm-volume>instrumentation/comm[0]/volume-selected</comm-volume>
+        <comm-volume-mode>instrumentation/comm[0]/volume-knobmode</comm-volume-mode>
+        <comm-squelch>/instrumentation/comm[0]/cutoff-signal-quality</comm-squelch>
         <comm-test>instrumentation/comm[0]/test-btn</comm-test>
         <channel-mode-selector>instrumentation/comm[0]/channel-mode-selector</channel-mode-selector>
         <nav-frq-swp>instrumentation/nav[0]/frq-swap-btn</nav-frq-swp>
@@ -401,6 +403,17 @@
     <!-- Actions -->
     <!-- Comm part -->
     <animation>
+        <type>translate</type>
+        <object-name>COMvol</object-name>
+        <property alias="../../params/comm-volume-mode"/>
+        <factor>0.002</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
         <type>knob</type>
         <object-name>COMvol</object-name>
         <property alias="../../params/comm-volume"/>
@@ -417,6 +430,9 @@
         </center>
         <action>
             <binding>
+                <condition>
+                    <not><property alias="../../../../../../params/comm-volume-mode"/></not>
+                </condition>
                 <command>property-adjust</command>
                 <property alias="../../../../params/comm-volume"/>
                 <factor>0.1</factor>
@@ -429,10 +445,13 @@
                 <property alias="../../../../params/power-comm"/>
                 <value>1</value>
                 <condition>
-                    <greater-than>
-                        <property alias="../../../../../../params/comm-volume"/>
-                        <value>0.05</value>
-                    </greater-than>
+                    <and>
+                        <not><property alias="../../../../../../../params/comm-volume-mode"/></not>
+                        <greater-than>
+                            <property alias="../../../../../../../params/comm-volume"/>
+                            <value>0.05</value>
+                        </greater-than>
+                    </and>
                 </condition>
             </binding>
             <binding>
@@ -440,10 +459,13 @@
                 <property alias="../../../../params/power-comm"/>
                 <value>0</value>
                 <condition>
-                    <less-than>
-                        <property alias="../../../../../../params/comm-volume"/>
-                        <value>0.05</value>
-                    </less-than>
+                    <and>
+                        <not><property alias="../../../../../../../params/comm-volume-mode"/></not>
+                        <less-than>
+                            <property alias="../../../../../../../params/comm-volume"/>
+                            <value>0.05</value>
+                        </less-than>
+                    </and>
                 </condition>
             </binding>
             <binding>
@@ -451,10 +473,13 @@
                 <property alias="../../../../params/power-nav"/>
                 <value>1</value>
                 <condition>
-                    <greater-than>
-                        <property alias="../../../../../../params/comm-volume"/>
-                        <value>0.05</value>
-                    </greater-than>
+                    <and>
+                        <not><property alias="../../../../../../../params/comm-volume-mode"/></not>
+                        <greater-than>
+                            <property alias="../../../../../../../params/comm-volume"/>
+                            <value>0.05</value>
+                        </greater-than>
+                    </and>
                 </condition>
             </binding>
             <binding>
@@ -462,23 +487,68 @@
                 <property alias="../../../../params/power-nav"/>
                 <value>0</value>
                 <condition>
-                    <less-than>
-                        <property alias="../../../../../../params/comm-volume"/>
-                        <value>0.05</value>
-                    </less-than>
+                    <and>
+                        <not><property alias="../../../../../../../params/comm-volume-mode"/></not>
+                        <less-than>
+                            <property alias="../../../../../../../params/comm-volume"/>
+                            <value>0.05</value>
+                        </less-than>
+                    </and>
                 </condition>
+            </binding>
+            <binding>
+                <condition>
+                    <property alias="../../../../../params/comm-volume-mode"/>
+                </condition>
+                <command>property-adjust</command>
+                <property alias="../../../../params/comm-squelch"/>
+                <factor>0.1</factor>
+                <min>0.0</min>
+                <max>1.0</max>
+                <wrap>false</wrap>
             </binding>
             <binding>
                 <command>nasal</command>
                 <script>c172p.click("kx165-1-dial")</script>
             </binding>
         </action>
+        <shift-action>
+            <binding>
+                <condition>
+                    <property alias="../../../../../params/comm-volume-mode"/>
+                </condition>
+                <command>property-assign</command>
+                <property alias="../../../../params/comm-squelch"/>
+                <value>0.4</value>
+            </binding>
+            <binding>
+                <command>property-toggle</command>
+                <property alias="../../../../params/comm-volume-mode"/>
+            </binding>
+            <binding>
+                <command>nasal</command>
+                <script>c172p.click("kx165-1-dial")</script>
+            </binding>
+        </shift-action>
         <hovered>
             <binding>
+                <condition>
+                    <not><property alias="../../../../../../params/comm-volume-mode"/></not>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>comm1-volume</tooltip-id>
                 <label>COM1 Volume: %d%%</label>
                 <property alias="../../../../params/comm-volume"/>
+                <mapping>percent</mapping>
+            </binding>
+            <binding>
+                <condition>
+                    <property alias="../../../../../params/comm-volume-mode"/>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>comm1-squelch</tooltip-id>
+                <label>COM1 Squelch: %d%%</label>
+                <property alias="../../../../params/comm-squelch"/>
                 <mapping>percent</mapping>
             </binding>
         </hovered>

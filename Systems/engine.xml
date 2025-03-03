@@ -20,6 +20,49 @@
 <PropertyList>
 
     <!-- ============================================================== -->
+    <!-- Throttle                                                       -->
+    <!-- ============================================================== -->
+
+	<switch name="fcs/throttle-pos-norm[0]">
+		<default value="0"/>
+		<test logic="AND" value="fcs/throttle-cmd-norm[0]">
+			/controls/engines/active-engine == 0
+		</test>
+	</switch>
+	<switch name="fcs/throttle-pos-norm[1]">
+		<default value="0"/>
+		<test logic="AND" value="fcs/throttle-cmd-norm[0]">
+			/controls/engines/active-engine == 1
+		</test>
+	</switch>
+
+	<filter>
+        <name>Engine 180 HP Throttle</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>0</value>
+                </equals>
+            </condition>
+            <property>/controls/engines/engine[0]/throttle</property>
+        </input>
+       <input>
+            <condition>
+                <equals>
+                    <property>/controls/engines/active-engine</property>
+                    <value>1</value>
+                </equals>
+            </condition>
+            <property>/controls/engines/engine[1]/throttle</property>
+        </input>
+        <output>
+            <property>/controls/engines/current-engine/throttle</property>
+        </output>
+    </filter>
+
+    <!-- ============================================================== -->
     <!-- Read-Only Properties                                           -->
     <!-- ============================================================== -->
 
@@ -375,50 +418,6 @@
             <property>/controls/engines/engine[1]/starter</property>
         </output>
     </logic>
-
-    <!-- ============================================================== -->
-    <!-- Throttle                                                       -->
-    <!-- ============================================================== -->
-
-    <filter>
-        <name>Engine 160 HP Throttle</name>
-        <type>gain</type>
-        <input>
-            <condition>
-                <equals>
-                    <property>/controls/engines/active-engine</property>
-                    <value>0</value>
-                </equals>
-            </condition>
-            <property>/controls/engines/current-engine/throttle</property>
-        </input>
-        <input>
-            <property>/controls/engines/engine[1]/throttle</property>
-        </input>
-        <output>
-            <property>/controls/engines/engine[0]/throttle</property>
-        </output>
-    </filter>
-
-    <filter>
-        <name>Engine 180 HP Throttle</name>
-        <type>gain</type>
-        <input>
-            <condition>
-                <equals>
-                    <property>/controls/engines/active-engine</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <property>/controls/engines/current-engine/throttle</property>
-        </input>
-        <input>
-            <value>0.0</value>
-        </input>
-        <output>
-            <property>/controls/engines/engine[1]/throttle</property>
-        </output>
-    </filter>
 
     <!-- ============================================================== -->
     <!-- Mixture                                                        -->
@@ -936,5 +935,103 @@
             <property>/consumables/fuel/tank[3]/level-norm</property>
         </output>
     </filter>
+
+    <!-- ============================================================== -->
+    <!-- Starter overheating                                            -->
+    <!-- ============================================================== -->
+    <filter>
+        <name>Starter temperature</name>
+        <type>noise-spike</type>
+        <!--<debug>true</debug>-->
+        <enable>
+            <condition>
+                <and>
+                    <property>/engines/active-engine/complex-engine-procedures</property>
+                    <property>/engines/active-engine/starter-management</property>
+                </and>
+            </condition>
+        </enable>
+        <initialize-to>input</initialize-to>
+
+        <!-- Init / repairing: allow temp value to sdrop rapidly -->
+        <max-rate-of-change>
+            <condition>
+                <and>
+                    <not><property>/systems/electrical/outputs/starter</property></not>
+                    <or>
+                        <property>/fdm/jsbsim/damage/repairing</property>
+                        <less-than>
+                            <property>/sim/time/elapsed-sec</property>
+                            <value>5.0</value>
+                        </less-than>
+                    </or>
+                </and>
+            </condition>
+            <expression>
+                <value>250.0</value>
+            </expression>
+        </max-rate-of-change>
+
+        <!-- starter engaged: heat up -->
+        <max-rate-of-change>
+            <condition>
+                <property>/systems/electrical/outputs/starter</property>
+            </condition>
+            <expression>
+                <value>3.5</value> <!-- deg/second -->
+            </expression>
+        </max-rate-of-change>
+        <input>
+            <condition>
+                <property>/systems/electrical/outputs/starter</property>
+            </condition>
+            <value>300</value>
+        </input>
+
+        <!-- starter inactive: cooldown -->
+        <max-rate-of-change>
+            <expression>
+                <value>1.0</value> <!-- deg/second -->
+            </expression>
+        </max-rate-of-change>
+        <input>
+            <expression>
+                <product>
+                    <difference>
+                        <property>/engines/active-engine/cowling-air-temperature-degf</property>
+                        <value>32</value>
+                    </difference>
+                    <value>0.556</value>
+                </product>
+            </expression>
+        </input>
+        <output>/engines/active-engine/starter/temperature-degc</output>
+    </filter>
+    <logic>
+        <name>Starter overheated</name>
+        <input>
+            <and>
+                <property>/engines/active-engine/complex-engine-procedures</property>
+                <property>/engines/active-engine/starter-management</property>
+                <or>
+                    <and> <!-- if it was molten, keep it molten - unless we repair -->
+                        <property>/engines/active-engine/starter/overheated</property>
+                        <not><property>/fdm/jsbsim/damage/repairing</property></not>
+                    </and>
+
+                    <and> <!-- if starter is engaging and exceeding critical temp, melt down -->
+                        <property>systems/electrical/outputs/starter</property>
+                        <greater-than-equals>
+                            <property>/engines/active-engine/starter/temperature-degc</property>
+                            <value>100</value> <!-- critical temp -->
+                        </greater-than-equals>
+                    </and>
+                </or>
+            </and>
+        </input>
+        <output>
+            <property>/engines/active-engine/starter/overheated</property>
+        </output>
+    </logic>
 
 </PropertyList>

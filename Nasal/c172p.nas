@@ -14,7 +14,8 @@ var autostart = func (msg=1) {
 
     # Setting levers and switches for startup
     setprop("/controls/switches/magnetos", 3);
-    setprop("/controls/engines/current-engine/throttle", 0.2);
+	setprop("/controls/engines/engine[0]/throttle", 0.2);
+	setprop("/controls/engines/engine[1]/throttle", 0.2);
 
     var auto_mixture = getprop("/fdm/jsbsim/engine/auto-mixture");
     setprop("/controls/engines/current-engine/mixture", auto_mixture);
@@ -88,9 +89,19 @@ var autostart = func (msg=1) {
     var pressure_sea_level = getprop("/environment/pressure-sea-level-inhg");
     setprop("/instrumentation/altimeter/setting-inhg", pressure_sea_level);
 
+    # Insta-Spin up gyros
+    setprop("/instrumentation/heading-indicator/spin", 1.0);
+    setprop("/instrumentation/turn-indicator/spin", 1.0);
+    setprop("/instrumentation/attitude-indicator/spin", 1.0);
+
     # Set heading offset
+    # Note: this needs a correctly spun up gyro to work.
     var magnetic_variation = getprop("/environment/magnetic-variation-deg");
-    setprop("/instrumentation/heading-indicator/offset-deg", -magnetic_variation);
+    magnetic_variation     = sprintf("%.2f", magnetic_variation);
+    setprop("/instrumentation/heading-indicator/align-deg", -magnetic_variation);
+    setprop("/instrumentation/heading-indicator/error-deg", 0);
+    setprop("/instrumentation/heading-indicator/offset-deg", 0);
+    print("Heading Indicator calibrated to: " ~ magnetic_variation ~ " magVar");
 
     # Pre-flight inspection
     setprop("/sim/model/c172p/cockpit/control-lock-placed", 0);
@@ -310,7 +321,8 @@ var switches_save_state = func {
         setprop("/controls/engines/engine[0]/primer", 0);
         setprop("/controls/engines/engine[0]/primer-lever", 0);
         setprop("/controls/engines/engine[0]/use-primer", 0);
-        setprop("/controls/engines/current-engine/throttle", 0.0);
+		setprop("/controls/engines/engine[0]/throttle", 0.0);
+		setprop("/controls/engines/engine[1]/throttle", 0.0);
         setprop("/controls/engines/current-engine/mixture", 0.0);
         #setprop("/controls/circuit-breakers/aircond", 1);
         setprop("/controls/circuit-breakers/autopilot", 1);
@@ -563,6 +575,95 @@ StaticModel.new("externalheater", "Aircraft/c172p/Models/Exterior/external-heate
 # Mooring anchor and rope
 StaticModel.new("anchorbuoy", "Aircraft/c172p/Models/Effects/pontoon/mooring.xml");
 
+
+#
+# Realism settings
+#
+var latitude_nut_update = func() {
+    var p = "/instrumentation/heading-indicator/latitude-nut-setting";
+    var lat = getprop("position/latitude-deg");
+    var tgt = sprintf("%2.0f", lat);
+    var cur = sprintf("%2.0f", getprop(p));
+    if (tgt != cur) {
+        setprop(p, tgt);
+        print("C172 HI/DG latitude nut adjusted from "~cur~"° to "~tgt~"°");
+    }
+}
+var latitude_nut_setter_timer = maketimer(30.0, latitude_nut_update);
+
+# Define realism adjustments. Default values here are the "unrealistic" settings.
+var prev_realism_state = [
+    {
+        id:"attitude-indicator",
+        node: props.globals.getNode("/instrumentation/attitude-indicator"),
+        props:[
+            {name:"gyro/spin-up-sec",        value:4.0}
+        ]
+    },
+    {
+        id:"heading-indicator",
+        node: props.globals.getNode("/instrumentation/heading-indicator"),
+        props:[
+            {name:"gyro/spin-up-sec",        value:4.0},
+            {name:"limits/g-error-factor",   value:0.0},
+            {name:"limits/yaw-error-factor", value:0.0},
+            {name:"limits/g-limit-lower",    value:-99.0},
+            {name:"limits/g-limit-upper",    value:99.0}
+        ]
+    },
+    {
+        id:"turn-indicator",
+        node: props.globals.getNode("/instrumentation/turn-indicator"),
+        props:[
+            {name:"gyro/spin-up-sec",        value:4.0}
+        ]
+    },
+    {
+        id:"magnetic-compass",
+        node: props.globals.getNode("/instrumentation/magnetic-compass"),
+        props:[
+            {name:"roll-limit-left",        value:-999.0},
+            {name:"roll-limit-right",       value:999.0},
+            {name:"pitch-limit-up",         value:999.0},
+            {name:"pitch-limit-down",       value:-999.0}
+        ]
+    },
+];
+var setRealismInstruments_setting = 1;
+var setRealismInstruments = func() {
+    var activate    = getprop("/sim/realism/instruments/realistic-instruments");
+    if (activate == setRealismInstruments_setting) return;
+
+    setRealismInstruments_setting = activate;
+    var setting_txt = (activate)? "enabled": "disabled";
+    print("C172 realistic instruments: "~setting_txt);
+
+    # Swap the current value with the old one for each defined prop
+    foreach (item; prev_realism_state) {
+        print("  "~item.id);
+        foreach (p; item.props) {
+            var cur_val = item.node.getValue(p.name);
+            #print("    "~p.name~ "\t\t(old="~cur_val~"; new="~p.value~")");
+            item.node.setValue(p.name, p.value);
+            p.value = cur_val;
+        }
+    }
+    
+    # Do some specific actions
+    if (activate) {
+        # Activate realistic behaviour
+        latitude_nut_setter_timer.stop();
+        print("  HI/DG latitude nut autoset stopped");
+
+    } else {
+        # Make unrealistic
+        latitude_nut_update();
+        latitude_nut_setter_timer.start();
+        print("  HI/DG latitude nut autoset activated");
+    }
+
+}
+
 ############################################
 # Global loop function
 # If you need to run nasal as loop, add it in this function
@@ -715,7 +816,8 @@ setlistener("/sim/signals/fdm-initialized", func {
 
     setlistener("/engines/active-engine/cranking", func (node) {
         setprop("/engines/active-engine/external-heat/enabled", 0);
-        setprop("/sim/externalheater/enable", 0)
+        setprop("/sim/externalheater/enable", 0);
+        setprop("/fdm/jsbsim/external_reactions/towbar/attached", 0);
     }, 0, 0);
 
     # Checking if switches should be moved back to default position (in case save state is off)
@@ -791,6 +893,51 @@ setlistener("/sim/signals/fdm-initialized", func {
             setprop("/sim/model/c172p/securing/tiedownL-visible", 1);
     }, 10);
 
+
+    # HI/DG: Reset offset to stored values
+    # The DG always initializes to indicated_heading=/orientation/heading-deg, so we need to apply the
+    # difference of the last known orientation to offset the HI, so it shows the last stored value.
+    # The result is, that the HI is only correctly aligned when the planes location and orientation did
+    # not change between sessions AND it was calibrated correctly.
+    # (This all would be alot easier if the c++ instrument would initialize to saved values)
+    var dg_offset_storemode = 0;
+    var dg_hdg_cur      = props.globals.getNode("/orientation/heading-deg");
+    var dg_hdg_saved    = props.globals.getNode("/orientation/heading-deg-saved", 1);
+    var dg_offset_cur   = props.globals.getNode("/instrumentation/heading-indicator/offset-deg");
+    var dg_offset_saved = props.globals.getNode("/instrumentation/heading-indicator/offset-deg-saved", 1);
+    var dg_error_cur    = props.globals.getNode("/instrumentation/heading-indicator/error-deg");
+    var dg_error_saved  = props.globals.getNode("/instrumentation/heading-indicator/error-deg-saved", 1);
+    
+    # Restore values from last session
+    if (dg_hdg_saved.getValue() != nil and dg_offset_saved.getValue() != nil and dg_error_saved.getValue() != nil) {
+        print("C172 restore HI/DG settings...");
+        print("  HI/DG startup error: "~sprintf("%.2f",dg_error_saved.getValue()));
+        dg_error_cur.setDoubleValue(dg_error_saved.getValue());
+        
+        print("  HI/DG startup offset: "~sprintf("%.2f",dg_offset_saved.getValue()));
+        dg_offset_cur.setDoubleValue(dg_offset_saved.getValue());
+        
+        # Apply orientation difference from last session
+        var hdg_diff           = dg_hdg_saved.getValue() - dg_hdg_cur.getValue();
+        var dg_offset_startup  = dg_offset_cur.getValue() + hdg_diff;
+        print("  HI/DG startup heading: from "~sprintf("%.2f",dg_offset_cur.getValue())~" to "~sprintf("%.2f",dg_offset_startup)~" (stored orientation diff="~sprintf("%.2f", hdg_diff)~")");
+        dg_offset_cur.setDoubleValue(dg_offset_startup);
+    }
+    
+    # Store values for next session (as we can't store the instruments values itself, they get overwritten)
+    var dg_offset_startup_timer = maketimer(1.0, func(){
+            dg_hdg_saved.setDoubleValue(dg_hdg_cur.getValue());
+            #print("C172 updating stored HI/DG heading to "~dg_hdg_saved.getValue());
+            dg_offset_saved.setDoubleValue(dg_offset_cur.getValue());
+            #print("C172 updating stored HI/DG offset to "~dg_offset_saved.getValue());
+            dg_error_saved.setDoubleValue(dg_error_cur.getValue());
+            #print("C172 updating stored HI/DG error to "~dg_error_saved.getValue());
+    });
+    dg_offset_startup_timer.start();
+    
+    # Handle realism settings
+    setlistener("/sim/realism/instruments/realistic-instruments", setRealismInstruments, 1, 0);
+
     c172_timer.start();
 });
 
@@ -854,3 +1001,19 @@ setlistener("sim/model/variant", func (node) {
         }
     }
 }, 1, 0);
+
+
+##########
+# Handle Yoke transparency
+##########
+var updateYokeTransparency = func() {
+    var hide = getprop("/sim/model/hide-yoke") or 0;
+    if (hide == 1) {
+        alpha = getprop("sim/model/hide-yoke-alpha-cmd");
+    } else {
+        alpha = 1;
+    }
+    setprop("/sim/model/hide-yoke-alpha", alpha);
+}
+setlistener("/sim/model/hide-yoke", updateYokeTransparency, 1, 0);
+setlistener("/sim/model/hide-yoke-alpha-cmd", updateYokeTransparency, 1, 0);

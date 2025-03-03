@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<!-- Multiplayer sound configuration -->
+<!-- Loaded for remote models -->
+<!-- See: https://wiki.flightgear.org/w/index.php?title=Howto:Add_sound_effects_to_aircraft&action=submit -->
+<PropertyList>
+<fx>
+    <engine-idle>
+        <name>engine</name>
+        <mode>looped</mode>
+        <path>/Aircraft/c172p/Sounds/engine-idle.wav</path>
+        <condition>
+            <greater-than>
+                <property>engines/engine/rpm</property>
+                <value>10</value>
+            </greater-than>
+        </condition>
+        <volume>
+            <expression>
+                <sum>
+                    <value>-1.00</value>
+                    <property>/sim/model/c172p/sound/volume-boost-doors</property>
+                    <table>
+                        <property>engines/engine/rpm</property>
+                        <entry>
+                            <ind>800</ind>
+                            <dep>0.25</dep>
+                        </entry>
+                        <entry>
+                            <ind>2400</ind>
+                            <dep>0.75</dep>
+                        </entry>
+                    </table>
+                </sum>
+            </expression>
+        </volume>
+        <pitch>
+            <property>engines/engine/rpm</property>
+            <factor>0.0004</factor>
+            <min>0.5</min>
+            <max>2.0</max>
+            <offset>0.01</offset>
+        </pitch>
+        <reference-dist>5.0</reference-dist>
+        <max-dist>1500.0</max-dist>
+        <position>
+            <x-m>-0.90</x-m>
+            <y>0</y>
+            <z>0</z>
+        </position>
+    </engine-idle>
+    <engine>
+        <name>engine</name>
+        <mode>looped</mode>
+        <path>/Aircraft/c172p/Sounds/engine.wav</path>
+        <condition>
+            <greater-than>
+                <property>engines/engine/rpm</property>
+                <value>500</value>
+            </greater-than>
+        </condition>
+        <volume>
+            <expression>
+                <sum>
+                    <value>-1.00</value>
+                    <property>/sim/model/c172p/sound/volume-boost-doors</property>
+                    <table>
+                        <property>engines/engine/rpm</property>
+                        <entry>
+                            <ind>800</ind>
+                            <dep>0.25</dep>
+                        </entry>
+                        <entry>
+                            <ind>2700</ind>
+                            <dep>0.75</dep>
+                        </entry>
+                    </table>
+                </sum>
+            </expression>
+        </volume>
+        <pitch>
+            <property>engines/engine/rpm</property>
+            <factor>0.0004</factor>
+            <min>0.5</min>
+            <max>2.0</max>
+            <offset>0.01</offset>
+        </pitch>
+        <reference-dist>5.0</reference-dist>
+        <max-dist>1500.0</max-dist>
+        <position>
+            <x-m>-0.90</x-m>
+            <y>0</y>
+            <z>0</z>
+        </position>
+    </engine>
+</fx>
+
+</PropertyList>

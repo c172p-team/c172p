@@ -759,16 +759,72 @@
                         <time>0.30</time>
                     </setting>
                 </traverse>
-                <output>/sim/model/c172p/cockpit/yoke-elevator</output>
             </kinematic>
 
-            <summer name="Pitch Trim Sum">
+            <switch name="fcs/stick-force-per-g-qbarUW-psf">
+                <default value="0"/>
+                <test logic="OR" value="aero/qbarUW-psf">
+                   fcs/stick-force-per-g EQ 1
+                </test>
+            </switch>
+
+            <scheduled_gain name="fcs/elevator-cmd-norm-gain">
                 <input>fcs/elevator-cmd-norm-filtered</input>
+                <table>
+                    <independentVar>fcs/stick-force-per-g-qbarUW-psf</independentVar>
+                    <tableData>
+                        15    1.0000
+                        16    0.9375
+                        18    0.8333
+                        20    0.7500
+                        22    0.6818
+                        24    0.6250
+                        26    0.5769
+                        28    0.5357
+                        30    0.5000
+                        32    0.4688
+                        34    0.4412
+                        36    0.4167
+                        38    0.3947
+                        40    0.3750
+                        42    0.3571
+                        44    0.3409
+                        46    0.3261
+                        48    0.3125
+                        50    0.3000
+                        52    0.2885
+                        54    0.2778
+                        56    0.2679
+                        58    0.2586
+                        60    0.2500
+                        62    0.2419
+                        64    0.2344
+                        66    0.2273
+                        68    0.2206
+                        70    0.2143
+                        72    0.2083
+                        74    0.2027
+                        76    0.1974
+                        78    0.1923
+                        80    0.1875
+                        82    0.1829
+                        84    0.1786
+                    </tableData>
+                </table>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+            </scheduled_gain>            
+
+            <summer name="Pitch Trim Sum">
+                <input>fcs/elevator-cmd-norm-gain</input>
                 <input>fcs/pitch-trim-cmd-norm</input>
                 <clipto>
                     <min>-1</min>
                     <max>1</max>
                 </clipto>
+				<output>/sim/model/c172p/cockpit/yoke-elevator</output>
             </summer>
 
             <aerosurface_scale name="Elevator Control">
@@ -808,16 +864,73 @@
                         <time>0.15</time>
                     </setting>
                 </traverse>
-                <output>/sim/model/c172p/cockpit/yoke-aileron</output>
             </kinematic>
 
-            <summer name="Roll Trim Sum">
+            <scheduled_gain name="fcs/aileron-cmd-norm-gain">
                 <input>fcs/aileron-cmd-norm-filtered</input>
+                <table>
+                    <independentVar>fcs/stick-force-per-g-qbarUW-psf</independentVar>
+                    <tableData>
+                        30    1.0000
+                        32    0.9375
+                        34    0.8824
+                        36    0.8333
+                        38    0.7895
+                        40    0.7500
+                        42    0.7143
+                        44    0.6818
+                        46    0.6522
+                        48    0.6250
+                        50    0.6000
+                        52    0.5769
+                        54    0.5556
+                        56    0.5357
+                        58    0.5172
+                        60    0.5000
+                        62    0.4839
+                        64    0.4688
+                        66    0.4545
+                        68    0.4412
+                        70    0.4286
+                        72    0.4167
+                        74    0.4054
+                        76    0.3947
+                        78    0.3846
+                        80    0.3750
+                        82    0.3659
+                        84    0.3571
+                    </tableData>
+                </table>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+            </scheduled_gain>            
+
+            <summer name="Roll Trim Sum">
+                <input>fcs/aileron-cmd-norm-gain</input>
                 <input>fcs/roll-trim-cmd-norm</input>
                 <clipto>
                     <min>-1</min>
                     <max>1</max>
                 </clipto>
+				<output>/sim/model/c172p/cockpit/yoke-aileron</output>
+            </summer>
+
+			<summer name="Yoke Roll Sum">
+                <!--
+                Currently no aileron trim feedback to yoke. The C172 has an asymetrically mounted wing in order to
+                compensate for roll-forces in cruise. This is simulated by the aileron-trim prop.
+                Aileron _input_ (yoke) should be neutral, when the input device (joystick) is neutral.
+                Also, don't confuse with rudder-trim (which there is an option for).
+                For disuccsion see: https://github.com/c172p-team/c172p/issues/1471
+                -->
+                <input>fcs/aileron-cmd-norm-filtered</input>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+                <output>/sim/model/c172p/cockpit/yoke-aileron</output>
             </summer>
 
             <aerosurface_scale name="Left Aileron Control">
@@ -880,17 +993,58 @@
                         <time>0.15</time>
                     </setting>
                 </traverse>
-                <output>/sim/model/c172p/cockpit/pedals-rudder</output>
             </kinematic>
 
-            <summer name="Yaw Trim Sum">
+            <scheduled_gain name="fcs/rudder-cmd-norm-gain">
                 <input>fcs/rudder-cmd-norm-filtered</input>
+                <table>
+                    <independentVar>fcs/stick-force-per-g-qbarUW-psf</independentVar>
+                    <tableData>
+                        30    1.0000
+                        32    0.9375
+                        34    0.8824
+                        36    0.8333
+                        38    0.7895
+                        40    0.7500
+                        42    0.7143
+                        44    0.6818
+                        46    0.6522
+                        48    0.6250
+                        50    0.6000
+                        52    0.5769
+                        54    0.5556
+                        56    0.5357
+                        58    0.5172
+                        60    0.5000
+                        62    0.4839
+                        64    0.4688
+                        66    0.4545
+                        68    0.4412
+                        70    0.4286
+                        72    0.4167
+                        74    0.4054
+                        76    0.3947
+                        78    0.3846
+                        80    0.3750
+                        82    0.3659
+                        84    0.3571
+                    </tableData>
+                </table>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+            </scheduled_gain>
+            
+            <summer name="Yaw Trim Sum">
+                <input>fcs/rudder-cmd-norm-gain</input>
                 <input>fcs/yaw-trim-cmd-norm</input>
                 <input>fcs/yaw-trim-cockpit</input>
                 <clipto>
                     <min>-1</min>
                     <max>1</max>
                 </clipto>
+				<output>/sim/model/c172p/cockpit/pedals-rudder</output>
             </summer>
 
             <aerosurface_scale name="Rudder Control">
@@ -1017,11 +1171,18 @@
                 </function>
             </fcs_function>
 
-            <actuator name="fcs/steer-deg">
+            <actuator name="fcs/steer-deg-actuator">
                 <input>fcs/nws-cmd-deg-adjusted</input>
                 <rate_limit>80</rate_limit> <!-- 80 deg / s , or 1/8 second to full deflection with NWS -->
-                <output>fcs/steer-pos-deg</output>
+                <output>fcs/steer-pos-deg-actuator</output>
             </actuator>
+            <switch name="fcs/steer-pos-deg">
+                <default value="fcs/steer-pos-deg-actuator"/>
+                <test value="external_reactions/towbar/steer-deg">
+                    external_reactions/towbar/attached eq 1
+                    gear/unit[0]/WOW eq 1
+                </test>
+            </switch>
         </channel>
 
         <channel name="Flaps">
@@ -1154,6 +1315,23 @@
                         </tableData>
                     </table>
                 </function>
+            </fcs_function>
+
+            <!-- Mixture unit
+                 Used for normal operation.
+                 Mixture lever 0.0->1.0 setting is translated to jsbsim internal values.
+            -->
+            <fcs_function name="fcs/mixture-unit-cmd">
+                <function>
+                    <product>
+                    <value>1.27</value> <!-- 1.65 / 1.3 -->
+                    <sqrt>
+                        <property>/controls/engines/current-engine/mixture</property>
+                    </sqrt>
+                    </product>
+                </function>
+                <output>fcs/mixture-cmd-norm[0]</output>
+                <output>fcs/mixture-cmd-norm[1]</output>
             </fcs_function>
 
             <pure_gain name="fcs/mixture-primer[0]">
@@ -2321,6 +2499,19 @@
                 <z>0.0</z>
             </direction>
         </force>
+
+        <force name="towbar" frame="BODY">
+             <location unit="IN">
+                <x>-10.31</x>
+                <y>0</y>
+                <z>-47.17</z>
+            </location>
+            <direction>
+                <x>1</x>
+                <y>0</y>
+                <z>0</z>
+            </direction>
+        </force>
     </external_reactions>
 
     <system file="bushkit"/>
@@ -2341,6 +2532,8 @@
 
     <!-- Mooring setup for FlightGear. -->
     <system file="mooring-jsbsim"/>
+
+    <system file="towbar"/> <!-- integrate towbar -->
 
     <!--
     <output name="JSBout172C.csv" type="CSV" rate="60">

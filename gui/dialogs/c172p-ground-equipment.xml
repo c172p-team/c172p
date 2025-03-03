@@ -28,10 +28,11 @@
         </text>        
         <empty><stretch>true</stretch></empty>
         <button>
-            <legend/>
+            <legend>X</legend>
             <key>Esc</key>
-            <pref-width>16</pref-width>
-            <pref-height>16</pref-height>
+            <halign>right</halign>
+            <pref-width>20</pref-width>
+            <pref-height>20</pref-height>
             <binding>
                 <command>dialog-close</command>
             </binding>
@@ -74,6 +75,38 @@
             <binding>
                 <command>dialog-update</command>
             </binding>
+        </checkbox>
+
+        <checkbox>
+            <halign>left</halign>
+            <label>Attach Towbar</label>
+            <property>/fdm/jsbsim/external_reactions/towbar/attached</property>
+            <live>true</live>
+            <binding>
+                <command>property-toggle</command>
+                <property>/fdm/jsbsim/external_reactions/towbar/attached</property>
+            </binding>
+            <binding>
+                <command>property-assign</command>
+                <property>/fdm/jsbsim/external_reactions/towbar/steer-deg</property>
+                <value>0</value>
+            </binding>
+            <binding>
+                <command>dialog-update</command><!-- makes sure that command is still there when dialog is closed-->
+            </binding>
+            <enable>
+                <and>
+                    <property>gear/gear[0]/wow</property>
+                    <less-than>
+                        <property>velocities/groundspeed-kt</property>
+                        <value>1.0</value>
+                    </less-than>
+                    <less-than>
+                        <property>/engines/engine/thruster/rpm</property>
+                        <value>0.01</value>
+                    </less-than>
+                </and>
+            </enable>
         </checkbox>
 
         <hrule/>

@@ -78,8 +78,14 @@
     <animation>
         <type>rotate</type>
         <object-name>Ring</object-name>
-        <property>instrumentation/magnetic-compass/roll-deg-final</property>
-        <factor>0.5</factor>
+        <expression>
+            <clip>
+                <clipMin>-25</clipMin>
+                <clipMax>25</clipMax>
+                <property>instrumentation/magnetic-compass/roll-deg</property>
+            </clip>
+        </expression>
+        <factor>1.0</factor>
         <axis>
             <x> 1.0 </x>
             <y> 0.0 </y>
@@ -94,11 +100,17 @@
     <animation>
         <type>rotate</type>
         <object-name>Ring</object-name>
-        <property>instrumentation/magnetic-compass/pitch-deg-final</property>
-        <factor>0.5</factor>
+        <expression>
+            <clip>
+                <clipMin>-9</clipMin>
+                <clipMax>9</clipMax>
+                <property>instrumentation/magnetic-compass/pitch-deg</property>
+            </clip>
+        </expression>
+        <factor>1.0</factor>
         <axis>
             <x>  0.0 </x>
-            <y> -1.0 </y>
+            <y>  1.0 </y>
             <z>  0.0 </z>
         </axis>
         <center>
@@ -129,7 +141,7 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>magnetcompass</tooltip-id>
-                <label>Magnetic heading: %3d</label>
+                <label>Magnetic heading: %3.0f</label>
                 <property>instrumentation/magnetic-compass/indicated-heading-deg-final</property>
                 <mapping>heading</mapping>
             </binding>

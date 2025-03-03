@@ -37,6 +37,8 @@ var master_av1 = 0.0;
 var master_av2 = 0.0;
 
 var pfd_display = 0.0;
+var pfd_load_ess = 0.0;
+var pfd_load_avn = 0.0;
 
 var stby_batt_breaker = 0.0;
 
@@ -344,7 +346,7 @@ var update_virtual_bus = func (dt) {
         power_source = "alternator";
     }
 
-    if ( external_volts > bus_volts ) {
+    if ( external_volts > bus_volts and master_bat ) {
         bus_volts = external_volts;
         power_source = "external";
     }
@@ -353,7 +355,7 @@ var update_virtual_bus = func (dt) {
         stby_bus_volts = alternator_volts;
     }
 
-    if ( power_source == "external" ) {
+    if ( power_source == "external" and master_bat) {
         stby_bus_volts = external_volts;
     }
 
@@ -392,21 +394,21 @@ var update_virtual_bus = func (dt) {
     var eammeter = 0.0;
     if ( power_source == "battery_stby") {
         eammeter = -load_ess;
-        if (eammeter < 0.5) {
-            settimer(func(){
-                if (eammeter < 0.5) {
-                    setprop("controls/lighting/batt-test-lamp-norm", 1);
-                }
-            }, 10.0)
-        }
-    } else
+    } else {
         if ( master_bat_stby == 2 and power_source == "alternator") {
             eammeter = battery_stby.charge_amps;
-            setprop("controls/lighting/batt-test-lamp-norm", 0);
         } else {
             eammeter = 0;
-            setprop("controls/lighting/batt-test-lamp-norm", 0);
         }
+    }
+
+    # calculate stby bat test light illumination
+    # This is showing the battery life, nothing else.
+    var batt_test_lamp = 0.0;
+    if (master_bat_stby == 0) {
+        batt_test_lamp = getprop("systems/electrical/battery-charge-percent/b");
+    }
+    setprop("controls/lighting/batt-test-lamp-norm", batt_test_lamp);
 
     # charge/discharge the battery
     if (power_source == "battery") {
@@ -454,7 +456,10 @@ var update_virtual_bus = func (dt) {
     if (master_bat and (feeder_a or feeder_b)) {
         setprop("/systems/electrical/outputs/instr-ignition-switch", bus_volts);
         if ( bus_volts > 12 ) {
-            if (getprop("controls/switches/starter")) {
+            # starter
+            var starter_svc    = getprop("/engines/active-engine/starter/serviceable");
+            var starter_molten = getprop("/engines/active-engine/starter/overheated");
+            if ( getprop("controls/switches/starter") and starter_svc and !starter_molten ) {
                 setprop("systems/electrical/outputs/starter", bus_volts);
             } else {
                 setprop("systems/electrical/outputs/starter", 0.0);
@@ -612,15 +617,11 @@ var avionics_bus_1 = func() {
         setprop("/systems/electrical/outputs/pfd-avn", bus_volts);
         if (pfd_avn and (bus_volts > 0)) {
             load += ((getprop("/controls/lighting/avionics-norm/")+5) * pfd_avn) * bus_volts;
-            setprop("/systems/electrical/outputs/fg1000-pfd", 1);
-        } else {
-            setprop("/systems/electrical/outputs/fg1000-pfd", 0);
+            load += pfd_load_avn;
         }
     } else {
         setprop("/systems/electrical/outputs/pfd-avn", 0.0);
-        fg1000system.hide(1);
     }
-    pfd_display = bus_volts;
 
     # Air Data Computer
     if ( getprop("/controls/circuit-breakers/adc-ahrs-avn") ) {
@@ -646,15 +647,12 @@ var avionics_bus_1 = func() {
       setprop("/systems/electrical/outputs/is", 0.0);
     }
 
-     ##############????????#############
-    # Turn Coordinator and directional gyro Power
-    if ( getprop("/controls/circuit-breakers/turn-coordinator") ) {
-        setprop("/systems/electrical/outputs/turn-coordinator", bus_volts);
-        setprop("/systems/electrical/outputs/DG", bus_volts);
-        load += 14 * bus_volts;
+    # Avionics Fan Power
+    if ( bus_volts > 12 and getprop("/controls/circuit-breakers/pfd-avn") ) {
+        setprop("/systems/electrical/outputs/avionics-fan[0]", bus_volts);
+        load += bus_volts / 24;
     } else {
-        setprop("/systems/electrical/outputs/turn-coordinator", 0.0);
-        setprop("/systems/electrical/outputs/DG", 0.0);
+        setprop("/systems/electrical/outputs/avionics-fan[0]", 0);
     }
 
     # register avn1 voltage
@@ -695,11 +693,9 @@ var avionics_bus_2 = func() {
     # Nav 2 Power and Avionics Fan Power
     if ( getprop("/controls/circuit-breakers/nav2") ) {
         setprop("/systems/electrical/outputs/nav[1]", bus_volts);
-        setprop("/systems/electrical/outputs/avionics-fan", bus_volts);
         load += 5 * bus_volts;
     } else {
         setprop("/systems/electrical/outputs/nav[1]", 0.0);
-        setprop("/systems/electrical/outputs/avionics-fan", 0.0);
     }
 
     # Com 2 Power
@@ -713,9 +709,11 @@ var avionics_bus_2 = func() {
     # Audio Panel 1 Power
     if ( getprop("/controls/circuit-breakers/audio") ) {
         setprop("/systems/electrical/outputs/audio-panel[0]", bus_volts);
+        setprop("/instrumentation/audio-panel[0]/operable", 1);
         load += 5 * bus_volts;
     } else {
         setprop("/systems/electrical/outputs/audio-panel[0]", 0.0);
+        setprop("/instrumentation/audio-panel[0]/operable", 0);
     }
 
     # Autopilot Power
@@ -734,6 +732,14 @@ var avionics_bus_2 = func() {
     } else {
       setprop("/systems/electrical/outputs/dme", 0.0);
       setprop("/systems/electrical/outputs/adf", 0.0);
+    }
+
+    # Avionics Fan Power
+    if ( bus_volts > 12 and getprop("/controls/circuit-breakers/mfd") ) {
+        setprop("/systems/electrical/outputs/avionics-fan[1]", bus_volts);
+        load += bus_volts / 24;
+    } else {
+        setprop("/systems/electrical/outputs/avionics-fan[1]", 0);
     }
 
     # register avn2 voltage
@@ -768,13 +774,10 @@ var essential_bus = func() {
         setprop("/systems/electrical/outputs/pfd-ess", bus_volts);
         if (pfd_ess and (bus_volts > 0)){
             load += ((getprop("/controls/lighting/avionics-norm/")+5) * pfd_ess) * bus_volts;
-            setprop("/systems/electrical/outputs/fg1000-pfd", 1);
-        } else {
-            setprop("/systems/electrical/outputs/fg1000-pfd", 0);
+            load += pfd_load_ess;
         }
     } else {
         setprop("/systems/electrical/outputs/pfd-ess", 0.0);
-        fg1000system.hide(1);
     }
 
     # Air Data Computer
@@ -893,6 +896,26 @@ var toggle_fg1000_MFD = func {
 };
 
 # Switch the FG1000 on/off depending on power.
+# The PFD can be powered by either the AVN1 bus (normal operation)
+# or the essentials bus (in case of electrical failure).
+# The MFD is powered normally trough its bus.
+var fg1000_MFD_calc_power = func() {
+    var amps_load_factor = 4.5;   # 4.5-5 amps
+    var avn_power = getprop("/systems/electrical/outputs/pfd-avn") or 0;
+    var ess_power = getprop("/systems/electrical/outputs/pfd-ess") or 0;
+    var pfd_power = avn_power;
+    pfd_load_avn  = avn_power * amps_load_factor;
+    pfd_load_ess  = 0.0;
+    if (ess_power > avn_power)  {
+        pfd_power = ess_power;
+        pfd_load_avn = 0.0;
+        pfd_load_ess = pfd_power * amps_load_factor;
+    }
+    setprop("/systems/electrical/outputs/fg1000-pfd", pfd_power);
+    pfd_display = pfd_power;
+}
+setlistener("/systems/electrical/outputs/pfd-avn", fg1000_MFD_calc_power, 1, 0);
+setlistener("/systems/electrical/outputs/pfd-ess", fg1000_MFD_calc_power, 1, 0);
 setlistener("/systems/electrical/outputs/fg1000-pfd", func(n) {
     if (n.getValue() > 0) {
       fg1000system.show(1);

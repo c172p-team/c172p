@@ -33,7 +33,8 @@ var autostart = func (msg=1) {
     setprop("/controls/lighting/beacon", 1);
 
     # Setting instrument lights if needed
-    var light_level = 1-getprop("/rendering/scene/diffuse/red");
+    #var light_level = 1-getprop("/rendering/scene/diffuse/red");
+	var light_level = 1-.5;
     if (light_level > .6) {
         if (!getprop("/controls/panel/glass")){
             if (getprop("/controls/lighting/instruments-norm") == 0) {

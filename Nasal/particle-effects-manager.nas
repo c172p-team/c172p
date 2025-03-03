@@ -3,7 +3,8 @@ var particle_effects_loop = func {
     #particle effect colors
     var alt = getprop("/position/altitude-agl-m");
     var land = getprop("/fdm/jsbsim/ground/solid");
-    var red_diffuse = getprop("/rendering/scene/diffuse/red");
+    #var red_diffuse = getprop("/rendering/scene/diffuse/red");
+	var red_diffuse = .5;
     var snowlevel = getprop("/environment/snow-level-m");
     var winter = getprop("/sim/startup/season-winter");
 

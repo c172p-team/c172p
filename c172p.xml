@@ -2110,24 +2110,24 @@
                 </product>
             </function>
 
-            <function name="aero/coefficient/Cmdf">
-                <description>Delta_pitching_moment_due_to_flap_deflection</description>
-                <product>
-                    <property>aero/qbar-psf</property>
-                    <property>metrics/Sw-sqft</property>
-                    <property>metrics/cbarw-ft</property>
-                    <table>
-                        <independentVar>fcs/flap-pos-deg</independentVar>
-                        <tableData>
-                            0.0000      0.0000
-                            10.0000    -0.0654
-                            20.0000    -0.0981
-                            30.0000    -0.1140
-                        </tableData>
-                    </table>
-                    <value>0.7</value> <!-- tests, adjustments -->
-                </product>
-            </function>
+	    <function name="aero/coefficient/Cmdf">
+			<description>PitchMoment_due_to_flaps</description>
+			<product>
+				<property>aero/qbar-psf</property>
+				<property>metrics/Sw-sqft</property>
+				<property>metrics/cbarw-ft</property>					
+				<table>
+					<independentVar>fcs/flap-pos-deg</independentVar>
+					<tableData>
+<!--                 delta pitch moment to reflect 95kts approach, 75kts flaps 10 and 60kts flaps 30 final with no trim change -->
+							0.0000      0.0000
+                            10.0000    -0.008
+                            20.0000    -0.016
+                            30.0000    -0.024					
+					</tableData>
+				</table>
+			</product>
+	    </function>
         </axis>
 
         <axis name="YAW">

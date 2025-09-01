@@ -21,6 +21,7 @@ var autostart = func (msg=1) {
     setprop("/controls/engines/current-engine/mixture", auto_mixture);
 
     setprop("/controls/flight/elevator-trim", 0.0);
+    setprop("/controls/flight/rudder-trim", 0.02);
     setprop("/controls/switches/master-bat", 1);
     setprop("/controls/switches/master-alt", 1);
     setprop("/controls/switches/master-avionics", 1);

@@ -221,20 +221,61 @@
             <output>/aircraft/effects/damage-smoke-visible</output>
         </switch>
 
+        <fcs_function name="density-altitude-ft">
+          <function>
+            <sum>
+              <!-- Pressure Altitude -->
+              <product>
+                <subtract>
+                  <value>29.92</value>
+                  <property>/environment/pressure-inhg</property>
+                </subtract>
+                <value>1000</value>
+              </product>
+              <property>/position/altitude-ft</property>
+              <!-- Temperature Offset -->
+              <product>
+                <value>120</value>
+                <subtract>
+                  <property>/environment/temperature-degc</property>
+                  <subtract>
+                    <value>15</value>
+                    <product>
+                      <sum>
+                        <product>
+                          <subtract>
+                            <value>29.92</value>
+                            <property>/environment/pressure-inhg</property>
+                          </subtract>
+                          <value>1000</value>
+                        </product>
+                        <property>/position/altitude-ft</property>
+                      </sum>
+                      <value>0.0019812</value>
+                    </product>
+                  </subtract>
+                </subtract>
+              </product>
+            </sum>
+          </function>
+          <output>/environment/density-altitude-ft</output>
+        </fcs_function>
+
         <fcs_function name="auto-engine-mixture">
-            <function> <!-- Mixture rich above 3000 feet, LEAN to obtain maximum RPM -->
-                <sum>
-                    <value>0</value>
-                    <table>
-                        <independentVar>/position/altitude-ft</independentVar>
-                        <tableData>
-                            3000    1.00
-                            13000   0.75
-                        </tableData>
-                    </table>
-                </sum>
-            </function>
-            <output>engine/auto-mixture</output>
+          <function> <!-- Mixture rich above 3000 feet, LEAN to obtain maximum RPM -->
+            <table>
+              <independentVar>/environment/density-altitude-ft</independentVar>
+              <tableData>
+                0       1.00
+                3000    0.70
+                6000    0.50
+                9000    0.35
+                12000   0.30
+                15000   0.25
+              </tableData>
+            </table>
+          </function>
+          <output>engine/auto-mixture</output>
         </fcs_function>
 
     </channel>

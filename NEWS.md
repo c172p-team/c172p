@@ -1,14 +1,18 @@
 List of features and bug fixes
 ==============================
 
-Version 2024.1.1
+Version 2024.1.2
 --------------
 
 **Features:**
 
+* Use density altitude for auto mixture in autostart
 
 **Fixes:**
 
+* Add rudder trim to autostart
+* Adjust pitch moment tables on flap deploy
+* Fix throttle with mouse slider bug
 
 Version 2024.1
 --------------

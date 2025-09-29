@@ -12,6 +12,9 @@ var autostart = func (msg=1) {
     # Reset battery charge and circuit breakers
     electrical.reset_battery_and_circuit_breakers();
 
+    #Guarantee repairing flag is reset
+    setprop("/fdm/jsbsim/damage/repairing", 0);
+
     # Setting levers and switches for startup
     setprop("/controls/switches/magnetos", 3);
 	setprop("/controls/engines/engine[0]/throttle", 0.2);
@@ -491,6 +494,8 @@ var reset_system = func {
     props.globals.getNode("/fdm/jsbsim/pontoon-damage/right-pontoon", 0).setIntValue(0);
 
     setprop("/engines/active-engine/kill-engine", 0);
+
+    setprop("/fdm/jsbsim/damage/repairing", 0);
 
     set_fuel();
 }

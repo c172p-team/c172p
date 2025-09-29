@@ -1,6 +1,14 @@
 List of features and bug fixes
 ==============================
 
+Version 2024.1.3
+--------------
+
+**Fixes:**
+
+* Repairing flag stuck on sim reset
+* Density altitude function syntax error correction
+
 Version 2024.1.2
 --------------
 

@@ -74,8 +74,10 @@ BatteryClass.apply_load = func (amps, dt) {
     if (getprop("/sim/freeze/replay-state"))
         return me.amp_hours * old_charge_percent;
 
+    var capacity_factor = getprop("/systems/electrical/battery-capacity-factor") or 1.0;
+    var capacity = me.amp_hours * capacity_factor;
     var amphrs_used = amps * dt / 3600.0;
-    var percent_used = amphrs_used / me.amp_hours;
+    var percent_used = amphrs_used / capacity;
 
     var new_charge_percent = std.max(0.0, std.min(old_charge_percent - percent_used, 1.0)) or 0;
 

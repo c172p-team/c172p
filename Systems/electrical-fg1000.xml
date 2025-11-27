@@ -360,4 +360,26 @@
         <output>systems/electrical/avionics-fan[1]/spin</output>
     </filter>
 
+    <filter>
+        <name>battery_capacity_fator</name>
+        <debug>false</debug>
+        <type>gain</type>
+        <input>
+            <expression>
+                <table>
+                    <property>/engines/active-engine/cowling-air-temperature-degf</property>
+                    <entry><ind> -40 </ind> <dep>  0.3   </dep></entry>
+                    <entry><ind> -30 </ind> <dep>  0.425 </dep></entry>
+                    <entry><ind> -20 </ind> <dep>  0.55  </dep></entry>
+                    <entry><ind> -10 </ind> <dep>  0.675 </dep></entry>
+                    <entry><ind>   0 </ind> <dep>  0.8   </dep></entry>
+                    <entry><ind>  10 </ind> <dep>  0.88  </dep></entry>
+                    <entry><ind>  20 </ind> <dep>  0.97  </dep></entry>
+                    <entry><ind>  25 </ind> <dep>  1.0   </dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>systems/electrical/battery-capacity-factor</output>
+    </filter>
+
 </PropertyList>

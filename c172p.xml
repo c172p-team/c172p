@@ -878,6 +878,20 @@
                 </test>
             </switch>
 
+            <kinematic name="fcs/elevator-droop-bias-filtered">
+                <input>fcs/elevator-droop-bias</input>
+                <traverse>
+                    <setting>
+                        <position>0</position>
+                        <time>0</time>
+                    </setting>
+                    <setting>
+                        <position>1</position>
+                        <time>0.75</time>
+                    </setting>
+                </traverse>
+            </kinematic>
+
             <scheduled_gain name="elevator-droop-bias">
                 <input>fcs/elevator-droop-active</input>
                 <table>
@@ -897,7 +911,7 @@
             <summer name="Pitch Trim Sum">
                 <input>fcs/elevator-cmd-norm-gain</input>
                 <input>fcs/pitch-trim-cmd-norm-eff</input>
-                <input>fcs/elevator-droop-bias</input>
+                <input>fcs/elevator-droop-bias-filtered</input>
                 <clipto>
                     <min>-1</min>
                     <max>1</max>

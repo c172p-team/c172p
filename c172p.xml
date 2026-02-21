@@ -764,7 +764,7 @@
             <switch name="fcs/stick-force-per-g-qbarUW-psf">
                 <default value="0"/>
                 <test logic="OR" value="aero/qbarUW-psf">
-                   fcs/stick-force-per-g EQ 1
+                    fcs/stick-force-per-g EQ 1
                 </test>
             </switch>
 
@@ -773,62 +773,155 @@
                 <table>
                     <independentVar>fcs/stick-force-per-g-qbarUW-psf</independentVar>
                     <tableData>
-                        15    1.0000
-                        16    0.9375
-                        18    0.8333
-                        20    0.7500
-                        22    0.6818
-                        24    0.6250
-                        26    0.5769
-                        28    0.5357
-                        30    0.5000
-                        32    0.4688
-                        34    0.4412
-                        36    0.4167
-                        38    0.3947
-                        40    0.3750
-                        42    0.3571
-                        44    0.3409
-                        46    0.3261
-                        48    0.3125
-                        50    0.3000
-                        52    0.2885
-                        54    0.2778
-                        56    0.2679
-                        58    0.2586
-                        60    0.2500
-                        62    0.2419
-                        64    0.2344
-                        66    0.2273
-                        68    0.2206
-                        70    0.2143
-                        72    0.2083
-                        74    0.2027
-                        76    0.1974
-                        78    0.1923
-                        80    0.1875
-                        82    0.1829
-                        84    0.1786
+                        15 1.0000
+                        16 0.9375
+                        18 0.8333
+                        20 0.7500
+                        22 0.6818
+                        24 0.6250
+                        26 0.5769
+                        28 0.5357
+                        30 0.5000
+                        32 0.4688
+                        34 0.4412
+                        36 0.4167
+                        38 0.3947
+                        40 0.3750
+                        42 0.3571
+                        44 0.3409
+                        46 0.3261
+                        48 0.3125
+                        50 0.3000
+                        52 0.2885
+                        54 0.2778
+                        56 0.2679
+                        58 0.2586
+                        60 0.2500
+                        62 0.2419
+                        64 0.2344
+                        66 0.2273
+                        68 0.2206
+                        70 0.2143
+                        72 0.2083
+                        74 0.2027
+                        76 0.1974
+                        78 0.1923
+                        80 0.1875
+                        82 0.1829
+                        84 0.1786
                     </tableData>
                 </table>
                 <clipto>
                     <min>-1</min>
                     <max>1</max>
                 </clipto>
-            </scheduled_gain>            
+            </scheduled_gain>
 
-            <summer name="Pitch Trim Sum">
-                <input>fcs/elevator-cmd-norm-gain</input>
+            <scheduled_gain name="pitch-trim-q-gain">
                 <input>fcs/pitch-trim-cmd-norm</input>
+                <table>
+                    <independentVar>aero/qbarUW-psf</independentVar>
+                    <tableData>
+                        0   0.0
+                        2   0.0
+                        4   0.1
+                        6   0.4
+                        10  0.7
+                        15  0.9
+                        20  1.0
+                    </tableData>
+                </table>
                 <clipto>
                     <min>-1</min>
                     <max>1</max>
                 </clipto>
-				<output>/sim/model/c172p/cockpit/yoke-elevator</output>
+                <output>fcs/pitch-trim-cmd-norm-q</output>
+            </scheduled_gain>
+
+            <scheduled_gain name="pitch-trim-propwash-gain">
+                <input>fcs/pitch-trim-cmd-norm</input>
+                <table>
+                    <independentVar>/fdm/jsbsim/aero/function/vel-propwash-fps</independentVar>
+                    <tableData>
+                        0   0.0
+                        10  0.1
+                        20  0.3
+                        30  0.5
+                        40  0.8
+                        50  1.0
+                    </tableData>
+                </table>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+                <output>fcs/pitch-trim-cmd-norm-propwash</output>
+            </scheduled_gain>
+
+            <summer name="pitch-trim-effective">
+                <input>fcs/pitch-trim-cmd-norm-q</input>
+                <input>fcs/pitch-trim-cmd-norm-propwash</input>
+                <gain>0.7</gain>
+                <gain>0.3</gain>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+                <output>fcs/pitch-trim-cmd-norm-eff</output>
+            </summer>
+
+            <switch name="fcs/elevator-droop-active">
+                <default value="0"/>
+                <test value="1">
+                    /engines/active-engine/rpm lt 50
+                    /sim/model/c172p/cockpit/control-lock-placed eq 0
+                </test>
+            </switch>
+
+            <kinematic name="fcs/elevator-droop-bias-filtered">
+                <input>fcs/elevator-droop-bias</input>
+                <traverse>
+                    <setting>
+                        <position>0</position>
+                        <time>0</time>
+                    </setting>
+                    <setting>
+                        <position>1</position>
+                        <time>0.75</time>
+                    </setting>
+                </traverse>
+            </kinematic>
+
+            <scheduled_gain name="elevator-droop-bias">
+                <input>fcs/elevator-droop-active</input>
+                <table>
+                    <independentVar>aero/qbarUW-psf</independentVar>
+                    <tableData>
+                        0.0    1
+                        3.75   0.5
+                        7.5    0.25
+                        15.0   0.175
+                        25.0   0.087
+                        50.0   0
+                    </tableData>
+                </table>
+                <output>fcs/elevator-droop-bias</output>
+            </scheduled_gain>
+
+            <summer name="Pitch Trim Sum">
+                <input>fcs/elevator-cmd-norm-gain</input>
+                <input>fcs/pitch-trim-cmd-norm-eff</input>
+                <input>fcs/elevator-droop-bias-filtered</input>
+                <clipto>
+                    <min>-1</min>
+                    <max>1</max>
+                </clipto>
+                <output>fcs/pitch-trim-sum</output>
             </summer>
 
             <aerosurface_scale name="Elevator Control">
                 <input>fcs/pitch-trim-sum</input>
+                <!--input>/sim/model/c172p/cockpit/yoke-elevator</input-->
                 <gain>0.01745</gain>
                 <range>
                     <min>-28</min>

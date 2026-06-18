@@ -6,6 +6,7 @@
     <texture-path>../../../../Models</texture-path>
     <params>
         <controls>
+            <altstaticair>systems/static-selected-source</altstaticair>
             <carb-heat>controls/engines/current-engine/carb-heat</carb-heat>
             <parking-lever>sim/model/c172p/cockpit/parking-lever</parking-lever>
             <carb-heat-animation>sim/model/c172p/cockpit/carb-heat-animation</carb-heat-animation>
@@ -1721,6 +1722,34 @@
         <condition>
             <property>sim/panel-hotspots</property>
         </condition>
+    </animation>
+
+    <!-- Alt static knob -->
+    <animation>
+        <type>slider</type>
+        <object-name>AltStaticAir</object-name>
+        <property>systems/static-selected-source-norm</property>
+        <factor>0.010</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-toggle</command>
+                <property alias="/params/controls/altstaticair"/>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>alt-static-air-tooltip</tooltip-id>
+                <mapping>on-off</mapping>
+                <label>Alternate static air: %s</label>
+                <property alias="/params/controls/altstaticair"/>
+            </binding>
+        </hovered>
     </animation>
 
     <!-- Primer -->

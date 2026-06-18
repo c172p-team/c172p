@@ -224,7 +224,10 @@ var load_parameters = func{
 setlistener("/sim/signals/fdm-initialized",load_parameters);
 
 var save_parameters = func{
-    props.globals.getNode("/instrumentation/garmin196/save").remove();
+
+    var save_branch = props.globals.getNode("/instruments/garmin196");
+    if (save_branch != nil )save_branch.removeChild("save");
+
 
     ##preparation
     if(getprop("/instrumentation/garmin196/antenne-deg")!=nil){

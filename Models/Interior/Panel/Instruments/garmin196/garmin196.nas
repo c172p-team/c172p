@@ -2326,7 +2326,7 @@ var update_map = func{
   if(popup_status<10 or popup_status>99){
     var max_plots = 25;
     var offset_mul = 0.034;
-    var symbol_map_range = getprop("/instrumentation/garmin196/map-range") * 8;
+    var symbol_map_range = getprop("/instrumentation/garmin196/map-range") * 30;
     var plots = [];
     var type_symbol = [ "airport" , "vor" , "ndb" , "fix" , "twn" , "wpt"];
     
@@ -2418,7 +2418,7 @@ var update_map = func{
       
       props.globals.getNode("/instrumentation/garmin196/symbols/symbol["~i~"]/id",1).setValue(plots_sorted[i].id);
       props.globals.getNode("/instrumentation/garmin196/symbols/symbol["~i~"]/type",1).setValue(plots_sorted[i].type);
-      
+
       ##calcul des coordonnees
       var x_wp = math.cos(plots_sorted[i].bearing*math.pi/180) * plots_sorted[i].range * offset_mul;
       var y_wp = math.sin(plots_sorted[i].bearing*math.pi/180) * plots_sorted[i].range * offset_mul;
@@ -2489,8 +2489,8 @@ var update_map = func{
       setprop("/instrumentation/garmin196/symbols/paths/range_wp_"~i~"_"~(i+1)~"/x",x_wp_fpl);
       setprop("/instrumentation/garmin196/symbols/paths/range_wp_"~i~"_"~(i+1)~"/y",y_wp_fpl);
 
-      var wp_bearing = 360 - getprop("/instrumentation/gps/indicated-track-true-deg") + getprop("/autopilot/route-manager/route/wp["~i~"]/leg-bearing-true-deg");
-      var wp_distance = offset_range_wp_direct * getprop("/autopilot/route-manager/route/wp["~i~"]/leg-distance-nm") / symbol_map_range;
+      var wp_bearing = 360 - getprop("/instrumentation/gps/indicated-track-true-deg") + getprop("/autopilot/route-manager/route/wp["~(i+1)~"]/leg-bearing-true-deg");
+      var wp_distance = offset_range_wp_direct * getprop("/autopilot/route-manager/route/wp["~(i+1)~"]/leg-distance-nm") / symbol_map_range;
       
       var x_range_wp =(math.cos(wp_bearing*math.pi/180) * wp_distance) + ((x_wp_fpl/0.026)*0.15); #max 0.15
       if(math.abs(x_range_wp)>0.15){

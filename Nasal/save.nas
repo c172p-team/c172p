@@ -195,6 +195,9 @@ var save_state = func {
     var damage = getprop("/fdm/jsbsim/settings/damage");
     setprop("/save/damage", damage);
 
+    var damagelevel = getprop("/fdm/jsbsim/engine/damage-level");
+    setprop("/save/damage-level", damagelevel);
+
     var geardown = getprop("/controls/gear/gear-down");
     setprop("/save/geardown", geardown);
     var gearpos = getprop("/fdm/jsbsim/gear/gear-pos-norm");
@@ -382,6 +385,7 @@ var read_state_from_file = func (filename) {
 var resume_state = func {
 
     setprop("/fdm/jsbsim/settings/damage", 0);
+    setprop("/fdm/jsbsim/engine/damage-level", 0);
 
     c172p.oil_consumption.stop();
 
@@ -710,6 +714,7 @@ var resume_state = func {
         setprop("/controls/mooring/anchor", anchor);
 
         var damage = getprop("/save/damage");
+	var damagelevel = getprop("/save/damage-level");
         #var altitude = getprop("/save/altitude-ft");
 
         var starter_molten = getprop("/save/starter-overheated");
@@ -739,6 +744,7 @@ var resume_state = func {
 
         settimer(func {
             setprop("/fdm/jsbsim/settings/damage", damage);
+	    setprop("/fdm/jsbsim/engine/damage-level", damagelevel);
         }, damage_delay);
 
         print("State resumed!");

@@ -1,4 +1,4 @@
-# 
+#
 # This Timer is for stop-watches
 #
 # ./time       (double)    elapsed time since last start or reset
@@ -16,19 +16,21 @@ var timer = {
 
         m.timeN = m.baseN.initNode( "time", 0.0 );
         m.runningN = m.baseN.initNode( "running", 0, "BOOL" );
-        m.stepFactor = m.baseN.initNode( "step-factor", 1 ); # count up by default
-        
-        m.clock = maketimer(1, func(){
-            m.timeN.setValue(m.timeN.getValue() + m.stepFactor.getValue());
-        });
-        m.clock.simulatedTime = 1;
-        setlistener( m.runningN, func(n) {
-            if (n.getValue()) {
-                m.clock.start();
-            } else {
-                m.clock.stop();
+        m.stepFactor = m.baseN.initNode( "step-factor", 1 );
+
+        m.deltaN = props.globals.getNode("/sim/time/delta-sec");
+
+        m.tick = func {
+            if (m.runningN.getValue()) {
+                var dt = m.deltaN.getValue() or 0;
+                # delta-sec is already 0 when paused/frozen, and already
+                # scaled by speed-up.
+                if (dt > 0)
+                    m.timeN.setValue(m.timeN.getValue() + m.stepFactor.getValue() * dt);
             }
-        } );
+            settimer(m.tick, 0);   # every frame, real-time scheduling
+        };
+        m.tick();   # loop always runs; the running flag gates accumulation
 
         return m;
     },
@@ -37,18 +39,16 @@ var timer = {
        return me.timeN.getDoubleValue();
     },
 
-    start : func {  
-       if (me.clock.isRunning) return;  
-       me.runningN.setBoolValue( 1 );  
-    },  
-  
-    stop : func {  
-       if (!me.clock.isRunning) return;  
-       me.runningN.setBoolValue( 0 );  
+    start : func {
+        me.runningN.setBoolValue(1);
+    },
+
+    stop : func {
+        me.runningN.setBoolValue(0);
     },
 
     reset : func {
-        me.timeN.setDoubleValue( 0 );
+        me.timeN.setDoubleValue(0);
         me.stepFactor.setValue(1);
     },
 
@@ -61,13 +61,12 @@ var timer = {
     computeBCDTime : func {
         var t = me.timeN.getValue();
         var h = int(t / 3600);
-        var t = t - (h*3600);
-        var m = int(t / 60 );
-        var t = t - (m*60);
+        t -= h * 3600;
+        var mn = int(t / 60);
+        t -= mn * 60;
         var s = int(t);
-        return h * 10000 + m * 100 + s;
+        return h * 10000 + mn * 100 + s;
     },
-
 };
 
 ####################################################################
@@ -159,7 +158,7 @@ var kr87 = {
         # Handle count-down wrapping;
         # this happens when the countdown reaches zero.
         # We flash the alarm and switch to the ET mode; clock starts to count upwards.
-        if (me.et.clock.isRunning and me.et.stepFactor.getValue() < 0 and me.et.getTime() <= 0) {
+        if (me.et.runningN.getValue() and me.et.stepFactor.getValue() < 0 and me.et.getTime() <= 0) {
             me.et.restart();
             me.et_alarmFlash.setBoolValue(1);
             me.et_alarmSound.setBoolValue(1);
@@ -193,11 +192,11 @@ var kr87 = {
         if( !me.setButtonN.getValue() and setButtonPTN_td >= 0.1 and setButtonPTN_td < 2.0) {
            # set-button was released before 2 secs
            me.setButtonPTN.setValue(0);
-           if (me.et.clock.isRunning) {
+           if (me.et.runningN.getValue()) {
                # counter is running; restart
                me.et.restart();
            }
-           if (me.setModeN.getValue() and !me.et.clock.isRunning) {
+           if (me.setModeN.getValue() and !me.et.runningN.getValue()) {
                # set mode was active, start count down as timer was not running
                me.setModeN.setBoolValue(0);
                me.et.start();
@@ -236,13 +235,13 @@ var kr87 = {
         } else {
             # power recovery
             if (!me.isOperable) {
-                if (!me.flt.clock.isRunning)
+                if (!me.flt.runningN.getValue())
                     me.flt.start();
-                if (!me.et.clock.isRunning) {
+                if (!me.et.runningN.getValue())
                     me.et.start();
                 }
             }
-        }
+
         me.isOperable = me.operable.getBoolValue();
 
         settimer( func { me.update() }, 0.1 );

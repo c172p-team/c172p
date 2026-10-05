@@ -2512,6 +2512,66 @@
                 <z>0</z>
             </direction>
         </force>
+
+        <!--
+                TEMPORARY WORKAROUND FOR JSBSim SOLVER SATURATION (JSBSim #1489 / c172p #1595 / PR #1596)
+                Compensates for tailwind tail-drop by neutralizing direct base aero pitch moments 
+                during parking and low-speed taxi (relying on u-aero-fps to naturally handle forward motion).
+                
+                Root Cause: JSBSim's PGS ground friction solver saturates (hits max 50 iterations limit) 
+                at low ground speeds under tailwinds, causing premature pitch-up / tail-drop.
+                
+                REMOVE THIS BLOCK once JSBSim #1489 is fixed upstream and integrated into FlightGear.
+        -->
+        <moment name="parked-pitch-friction-compensation" frame="BODY">
+            <description>Compensates for tailwind tail-drop by neutralizing direct base aero pitch moments during parking and low-speed taxi</description>
+            <direction>
+                <x> 0.0 </x>
+                <y> 1.0 </y>
+                <z> 0.0 </z>
+            </direction>
+            <function>
+                <product>
+                    <!-- Tailwind Lift Clamp Workaround Adjustment -->
+    
+                    <!-- Replaces the old linear window table which suffered from quadratic force    --> 
+                    <!-- mismatch (collapsing at 27 kts due to V^2 scaling outpacing the fade-out).    -->
+                    
+                    <!-- This new high-resolution table shapes the correction gain using a V^2        -->        
+                    <!-- parabolic curve, anchored to peak at 1.0 (full protection) precisely at    -->
+                    <!-- -30.0 fps (~17.77 knots), and sharply dropping off between 30-31 fps.      -->
+                    
+                    <!-- Peak value: 1.0 gain at -30.0 fps (-17.77 kts)                             -->
+                    
+                    <!-- Tail protection cuts off between 30-31 fps (triggering tail drop at 18.02-18.62 kts) -->
+    
+                    <!-- Activate exclusively during tailwinds (reverse flow) with high-res scaling    -->
+                    <table>
+                        <independentVar>velocities/u-aero-fps</independentVar>
+                        <tableData>
+                            -31.0    0.00    <!-- Protection cutoff boundary (~18.36 kts) -->
+                            -30.0    1.00    <!-- Peak protection anchor -->
+                            -27.0    0.85   
+                            -24.0    0.70   
+                            -21.0    0.55   
+                            -18.0    0.40   
+                            -15.0    0.25    <!-- Dense stepping window -->
+                            -10.0    0.12   
+                             -5.0    0.04   
+                              0.0    0.00    <!-- Zero wind / neutral -->
+                            100.0    0.00    <!-- Headwinds / forward flight -->
+                        </tableData>
+                    </table>
+    
+                    <!-- Neutralize base aerodynamic pitching moment -->
+                    <product>
+                        <value> -1.0 </value>
+                        <property>moments/m-aero-lbsft</property>
+                    </product>
+                </product>
+            </function>
+        </moment>
+
     </external_reactions>
 
     <system file="bushkit"/>

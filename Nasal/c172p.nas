@@ -372,8 +372,7 @@ var switches_save_state = func {
         setprop("/controls/flight/flaps", 0.0);
         setprop("/surface-positions/flap-pos-norm", 0.0);
         setprop("/controls/flight/elevator-trim", 0.0);
-        setprop("/controls/anti-ice/engine[0]/carb-heat", 0);
-        setprop("/controls/anti-ice/engine[1]/carb-heat", 0);
+        setprop("/controls/engines/current-engine/carb-heat", 0);
         setprop("/controls/anti-ice/pitot-heat", 0);
         setprop("/environment/aircraft-effects/cabin-heat-set", 0.0);
         setprop("/environment/aircraft-effects/cabin-air-set", 0.0);

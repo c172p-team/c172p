@@ -1223,16 +1223,21 @@
                 <wrap>0</wrap>
             </binding>
         </action>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <label>Cabin Heat: %3d%%</label>
-                <measure-text>Cabin Heat: 100%</measure-text>
-                <tooltip-id>cabinheat</tooltip-id>
-                <mapping>percent</mapping>
-                <property>environment/aircraft-effects/cabin-heat-set</property>
-            </binding>
-        </hovered>
+	<hovered>  
+	    <binding>  
+	        <command>set-tooltip</command>  
+	        <tooltip-id>cabinheat</tooltip-id>  
+	        <label>%s</label>  
+	        <measure-text>Cabin Heat: 100%\nCabin Temp: 20 C</measure-text>  
+	        <property>environment/aircraft-effects/cabin-heat-set</property>  
+	        <mapping>nasal</mapping>  
+	        <script>  
+	            var pct = getprop("environment/aircraft-effects/cabin-heat-set") * 100 + 0.5;  
+	            var temp = getprop("fdm/jsbsim/heat/cabin-air-temp-degc");  
+	            return sprintf("Cabin Heat: %3d%%", pct) ~ "\nCabin Temp: " ~ sprintf("%2.0f", temp) ~ " C";  
+	        </script>  
+	    </binding>  
+	</hovered>
     </animation>
     <animation>
         <type>translate</type>

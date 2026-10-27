@@ -2,9 +2,8 @@
 
 <PropertyList>
 
-    <path>c172p-interior.ac</path>
-	<!--path>c172p-interior.gltf</path-->
-    <texture-path>../../../../Models</texture-path>
+    <!--path>c172p-interior.ac</path-->
+	<path>c172p-interior.gltf</path>
     <params>
         <controls>
             <carb-heat>controls/engines/current-engine/carb-heat</carb-heat>
@@ -203,8 +202,8 @@
         <factor>0.008</factor>
         <axis>
             <x>0.0</x>
-            <y>1.0</y>
-            <z>0.0</z>
+            <y>0.0</y>
+            <z>1.0</z>
         </axis>
     </animation>
     <animation>
@@ -250,8 +249,8 @@
         <factor>0.008</factor>
         <axis>
             <x>0.0</x>
-            <y>1.0</y>
-            <z>0.0</z>
+            <y>0.0</y>
+            <z>1.0</z>
         </axis>
     </animation>
     <animation>
@@ -290,12 +289,13 @@
         <type>translate</type>
         <object-name>DomeSliderWhite</object-name>
         <property>controls/lighting/dome-white-norm</property>
-        <factor>0.025</factor>
+        <factor>-0.0025</factor>
         <axis>
             <x>0.0</x>
-            <y>1.0</y>
-            <z>0.0</z>
+            <y>0.0</y>
+            <z>1.0</z>
         </axis>
+        
     </animation>
     <animation>
         <type>slider</type>
@@ -307,9 +307,9 @@
             <binding>
                 <command>property-adjust</command>
                 <property>controls/lighting/dome-white-norm</property>
-                <factor>0.10</factor>
+                <factor>1.0</factor>
                 <min>0.0</min>
-                <max>1.0</max>
+                <max>10.0</max>
                 <wrap>0</wrap>
             </binding>
         </action>
@@ -317,9 +317,12 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>dome-white-brightness</tooltip-id>
-                <label>White Dome Lighting: %3d%%</label>
+                <label>White Dome Lighting: %s</label>
                 <property>controls/lighting/dome-white-norm</property>
-                <mapping>percent</mapping>
+                <mapping>nasal</mapping>
+                <script>
+                    return sprintf("%3d%%", arg[0] * 10);
+                </script>
             </binding>
         </hovered>
     </animation>
@@ -1638,7 +1641,7 @@
         </offsets>
     </text>
 
-    <animation>
+    <!--animation>
         <type>material</type>
         <object-name>LabelASI</object-name>
         <object-name>LabelAI</object-name>
@@ -1680,7 +1683,7 @@
             <green>0.8</green>
             <blue>0.0</blue>
         </emission>
-    </animation>
+    </animation-->
     <animation>
         <type>select</type>
         <object-name>LabelASI</object-name>
@@ -2295,9 +2298,12 @@
             <z> 0</z>
         </axis>
         <center>
-            <x-m>-0.36873</x-m>
+            <!--x-m>-0.36873</x-m>
             <y-m>-0.035  </y-m>
-            <z-m>-0.26379</z-m>
+            <z-m>-0.26379</z-m-->
+            <x-m>-0.35058</x-m>
+            <y-m>-0.26379</y-m>
+            <z-m>0.035  </z-m>
         </center>
         <action>
             <repeatable>true</repeatable>
@@ -3240,9 +3246,359 @@
         <path>Aircraft/c172p/Models/Interior/FE-ELT/elt.xml</path>
     </model>
 
+<animation>
+    <type>pbr</type>
+    <object-name>Panel_0</object-name>
+    <object-name>ElevatorTrimPos</object-name>
+    <object-name>mike_mount</object-name>
+    <object-name>CabinAirMounts</object-name>
+    <object-name>CabinAir</object-name>
+    <object-name>CabinHeat</object-name>
+    <object-name>BeaconSwitch</object-name>
+    <object-name>CarbHeat</object-name>
+    <object-name>CarbHeatMount</object-name>
+    <object-name>GenSwitch</object-name>
+    <object-name>LandingLightSwitch</object-name>
+    <object-name>MasterSwitch</object-name>
+    <object-name>Mixture</object-name>
+    <object-name>MixtureMount</object-name>
+    <object-name>NavLightSwitch</object-name>
+    <object-name>PitotHeatSwitch</object-name>
+    <object-name>PrimerLeverMount</object-name>
+    <object-name>StrobeSwitch</object-name>
+    <object-name>TaxiLightSwitch</object-name>
+    <object-name>Throttle</object-name>
+    <object-name>ThrottleMount</object-name>
+    <object-name>mike</object-name>
+    <object-name>mike_chord</object-name>
+    <object-name>ParkingBrake</object-name>
+    <object-name>PrimerLever</object-name>
+    <object-name>LeftBag</object-name>
+    <object-name>bolts</object-name>
+    <object-name>accport</object-name>
+    <object-name>autopilot_breaker</object-name>
+    <object-name>radio5_breaker</object-name>
+    <object-name>radio4_breaker</object-name>
+    <object-name>radio3_breaker</object-name>
+    <object-name>radio2_breaker</object-name>
+    <object-name>radio1_breaker</object-name>
+    <object-name>turn-coordinator_breaker</object-name>
+    <object-name>strobe_breaker</object-name>
+    <object-name>bcnlt_breaker</object-name>
+    <object-name>landing_breaker</object-name>
+    <object-name>navlt_breaker</object-name>
+    <object-name>intlt_breaker</object-name>
+    <object-name>instr_breaker</object-name>
+    <object-name>pitot-heat_breaker</object-name>
+    <object-name>master_breaker</object-name>
+    <object-name>flaps_breaker</object-name>
+    <object-name>BreakersBase</object-name>
+    <object-name>AvionicsSwitchBase</object-name>
+    <object-name>windlocket_right</object-name>
+    <object-name>windlocket_left</object-name>
+    <object-name>windlocketbak_right</object-name>
+    <object-name>windlocketbak_left</object-name>
+    <object-name>doorhandleint_right</object-name>
+    <object-name>doorhandleint_left</object-name>
+    <object-name>CeilingSpeaker</object-name>
+    <object-name>DomeSliderWhite</object-name>
+    <object-name>DomeSwitchWhite</object-name>
+    <object-name>DomeSwitchRed</object-name>
+    <object-name>light-knob-base</object-name>
+    <object-name>AltStaticAir</object-name>
+    <object-name>LowVoltageLed</object-name>
+    <object-name>LowVoltageLedBase</object-name>
+    <object-name>TrimWheel</object-name>
+    <object-name>AvionicsSwitch</object-name>
+    <object-name>radio-light-knob</object-name>
+    <object-name>panel-light-knob</object-name>
+    <!--property-base>/sim/model/lightmap/panel/</property-base-->
+    <emissive-factor>
+        <r>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <scale>1.0</scale>
+        </r>
+        <g>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <scale>0.95</scale>
+        </g>
+        <b>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <scale>0.85</scale>
+        </b>
+        <!--r><property>factor</property></r>
+        <g><property>factor</property></g>
+        <b><property>factor</property></b-->
+    </emissive-factor>
+    <!--emissive-texture-prop>texture</emissive-texture-prop-->
+    <emissive-texture>../../../Effects/interior/lm_panel-parts-post.png</emissive-texture>
+</animation>
+<animation>
+    <type>pbr</type>
+    <object-name>panel_1_gauges</object-name>
+    <object-name>Pedestal</object-name>
+    <object-name>InstrumentCover</object-name>
+    <object-name>panel_1_1.inf</object-name>
+    <object-name>panel_1_1_right</object-name>
+    <object-name>glovebox</object-name>
+    <object-name>gloveboxfull</object-name>
+    <object-name>RudderTrimKnob</object-name>
+    <object-name>RudderTrimBase</object-name>
+    <!--property-base>/sim/model/lightmap/panel/</property-base-->
+    <emissive-factor>
+        <r>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <scale>1.0</scale>
+        </r>
+        <g>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <scale>0.95</scale>
+        </g>
+        <b>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <scale>0.85</scale>
+        </b>
+        <!--r><property>factor</property></r>
+        <g><property>factor</property></g>
+        <b><property>factor</property></b-->
+    </emissive-factor>
+    <!--emissive-texture-prop>texture</emissive-texture-prop-->
+    <emissive-texture>../../../Effects/interior/lm_panel-post.png</emissive-texture>
+</animation>
+<animation>
+    <type>pbr</type>
+    <object-name>FuelSelectorFace</object-name>
+    <object-name>FuelSelectorLeft</object-name>
+    <object-name>FuelSelectorRight</object-name>
+    <object-name>FuelSelectorBoth</object-name>
+    <object-name>FuelSelectorOff</object-name>
+    <!--property-base>/sim/model/lightmap/panel/</property-base-->
+    <emissive-factor>
+        <r>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <scale>1.0</scale>
+        </r>
+        <g>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <scale>0.95</scale>
+        </g>
+        <b>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <scale>0.85</scale>
+        </b>
+        <!--r><property>factor</property></r>
+        <g><property>factor</property></g>
+        <b><property>factor</property></b-->
+    </emissive-factor>
+    <!--emissive-texture-prop>texture</emissive-texture-prop-->
+    <emissive-texture>../../../Effects/interior/lm_fuel-selector-post.png</emissive-texture>
+</animation>
+<animation>
+    <type>pbr</type>
+    <object-name>carpet</object-name>
+    <object-name>chassis</object-name>
+    <object-name>backseat_left</object-name>
+    <object-name>pilotseat_left</object-name>
+    <object-name>pilotseat_right</object-name>
+    <object-name>doorint_right</object-name>
+    <object-name>doorint_left</object-name>
+    <object-name>windowframeleftint</object-name>
+    <object-name>windowframerightint</object-name>
+    <object-name>Firewall</object-name>
+    <object-name>baggagedoorinterior</object-name>
+    <object-name>AirVent_left</object-name>
+    <object-name>AirVent_right</object-name>
+    <object-name>wing_1L</object-name>
+    <object-name>wing_1R</object-name>
+    <object-name>visorleft</object-name>
+    <object-name>visorright</object-name>
+    <object-name>visorrodleft</object-name>
+    <object-name>visorrodright</object-name>
+    <object-name>visorbaseleft</object-name>
+    <object-name>visorbaseright</object-name>
+    <object-name>doorintstrapleft</object-name>
+    <object-name>RudderTrimBase</object-name>
+    <!--property-base>/sim/model/lightmap/panel/</property-base-->
+    <emissive-factor>
+        <r>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <scale>1.0</scale>
+        </r>
+        <g>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <scale>0.95</scale>
+        </g>
+        <b>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <scale>0.85</scale>
+        </b>
+        <!--r><property>factor</property></r>
+        <g><property>factor</property></g>
+        <b><property>factor</property></b-->
+    </emissive-factor>
+    <!--emissive-texture-prop>texture</emissive-texture-prop-->
+    <emissive-texture>../../../Effects/interior/lm_interior-post.png</emissive-texture>
+</animation>
+
+<!-- ========================================================= -->
+<!-- C172P RED DOME FLOOD LIGHT                                -->
+<!-- Active in BOTH (1) and FLOOD (2) modes                    -->
+<!-- ========================================================= -->
+<light>
+    <name>C172P-DomeFloodRed</name>
+    <type>spot</type>
+
+    <position>
+        <x-m>0.140664</x-m>
+        <y-m>-0.012384</y-m>
+        <z-m>0.20</z-m>
+    </position>
+
+    <direction>
+        <x>-1</x>
+        <y>0</y>
+        <z>0</z>
+    </direction>
+
+    <color>
+        <r>1.0</r>
+        <g>0.0</g>
+        <b>0.0</b>
+    </color>
+    <intensity>10</intensity>
+
+    <spot-exponent>2.5</spot-exponent>
+    <spot-cutoff>80</spot-cutoff>
+    <range-m>2.0</range-m>
+
+    <debug-color>
+        <r>1</r>
+        <g>0</g>
+        <b>0</b>
+    </debug-color>
+</light>
+
+<!-- ========================================================= -->
+<!-- C172P WHITE DOME FLOOD LIGHT                              -->
+<!-- Brightness follows dome-white-norm                        -->
+<!-- ========================================================= -->
+<light>
+    <name>C172P-DomeFloodWhite</name>
+    <type>spot</type>
+
+    <position>
+        <x-m>0.140664</x-m>
+        <y-m>-0.012384</y-m>
+        <z-m>0.20</z-m>
+    </position>
+
+    <direction>
+        <x>-1</x>
+        <y>0</y>
+        <z>0</z>
+    </direction>
+
+    <color>
+        <r>1.0</r>
+        <g>1.0</g>
+        <b>1.0</b>
+    </color>
+
+    <intensity>
+        <property>controls/lighting/dome-white-norm</property>
+        <factor>10</factor>
+    </intensity>
+
+    <spot-exponent>2.5</spot-exponent>
+    <spot-cutoff>80</spot-cutoff>
+    <range-m>2.0</range-m>
+
+    <debug-color>
+        <r>1</r>
+        <g>1</g>
+        <b>1</b>
+    </debug-color>
+</light>
+
+<!-- ========================================================= -->
+<!-- RED FLOOD ENABLE: modes BOTH (1) and FLOOD (2)             -->
+<!-- Mode POST (0) leaves the red floodlight off               -->
+<!-- ========================================================= -->
+<animation>
+    <type>select</type>
+    <object-name>C172P-DomeFloodRed</object-name>
+    <condition>
+        <greater-than>
+            <property>controls/switches/dome-red</property>
+            <value>0</value>
+        </greater-than>
+    </condition>
+</animation>
+
+<!-- ========================================================= -->
+<!-- WHITE FLOOD ENABLE: on/off switch                         -->
+<!-- ========================================================= -->
+<animation>
+    <type>select</type>
+    <object-name>C172P-DomeFloodWhite</object-name>
+    <condition>
+        <greater-than>
+            <property>controls/switches/dome-white</property>
+            <value>0</value>
+        </greater-than>
+    </condition>
+</animation>
+
+<!--light>
+    <name>C172PPanelTestLight</name>
+    <type>spot</type>
+
+    <position>
+        <x-m>0.140664</x-m>
+        <y-m>-0.012384</y-m>
+        <z-m>0.20</z-m>
+    </position>
+
+    <direction>
+        <x>-1</x>
+        <y>0</y>
+        <z>0</z>
+    </direction>
+
+    <ambient>
+        <r>0</r><g>0</g><b>0</b><a>1</a>
+    </ambient>
+
+    <diffuse>
+        <r>1</r><g>0.85</g><b>0.65</b><a>1</a>
+    </diffuse>
+
+    <specular>
+        <r>0</r><g>0</g><b>0</b><a>1</a>
+    </specular>
+
+    <attenuation>
+        <c>1.0</c>
+        <l>0.7</l>
+        <q>1.1</q>
+    </attenuation>
+
+    <spot-exponent>2.5</spot-exponent>
+    <spot-cutoff>80</spot-cutoff>
+    <range-m>2.0</range-m>
+
+    <dim-factor>
+        <property>controls/lighting/dome-white-norm</property>
+        <offset>0</offset>
+        <min>0</min>
+        <max>1</max>
+    </dim-factor>
+</light-->
+
+
     <!-- interior effects -->
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-parts</inherits-from>
+    <!--effect>
+        <inherits-from>Effects/interior/lm-interior-panel-parts</inherits-from>
         <object-name>Panel_0</object-name>
         <object-name>ElevatorTrimPos</object-name>
         <object-name>mike_mount</object-name>
@@ -3307,8 +3663,8 @@
         <object-name>AvionicsSwitch</object-name>
         <object-name>radio-light-knob</object-name>
         <object-name>panel-light-knob</object-name>
-    </effect>
-    <effect>
+    </effect-->
+    <!--effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel</inherits-from>
         <object-name>panel_1_gauges</object-name>
         <object-name>Pedestal</object-name>
@@ -3319,17 +3675,17 @@
         <object-name>gloveboxfull</object-name>
         <object-name>RudderTrimKnob</object-name>
         <object-name>RudderTrimBase</object-name>
-    </effect>
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-fuel-selector</inherits-from>
+    </effect-->
+    <!--effect>
+        <inherits-from>Effects/interior/lm-interior-fuel-selector</inherits-from>
         <object-name>FuelSelectorFace</object-name>
         <object-name>FuelSelectorLeft</object-name>
         <object-name>FuelSelectorRight</object-name>
         <object-name>FuelSelectorBoth</object-name>
         <object-name>FuelSelectorOff</object-name>
-    </effect>
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior</inherits-from>
+    </effect-->
+    <!--effect>
+        <inherits-from>Effects/interior/lm-interior</inherits-from>
         <object-name>carpet</object-name>
         <object-name>chassis</object-name>
         <object-name>backseat_left</object-name>
@@ -3353,14 +3709,14 @@
         <object-name>visorbaseright</object-name>
         <object-name>doorintstrapleft</object-name>
         <object-name>doorintstrapright</object-name>
-    </effect>
+    </effect-->
 
-    <effect>
+    <!--effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/interior-glass-reflection-panel-front</inherits-from>
         <object-name>glass_panel</object-name>
-    </effect>
+    </effect-->
 
-    <animation>
+    <!--animation>
         <type>material</type>
         <object-name>TrimWheel</object-name>
         <object-name>AvionicsSwitch</object-name>
@@ -3483,6 +3839,6 @@
             <green-prop>sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
             <blue-prop>sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
         </emission>
-    </animation>
+    </animation-->
 
 </PropertyList>

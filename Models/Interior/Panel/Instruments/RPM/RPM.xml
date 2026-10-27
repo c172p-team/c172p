@@ -2,57 +2,14 @@
 
 <PropertyList>
 
-    <path>RPM.ac</path>
+    <path>rpm.gltf</path>
+    <!--path>RPM.ac</path-->
 
     <params>
         <engine>
             <rpm>engines/engine[2]/rpm</rpm>
         </engine>
     </params>
-
-    <effect>
-        <inherits-from>../../../../Effects/interior/lm-rpm</inherits-from>
-        <object-name>PointerTip</object-name>
-        <object-name>PointerCentre</object-name>
-        <object-name>Face</object-name>
-        <object-name>Case</object-name>
-    </effect>
-
-    <animation>
-        <type>material</type>
-        <object-name>Face</object-name>
-        <object-name>PointerTip</object-name>
-        <object-name>Case</object-name>
-        <object-name>PointerCentre</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
-        </emission>
-    </animation>
-    <animation>
-        <type>material</type>
-        <object-name>Face</object-name>
-        <object-name>PointerTip</object-name>
-        <object-name>Case</object-name>
-        <emission>
-            <red>  1.0</red>
-            <green>0.8</green>
-            <blue> 0.5</blue>
-            <factor-prop>/sim/model/material/instruments/integral-factor</factor-prop>
-        </emission>
-    </animation>
 
     <animation>
         <type>rotate</type>
@@ -107,6 +64,30 @@
             <y-m>-0.31306</y-m>
             <z-m>-0.10802</z-m>
         </center>
+    </animation>
+
+    <animation>
+        <type>pbr</type>
+        <object-name>Face</object-name>
+        <object-name>PointerCentre</object-name>
+        <object-name>PointerTip</object-name>
+        <object-name>Case</object-name>
+        <emissive-factor>
+            <r>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <scale>1.0</scale>
+            </r>
+            <g>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <scale>0.8</scale>
+            </g>
+            <b>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <scale>0.5</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>../../../Effects/interior/lm_rpm-post.png</emissive-texture>
+        <!--emissive-texture>Aircraft/c172p/Models/Interior/Panel/Instruments/RPM.png</emissive-texture-->
     </animation>
 
 </PropertyList>

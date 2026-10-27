@@ -202,8 +202,8 @@
         <factor>0.008</factor>
         <axis>
             <x>0.0</x>
-            <y>1.0</y>
-            <z>0.0</z>
+            <y>0.0</y>
+            <z>1.0</z>
         </axis>
     </animation>
     <animation>
@@ -249,8 +249,8 @@
         <factor>0.008</factor>
         <axis>
             <x>0.0</x>
-            <y>1.0</y>
-            <z>0.0</z>
+            <y>0.0</y>
+            <z>1.0</z>
         </axis>
     </animation>
     <animation>
@@ -289,12 +289,13 @@
         <type>translate</type>
         <object-name>DomeSliderWhite</object-name>
         <property>controls/lighting/dome-white-norm</property>
-        <factor>0.025</factor>
+        <factor>-0.0025</factor>
         <axis>
             <x>0.0</x>
-            <y>1.0</y>
-            <z>0.0</z>
+            <y>0.0</y>
+            <z>1.0</z>
         </axis>
+        
     </animation>
     <animation>
         <type>slider</type>
@@ -306,9 +307,9 @@
             <binding>
                 <command>property-adjust</command>
                 <property>controls/lighting/dome-white-norm</property>
-                <factor>0.10</factor>
+                <factor>1.0</factor>
                 <min>0.0</min>
-                <max>1.0</max>
+                <max>10.0</max>
                 <wrap>0</wrap>
             </binding>
         </action>
@@ -316,9 +317,12 @@
             <binding>
                 <command>set-tooltip</command>
                 <tooltip-id>dome-white-brightness</tooltip-id>
-                <label>White Dome Lighting: %3d%%</label>
+                <label>White Dome Lighting: %s</label>
                 <property>controls/lighting/dome-white-norm</property>
-                <mapping>percent</mapping>
+                <mapping>nasal</mapping>
+                <script>
+                    return sprintf("%3d%%", arg[0] * 10);
+                </script>
             </binding>
         </hovered>
     </animation>
@@ -3435,6 +3439,162 @@
     <!--emissive-texture-prop>texture</emissive-texture-prop-->
     <emissive-texture>../../../Effects/interior/lm_interior-post.png</emissive-texture>
 </animation>
+
+<!-- ========================================================= -->
+<!-- C172P RED DOME FLOOD LIGHT                                -->
+<!-- Active in BOTH (1) and FLOOD (2) modes                    -->
+<!-- ========================================================= -->
+<light>
+    <name>C172P-DomeFloodRed</name>
+    <type>spot</type>
+
+    <position>
+        <x-m>0.140664</x-m>
+        <y-m>-0.012384</y-m>
+        <z-m>0.20</z-m>
+    </position>
+
+    <direction>
+        <x>-1</x>
+        <y>0</y>
+        <z>0</z>
+    </direction>
+
+    <color>
+        <r>1.0</r>
+        <g>0.0</g>
+        <b>0.0</b>
+    </color>
+    <intensity>10</intensity>
+
+    <spot-exponent>2.5</spot-exponent>
+    <spot-cutoff>80</spot-cutoff>
+    <range-m>2.0</range-m>
+
+    <debug-color>
+        <r>1</r>
+        <g>0</g>
+        <b>0</b>
+    </debug-color>
+</light>
+
+<!-- ========================================================= -->
+<!-- C172P WHITE DOME FLOOD LIGHT                              -->
+<!-- Brightness follows dome-white-norm                        -->
+<!-- ========================================================= -->
+<light>
+    <name>C172P-DomeFloodWhite</name>
+    <type>spot</type>
+
+    <position>
+        <x-m>0.140664</x-m>
+        <y-m>-0.012384</y-m>
+        <z-m>0.20</z-m>
+    </position>
+
+    <direction>
+        <x>-1</x>
+        <y>0</y>
+        <z>0</z>
+    </direction>
+
+    <color>
+        <r>1.0</r>
+        <g>1.0</g>
+        <b>1.0</b>
+    </color>
+
+    <intensity>
+        <property>controls/lighting/dome-white-norm</property>
+        <factor>10</factor>
+    </intensity>
+
+    <spot-exponent>2.5</spot-exponent>
+    <spot-cutoff>80</spot-cutoff>
+    <range-m>2.0</range-m>
+
+    <debug-color>
+        <r>1</r>
+        <g>1</g>
+        <b>1</b>
+    </debug-color>
+</light>
+
+<!-- ========================================================= -->
+<!-- RED FLOOD ENABLE: modes BOTH (1) and FLOOD (2)             -->
+<!-- Mode POST (0) leaves the red floodlight off               -->
+<!-- ========================================================= -->
+<animation>
+    <type>select</type>
+    <object-name>C172P-DomeFloodRed</object-name>
+    <condition>
+        <greater-than>
+            <property>controls/switches/dome-red</property>
+            <value>0</value>
+        </greater-than>
+    </condition>
+</animation>
+
+<!-- ========================================================= -->
+<!-- WHITE FLOOD ENABLE: on/off switch                         -->
+<!-- ========================================================= -->
+<animation>
+    <type>select</type>
+    <object-name>C172P-DomeFloodWhite</object-name>
+    <condition>
+        <greater-than>
+            <property>controls/switches/dome-white</property>
+            <value>0</value>
+        </greater-than>
+    </condition>
+</animation>
+
+<!--light>
+    <name>C172PPanelTestLight</name>
+    <type>spot</type>
+
+    <position>
+        <x-m>0.140664</x-m>
+        <y-m>-0.012384</y-m>
+        <z-m>0.20</z-m>
+    </position>
+
+    <direction>
+        <x>-1</x>
+        <y>0</y>
+        <z>0</z>
+    </direction>
+
+    <ambient>
+        <r>0</r><g>0</g><b>0</b><a>1</a>
+    </ambient>
+
+    <diffuse>
+        <r>1</r><g>0.85</g><b>0.65</b><a>1</a>
+    </diffuse>
+
+    <specular>
+        <r>0</r><g>0</g><b>0</b><a>1</a>
+    </specular>
+
+    <attenuation>
+        <c>1.0</c>
+        <l>0.7</l>
+        <q>1.1</q>
+    </attenuation>
+
+    <spot-exponent>2.5</spot-exponent>
+    <spot-cutoff>80</spot-cutoff>
+    <range-m>2.0</range-m>
+
+    <dim-factor>
+        <property>controls/lighting/dome-white-norm</property>
+        <offset>0</offset>
+        <min>0</min>
+        <max>1</max>
+    </dim-factor>
+</light-->
+
 
     <!-- interior effects -->
     <!--effect>

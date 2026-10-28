@@ -383,37 +383,45 @@
 
     <channel name="cabin-dewpoint">
 
-        <fcs_function name="heat/non-humans-airflow">
-            <function>
-                <quotient>
-                    <sum>
-                        <abs>
-                            <property>heat/cabin-air-transfer-air-duct</property>
-                        </abs>
-                        <abs>
-                            <product>
-                                <quotient>
-                                    <property>heat/cabin-air-transfer-heat-duct</property>
-                                    <property>heat/cabin-heat-temp-diff</property>
-                                </quotient>
-                                <property>heat/cabin-air-temp-diff</property>
-                            </product>
-                        </abs>
-                        <abs>
-                            <property>heat/cabin-air-transfer-doors-windows</property>
-                        </abs>
-                        <abs>
-                            <property>heat/cabin-air-transfer-overhead-vent-left</property>
-                        </abs>
-                        <abs>
-                            <property>heat/cabin-air-transfer-overhead-vent-right</property>
-                        </abs>
-                    </sum>
-                    <abs>
-                        <property>heat/cabin-air-temp-diff</property>
-                    </abs>
-                </quotient>
-            </function>
+        <fcs_function name="heat/non-humans-airflow">  
+            <function>  
+                <quotient>  
+                    <sum>  
+                        <abs>  
+                            <property>heat/cabin-air-transfer-air-duct</property>  
+                        </abs>  
+                        <abs>  
+                            <product>  
+                                <quotient>  
+                                    <property>heat/cabin-air-transfer-heat-duct</property>  
+                                    <sum>  
+                                        <abs>  
+                                            <property>heat/cabin-heat-temp-diff</property>  
+                                        </abs>  
+                                        <value>0.001</value>  
+                                    </sum>  
+                                </quotient>  
+                                <property>heat/cabin-air-temp-diff</property>  
+                            </product>  
+                        </abs>  
+                        <abs>  
+                            <property>heat/cabin-air-transfer-doors-windows</property>  
+                        </abs>  
+                        <abs>  
+                            <property>heat/cabin-air-transfer-overhead-vent-left</property>  
+                        </abs>  
+                        <abs>  
+                            <property>heat/cabin-air-transfer-overhead-vent-right</property>  
+                        </abs>  
+                    </sum>  
+                    <sum>  
+                        <abs>  
+                            <property>heat/cabin-air-temp-diff</property>  
+                        </abs>  
+                        <value>0.001</value>  
+                    </sum>  
+                </quotient>  
+            </function>  
         </fcs_function>
 
         <pure_gain name="heat/humans-airflow">

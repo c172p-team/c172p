@@ -12,7 +12,8 @@
         <gs-in-range>/instrumentation/nav[1]/gs-in-range</gs-in-range>
     </params>
 
-    <path>vor2.ac</path>
+    <path>vor2.gltf</path>
+    <!--path>vor2.ac</path-->
 
     <animation>
         <name>LocalizerNeedleTransform</name>
@@ -33,9 +34,12 @@
             <entry><ind>  10 </ind><dep> -23 </dep> </entry>
         </interpolation>
         <center>
-            <x-m>-0.37869</x-m>
+            <!--x-m>-0.37869</x-m>
             <y-m>-0.042682</y-m>
-            <z-m> 0.03297</z-m>
+            <z-m> 0.03297</z-m-->
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0 </z-m>
         </center>
         <axis>
             <x>-1</x>
@@ -97,9 +101,12 @@
         <min-deg>-25</min-deg>
         <max-deg>25</max-deg>
         <center>
-            <x-m>-0.38   </x-m>
+            <!--x-m>-0.38   </x-m>
             <y-m>-0.0723 </y-m>
-            <z-m>-0.00287</z-m>
+            <z-m>-0.00287</z-m-->
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0 </z-m>
         </center>
         <axis>
             <x>-1</x>
@@ -120,9 +127,12 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>-0.37723</x-m>
+            <!--x-m>-0.37723</x-m>
             <y-m>-0.0423 </y-m>
-            <z-m>-0.00287</z-m>
+            <z-m>-0.00287</z-m-->
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0 </z-m>
         </center>
     </animation>
 
@@ -138,9 +148,12 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>-0.36006</x-m>
+            <!--x-m>-0.36006</x-m>
             <y-m>-0.07057</y-m>
-            <z-m>-0.03342</z-m>
+            <z-m>-0.03342</z-m-->
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0 </z-m>
         </center>
         <shift-repeat type="int">5</shift-repeat>
         <action>
@@ -165,32 +178,7 @@
     </animation>
 
     <animation>
-        <name>Alpha Order Group</name>
-        <object-name>Face</object-name>
-        <object-name>LocalizerNeedleTransform</object-name>
-        <object-name>GlideslopeNeedleTransform</object-name>
-        <object-name>RingTransform</object-name>
-        <object-name>Front</object-name>
-    </animation>
-
-    <effect>
-        <inherits-from>../../../../Effects/interior/lm-vor2</inherits-from>
-        <object-name>GlideslopeNeedle</object-name>
-        <object-name>LocalizerNeedle</object-name>
-        <object-name>Ring</object-name>
-        <object-name>disk</object-name>
-        <object-name>Front</object-name>
-        <object-name>Face</object-name>
-        <object-name>TO</object-name>
-        <object-name>FR</object-name>
-        <object-name>NAV</object-name>
-        <object-name>GS_out_of_range</object-name>
-        <object-name>GS_in_range</object-name>
-        <object-name>Case</object-name>
-    </effect>
-
-    <animation>
-        <type>material</type>
+        <type>pbr</type>
         <object-name>Face</object-name>
         <object-name>GlideslopeNeedle</object-name>
         <object-name>Ring</object-name>
@@ -202,56 +190,26 @@
         <object-name>GS_in_range</object-name>
         <object-name>Case</object-name>
         <object-name>Front</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
         <object-name>disk</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
         <object-name>GlideslopeNeedle</object-name>
         <object-name>LocalizerNeedle</object-name>
         <object-name>Front</object-name>
-        <emission>
-            <red>.3</red>
-            <green>.3</green>
-            <blue>.3</blue>
-            <factor-prop>/sim/model/lightmap/panel/factor</factor-prop>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <scale>1.0</scale>
+            </r>
+            <g>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <scale>0.8</scale>
+            </g>
+            <b>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <scale>0.5</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>../../../Effects/interior/lm_vor2-post.png</emissive-texture>
+        <!--emissive-texture>Aircraft/c172p/Models/Interior/Panel/Instruments/vor.png</emissive-texture-->
     </animation>
 
 </PropertyList>

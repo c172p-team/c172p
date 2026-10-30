@@ -2,7 +2,8 @@
 
 <PropertyList>
 
-    <path>c172p-bushkit.ac</path>
+    <!--path>c172p-bushkit.ac</path-->
+    <path>c172p-bushkit.gltf</path>
     <texture-path>../../../Models</texture-path>
     <nopreview/>
 
@@ -12,38 +13,168 @@
         <x-m>0.0</x-m>
         <pitch-deg>0.0</pitch-deg>
     </offsets>
-	
-	<effect>
-        <inherits-from>Effects/exterior/rubber</inherits-from>
-		<object-name>NoseWheelBK</object-name>
-        <object-name>LeftWheelBK</object-name>
-        <object-name>RightWheelBK</object-name>
-        <object-name>LeftWheelBKs</object-name>
-        <object-name>RightWheelBKs</object-name>
-    </effect>
-    <effect>
-        <inherits-from>Effects/exterior/worn-shiny-metal</inherits-from>
-		<object-name>AxleBK</object-name>
-		<object-name>NoseWheelStrutBKMiddle</object-name>
-		<object-name>LeftWheelBKCylinder</object-name>
-		<object-name>LeftWheelBKsCylinder</object-name>
-		<object-name>RightWheelBKCylinder</object-name>
-		<object-name>RightWheelBKsCylinder</object-name>
-    </effect>
-    <effect>
-        <inherits-from>Effects/exterior/worn-metal</inherits-from>		
-		<object-name>NoseWheelStrutBKBottom</object-name>
-		<object-name>NoseWheelStrutBKTop</object-name>
-    </effect>
 
-    <!-- Shininess fix -->
+    <params>
+        <bushkit>sim/model/variant</bushkit>
+
+        <gear>
+            <nose-rollspeed-ms>engines/engine[7]/rpm</nose-rollspeed-ms>
+            <left-rollspeed-ms>engines/engine[7]/n1</left-rollspeed-ms>
+            <right-rollspeed-ms>engines/engine[7]/n2</right-rollspeed-ms>
+        </gear>
+    </params>
+
     <animation>
-        <type>material</type>
-        <object-name>LeftWheelBKRim</object-name>
+        <type>rotate</type>
+        <object-name>NoseWheelBK</object-name>
+        <object-name>NoseWheelBKRim</object-name>
+        <object-name>NoseWheelStrutBKBottom</object-name>
+        <object-name>NoseWheelStrutBKMiddle</object-name>
+        <object-name>NoseWheelStrutBKTop</object-name>
+        <object-name>AxleBK</object-name>
+        <property>fdm/jsbsim/fcs/steer-pos-deg</property>
+        <axis>
+            <x1-m>-0.975</x1-m>
+            <y1-m> 0.0</y1-m>
+            <z1-m>-0.6781</z1-m>
+            <x2-m>-1.123</x2-m>
+            <y2-m> 0.0</y2-m>
+            <z2-m>-1.172</z2-m>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>NoseWheelBK</object-name>
+        <object-name>NoseWheelBKRim</object-name>
+        <object-name>NoseWheelStrutBKBottom</object-name>
+        <object-name>NoseWheelStrutBKMiddle</object-name>
+        <object-name>NoseWheelStrutBKTop</object-name>
+        <object-name>AxleBK</object-name>
+        <property>gear/gear[0]/compression-norm</property>
+        <factor>0.30</factor>
+        <axis>
+            <x>0.3</x>
+            <y>0</y>
+            <z>1.0</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>RightWheelBK</object-name>
         <object-name>RightWheelBKRim</object-name>
-		<object-name>LeftWheelBKsRim</object-name>
+        <object-name>RightWheelBKs</object-name>
         <object-name>RightWheelBKsRim</object-name>
-        <shininess>64</shininess>
+        <object-name>RightWheelBKCylinder</object-name>
+        <object-name>RightWheelBKsCylinder</object-name>
+        <property>gear/gear[2]/compression-norm</property>
+        <center>
+            <x-m>0.711</x-m>
+            <y-m>0.4518</y-m>
+            <z-m>-0.70</z-m>
+        </center>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+        <interpolation include="MainRotationInterpolation.xml"/>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>LeftWheelBK</object-name>
+        <object-name>LeftWheelBKRim</object-name>
+        <object-name>LeftWheelBKs</object-name>
+        <object-name>LeftWheelBKsRim</object-name>
+        <object-name>LeftWheelBKCylinder</object-name>
+        <object-name>LeftWheelBKsCylinder</object-name>
+        <property>gear/gear[1]/compression-norm</property>
+        <center>
+            <x-m>0.711</x-m>
+            <y-m>-0.4518</y-m>
+            <z-m>-0.70</z-m>
+        </center>
+        <axis>
+            <x>-1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
+        <interpolation include="MainRotationInterpolation.xml"/>
+    </animation>
+
+    <animation>
+        <type>spin</type>
+        <object-name>RightWheelBK</object-name>
+        <object-name>RightWheelBKRim</object-name>
+        <object-name>RightWheelBKs</object-name>
+        <object-name>RightWheelBKsRim</object-name>
+        <object-name>RightWheelBKCylinder</object-name>
+        <object-name>RightWheelBKsCylinder</object-name>
+        <expression>
+            <product>
+                <property alias="/params/gear/right-rollspeed-ms"/>
+                <property>fdm/jsbsim/gear/gear-spin-right</property>
+            </product>
+        </expression>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0.53015</x-m>
+            <y-m>1.127</y-m>
+            <z-m>-1.14693</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>spin</type>
+        <object-name>LeftWheelBK</object-name>
+        <object-name>LeftWheelBKRim</object-name>
+        <object-name>LeftWheelBKs</object-name>
+        <object-name>LeftWheelBKsRim</object-name>
+        <object-name>LeftWheelBKCylinder</object-name>
+        <object-name>LeftWheelBKsCylinder</object-name>
+        <expression>
+            <product>
+                <property alias="/params/gear/left-rollspeed-ms"/>
+                <property>fdm/jsbsim/gear/gear-spin-left</property>
+            </product>
+        </expression>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0.53015</x-m>
+            <y-m>-1.127</y-m>
+            <z-m>-1.14693</z-m>
+        </center>
+    </animation>
+
+   <animation>
+        <type>spin</type>
+        <object-name>NoseWheelBK</object-name>
+        <object-name>NoseWheelBKRim</object-name>
+        <expression>
+            <product>
+                <property alias="/params/gear/nose-rollspeed-ms"/>
+                <property>fdm/jsbsim/gear/gear-spin-nose</property>
+            </product>
+        </expression>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-1.1149</x-m>
+            <y-m>0.00000</y-m>
+            <z-m>-1.1889</z-m>
+        </center>
     </animation>
 
 </PropertyList>

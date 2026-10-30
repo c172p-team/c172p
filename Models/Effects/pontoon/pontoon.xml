@@ -2,7 +2,8 @@
 
 <PropertyList>
 
-    <path>c172p-pontoon.ac</path>
+    <!--path>c172p-pontoon.ac</path-->
+    <path>c172p-pontoon.gltf</path>
     <texture-path>../../../Models</texture-path>
     <nopreview/>
 
@@ -13,125 +14,61 @@
         <pitch-deg>0.0</pitch-deg>
     </offsets>
 
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/exterior/bumpspec-pontoon</inherits-from>
-        <object-name>FloatStruts</object-name>
-        <object-name>LRtarm</object-name>
-        <object-name>RRtarm</object-name>
-        <object-name>L-Float</object-name>
-        <object-name>R-Float</object-name>
-        <object-name>L-FloatC</object-name>
-        <object-name>R-FloatC</object-name>
-        <object-name>Ldamper</object-name>
-        <object-name>Rdamper</object-name>
-        <object-name>LRAxle</object-name>
-        <object-name>RRAxle</object-name>
-        <object-name>LAxle</object-name>
-        <object-name>RAxle</object-name>
-        <object-name>Lstrut.001</object-name>
-        <object-name>Lstrut.002</object-name>
-        <object-name>Rstrut.001</object-name>
-        <object-name>Rstrut.002</object-name>
-        <object-name>LHrudder</object-name>
-        <object-name>RHrudder</object-name>
-        <object-name>LFrontWheel</object-name>
-        <object-name>RRwheel</object-name>
-        <object-name>LRwheel</object-name>
-        <object-name>RFrontWheel</object-name>
-    </effect>
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel-parts</inherits-from>
-        <object-name>RudderCatch</object-name>
-        <object-name>RudderHandle</object-name>
-        <object-name>RudderScrews</object-name>
-        <object-name>RudderTube</object-name>
-        <object-name>RudderCable</object-name>
-    </effect>
+    <params>
+        <gear-amphibious>
+            <front-left-compression-ft>engines/engine[3]/n1</front-left-compression-ft>
+            <front-left-position-norm>engines/engine[3]/n2</front-left-position-norm>
+            <front-left-rollspeed-ms>engines/engine[3]/rpm</front-left-rollspeed-ms>
+            <front-right-compression-ft>engines/engine[4]/n1</front-right-compression-ft>
+            <front-right-position-norm>engines/engine[4]/n2</front-right-position-norm>
+            <front-right-rollspeed-ms>engines/engine[4]/rpm</front-right-rollspeed-ms>
+            <rear-left-compression-ft>engines/engine[5]/n1</rear-left-compression-ft>
+            <rear-left-position-norm>engines/engine[5]/n2</rear-left-position-norm>
+            <rear-left-rollspeed-ms>engines/engine[5]/rpm</rear-left-rollspeed-ms>
+            <rear-right-compression-ft>engines/engine[6]/n1</rear-right-compression-ft>
+            <rear-right-position-norm>engines/engine[6]/n2</rear-right-position-norm>
+            <rear-right-rollspeed-ms>engines/engine[6]/rpm</rear-right-rollspeed-ms>
+        </gear-amphibious>
 
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-interior-panel</inherits-from>
-        <object-name>FloatReinforceLeft</object-name>
-        <object-name>FloatReinforceRight</object-name>
-        <object-name>FloatReinforceJoin</object-name>
-    </effect>
+        <water-rudder-animation>sim/model/c172p/cockpit/water-rudder-animation</water-rudder-animation>
+        <water-rudder-norm>sim/multiplay/generic/float[5]</water-rudder-norm>
+   </params>
 
+   
+
+    <!-- Interior Rudder Cable -->
     <animation>
-        <type>material</type>
-        <object-name>FloatReinforceLeft</object-name>
-        <object-name>FloatReinforceRight</object-name>
-        <object-name>FloatReinforceJoin</object-name>
-        <object-name>RudderCatch</object-name>
+        <type>pick</type>
         <object-name>RudderHandle</object-name>
-        <object-name>RudderScrews</object-name>
-        <object-name>RudderTube</object-name>
-        <object-name>RudderCable</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
+        <visible>true</visible>
+        <action>
+            <button>0</button>
+            <binding>
+                <command>property-toggle</command>
+                <property>controls/gear/water-rudder</property>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <label>Water rudders: %s</label>
+                <property>controls/gear/water-rudder</property>
+                <tooltip-id>water-rudders</tooltip-id>
+                <mapping>down-up</mapping>
+            </binding>
+        </hovered>
     </animation>
 
-    <!-- Specularity fix -->
     <animation>
-        <type>material</type>
-        <object-name>L-Float</object-name>
-        <object-name>R-Float</object-name>
-        <object-name>L-FloatC</object-name>
-        <object-name>R-FloatC</object-name>
-        <shininess>116</shininess>
-        <specular>
-            <r>1</r>
-            <g>1</g>
-            <b>1</b>
-        </specular>
-        <ambient>
-            <r>1</r>
-            <g>1</g>
-            <b>1</b>
-        </ambient>
-    </animation>
-
-    <!-- Specularity fix -->
-    <animation>
-        <type>material</type>
-        <object-name>FloatStruts</object-name>
-        <object-name>LRAxle</object-name>
-        <object-name>RRAxle</object-name>
-        <object-name>LAxle</object-name>
-        <object-name>RAxle</object-name>
-        <object-name>LRtarm</object-name>
-        <object-name>RRtarm</object-name>
-        <object-name>Ldamper</object-name>
-        <object-name>Rdamper</object-name>
-        <object-name>Lstrut.001</object-name>
-        <object-name>Lstrut.002</object-name>
-        <object-name>Rstrut.001</object-name>
-        <object-name>Rstrut.002</object-name>
-        <object-name>LHrudder</object-name>
-        <object-name>RHrudder</object-name>
-        <shininess>128</shininess>
-        <specular>
-            <r>1</r>
-            <g>1</g>
-            <b>1</b>
-        </specular>
-        <ambient>
-            <r>1</r>
-            <g>1</g>
-            <b>1</b>
-        </ambient>
+        <type>translate</type>
+        <object-name>RudderHandle</object-name>
+        <property alias="/params/water-rudder-animation"/>
+        <factor>-0.21348</factor>
+        <axis>
+            <x>1.0</x>
+            <y>0.0</y>
+            <z>0.0</z>
+        </axis>
     </animation>
 
     <animation>
@@ -177,6 +114,431 @@
             <x2-m>-2.21597</x2-m>
             <y2-m> 1.16825</y2-m>
             <z2-m>-1.86383</z2-m>
+        </axis>
+    </animation>
+
+    <!-- MOD: Pontoon Gear -->
+    <animation>
+        <name>LeftFrontGear</name>
+        <object-name>Lstrut.001</object-name>
+        <object-name>Ldamper</object-name>
+        <object-name>LAxle</object-name>
+        <object-name>LFrontWheel</object-name>
+    </animation>
+    <animation>
+        <name>RightFrontGear</name>
+        <object-name>Rstrut.001</object-name>
+        <object-name>Rdamper</object-name>
+        <object-name>RAxle</object-name>
+        <object-name>RFrontWheel</object-name>
+    </animation>
+
+    <!-- Retractable Gear -->
+ <animation>
+        <type>rotate</type>
+        <object-name>Ldamper</object-name>
+        <object-name>LAxle</object-name>
+        <object-name>LFrontWheel</object-name>
+        <property alias="/params/gear-amphibious/front-left-compression-ft"/>
+        <factor>8</factor>
+        <center>
+            <x-m>-3.599</x-m>
+            <y-m>1.434</y-m>
+            <z-m>-2.189</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>LeftFrontGear</object-name>
+        <property alias="/params/gear-amphibious/front-left-position-norm"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.220</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-3.553</x-m>
+            <y-m>1.430</y-m>
+            <z-m>-1.901</z-m>
+        </center>
+        <axis>
+            <x>0.342</x>
+            <y>0</y>
+            <z>0.940</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>Lstrut.002</object-name>
+        <property alias="/params/gear-amphibious/front-left-position-norm"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.115</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-3.553</x-m>
+            <y-m>1.430</y-m>
+            <z-m>-1.901</z-m>
+        </center>
+        <axis>
+            <x>0.342</x>
+            <y>0</y>
+            <z>0.940</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>Rdamper</object-name>
+        <object-name>RAxle</object-name>
+        <object-name>RFrontWheel</object-name>
+        <property alias="/params/gear-amphibious/front-right-compression-ft"/>
+        <factor>8</factor>
+        <center>
+            <x-m>-3.599</x-m>
+            <y-m>-1.434</y-m>
+            <z-m>-2.189</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>RightFrontGear</object-name>
+        <property alias="/params/gear-amphibious/front-right-position-norm"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.220</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-3.553</x-m>
+            <y-m>-1.430</y-m>
+            <z-m>-1.901</z-m>
+        </center>
+        <axis>
+            <x>0.342</x>
+            <y>0</y>
+            <z>0.940</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>Rstrut.002</object-name>
+        <property alias="/params/gear-amphibious/front-right-position-norm"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.115</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0.0</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m>-3.553</x-m>
+            <y-m>-1.430</y-m>
+            <z-m>-1.901</z-m>
+        </center>
+        <axis>
+            <x>0.342</x>
+            <y>0</y>
+            <z>0.940</z>
+        </axis>
+    </animation>
+
+    <animation>
+        <type>spin</type>
+        <object-name>LFrontWheel</object-name>
+        <property alias="/params/gear-amphibious/front-left-rollspeed-ms"/>
+        <factor>75</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-2.1152</x-m>
+            <y-m>-1.14871</y-m>
+            <z-m>-2.07563</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>spin</type>
+        <object-name>RFrontWheel</object-name>
+        <property alias="/params/gear-amphibious/front-right-rollspeed-ms"/>
+        <factor>75</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-2.10993</x-m>
+            <y-m>1.16615</y-m>
+            <z-m>-2.06557</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>LRtarm</object-name>
+        <object-name>LRAxle</object-name>
+        <object-name>LRwheel</object-name>
+        <expression>
+            <sum>
+                <product>
+                    <sum>
+                        <value>0.07</value>
+                        <property alias="/params/gear-amphibious/rear-left-compression-ft"/>
+                    </sum>
+                    <value>15</value>
+                </product>
+                <product>
+                    <table>
+                        <property alias="/params/gear-amphibious/rear-left-position-norm"/>
+                        <entry>
+                            <ind>1</ind>
+                            <dep>0</dep>
+                        </entry>
+                        <entry>
+                            <ind>0</ind>
+                            <dep>10</dep>
+                        </entry>
+                    </table>
+                </product>
+            </sum>
+        </expression>
+        <center>
+            <x-m>-0.6019</x-m>
+            <y-m>-1.1513</y-m>
+            <z-m>-1.8621</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>RRtarm</object-name>
+        <object-name>RRAxle</object-name>
+        <object-name>RRwheel</object-name>
+        <expression>
+            <sum>
+                <product>
+                    <sum>
+                        <value>0.07</value>
+                        <property alias="/params/gear-amphibious/rear-right-compression-ft"/>
+                    </sum>
+                    <value>15</value>
+                </product>
+                <product>
+                    <table>
+                        <property alias="/params/gear-amphibious/rear-right-position-norm"/>
+                        <entry>
+                            <ind>1</ind>
+                            <dep>0</dep>
+                        </entry>
+                        <entry>
+                            <ind>0</ind>
+                            <dep>10</dep>
+                        </entry>
+                    </table>
+                </product>
+            </sum>
+        </expression>
+        <center>
+            <x-m>-0.6019</x-m>
+            <y-m>1.1676</y-m>
+            <z-m>-1.8621</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>spin</type>
+        <object-name>LRwheel</object-name>
+        <property alias="/params/gear-amphibious/rear-left-rollspeed-ms"/>
+        <factor>52</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0.88361</x-m>
+            <y-m>-1.15147</y-m>
+            <z-m>-2.14853</z-m>
+        </center>
+    </animation>
+    <animation>
+        <type>spin</type>
+        <object-name>RRwheel</object-name>
+        <property alias="/params/gear-amphibious/rear-right-rollspeed-ms"/>
+        <factor>52</factor>
+        <axis>
+            <x>0</x>
+            <y>-1</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>0.88416</x-m>
+            <y-m>1.16754</y-m>
+            <z-m>-2.14826</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>translate</type>
+        <object-name>RHrudder</object-name>
+        <property alias="/params/water-rudder-norm"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0.09</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 3.48832</x-m>
+            <y-m> 1.15971</y-m>
+            <z-m>-1.61943</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>-1</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>RHrudder</object-name>
+        <expression>
+            <product>
+                <value>30</value>
+                <property>surface-positions/rudder-pos-norm</property>
+                <property alias="/params/water-rudder-norm"/>
+            </product>
+        </expression>
+        <center>
+            <x-m> 3.5172</x-m>
+            <y-m> 1.1571</y-m>
+            <z-m>-1.4308</z-m>
+        </center>
+        <axis>
+            <x>-0.087</x>
+            <y> 0</y>
+            <z> 0.996</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>RHrudder</object-name>
+        <property alias="/params/water-rudder-norm"/>
+        <factor>90</factor>
+        <center>
+            <x-m> 3.47</x-m>
+            <y-m> 1.434</y-m>
+            <z-m>-1.63</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>translate</type>
+        <object-name>LHrudder</object-name>
+        <property alias="/params/water-rudder-norm"/>
+        <interpolation>
+            <entry>
+                <ind>0.0</ind>
+                <dep>0.0</dep>
+            </entry>
+            <entry>
+                <ind>1.0</ind>
+                <dep>0.09</dep>
+            </entry>
+        </interpolation>
+        <center>
+            <x-m> 3.48777</x-m>
+            <y-m>-1.15794</y-m>
+            <z-m>-1.6197</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>0</y>
+            <z>-1</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>LHrudder</object-name>
+        <expression>
+            <product>
+                <value>30</value>
+                <property>surface-positions/rudder-pos-norm</property>
+                <property alias="/params/water-rudder-norm"/>
+            </product>
+        </expression>
+        <center>
+            <x-m> 3.5172</x-m>
+            <y-m>-1.1571</y-m>
+            <z-m>-1.4308</z-m>
+        </center>
+        <axis>
+            <x>-0.087</x>
+            <y> 0</y>
+            <z> 0.996</z>
+        </axis>
+    </animation>
+    <animation>
+        <type>rotate</type>
+        <object-name>LHrudder</object-name>
+        <property alias="/params/water-rudder-norm"/>
+        <factor>90</factor>
+        <center>
+            <x-m> 3.47</x-m>
+            <y-m>-1.434</y-m>
+            <z-m>-1.63</z-m>
+        </center>
+        <axis>
+            <x>0</x>
+            <y>1</y>
+            <z>0</z>
         </axis>
     </animation>
 

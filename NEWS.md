@@ -4,11 +4,24 @@ List of features and bug fixes
 Version 2024.2.0
 --------------
 
+**Fixes:**
+
+* Repairing flag stuck on sim reset
+* Density altitude function syntax error correction
+* Conversions to .gltf
+
+Version 2024.1.2
+--------------
+
 **Features:**
 
+* Use density altitude for auto mixture in autostart
 
 **Fixes:**
 
+* Add rudder trim to autostart
+* Adjust pitch moment tables on flap deploy
+* Fix throttle with mouse slider bug
 
 Version 2024.1
 --------------

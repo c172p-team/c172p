@@ -195,6 +195,9 @@ var save_state = func {
     var damage = getprop("/fdm/jsbsim/settings/damage");
     setprop("/save/damage", damage);
 
+    var damagelevel = getprop("/fdm/jsbsim/engine/damage-level");
+    setprop("/save/damage-level", damagelevel);
+
     var geardown = getprop("/controls/gear/gear-down");
     setprop("/save/geardown", geardown);
     var gearpos = getprop("/fdm/jsbsim/gear/gear-pos-norm");
@@ -211,10 +214,8 @@ var save_state = func {
     setprop("/save/flapsnorm", flapsnorm);
     var elevtrim = getprop("/controls/flight/elevator-trim");
     setprop("/save/elevtrim", elevtrim);
-    var carbheat1 = getprop("/controls/anti-ice/engine[0]/carb-heat");
-    setprop("/save/carbheat1", carbheat1);
-    var carbheat2 = getprop("/controls/anti-ice/engine[1]/carb-heat");
-    setprop("/save/carbheat2", carbheat2);
+    var carbheat = getprop("/controls/engines/current-engine/carb-heat");
+    setprop("/save/carbheat", carbheat);
     var pitotheat = getprop("/controls/anti-ice/pitot-heat");
     setprop("/save/pitotheat", pitotheat);
     var cabheat = getprop("/environment/aircraft-effects/cabin-heat-set");
@@ -382,6 +383,7 @@ var read_state_from_file = func (filename) {
 var resume_state = func {
 
     setprop("/fdm/jsbsim/settings/damage", 0);
+    setprop("/fdm/jsbsim/engine/damage-level", 0);
 
     c172p.oil_consumption.stop();
 
@@ -443,10 +445,10 @@ var resume_state = func {
         setprop("/systems/electrical/save-battery-charge", savebat);
         
         if (!getprop("/controls/panel/glass")) {
-            var savebatp = getprop("/save/savebatp");   
+            var savebatp = getprop("/save/savebatp");
             setprop("/systems/electrical/battery-charge-percent", savebatp);
         } else {
-            var savebatpa = getprop("/save/savebatpa"); 
+            var savebatpa = getprop("/save/savebatpa");
             setprop("/systems/electrical/battery-charge-percent/a", savebatpa);
             var savebatpb = getprop("/save/savebatpb");
             setprop("/systems/electrical/battery-charge-percent/b", savebatpb);
@@ -588,10 +590,8 @@ var resume_state = func {
         setprop("/surface-positions/flap-pos-norm", flapsnorm);
         var elevtrim = getprop("/save/elevtrim");
         setprop("/controls/flight/elevator-trim", elevtrim);
-        var carbheat1 = getprop("/save/carbheat1");
-        setprop("/controls/anti-ice/engine[0]/carb-heat", carbheat1);
-        var carbheat2 = getprop("/save/carbheat2");
-        setprop("/controls/anti-ice/engine[1]/carb-heat", carbheat2);
+        var carbheat = getprop("/save/carbheat");
+        setprop("/controls/engines/current-engine/carb-heat", carbheat);
         var pitotheat = getprop("/save/pitotheat");
         setprop("/controls/anti-ice/pitot-heat", pitotheat);
         var cabheat = getprop("/save/cabheat");
@@ -710,6 +710,7 @@ var resume_state = func {
         setprop("/controls/mooring/anchor", anchor);
 
         var damage = getprop("/save/damage");
+	var damagelevel = getprop("/save/damage-level");
         #var altitude = getprop("/save/altitude-ft");
 
         var starter_molten = getprop("/save/starter-overheated");
@@ -739,6 +740,7 @@ var resume_state = func {
 
         settimer(func {
             setprop("/fdm/jsbsim/settings/damage", damage);
+	    setprop("/fdm/jsbsim/engine/damage-level", damagelevel);
         }, damage_delay);
 
         print("State resumed!");

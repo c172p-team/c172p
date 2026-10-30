@@ -12,6 +12,9 @@ var autostart = func (msg=1) {
     # Reset battery charge and circuit breakers
     electrical.reset_battery_and_circuit_breakers();
 
+    #Guarantee repairing flag is reset
+    setprop("/fdm/jsbsim/damage/repairing", 0);
+
     # Setting levers and switches for startup
     setprop("/controls/switches/magnetos", 3);
 	setprop("/controls/engines/engine[0]/throttle", 0.2);
@@ -21,6 +24,7 @@ var autostart = func (msg=1) {
     setprop("/controls/engines/current-engine/mixture", auto_mixture);
 
     setprop("/controls/flight/elevator-trim", 0.0);
+    setprop("/controls/flight/rudder-trim", 0.02);
     setprop("/controls/switches/master-bat", 1);
     setprop("/controls/switches/master-alt", 1);
     setprop("/controls/switches/master-avionics", 1);
@@ -369,8 +373,7 @@ var switches_save_state = func {
         setprop("/controls/flight/flaps", 0.0);
         setprop("/surface-positions/flap-pos-norm", 0.0);
         setprop("/controls/flight/elevator-trim", 0.0);
-        setprop("/controls/anti-ice/engine[0]/carb-heat", 0);
-        setprop("/controls/anti-ice/engine[1]/carb-heat", 0);
+        setprop("/controls/engines/current-engine/carb-heat", 0);
         setprop("/controls/anti-ice/pitot-heat", 0);
         setprop("/environment/aircraft-effects/cabin-heat-set", 0.0);
         setprop("/environment/aircraft-effects/cabin-air-set", 0.0);
@@ -501,6 +504,8 @@ var reset_system = func {
     props.globals.getNode("/fdm/jsbsim/pontoon-damage/right-pontoon", 0).setIntValue(0);
 
     setprop("/engines/active-engine/kill-engine", 0);
+
+    setprop("/fdm/jsbsim/damage/repairing", 0);
 
     set_fuel();
 }

@@ -1014,19 +1014,24 @@ We have captured the localizer and the GS.
                 </sum>
             </expression>
         </input>
-        <input>
-            <condition>
-                <equals>
-                    <property>autopilot/kap140/panel/digit-mode</property>
-                    <value>3</value>
-                </equals>
-                <equals>
-                    <property>autopilot/kap140/panel/baro-mode</property>
-                    <value>1</value>
-                </equals>
-            </condition>
-            <property alias="/params/baro-hpa"/>
-        </input>
+	<input>  
+	    <condition>  
+	        <equals>  
+	            <property>autopilot/kap140/panel/digit-mode</property>  
+	            <value>3</value>  
+	        </equals>  
+	        <equals>  
+	            <property>autopilot/kap140/panel/baro-mode</property>  
+	            <value>1</value>  
+	        </equals>  
+	    </condition>  
+	    <expression>  
+	        <sum>  
+	            <property alias="/params/baro-hpa"/>  
+	            <value>0.5</value>  
+	        </sum>  
+	    </expression>  
+	</input>
         <output>autopilot/kap140/panel/digit</output>
     </filter>
 

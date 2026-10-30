@@ -136,7 +136,7 @@ aircraft.data.add(
 
 # Other controls
 aircraft.data.add(
-    "/controls/anti-ice/engine/carb-heat",
+    "/controls/engines/current-engine/carb-heat",
     "/controls/anti-ice/pitot-heat",
     "/consumables/fuel/tank/selected",
     "/consumables/fuel/tank[1]/selected",

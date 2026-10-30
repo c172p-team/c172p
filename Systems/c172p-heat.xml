@@ -218,18 +218,35 @@
             <input>-heat/cabin-air-temp-delta</input>
         </summer>
 
-        <!-- Human body temperature (37 degC) is NOT relative to ambient, so
-             ambient must stay explicit here - it does not cancel.
-        -->
-        <summer name="heat/cabin-human-temp-diff">
-            <input>heat/human-body-temp-degc</input>
-            <input>-/environment/temperature-degc</input>
-            <input>-heat/cabin-air-temp-delta</input>
-            <clipto>
-                <min>-0.01</min>
-                <max> 0.10</max>
-            </clipto>
-        </summer>
+	<!-- Human body temperature (37 degC) is NOT relative to ambient, so  
+	     ambient must stay explicit here - it does not cancel.  
+	  
+	     Proportional version: heat transfer scales with the actual  
+	     body-to-cabin temperature gap instead of saturating the clip.  
+	     k = 0.004 is chosen so the output reaches ~0.10 (the original  
+	     clip ceiling) at a ~27 degC gap - i.e. at cold-ambient cruise  
+	     conditions - preserving the repo's original maximum human heat  
+	     rate, while tapering smoothly to zero as cabin approaches 37 degC  
+	     instead of staying pinned at the cap.  
+	-->  
+	<fcs_function name="heat/cabin-human-temp-diff">  
+	    <function>  
+	        <product>  
+	            <difference>  
+	                <property>heat/human-body-temp-degc</property>  
+	                <sum>  
+	                    <property>/environment/temperature-degc</property>  
+	                    <property>heat/cabin-air-temp-delta</property>  
+	                </sum>  
+	            </difference>  
+	            <value>0.004</value>  
+	        </product>  
+	    </function>  
+	    <clipto>  
+	        <min>-0.01</min>  
+	        <max> 0.10</max>  
+	    </clipto>  
+	</fcs_function>
 
         <scheduled_gain name="heat/cabin-air-transfer-heat-duct">
             <input>heat/cabin-heat-temp-diff</input>

@@ -936,15 +936,17 @@ setlistener("/sim/signals/fdm-initialized", func {
 });
 
 setlistener("/sim/model/c172p/cabin-air-temp-in-range", func (node) {
-    if (node.getValue()) {
-        cabin_temp_timer.stop();
-        logger.screen.green("Cabin temperature between 32F/0C and 90F/32C");
-    }
-    else {
-        log_cabin_temp();
-        cabin_temp_timer.start();
-    }
-}, 1, 0);
+    # Defer the check by one update tick so it doesn't fire while FDM init / save-restore is still settling.
+    settimer(func {
+        if (node.getValue()) {
+            cabin_temp_timer.stop();
+            logger.screen.green("Cabin temperature between 32F/0C and 90F/32C");
+        } else {
+            log_cabin_temp();
+            cabin_temp_timer.start();
+        }
+    }, 0.0);
+}, 0, 0);
 
 setlistener("/sim/model/c172p/fog-or-frost-increasing", func (node) {
     if (node.getValue()) {
@@ -954,7 +956,7 @@ setlistener("/sim/model/c172p/fog-or-frost-increasing", func (node) {
     else {
         fog_frost_timer.stop();
     }
-}, 1, 0);
+}, 0, 0);
 
 # season-winter is a conversion value, see c172p-ground-effects.xml
 setprop("/sim/startup/season-winter", getprop("/sim/startup/season") == "winter");

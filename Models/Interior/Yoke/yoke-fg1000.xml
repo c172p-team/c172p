@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-    <path>yoke-fg1000.ac</path>
+    <path>c172p-yoke-fg1000.gltf</path>
 
     <params>
         <aileron>/sim/model/c172p/cockpit/yoke-aileron</aileron>
@@ -10,38 +10,20 @@
         <elevatornorm>/sim/model/c172p/cockpit/yoke-elevator-norm</elevatornorm>
     </params>
 
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-yoke</inherits-from>
+    <animation>
+        <type>select</type>
         <object-name>LeftYokeMain</object-name>
         <object-name>YokeCordLeft</object-name>
+        <object-name>LeftYoke</object-name>
         <object-name>RightYokeMain</object-name>
         <object-name>YokeCordRight</object-name>
-        <object-name>LeftYoke</object-name>
-        <object-name>LeftYokeMount</object-name>
         <object-name>RightYoke</object-name>
-        <object-name>RightYokeMount</object-name>
-    </effect>
-
-    <animation>
-        <type>material</type>
-        <object-name>LeftYoke</object-name>
-        <object-name>LeftYokeMain</object-name>
-        <object-name>RightYoke</object-name>
-        <object-name>RightYokeMain</object-name>
-        <object-name>LeftYoke</object-name>
-        <object-name>LeftYokeMount</object-name>
-        <object-name>RightYoke</object-name>
-        <object-name>RightYokeMount</object-name>
         <condition>
-            <not>
-                <property>sim/rendering/shaders/skydome</property>
-            </not>
+			<equals>
+				<property>sim/model/hide-yoke</property>
+                <value>0</value>
+			</equals>
         </condition>
-        <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
     </animation>
 
     <animation>
@@ -71,9 +53,12 @@
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.34713</x-m>
+            <!--x-m>-0.34713</x-m>
             <y-m>-0.22065</y-m>
-            <z-m>-0.09786</z-m>
+            <z-m>-0.09786</z-m-->
+            <x-m>-0.319682</x-m>
+            <y-m>-0.457639</y-m>
+            <z-m>-0.279841</z-m>
         </center>
     </animation>
 
@@ -90,34 +75,12 @@
         </axis>
         <center>
             <x-m>-0.34602</x-m>
-            <y-m> 0.23951</y-m>
-            <z-m>-0.09581</z-m>
+            <y-m>-0.09581</y-m>
+            <z-m>-0.23951</z-m>
         </center>
     </animation>
 
-     <animation>
-        <type>select</type>
-        <object-name>LeftYoke</object-name>
-        <object-name>LeftYokeMain</object-name>
-         <object-name>RightYoke</object-name>
-         <object-name>RightYokeMain</object-name>
-        <object-name>YokeCordLeft</object-name>
-        <object-name>YokeCordRight</object-name>
-        <condition>
-            <or>
-                <not><property>sim/model/hide-yoke</property></not>
-                <and>
-                    <property>sim/model/hide-yoke</property>
-                    <greater-than>
-                        <property>sim/model/hide-yoke-alpha</property>
-                        <value>0.05</value>
-                    </greater-than>
-                </and>
-            </or>
-        </condition>
-    </animation>
-
-    <animation>
+    <!--animation>
         <type>material</type>
         <object-name>LeftYoke</object-name>
         <object-name>LeftYokeMain</object-name>
@@ -128,7 +91,7 @@
         <transparency>
             <alpha-prop>sim/model/hide-yoke-alpha</alpha-prop>
         </transparency>
-    </animation>
+    </animation-->
 
     <animation>
         <type>pick</type>

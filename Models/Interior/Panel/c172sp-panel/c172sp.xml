@@ -8,6 +8,7 @@
     <params>
         <controls>
             <parking-lever>sim/model/c172p/cockpit/parking-lever</parking-lever>
+        <altstaticair>systems/static-selected-source</altstaticair>
         </controls>
         <glass>sim/multiplay/generic/bool[1]</glass>
     </params>
@@ -1207,6 +1208,34 @@
             <y-m>-0.085555</y-m>
             <z-m> 0.29112</z-m>
         </center>
+    </animation>
+
+    <!-- Alt static knob -->
+    <animation>
+        <type>slider</type>
+        <object-name>AltStaticAir-fg1000</object-name>
+        <property>systems/static-selected-source-norm</property>
+        <factor>0.010</factor>
+        <axis>
+            <x>1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <action>
+            <binding>
+                <command>property-toggle</command>
+                <property alias="/params/controls/altstaticair"/>
+            </binding>
+        </action>
+        <hovered>
+            <binding>
+                <command>set-tooltip</command>
+                <tooltip-id>alt-static-air-tooltip</tooltip-id>
+                <mapping>on-off</mapping>
+                <label>Alternate static air: %s</label>
+                <property alias="/params/controls/altstaticair"/>
+            </binding>
+        </hovered>
     </animation>
 
     <animation>
@@ -3984,7 +4013,7 @@
     </animation>
 
     <!-- interior effects -->
-    <effect>
+    <!--effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-interior-panel-parts</inherits-from>
         <object-name>switchbase</object-name>
         <object-name>CabinAirMounts-fg1000</object-name>
@@ -4149,20 +4178,20 @@
         <inherits-from>Effects/model-pbr</inherits-from>
         <object-name>Panel</object-name>
         <object-name>Panel.mesh.002</object-name>
-    </effect>
+    </effect-->
     <!--effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/pbr-panel-emissive</inherits-from>
         <object-name>Panel</object-name>
         <object-name>Panel.mesh.002</object-name>
     </effect-->
-    <effect>
+    <!--effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-interior-panel</inherits-from>
         <object-name>panel_1_glass</object-name>
     </effect>
     <effect>
         <inherits-from>Aircraft/c172p/Models/Effects/interior/interior-glass-reflection-panel-front</inherits-from>
         <object-name>glass_panel-fg1000</object-name>
-    </effect>
+    </effect-->
 
     <!--animation>
         <type>material</type>

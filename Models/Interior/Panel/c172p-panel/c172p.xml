@@ -174,26 +174,44 @@
 
     <!-- Dome Light White -->
     <animation>
-        <type>material</type>
+        <type>pbr</type>
         <object-name>DomeLightWhite</object-name>
-        <emission>
-            <red>  0.697</red>
-            <green>0.689</green>
-            <blue> 0.445</blue>
-            <factor-prop>sim/model/lightmap/dome/factor</factor-prop>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>sim/model/lightmap/dome/factor</property>
+                <scale>0.697</scale>
+            </r>
+            <g>
+                <property>sim/model/lightmap/dome/factor</property>
+                <scale>0.689</scale>
+            </g>
+            <b>
+                <property>sim/model/lightmap/dome/factor</property>
+                <scale>0.445</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>../Models/panel_parts.png</emissive-texture>
     </animation>
 
     <!-- Dome Light Red -->
     <animation>
-        <type>material</type>
+        <type>pbr</type>
         <object-name>DomeLightRed</object-name>
-        <emission>
-            <red>  1.0</red>
-            <green>0.0</green>
-            <blue> 0.0</blue>
-            <factor-prop>sim/model/lightmap/flood/factor</factor-prop>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>sim/model/lightmap/flood/factor</property>
+                <scale>1.0</scale>
+            </r>
+            <g>
+                <property>sim/model/lightmap/flood/factor</property>
+                <scale>0.0</scale>
+            </g>
+            <b>
+                <property>sim/model/lightmap/flood/factor</property>
+                <scale>0.0</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>../Models/panel_parts.png</emissive-texture>
     </animation>
 
     <!-- Dome Light Post/Integral Switch -->
@@ -309,7 +327,7 @@
             <binding>
                 <command>property-adjust</command>
                 <property>controls/lighting/dome-white-norm</property>
-                <factor>1.0</factor>
+                <factor>-1.0</factor>
                 <min>0.0</min>
                 <max>10.0</max>
                 <wrap>0</wrap>
@@ -3397,7 +3415,7 @@
     <!--emissive-texture-prop>texture</emissive-texture-prop-->
     <emissive-texture>../../../Effects/interior/lm_panel-post.png</emissive-texture>
 </animation>
-<!--animation>
+<animation>
     <type>pbr</type>
     <object-name>FuelSelectorFace</object-name>
     <object-name>FuelSelectorLeft</object-name>
@@ -3419,7 +3437,7 @@
         </b>
     </emissive-factor>
     <emissive-texture>../../../Effects/interior/lm_fuel-selector-post.png</emissive-texture>
-</animation-->
+</animation>
 <animation>
     <type>pbr</type>
     <object-name>carpet</object-name>
@@ -3467,10 +3485,7 @@
     <emissive-texture>../../../Effects/interior/lm_interior-post.png</emissive-texture>
 </animation>
 
-<!-- ========================================================= -->
 <!-- C172P RED DOME FLOOD LIGHT                                -->
-<!-- Active in BOTH (1) and FLOOD (2) modes                    -->
-<!-- ========================================================= -->
 <light>
     <name>C172P-DomeFloodRed</name>
     <type>spot</type>
@@ -3505,10 +3520,7 @@
     </debug-color>
 </light>
 
-<!-- ========================================================= -->
 <!-- C172P WHITE DOME FLOOD LIGHT                              -->
-<!-- Brightness follows dome-white-norm                        -->
-<!-- ========================================================= -->
 <light>
     <name>C172P-DomeFloodWhite</name>
     <type>spot</type>
@@ -3547,10 +3559,7 @@
     </debug-color>
 </light>
 
-<!-- ========================================================= -->
-<!-- RED FLOOD ENABLE: modes BOTH (1) and FLOOD (2)             -->
-<!-- Mode POST (0) leaves the red floodlight off               -->
-<!-- ========================================================= -->
+<!-- RED FLOOD ENABLE: modes BOTH (1) and FLOOD (2)            -->
 <animation>
     <type>select</type>
     <object-name>C172P-DomeFloodRed</object-name>
@@ -3562,9 +3571,7 @@
     </condition>
 </animation>
 
-<!-- ========================================================= -->
 <!-- WHITE FLOOD ENABLE: on/off switch                         -->
-<!-- ========================================================= -->
 <animation>
     <type>select</type>
     <object-name>C172P-DomeFloodWhite</object-name>

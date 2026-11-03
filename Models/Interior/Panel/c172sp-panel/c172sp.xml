@@ -1559,49 +1559,6 @@
         </hovered>
     </animation>
 
-    <model>
-        <name>dome-light-right-led</name>
-        <path>Aircraft/c172p/Models/Effects/interior/procedural_light_dome-r-fg1000.xml</path>
-        <offsets>
-            <x-m>0.237</x-m>
-            <y-m>0.0367</y-m>
-            <z-m>0.432</z-m>
-        </offsets>
-        <condition>
-            <and>
-                <greater-than>
-                    <property>controls/lighting/domeR</property>
-                    <value>0</value>
-                </greater-than>
-                <greater-than>
-                    <property>sim/rendering/shaders/model</property>
-                    <value>1</value>
-                </greater-than>
-            </and>
-        </condition>
-    </model>
-    <model>
-        <name>dome-light-left-led</name>
-        <path>Aircraft/c172p/Models/Effects/interior/procedural_light_dome-l-fg1000.xml</path>
-        <offsets>
-            <x-m> 0.236</x-m>
-            <y-m>-0.038</y-m>
-            <z-m> 0.4335</z-m>
-        </offsets>
-        <condition>
-            <and>
-                <greater-than>
-                    <property>controls/lighting/domeL</property>
-                    <value>0</value>
-                </greater-than>
-                <greater-than>
-                    <property>sim/rendering/shaders/model</property>
-                    <value>1</value>
-                </greater-than>
-            </and>
-        </condition>
-    </model>
-
     <animation>
         <type>pbr</type>
         <object-name>dome_lighton_pilot</object-name>
@@ -1612,11 +1569,11 @@
             </r>
             <g>
                 <property>controls/lighting/domeL</property>
-                <scale>0.95</scale>
+                <scale>0.9</scale>
             </g>
             <b>
                 <property>controls/lighting/domeL</property>
-                <scale>0.85</scale>
+                <scale>0.8</scale>
             </b>
         </emissive-factor>
     </animation>
@@ -1630,11 +1587,11 @@
             </r>
             <g>
                 <property>controls/lighting/domeR</property>
-                <scale>0.95</scale>
+                <scale>0.9</scale>
             </g>
             <b>
                 <property>controls/lighting/domeR</property>
-                <scale>0.85</scale>
+                <scale>0.8</scale>
             </b>
         </emissive-factor>
     </animation>
@@ -1654,6 +1611,106 @@
         <nopreview/>
         <condition>
             <property>controls/lighting/domeR</property>
+        </condition>
+    </animation>
+
+    <light>
+        <name>GDU-1044B</name>
+        <type>spot</type>
+
+        <!-- Light source: upper-left portion of gauge -->
+        <position>
+            <x-m>-0.34</x-m>
+            <y-m>-0.2</y-m>
+            <z-m> 0.15</z-m>
+        </position>
+
+        <!-- Aim down and toward the left -->
+        <direction>
+            <x>1</x>
+            <y>0</y>
+            <z>-1</z>
+        </direction>
+
+        <color>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+        </color>
+
+        <intensity>
+            <property>/controls/lighting/avionics-norm</property>
+            <factor>.00001</factor>
+        </intensity>
+
+        <spot-exponent>4.0</spot-exponent>
+        <spot-cutoff>80</spot-cutoff>
+        <range-m>.25</range-m>
+
+        <debug-color>
+            <r>1</r>
+            <g>0</g>
+            <b>0</b>
+        </debug-color>
+    </light>
+    <animation>
+        <type>select</type>
+        <object-name>GDU-1044B</object-name>
+        <condition>
+            <greater-than>
+                <property>/controls/lighting/avionics-norm</property>
+                <value>0</value>
+            </greater-than>
+        </condition>
+    </animation>
+
+    <light>
+        <name>GDU-1040</name>
+        <type>spot</type>
+
+        <!-- Light source: upper-left portion of gauge -->
+        <position>
+            <x-m>-0.34</x-m>
+            <y-m> 0.15</y-m>
+            <z-m> 0.15</z-m>
+        </position>
+
+        <!-- Aim down and toward the left -->
+        <direction>
+            <x>1</x>
+            <y>0</y>
+            <z>-1</z>
+        </direction>
+
+        <color>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+        </color>
+
+        <intensity>
+            <property>/controls/lighting/avionics-norm</property>
+            <factor>.00001</factor>
+        </intensity>
+
+        <spot-exponent>4.0</spot-exponent>
+        <spot-cutoff>80</spot-cutoff>
+        <range-m>.25</range-m>
+
+        <debug-color>
+            <r>1</r>
+            <g>0</g>
+            <b>0</b>
+        </debug-color>
+    </light>
+    <animation>
+        <type>select</type>
+        <object-name>GDU-1040</object-name>
+        <condition>
+            <greater-than>
+                <property>/controls/lighting/avionics-norm</property>
+                <value>0</value>
+            </greater-than>
         </condition>
     </animation>
 
@@ -4026,339 +4083,5 @@
             <factor-prop>instrumentation/audio-panel/coplt-btn</factor-prop>
         </emission>
     </animation>
-
-    <!-- interior effects -->
-    <!--effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-interior-panel-parts</inherits-from>
-        <object-name>switchbase</object-name>
-        <object-name>CabinAirMounts-fg1000</object-name>
-        <object-name>MixtureMount-fg1000</object-name>
-        <object-name>ThrottleMount-fg1000</object-name>
-
-        <object-name>togglebase</object-name>
-
-        <object-name>AP.L0</object-name>
-        <object-name>AP.L1</object-name>
-        <object-name>AP.L2</object-name>
-        <object-name>AP.L3</object-name>
-        <object-name>AP.L4</object-name>
-        <object-name>AP.L5</object-name>
-        <object-name>AP.L6</object-name>
-        <object-name>AP.L7</object-name>
-        <object-name>AP.L8</object-name>
-        <object-name>AP.L9</object-name>
-        <object-name>AP.L10</object-name>
-        <object-name>AP.R0</object-name>
-        <object-name>AP.R1</object-name>
-        <object-name>AP.R2</object-name>
-        <object-name>AP.R3</object-name>
-        <object-name>AP.R4</object-name>
-        <object-name>AP.R5</object-name>
-        <object-name>AP.R6</object-name>
-        <object-name>AP.R7</object-name>
-        <object-name>AP.R8</object-name>
-        <object-name>AP.R9</object-name>
-        <object-name>testlamp</object-name>
-        <object-name>autopilot_breaker-fg1000</object-name>
-        <object-name>adc-ahrs-avn_breaker-fg1000</object-name>
-        <object-name>adc-ahrs-ess_breaker-fg1000</object-name>
-        <object-name>alt-field_breaker-fg1000</object-name>
-        <object-name>audio_breaker-fg1000</object-name>
-        <object-name>autopilot_breaker-fg1000</object-name>
-        <object-name>avn1_breaker-fg1000</object-name>
-        <object-name>strobe_breaker-fg1000</object-name>
-        <object-name>bcnlt_breaker-fg1000</object-name>
-        <object-name>landing_breaker-fg1000</object-name>
-        <object-name>navlt_breaker-fg1000</object-name>
-        <object-name>intlt_breaker-fg1000</object-name>
-        <object-name>instr_breaker-fg1000</object-name>
-        <object-name>pitot-heat_breaker-fg1000</object-name>
-        <object-name>master_breaker-fg1000</object-name>
-        <object-name>flaps_breaker-fg1000</object-name>
-        <object-name>avn2_breaker-fg1000</object-name>
-        <object-name>comm1_breaker-fg1000</object-name>
-        <object-name>comm2_breaker-fg1000</object-name>
-        <object-name>dme-adf_breaker-fg1000</object-name>
-        <object-name>fis_breaker-fg1000</object-name>
-        <object-name>fuel-pump_breaker-fg1000</object-name>
-        <object-name>mfd_breaker-fg1000</object-name>
-        <object-name>nav1-eng-avn_breaker-fg1000</object-name>
-        <object-name>nav1-eng-ess_breaker-fg1000</object-name>
-        <object-name>nav2_breaker-fg1000</object-name>
-        <object-name>pfd-avn_breaker-fg1000</object-name>
-        <object-name>pfd-ess_breaker-fg1000</object-name>
-        <object-name>stdby-batt_breaker-fg1000</object-name>
-        <object-name>stdby-ndlts_breaker-fg1000</object-name>
-        <object-name>taxi_breaker-fg1000</object-name>
-        <object-name>warn_breaker-fg1000</object-name>
-        <object-name>xpndr_breaker-fg1000</object-name>
-        <object-name>BreakersBase-fg1000</object-name>
-
-        <object-name>mike-fg1000</object-name>
-        <object-name>mike_chord-fg1000</object-name>
-        <object-name>mike_mount-fg1000</object-name>
-
-        <object-name>windlocket_right-fg1000</object-name>
-        <object-name>windlocket_left-fg1000</object-name>
-        <object-name>windlocketbak_right-fg1000</object-name>
-        <object-name>windlocketbak_left-fg1000</object-name>
-        <object-name>doorhandleint_right-fg1000</object-name>
-        <object-name>doorhandleint_left-fg1000</object-name>
-
-        <object-name>LeftBag-fg1000</object-name>
-
-        <object-name>CeilingSpeakerFG1000</object-name>
-        <object-name>dome_light_copilot</object-name>
-        <object-name>dome_light_pilot</object-name>
-
-        <object-name>FuelSelectorFace-fg1000</object-name>
-        <object-name>eltlamp</object-name>
-        <object-name>ELTSwitch</object-name>
-        <object-name>eltbolts</object-name>
-
-        <object-name>knob-avionics</object-name>
-        <object-name>knob-pedestal</object-name>
-        <object-name>knob-swcb</object-name>
-        <object-name>knob-stbyind</object-name>
-        <object-name>toggle-beacon</object-name>
-        <object-name>toggle-cabin-pwr</object-name>
-        <object-name>toggle-fuel</object-name>
-        <object-name>toggle-land</object-name>
-        <object-name>toggle-nav</object-name>
-        <object-name>toggle-pitot</object-name>
-        <object-name>toggle-strobe</object-name>
-        <object-name>toggle-taxi</object-name>
-        <object-name>toggle-stbybatt</object-name>
-        <object-name>VolNAV</object-name>
-        <object-name>AltOuter</object-name>
-        <object-name>AltInner</object-name>
-
-        <object-name>FuelSelectorLeft-fg1000</object-name>
-        <object-name>FuelSelectorRight-fg1000</object-name>
-        <object-name>FuelSelectorBoth-fg1000</object-name>
-        <object-name>FuelSelectorOff-fg1000</object-name>
-
-        <object-name>CabinAir-fg1000</object-name>
-        <object-name>CabinHeat-fg1000</object-name>
-        <object-name>Mixture-fg1000</object-name>
-        <object-name>Throttle-fg1000</object-name>
-        <object-name>AltStaticAir-fg1000</object-name>
-        <object-name>MasterSwitch-fg1000</object-name>
-        <object-name>GenSwitch-fg1000</object-name>
-        <object-name>AvionicsSwitch-fg1000</object-name>
-        <object-name>AvionicsSwitch2-fg1000</object-name>
-        <object-name>ElevatorTrimPos-fg1000</object-name>
-        <object-name>ParkingBrake-fg1000</object-name>
-        <object-name>TrimWheel-fg1000</object-name>
-        <object-name>RudderTrimKnob-fg1000</object-name>
-    </effect>
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-interior</inherits-from>
-        <object-name>carpet-fg1000</object-name>
-        <object-name>chassis-fg1000</object-name>
-        <object-name>backseat_left-fg1000</object-name>
-        <object-name>pilotseat_left-fg1000</object-name>
-        <object-name>pilotseat_right-fg1000</object-name>
-        <object-name>doorint_right-fg1000</object-name>
-        <object-name>doorint_left-fg1000</object-name>
-        <object-name>windowframeleftint-fg1000</object-name>
-        <object-name>windowframerightint-fg1000</object-name>
-        <object-name>Firewall-fg1000</object-name>
-        <object-name>baggagedoorinterior-fg1000</object-name>
-        <object-name>AirVent_left-fg1000</object-name>
-        <object-name>AirVent_right-fg1000</object-name>
-        <object-name>wing_1L-fg1000</object-name>
-        <object-name>wing_1R-fg1000</object-name>
-        <object-name>visorleft-fg1000</object-name>
-        <object-name>visorright-fg1000</object-name>
-        <object-name>visorrodleft-fg1000</object-name>
-        <object-name>visorrodright-fg1000</object-name>
-        <object-name>visorbaseleft-fg1000</object-name>
-        <object-name>visorbaseright-fg1000</object-name>
-        <object-name>doorintstrapleft-fg1000</object-name>
-        <object-name>doorintstrapright-fg1000</object-name>
-    </effect>
-
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-interior-panel-parts-implicit</inherits-from>
-        <object-name>panel_1_1-fg1000</object-name>
-        <object-name>panel</object-name>
-        <object-name>panel-dome</object-name>
-        <object-name>FuelSelectorPanel-fg1000</object-name>
-        <object-name>Pedestal-fg1000</object-name>
-        <object-name>RudderTrimBase-fg1000</object-name>
-        <object-name>eltpanel</object-name>
-    </effect>
-    <effect>
-        <inherits-from>Effects/model-pbr</inherits-from>
-        <object-name>Panel</object-name>
-        <object-name>Panel.mesh.002</object-name>
-    </effect-->
-    <!--effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/pbr-panel-emissive</inherits-from>
-        <object-name>Panel</object-name>
-        <object-name>Panel.mesh.002</object-name>
-    </effect-->
-    <!--effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-interior-panel</inherits-from>
-        <object-name>panel_1_glass</object-name>
-    </effect>
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/interior-glass-reflection-panel-front</inherits-from>
-        <object-name>glass_panel-fg1000</object-name>
-    </effect-->
-
-    <!--animation>
-        <type>material</type>
-        <object-name>switchbase</object-name>
-        <object-name>AltStaticAir-fg1000</object-name>
-        <object-name>MasterSwitch-fg1000</object-name>
-        <object-name>GenSwitch-fg1000</object-name>
-        <object-name>AvionicsSwitch-fg1000</object-name>
-        <object-name>AvionicsSwitch2-fg1000</object-name>
-        <object-name>CabinAirMounts-fg1000</object-name>
-        <object-name>CabinAir-fg1000</object-name>
-        <object-name>CabinHeat-fg1000</object-name>
-        <object-name>MixtureMount-fg1000</object-name>
-        <object-name>ThrottleMount-fg1000</object-name>
-        <object-name>Mixture-fg1000</object-name>
-        <object-name>Throttle-fg1000</object-name>
-        <object-name>Panel</object-name>
-        <object-name>knob-avionics</object-name>
-        <object-name>knob-pedestal</object-name>
-        <object-name>knob-swcb</object-name>
-        <object-name>knob-stbyind</object-name>
-        <object-name>switchbase</object-name>
-        <object-name>toggle-beacon</object-name>
-        <object-name>toggle-cabin-pwr</object-name>
-        <object-name>toggle-fuel</object-name>
-        <object-name>toggle-land</object-name>
-        <object-name>toggle-nav</object-name>
-        <object-name>toggle-pitot</object-name>
-        <object-name>toggle-strobe</object-name>
-        <object-name>toggle-taxi</object-name>
-        <object-name>toggle-stbybatt</object-name>
-        <object-name>togglebase</object-name>
-        <object-name>panel</object-name>
-        <object-name>VolNAV</object-name>
-        <object-name>AltOuter</object-name>
-        <object-name>AltInner</object-name>
-        <object-name>AP.L0</object-name>
-        <object-name>AP.L1</object-name>
-        <object-name>AP.L2</object-name>
-        <object-name>AP.L3</object-name>
-        <object-name>AP.L4</object-name>
-        <object-name>AP.L5</object-name>
-        <object-name>AP.L6</object-name>
-        <object-name>AP.L7</object-name>
-        <object-name>AP.L8</object-name>
-        <object-name>AP.L9</object-name>
-        <object-name>AP.L10</object-name>
-        <object-name>AP.R0</object-name>
-        <object-name>AP.R1</object-name>
-        <object-name>AP.R2</object-name>
-        <object-name>AP.R3</object-name>
-        <object-name>AP.R4</object-name>
-        <object-name>AP.R5</object-name>
-        <object-name>AP.R6</object-name>
-        <object-name>AP.R7</object-name>
-        <object-name>AP.R8</object-name>
-        <object-name>AP.R9</object-name>
-        <object-name>testlamp</object-name>
-        <object-name>ParkingBrake-fg1000</object-name>
-        <object-name>autopilot_breaker-fg1000</object-name>
-        <object-name>adc-ahrs-avn_breaker-fg1000</object-name>
-        <object-name>adc-ahrs-ess_breaker-fg1000</object-name>
-        <object-name>alt-field_breaker-fg1000</object-name>
-        <object-name>audio_breaker-fg1000</object-name>
-        <object-name>autopilot_breaker-fg1000</object-name>
-        <object-name>avn1_breaker-fg1000</object-name>
-        <object-name>strobe_breaker-fg1000</object-name>
-        <object-name>bcnlt_breaker-fg1000</object-name>
-        <object-name>landing_breaker-fg1000</object-name>
-        <object-name>navlt_breaker-fg1000</object-name>
-        <object-name>intlt_breaker-fg1000</object-name>
-        <object-name>instr_breaker-fg1000</object-name>
-        <object-name>pitot-heat_breaker-fg1000</object-name>
-        <object-name>master_breaker-fg1000</object-name>
-        <object-name>flaps_breaker-fg1000</object-name>
-        <object-name>avn2_breaker-fg1000</object-name>
-        <object-name>comm1_breaker-fg1000</object-name>
-        <object-name>comm2_breaker-fg1000</object-name>
-        <object-name>dme-adf_breaker-fg1000</object-name>
-        <object-name>fis_breaker-fg1000</object-name>
-        <object-name>fuel-pump_breaker-fg1000</object-name>
-        <object-name>mfd_breaker-fg1000</object-name>
-        <object-name>nav1-eng-avn_breaker-fg1000</object-name>
-        <object-name>nav1-eng-ess_breaker-fg1000</object-name>
-        <object-name>nav2_breaker-fg1000</object-name>
-        <object-name>pfd-avn_breaker-fg1000</object-name>
-        <object-name>pfd-ess_breaker-fg1000</object-name>
-        <object-name>stdby-batt_breaker-fg1000</object-name>
-        <object-name>stdby-ndlts_breaker-fg1000</object-name>
-        <object-name>taxi_breaker-fg1000</object-name>
-        <object-name>warn_breaker-fg1000</object-name>
-        <object-name>xpndr_breaker-fg1000</object-name>
-        <object-name>BreakersBase-fg1000</object-name>
-        <object-name>mike-fg1000</object-name>
-        <object-name>mike_chord-fg1000</object-name>
-        <object-name>mike_mount-fg1000</object-name>
-        <object-name>LeftBag-fg1000</object-name>
-        <object-name>CeilingSpeakerFG1000</object-name>
-        <object-name>dome_light_copilot</object-name>
-        <object-name>dome_light_pilot</object-name>
-
-        <object-name>FuelSelectorLeft-fg1000</object-name>
-        <object-name>FuelSelectorRight-fg1000</object-name>
-        <object-name>FuelSelectorBoth-fg1000</object-name>
-        <object-name>FuelSelectorOff-fg1000</object-name>
-        <object-name>FuelSelectorFace-fg1000</object-name>
-        <object-name>FuelSelectorPanel-fg1000</object-name>
-
-        <object-name>Pedestal-fg1000</object-name>
-        <object-name>RudderTrimBase-fg1000</object-name>
-        <object-name>RudderTrimKnob-fg1000</object-name>
-        <object-name>ElevatorTrimPos-fg1000</object-name>
-        <object-name>TrimWheel-fg1000</object-name>
-        <object-name>carpet-fg1000</object-name>
-        <object-name>chassis-fg1000</object-name>
-        <object-name>backseat_left-fg1000</object-name>
-        <object-name>pilotseat_left-fg1000</object-name>
-        <object-name>pilotseat_right-fg1000</object-name>
-        <object-name>doorint_right-fg1000</object-name>
-        <object-name>doorint_left-fg1000</object-name>
-        <object-name>windowframeleftint-fg1000</object-name>
-        <object-name>windowframerightint-fg1000</object-name>
-        <object-name>Firewall-fg1000</object-name>
-        <object-name>baggagedoorinterior-fg1000</object-name>
-        <object-name>AirVent_left-fg1000</object-name>
-        <object-name>AirVent_right-fg1000</object-name>
-        <object-name>wing_1L-fg1000</object-name>
-        <object-name>wing_1R-fg1000</object-name>
-        <object-name>visorleft-fg1000</object-name>
-        <object-name>visorright-fg1000</object-name>
-        <object-name>visorrodleft-fg1000</object-name>
-        <object-name>visorrodright-fg1000</object-name>
-        <object-name>visorbaseleft-fg1000</object-name>
-        <object-name>visorbaseright-fg1000</object-name>
-        <object-name>doorintstrapleft-fg1000</object-name>
-        <object-name>doorintstrapright-fg1000</object-name>
-        <object-name>windlocket_right-fg1000</object-name>
-        <object-name>windlocket_left-fg1000</object-name>
-        <object-name>windlocketbak_right-fg1000</object-name>
-        <object-name>windlocketbak_left-fg1000</object-name>
-        <object-name>doorhandleint_right-fg1000</object-name>
-        <object-name>doorhandleint_left-fg1000</object-name>
-        <condition>
-            <not>
-                <property>sim/rendering/shaders/skydome</property>
-            </not>
-        </condition>
-        <emission>
-            <red-prop>sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
-    </animation-->
 
 </PropertyList>

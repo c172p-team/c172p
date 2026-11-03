@@ -777,6 +777,7 @@ setlistener("/sim/signals/fdm-initialized", func {
     # Use Nasal to make some properties persistent. <aircraft-data> does
     # not work reliably.
     aircraft.data.add("/sim/model/c172p/immat-on-panel");
+    aircraft.data.add("/sim/model/c172p/cabin-temp-visible");
     aircraft.data.load();
 
     # Initialize mass limits

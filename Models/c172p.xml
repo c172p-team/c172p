@@ -2932,81 +2932,6 @@
         </offsets>
     </model>
 
-    <!-- Green navigation light on starboard side (right) -->
-    <model>
-        <name>nav-light-right</name>
-        <path>Effects/lights/procedural_light_nav_right.xml</path>
-        <offsets>
-            <x-m>0.102</x-m>
-            <y-m>5.66</y-m>
-            <z-m>0.53459</z-m>
-        </offsets>
-    </model>
-    <animation>
-        <type>select</type>
-        <object-name>nav-light-right</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <not-equals>
-                    <property alias="/params/wing_right_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- Red navigation light on port side (left) -->
-    <model>
-        <name>nav-light-left</name>
-        <path>Effects/lights/procedural_light_nav_left.xml</path>
-        <offsets>
-            <x-m> 0.108</x-m>
-            <y-m>-5.66</y-m>
-            <z-m> 0.53365</z-m>
-        </offsets>
-    </model>
-    <animation>
-        <type>select</type>
-        <object-name>nav-light-left</object-name>
-        <nopreview/>
-        <condition>
-            <and>
-                <property alias="/params/lighting/navigation"/>
-                <not-equals>
-                    <property alias="/params/wing_left_damaged/property"/>
-                    <value>1</value>
-                </not-equals>
-                <not>
-                    <property alias="/params/crash/property"/>
-                </not>
-            </and>
-        </condition>
-    </animation>
-
-    <!-- White navigation light on tail -->
-    <model>
-        <name>nav-light-tail</name>
-        <path>Effects/lights/procedural_light_nav_tail.xml</path>
-        <offsets>
-            <x-m>6.11</x-m>
-            <y-m>0.0042</y-m>
-            <z-m>0.9722</z-m>
-        </offsets>
-    </model>
-    <animation>
-        <type>select</type>
-        <object-name>nav-light-tail</object-name>
-        <nopreview/>
-        <condition>
-            <property alias="/params/lighting/navigation"/>
-        </condition>
-    </animation>
-
     <model>
         <name>strobe-light-left</name>
         <path>Effects/lights/procedural_light_left_strobe.xml</path>
@@ -3765,15 +3690,25 @@
         </debug-color>
     </light>
 
-    <!-- Procedural Nav Lights -->
+    <!-- White navigation light on tail -->
     <animation>
-        <type>select</type>
-        <object-name>taillight</object-name>
-        <condition>
-            <property alias="/params/lighting/navigation"/>
-        </condition>
+        <type>pbr</type>
+        <object-name>RearNavLight</object-name>
+        <emissive-factor>
+            <r>
+                <property alias="/params/lighting/navigation"/>
+                <scale>20</scale>
+            </r>
+            <g>
+                <property alias="/params/lighting/navigation"/>
+                <scale>20</scale>
+            </g>
+            <b>
+                <property alias="/params/lighting/navigation"/>
+                <scale>20</scale>	
+            </b>
+        </emissive-factor>
     </animation>
-
     <light>
         <name>taillight</name>
         <type>spot</type>
@@ -3783,36 +3718,19 @@
             <z-m>0.97</z-m>
         </position>
         <direction>
-            <lookat-x-m> 27</lookat-x-m>
-            <lookat-y-m> 0.00</lookat-y-m>
-            <lookat-z-m> -20 </lookat-z-m>
+            <x>-1</x>
+            <y> 0</y>
+            <z>-1</z>
         </direction>
-        <ambient>
-            <r>0.1</r>
-            <g>0.2</g>
-            <b>0.1</b>
-            <a>1</a>
-        </ambient>
-        <diffuse>
-            <r>0.95</r>
-            <g>0.95</g>
-            <b>0.95</b>
-            <a>1</a>
-        </diffuse>
-        <specular>
-            <r>0.95</r>
-            <g>0.95</g>
-            <b>0.95</b>
-            <a>1</a>
-        </specular>
-        <attenuation>
-            <c>1.0</c>
-            <l>0.25</l>
-            <q>0.5</q>
-        </attenuation>
-        <spot-exponent>1.00</spot-exponent>
+        <color>
+            <r>1</r>
+            <g>1</g>
+            <b>1</b>
+        </color>
+        <intensity>.04</intensity>
+        <spot-exponent>0.0</spot-exponent>
         <spot-cutoff>89</spot-cutoff>
-        <range-m>2.5</range-m>
+        <range-m>5</range-m>
         <debug-color>
             <r>1</r>
             <g>0</g>
@@ -3820,7 +3738,62 @@
             <a>1</a>
         </debug-color>
     </light>
+    <animation>
+        <type>select</type>
+        <object-name>taillight</object-name>
+        <condition>
+            <property alias="/params/lighting/navigation"/>
+        </condition>
+    </animation>
 
+    <!-- Red navigation light on port side (left) -->
+    <animation>
+        <type>pbr</type>
+        <object-name>LeftNavLightGlass</object-name>
+        <emissive-factor>
+            <r>
+                <property alias="/params/lighting/navigation"/>
+                <scale>20</scale>
+            </r>
+            <g>
+                <property alias="/params/lighting/navigation"/>
+                <scale>1</scale>
+            </g>
+            <b>
+                <property alias="/params/lighting/navigation"/>
+                <scale>1</scale>
+            </b>
+        </emissive-factor>
+    </animation>
+    <light>
+        <name>navlightred</name>
+        <type>spot</type>
+        <position>
+            <x-m>0.050</x-m>
+            <y-m>-5.90</y-m>
+            <z-m>0.53365</z-m>
+        </position>
+        <direction>
+            <x>-1</x>
+            <y> 0</y>
+            <z>-1</z>
+        </direction>
+        <color>
+            <r>0.9</r>
+            <g>0.1</g>
+            <b>0.1</b>
+        </color>
+        <intensity>.05</intensity>
+        <spot-exponent>0.0</spot-exponent>
+        <spot-cutoff>89</spot-cutoff>
+        <range-m>5</range-m>
+        <debug-color>
+            <r>1</r>
+            <g>0</g>
+            <b>0</b>
+            <a>1</a>
+        </debug-color>
+    </light>
     <animation>
         <type>select</type>
         <object-name>navlightred</object-name>
@@ -3838,45 +3811,47 @@
         </condition>
     </animation>
 
+    <!-- Green navigation light on starboard side (right) -->
+    <animation>
+        <type>pbr</type>
+        <object-name>RightNavLightGlass</object-name>
+        <emissive-factor>
+            <r>
+                <property alias="/params/lighting/navigation"/>
+                <scale>1</scale>
+            </r>
+            <g>
+                <property alias="/params/lighting/navigation"/>
+                <scale>20</scale>
+            </g>
+            <b>
+                <property alias="/params/lighting/navigation"/>
+                <scale>1</scale>
+            </b>
+        </emissive-factor>
+    </animation>
     <light>
-        <name>navlightred</name>
+        <name>navlightgreen</name>
         <type>spot</type>
         <position>
-            <x-m> 0.050</x-m>
-            <y-m> -5.90</y-m>
-            <z-m> 0.53365</z-m>
+            <x-m>0.050</x-m>
+            <y-m>5.90</y-m>
+            <z-m>0.53365</z-m>
         </position>
         <direction>
-            <lookat-x-m>-13 </lookat-x-m>
-            <lookat-y-m>-13 </lookat-y-m>
-            <lookat-z-m>-12.5 </lookat-z-m>
+            <x>-1</x>
+            <y> 0</y>
+            <z>-1</z>
         </direction>
-        <ambient>
-            <r>0.2</r>
-            <g>0.1</g>
+        <color>
+            <r>0.1</r>
+            <g>0.9</g>
             <b>0.1</b>
-            <a>1</a>
-        </ambient>
-        <diffuse>
-            <r>0.9</r>
-            <g>0.1</g>
-            <b>0.1</b>
-            <a>1</a>
-        </diffuse>
-        <specular>
-            <r>0.9</r>
-            <g>0.1</g>
-            <b>0.1</b>
-            <a>1</a>
-        </specular>
-        <attenuation>
-            <c>1.0</c>
-            <l>0.25</l>
-            <q>0.5</q>
-        </attenuation>
-        <spot-exponent>1.00</spot-exponent>
+        </color>
+        <intensity>.05</intensity>
+        <spot-exponent>0.0</spot-exponent>
         <spot-cutoff>89</spot-cutoff>
-        <range-m>2.5</range-m>
+        <range-m>5</range-m>
         <debug-color>
             <r>1</r>
             <g>0</g>
@@ -3884,7 +3859,6 @@
             <a>1</a>
         </debug-color>
     </light>
-
     <animation>
         <type>select</type>
         <object-name>navlightgreen</object-name>
@@ -3901,53 +3875,6 @@
             </and>
         </condition>
     </animation>
-
-    <light>
-        <name>navlightgreen</name>
-        <type>spot</type>
-        <position>
-            <x-m> 0.050</x-m>
-            <y-m> 5.90</y-m>
-            <z-m> 0.53365</z-m>
-        </position>
-        <direction>
-            <lookat-x-m>-13 </lookat-x-m>
-            <lookat-y-m> 13 </lookat-y-m>
-            <lookat-z-m>-12.5 </lookat-z-m>
-        </direction>
-        <ambient>
-            <r>0.1</r>
-            <g>0.2</g>
-            <b>0.1</b>
-            <a>1</a>
-        </ambient>
-        <diffuse>
-            <r>0.1</r>
-            <g>0.9</g>
-            <b>0.1</b>
-            <a>1</a>
-        </diffuse>
-        <specular>
-            <r>0.1</r>
-            <g>0.9</g>
-            <b>0.1</b>
-            <a>1</a>
-        </specular>
-        <attenuation>
-            <c>1.0</c>
-            <l>0.25</l>
-            <q>0.5</q>
-        </attenuation>
-        <spot-exponent>1.00</spot-exponent>
-        <spot-cutoff>89</spot-cutoff>
-        <range-m>2.5</range-m>
-        <debug-color>
-            <r>1</r>
-            <g>0</g>
-            <b>0</b>
-            <a>1</a>
-        </debug-color>
-    </light>
 
     <animation>
         <type>noshadow</type>

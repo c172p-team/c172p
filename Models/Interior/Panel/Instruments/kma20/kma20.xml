@@ -44,7 +44,7 @@
         <operable>instrumentation/kma20/operable</operable>
     </params>
 
-    <path>kma20.ac</path>
+    <path>kma20.gltf</path>
 
     <animation>
         <type>knob</type>
@@ -58,10 +58,6 @@
         <axis>
             <y>1</y>
         </axis>
-        <center>
-            <x-m>-0.35072</x-m>
-            <z-m> 0.1402 </z-m>
-        </center>
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -105,10 +101,6 @@
         <axis>
             <y>1</y>
         </axis>
-        <center>
-            <x-m>-0.35072</x-m>
-            <z-m> 0.1402 </z-m>
-        </center>
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -152,10 +144,6 @@
         <axis>
             <y>1</y>
         </axis>
-        <center>
-            <x-m>-0.35072</x-m>
-            <z-m> 0.1402 </z-m>
-        </center>
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -199,10 +187,6 @@
         <axis>
             <y>1</y>
         </axis>
-        <center>
-            <x-m>-0.35072</x-m>
-            <z-m> 0.1402 </z-m>
-        </center>
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -246,10 +230,6 @@
         <axis>
             <y>1</y>
         </axis>
-        <center>
-            <x-m>-0.35072</x-m>
-            <z-m> 0.1402 </z-m>
-        </center>
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -293,10 +273,6 @@
         <axis>
             <y>1</y>
         </axis>
-        <center>
-            <x-m>-0.35072</x-m>
-            <z-m> 0.1402 </z-m>
-        </center>
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -340,10 +316,6 @@
         <axis>
             <y>1</y>
         </axis>
-        <center>
-            <x-m>-0.35072</x-m>
-            <z-m> 0.1402 </z-m>
-        </center>
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -387,10 +359,6 @@
         <axis>
             <y>1</y>
         </axis>
-        <center>
-            <x-m>-0.35072</x-m>
-            <z-m> 0.1402 </z-m>
-        </center>
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -432,10 +400,6 @@
         <axis>
             <y>1</y>
         </axis>
-        <center>
-            <x-m>-0.35072</x-m>
-            <z-m> 0.1402</z-m>
-        </center>
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -475,10 +439,6 @@
         <axis>
             <y>1</y>
         </axis>
-        <center>
-            <x-m>-0.35072</x-m>
-            <z-m> 0.1402</z-m>
-        </center>
     </animation>
 
     <animation>
@@ -604,10 +564,6 @@
         <axis>
             <x>1</x>
         </axis>
-        <center>
-            <y-m>0.05244</y-m>
-            <z-m>0.13868</z-m>
-        </center>
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -638,25 +594,7 @@
         </hovered>
     </animation>
 
-    <effect>
-        <inherits-from>../../../../Effects/interior/lm-kma20</inherits-from>
-        <object-name>Knob</object-name>
-        <object-name>Chassis</object-name>
-        <object-name>AUTO</object-name>
-        <object-name>COM1</object-name>
-        <object-name>COM2</object-name>
-        <object-name>NAV1</object-name>
-        <object-name>NAV2</object-name>
-        <object-name>ADF</object-name>
-        <object-name>DME</object-name>
-        <object-name>MKR</object-name>
-        <object-name>SENS</object-name>
-        <object-name>M</object-name>
-        <object-name>A</object-name>
-        <object-name>O</object-name>
-    </effect>
-
-    <animation>
+    <!--animation>
         <type>material</type>
         <object-name>Knob</object-name>
         <object-name>Chassis</object-name>
@@ -763,6 +701,137 @@
             <factor-prop alias="../../../params/inner"/>
             <offset-prop alias="../../../params/test"/>
         </emission>
+    </animation-->
+
+    <animation>
+        <type>pbr</type>
+        <object-name>A</object-name>
+        <condition>
+            <and>
+                <less-than>
+                    <property alias="/params/power"/>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property alias="/params/power"/>
+                    <value>20.0</value>
+                </greater-than>
+                <property alias="/params/operable"/>
+            </and>
+        </condition>
+        <emissive-factor>
+            <r>
+                <property>instrumentation/marker-beacon/inner</property>
+                <scale>100</scale>
+            </r>
+            <g>
+                <property>instrumentation/marker-beacon/inner</property>
+                <scale>100</scale>
+            </g>
+            <b>
+                <property>instrumentation/marker-beacon/inner</property>
+                <scale>100</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>kma20.png</emissive-texture>
+    </animation>
+    <animation>
+        <type>pbr</type>
+        <object-name>O</object-name>
+        <condition>
+            <and>
+                <less-than>
+                    <property alias="/params/power"/>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property alias="/params/power"/>
+                    <value>20.0</value>
+                </greater-than>
+                <property alias="/params/operable"/>
+            </and>
+        </condition>
+        <emissive-factor>
+            <r>
+                <property>instrumentation/marker-beacon/outer</property>
+                <scale>100</scale>
+            </r>
+            <g>
+                <property>instrumentation/marker-beacon/outer</property>
+                <scale>100</scale>
+            </g>
+            <b>
+                <property>instrumentation/marker-beacon/outer</property>
+                <scale>100</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>kma20.png</emissive-texture>
+    </animation>
+    <animation>
+        <type>pbr</type>
+        <object-name>M</object-name>
+        <condition>
+            <and>
+                <less-than>
+                    <property alias="/params/power"/>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property alias="/params/power"/>
+                    <value>20.0</value>
+                </greater-than>
+                <property alias="/params/operable"/>
+            </and>
+        </condition>
+        <emissive-factor>
+            <r>
+                <property>instrumentation/marker-beacon/middle</property>
+                <scale>100</scale>
+            </r>
+            <g>
+                <property>instrumentation/marker-beacon/middle</property>
+                <scale>100</scale>
+            </g>
+            <b>
+                <property>instrumentation/marker-beacon/middle</property>
+                <scale>100</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>kma20.png</emissive-texture>
+    </animation>
+    <animation>
+        <type>pbr</type>
+        <object-name>A</object-name>
+        <object-name>0</object-name>
+        <object-name>M</object-name>
+        <condition>
+            <and>
+                <less-than>
+                    <property alias="/params/power"/>
+                    <value>31.5</value>
+                </less-than>
+                <greater-than>
+                    <property alias="/params/power"/>
+                    <value>20.0</value>
+                </greater-than>
+                <property alias="/params/operable"/>
+            </and>
+        </condition>
+        <emissive-factor>
+            <r>
+                <property>instrumentation/kma20/test</property>
+                <scale>100</scale>
+            </r>
+            <g>
+                <property>instrumentation/kma20/test</property>
+                <scale>100</scale>
+            </g>
+            <b>
+                <property>instrumentation/kma20/test</property>
+                <scale>100</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>kma20.png</emissive-texture>
     </animation>
 
 </PropertyList>

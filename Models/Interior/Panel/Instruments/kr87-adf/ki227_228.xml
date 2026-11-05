@@ -6,7 +6,7 @@
 
 <PropertyList>
 
-    <path>ki227_228.ac</path>
+    <path>ki227_228.gltf</path>
 
     <params>
         <model>instrumentation/adf[0]/model</model>
@@ -16,9 +16,9 @@
         <indicated-heading>instrumentation/heading-indicator/indicated-heading-deg</indicated-heading>
     </params>
 
-    <animation>
+    <!--animation>
         <type>noshadow</type>
-    </animation>
+    </animation-->
 
     <animation>
         <type>select</type>
@@ -53,9 +53,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>-0.37629</x-m>
-            <y-m>-0.04246</y-m>
-            <z-m>-0.10789</z-m>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0 </z-m>
         </center>
     </animation>
 
@@ -76,9 +76,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>-0.37629</x-m>
-            <y-m>-0.04246</y-m>
-            <z-m>-0.10789</z-m>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0 </z-m>
         </center>
     </animation>
 
@@ -92,9 +92,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>-0.37629</x-m>
-            <y-m>-0.04246</y-m>
-            <z-m>-0.10789</z-m>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0 </z-m>
         </center>
     </animation>
 
@@ -104,14 +104,17 @@
         <property alias="../../params/rotation-deg"/>
         <factor>-16.0</factor>
         <axis>
-            <x>1.0</x>
+            <x>-1.0</x>
             <y>0.0</y>
             <z>0.0</z>
         </axis>
         <center>
-            <x-m>-0.37071</x-m>
-            <y-m>-0.07427</y-m>
-            <z-m>-0.1406 </z-m>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
+            <!--x-m>-0.370706</x-m>
+            <y-m>-0.074272</y-m>
+            <z-m>-0.140595</z-m-->
         </center>
         <action>
             <binding>
@@ -133,62 +136,53 @@
         </hovered>
     </animation>
 
-    <effect>
-        <inherits-from>../../../../Effects/interior/lm-adf</inherits-from>
-        <object-name>CompassRose</object-name>
-        <object-name>KI227.ADFNeedle</object-name>
-        <object-name>HDGSelector</object-name>
-        <object-name>CompassRoseCenter</object-name>
-        <object-name>Marker</object-name>
-        <object-name>Case</object-name>
-        <object-name>AircraftSymbol</object-name>
-    </effect>
+    <light>
+        <name>Adf-Post</name>
+        <type>spot</type>
 
-    <animation>
-        <type>material</type>
-        <object-name>CompassRose</object-name>
-        <object-name>CompassRoseCenter</object-name>
-        <object-name>KI227.ADFNeedle</object-name>
-        <object-name>Marker</object-name>
-        <object-name>Case</object-name>
-        <object-name>AircraftSymbol</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
-        </emission>
-    </animation>
+        <position>
+            <x-m>-0.36</x-m>
+            <y-m>-0.042625</y-m>
+            <z-m>-0.059</z-m>
+        </position>
 
+        <direction>
+            <x>0</x>
+            <y>0</y>
+            <z>-0.85</z>
+        </direction>
+
+        <color>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+        </color>
+
+        <intensity>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <factor>.1</factor>
+        </intensity>
+
+        <spot-exponent>16.0</spot-exponent>
+        <spot-cutoff>50</spot-cutoff>
+        <range-m>0.09</range-m>
+
+        <debug-color>
+            <r>1</r>
+            <g>0</g>
+            <b>0</b>
+            <a>1</a>
+        </debug-color>
+    </light>
     <animation>
-        <type>material</type>
-        <object-name>HDGSelector</object-name>
+        <type>select</type>
+        <object-name>Adf-Post</object-name>
         <condition>
-            <or>
-				<not>
-					<property>sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
+            <greater-than>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <value>0</value>
+            </greater-than>
         </condition>
-        <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
     </animation>
 
 </PropertyList>

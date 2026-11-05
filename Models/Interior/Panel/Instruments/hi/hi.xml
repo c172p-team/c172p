@@ -2,7 +2,7 @@
 
 <PropertyList>
 
-    <path>hi.ac</path>
+    <path>hi.gltf</path>
 
     <animation>
         <type>rotate</type>
@@ -15,13 +15,13 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>-0.37551</x-m>
-            <y-m>-0.22153</y-m>
-            <z-m>-0.00436</z-m>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
         </center>
     </animation>
 
-    <animation>
+    <!--animation>
         <type>rotate</type>
         <object-name>HdgBug</object-name>
         <property>instrumentation/heading-indicator/indicated-heading-deg</property>
@@ -30,13 +30,13 @@
             <x>-1</x>
             <y>0</y>
             <z>0</z>
-        </axis>
-        <center>
-            <x-m>-0.37551</x-m>
-            <y-m>-0.22153</y-m>
-            <z-m>-0.00436</z-m>
-        </center>
-    </animation>
+        </axis-->
+        <!--center>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m->
+        </center-->
+    <!--/animation-->
 
     <animation>
         <type>rotate</type>
@@ -47,11 +47,11 @@
             <y>0</y>
             <z>0</z>
         </axis>
-        <center>
-            <x-m>-0.37551</x-m>
-            <y-m>-0.22153</y-m>
-            <z-m>-0.00436</z-m>
-        </center>
+        <!--center>
+            <x-m>-0.375515</x-m>
+            <y-m>-0.00436</y-m>
+            <z-m>0.22153</z-m>
+        </center-->
     </animation>
 
     <!-- Heading Bug control -->
@@ -66,9 +66,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>-0.36799</x-m>
-            <y-m>-0.19238</y-m>
-            <z-m>-0.03331</z-m>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
         </center>
         <action>
             <binding>
@@ -94,44 +94,6 @@
         </hovered>
     </animation>
 
-    <!-- Heading Offset -->
-<!--    <animation>
-        <type>knob</type>
-        <object-name>OBS-Knob</object-name>
-        <property>instrumentation/heading-indicator/align-deg</property>
-        <factor>12</factor>
-        <axis>
-            <x>-1</x>
-            <y>0</y>
-            <z>0</z>
-        </axis>
-        <center>
-            <x-m>-0.36799</x-m>
-            <y-m>-0.25151</y-m>
-            <z-m>-0.03297</z-m>
-        </center>
-        <action>
-            <binding>
-                <command>property-adjust</command>
-                <property>instrumentation/heading-indicator/align-deg</property>
-                <factor>1</factor>
-                <min>0</min>
-                <max>360</max>
-                <wrap>1</wrap>
-            </binding>
-        </action>
-        <drag-scale-px>4</drag-scale-px>
-        <shift-repeat type="int">5</shift-repeat>
-        <hovered>
-            <binding>
-                <command>set-tooltip</command>
-                <tooltip-id>heading-offset</tooltip-id>
-                <label>Heading Offset: %3.0f</label>
-                <mapping>heading</mapping>
-                <property>instrumentation/heading-indicator/align-deg</property>
-            </binding>
-        </hovered>
-    </animation>-->
     <animation>
         <type>translate</type>
         <object-name>OBS-Knob</object-name>
@@ -154,9 +116,9 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>-0.36799</x-m>
-            <y-m>-0.25151</y-m>
-            <z-m>-0.03297</z-m>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
         </center>
         <action>
             <binding>
@@ -281,60 +243,53 @@
         </hovered>
    </animation>
 
-    <effect>
-        <inherits-from>../../../../Effects/interior/lm-hi</inherits-from>
-        <object-name>Face</object-name>
-        <object-name>OBS-Knob</object-name>
-        <object-name>Hdg-Knob</object-name>
-        <object-name>HdgBug</object-name>
-        <object-name>Front</object-name>
-        <object-name>Case</object-name>
-    </effect>
+    <light>
+        <name>Hi-Post</name>
+        <type>spot</type>
 
-    <animation>
-        <type>material</type>
-        <object-name>Face</object-name>
-        <object-name>Front</object-name>
-        <object-name>HdgBug</object-name>
-        <object-name>Case</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
-        </emission>
-    </animation>
+        <position>
+            <x-m>-0.36</x-m>
+            <y-m>-0.221603</y-m>
+            <z-m> 0.043</z-m>
+        </position>
 
+        <direction>
+            <x>0</x>
+            <y>0</y>
+            <z>-0.85</z>
+        </direction>
+
+        <color>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+        </color>
+
+        <intensity>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <factor>.1</factor>
+        </intensity>
+
+        <spot-exponent>16.0</spot-exponent>
+        <spot-cutoff>50</spot-cutoff>
+        <range-m>0.09</range-m>
+
+        <debug-color>
+            <r>1</r>
+            <g>0</g>
+            <b>0</b>
+            <a>1</a>
+        </debug-color>
+    </light>
     <animation>
-        <type>material</type>
-        <object-name>OBS-Knob</object-name>
-        <object-name>Hdg-Knob</object-name>
+        <type>select</type>
+        <object-name>Hi-Post</object-name>
         <condition>
-            <or>
-				<not>
-					<property>sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
+            <greater-than>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <value>0</value>
+            </greater-than>
         </condition>
-        <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
     </animation>
 
 </PropertyList>

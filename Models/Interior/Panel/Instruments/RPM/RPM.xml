@@ -60,20 +60,13 @@
             <z>0</z>
         </axis>
         <center>
-            <!--x-m>-0.36622</x-m>
-            <y-m>-0.10802</y-m>
-            <z-m>-0.31306</z-m>
-<x-m>-0.369619</x-m>
-<y-m>-0.313092</y-m>
-<z-m>-0.10765</z-m-->
-
-<x-m>0</x-m>
-<y-m>0</y-m>
-<z-m>0</z-m>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
         </center>
     </animation>
 
-    <animation>
+    <!--animation>
         <type>pbr</type>
         <object-name>Face</object-name>
         <object-name>PointerCentre</object-name>
@@ -94,7 +87,55 @@
             </b>
         </emissive-factor>
         <emissive-texture>../../../Effects/interior/lm_rpm-post.png</emissive-texture>
-        <!--emissive-texture>Aircraft/c172p/Models/Interior/Panel/Instruments/RPM.png</emissive-texture-->
+    </animation-->
+
+    <light>
+        <name>Rpm-Post</name>
+        <type>spot</type>
+
+        <position>
+            <x-m>-0.36</x-m>
+            <y-m>-0.312294</y-m>
+            <z-m>-0.060</z-m>
+        </position>
+
+        <direction>
+            <x>0</x>
+            <y>0</y>
+            <z>-0.85</z>
+        </direction>
+
+        <color>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+        </color>
+
+        <intensity>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <factor>.1</factor>
+        </intensity>
+
+        <spot-exponent>16.0</spot-exponent>
+        <spot-cutoff>50</spot-cutoff>
+        <range-m>0.09</range-m>
+
+        <debug-color>
+            <r>1</r>
+            <g>0</g>
+            <b>0</b>
+            <a>1</a>
+        </debug-color>
+    </light>
+    <animation>
+        <type>select</type>
+        <object-name>Rpm-Post</object-name>
+        <condition>
+            <greater-than>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <value>0</value>
+            </greater-than>
+        </condition>
     </animation>
 
 </PropertyList>

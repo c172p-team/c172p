@@ -2,39 +2,7 @@
 
 <PropertyList>
 
-    <path>BatteryGauge.ac</path>
-
-    <effect>
-        <inherits-from>../../../../Effects/interior/lm-bat</inherits-from>
-        <object-name>Ptr</object-name>
-        <object-name>PtrTip</object-name>
-        <object-name>Face</object-name>
-        <object-name>Case</object-name>
-    </effect>
-
-    <animation>
-        <type>material</type>
-        <object-name>Face</object-name>
-        <object-name>PtrTip</object-name>
-        <object-name>Ptr</object-name>
-        <object-name>Case</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
-        </emission>
-    </animation>
+    <path>battery-gauge.gltf</path>
 
     <animation>
         <type>rotate</type>
@@ -61,10 +29,59 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>-0.36922</x-m>
-            <y-m>-0.40925</y-m>
-            <z-m>-0.15108</z-m>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
         </center>
+    </animation>
+
+    <light>
+        <name>Batt-Post</name>
+        <type>spot</type>
+
+        <position>
+            <x-m>-0.357</x-m>
+            <y-m>-0.408876</y-m>
+            <z-m>-0.11</z-m>
+        </position>
+
+        <direction>
+            <x>0</x>
+            <y>0</y>
+            <z>-0.85</z>
+        </direction>
+
+        <color>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+        </color>
+
+        <intensity>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <factor>.001</factor>
+        </intensity>
+
+        <spot-exponent>32.0</spot-exponent>
+        <spot-cutoff>50</spot-cutoff>
+        <range-m>0.06</range-m>
+
+        <debug-color>
+            <r>1</r>
+            <g>0</g>
+            <b>0</b>
+            <a>1</a>
+        </debug-color>
+    </light>
+    <animation>
+        <type>select</type>
+        <object-name>Batt-Post</object-name>
+        <condition>
+            <greater-than>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <value>0</value>
+            </greater-than>
+        </condition>
     </animation>
 
 </PropertyList>

@@ -34,9 +34,6 @@
             <entry><ind>  10 </ind><dep> -28 </dep> </entry>
         </interpolation>
         <center>
-            <!--x-m>-0.378639</x-m>
-            <y-m>-0.042613</y-m>
-            <z-m> 0.1314 </z-m-->
             <x-m>0</x-m>
             <y-m>0</y-m>
             <z-m>0 </z-m>
@@ -101,9 +98,6 @@
         <min-deg>-25</min-deg>
         <max-deg>25</max-deg>
         <center>
-            <!--x-m>-0.38007</x-m>
-            <y-m>-0.0723 </y-m>
-            <z-m> 0.1014 </z-m-->
             <x-m>0</x-m>
             <y-m>0</y-m>
             <z-m>0 </z-m>
@@ -127,12 +121,6 @@
             <z>0</z>
         </axis>
         <center>
-            <!--x-m>-0.37879</x-m>
-            <y-m>-0.04233</y-m>
-            <z-m> 0.1014 </z-m-->
-            <!--x-m>-0.37879</x-m>
-            <y-m>0.1014</y-m>
-            <z-m>-0.04233</z-m-->
             <x-m>0</x-m>
             <y-m>0</y-m>
             <z-m>0 </z-m>
@@ -151,9 +139,6 @@
             <z>0</z>
         </axis>
         <center>
-            <!--x-m>-0.36006</x-m>
-            <y-m>-0.07118</y-m>
-            <z-m> 0.07118</z-m-->
             <x-m>0</x-m>
             <y-m>0</y-m>
             <z-m>0 </z-m>
@@ -180,7 +165,7 @@
         </hovered>
     </animation>
 
-    <animation>
+    <!--animation>
         <type>pbr</type>
         <object-name>Face</object-name>
         <object-name>GlideslopeNeedle</object-name>
@@ -212,7 +197,55 @@
             </b>
         </emissive-factor>
         <emissive-texture>../../../Effects/interior/lm_vor1-post.png</emissive-texture>
-        <!--emissive-texture>Aircraft/c172p/Models/Interior/Panel/Instruments/vor.png</emissive-texture-->
+        <emissive-texture>Aircraft/c172p/Models/Interior/Panel/Instruments/vor.png</emissive-texture>
+    </animation-->
+    <light>
+        <name>Vor1-Post</name>
+        <type>spot</type>
+
+        <position>
+            <x-m>-0.36</x-m>
+            <y-m>-0.041435</y-m>
+            <z-m> 0.148</z-m>
+        </position>
+
+        <direction>
+            <x>0</x>
+            <y>0</y>
+            <z>-0.85</z>
+        </direction>
+
+        <color>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+        </color>
+
+        <intensity>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <factor>.1</factor>
+        </intensity>
+
+        <spot-exponent>16.0</spot-exponent>
+        <spot-cutoff>50</spot-cutoff>
+        <range-m>.09</range-m>
+
+        <debug-color>
+            <r>1</r>
+            <g>0</g>
+            <b>0</b>
+            <a>1</a>
+        </debug-color>
+    </light>
+    <animation>
+        <type>select</type>
+        <object-name>Vor1-Post</object-name>
+        <condition>
+            <greater-than>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <value>0</value>
+            </greater-than>
+        </condition>
     </animation>
 
 </PropertyList>

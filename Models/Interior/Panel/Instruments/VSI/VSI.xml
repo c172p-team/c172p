@@ -2,39 +2,7 @@
 
 <PropertyList>
 
-    <path>VSI.ac</path>
-
-    <effect>
-        <inherits-from>../../../../Effects/interior/lm-vsi</inherits-from>
-        <object-name>PointerTip</object-name>
-        <object-name>PointerCentre</object-name>
-        <object-name>Face</object-name>
-        <object-name>Case</object-name>
-    </effect>
-
-    <animation>
-        <type>material</type>
-        <object-name>Face</object-name>
-        <object-name>PointerTip</object-name>
-        <object-name>PointerCentre</object-name>
-        <object-name>Case</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
-        </emission>
-    </animation>
+    <path>vsi.gltf</path>
 
     <animation>
         <type>rotate</type>
@@ -85,10 +53,59 @@
             <z>0</z>
         </axis>
         <center>
-            <x-m>-0.37548</x-m>
-            <y-m>-0.13248</y-m>
-            <z-m>-0.00372</z-m>
+            <x-m>0</x-m>
+            <y-m>0</y-m>
+            <z-m>0</z-m>
         </center>
+    </animation>
+
+    <light>
+        <name>Vsi-Post</name>
+        <type>spot</type>
+
+        <position>
+            <x-m>-0.36</x-m>
+            <y-m>-0.132126</y-m>
+            <z-m> 0.043</z-m>
+        </position>
+
+        <direction>
+            <x>0</x>
+            <y>0</y>
+            <z>-0.85</z>
+        </direction>
+
+        <color>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+        </color>
+
+        <intensity>
+            <property>/sim/model/lightmap/instruments/factor</property>
+            <factor>.1</factor>
+        </intensity>
+
+        <spot-exponent>16.0</spot-exponent>
+        <spot-cutoff>50</spot-cutoff>
+        <range-m>0.09</range-m>
+
+        <debug-color>
+            <r>1</r>
+            <g>0</g>
+            <b>0</b>
+            <a>1</a>
+        </debug-color>
+    </light>
+    <animation>
+        <type>select</type>
+        <object-name>Vsi-Post</object-name>
+        <condition>
+            <greater-than>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <value>0</value>
+            </greater-than>
+        </condition>
     </animation>
 
 </PropertyList>

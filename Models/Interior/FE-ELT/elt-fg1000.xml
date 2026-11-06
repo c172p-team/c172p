@@ -5,37 +5,6 @@
 <PropertyList>
 
     <path>elt-fg1000.gltf</path>
-    <texture-path>../../../../Models</texture-path>
-
-    <!--effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-interior-panel-parts</inherits-from>
-        <object-name>eltlamp</object-name>
-        <object-name>ELTSwitch</object-name>
-        <object-name>eltbolts</object-name>
-	</effect>
-	
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-hobbs-implicit</inherits-from>
-        <object-name>eltpanel</object-name>
-    </effect>
-
-    <animation>
-        <type>material</type>
-		<object-name>eltpanel</object-name>
-        <object-name>eltlamp</object-name>
-        <object-name>ELTSwitch</object-name>
-        <object-name>eltbolts</object-name>
-        <condition>
-            <not>
-                <property>sim/rendering/shaders/skydome</property>
-            </not>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
-    </animation-->
 	
 	    <animation>
         <type>pick</type>
@@ -73,11 +42,64 @@
             <y>1.0</y>
             <z>0.0</z>
         </axis>
-        <center>
-            <x-m>-0.360932</x-m>
-            <y-m> 0.307917</y-m>
-            <z-m> 0.115113</z-m>
-        </center>
+    </animation>
+
+    <animation>
+        <type>pbr</type>
+        <object-name>eltlamp</object-name>
+        <emissive-factor>
+            <r>
+                <property>controls/switches/eltswitch</property>
+                <scale>100</scale>
+            </r>
+            <g>
+                <property>controls/switches/eltswitch</property>
+                <scale>0</scale>
+            </g>
+            <b>
+                <property>controls/switches/eltswitch</property>
+                <scale>0</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>../../../Effects/interior/panel-parts.png</emissive-texture>
+    </animation>
+    <light>
+        <name>ELTLed</name>
+        <type>spot</type>
+
+        <position>
+            <x-m>-0.363</x-m>
+            <y-m> 0.308</y-m>
+            <z-m> 0.136</z-m>
+        </position>
+
+        <direction>
+            <x>0</x>
+            <y>0</y>
+            <z>-1</z>
+        </direction>
+
+        <color>
+            <r>1</r>
+            <g>0</g>
+            <b>0</b>
+        </color>
+
+        <intensity>1.0</intensity>
+
+        <spot-exponent>12</spot-exponent>
+        <spot-cutoff>6</spot-cutoff>
+        <range-m>0.009</range-m>
+    </light>
+    <animation>
+        <type>select</type>
+        <object-name>ELTLed</object-name>
+        <condition>
+            <greater-than>
+                <property>controls/switches/eltswitch</property>
+                <value>0</value>
+            </greater-than>
+        </condition>
     </animation>
 
 </PropertyList>

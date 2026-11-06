@@ -25,8 +25,8 @@
         <dimming>instrumentation/transponder/dimming-norm</dimming>
     </params>
 
-    <!--animation>
-        <type>material</type>
+    <animation>
+        <type>pbr</type>
         <object-name>Dial1</object-name>
         <object-name>Dial10</object-name>
         <object-name>Dial100</object-name>
@@ -45,46 +45,24 @@
         <object-name>on</object-name>
         <object-name>alt</object-name>
         <object-name>test</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>/sim/model/c172p/lighting/rgb-ra-r-factor</property>
+                <scale>10</scale>
+            </r>
+            <g>
+                <property>/sim/model/c172p/lighting/rgb-ra-g-factor</property>
+                <scale>10</scale>
+            </g>
+            <b>
+                <property>/sim/model/c172p/lighting/rgb-ra-b-factor</property>
+                <scale>10</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>kt76a.png</emissive-texture>
     </animation>
 
     <animation>
-        <object-name>Dial1</object-name>
-        <object-name>Dial10</object-name>
-        <object-name>Dial100</object-name>
-        <object-name>Dial1000</object-name>
-        <object-name>Front</object-name>
-        <object-name>Ident</object-name>
-        <object-name>Ident-light</object-name>
-        <object-name>Knob1</object-name>
-        <object-name>Knob10</object-name>
-        <object-name>Knob100</object-name>
-        <object-name>Knob1000</object-name>
-        <object-name>Border</object-name>
-        <object-name>KnobMode</object-name>
-        <object-name>off</object-name>
-        <object-name>stby</object-name>
-        <object-name>on</object-name>
-        <object-name>alt</object-name>
-        <object-name>test</object-name>
-    </animation-->
-
-    <animation>
         <type>material</type>
         <object-name>Dial1</object-name>
         <object-name>Dial10</object-name>
@@ -99,7 +77,6 @@
         <object-name>Knob1000</object-name>
         <object-name>Border</object-name>
         <object-name>KnobMode</object-name>
-        <!--object-name>vitre</object-name-->
         <object-name>off</object-name>
         <object-name>stby</object-name>
         <object-name>on</object-name>
@@ -109,26 +86,32 @@
         <texture-prop>texture-file</texture-prop>
     </animation>
 
-    <!--animation>
-        <type>material</type>
+    <animation>
+        <type>pbr</type>
         <object-name>Ident</object-name>
         <object-name>Ident-light</object-name>
-        <emission>
-            <red>0.6</red>
-            <green>0.25</green>
-            <blue>0.00025</blue>
-            <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>0.6</scale>
+            </r>
+            <g>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>0.25</scale>
+            </g>
+            <b>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>0.00025</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>kt76a.png</emissive-texture>
     </animation>
 
     <animation>
-        <type>material</type>
+        <type>pbr</type>
         <object-name>stby</object-name>
         <condition>
             <and>
-                <not>
-                    <property>sim/rendering/rembrandt/enabled</property>
-                </not>
                 <equals>
                     <property>instrumentation/transponder/inputs/knob-mode</property>
                     <value>1</value>
@@ -139,22 +122,28 @@
                 </greater-than>
             </and>
         </condition>
-        <emission>
-            <red>1.0</red>
-            <green>0.6</green>
-            <blue>0.5</blue>
-            <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>1</scale>
+            </r>
+            <g>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>0.6</scale>
+            </g>
+            <b>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>0.5</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>kt76a.png</emissive-texture>
     </animation>
 
     <animation>
-        <type>material</type>
+        <type>pbr</type>
         <object-name>on</object-name>
         <condition>
             <and>
-                <not>
-                    <property>sim/rendering/rembrandt/enabled</property>
-                </not>
                 <equals>
                     <property>instrumentation/transponder/inputs/knob-mode</property>
                     <value>4</value>
@@ -165,22 +154,28 @@
                 </greater-than>
             </and>
         </condition>
-        <emission>
-            <red>1.0</red>
-            <green>0.6</green>
-            <blue>0.5</blue>
-            <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>1</scale>
+            </r>
+            <g>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>0.6</scale>
+            </g>
+            <b>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>0.5</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>kt76a.png</emissive-texture>
     </animation>
 
     <animation>
-        <type>material</type>
+        <type>pbr</type>
         <object-name>alt</object-name>
         <condition>
             <and>
-                <not>
-                    <property>sim/rendering/rembrandt/enabled</property>
-                </not>
                 <equals>
                     <property>instrumentation/transponder/inputs/knob-mode</property>
                     <value>5</value>
@@ -191,22 +186,28 @@
                 </greater-than>
             </and>
         </condition>
-        <emission>
-            <red>1.0</red>
-            <green>0.6</green>
-            <blue>0.5</blue>
-            <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>1</scale>
+            </r>
+            <g>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>0.6</scale>
+            </g>
+            <b>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>0.5</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>kt76a.png</emissive-texture>
     </animation>
 
     <animation>
-        <type>material</type>
+        <type>pbr</type>
         <object-name>test</object-name>
         <condition>
             <and>
-                <not>
-                    <property>sim/rendering/rembrandt/enabled</property>
-                </not>
                 <equals>
                     <property>instrumentation/transponder/inputs/knob-mode</property>
                     <value>2</value>
@@ -217,43 +218,57 @@
                 </greater-than>
             </and>
         </condition>
-        <emission>
-            <red>1.0</red>
-            <green>0.6</green>
-            <blue>0.5</blue>
-            <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>1</scale>
+            </r>
+            <g>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>0.6</scale>
+            </g>
+            <b>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>0.5</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>kt76a.png</emissive-texture>
     </animation>
 
     <animation>
-        <type>material</type>
+        <type>pbr</type>
         <object-name>Dial1</object-name>
         <object-name>Dial10</object-name>
         <object-name>Dial100</object-name>
         <object-name>Dial1000</object-name>
         <condition>
             <and>
-                <not>
-                    <property>sim/rendering/rembrandt/enabled</property>
-                </not>
                 <greater-than>
                     <property>sim/model/c172p/lighting/trans</property>
                     <value>0.0</value>
                 </greater-than>
             </and>
         </condition>
-        <emission>
-            <red>1.0</red>
-            <green>0.6</green>
-            <blue>0.5</blue>
-            <factor-prop>/sim/model/c172p/lighting/trans</factor-prop>
-        </emission>
-    </animation-->
+        <emissive-factor>
+            <r>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>1</scale>
+            </r>
+            <g>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>0.6</scale>
+            </g>
+            <b>
+                <property>/sim/model/c172p/lighting/trans</property>
+                <scale>0.5</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>kt76a.png</emissive-texture>
+    </animation>
 
     <animation>
         <type>rotate</type>
         <object-name>Dial1000</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[3]</property>-->
         <property alias="../../params/digit3"/>
         <factor>45</factor>
         <axis>
@@ -266,7 +281,6 @@
     <animation>
         <type>rotate</type>
         <object-name>Knob1000</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[3]</property>-->
         <property alias="../../params/digit3"/>
         <factor>45</factor>
         <axis>
@@ -284,7 +298,6 @@
         <action>
             <binding>
                 <command>property-adjust</command>
-                <!--<property>instrumentation/transponder/inputs/digit[3]</property>-->
                 <property alias="../../../../params/digit3"/>
                 <factor>1</factor>
                 <min>0</min>
@@ -313,7 +326,6 @@
     <animation>
         <type>rotate</type>
         <object-name>Dial100</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[2]</property>-->
         <property alias="../../params/digit2"/>
         <factor>45</factor>
         <axis>
@@ -326,7 +338,6 @@
     <animation>
         <type>rotate</type>
         <object-name>Knob100</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[2]</property>-->
         <property alias="../../params/digit2"/>
         <factor>45</factor>
         <axis>
@@ -344,7 +355,6 @@
         <action>
             <binding>
                 <command>property-adjust</command>
-                <!--<property>instrumentation/transponder/inputs/digit[2]</property>-->
                 <property alias="../../../../params/digit2"/>
                 <factor>1</factor>
                 <min>0</min>
@@ -373,7 +383,6 @@
     <animation>
         <type>rotate</type>
         <object-name>Dial10</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[1]</property>-->
         <property alias="../../params/digit1"/>
         <factor>45</factor>
         <axis>
@@ -386,7 +395,6 @@
     <animation>
         <type>rotate</type>
         <object-name>Knob10</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[1]</property>-->
         <property alias="../../params/digit1"/>
         <factor>45</factor>
         <axis>
@@ -404,7 +412,6 @@
         <action>
             <binding>
                 <command>property-adjust</command>
-                <!--<property>instrumentation/transponder/inputs/digit[1]</property>-->
                 <property alias="../../../../params/digit1"/>
                 <factor>1</factor>
                 <min>0</min>
@@ -433,7 +440,6 @@
     <animation>
         <type>rotate</type>
         <object-name>Dial1</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[0]</property>-->
         <property alias="../../params/digit0"/>
         <factor>45</factor>
         <axis>
@@ -446,7 +452,6 @@
     <animation>
         <type>rotate</type>
         <object-name>Knob1</object-name>
-        <!--<property>instrumentation/transponder/inputs/digit[0]</property>-->
         <property alias="../../params/digit0"/>
         <factor>45</factor>
         <axis>
@@ -464,7 +469,6 @@
         <action>
             <binding>
                 <command>property-adjust</command>
-                <!--<property>instrumentation/transponder/inputs/digit[0]</property>-->
                 <property alias="../../../../params/digit0"/>
                 <factor>1</factor>
                 <min>0</min>
@@ -498,7 +502,6 @@
         <action>
             <binding>
                 <command>property-cycle</command>
-                <!--<property>instrumentation/transponder/inputs/knob-mode</property>-->
                 <property alias="../../../../params/knob-mode"/>
                 <wrap>0</wrap>
                 <value>0</value>
@@ -522,7 +525,6 @@
                 <command>set-tooltip</command>
                 <tooltip-id>transponder-mode-btn</tooltip-id>
                 <label>Mode: %s</label>
-                <!--<property>instrumentation/transponder/inputs/knob-mode</property>-->
                 <property alias="../../../../params/knob-mode"/>
                 <mapping>nasal</mapping>
                 <script>
@@ -540,7 +542,6 @@
     <animation>
         <type>rotate</type>
         <object-name>KnobMode</object-name>
-        <!--<property>instrumentation/transponder/inputs/knob-mode</property>-->
         <property alias="../../params/knob-mode"/>
         <factor>1</factor>
         <interpolation>
@@ -581,7 +582,6 @@
             <repeatable>false</repeatable>
             <binding>
                 <command>property-assign</command>
-                <!--<property>instrumentation/transponder/inputs/ident-btn</property>-->
                 <property alias="../../../../params/ident-btn"/>
                 <value type="bool">true</value>
             </binding>
@@ -592,7 +592,6 @@
             <mod-up>
                 <binding>
                     <command>property-assign</command>
-                    <!--<property>instrumentation/transponder/inputs/ident-btn</property>-->
                     <property alias="../../../../../params/ident-btn"/>
                     <value type="bool">false</value>
                 </binding>
@@ -614,7 +613,6 @@
     <animation>
         <type>translate</type>
         <object-name>Ident</object-name>
-        <!--<property>instrumentation/transponder/inputs/ident-btn</property>-->
         <property alias="../../params/ident-btn"/>
         <factor> 0.0018 </factor>
         <axis>

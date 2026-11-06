@@ -357,40 +357,68 @@
         <step>1</step>
         <axis>
             <x>0.7749</x>
-            <y>-0.6320</y>
+            <y>0.6320</y>
+            <z>0</z>
         </axis>
     </animation>
     <animation>
-        <type>material</type>
+        <type>pbr</type>
         <object-name>LowVoltageLed</object-name>
-        <emission>
-            <red>  0.7</red>
-            <green>0.5</green>
-            <blue> 0.5</blue>
-            <factor-prop>instrumentation/low-voltage-led</factor-prop>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>instrumentation/low-voltage-led</property>
+                <scale>10</scale>
+            </r>
+            <g>
+                <property>instrumentation/low-voltage-led</property>
+                <scale>1</scale>
+            </g>
+            <b>
+                <property>instrumentation/low-voltage-led</property>
+                <scale>1</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>../../../Effects/interior/panel-parts.png</emissive-texture>
     </animation>
-    <model>
-        <name>lvled</name>
-        <path>Aircraft/c172p/Models/Effects/interior/procedural_light_indicator_led_lowvoltage.xml</path>
-        <offsets>
-            <x-m>-0.35</x-m>
-            <y-m>-0.363</y-m>
-            <z-m>-0.15832</z-m>
-        </offsets>
+    <light>
+        <name>LowVoltageLedSpot</name>
+        <type>spot</type>
+
+        <position>
+            <x-m>-0.353</x-m>
+            <y-m>-0.364695</y-m>
+            <z-m>-0.150</z-m>
+        </position>
+
+        <direction>
+            <x>0</x>
+            <y>0</y>
+            <z>0</z>
+        </direction>
+
+        <color>
+            <r>.01</r>
+            <g>.001</g>
+            <b>.001</b>
+        </color>
+
+        <intensity>1.0</intensity>
+
+        <spot-exponent>12</spot-exponent>
+        <spot-cutoff>9</spot-cutoff>
+
+        <range-m>0.30</range-m>
+    </light>
+    <animation>
+        <type>select</type>
+        <object-name>LowVoltageLedSpot</object-name>
         <condition>
-            <and>
-                <greater-than>
-                    <property>instrumentation/low-voltage-led</property>
-                    <value>0</value>
-                </greater-than>
-                <greater-than>
-                    <property>sim/rendering/shaders/model</property>
-                    <value>1</value>
-                </greater-than>
-            </and>
+            <greater-than>
+                <property>instrumentation/low-voltage-led</property>
+                <value>0</value>
+            </greater-than>
         </condition>
-    </model>
+    </animation>
 
     <model>
         <name>Gear</name>
@@ -1981,11 +2009,6 @@
             <y> 0</y>
             <z> 0</z>
         </axis>
-        <center>
-            <x-m>-0.35058</x-m>
-            <y-m>-0.26379</y-m>
-            <z-m>0.035  </z-m>
-        </center>
         <action>
             <repeatable>true</repeatable>
             <binding>
@@ -2020,11 +2043,6 @@
             <y> 0</y>
             <z> 0</z>
         </axis>
-        <center>
-            <x-m>-0.36873</x-m>
-            <y-m>-0.035</y-m>
-            <z-m>-0.26379</z-m>
-        </center>
         <action>
             <repeatable>true</repeatable>
             <binding>

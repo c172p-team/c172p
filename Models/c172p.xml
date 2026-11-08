@@ -134,8 +134,7 @@
             setlistener(regnum_path, func (node) {
                 set_registration_number(rplayer, node.getValue());
             }, 1, 0);
-        
-        
+
 
             # Passengers
             var pax_state_path = rplayer.getNode("sim/multiplay/generic/int[16]").getPath();
@@ -762,6 +761,49 @@
         <name>OAT-object</name>
         <path>Interior/Panel/Instruments/oat/oat.xml</path>
     </model>
+    <!-- MODEND -->
+
+    <!-- MOD: cabin air thermometer, right of radio stack -->
+    <model>
+        <name>cabin-temp-gauge</name>
+        <path>Interior/Panel/Instruments/cabin-temp/cabin-temp.xml</path>
+        <offsets>
+            <x-m>0.0095</x-m>
+            <y-m>0.627</y-m>
+            <z-m>-0.105</z-m>
+            <heading-deg>0.00</heading-deg>
+        </offsets>
+    </model>
+
+    <model>
+        <name>cabin-temp-gauge-fg1000</name>
+        <path>Interior/Panel/Instruments/cabin-temp/cabin-temp-fg1000.xml</path>
+        <offsets>
+            <x-m>0.006</x-m>
+            <y-m>0.745</y-m>
+            <z-m>0.031</z-m>
+            <heading-deg>0.00</heading-deg>
+        </offsets>
+    </model>
+
+    <animation>
+        <type>select</type>
+        <object-name>cabin-temp-gauge</object-name>
+        <condition>
+            <not>
+                <property>controls/panel/glass</property>
+            </not>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>cabin-temp-gauge-fg1000</object-name>
+        <condition>
+            <property>controls/panel/glass</property>
+        </condition>
+    </animation>
+
     <!-- MODEND -->
 
     <!-- Pedals -->
@@ -3594,7 +3636,7 @@
             </or>
         </condition>
     </animation>
-    
+
     <light>
         <name>ProceduralCourtesyLeftLight</name>
         <type>spot</type>

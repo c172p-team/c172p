@@ -359,8 +359,8 @@
         </offsets>
     </text>
 
-    <!--animation>
-        <type>material</type>
+    <animation>
+        <type>pbr</type>
         <object-name>LabelASI-fg1000</object-name>
         <object-name>LabelAI-fg1000</object-name>
         <object-name>LabelAltimeter-fg1000</object-name>
@@ -372,12 +372,13 @@
         <object-name>LabelAltStaticAir-fg1000</object-name>
         <object-name>LabelMixture-fg1000</object-name>
         <object-name>LabelFlood-fg1000</object-name>
-        <emission>
-            <red>1.0</red>
-            <green>0.8</green>
-            <blue>0.0</blue>
-        </emission>
-    </animation-->
+        <emissive-factor>
+            <r>1.0</r>
+            <g>0.8</g>
+            <b>0.0</b>
+        </emissive-factor>
+    </animation>
+
     <animation>
         <type>select</type>
         <object-name>LabelASI-fg1000</object-name>
@@ -439,10 +440,12 @@
         <z-offset>1</z-offset>
     </animation>
 
-    <!--animation>
-        <type>material</type>
-        <object-name>Screen1</object-name>
-        <object-name>Screen2</object-name>
+<!--instrumentation/FG1000/Lightmap
+Textures/GDU-1044B.lightmap.png
+Textures/GDU-104X.lightmap.png-->
+
+    <animation>
+        <type>pbr</type>
         <object-name>AP.L0</object-name>
         <object-name>AP.L1</object-name>
         <object-name>AP.L2</object-name>
@@ -464,13 +467,56 @@
         <object-name>AP.R7</object-name>
         <object-name>AP.R8</object-name>
         <object-name>AP.R9</object-name>
-        <emission>
-            <red>1</red>
-            <green>1</green>
-            <blue>1</blue>
-            <factor-prop>instrumentation/FG1000/Lightmap-scaler</factor-prop>
-        </emission>
-    </animation-->
+        <implicit-lightmap-tag-color>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+        </implicit-lightmap-tag-color>
+        <implicit-lightmap-threshold-low>0.0</implicit-lightmap-threshold-low>
+        <implicit-lightmap-threshold-high>0.50</implicit-lightmap-threshold-high>
+        <emissive-factor>
+            <r>
+                <property>instrumentation/FG1000/Lightmap-scaler</property>
+                <scale>100</scale>
+            </r>
+            <g>
+                <property>instrumentation/FG1000/Lightmap-scaler</property>
+                <scale>100</scale>
+            </g>
+            <b>
+                <property>instrumentation/FG1000/Lightmap-scaler</property>
+                <scale>100</scale>
+            </b>
+        </emissive-factor>
+    </animation>
+
+    <animation>
+        <type>pbr</type>
+        <object-name>Panel</object-name>
+        <object-name>panel_1_1-fg1000</object-name>
+        <object-name>panel_dome</object-name>
+        <implicit-lightmap-tag-color>
+            <r>1.0</r>
+            <g>1.0</g>
+            <b>1.0</b>
+        </implicit-lightmap-tag-color>
+        <implicit-lightmap-threshold-low>0.0</implicit-lightmap-threshold-low>
+        <implicit-lightmap-threshold-high>.50</implicit-lightmap-threshold-high>
+        <emissive-factor>
+            <r>
+                <property>instrumentation/FG1000/Lightmap-scaler</property>
+                <scale>50</scale>
+            </r>
+            <g>
+                <property>instrumentation/FG1000/Lightmap-scaler</property>
+                <scale>50</scale>
+            </g>
+            <b>
+                <property>instrumentation/FG1000/Lightmap-scaler</property>
+                <scale>50</scale>
+            </b>
+        </emissive-factor>
+    </animation>
 
     <!-- Fuel selector face 43/68 glass-->
     <animation>
@@ -761,7 +807,8 @@
     <animation>
         <type>knob</type>
         <object-name>knob-swcb</object-name>
-        <property>controls/lighting/swcb-norm</property>
+        <!--property>controls/lighting/swcb-norm</property-->
+        <property>instrumentation/GDU104X/display-brightness-norm</property>
         <factor>180</factor>
         <axis>
             <x>-1</x>
@@ -777,7 +824,8 @@
             <repeatable>true</repeatable>
             <binding>
                 <command>property-adjust</command>
-                <property>controls/lighting/swcb-norm</property>
+        <!--property>controls/lighting/swcb-norm</property-->
+        <property>instrumentation/GDU104X/display-brightness-norm</property>
                 <factor>0.05</factor>
                 <min>0</min>
                 <max>1.0</max>
@@ -789,7 +837,8 @@
                 <command>set-tooltip</command>
                 <tooltip-id>swcb-brightness</tooltip-id>
                 <label>SW/CB Lighting: %3d%%</label>
-                <property>controls/lighting/swcb-norm</property>
+        <!--property>controls/lighting/swcb-norm</property-->
+        <property>instrumentation/GDU104X/display-brightness-norm</property>
                 <mapping>percent</mapping>
             </binding>
         </hovered>
@@ -1696,7 +1745,7 @@
         </condition>
     </animation>
 
-    <light>
+    <!--light>
         <name>GDU-1044B</name>
         <type>spot</type>
 
@@ -1814,7 +1863,7 @@
             <y-m>-0.20409</y-m>
             <z-m>-0.318921</z-m>
         </center>
-    </animation>
+    </animation-->
 
     <!-- Breakers -->
     <animation>

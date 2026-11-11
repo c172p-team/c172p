@@ -85,6 +85,9 @@
         <shift-repeat type="int">5</shift-repeat>
         <hovered>
             <binding>
+                <condition>
+                    <property>/sim/model/c172p/tooltip-informations</property>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>heading-bug</tooltip-id>
                 <mapping>heading</mapping>
@@ -174,7 +177,7 @@
                     var oldSetting = getprop("instrumentation/heading-indicator/caged-flag");
                     if (!oldSetting) {
                     setprop("instrumentation/heading-indicator/caged-flag", 1);
-                    
+
                     var rotateAction = maketimer(1.0, func {
                         setprop("instrumentation/heading-indicator/caged-flag", 0);
                     });
@@ -240,7 +243,7 @@
                 <script><![CDATA[
                     # Cage gyro when moving, uncage afterwards
                     setprop("instrumentation/heading-indicator/caged-flag", 1);
-                    
+
                     var rotateAction = maketimer(1.0, func {
                         setprop("instrumentation/heading-indicator/caged-flag", 0);
                     });
@@ -258,12 +261,15 @@
                 <script>c172p.click("heading-offset-dial")</script>
             </binding>
         </shift-action>
-    
+
         <!-- faster rate of change than the default -->
         <drag-scale-px>4</drag-scale-px>
-        
+
         <hovered>
             <binding>
+                <condition>
+                    <property>/sim/model/c172p/tooltip-informations</property>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>heading-offset</tooltip-id>
                 <label>%s</label>

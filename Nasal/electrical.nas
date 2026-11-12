@@ -311,7 +311,7 @@ var update_virtual_bus = func (dt) {
 
     # swtich the master breaker off if load is out of limits
     if ( load > 330 ) {
-        setprop("/controls/circuit-breakers/master", 0)
+        #setprop("/controls/circuit-breakers/master", 0)
     }
 
 

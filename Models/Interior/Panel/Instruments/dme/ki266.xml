@@ -35,7 +35,7 @@
         <electrical>systems/electrical/outputs/dme</electrical>
     </params>
 
-    <path>ki266.ac</path>
+    <path>ki266.gltf</path>
 
     <!-- Turn it off, when u/s or switched off -->
     <animation>
@@ -179,9 +179,9 @@
         <step>100</step>
         <factor>0.001</factor>
         <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
+            <x> 0</x>
+            <y> 0</y>
+            <z>-1</z>
         </axis>
     </animation>
 
@@ -194,9 +194,9 @@
         <step>10</step>
         <factor>0.01</factor>
         <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
+            <x> 0</x>
+            <y> 0</y>
+            <z>-1</z>
         </axis>
     </animation>
 
@@ -209,9 +209,9 @@
         <step>1</step>
         <factor>0.1</factor>
         <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
+            <x> 0</x>
+            <y> 0</y>
+            <z>-1</z>
         </axis>
     </animation>
 
@@ -259,9 +259,9 @@
         <step>100</step>
         <factor>0.001</factor>
         <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
+            <x> 0</x>
+            <y> 0</y>
+            <z>-1</z>
         </axis>
     </animation>
 
@@ -273,9 +273,9 @@
         <step>10</step>
         <factor>0.01</factor>
         <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
+            <x> 0</x>
+            <y> 0</y>
+            <z>-1</z>
         </axis>
     </animation>
 
@@ -287,9 +287,9 @@
         <step>1</step>
         <factor>0.1</factor>
         <axis>
-            <x>1</x>
-            <y>0</y>
-            <z>0</z>
+            <x> 0</x>
+            <y> 0</y>
+            <z>-1</z>
         </axis>
     </animation>
 
@@ -306,11 +306,6 @@
             <y>1</y>
             <z>0</z>
         </axis>
-        <center>
-            <x-m>-0.35496</x-m>
-            <y-m> 0.08087</y-m>
-            <z-m>-0.05437</z-m>
-        </center>
     </animation>
 
     <animation>
@@ -358,11 +353,6 @@
             <y>0</y>
             <z>0</z>
         </axis>
-        <center>
-            <x-m>-0.35558</x-m>
-            <y-m> 0.05483</y-m>
-            <z-m>-0.05527</z-m>
-        </center>
         <action>
             <binding>
                 <command>property-adjust</command>
@@ -428,112 +418,26 @@
     </animation>
 
     <animation>
-        <type>material</type>
-        <object-name>SourceSelectorKnob</object-name>
-        <object-name>PowerSwitch.Lever</object-name>
-        <object-name>on</object-name>
-        <object-name>off</object-name>
-        <object-name>Label3</object-name>
-        <object-name>n1</object-name>
-        <object-name>hld</object-name>
-        <object-name>n2</object-name>
-        <object-name>PowerSwitch.Base</object-name>
-        <object-name>Background</object-name>
+        <type>pbr</type>
         <object-name>ModeSwitch</object-name>
-        <object-name>Frame</object-name>
-        <object-name>base</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>/sim/model/c172p/lighting/dme</property>
+                <scale>0.5</scale>
+            </r>
+            <g>
+                <property>/sim/model/c172p/lighting/dme</property>
+                <scale>0.1</scale>
+            </g>
+            <b>
+                <property>/sim/model/c172p/lighting/dme</property>
+                <scale>0.00005</scale>
+            </b>
+        </emissive-factor>
     </animation>
 
     <animation>
-        <type>material</type>
-        <object-name>SourceSelectorKnob</object-name>
-        <object-name>PowerSwitch.Lever</object-name>
-        <object-name>on</object-name>
-        <object-name>off</object-name>
-        <object-name>Label3</object-name>
-        <object-name>n1</object-name>
-        <object-name>hld</object-name>
-        <object-name>n2</object-name>
-        <object-name>PowerSwitch.Base</object-name>
-        <condition>
-            <or>
-				<not>
-					<property>sim/rendering/shaders/skydome</property>
-				</not>
-				<equals>
-					<property>sim/rendering/shaders/model</property>
-					<value>0</value>
-				</equals>
-			</or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
-        </emission>
-    </animation>
-
-    <effect>
-        <inherits-from>../../../../Effects/interior/c172p-interior</inherits-from>
-        <object-name>Indicators</object-name>
-        <object-name>Miles</object-name>
-        <object-name>Min</object-name>
-        <object-name>Kts</object-name>
-        <object-name>Left.Dot1</object-name>
-        <object-name>Left.100</object-name>
-        <object-name>Left.10</object-name>
-        <object-name>Left.1</object-name>
-        <object-name>Right.100</object-name>
-        <object-name>Right.10</object-name>
-        <object-name>Right.1</object-name>
-    </effect>
-
-    <effect>
-        <inherits-from>../../../../Effects/interior/lm-ki266</inherits-from>
-        <object-name>SourceSelectorKnob</object-name>
-        <object-name>PowerSwitch.Lever</object-name>
-        <object-name>on</object-name>
-        <object-name>off</object-name>
-        <object-name>Label3</object-name>
-        <object-name>n1</object-name>
-        <object-name>hld</object-name>
-        <object-name>n2</object-name>
-        <object-name>PowerSwitch.Base</object-name>
-        <object-name>Background</object-name>
-        <object-name>ModeSwitch</object-name>
-        <object-name>Frame</object-name>
-        <object-name>base</object-name>
-    </effect>
-
-    <animation>
-        <type>material</type>
-        <object-name>ModeSwitch</object-name>
-        <emission>
-            <red>0.5</red>
-            <green>0.1</green>
-            <blue>0.00005</blue>
-            <factor-prop>/sim/model/c172p/lighting/dme</factor-prop>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
+        <type>pbr</type>
         <object-name>Indicators</object-name>
         <object-name>Miles</object-name>
         <object-name>Min</object-name>
@@ -546,26 +450,30 @@
         <object-name>Right.10</object-name>
         <object-name>Right.1</object-name>
         <condition>
-            <and>
-                <not>
-                    <property>sim/rendering/rembrandt/enabled</property>
-                </not>
-                <greater-than>
-                    <property>sim/model/c172p/lighting/dme</property>
-                    <value>0.0</value>
-                </greater-than>
-            </and>
+            <greater-than>
+                <property>sim/model/c172p/lighting/dme</property>
+                <value>0.0</value>
+            </greater-than>
         </condition>
-        <emission>
-            <red>1.0</red>
-            <green>1.0</green>
-            <blue>1.0</blue>
-            <factor-prop>/sim/model/c172p/lighting/dme</factor-prop>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>/sim/model/c172p/lighting/dme</property>
+                <scale>1</scale>
+            </r>
+            <g>
+                <property>/sim/model/c172p/lighting/dme</property>
+                <scale>1</scale>
+            </g>
+            <b>
+                <property>/sim/model/c172p/lighting/dme</property>
+                <scale>1</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>dme.png</emissive-texture>
     </animation>
 
     <animation>
-        <type>material</type>
+        <type>pbr</type>
         <object-name>Indicators</object-name>
         <object-name>Miles</object-name>
         <object-name>Min</object-name>
@@ -578,21 +486,26 @@
         <object-name>Right.10</object-name>
         <object-name>Right.1</object-name>
         <condition>
-            <and>
-                <not>
-                    <property>sim/rendering/rembrandt/enabled</property>
-                </not>
-                <equal>
-                    <property>sim/model/c172p/lighting/dme</property>
-                    <value>0.0</value>
-                </equal>
-            </and>
+            <equal>
+                <property>sim/model/c172p/lighting/dme</property>
+                <value>0.0</value>
+            </equal>
         </condition>
-        <emission>
-            <red>1.0</red>
-            <green>1.0</green>
-            <blue>1.0</blue>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>/sim/model/c172p/lighting/dme</property>
+                <scale>1</scale>
+            </r>
+            <g>
+                <property>/sim/model/c172p/lighting/dme</property>
+                <scale>1</scale>
+            </g>
+            <b>
+                <property>/sim/model/c172p/lighting/dme</property>
+                <scale>1</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>dme.png</emissive-texture>
     </animation>
 
 </PropertyList>

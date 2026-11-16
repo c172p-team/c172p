@@ -124,11 +124,27 @@
             </binding>
         </action>
         <hovered>
+            <!-- Detailed readout when hide-tooltip-informations is FALSE -->
             <binding>
+                <condition>
+                    <not>
+                        <property>/sim/model/c172p/hide-tooltip-informations</property>
+                    </not>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>adf-hdg</tooltip-id>
                 <label>ADF Heading: %3d</label>
                 <property alias="../../../../params/rotation-deg"/>
+            </binding>
+
+            <!-- Name-only simple label when hide-tooltip-informations is TRUE -->
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/hide-tooltip-informations</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>adf-hdg</tooltip-id>
+                <label>ADF Heading</label>
             </binding>
         </hovered>
     </animation>

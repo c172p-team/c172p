@@ -128,12 +128,28 @@
         <type>pick</type>
         <object-name>Ring</object-name>
         <hovered>
+            <!-- Detailed heading readout when hide-tooltip-informations is FALSE -->
             <binding>
+                <condition>
+                    <not>
+                        <property>/sim/model/c172p/hide-tooltip-informations</property>
+                    </not>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>magnetcompass</tooltip-id>
                 <label>Magnetic heading: %3d</label>
                 <property>instrumentation/magnetic-compass/indicated-heading-deg-final</property>
                 <mapping>heading</mapping>
+            </binding>
+
+            <!-- Name-only simple label when hide-tooltip-informations is TRUE -->
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/hide-tooltip-informations</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>magnetcompass</tooltip-id>
+                <label>Magnetic Compass</label>
             </binding>
         </hovered>
     </animation>

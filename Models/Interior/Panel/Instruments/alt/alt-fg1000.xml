@@ -162,11 +162,27 @@
             </binding>
         </action>
         <hovered>
+            <!-- Detailed readout when hide-tooltip-informations is FALSE -->
             <binding>
+                <condition>
+                    <not>
+                        <property>/sim/model/c172p/hide-tooltip-informations</property>
+                    </not>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>alt-setting</tooltip-id>
                 <label>Altimeter In Hg: %5.2f</label>
                 <property>instrumentation/altimeter/setting-inhg</property>
+            </binding>
+
+            <!-- Name-only simple label when hide-tooltip-informations is TRUE -->
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/hide-tooltip-informations</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>alt-setting</tooltip-id>
+                <label>Altimeter</label>
             </binding>
         </hovered>
     </animation>

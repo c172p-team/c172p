@@ -709,12 +709,36 @@
                 <table>
                     <property>/instrumentation/FG1000/Lightmap</property>
                     <entry><ind>0.0</ind><dep>0.0</dep></entry>
-                    <entry><ind>2.3</ind><dep>1.0</dep></entry>
+                    <entry><ind>1.0</ind><dep>1.0</dep></entry>
                 </table>
             </expression>
         </input>
         <output>
             <property>/instrumentation/FG1000/Lightmap-scaler</property>
+            <property>/instrumentation/FG1000/display-brightness-norm</property>
+        </output>
+    </filter>
+    <filter>
+        <name>Map FG1000 Avionics Knob to Glass Panel</name>
+        <type>gain</type>
+        <input>
+            <condition>
+                <or>
+                    <property>/sim/model/c172p/lighting/pfd-avn</property>
+                    <property>/sim/model/c172p/lighting/mfd</property>
+                    <property>/sim/model/c172p/lighting/pfd-ess</property>
+                </or>
+            </condition>
+            <expression>
+                <table>
+                    <property>/instrumentation/FG1000/Lightmap</property>
+                    <entry><ind>0.0</ind><dep>0.0</dep></entry>
+                    <entry><ind>1.0</ind><dep>50.0</dep></entry>
+                </table>
+            </expression>
+        </input>
+        <output>
+            <property>/instrumentation/FG1000/panel-backlight-norm</property>
         </output>
     </filter>
 

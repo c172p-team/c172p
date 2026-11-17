@@ -143,6 +143,46 @@
 
     <channel name="cabin-temperature">
 
+        <!-- =====================================================================
+             RESET / STARTUP NOTE - READ BEFORE EDITING THIS CHANNEL
+             =====================================================================
+             JSBSim's <integrator> is backed by FGPID. FGPID::ResetPastStates()
+             unconditionally zeroes its internal state (I_out_total / Output) to
+             0.0 on every FDM reset/reinit, with no XML or Nasal-writable hook
+             that reliably survives that reset. Previously, "heat/cabin-air-temp-degc"
+             WAS that raw integrator, so every reset/startup forced the cabin to a
+             literal 0.0 degC, regardless of actual ambient temperature (e.g.
+             starting a flight in the tropics still began with a freezing cabin).
+
+             FIX: the integrator below now tracks "heat/cabin-air-temp-delta", the
+             DIFFERENCE between the cabin air temperature and ambient temperature,
+             instead of the absolute cabin temperature itself. Since heat transfer
+             is driven by temperature differences (not absolute levels), delta = 0
+             is a physically correct statement: "cabin is at equilibrium with
+             ambient" - exactly the right state on reset/startup, no matter what
+             the ambient temperature actually is.
+
+             The externally-visible absolute temperature, "heat/cabin-air-temp-degc",
+             is reconstructed every frame as (ambient + delta) via a plain <summer>
+             at the end of this channel. Summers carry no persistent state and are
+             NOT zeroed by JSBSim's reset, so "heat/cabin-air-temp-degc" always
+             reflects live ambient + the (reset-safe) delta. Every other file that
+             reads "heat/cabin-air-temp-degc" (Systems/ground-effects.xml,
+             Nasal/c172p.nas, the surface-temperature/cabin-dewpoint/fog-and-frost
+             channels below) is completely unaffected by this change.
+
+             CAUTION FOR FUTURE EDITS: any new component added to THIS channel that
+             needs the difference between some temperature and the cabin should
+             reference "heat/cabin-air-temp-delta" directly wherever the ambient
+             term would otherwise algebraically cancel (see cabin-heat-temp-diff,
+             cabin-air-temp-diff, cabin-air-transfer-fuselage below). Components
+             that are NOT relative to ambient (e.g. human body heat, which is a
+             fixed 37 degC regardless of cabin conditions) must still subtract
+             ambient explicitly (see cabin-human-temp-diff below). Components
+             OUTSIDE this channel should keep using "heat/cabin-air-temp-degc",
+             which is always the reconstructed absolute value.
+        -->
+
         <!-- The exhaust gas temperature controls how much the air is
              heated up.
         -->
@@ -157,30 +197,56 @@
 
         <!-- Computes the difference in temperature between the cabin
              heat intake (behind propeller) and the cabin.
+
+             Originally: /environment/temperature-degc - heat/cabin-air-temp-degc + exhaust
+             Since heat/cabin-air-temp-degc = ambient + delta, the ambient terms
+             cancel algebraically, leaving: exhaust - delta.
         -->
         <summer name="heat/cabin-heat-temp-diff">
-            <input>/environment/temperature-degc</input>
-            <input>-heat/cabin-air-temp-degc</input>
+            <input>-heat/cabin-air-temp-delta</input>
             <input>heat/heat-exhaust-gas-temp-degc</input>
         </summer>
 
         <!-- Computes the difference in temperature between the cabin
              air intake (ventilating air door on the right side of the
              fuselage) and the cabin.
+
+             Originally: /environment/temperature-degc - heat/cabin-air-temp-degc.
+             Ambient cancels algebraically, leaving: -delta.
         -->
         <summer name="heat/cabin-air-temp-diff">
-            <input>/environment/temperature-degc</input>
-            <input>-heat/cabin-air-temp-degc</input>
+            <input>-heat/cabin-air-temp-delta</input>
         </summer>
 
-        <summer name="heat/cabin-human-temp-diff">
-            <input>heat/human-body-temp-degc</input>
-            <input>-heat/cabin-air-temp-degc</input>
-            <clipto>
-                <min>-0.01</min>
-                <max> 0.10</max>
-            </clipto>
-        </summer>
+	<!-- Human body temperature (37 degC) is NOT relative to ambient, so  
+	     ambient must stay explicit here - it does not cancel.  
+	  
+	     Proportional version: heat transfer scales with the actual  
+	     body-to-cabin temperature gap instead of saturating the clip.  
+	     k = 0.004 is chosen so the output reaches ~0.10 (the original  
+	     clip ceiling) at a ~27 degC gap - i.e. at cold-ambient cruise  
+	     conditions - preserving the repo's original maximum human heat  
+	     rate, while tapering smoothly to zero as cabin approaches 37 degC  
+	     instead of staying pinned at the cap.  
+	-->  
+	<fcs_function name="heat/cabin-human-temp-diff">  
+	    <function>  
+	        <product>  
+	            <difference>  
+	                <property>heat/human-body-temp-degc</property>  
+	                <sum>  
+	                    <property>/environment/temperature-degc</property>  
+	                    <property>heat/cabin-air-temp-delta</property>  
+	                </sum>  
+	            </difference>  
+	            <value>0.004</value>  
+	        </product>  
+	    </function>  
+	    <clipto>  
+	        <min>-0.01</min>  
+	        <max> 0.10</max>  
+	    </clipto>  
+	</fcs_function>
 
         <scheduled_gain name="heat/cabin-air-transfer-heat-duct">
             <input>heat/cabin-heat-temp-diff</input>
@@ -214,10 +280,12 @@
 
         <!-- Even with the air slider closed, there is still some small
              amount of heat transferred via the fuselage.
+
+             Originally: /environment/temperature-degc - heat/cabin-air-temp-degc,
+             clipped +-0.1. Ambient cancels algebraically, leaving: -delta.
         -->
         <summer name="heat/cabin-air-transfer-fuselage">
-            <input>/environment/temperature-degc</input>
-            <input>-heat/cabin-air-temp-degc</input>
+            <input>-heat/cabin-air-temp-delta</input>
             <clipto>
                 <min>-0.1</min>
                 <max> 0.1</max>
@@ -268,7 +336,13 @@
             <input>heat/cabin-air-transfer-humans</input>
         </summer>
 
-        <integrator name="heat/cabin-air-temp-degc">
+        <!-- Renamed from "heat/cabin-air-temp-degc": this integrator now tracks
+             the DELTA between cabin air temp and ambient, not the absolute
+             cabin temperature. See the RESET / STARTUP NOTE at the top of this
+             channel for why. JSBSim always resets this to 0.0 on reinit, which
+             now correctly means "cabin at ambient", not "cabin at 0 degC".
+        -->
+        <integrator name="heat/cabin-air-temp-delta">
             <input>heat/cabin-air-transfer-total</input>
 
             <!-- This is the constant that actually controls how fast
@@ -276,6 +350,24 @@
             -->
             <c1>0.030</c1>
         </integrator>
+
+        <!-- Reconstructs the absolute cabin air temperature from ambient + delta.
+             This is the property name every other file in the sim expects
+             ("heat/cabin-air-temp-degc"): Systems/ground-effects.xml,
+             Nasal/c172p.nas, and the channels below (surface-temperature,
+             cabin-dewpoint, fog-and-frost) are all unaffected by the rename
+             above because they keep reading this reconstructed value.
+
+             Unlike the integrator above, a <summer> has no persistent state
+             and is therefore NOT reset to 0.0 by JSBSim on reinit - it always
+             recomputes fresh from the live ambient temperature and the
+             (reset-safe) delta above, so cabin-air-temp-degc correctly starts
+             at ambient on every reset/startup.
+        -->
+        <summer name="heat/cabin-air-temp-degc">
+            <input>heat/cabin-air-temp-delta</input>
+            <input>/environment/temperature-degc</input>
+        </summer>
 
     </channel>
 
@@ -308,37 +400,45 @@
 
     <channel name="cabin-dewpoint">
 
-        <fcs_function name="heat/non-humans-airflow">
-            <function>
-                <quotient>
-                    <sum>
-                        <abs>
-                            <property>heat/cabin-air-transfer-air-duct</property>
-                        </abs>
-                        <abs>
-                            <product>
-                                <quotient>
-                                    <property>heat/cabin-air-transfer-heat-duct</property>
-                                    <property>heat/cabin-heat-temp-diff</property>
-                                </quotient>
-                                <property>heat/cabin-air-temp-diff</property>
-                            </product>
-                        </abs>
-                        <abs>
-                            <property>heat/cabin-air-transfer-doors-windows</property>
-                        </abs>
-                        <abs>
-                            <property>heat/cabin-air-transfer-overhead-vent-left</property>
-                        </abs>
-                        <abs>
-                            <property>heat/cabin-air-transfer-overhead-vent-right</property>
-                        </abs>
-                    </sum>
-                    <abs>
-                        <property>heat/cabin-air-temp-diff</property>
-                    </abs>
-                </quotient>
-            </function>
+        <fcs_function name="heat/non-humans-airflow">  
+            <function>  
+                <quotient>  
+                    <sum>  
+                        <abs>  
+                            <property>heat/cabin-air-transfer-air-duct</property>  
+                        </abs>  
+                        <abs>  
+                            <product>  
+                                <quotient>  
+                                    <property>heat/cabin-air-transfer-heat-duct</property>  
+                                    <sum>  
+                                        <abs>  
+                                            <property>heat/cabin-heat-temp-diff</property>  
+                                        </abs>  
+                                        <value>0.001</value>  
+                                    </sum>  
+                                </quotient>  
+                                <property>heat/cabin-air-temp-diff</property>  
+                            </product>  
+                        </abs>  
+                        <abs>  
+                            <property>heat/cabin-air-transfer-doors-windows</property>  
+                        </abs>  
+                        <abs>  
+                            <property>heat/cabin-air-transfer-overhead-vent-left</property>  
+                        </abs>  
+                        <abs>  
+                            <property>heat/cabin-air-transfer-overhead-vent-right</property>  
+                        </abs>  
+                    </sum>  
+                    <sum>  
+                        <abs>  
+                            <property>heat/cabin-air-temp-diff</property>  
+                        </abs>  
+                        <value>0.001</value>  
+                    </sum>  
+                </quotient>  
+            </function>  
         </fcs_function>
 
         <pure_gain name="heat/humans-airflow">
@@ -407,6 +507,10 @@
 
              Bolton, D. (1980). The computation of equivalent potential
              temperature. Monthly weather review, 108(7), 1046-1053.
+
+             NOTE: these constants are calibrated against absolute Celsius
+             temperature, so this must use the reconstructed
+             "heat/cabin-air-temp-degc" (ambient + delta), not the raw delta.
         -->
         <fcs_function name="heat/cabin-dewpoint-ym">
             <function>
@@ -539,6 +643,10 @@
             <gain>1.0</gain>
         </pure_gain>
 
+        <!-- Uses the reconstructed absolute "heat/cabin-air-temp-degc":
+             0 degC is a physical freezing-point threshold here, which would
+             be meaningless if tested against the delta instead.
+        -->
         <switch name="heat/fog-level">
             <default value="heat/moisture-fog-level"/>
             <test logic="AND" value="0">

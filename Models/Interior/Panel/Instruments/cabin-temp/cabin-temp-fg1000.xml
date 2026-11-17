@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+
+<PropertyList>
+
+    <path>cabin-temp.ac</path>
+    <effect>
+        <inherits-from>../../../../Effects/interior/lm-cabin-temp-fg1000</inherits-from>
+        <object-name>MinuteHand</object-name>
+        <object-name>Face</object-name>
+        <object-name>Case</object-name>
+    </effect>
+
+    <!-- hide the two unused hands -->
+    <animation>
+        <type>select</type>
+        <object-name>SecondHand</object-name>
+        <object-name>HourHand</object-name>
+        <condition>
+            <equals>
+                <property>sim/does-not-exist</property>
+                <value>1</value>
+            </equals>
+        </condition>
+    </animation>
+
+    <animation>
+        <type>material</type>
+        <object-name>Face</object-name>
+        <object-name>MinuteHand</object-name>
+        <object-name>Case</object-name>
+        <condition>
+            <or>
+                <not>
+                    <property>sim/rendering/shaders/skydome</property>
+                </not>
+                <equals>
+                    <property>sim/rendering/shaders/model</property>
+                    <value>0</value>
+                </equals>
+            </or>
+        </condition>
+        <emission>
+            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
+            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
+            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
+        </emission>
+    </animation>
+
+    <animation>
+        <type>rotate</type>
+        <object-name>MinuteHand</object-name>
+        <property>fdm/jsbsim/heat/cabin-air-temp-degc</property>
+        <offset-deg>-128.7</offset-deg>
+        <factor>4.29</factor>
+        <!-- Needle angle = cabin temp (°C) × 4.29 − 128.7°.
+                  0°C = −128.7°; 30°C = 0.0°; 60°C = 128.7°. -->
+        <axis>
+            <x>-1</x>
+            <y>0</y>
+            <z>0</z>
+        </axis>
+        <center>
+            <x-m>-0.37012</x-m>
+            <y-m>-0.38847</y-m>
+            <z-m> 0.08227</z-m>
+        </center>
+    </animation>
+
+    <animation>
+        <type>select</type>
+        <object-name>Case</object-name>
+        <object-name>Face</object-name>
+        <object-name>MinuteHand</object-name>
+        <condition>
+            <property>sim/model/c172p/cabin-temp-visible</property>
+        </condition>
+    </animation>
+
+</PropertyList>

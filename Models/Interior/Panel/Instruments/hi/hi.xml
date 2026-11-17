@@ -84,12 +84,28 @@
         <drag-scale-px>4</drag-scale-px>
         <shift-repeat type="int">5</shift-repeat>
         <hovered>
+            <!-- Detailed readout when hide-tooltip-informations is FALSE -->
             <binding>
+                <condition>
+                    <not>
+                        <property>/sim/model/c172p/hide-tooltip-informations</property>
+                    </not>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>heading-bug</tooltip-id>
                 <mapping>heading</mapping>
                 <label>Heading Bug: %3.0f</label>
                 <property>autopilot/settings/heading-bug-deg</property>
+            </binding>
+
+            <!-- Name-only simple label when hide-tooltip-informations is TRUE -->
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/hide-tooltip-informations</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>heading-bug</tooltip-id>
+                <label>Heading Bug</label>
             </binding>
         </hovered>
     </animation>
@@ -174,7 +190,7 @@
                     var oldSetting = getprop("instrumentation/heading-indicator/caged-flag");
                     if (!oldSetting) {
                     setprop("instrumentation/heading-indicator/caged-flag", 1);
-                    
+
                     var rotateAction = maketimer(1.0, func {
                         setprop("instrumentation/heading-indicator/caged-flag", 0);
                     });
@@ -240,7 +256,7 @@
                 <script><![CDATA[
                     # Cage gyro when moving, uncage afterwards
                     setprop("instrumentation/heading-indicator/caged-flag", 1);
-                    
+
                     var rotateAction = maketimer(1.0, func {
                         setprop("instrumentation/heading-indicator/caged-flag", 0);
                     });
@@ -258,12 +274,18 @@
                 <script>c172p.click("heading-offset-dial")</script>
             </binding>
         </shift-action>
-    
+
         <!-- faster rate of change than the default -->
         <drag-scale-px>4</drag-scale-px>
-        
+
         <hovered>
+            <!-- Detailed readout with value and caged status when hide-tooltip-informations is FALSE -->
             <binding>
+                <condition>
+                    <not>
+                        <property>/sim/model/c172p/hide-tooltip-informations</property>
+                    </not>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>heading-offset</tooltip-id>
                 <label>%s</label>
@@ -277,6 +299,16 @@
                     }
                     return returnString;
                 </script>
+            </binding>
+
+            <!-- Name-only simple label when hide-tooltip-informations is TRUE -->
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/hide-tooltip-informations</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>heading-offset</tooltip-id>
+                <label>Heading Indicator</label>
             </binding>
         </hovered>
    </animation>

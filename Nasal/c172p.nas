@@ -569,12 +569,12 @@ var StaticModel = {
     }
 };
 
-StaticModel.new("coneR", "Aircraft/c172p/Models/Exterior/safety-cone/coneR.ac");
-StaticModel.new("coneL", "Aircraft/c172p/Models/Exterior/safety-cone/coneL.ac");
+StaticModel.new("coneR", "Aircraft/c172p/Models/Exterior/safety-cone/coneR.gltf");
+StaticModel.new("coneL", "Aircraft/c172p/Models/Exterior/safety-cone/coneL.gltf");
 StaticModel.new("gpu", "Aircraft/c172p/Models/Exterior/external-power/external-power.xml");
-StaticModel.new("ladderR", "Aircraft/c172p/Models/Exterior/ladder/ladderR.ac");
-StaticModel.new("ladderL", "Aircraft/c172p/Models/Exterior/ladder/ladderL.ac");
-StaticModel.new("fueltanktrailer", "Aircraft/c172p/Models/Exterior/fueltanktrailer/fueltanktrailer.ac");
+StaticModel.new("ladderR", "Aircraft/c172p/Models/Exterior/ladder/ladderR.gltf");
+StaticModel.new("ladderL", "Aircraft/c172p/Models/Exterior/ladder/ladderL.gltf");
+StaticModel.new("fueltanktrailer", "Aircraft/c172p/Models/Exterior/fueltanktrailer/fueltanktrailer.gltf");
 StaticModel.new("externalheater", "Aircraft/c172p/Models/Exterior/external-heater/heater.xml");
 
 # Mooring anchor and rope

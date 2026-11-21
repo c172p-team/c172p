@@ -154,12 +154,28 @@
             </binding>
         </action>
         <hovered>
+            <!-- Detailed radial readout when hide-tooltip-informations is FALSE -->
             <binding>
+                <condition>
+                    <not>
+                        <property>/sim/model/c172p/hide-tooltip-informations</property>
+                    </not>
+                </condition>
                 <command>set-tooltip</command>
                 <tooltip-id>nav2-obs</tooltip-id>
                 <label>Nav 2 Radial %3d</label>
                 <mapping>heading</mapping>
                 <property>instrumentation/nav[1]/radials/selected-deg</property>
+            </binding>
+
+            <!-- Name-only simple label when hide-tooltip-informations is TRUE -->
+            <binding>
+                <condition>
+                    <property>/sim/model/c172p/hide-tooltip-informations</property>
+                </condition>
+                <command>set-tooltip</command>
+                <tooltip-id>nav2-obs</tooltip-id>
+                <label>VOR 2 OBS</label>
             </binding>
         </hovered>
     </animation>

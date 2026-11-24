@@ -2,65 +2,29 @@
 
 <PropertyList>
 
-    <path>mag-compass-float.ac</path>
+    <path>mag-compass-float.gltf</path>
 
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/lm-fg1000-mag</inherits-from>
-        <object-name>Ring</object-name>
-        <object-name>Casing</object-name>
-        <object-name>Interior</object-name>
-        <object-name>Needle</object-name>
-        <object-name>Deviation</object-name>
-        <object-name>Deviation-Card</object-name>
-    </effect>
-
-    <effect>
-        <inherits-from>Aircraft/c172p/Models/Effects/interior/interior-glass-reflection-panel-front</inherits-from>
-        <object-name>Glass</object-name>
-    </effect>
-
+<!-- check out /sim/model/material/instruments/integral-factor
+also when and if glass-alph.png is needed -->
     <animation>
-        <type>material</type>
+        <type>pbr</type>
         <object-name>Ring</object-name>
         <object-name>Needle</object-name>
-        <condition>
-            <or>
-                <not>
-                    <property>sim/rendering/shaders/skydome</property>
-                </not>
-                <equals>
-                    <property>sim/rendering/shaders/model</property>
-                    <value>0</value>
-                </equals>
-            </or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/material/instruments/default-red-combined-factor</red-prop>
-            <green-prop>/sim/model/material/instruments/default-green-combined-factor</green-prop>
-            <blue-prop>/sim/model/material/instruments/default-blue-combined-factor</blue-prop>
-        </emission>
-    </animation>
-
-    <animation>
-        <type>material</type>
-        <object-name>Casing</object-name>
-        <object-name>Interior</object-name>
-        <condition>
-            <or>
-                <not>
-                    <property>sim/rendering/shaders/skydome</property>
-                </not>
-                <equals>
-                    <property>sim/rendering/shaders/model</property>
-                    <value>0</value>
-                </equals>
-            </or>
-        </condition>
-        <emission>
-            <red-prop>/sim/model/c172p/lighting/rgb-ra-r-factor</red-prop>
-            <green-prop>/sim/model/c172p/lighting/rgb-ra-g-factor</green-prop>
-            <blue-prop>/sim/model/c172p/lighting/rgb-ra-b-factor</blue-prop>
-        </emission>
+        <emissive-factor>
+            <r>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <scale>1.0</scale>
+            </r>
+            <g>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <scale>0.8</scale>
+            </g>
+            <b>
+                <property>/sim/model/lightmap/instruments/factor</property>
+                <scale>0.5</scale>
+            </b>
+        </emissive-factor>
+        <emissive-texture>mag-compass.png</emissive-texture>
     </animation>
 
     <animation>
@@ -103,12 +67,9 @@
         <property>instrumentation/magnetic-compass/indicated-heading-deg-final</property>
         <factor>-1</factor>
         <axis>
-            <x1-m>-0.33052</x1-m>
-            <y1-m> 0.00   </y1-m>
-            <z1-m> 0.27043</z1-m>
-            <x2-m>-0.33052</x2-m>
-            <y2-m> 0.00   </y2-m>
-            <z2-m> 0.25464</z2-m>
+            <x>  0.0 </x>
+            <y>  0.0 </y>
+            <z>  1.0 </z>
         </axis>
     </animation>
 

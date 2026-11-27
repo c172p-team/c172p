@@ -2512,6 +2512,80 @@
                 <z>0</z>
             </direction>
         </force>
+
+	<!--
+                ================================================================================
+                TEMPORARY WORKAROUND FOR JSBSim SOLVER SATURATION (JSBSim #1489 / c172p #1595 / PR #1596)
+                ================================================================================
+                
+                Root Cause:
+                JSBSim's PGS ground friction solver saturates (hits max 50/1000 iteration limit) 
+                at low ground speeds under tailwinds, causing premature pitch-up / tail-drop.
+
+                Mathematical Derivation:
+                Neutralizes only the excess dynamic pressure moment above V_stable so the aircraft 
+                perceives constant aerodynamic pitching moment equivalent to V_stable up to V_max.
+
+                Net Pitching Moment Equation:
+                  M_net(V) = M_aero(V) * (1 - G(V))
+                
+                Excess Moment Compensation Formula (V_stable <= V <= V_max):
+                  G(V) = (V^2 - V_stable^2) / V^2
+
+                Substituted Constant Values:
+                  V_stable = 20.25 fps (12.00 kts)  -> Onset threshold (G = 0.00)
+                  V_max    = 30.00 fps (17.77 kts)  -> Target peak anchor (G = 0.54)
+                  
+                  G(V) = (V^2 - 20.25^2) / V^2 = (V^2 - 410.06) / V^2
+
+                Point-by-Point Calculation Breakdown:
+                V (fps) | V (kts) | Formula: (V^2 - V_stable^2) / V^2                     | XML Value
+                -20.25  | -12.00  | (20.25^2 - 20.25^2) / 20.25^2 = 0.0000                 | 0.00 (Onset)
+                -22.00  | -13.03  | (22.00^2 - 20.25^2) / 22.00^2 = 0.1528                 | 0.15
+                -24.00  | -14.22  | (24.00^2 - 20.25^2) / 24.00^2 = 0.2881                 | 0.29
+                -26.00  | -15.40  | (26.00^2 - 20.25^2) / 26.00^2 = 0.3934                 | 0.39
+                -28.00  | -16.59  | (28.00^2 - 20.25^2) / 28.00^2 = 0.4770                 | 0.48
+                -30.00  | -17.77  | (30.00^2 - 20.25^2) / 30.00^2 = 0.5444                 | 0.54 (Peak Anchor)
+                -39.75  | -23.55  | Symmetric Mirror Cutoff: 30 + (30 - 20.25)             | 0.00 (Cutoff)
+                
+                REMOVE THIS BLOCK once JSBSim #1489 is fixed upstream and integrated into FlightGear.
+                ================================================================================
+        -->
+        <moment name="parked-pitch-friction-compensation" frame="BODY">
+            <description>Compensates for tailwind tail-drop by neutralizing direct base aero pitch moments during parking and low-speed taxi</description>
+            <direction>
+                <x> 0.0 </x>
+                <y> 1.0 </y>
+                <z> 0.0 </z>
+            </direction>
+            <function>
+                <product>
+                    <!-- Dynamic Excess Pressure (V^2 - Vstable^2)/V^2 Compensation Table -->
+                    <table>
+                        <independentVar>velocities/u-aero-fps</independentVar>
+                        <tableData>
+                            -100.00    0.00    <!-- Unprotected high tailwind regime -->
+                              -39.75    0.00    <!-- Symmetric cutoff boundary (V_mirror = 23.55 kts) -->
+                              -30.00    0.54    <!-- Target tail-drop peak anchor (V_max = 17.77 kts) -->
+                              -28.00    0.48    <!-- Excess dynamic pressure evaluation point -->
+                              -26.00    0.39    <!-- Excess dynamic pressure evaluation point -->
+                              -24.00    0.29    <!-- Excess dynamic pressure evaluation point -->
+                              -22.00    0.15    <!-- Excess dynamic pressure evaluation point -->
+                              -20.25    0.00    <!-- Onset threshold (V_stable = 12.00 kts) -->
+                                0.00    0.00    <!-- Zero wind / neutral -->
+                              100.00    0.00    <!-- Headwinds / forward flight -->
+                        </tableData>
+                    </table>
+    
+                    <!-- Neutralize base aerodynamic pitching moment -->
+                    <product>
+                        <value> -1.0 </value>
+                        <property>moments/m-aero-lbsft</property>
+                    </product>
+                </product>
+            </function>
+        </moment>
+
     </external_reactions>
 
     <system file="bushkit"/>
